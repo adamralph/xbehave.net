@@ -34,7 +34,7 @@ xBehave.net scenarios can be executed using any xUnit.net test runner.
 
 The above example uses [FluentAssertions](http://fluentassertions.codeplex.com/) to ensure outcomes (see how the natural language of each `then` phrase maps beautifully to the line of code below it).
 
-You don't have to use a fluent assertion library to use xBehave.net. Any other method of ensuring outcomes will also work just fine.
+However, you don't have to use a fluent assertion library to use xBehave.net. Any other method of ensuring outcomes will also work just fine.
 
 E.g. [xUnit.net](http://xunit.codeplex.com/) assertion
 
@@ -50,10 +50,10 @@ It's your choice. You can use any method you like.
 
 # What else does it do? #
 
-    [Scenario]                                             Marks a method as a scenario to run by the test runner, equivalent to [Fact] or [Theory]
-    [ScenarioData(...)]                                    Provides data for scenarios, equivalent to [InlineData] (all xUnit.net data attribute types are supported)
+    Scenario                                               Marks a method as a scenario to run by the test runner, equivalent to [Fact] or [Theory]
+    ScenarioData(...)                                      Provides data for scenarios, equivalent to InlineData
     "...".Given(Action arrange)                            A standard Given for a scenario
-    "...".Given(Func<IDisposable> arrange)                 The returned object is disposed by xBehave.net after execution of all associated Then's
+    "...".Given(Func<IDisposable> arrange)                 Returned object is auto disposed after execution of all associated Then's
     "...".Given(Func<IEnumerable<IDisposable>> arrange)    (for >1 disposable objects)
     "...".Given(Action arrange, Action dispose)            (for teardown of non disposable types)
     "...".When(Action act)                                 A standard When for a scenario
