@@ -4,7 +4,7 @@ A [BDD](http://dannorth.net/introducing-bdd/) library based on [xUnit.net](http:
 (xBehave.net was formerly known as SubSpecGWT.)
 
 # Where can I get it? #
-xBehave.net is available as a binary package on [NuGet](https://nuget.org/packages/xBehave.net).
+xBehave.net is available as a binary package on [NuGet](https://nuget.org/packages/xBehave).
 
 # How do I use it? #
 xBehave.net scenarios can be executed using any xUnit.net test runner.
