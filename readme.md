@@ -1,23 +1,14 @@
-What is it?
--
-A [BDD](http://dannorth.net/introducing-bdd/) library based on xUnit.net and [SubSpec](http://bitbucket.org/johannesrudolph/subspec/) with Scenario/Given/When/Then vocabulary.
+# What is it? #
+A [BDD](http://dannorth.net/introducing-bdd/) library based on [xUnit.net](http://xunit.codeplex.com/) designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.
 
-Why should I use it?
--
-Any of:-
+(xBehave.net was formerly known as SubSpecGWT.)
 
-- You like [xUnit.net](http://xunit.codeplex.com/) but prefer a BDD approach.
-- You like SubSpec but prefer a scenario/given/when/then vocabulary.
-- You want to use SubSpec as a *binary* NuGet package.
-- You want to make your tests (er, I mean behaviours) look beautiful ;-)
-- [Shiny thing make it all better.](http://www.thedailymash.co.uk/news/business/shiny-thing-make-it-all-better-201001282420/)
+# Where can I get it? #
+xBehave.net is available as a binary package on [NuGet](https://nuget.org/packages/xBehave.net).
 
-Where can I get it?
--
-SubSpecGWT is available on [NuGet](https://nuget.org/packages/SubSpecGWT).
+# How do I use it? #
+xBehave.net scenarios can be executed using any xUnit.net test runner.
 
-How do I use it?
--
     \[Scenario]
     public void Push()
     {
@@ -40,11 +31,10 @@ How do I use it?
         "then the target peek should be the element."
             .Then(() => target.Peek().Should().Be(element));
     }
-*(The preceding \ on \[Scenario] is not required, it's just a Markdown hack - if anyone knows a better way please let me know.)*
 
 The above example uses [FluentAssertions](http://fluentassertions.codeplex.com/) to ensure outcomes (see how the natural language of each `then` phrase maps beautifully to the line of code below it).
 
-However, you don't have to use a fluent assertion library to use SubSpecGWT. Any other method of ensuring outcomes will also work just fine.
+You don't have to use a fluent assertion library to use xBehave.net. Any other method of ensuring outcomes will also work just fine.
 
 E.g. [xUnit.net](http://xunit.codeplex.com/) assertion
 
@@ -58,39 +48,30 @@ or [FakeItEasy](http://code.google.com/p/fakeiteasy/) verification
 
 It's your choice. You can use any method you like.
 
-How is it different to SubSpec?
--
-Mainly in vocabulary, with some subtle interface enhancements. The SubSpecGWT elements map to their SubSpec equivalents as follows:-
+# What else does it do? #
 
-    SubSpecGWT                                       SubSpec
+    [Scenario]                                             Marks a method as a scenario to run by the test runner, equivalent to [Fact] or [Theory]
+    [ScenarioData(...)]                                    Provides data for scenarios, equivalent to [InlineData] (all xUnit.net data attribute types are supported)
+    "...".Given(Action arrange)                            A standard Given for a scenario
+    "...".Given(Func<IDisposable> arrange)                 The returned object is disposed by xBehave.net after execution of all associated Then's
+    "...".Given(Func<IEnumerable<IDisposable>> arrange)    (for >1 disposable objects)
+    "...".Given(Action arrange, Action dispose)            (for teardown of non disposable types)
+    "...".When(Action act)                                 A standard When for a scenario
+    "...".Then(Action assert)                              A standard Then for a scenario
+    "...".ThenInIsolation()                                Executed in isolation to all other Then's (no shared variables)
+    "...".ThenSkip()                                       Skipped - equivalent to [Fact(Skip="...")]
 
-    Scenario                                         Specification or Thesis (automatically chosen)
-    ScenarioData                                     InlineData (provided by xUnit.net: Extensions)
-    Given(Action arrange)                            Context(Action arrange)
-    Given(Func<IDisposable> arrange)                 ContextFixture(ContextDelegate arrange)
-    Given(Func<IEnumerable<IDisposable>> arrange)    no SubSpec equivalent (useful for >1 disposable objects)
-    Given(Action arrange, Action dispose)            no SubSpec equivalent (useful for teardown of non disposable types)
-    When()                                           Do()
-    Then()                                           Observation()
-    ThenInIsolation()                                Assert()
-    ThenSkip()                                       Todo()
+# Versions #
+xBehave.net uses [Semantic Versioning](http://semver.org/). The current release is 0.x which means 'initial development'. Breaking changes are being kept to a minimum, since the library is already being piloted by a number of projects, so you are encouraged to start using xBehave.net right away. Certain parts of the API may be deprecated during initial development but will not be removed before version 1.0 is released.
 
-If you prefer, you can still use the SubSpec methods instead of the SubSpecGWT methods. They are still there. In that case, you may still want to use SubSpecGWT purely as a convenient means of referencing SubSpec as a _binary_ NuGet package (at the time of writing SubSpec is only packaged as _source code_ on NuGet).
-
-Versioning
--
-SubSpecGWT uses [Semantic Versioning](http://semver.org/).
-
-Acknowledgements
--
+# Acknowledgements #
 > "Standing on the shoulders of giants."
 
-- [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
-- [Dan North](http://dannorth.net/introducing-bdd/)
 - [xUnit.net](http://xunit.codeplex.com/)
+- [Dan North](http://dannorth.net/introducing-bdd/)
+- [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
 - [FluentAssertions](http://fluentassertions.codeplex.com/)
 - [FakeItEasy](http://code.google.com/p/fakeiteasy/)
 - [NuGet](https://nuget.org/)
 - [Semantic Versioning](http://semver.org/)
 - [MarkdownPad](http://markdownpad.com/)
-- [thedailymash](http://www.thedailymash.co.uk/)

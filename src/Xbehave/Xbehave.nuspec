@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://bitbucket.org/adamralph/xbehave.net</projectUrl>
+    <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/c292659fa57d/license.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial pre-release.</releaseNotes>
+    <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
+    <tags>xUnit.net BDD test TDD</tags>
+    <dependencies>
+      <dependency id="xunit" version="1.9.0.1566" />
+      <dependency id="xunit.extensions" version="1.9.0.1566" />
+    </dependencies>
+  </metadata>
+</package>
