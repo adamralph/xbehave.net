@@ -50,8 +50,8 @@ It's your choice. You can use any method you like.
 
 # What else does it do? #
 
-    Scenario                                               Marks a method as a scenario to run by the test runner, equivalent to [Fact] or [Theory]
-    ScenarioData(...)                                      Provides data for scenarios, equivalent to InlineData
+    Scenario                                               Marks a scenario for the test runner, equivalent to [Fact] or [Theory]
+    ScenarioData(...)                                      Provides data for scenarios, equivalent to [InlineData]
     "...".Given(Action arrange)                            A standard Given for a scenario
     "...".Given(Func<IDisposable> arrange)                 Returned object is auto disposed after execution of all associated Then's
     "...".Given(Func<IEnumerable<IDisposable>> arrange)    (for >1 disposable objects)
