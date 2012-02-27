@@ -10,7 +10,7 @@
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/c292659fa57d/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial pre-release.</releaseNotes>
+    <releaseNotes>TBD.</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
