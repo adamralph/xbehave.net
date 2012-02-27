@@ -1,0 +1,8 @@
+syntax: glob
+**/StyleCop.Cache
+src/**/bin/
+src/**/obj/
+src/*.suo
+src/**/*.nupkg
+src/_ReSharper.*
+src/**/*.user

@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubSpecGwt", "SubSpecGwt\SubSpecGwt.csproj", "{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1DAD0ED8-7F96-4299-BEBB-04F3C25BFC76}"
+	ProjectSection(SolutionItems) = preProject
+		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
+		nuget.config = nuget.config
+		Settings.StyleCop = Settings.StyleCop
+		SubSpecGwt.snk = SubSpecGwt.snk
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubSpecGwt.Samples", "SubSpecGwt.Samples\SubSpecGwt.Samples.csproj", "{318A83C1-F734-4612-A04F-9BE0D26657BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}"
+	ProjectSection(SolutionItems) = preProject
+		test\Settings.StyleCop = test\Settings.StyleCop
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C43DA667-DF59-4438-B3DC-F707DF861043}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubSpecGwt.Test", "test\SubSpecGwt.Test\SubSpecGwt.Test.csproj", "{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubSpecGwt.Samples.Net35", "SubSpecGwt.Samples.Net35\SubSpecGwt.Samples.Net35.csproj", "{2A64CA3C-EE54-481A-BED0-536690918289}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{318A83C1-F734-4612-A04F-9BE0D26657BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{318A83C1-F734-4612-A04F-9BE0D26657BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{318A83C1-F734-4612-A04F-9BE0D26657BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{318A83C1-F734-4612-A04F-9BE0D26657BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A64CA3C-EE54-481A-BED0-536690918289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A64CA3C-EE54-481A-BED0-536690918289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A64CA3C-EE54-481A-BED0-536690918289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A64CA3C-EE54-481A-BED0-536690918289}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{318A83C1-F734-4612-A04F-9BE0D26657BF} = {C43DA667-DF59-4438-B3DC-F707DF861043}
+		{2A64CA3C-EE54-481A-BED0-536690918289} = {C43DA667-DF59-4438-B3DC-F707DF861043}
+		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
+	EndGlobalSection
+EndGlobal

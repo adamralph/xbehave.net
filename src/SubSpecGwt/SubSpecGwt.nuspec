@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <projectUrl>https://bitbucket.org/adamralph/subspecgwt</projectUrl>
+    <licenseUrl>https://bitbucket.org/adamralph/subspecgwt/raw/007e46d15ef6/license.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>TBD.</releaseNotes>
+    <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
+    <tags>xUnit.net BDD test TDD</tags>
+    <dependencies>
+      <dependency id="xunit" version="1.9.0.1566" />
+      <dependency id="xunit.extensions" version="1.9.0.1566" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\SubSpec\LICENSE.txt" target="license\SubSpec\LICENSE.txt" />
+  </files>
+</package>
