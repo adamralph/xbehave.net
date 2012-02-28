@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Samples
+namespace Xbehave.Issues.Old
 {
     using FluentAssertions;
 
