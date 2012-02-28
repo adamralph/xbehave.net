@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave
+namespace Xbehave.Fluent
 {
     /// <summary>
     /// Represents the act for a specification.

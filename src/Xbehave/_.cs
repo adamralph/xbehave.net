@@ -8,6 +8,7 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    using Xbehave.Fluent;
     using Xbehave.Naming;
 
     /// <summary>

@@ -7,6 +7,8 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
 
+    using Xbehave.Fluent;
+
     /// <summary>
     /// Provides extensions for a fluent specification syntax.
     /// </summary>

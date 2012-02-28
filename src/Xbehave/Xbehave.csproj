@@ -63,13 +63,12 @@
     <Compile Include="SubSpec\SubSpec.cs" />
     <Compile Include="SubSpec\SubSpec.Thesis.cs" />
     <Compile Include="SubSpec\SubSpecUtils.cs" />
-    <Compile Include="ThenExtensions.cs" />
-    <Compile Include="Then.cs" />
-    <Compile Include="IThen.cs" />
-    <Compile Include="Given.cs" />
-    <Compile Include="GivenExtensions.cs" />
-    <Compile Include="IGiven.cs" />
-    <Compile Include="IWhen.cs" />
+    <Compile Include="Fluent\Then.cs" />
+    <Compile Include="Fluent\IThen.cs" />
+    <Compile Include="Fluent\Given.cs" />
+    <Compile Include="FluentExtensions.cs" />
+    <Compile Include="Fluent\IGiven.cs" />
+    <Compile Include="Fluent\IWhen.cs" />
     <Compile Include="Naming\BinaryExpressionExtensions.cs" />
     <Compile Include="Naming\ConstantExpressionExtensions.cs" />
     <Compile Include="Naming\LambdaExpressionExtensions.cs" />
@@ -84,8 +83,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Naming\ExpressionExtensions.cs" />
     <Compile Include="GivenWhenThenExtensions.cs" />
-    <Compile Include="WhenExtensions.cs" />
-    <Compile Include="When.cs" />
+    <Compile Include="Fluent\When.cs" />
     <Compile Include="_.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave
+namespace Xbehave.Fluent
 {
     /// <summary>
     /// Represents an assertion of an expected outcome for a specification.

@@ -1,14 +1,14 @@
-﻿// <copyright file="Then.cs" company="Adam Ralph">
+﻿// <copyright file="Given.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave
+namespace Xbehave.Fluent
 {
-    internal class Then : IThen
+    internal class Given : IGiven
     {
         private readonly ISpecificationPrimitive spec;
 
-        public Then(ISpecificationPrimitive spec)
+        public Given(ISpecificationPrimitive spec)
         {
             this.spec = spec;
         }
