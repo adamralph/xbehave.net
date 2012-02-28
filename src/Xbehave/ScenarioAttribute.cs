@@ -6,6 +6,7 @@ namespace Xbehave
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     using Xunit.Extensions;
@@ -70,10 +71,12 @@ namespace Xbehave
             }
             else
             {
-                var defaultConstructor = method.MethodInfo.ReflectedType.GetConstructor(Type.EmptyTypes);
+                var type = method.MethodInfo.ReflectedType;
+                var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
                 if (defaultConstructor == null)
                 {
-                    throw new InvalidOperationException("Specification class does not have a default constructor");
+                    var message = string.Format(CultureInfo.InvariantCulture, "The type '{0}' does not have a default constructor", type.Name);
+                    throw new InvalidOperationException(message);
                 }
 
                 var instance = defaultConstructor.Invoke(null);
