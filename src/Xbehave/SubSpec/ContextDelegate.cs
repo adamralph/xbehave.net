@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Xunit.Sdk;
-using System.Xml;
-using System.Diagnostics;
-using System.Reflection;
-using System.Linq;
+﻿// <copyright file="ContextDelegate.cs" company="Adam Ralph">
+//  Copyright (c) Adam Ralph. All rights reserved.
+// </copyright>
 
 namespace Xbehave
 {
-    /// <remarks>
-    /// We declare our own delegate instead of using Func 
-    /// because we can't use implicit covariance on the generic type parameter in .net 3.5"/>
-    /// </remarks>
+    using System;
+
+    /// <summary>
+    /// This member is deprecated (was part of the original SubSpec API).
+    /// </summary>
+    /// <returns>An instance of <see cref="IDisposable"/>.</returns>
+    [Obsolete("Use Given(Func<IDisposable>) instead.")]
     public delegate IDisposable ContextDelegate();
 }

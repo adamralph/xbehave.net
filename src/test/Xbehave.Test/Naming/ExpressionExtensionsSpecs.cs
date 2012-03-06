@@ -16,7 +16,7 @@ namespace Xbehave.Test.Naming
 
     public static class ExpressionExtensionsSpecs
     {
-        [Specification]
+        [Scenario]
         public static void Spec1()
         {
             Specify(
@@ -24,7 +24,7 @@ namespace Xbehave.Test.Naming
                 "123 should be 123");
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec2()
         {
             var integer = default(int);
@@ -33,7 +33,7 @@ namespace Xbehave.Test.Naming
                 "the integer should be 123");
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec3()
         {
             var action = default(Action);
@@ -42,7 +42,7 @@ namespace Xbehave.Test.Naming
                 "the action should throw invalid operation exception");
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec4()
         {
             var action = default(Action);
@@ -55,7 +55,7 @@ namespace Xbehave.Test.Naming
         {
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec5()
         {
             var action = default(Action);
@@ -68,7 +68,7 @@ namespace Xbehave.Test.Naming
         {
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec6()
         {
             var action = default(Action);
@@ -81,7 +81,7 @@ namespace Xbehave.Test.Naming
         {
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec7()
         {
             var action = default(Action);
@@ -94,7 +94,7 @@ namespace Xbehave.Test.Naming
         {
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec8()
         {
             var action = default(Action);
@@ -107,7 +107,7 @@ namespace Xbehave.Test.Naming
         {
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec9()
         {
             var action = default(Action);
@@ -116,7 +116,7 @@ namespace Xbehave.Test.Naming
                 "the action should throw argument exception and param name should be \"foo\"");
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec10()
         {
             var foo = new object();
@@ -125,7 +125,7 @@ namespace Xbehave.Test.Naming
                 "a call to (the foo to string) must have happened exactly once");
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec11()
         {
             var foo = new object();
@@ -134,7 +134,7 @@ namespace Xbehave.Test.Naming
                 "the foo should be null and be -1 converted to object");
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec12()
         {
             var foo = new object();
@@ -143,7 +143,7 @@ namespace Xbehave.Test.Naming
                 "the foo should be null and be -1 as object");
         }
 
-        [Specification]
+        [Scenario]
         public static void Spec13()
         {
             var foo = new object();
@@ -152,7 +152,7 @@ namespace Xbehave.Test.Naming
                 "the foo get type should be int32");
         }
 
-        [Specification]
+        [Scenario(Skip = "WIP")]
         public static void Spec14()
         {
             var foo = 1;
@@ -161,7 +161,7 @@ namespace Xbehave.Test.Naming
                 "a call to (the foo to string with some string) must have happened exactly once");
         }
 
-        [Specification]
+        [Scenario(Skip = "WIP")]
         public static void Spec15()
         {
             var foo = 1;
@@ -170,7 +170,7 @@ namespace Xbehave.Test.Naming
                 "a call to (the foo to string with some string) must have happened exactly once");
         }
 
-        [Specification]
+        [Scenario(Skip = "WIP")]
         public static void Spec16()
         {
             var foo = 1;
@@ -185,18 +185,16 @@ namespace Xbehave.Test.Naming
             Specify(expression, expectedName, " ");
         }
 
-        public static void Specify(Expression expression, string expectedName, string delimiter)
+        public static void Specify(Expression expression, string expectedSpecName, string delimiter)
         {
-            var name = default(string);
+            var specName = default(string);
 
-            "Given an expression and an expected name"
+            "Given an expression and an expected spec name"
                 .Given(() => { });
 
-            "when creating"
-                .When(() => name = expression.ToSpecName(delimiter));
-
-            "the name should be the expected name"
-                .Then(() => name.Should().Be(expectedName));
+            "when converting the expression to a spec name"
+                .When(() => specName = expression.ToSpecName(delimiter))
+                .Then(() => specName.Should().Be(expectedSpecName));
         }
     }
 }
