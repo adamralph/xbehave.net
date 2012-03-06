@@ -60,9 +60,13 @@
     </Compile>
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="ScenarioDataAttribute.cs" />
-    <Compile Include="SubSpec\SubSpec.cs" />
-    <Compile Include="SubSpec\SubSpec.Thesis.cs" />
-    <Compile Include="SubSpec\SubSpecUtils.cs" />
+    <Compile Include="SubSpec\DisposableAction.cs" />
+    <Compile Include="SubSpec\ISpecificationPrimitive.cs" />
+    <Compile Include="SubSpec\SpecificationAttribute.cs" />
+    <Compile Include="SubSpec\SpecificationExtensions.cs" />
+    <Compile Include="SubSpec\Core.cs" />
+    <Compile Include="SubSpec\ContextDelegate.cs" />
+    <Compile Include="SubSpec\ThesisAttribute.cs" />
     <Compile Include="Fluent\Then.cs" />
     <Compile Include="Fluent\IThen.cs" />
     <Compile Include="Fluent\Given.cs" />
