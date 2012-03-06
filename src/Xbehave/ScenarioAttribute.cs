@@ -53,9 +53,7 @@ namespace Xbehave
         /// </returns>
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            return method.MethodInfo.GetParameters().Any()
-                ? this.GetTheoryCommands(method)
-                : GetFactCommands(method);
+            return method.MethodInfo.GetParameters().Any() ? this.GetTheoryCommands(method) : GetFactCommands(method);
         }
 
         private static IEnumerable<ITestCommand> GetFactCommands(IMethodInfo method)
@@ -75,8 +73,7 @@ namespace Xbehave
                 var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
                 if (defaultConstructor == null)
                 {
-                    var message = string.Format(CultureInfo.InvariantCulture, "The type '{0}' does not have a default constructor", type.Name);
-                    throw new InvalidOperationException(message);
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "The type '{0}' does not have a default constructor", type.Name));
                 }
 
                 var instance = defaultConstructor.Invoke(null);
@@ -93,8 +90,7 @@ namespace Xbehave
                 if (item is TheoryCommand)
                 {
                     var itemCommands = Core.SpecificationContext.SafelyEnumerateTestCommands(
-                        method,
-                        m => item.Execute(item.ShouldCreateInstance ? Activator.CreateInstance(method.MethodInfo.ReflectedType) : null));
+                        method, m => item.Execute(item.ShouldCreateInstance ? Activator.CreateInstance(method.MethodInfo.ReflectedType) : null));
 
                     commands.AddRange(itemCommands);
                 }
