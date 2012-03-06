@@ -38,7 +38,7 @@ namespace Xbehave
             [ThreadStatic]
             private static List<Action> exceptions;
 
-            public static ISpecificationPrimitive Context(string message, ContextDelegate arrange)
+            public static ISpecificationPrimitive Given(string message, ContextDelegate arrange)
             {
                 EnsureThreadStaticInitialized();
 
@@ -48,19 +48,19 @@ namespace Xbehave
                 }
                 else
                 {
-                    exceptions.Add(() => { throw new InvalidOperationException("Cannot have more than one Context statement in a specification"); });
+                    exceptions.Add(() => { throw new InvalidOperationException("The scenario has more than one Given."); });
                 }
 
                 return given;
             }
 
-            public static ISpecificationPrimitive Do(string message, Action doAction)
+            public static ISpecificationPrimitive When(string message, Action action)
             {
                 EnsureThreadStaticInitialized();
 
                 if (when == null)
                 {
-                    when = new SpecificationPrimitive<Action>(message, doAction);
+                    when = new SpecificationPrimitive<Action>(message, action);
                 }
                 else
                 {
@@ -70,34 +70,34 @@ namespace Xbehave
                 return when;
             }
 
-            public static ISpecificationPrimitive Assert(string message, Action assertAction)
+            public static ISpecificationPrimitive ThenInIsolation(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
-                SpecificationPrimitive<Action> assert = new SpecificationPrimitive<Action>(message, assertAction);
-                thensInIsolation.Add(assert);
+                var primitive = new SpecificationPrimitive<Action>(message, assert);
+                thensInIsolation.Add(primitive);
 
-                return assert;
+                return primitive;
             }
 
-            public static ISpecificationPrimitive Observation(string message, Action observationAction)
+            public static ISpecificationPrimitive Then(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
-                var observation = new SpecificationPrimitive<Action>(message, observationAction);
-                thens.Add(observation);
+                var primitive = new SpecificationPrimitive<Action>(message, assert);
+                thens.Add(primitive);
 
-                return observation;
+                return primitive;
             }
 
-            public static ISpecificationPrimitive Todo(string message, Action skippedAction)
+            public static ISpecificationPrimitive ThenSkip(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
-                SpecificationPrimitive<Action> skip = new SpecificationPrimitive<Action>(message, skippedAction);
-                thenSkips.Add(skip);
+                var primitive = new SpecificationPrimitive<Action>(message, assert);
+                thenSkips.Add(primitive);
 
-                return skip;
+                return primitive;
             }
 
             public static IEnumerable<ITestCommand> SafelyEnumerateTestCommands(IMethodInfo method, Action<IMethodInfo> registerPrimitives)
@@ -110,7 +110,7 @@ namespace Xbehave
                 catch (Exception ex)
                 {
                     var message = string.Format(
-                        "An exception was thrown while building tests from Specification {0}.{1}:\r\n{2}",
+                        "An exception was thrown while building tests from scenario {0}.{1}:\r\n{2}",
                         method.TypeName,
                         method.Name,
                         ex.ToString());
@@ -163,15 +163,15 @@ namespace Xbehave
                     int testsReturned = 0;
                     string name = PrepareSetupDescription();
 
-                    var ax = new ThenInIsolationExecutor(given, when, thensInIsolation);
-                    foreach (var item in ax.AssertCommands(name, method))
+                    var thenInIsolationExecutor = new ThenInIsolationExecutor(given, when, thensInIsolation);
+                    foreach (var item in thenInIsolationExecutor.Commands(name, method))
                     {
                         yield return item;
                         testsReturned++;
                     }
 
-                    var ox = new ThenExecutor(given, when, thens);
-                    foreach (var item in ox.ObservationCommands(name, method))
+                    var thenExecutor = new ThenExecutor(given, when, thens);
+                    foreach (var item in thenExecutor.Commands(name, method))
                     {
                         yield return item;
                         testsReturned++;
@@ -216,6 +216,7 @@ namespace Xbehave
             {
                 foreach (var skip in thenSkips)
                 {
+                    // TODO: work out way of passing reason from scenario
                     yield return new SkipCommand(method, name + ", " + skip.Message, "Action is ThenSkip (instead of Then or ThenInIsolation)");
                 }
             }
@@ -227,14 +228,14 @@ namespace Xbehave
             {
                 if (primitive.TimeoutMs > 0)
                 {
-                    IAsyncResult asyncResult = primitive.Action.BeginInvoke(null, null);
-                    if (!asyncResult.AsyncWaitHandle.WaitOne(primitive.TimeoutMs))
+                    var result = primitive.Action.BeginInvoke(null, null);
+                    if (!result.AsyncWaitHandle.WaitOne(primitive.TimeoutMs))
                     {
                         throw new Xunit.Sdk.TimeoutException(primitive.TimeoutMs);
                     }
                     else
                     {
-                        primitive.Action.EndInvoke(asyncResult);
+                        primitive.Action.EndInvoke(result);
                     }
                 }
                 else
@@ -247,15 +248,14 @@ namespace Xbehave
             {
                 if (primitive.TimeoutMs > 0)
                 {
-                    IAsyncResult asyncResult = primitive.Action.BeginInvoke(null, null);
-
-                    if (!asyncResult.AsyncWaitHandle.WaitOne(primitive.TimeoutMs))
+                    var result = primitive.Action.BeginInvoke(null, null);
+                    if (!result.AsyncWaitHandle.WaitOne(primitive.TimeoutMs))
                     {
                         throw new Xunit.Sdk.TimeoutException(primitive.TimeoutMs);
                     }
                     else
                     {
-                        return primitive.Action.EndInvoke(asyncResult);
+                        return primitive.Action.EndInvoke(result);
                     }
                 }
                 else
@@ -277,7 +277,7 @@ namespace Xbehave
                 {
                     throw new ArgumentNullException("message");
                 }
-                
+
                 if (action == null)
                 {
                     throw new ArgumentNullException("action");
@@ -352,15 +352,14 @@ namespace Xbehave
             private readonly SpecificationPrimitive<Action> when;
             private readonly List<SpecificationPrimitive<Action>> thens;
 
-            public ThenInIsolationExecutor(
-                SpecificationPrimitive<ContextDelegate> given, SpecificationPrimitive<Action> when, List<SpecificationPrimitive<Action>> thens)
+            public ThenInIsolationExecutor(SpecificationPrimitive<ContextDelegate> given, SpecificationPrimitive<Action> when, List<SpecificationPrimitive<Action>> thens)
             {
                 this.thens = thens;
                 this.given = given;
                 this.when = when;
             }
 
-            public IEnumerable<ITestCommand> AssertCommands(string name, IMethodInfo method)
+            public IEnumerable<ITestCommand> Commands(string name, IMethodInfo method)
             {
                 foreach (var then in this.thens)
                 {
@@ -380,8 +379,8 @@ namespace Xbehave
                         }
                     };
 
-                    var testDescription = string.Format("{0}, {1}", name, then.Message);
-                    yield return new ActionTestCommand(method, testDescription, MethodUtility.GetTimeoutParameter(method), test);
+                    var testName = string.Format("{0}, {1}", name, then.Message);
+                    yield return new ActionTestCommand(method, testName, MethodUtility.GetTimeoutParameter(method), test);
                 }
             }
         }
@@ -399,21 +398,21 @@ namespace Xbehave
                 this.when = when;
             }
 
-            public IEnumerable<ITestCommand> ObservationCommands(string name, IMethodInfo method)
+            public IEnumerable<ITestCommand> Commands(string name, IMethodInfo method)
             {
                 if (!this.thens.Any())
                 {
                     yield break;
                 }
 
-                var setupExceptionOccurred = false;
-                var systemUnderTest = default(IDisposable);
+                var givenOrWhenThrewException = false;
+                var arrangement = default(IDisposable);
 
                 Action setupAction = () =>
                 {
                     try
                     {
-                        systemUnderTest = SpecificationPrimitiveExecutor.Execute(given);
+                        arrangement = SpecificationPrimitiveExecutor.Execute(given);
 
                         if (when != null)
                         {
@@ -422,23 +421,23 @@ namespace Xbehave
                     }
                     catch (Exception)
                     {
-                        setupExceptionOccurred = true;
+                        givenOrWhenThrewException = true;
                         throw;
                     }
                 };
 
                 yield return new ActionTestCommand(method, "{ " + name, 0, setupAction);
 
-                foreach (var observation in this.thens)
+                foreach (var then in this.thens)
                 {
                     // do not capture the iteration variable because 
                     // all tests would point to the same observation
-                    var capturableObservation = observation;
+                    var capturableObservation = then;
                     Action perform = () =>
                     {
-                        if (setupExceptionOccurred)
+                        if (givenOrWhenThrewException)
                         {
-                            throw new ContextSetupFailedException("Setting up Context failed");
+                            throw new GivenOrWhenFailedException("Execution of Given or When failed.");
                         }
 
                         SpecificationPrimitiveExecutor.Execute(capturableObservation);
@@ -447,29 +446,26 @@ namespace Xbehave
                     yield return new ActionTestCommand(method, "\t- " + capturableObservation.Message, 0, perform);
                 }
 
-                Action tearDownAction = () =>
+                Action disposal = () =>
                 {
-                    if (systemUnderTest != null)
+                    if (arrangement != null)
                     {
-                        systemUnderTest.Dispose();
+                        arrangement.Dispose();
                     }
 
-                    if (setupExceptionOccurred)
+                    if (givenOrWhenThrewException)
                     {
-                        throw new ContextSetupFailedException("Setting up Context failed, but Fixtures were disposed.");
+                        throw new GivenOrWhenFailedException("Execution of Given or When failed but arrangement was disposed.");
                     }
                 };
 
-                yield return new ActionTestCommand(method, "} " + name, 0, tearDownAction);
+                yield return new ActionTestCommand(method, "} " + name, 0, disposal);
             }
         }
 
-        /// <summary>
-        /// An exception that is thrown from Observations or their teardown whenever the corresponding setup failed.
-        /// </summary>
-        private class ContextSetupFailedException : Exception
+        private class GivenOrWhenFailedException : Exception
         {
-            public ContextSetupFailedException(string message)
+            public GivenOrWhenFailedException(string message)
                 : base(message)
             {
             }

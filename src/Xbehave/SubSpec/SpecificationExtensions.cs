@@ -24,7 +24,7 @@ namespace Xbehave
         /// <param name="arrange">The action that will establish the context.</param>
         public static ISpecificationPrimitive Context( this string message, Action arrange )
         {
-            return Core.SpecificationContext.Context( message,
+            return Core.SpecificationContext.Given( message,
                                           () =>
                                           {
                                               arrange();
@@ -50,7 +50,7 @@ namespace Xbehave
         /// <param name="arrange">The action that will establish and return the context for this test.</param>
         public static ISpecificationPrimitive ContextFixture( this string message, ContextDelegate arrange )
         {
-            return Core.SpecificationContext.Context( message, arrange );
+            return Core.SpecificationContext.Given( message, arrange );
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Xbehave
         /// <param name="act">The action to perform.</param>
         public static ISpecificationPrimitive Do( this string message, Action act )
         {
-            return Core.SpecificationContext.Do( message, act );
+            return Core.SpecificationContext.When( message, act );
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Xbehave
         /// <param name="assert">The action that will verify the expectation.</param>
         public static ISpecificationPrimitive Assert( this string message, Action assert )
         {
-            return Core.SpecificationContext.Assert( message, assert );
+            return Core.SpecificationContext.ThenInIsolation( message, assert );
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Xbehave
         /// <param name="observation">The action that will verify the expectation.</param>
         public static ISpecificationPrimitive Observation( this string message, Action observation )
         {
-            return Core.SpecificationContext.Observation( message, observation );
+            return Core.SpecificationContext.Then( message, observation );
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Xbehave
         /// <param name="skippedAction">The action that will verify the expectation.</param>
         public static ISpecificationPrimitive Todo( this string message, Action skippedAction )
         {
-            return Core.SpecificationContext.Todo( message, skippedAction );
+            return Core.SpecificationContext.ThenSkip( message, skippedAction );
         }
     }
 }
