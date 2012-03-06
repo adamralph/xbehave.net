@@ -24,7 +24,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test", "test\Xbehav
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Samples.Net35", "Xbehave.Samples.Net35\Xbehave.Samples.Net35.csproj", "{2A64CA3C-EE54-481A-BED0-536690918289}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Issues", "test\Xbehave.Issues\Xbehave.Issues.csproj", "{681A1777-7952-4524-8131-B5A44A6AC991}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Issues", "Issues", "{E139B180-4514-45CD-BC3F-DFBD9BA5E992}"
+	ProjectSection(SolutionItems) = preProject
+		issues\Settings.StyleCop = issues\Settings.StyleCop
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Issues", "issues\Xbehave.Issues\Xbehave.Issues.csproj", "{681A1777-7952-4524-8131-B5A44A6AC991}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +62,6 @@ Global
 		{318A83C1-F734-4612-A04F-9BE0D26657BF} = {C43DA667-DF59-4438-B3DC-F707DF861043}
 		{2A64CA3C-EE54-481A-BED0-536690918289} = {C43DA667-DF59-4438-B3DC-F707DF861043}
 		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
-		{681A1777-7952-4524-8131-B5A44A6AC991} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
+		{681A1777-7952-4524-8131-B5A44A6AC991} = {E139B180-4514-45CD-BC3F-DFBD9BA5E992}
 	EndGlobalSection
 EndGlobal
