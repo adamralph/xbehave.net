@@ -1,32 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Xunit.Sdk;
-using System.Xml;
-using System.Diagnostics;
-using System.Reflection;
-using System.Linq;
+﻿// <copyright file="DisposableAction.cs" company="Adam Ralph">
+//  Copyright (c) Adam Ralph. All rights reserved.
+// </copyright>
 
 namespace Xbehave
 {
+    using System;
+
+    /// <summary>
+    /// This member is deprecated (was part of the original SubSpec API).
+    /// </summary>
+    [Obsolete("Given(Action arrange, Action dispose) instead.")]
     public class DisposableAction : IDisposable
     {
-        public static readonly DisposableAction None = new DisposableAction( () => { } );
+        /// <summary>
+        /// This member is deprecated (was part of the original SubSpec API).
+        /// </summary>
+        public static readonly DisposableAction None = new DisposableAction(() => { });
 
-        private readonly Action _action;
+        private readonly Action action;
 
-        public DisposableAction( Action action )
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DisposableAction"/> class.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        public DisposableAction(Action action)
         {
             if (action == null)
-                throw new ArgumentNullException( "action" );
+            {
+                throw new ArgumentNullException("action");
+            }
 
-            _action = action;
+            this.action = action;
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
-            _action();
+            this.action();
         }
     }
 }
