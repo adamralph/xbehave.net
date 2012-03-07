@@ -10,9 +10,9 @@ namespace Xbehave
     using Xbehave.Fluent;
 
     /// <summary>
-    /// Provides extensions for a fluent specification syntax.
+    /// Extensions for declaring Given, When, Then scenario steps.
     /// </summary>
-    public static class GivenWhenThenExtensions
+    public static class StringExtensions
     {
         /// <summary>
         /// Records the arrangement for this specification.
