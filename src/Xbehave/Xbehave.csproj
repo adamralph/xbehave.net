@@ -82,11 +82,11 @@
     <Compile Include="Fluent\IScenarioPrimitive.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="ScenarioDataAttribute.cs" />
-    <Compile Include="SubSpec\DisposableAction.cs" />
-    <Compile Include="SubSpec\SpecificationAttribute.cs" />
+    <Compile Include="SubSpec\Deprecated\DisposableAction.cs" />
+    <Compile Include="SubSpec\Deprecated\SpecificationAttribute.cs" />
     <Compile Include="SubSpec\SpecificationExtensions.cs" />
-    <Compile Include="SubSpec\Core.cs" />
-    <Compile Include="SubSpec\ContextDelegate.cs" />
+    <Compile Include="SubSpec\Internal\Core.cs" />
+    <Compile Include="SubSpec\Deprecated\ContextDelegate.cs" />
     <Compile Include="SubSpec\ThesisAttribute.cs" />
     <Compile Include="Fluent\Then.cs" />
     <Compile Include="Fluent\IThen.cs" />
