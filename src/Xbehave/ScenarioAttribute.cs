@@ -43,45 +43,12 @@ namespace Xbehave
         {
         }
 
-        /// <summary>
-        /// Creates instances of <see cref="T:Xunit.Extensions.TheoryCommand"/> which represent individual intended
-        /// invocations of the test method, one per data row in the data source.
-        /// </summary>
-        /// <param name="method">The method under test</param>
-        /// <returns>
-        /// An enumerator through the desired test method invocations
-        /// </returns>
-        protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
-        {
-            return method.MethodInfo.GetParameters().Any() ? this.GetTheoryCommands(method) : GetFactCommands(method);
-        }
-
-        private static IEnumerable<ITestCommand> GetFactCommands(IMethodInfo method)
+        internal static IEnumerable<ITestCommand> GetFactCommands(IMethodInfo method)
         {
             return Core.SpecificationContext.SafelyEnumerateTestCommands(method, RegisterSpecificationPrimitives);
         }
 
-        private static void RegisterSpecificationPrimitives(IMethodInfo method)
-        {
-            if (method.IsStatic)
-            {
-                method.Invoke(null, null);
-            }
-            else
-            {
-                var type = method.MethodInfo.ReflectedType;
-                var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
-                if (defaultConstructor == null)
-                {
-                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "The type '{0}' does not have a default constructor", type.Name));
-                }
-
-                var instance = defaultConstructor.Invoke(null);
-                method.Invoke(instance, null);
-            }
-        }
-
-        private IEnumerable<ITestCommand> GetTheoryCommands(IMethodInfo method)
+        internal IEnumerable<ITestCommand> GetTheoryCommands(IMethodInfo method)
         {
             var theoryTestCommands = base.EnumerateTestCommands(method);
             var commands = new List<ITestCommand>();
@@ -103,6 +70,37 @@ namespace Xbehave
             }
 
             return commands;
+        }
+
+        /// <summary>
+        /// Enumerates the test commands represented by this test method.
+        /// Derived classes should override this method to return instances of <see cref="T:Xunit.Sdk.ITestCommand"/>, one per execution of a test method.
+        /// </summary>
+        /// <param name="method">The test method</param>
+        /// <returns>The test commands which will execute the test runs for the given method.</returns>
+        protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
+        {
+            return method.MethodInfo.GetParameters().Any() ? this.GetTheoryCommands(method) : GetFactCommands(method);
+        }
+
+        private static void RegisterSpecificationPrimitives(IMethodInfo method)
+        {
+            if (method.IsStatic)
+            {
+                method.Invoke(null, null);
+            }
+            else
+            {
+                var type = method.MethodInfo.ReflectedType;
+                var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
+                if (defaultConstructor == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "The type '{0}' does not have a default constructor", type.Name));
+                }
+
+                var instance = defaultConstructor.Invoke(null);
+                method.Invoke(instance, null);
+            }
         }
     }
 }

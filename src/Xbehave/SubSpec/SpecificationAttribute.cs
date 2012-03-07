@@ -1,42 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Xunit.Sdk;
-using System.Xml;
-using System.Diagnostics;
-using System.Reflection;
-using System.Linq;
+﻿// <copyright file="SpecificationAttribute.cs" company="Adam Ralph">
+//  Copyright (c) Adam Ralph. All rights reserved.
+// </copyright>
 
 namespace Xbehave
 {
-    [AttributeUsage( AttributeTargets.Method, AllowMultiple = false, Inherited = true )]
+    using System;
+    using System.Collections.Generic;
+    using Xunit;
+    using Xunit.Sdk;
+
+    /// <summary>
+    /// This member is deprecated (was part of the original SubSpec API).
+    /// </summary>
+    [Obsolete("Use ScenarioAttribute instead.")]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class SpecificationAttribute : FactAttribute
     {
-        protected override IEnumerable<ITestCommand> EnumerateTestCommands( IMethodInfo method )
+        /// <summary>
+        /// Enumerates the test commands represented by this test method. Derived classes should
+        /// override this method to return instances of <see cref="T:Xunit.Sdk.ITestCommand"/>, one per execution
+        /// of a test method.
+        /// </summary>
+        /// <param name="method">The test method</param>
+        /// <returns>The test commands which will execute the test runs for the given method.</returns>
+        public static IEnumerable<ITestCommand> FtoEnumerateTestCommands(IMethodInfo method)
         {
-            return Core.SpecificationContext.SafelyEnumerateTestCommands( method, RegisterSpecificationPrimitives);
+            return ScenarioAttribute.GetFactCommands(method);
         }
 
-        public static IEnumerable<ITestCommand> FtoEnumerateTestCommands( IMethodInfo method )
+        /// <summary>
+        /// Enumerates the test commands represented by this test method. Derived classes should
+        /// override this method to return instances of <see cref="T:Xunit.Sdk.ITestCommand"/>, one per execution
+        /// of a test method.
+        /// </summary>
+        /// <param name="method">The test method</param>
+        /// <returns>The test commands which will execute the test runs for the given method.</returns>
+        protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            return Core.SpecificationContext.SafelyEnumerateTestCommands( method, RegisterSpecificationPrimitives );
-        }
-
-        private static void RegisterSpecificationPrimitives( IMethodInfo method )
-        {
-            if (method.IsStatic)
-                method.Invoke( null, null );
-            else
-            {
-                ConstructorInfo defaultConstructor = method.MethodInfo.ReflectedType.GetConstructor( Type.EmptyTypes );
-
-                if (defaultConstructor == null)
-                    throw new InvalidOperationException( "Specification class does not have a default constructor" );
-
-                object instance = defaultConstructor.Invoke( null );
-                method.Invoke( instance, null );
-            }
+            return ScenarioAttribute.GetFactCommands(method);
         }
     }
 }
