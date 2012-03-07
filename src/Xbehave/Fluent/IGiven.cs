@@ -5,9 +5,9 @@
 namespace Xbehave.Fluent
 {
     /// <summary>
-    /// Represents the arrangement for a specification.
+    /// The arrangement of a scenario.
     /// </summary>
-    public interface IGiven : IScenarioPrimitive
+    public interface IGiven : IStep
     {
     }
 }

@@ -16,36 +16,36 @@ namespace Xbehave
     /// </summary>
     internal static class Core
     {
-        internal static class SpecificationContext
+        internal static class ScenarioContext
         {
             [ThreadStatic]
             private static bool threadStaticInitialized;
 
             [ThreadStatic]
-            private static SpecificationPrimitive<ContextDelegate> given;
+            private static Step<ContextDelegate> given;
 
             [ThreadStatic]
-            private static SpecificationPrimitive<Action> when;
+            private static Step<Action> when;
 
             [ThreadStatic]
-            private static List<SpecificationPrimitive<Action>> thensInIsolation;
+            private static List<Step<Action>> thensInIsolation;
 
             [ThreadStatic]
-            private static List<SpecificationPrimitive<Action>> thens;
+            private static List<Step<Action>> thens;
 
             [ThreadStatic]
-            private static List<SpecificationPrimitive<Action>> thenSkips;
+            private static List<Step<Action>> thenSkips;
 
             [ThreadStatic]
             private static List<Action> exceptions;
 
-            public static IScenarioPrimitive Given(string message, ContextDelegate arrange)
+            public static IStep Given(string message, ContextDelegate arrange)
             {
                 EnsureThreadStaticInitialized();
 
                 if (given == null)
                 {
-                    given = new SpecificationPrimitive<ContextDelegate>(message, arrange);
+                    given = new Step<ContextDelegate>(message, arrange);
                 }
                 else
                 {
@@ -55,13 +55,13 @@ namespace Xbehave
                 return given;
             }
 
-            public static IScenarioPrimitive When(string message, Action action)
+            public static IStep When(string message, Action action)
             {
                 EnsureThreadStaticInitialized();
 
                 if (when == null)
                 {
-                    when = new SpecificationPrimitive<Action>(message, action);
+                    when = new Step<Action>(message, action);
                 }
                 else
                 {
@@ -71,31 +71,31 @@ namespace Xbehave
                 return when;
             }
 
-            public static IScenarioPrimitive ThenInIsolation(string message, Action assert)
+            public static IStep ThenInIsolation(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
-                var primitive = new SpecificationPrimitive<Action>(message, assert);
+                var primitive = new Step<Action>(message, assert);
                 thensInIsolation.Add(primitive);
 
                 return primitive;
             }
 
-            public static IScenarioPrimitive Then(string message, Action assert)
+            public static IStep Then(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
-                var primitive = new SpecificationPrimitive<Action>(message, assert);
+                var primitive = new Step<Action>(message, assert);
                 thens.Add(primitive);
 
                 return primitive;
             }
 
-            public static IScenarioPrimitive ThenSkip(string message, Action assert)
+            public static IStep ThenSkip(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
-                var primitive = new SpecificationPrimitive<Action>(message, assert);
+                var primitive = new Step<Action>(message, assert);
                 thenSkips.Add(primitive);
 
                 return primitive;
@@ -106,7 +106,7 @@ namespace Xbehave
                 try
                 {
                     registerPrimitives(method);
-                    return SpecificationContext.BuildCommandsFromRegisteredPrimitives(method);
+                    return ScenarioContext.BuildCommandsFromRegisteredPrimitives(method);
                 }
                 catch (Exception ex)
                 {
@@ -125,9 +125,9 @@ namespace Xbehave
                 exceptions = new List<Action>();
                 given = null;
                 when = null;
-                thensInIsolation = new List<SpecificationPrimitive<Action>>();
-                thens = new List<SpecificationPrimitive<Action>>();
-                thenSkips = new List<SpecificationPrimitive<Action>>();
+                thensInIsolation = new List<Step<Action>>();
+                thens = new List<Step<Action>>();
+                thenSkips = new List<Step<Action>>();
             }
 
             private static void EnsureThreadStaticInitialized()
@@ -223,9 +223,9 @@ namespace Xbehave
             }
         }
 
-        private static class SpecificationPrimitiveExecutor
+        private static class StepExecutor
         {
-            public static void Execute(SpecificationPrimitive<Action> primitive)
+            public static void Execute(Step<Action> primitive)
             {
                 if (primitive.MillisecondsTimeout > 0)
                 {
@@ -245,7 +245,7 @@ namespace Xbehave
                 }
             }
 
-            public static IDisposable Execute(SpecificationPrimitive<ContextDelegate> primitive)
+            public static IDisposable Execute(Step<ContextDelegate> primitive)
             {
                 if (primitive.MillisecondsTimeout > 0)
                 {
@@ -266,13 +266,13 @@ namespace Xbehave
             }
         }
 
-        private class SpecificationPrimitive<T> : IScenarioPrimitive
+        private class Step<T> : IStep
         {
             private readonly string message;
             private readonly T action;
             private int millisecondsTimeout;
 
-            public SpecificationPrimitive(string message, T action)
+            public Step(string message, T action)
             {
                 if (message == null)
                 {
@@ -303,7 +303,7 @@ namespace Xbehave
                 get { return this.millisecondsTimeout; }
             }
 
-            public IScenarioPrimitive WithTimeout(int millisecondsTimeout)
+            public IStep WithTimeout(int millisecondsTimeout)
             {
                 this.millisecondsTimeout = millisecondsTimeout;
                 return this;
@@ -349,11 +349,11 @@ namespace Xbehave
 
         private class ThenInIsolationExecutor
         {
-            private readonly SpecificationPrimitive<ContextDelegate> given;
-            private readonly SpecificationPrimitive<Action> when;
-            private readonly List<SpecificationPrimitive<Action>> thens;
+            private readonly Step<ContextDelegate> given;
+            private readonly Step<Action> when;
+            private readonly List<Step<Action>> thens;
 
-            public ThenInIsolationExecutor(SpecificationPrimitive<ContextDelegate> given, SpecificationPrimitive<Action> when, List<SpecificationPrimitive<Action>> thens)
+            public ThenInIsolationExecutor(Step<ContextDelegate> given, Step<Action> when, List<Step<Action>> thens)
             {
                 this.thens = thens;
                 this.given = given;
@@ -369,14 +369,14 @@ namespace Xbehave
                     var capturableAssertion = then;
                     Action test = () =>
                     {
-                        using (SpecificationPrimitiveExecutor.Execute(given))
+                        using (StepExecutor.Execute(given))
                         {
                             if (this.when != null)
                             {
-                                SpecificationPrimitiveExecutor.Execute(when);
+                                StepExecutor.Execute(when);
                             }
 
-                            SpecificationPrimitiveExecutor.Execute(capturableAssertion);
+                            StepExecutor.Execute(capturableAssertion);
                         }
                     };
 
@@ -388,11 +388,11 @@ namespace Xbehave
 
         private class ThenExecutor
         {
-            private readonly SpecificationPrimitive<ContextDelegate> given;
-            private readonly SpecificationPrimitive<Action> when;
-            private readonly IEnumerable<SpecificationPrimitive<Action>> thens;
+            private readonly Step<ContextDelegate> given;
+            private readonly Step<Action> when;
+            private readonly IEnumerable<Step<Action>> thens;
 
-            public ThenExecutor(SpecificationPrimitive<ContextDelegate> given, SpecificationPrimitive<Action> when, IEnumerable<SpecificationPrimitive<Action>> thens)
+            public ThenExecutor(Step<ContextDelegate> given, Step<Action> when, IEnumerable<Step<Action>> thens)
             {
                 this.thens = thens;
                 this.given = given;
@@ -413,11 +413,11 @@ namespace Xbehave
                 {
                     try
                     {
-                        arrangement = SpecificationPrimitiveExecutor.Execute(given);
+                        arrangement = StepExecutor.Execute(given);
 
                         if (when != null)
                         {
-                            SpecificationPrimitiveExecutor.Execute(when);
+                            StepExecutor.Execute(when);
                         }
                     }
                     catch (Exception)
@@ -438,10 +438,10 @@ namespace Xbehave
                     {
                         if (givenOrWhenThrewException)
                         {
-                            throw new GivenOrWhenFailedException("Execution of Given or When failed.");
+                            throw new EitherGivenOrWhenFailedException("Execution of Given or When failed.");
                         }
 
-                        SpecificationPrimitiveExecutor.Execute(capturableObservation);
+                        StepExecutor.Execute(capturableObservation);
                     };
 
                     yield return new ActionTestCommand(method, "\t- " + capturableObservation.Message, 0, perform);
@@ -456,7 +456,7 @@ namespace Xbehave
 
                     if (givenOrWhenThrewException)
                     {
-                        throw new GivenOrWhenFailedException("Execution of Given or When failed but arrangement was disposed.");
+                        throw new EitherGivenOrWhenFailedException("Execution of Given or When failed but arrangement was disposed.");
                     }
                 };
 
@@ -465,9 +465,9 @@ namespace Xbehave
         }
 
         [Serializable]
-        private class GivenOrWhenFailedException : Exception
+        private class EitherGivenOrWhenFailedException : Exception
         {
-            public GivenOrWhenFailedException(string message)
+            public EitherGivenOrWhenFailedException(string message)
                 : base(message)
             {
             }

@@ -79,7 +79,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Fluent\IScenarioPrimitive.cs" />
+    <Compile Include="Fluent\IStep.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="ScenarioDataAttribute.cs" />
     <Compile Include="SubSpec\Deprecated\DisposableAction.cs" />

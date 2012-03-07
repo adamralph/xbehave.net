@@ -5,9 +5,9 @@
 namespace Xbehave.Fluent
 {
     /// <summary>
-    /// Represents an assertion of an expected outcome for a specification.
+    /// An assertion of an expected outcome of a scenario.
     /// </summary>
-    public interface IThen : IScenarioPrimitive
+    public interface IThen : IStep
     {
     }
 }

@@ -6,16 +6,16 @@ namespace Xbehave.Fluent
 {
     internal class When : IWhen
     {
-        private readonly IScenarioPrimitive spec;
+        private readonly IStep step;
 
-        public When(IScenarioPrimitive spec)
+        public When(IStep step)
         {
-            this.spec = spec;
+            this.step = step;
         }
 
-        public IScenarioPrimitive WithTimeout(int millisecondsTimeout)
+        public IStep WithTimeout(int millisecondsTimeout)
         {
-            return this.spec.WithTimeout(millisecondsTimeout);
+            return this.step.WithTimeout(millisecondsTimeout);
         }
     }
 }

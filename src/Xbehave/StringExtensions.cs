@@ -1,4 +1,4 @@
-﻿// <copyright file="GivenWhenThenExtensions.cs" company="Adam Ralph">
+﻿// <copyright file="StringExtensions.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -22,7 +22,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange)
         {
-            var context = Core.SpecificationContext.Given(
+            var step = Core.ScenarioContext.Given(
                 message,
                 () =>
                 {
@@ -30,7 +30,7 @@ namespace Xbehave
                     return DisposableAction.None;
                 });
 
-            return new Given(context);
+            return new Given(step);
         }
 
         /// <summary>
@@ -41,11 +41,11 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Func<IDisposable> arrange)
         {
-            var context = Core.SpecificationContext.Given(
+            var step = Core.ScenarioContext.Given(
                 message,
                 () => arrange());
 
-            return new Given(context);
+            return new Given(step);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
-            var context = Core.SpecificationContext.Given(
+            var step = Core.ScenarioContext.Given(
                 message,
                 () =>
                 {
@@ -64,7 +64,7 @@ namespace Xbehave
                     return new Disposable(disposables);
                 });
 
-            return new Given(context);
+            return new Given(step);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange, Action dispose)
         {
-            var context = Core.SpecificationContext.Given(
+            var step = Core.ScenarioContext.Given(
                 message,
                 () =>
                 {
@@ -84,7 +84,7 @@ namespace Xbehave
                     return new Disposable(dispose);
                 });
 
-            return new Given(context);
+            return new Given(step);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Xbehave
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
         /// <returns>An instance of <see cref="ISpecificationPrimitive"/>.</returns>
         [Obsolete("Use Given(Func<IDisposable>) instead.")]
-        public static IScenarioPrimitive GivenDisposable(this string message, ContextDelegate arrange)
+        public static IStep GivenDisposable(this string message, ContextDelegate arrange)
         {
             return message.ContextFixture(arrange);
         }

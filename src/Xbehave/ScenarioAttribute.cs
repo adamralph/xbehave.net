@@ -45,7 +45,7 @@ namespace Xbehave
 
         internal static IEnumerable<ITestCommand> GetFactCommands(IMethodInfo method)
         {
-            return Core.SpecificationContext.SafelyEnumerateTestCommands(method, RegisterSpecificationPrimitives);
+            return Core.ScenarioContext.SafelyEnumerateTestCommands(method, RegisterSteps);
         }
 
         internal IEnumerable<ITestCommand> GetTheoryCommands(IMethodInfo method)
@@ -56,7 +56,7 @@ namespace Xbehave
             {
                 if (item is TheoryCommand)
                 {
-                    var itemCommands = Core.SpecificationContext.SafelyEnumerateTestCommands(
+                    var itemCommands = Core.ScenarioContext.SafelyEnumerateTestCommands(
                         method, m => item.Execute(item.ShouldCreateInstance ? Activator.CreateInstance(method.MethodInfo.ReflectedType) : null));
 
                     commands.AddRange(itemCommands);
@@ -83,7 +83,7 @@ namespace Xbehave
             return method.MethodInfo.GetParameters().Any() ? this.GetTheoryCommands(method) : GetFactCommands(method);
         }
 
-        private static void RegisterSpecificationPrimitives(IMethodInfo method)
+        private static void RegisterSteps(IMethodInfo method)
         {
             if (method.IsStatic)
             {

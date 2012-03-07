@@ -19,7 +19,7 @@ namespace Xbehave
             {
                 if (item is TheoryCommand)
                 {
-                    commands.AddRange( Core.SpecificationContext.SafelyEnumerateTestCommands( method,
+                    commands.AddRange( Core.ScenarioContext.SafelyEnumerateTestCommands( method,
                         m =>
                         {
                             // Create a new test class instance

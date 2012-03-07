@@ -24,9 +24,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish the context.</param>
-        public static IScenarioPrimitive Context(this string message, Action arrange)
+        public static IStep Context(this string message, Action arrange)
         {
-            return Core.SpecificationContext.Given( message,
+            return Core.ScenarioContext.Given( message,
                                           () =>
                                           {
                                               arrange();
@@ -50,9 +50,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish and return the context for this test.</param>
-        public static IScenarioPrimitive ContextFixture(this string message, ContextDelegate arrange)
+        public static IStep ContextFixture(this string message, ContextDelegate arrange)
         {
-            return Core.SpecificationContext.Given( message, arrange );
+            return Core.ScenarioContext.Given( message, arrange );
         }
 
         /// <summary>
@@ -60,9 +60,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the action.</param>
         /// <param name="act">The action to perform.</param>
-        public static IScenarioPrimitive Do(this string message, Action act)
+        public static IStep Do(this string message, Action act)
         {
-            return Core.SpecificationContext.When( message, act );
+            return Core.ScenarioContext.When( message, act );
         }
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="assert">The action that will verify the expectation.</param>
-        public static IScenarioPrimitive Assert(this string message, Action assert)
+        public static IStep Assert(this string message, Action assert)
         {
-            return Core.SpecificationContext.ThenInIsolation( message, assert );
+            return Core.ScenarioContext.ThenInIsolation( message, assert );
         }
 
         /// <summary>
@@ -82,9 +82,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="observation">The action that will verify the expectation.</param>
-        public static IScenarioPrimitive Observation(this string message, Action observation)
+        public static IStep Observation(this string message, Action observation)
         {
-            return Core.SpecificationContext.Then( message, observation );
+            return Core.ScenarioContext.Then( message, observation );
         }
 
         /// <summary>
@@ -92,9 +92,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="skippedAction">The action that will verify the expectation.</param>
-        public static IScenarioPrimitive Todo(this string message, Action skippedAction)
+        public static IStep Todo(this string message, Action skippedAction)
         {
-            return Core.SpecificationContext.ThenSkip( message, skippedAction );
+            return Core.ScenarioContext.ThenSkip( message, skippedAction );
         }
     }
 }
