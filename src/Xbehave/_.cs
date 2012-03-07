@@ -12,7 +12,7 @@ namespace Xbehave
     using Xbehave.Naming;
 
     /// <summary>
-    /// Provides fluent specification syntax with auto-generated specification names.
+    /// Provides a scenario step syntax an auto-generated step name.
     /// </summary>
     public static class _
     {
