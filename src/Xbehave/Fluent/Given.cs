@@ -6,16 +6,16 @@ namespace Xbehave.Fluent
 {
     internal class Given : IGiven
     {
-        private readonly ISpecificationPrimitive spec;
+        private readonly IScenarioPrimitive spec;
 
-        public Given(ISpecificationPrimitive spec)
+        public Given(IScenarioPrimitive spec)
         {
             this.spec = spec;
         }
 
-        public ISpecificationPrimitive WithTimeout(int timeoutMs)
+        public IScenarioPrimitive WithTimeout(int millisecondsTimeout)
         {
-            return this.spec.WithTimeout(timeoutMs);
+            return this.spec.WithTimeout(millisecondsTimeout);
         }
     }
 }

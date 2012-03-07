@@ -10,6 +10,8 @@ using System.Linq;
 
 namespace Xbehave
 {
+    using Xbehave.Fluent;
+
     /// <summary>
     /// Provides extensions for a fluent specification syntax
     /// </summary>
@@ -22,7 +24,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish the context.</param>
-        public static ISpecificationPrimitive Context( this string message, Action arrange )
+        public static IScenarioPrimitive Context(this string message, Action arrange)
         {
             return Core.SpecificationContext.Given( message,
                                           () =>
@@ -48,7 +50,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish and return the context for this test.</param>
-        public static ISpecificationPrimitive ContextFixture( this string message, ContextDelegate arrange )
+        public static IScenarioPrimitive ContextFixture(this string message, ContextDelegate arrange)
         {
             return Core.SpecificationContext.Given( message, arrange );
         }
@@ -58,7 +60,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the action.</param>
         /// <param name="act">The action to perform.</param>
-        public static ISpecificationPrimitive Do( this string message, Action act )
+        public static IScenarioPrimitive Do(this string message, Action act)
         {
             return Core.SpecificationContext.When( message, act );
         }
@@ -69,7 +71,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="assert">The action that will verify the expectation.</param>
-        public static ISpecificationPrimitive Assert( this string message, Action assert )
+        public static IScenarioPrimitive Assert(this string message, Action assert)
         {
             return Core.SpecificationContext.ThenInIsolation( message, assert );
         }
@@ -80,7 +82,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="observation">The action that will verify the expectation.</param>
-        public static ISpecificationPrimitive Observation( this string message, Action observation )
+        public static IScenarioPrimitive Observation(this string message, Action observation)
         {
             return Core.SpecificationContext.Then( message, observation );
         }
@@ -90,7 +92,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="skippedAction">The action that will verify the expectation.</param>
-        public static ISpecificationPrimitive Todo( this string message, Action skippedAction )
+        public static IScenarioPrimitive Todo(this string message, Action skippedAction)
         {
             return Core.SpecificationContext.ThenSkip( message, skippedAction );
         }

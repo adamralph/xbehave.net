@@ -8,6 +8,7 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using Xbehave.Fluent;
     using Xunit.Sdk;
 
     /// <summary>
@@ -38,7 +39,7 @@ namespace Xbehave
             [ThreadStatic]
             private static List<Action> exceptions;
 
-            public static ISpecificationPrimitive Given(string message, ContextDelegate arrange)
+            public static IScenarioPrimitive Given(string message, ContextDelegate arrange)
             {
                 EnsureThreadStaticInitialized();
 
@@ -54,7 +55,7 @@ namespace Xbehave
                 return given;
             }
 
-            public static ISpecificationPrimitive When(string message, Action action)
+            public static IScenarioPrimitive When(string message, Action action)
             {
                 EnsureThreadStaticInitialized();
 
@@ -70,7 +71,7 @@ namespace Xbehave
                 return when;
             }
 
-            public static ISpecificationPrimitive ThenInIsolation(string message, Action assert)
+            public static IScenarioPrimitive ThenInIsolation(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
@@ -80,7 +81,7 @@ namespace Xbehave
                 return primitive;
             }
 
-            public static ISpecificationPrimitive Then(string message, Action assert)
+            public static IScenarioPrimitive Then(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
@@ -90,7 +91,7 @@ namespace Xbehave
                 return primitive;
             }
 
-            public static ISpecificationPrimitive ThenSkip(string message, Action assert)
+            public static IScenarioPrimitive ThenSkip(string message, Action assert)
             {
                 EnsureThreadStaticInitialized();
 
@@ -226,12 +227,12 @@ namespace Xbehave
         {
             public static void Execute(SpecificationPrimitive<Action> primitive)
             {
-                if (primitive.TimeoutMs > 0)
+                if (primitive.MillisecondsTimeout > 0)
                 {
                     var result = primitive.Action.BeginInvoke(null, null);
-                    if (!result.AsyncWaitHandle.WaitOne(primitive.TimeoutMs))
+                    if (!result.AsyncWaitHandle.WaitOne(primitive.MillisecondsTimeout))
                     {
-                        throw new Xunit.Sdk.TimeoutException(primitive.TimeoutMs);
+                        throw new Xunit.Sdk.TimeoutException(primitive.MillisecondsTimeout);
                     }
                     else
                     {
@@ -246,12 +247,12 @@ namespace Xbehave
 
             public static IDisposable Execute(SpecificationPrimitive<ContextDelegate> primitive)
             {
-                if (primitive.TimeoutMs > 0)
+                if (primitive.MillisecondsTimeout > 0)
                 {
                     var result = primitive.Action.BeginInvoke(null, null);
-                    if (!result.AsyncWaitHandle.WaitOne(primitive.TimeoutMs))
+                    if (!result.AsyncWaitHandle.WaitOne(primitive.MillisecondsTimeout))
                     {
-                        throw new Xunit.Sdk.TimeoutException(primitive.TimeoutMs);
+                        throw new Xunit.Sdk.TimeoutException(primitive.MillisecondsTimeout);
                     }
                     else
                     {
@@ -265,11 +266,11 @@ namespace Xbehave
             }
         }
 
-        private class SpecificationPrimitive<T> : ISpecificationPrimitive
+        private class SpecificationPrimitive<T> : IScenarioPrimitive
         {
             private readonly string message;
             private readonly T action;
-            private int timeoutMs;
+            private int millisecondsTimeout;
 
             public SpecificationPrimitive(string message, T action)
             {
@@ -297,14 +298,14 @@ namespace Xbehave
                 get { return this.action; }
             }
 
-            public int TimeoutMs
+            public int MillisecondsTimeout
             {
-                get { return this.timeoutMs; }
+                get { return this.millisecondsTimeout; }
             }
 
-            public ISpecificationPrimitive WithTimeout(int timeoutMs)
+            public IScenarioPrimitive WithTimeout(int millisecondsTimeout)
             {
-                this.timeoutMs = timeoutMs;
+                this.millisecondsTimeout = millisecondsTimeout;
                 return this;
             }
         }
@@ -463,6 +464,7 @@ namespace Xbehave
             }
         }
 
+        [Serializable]
         private class GivenOrWhenFailedException : Exception
         {
             public GivenOrWhenFailedException(string message)

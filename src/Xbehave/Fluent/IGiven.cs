@@ -7,7 +7,7 @@ namespace Xbehave.Fluent
     /// <summary>
     /// Represents the arrangement for a specification.
     /// </summary>
-    public interface IGiven : ISpecificationPrimitive
+    public interface IGiven : IScenarioPrimitive
     {
     }
 }

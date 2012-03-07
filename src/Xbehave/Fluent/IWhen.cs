@@ -7,7 +7,7 @@ namespace Xbehave.Fluent
     /// <summary>
     /// Represents the act for a specification.
     /// </summary>
-    public interface IWhen : ISpecificationPrimitive
+    public interface IWhen : IScenarioPrimitive
     {
     }
 }

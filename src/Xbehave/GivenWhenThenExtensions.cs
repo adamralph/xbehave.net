@@ -94,7 +94,7 @@ namespace Xbehave
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
         /// <returns>An instance of <see cref="ISpecificationPrimitive"/>.</returns>
         [Obsolete("Use Given(Func<IDisposable>) instead.")]
-        public static ISpecificationPrimitive GivenDisposable(this string message, ContextDelegate arrange)
+        public static IScenarioPrimitive GivenDisposable(this string message, ContextDelegate arrange)
         {
             return message.ContextFixture(arrange);
         }
