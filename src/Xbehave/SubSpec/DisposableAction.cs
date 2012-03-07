@@ -9,7 +9,7 @@ namespace Xbehave
     /// <summary>
     /// This member is deprecated (was part of the original SubSpec API).
     /// </summary>
-    [Obsolete("Given(Action arrange, Action dispose) instead.")]
+    [Obsolete("Use Given(Action arrange, Action dispose) instead.")]
     public class DisposableAction : IDisposable
     {
         /// <summary>
