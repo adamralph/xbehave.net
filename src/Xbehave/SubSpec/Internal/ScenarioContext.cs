@@ -96,7 +96,7 @@ namespace Xbehave
             return primitive;
         }
 
-        // TODO: address code analysis warning
+        // TODO: address DoNotCatchGeneralExceptionTypes
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
         public static IEnumerable<ITestCommand> SafelyEnumerateTestCommands(IMethodInfo method, Action<IMethodInfo> registerPrimitives)
         {

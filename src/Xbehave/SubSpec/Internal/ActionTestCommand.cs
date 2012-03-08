@@ -18,7 +18,7 @@ namespace Xbehave
             this.action = action;
         }
 
-        // TODO: address code analysis warning
+        // TODO: address DoNotCatchGeneralExceptionTypes
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
         public override MethodResult Execute(object testClass)
         {
