@@ -84,10 +84,10 @@
     <Compile Include="ScenarioDataAttribute.cs" />
     <Compile Include="SubSpec\Deprecated\DisposableAction.cs" />
     <Compile Include="SubSpec\Deprecated\SpecificationAttribute.cs" />
-    <Compile Include="SubSpec\SpecificationExtensions.cs" />
+    <Compile Include="SubSpec\Deprecated\SpecificationExtensions.cs" />
     <Compile Include="SubSpec\Internal\Core.cs" />
     <Compile Include="SubSpec\Deprecated\ContextDelegate.cs" />
-    <Compile Include="SubSpec\ThesisAttribute.cs" />
+    <Compile Include="SubSpec\Deprecated\ThesisAttribute.cs" />
     <Compile Include="Fluent\Then.cs" />
     <Compile Include="Fluent\IThen.cs" />
     <Compile Include="Fluent\Given.cs" />

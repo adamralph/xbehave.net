@@ -48,23 +48,22 @@ namespace Xbehave
             return Core.ScenarioContext.SafelyEnumerateTestCommands(method, RegisterSteps);
         }
 
-        internal IEnumerable<ITestCommand> GetTheoryCommands(IMethodInfo method)
+        internal static IEnumerable<ITestCommand> GetTheoryCommands(IMethodInfo method, IEnumerable<ITestCommand> theoryTestCommands)
         {
-            var theoryTestCommands = base.EnumerateTestCommands(method);
             var commands = new List<ITestCommand>();
-            foreach (var item in theoryTestCommands)
+            foreach (var command in theoryTestCommands)
             {
-                if (item is TheoryCommand)
+                if (command is TheoryCommand)
                 {
                     var itemCommands = Core.ScenarioContext.SafelyEnumerateTestCommands(
-                        method, m => item.Execute(item.ShouldCreateInstance ? Activator.CreateInstance(method.MethodInfo.ReflectedType) : null));
+                        method, m => command.Execute(command.ShouldCreateInstance ? Activator.CreateInstance(method.MethodInfo.ReflectedType) : null));
 
                     commands.AddRange(itemCommands);
                 }
                 else
                 {
                     commands.Clear();
-                    commands.Add(item);
+                    commands.Add(command);
                     break;
                 }
             }
@@ -80,7 +79,15 @@ namespace Xbehave
         /// <returns>The test commands which will execute the test runs for the given method.</returns>
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            return method.MethodInfo.GetParameters().Any() ? this.GetTheoryCommands(method) : GetFactCommands(method);
+            if (method.MethodInfo.GetParameters().Any())
+            {
+                var theoryTestCommands = base.EnumerateTestCommands(method);
+                return GetTheoryCommands(method, theoryTestCommands);
+            }
+            else
+            {
+                return GetFactCommands(method);
+            }
         }
 
         private static void RegisterSteps(IMethodInfo method)

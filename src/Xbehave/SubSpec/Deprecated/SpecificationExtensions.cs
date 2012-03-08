@@ -1,37 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Xunit.Sdk;
-using System.Xml;
-using System.Diagnostics;
-using System.Reflection;
-using System.Linq;
+﻿// <copyright file="SpecificationExtensions.cs" company="Adam Ralph">
+//  Copyright (c) Adam Ralph. All rights reserved.
+// </copyright>
 
 namespace Xbehave
 {
+    using System;
+
     using Xbehave.Fluent;
 
     /// <summary>
     /// Provides extensions for a fluent specification syntax
     /// </summary>
+    [Obsolete("Use StringExtensions instead.")]
     public static class SpecificationExtensions
     {
-        private const string IDisposableHintMessaage = "Your context implements IDisposable. Use ContextFixture() to have its lifecycle managed by Xbehave.";
-
         /// <summary>
         /// Records a context setup for this specification.
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish the context.</param>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        [Obsolete("Use Given() instead.")]
         public static IStep Context(this string message, Action arrange)
         {
-            return Core.ScenarioContext.Given( message,
-                                          () =>
-                                          {
-                                              arrange();
-                                              return DisposableAction.None;
-                                          } );
+            return Core.ScenarioContext.Given(
+                message,
+                () =>
+                {
+                    arrange();
+                    return DisposableAction.None;
+                });
         }
 
         /// <summary>
@@ -39,10 +37,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish and return the context for this test.</param>
-        [Obsolete( IDisposableHintMessaage )]
-        public static void Context( this string message, ContextDelegate arrange )
+        [Obsolete("Use Given() instead.")]
+        public static void Context(this string message, ContextDelegate arrange)
         {
-            throw new InvalidOperationException( IDisposableHintMessaage );
+            throw new InvalidOperationException("Use Given() instead.");
         }
 
         /// <summary>
@@ -50,9 +48,11 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish and return the context for this test.</param>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        [Obsolete("Use Given() instead.")]
         public static IStep ContextFixture(this string message, ContextDelegate arrange)
         {
-            return Core.ScenarioContext.Given( message, arrange );
+            return Core.ScenarioContext.Given(message, arrange);
         }
 
         /// <summary>
@@ -60,9 +60,11 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the action.</param>
         /// <param name="act">The action to perform.</param>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        [Obsolete("Use When() instead.")]
         public static IStep Do(this string message, Action act)
         {
-            return Core.ScenarioContext.When( message, act );
+            return Core.ScenarioContext.When(message, act);
         }
 
         /// <summary>
@@ -71,9 +73,11 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="assert">The action that will verify the expectation.</param>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        [Obsolete("Use ThenInIsolation() instead.")]
         public static IStep Assert(this string message, Action assert)
         {
-            return Core.ScenarioContext.ThenInIsolation( message, assert );
+            return Core.ScenarioContext.ThenInIsolation(message, assert);
         }
 
         /// <summary>
@@ -82,9 +86,11 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="observation">The action that will verify the expectation.</param>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        [Obsolete("Use Then() instead.")]
         public static IStep Observation(this string message, Action observation)
         {
-            return Core.ScenarioContext.Then( message, observation );
+            return Core.ScenarioContext.Then(message, observation);
         }
 
         /// <summary>
@@ -92,9 +98,11 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="skippedAction">The action that will verify the expectation.</param>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        [Obsolete("Use ThenSkip() instead.")]
         public static IStep Todo(this string message, Action skippedAction)
         {
-            return Core.ScenarioContext.ThenSkip( message, skippedAction );
+            return Core.ScenarioContext.ThenSkip(message, skippedAction);
         }
     }
 }
