@@ -28,7 +28,7 @@ namespace Xbehave
                 () =>
                 {
                     arrange();
-                    return DisposableAction.None;
+                    return Disposable.Empty;
                 });
 
             return new Given(step);
@@ -109,7 +109,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhen"/>.</returns>
         public static IWhen When(this string message, Action act)
         {
-            return new When(message.Do(act));
+            return new When(ScenarioContext.When(message, act));
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen ThenInIsolation(this string message, Action assert)
         {
-            return new Then(message.Assert(assert));
+            return new Then(ScenarioContext.ThenInIsolation(message, assert));
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen Then(this string message, Action assert)
         {
-            return new Then(message.Observation(assert));
+            return new Then(ScenarioContext.Then(message, assert));
         }
 
         /// <summary>
@@ -146,11 +146,13 @@ namespace Xbehave
         /// </remarks>
         public static IThen ThenSkip(this string message, Action assert)
         {
-            return new Then(message.Todo(assert));
+            return new Then(ScenarioContext.ThenSkip(message, assert));
         }
 
         private class Disposable : IDisposable
         {
+            private static readonly Disposable empty = new Disposable(() => { });
+
             private readonly Action dispose;
             private readonly IEnumerable<IDisposable> disposables;
 
@@ -162,6 +164,11 @@ namespace Xbehave
             public Disposable(IEnumerable<IDisposable> disposables)
             {
                 this.disposables = disposables;
+            }
+
+            public static Disposable Empty
+            {
+                get { return empty; }
             }
 
             public void Dispose()
