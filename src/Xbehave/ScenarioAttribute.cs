@@ -45,7 +45,7 @@ namespace Xbehave
 
         internal static IEnumerable<ITestCommand> GetFactCommands(IMethodInfo method)
         {
-            return Core.ScenarioContext.SafelyEnumerateTestCommands(method, RegisterSteps);
+            return ScenarioContext.SafelyEnumerateTestCommands(method, RegisterSteps);
         }
 
         internal static IEnumerable<ITestCommand> GetTheoryCommands(IMethodInfo method, IEnumerable<ITestCommand> theoryTestCommands)
@@ -55,7 +55,7 @@ namespace Xbehave
             {
                 if (command is TheoryCommand)
                 {
-                    var itemCommands = Core.ScenarioContext.SafelyEnumerateTestCommands(
+                    var itemCommands = ScenarioContext.SafelyEnumerateTestCommands(
                         method, m => command.Execute(command.ShouldCreateInstance ? Activator.CreateInstance(method.MethodInfo.ReflectedType) : null));
 
                     commands.AddRange(itemCommands);

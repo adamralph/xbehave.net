@@ -22,7 +22,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange)
         {
-            var step = Core.ScenarioContext.Given(
+            var step = ScenarioContext.Given(
                 message,
                 () =>
                 {
@@ -41,7 +41,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Func<IDisposable> arrange)
         {
-            var step = Core.ScenarioContext.Given(
+            var step = ScenarioContext.Given(
                 message,
                 () => arrange());
 
@@ -56,7 +56,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
-            var step = Core.ScenarioContext.Given(
+            var step = ScenarioContext.Given(
                 message,
                 () =>
                 {
@@ -76,7 +76,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange, Action dispose)
         {
-            var step = Core.ScenarioContext.Given(
+            var step = ScenarioContext.Given(
                 message,
                 () =>
                 {
