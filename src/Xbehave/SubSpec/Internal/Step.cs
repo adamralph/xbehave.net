@@ -1,4 +1,4 @@
-﻿// <copyright file="Core.cs" company="Adam Ralph">
+﻿// <copyright file="Step.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
