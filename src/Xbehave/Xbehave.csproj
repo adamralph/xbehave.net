@@ -85,7 +85,14 @@
     <Compile Include="SubSpec\Deprecated\DisposableAction.cs" />
     <Compile Include="SubSpec\Deprecated\SpecificationAttribute.cs" />
     <Compile Include="SubSpec\Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="SubSpec\Internal\Core.cs" />
+    <Compile Include="SubSpec\Internal\EitherGivenOrWhenFailedException.cs" />
+    <Compile Include="SubSpec\Internal\ThenExecutor.cs" />
+    <Compile Include="SubSpec\Internal\ThenInIsolationExecutor.cs" />
+    <Compile Include="SubSpec\Internal\ExceptionTestCommand.cs" />
+    <Compile Include="SubSpec\Internal\ActionTestCommand.cs" />
+    <Compile Include="SubSpec\Internal\Step.cs" />
+    <Compile Include="SubSpec\Internal\StepExecutor.cs" />
+    <Compile Include="SubSpec\Internal\ScenarioContext.cs" />
     <Compile Include="SubSpec\Deprecated\ContextDelegate.cs" />
     <Compile Include="SubSpec\Deprecated\ThesisAttribute.cs" />
     <Compile Include="Fluent\Then.cs" />
