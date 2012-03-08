@@ -5,10 +5,12 @@
 namespace Xbehave.Naming
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Text.RegularExpressions;
 
     internal static class StringExtensions
     {
+        [SuppressMessage("Microsoft.Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "The result is used for display purposes only.")]
         public static string ToToken(this string text)
         {
             return Regex.Replace(text, "([A-Z])", " $1", RegexOptions.Compiled).Trim().ToLowerInvariant();

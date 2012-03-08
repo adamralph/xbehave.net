@@ -2,6 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 [assembly: AssemblyConfiguration("")]
@@ -13,3 +14,4 @@ using System.Reflection;
 [assembly: AssemblyVersion("0.8.0.0")]
 [assembly: AssemblyFileVersion("0.8.0.0")]
 [assembly: AssemblyInformationalVersion("0.8.0-a")]
+[assembly: SuppressMessage("Microsoft.Usage", "CA2243:AttributeStringLiteralsShouldParseCorrectly")]

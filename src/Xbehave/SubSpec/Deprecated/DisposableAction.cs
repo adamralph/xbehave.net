@@ -5,6 +5,7 @@
 namespace Xbehave
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// This member is deprecated (was part of the original SubSpec API).
@@ -15,6 +16,7 @@ namespace Xbehave
         /// <summary>
         /// This member is deprecated (was part of the original SubSpec API).
         /// </summary>
+        [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes", Justification = "The reference type is immutable.")]
         public static readonly DisposableAction None = new DisposableAction(() => { });
 
         private readonly Action action;

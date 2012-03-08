@@ -5,6 +5,7 @@
 namespace Xbehave
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Xunit.Sdk;
 
     internal class ActionTestCommand : TestCommand, ITestCommand
@@ -17,6 +18,8 @@ namespace Xbehave
             this.action = action;
         }
 
+        // TODO: address code analysis warning
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
         public override MethodResult Execute(object testClass)
         {
             try

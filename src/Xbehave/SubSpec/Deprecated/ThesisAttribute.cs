@@ -14,6 +14,7 @@ namespace Xbehave
     /// </summary>
     [Obsolete("Use ScenarioAttribute instead.")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [CLSCompliant(false)]
     public class ThesisAttribute : TheoryAttribute
     {
         /// <summary>

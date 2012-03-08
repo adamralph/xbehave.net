@@ -5,6 +5,7 @@
 namespace Xbehave
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Xbehave.Fluent;
 
     internal class Step<T> : IStep
@@ -44,6 +45,11 @@ namespace Xbehave
             get { return this.millisecondsTimeout; }
         }
 
+        [SuppressMessage(
+            "Microsoft.Maintainability",
+            "CA1500:VariableNamesShouldNotMatchFieldNames",
+            MessageId = "millisecondsTimeout",
+            Justification = "StyleCop enforces the 'this.' prefix when referencing an instance field.")]
         public IStep WithTimeout(int millisecondsTimeout)
         {
             this.millisecondsTimeout = millisecondsTimeout;

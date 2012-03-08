@@ -4,9 +4,12 @@
 
 namespace Xbehave.Fluent
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// The arrangement of a scenario.
     /// </summary>
+    [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Required for fluent syntax.")]
     public interface IGiven : IStep
     {
     }

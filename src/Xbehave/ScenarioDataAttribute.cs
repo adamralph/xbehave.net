@@ -4,6 +4,8 @@
 
 namespace Xbehave
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
     using Xunit.Extensions;
 
     /// <summary>
@@ -17,6 +19,9 @@ namespace Xbehave
     /// <see cref="Xunit.Extensions.ExcelDataAttribute"/> or
     /// <see cref="Xunit.Extensions.PropertyDataAttribute"/>.
     /// </summary>
+    [CLSCompliant(false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
     public class ScenarioDataAttribute : InlineDataAttribute
     {
         /// <summary>

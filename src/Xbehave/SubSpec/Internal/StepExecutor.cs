@@ -13,7 +13,9 @@ namespace Xbehave
             if (primitive.MillisecondsTimeout > 0)
             {
                 var result = primitive.Action.BeginInvoke(null, null);
-                if (!result.AsyncWaitHandle.WaitOne(primitive.MillisecondsTimeout))
+
+                // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
+                if (!result.AsyncWaitHandle.WaitOne(primitive.MillisecondsTimeout, false))
                 {
                     throw new Xunit.Sdk.TimeoutException(primitive.MillisecondsTimeout);
                 }
@@ -33,7 +35,9 @@ namespace Xbehave
             if (primitive.MillisecondsTimeout > 0)
             {
                 var result = primitive.Action.BeginInvoke(null, null);
-                if (!result.AsyncWaitHandle.WaitOne(primitive.MillisecondsTimeout))
+
+                // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
+                if (!result.AsyncWaitHandle.WaitOne(primitive.MillisecondsTimeout, false))
                 {
                     throw new Xunit.Sdk.TimeoutException(primitive.MillisecondsTimeout);
                 }

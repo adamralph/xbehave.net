@@ -6,6 +6,7 @@ namespace Xbehave
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     using Xbehave.Fluent;
 
@@ -54,6 +55,7 @@ namespace Xbehave
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IGiven Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
             var step = ScenarioContext.Given(

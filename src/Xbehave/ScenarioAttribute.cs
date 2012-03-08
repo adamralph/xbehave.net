@@ -6,6 +6,7 @@ namespace Xbehave
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
 
@@ -23,8 +24,10 @@ namespace Xbehave
     /// <see cref="Xunit.Extensions.SqlServerDataAttribute"/>,
     /// <see cref="Xunit.Extensions.ExcelDataAttribute"/> or
     /// <see cref="Xunit.Extensions.PropertyDataAttribute"/>.
-    /// </summary>
+    /// </summary>    
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [CLSCompliant(false)]
+    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
     public class ScenarioAttribute : TheoryAttribute
     {
         /// <summary>
@@ -79,6 +82,11 @@ namespace Xbehave
         /// <returns>The test commands which will execute the test runs for the given method.</returns>
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
+            if (method == null)
+            {
+                throw new ArgumentNullException("method");
+            }
+
             if (method.MethodInfo.GetParameters().Any())
             {
                 var theoryTestCommands = base.EnumerateTestCommands(method);

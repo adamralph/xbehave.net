@@ -8,6 +8,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		nuget.config = nuget.config
 		Settings.StyleCop = Settings.StyleCop
+		Xbehave.CustomDictionary.xml = Xbehave.CustomDictionary.xml
+		Xbehave.ruleset = Xbehave.ruleset
 		Xbehave.snk = Xbehave.snk
 	EndProjectSection
 EndProject

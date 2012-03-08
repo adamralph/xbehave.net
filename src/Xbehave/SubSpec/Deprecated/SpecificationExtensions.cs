@@ -5,7 +5,7 @@
 namespace Xbehave
 {
     using System;
-
+    using System.Diagnostics.CodeAnalysis;
     using Xbehave.Fluent;
 
     /// <summary>
@@ -37,6 +37,8 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish and return the context for this test.</param>
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "message", Justification = "The member is deprecated and will be removed.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "arrange", Justification = "The member is deprecated and will be removed.")]
         [Obsolete("Use Given() instead.")]
         public static void Context(this string message, ContextDelegate arrange)
         {

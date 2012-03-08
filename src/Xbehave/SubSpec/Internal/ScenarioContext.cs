@@ -6,6 +6,8 @@ namespace Xbehave
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using Xbehave.Fluent;
     using Xunit.Sdk;
 
@@ -94,6 +96,8 @@ namespace Xbehave
             return primitive;
         }
 
+        // TODO: address code analysis warning
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
         public static IEnumerable<ITestCommand> SafelyEnumerateTestCommands(IMethodInfo method, Action<IMethodInfo> registerPrimitives)
         {
             try
@@ -104,6 +108,7 @@ namespace Xbehave
             catch (Exception ex)
             {
                 var message = string.Format(
+                    CultureInfo.InvariantCulture,
                     "An exception was thrown while building tests from scenario {0}.{1}:\r\n{2}",
                     method.TypeName,
                     method.Name,

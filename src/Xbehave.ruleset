@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Xbehave" ToolsVersion="10.0">
+  <Include Path="allrules.ruleset" Action="Default" />
+</RuleSet>
