@@ -10,7 +10,7 @@ namespace Xbehave.Samples.Net35
 
     public class Covariance
     {
-        [Specification]
+        [Scenario]
         public static void WorkaroundLackOfCovariance()
         {
             var disposable = default(ImplicitDisposable);
@@ -22,7 +22,7 @@ namespace Xbehave.Samples.Net35
                 .ThenInIsolation(() => true.Should().Be(false));
         }
 
-        [Specification]
+        [Scenario]
         public static void Inline()
         {
             var disposable = default(ImplicitDisposable);

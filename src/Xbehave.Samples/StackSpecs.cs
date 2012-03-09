@@ -12,7 +12,7 @@ namespace Xbehave.Samples
 
     public class StackSpecs
     {
-        [Specification]
+        [Scenario]
         public void Push()
         {
             var target = default(Stack<int>);
