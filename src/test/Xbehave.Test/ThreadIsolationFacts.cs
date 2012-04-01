@@ -29,15 +29,15 @@ public class ThreadIsolationFacts
 
     private void SetUpSpecification()
     {
-        "".Context( () => { } );
-        "".Do( () => { } );
+        "".Given( () => { } );
+        "".When( () => { } );
         "".Assert( () => { } );
     }
 
     [Fact]
     public void DoEnsuresThreadStatic()
     {
-        VerifyConcurrentExecution( () => "".Do( () => { } ) );
+        VerifyConcurrentExecution( () => "".When( () => { } ) );
     }
 
     [Fact]

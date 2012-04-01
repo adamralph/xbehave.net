@@ -6,17 +6,17 @@ using System.Threading;
 
 public class SubSpecDemo
 {
-    [Specification]
+    [Scenario]
     public void SpecificationSyntax()
     {
         var sut = default( Stack<int> );
         "Given a new stack"
-            .Context(
+            .Given(
             () => sut = new Stack<int>() );
 
         const int element = 11;
         "with an element pushed onto it"
-            .Do(
+            .When(
             () => sut.Push( element ) );
 
         "expect the stack is not empty"
@@ -36,20 +36,20 @@ public class SubSpecDemo
             () => Assert.Equal( element, sut.Pop() ) );
     }
 
-    [Specification]
+    [Scenario]
     public void FluentTimeouts()
     {
         // You can have individual timeouts per specification primitive
         // Change the sleep time or timeouts to see them fail
-        "Given a context that should not take longer than 1000ms  to establish".Context( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
-        "When we do something that should not take longer than 1000ms ".Do( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
+        "Given a context that should not take longer than 1000ms  to establish".Given( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
+        "When we do something that should not take longer than 1000ms ".When( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
         "Assert something within 1000ms ".Assert( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
         "Observe something within 1000ms ".Observation( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
         "Observe something within 1001ms".Observation( () => Thread.Sleep( 11 ) ).WithTimeout( 10001 );
     }
 
     
-    //[Specification]
+    //[Scenario]
     //public void ComppositeFixtures()
     //{
     //    // You can have a Composite Fixture made up of several items easily
@@ -71,7 +71,7 @@ public class SubSpecDemo
     //    // foo diposed
     //}
 
-    //[Specification]
+    //[Scenario]
     //public void ExpressionSyntax()
     //{
     //    const int element = 11;
