@@ -1,66 +1,72 @@
-﻿using System;
-using Xunit;
-using System.Threading;
-using Xbehave;
+﻿// <copyright file="ThreadIsolationFacts.cs" company="Adam Ralph">
+//  Copyright (c) Adam Ralph. All rights reserved.
+// </copyright>
 
-public class ThreadIsolationFacts
+namespace Xbehave.Test
 {
-    [Fact]
-    public void CanSetUpSpecificationConcurrently()
-    {
-        VerifyConcurrentExecution( SetUpSpecification );
-    }
+    using System.Threading;
+    using Xbehave;
+    using Xunit;
 
-    private void VerifyConcurrentExecution( ThreadStart action )
+    public static class ThreadIsolationFacts
     {
-        Assert.DoesNotThrow( () =>
+        [Fact]
+        public static void CanSetUpSpecificationConcurrently()
         {
-            // We could use the Task API here but we want to be explicit about getting two concurrent, physical threads
-            Thread a = new Thread( action );
-            Thread b = new Thread( action );
+            VerifyConcurrentExecution(SetUpSpecification);
+        }
 
-            a.Start();
-            b.Start();
+        [Fact]
+        public static void DoEnsuresThreadStatic()
+        {
+            VerifyConcurrentExecution(() => "foo".When(() => { }));
+        }
 
-            a.Join();
-            b.Join();
-        } );
-    }
+        [Fact]
+        public static void AssertEnsuresThreadStatic()
+        {
+            VerifyConcurrentExecution(() => "foo".ThenInIsolation(() => { }));
+        }
 
-    private void SetUpSpecification()
-    {
-        "".Given( () => { } );
-        "".When( () => { } );
-        "".Assert( () => { } );
-    }
+        [Fact]
+        public static void ObservationEnsuresThreadStatic()
+        {
+            VerifyConcurrentExecution(() => "foo".Then(() => { }));
+        }
 
-    [Fact]
-    public void DoEnsuresThreadStatic()
-    {
-        VerifyConcurrentExecution( () => "".When( () => { } ) );
-    }
+        [Fact]
+        public static void TodoEnsuresThreadStatic()
+        {
+            VerifyConcurrentExecution(() => "foo".ThenSkip(() => { }));
+        }
 
-    [Fact]
-    public void AssertEnsuresThreadStatic()
-    {
-        VerifyConcurrentExecution( () => "".Assert( () => { } ) );
-    }
+        [Fact]
+        public static void CanEnumerateTestCommandsOfEmptySpecificationConcurrently()
+        {
+            VerifyConcurrentExecution(() => Xbehave.ScenarioContext.SafelyEnumerateTestCommands(null, _ => { }));
+        }
 
-    [Fact]
-    public void ObservationEnsuresThreadStatic()
-    {
-        VerifyConcurrentExecution( () => "".Observation( () => { } ) );
-    }
+        private static void VerifyConcurrentExecution(ThreadStart action)
+        {
+            Assert.DoesNotThrow(() =>
+            {
+                // We could use the Task API here but we want to be explicit about getting two concurrent, physical threads
+                Thread a = new Thread(action);
+                Thread b = new Thread(action);
 
-    [Fact]
-    public void TodoEnsuresThreadStatic()
-    {
-        VerifyConcurrentExecution( () => "".Todo( () => { } ) );
-    }
+                a.Start();
+                b.Start();
 
-    [Fact]
-    public void CanEnumerateTestCommandsOfEmptySpecificationConcurrently()
-    {
-        VerifyConcurrentExecution( () => Xbehave.ScenarioContext.SafelyEnumerateTestCommands( null, _ => { } ) );
+                a.Join();
+                b.Join();
+            });
+        }
+
+        private static void SetUpSpecification()
+        {
+            "foo".Given(() => { });
+            "foo".When(() => { });
+            "foo".ThenInIsolation(() => { });
+        }
     }
 }
