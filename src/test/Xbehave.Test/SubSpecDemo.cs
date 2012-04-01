@@ -1,88 +1,91 @@
-using System;
-using Xunit;
-using Xbehave;
-using System.Collections.Generic;
-using System.Threading;
+// <copyright file="SubSpecDemo.cs" company="Adam Ralph">
+//  Copyright (c) Adam Ralph. All rights reserved.
+// </copyright>
 
-public class SubSpecDemo
-{
-    [Scenario]
-    public void SpecificationSyntax()
-    {
-        var sut = default( Stack<int> );
-        "Given a new stack"
-            .Given(
-            () => sut = new Stack<int>() );
+////using System;
+////using Xunit;
+////using Xbehave;
+////using System.Collections.Generic;
+////using System.Threading;
 
-        const int element = 11;
-        "with an element pushed onto it"
-            .When(
-            () => sut.Push( element ) );
+////public class SubSpecDemo
+////{
+////    [Scenario]
+////    public void SpecificationSyntax()
+////    {
+////        var sut = default( Stack<int> );
+////        "Given a new stack"
+////            .Given(
+////            () => sut = new Stack<int>() );
 
-        "expect the stack is not empty"
-            .Observation(
-            () => Assert.NotEmpty( sut ) );
+////        const int element = 11;
+////        "with an element pushed onto it"
+////            .When(
+////            () => sut.Push( element ) );
 
-        "expect peek gives us the top element"
-            .Observation(
-            () => Assert.Equal( element, sut.Peek() ) );
+////        "expect the stack is not empty"
+////            .Observation(
+////            () => Assert.NotEmpty( sut ) );
 
-        "expect pop gives us the top element"
-            .Assert(
-            () => Assert.Equal( element, sut.Pop() ) );
+////        "expect peek gives us the top element"
+////            .Observation(
+////            () => Assert.Equal( element, sut.Peek() ) );
 
-        "expect pop in another Assertions still gives us the top element"
-            .Assert(
-            () => Assert.Equal( element, sut.Pop() ) );
-    }
+////        "expect pop gives us the top element"
+////            .Assert(
+////            () => Assert.Equal( element, sut.Pop() ) );
 
-    [Scenario]
-    public void FluentTimeouts()
-    {
-        // You can have individual timeouts per specification primitive
-        // Change the sleep time or timeouts to see them fail
-        "Given a context that should not take longer than 1000ms  to establish".Given( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
-        "When we do something that should not take longer than 1000ms ".When( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
-        "Assert something within 1000ms ".Assert( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
-        "Observe something within 1000ms ".Observation( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
-        "Observe something within 1001ms".Observation( () => Thread.Sleep( 11 ) ).WithTimeout( 10001 );
-    }
+////        "expect pop in another Assertions still gives us the top element"
+////            .Assert(
+////            () => Assert.Equal( element, sut.Pop() ) );
+////    }
 
+////    [Scenario]
+////    public void FluentTimeouts()
+////    {
+////        // You can have individual timeouts per specification primitive
+////        // Change the sleep time or timeouts to see them fail
+////        "Given a context that should not take longer than 1000ms  to establish".Given( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
+////        "When we do something that should not take longer than 1000ms ".When( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
+////        "Assert something within 1000ms ".Assert( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
+////        "Observe something within 1000ms ".Observation( () => Thread.Sleep( 10 ) ).WithTimeout( 1000 );
+////        "Observe something within 1001ms".Observation( () => Thread.Sleep( 11 ) ).WithTimeout( 10001 );
+////    }
     
-    //[Scenario]
-    //public void ComppositeFixtures()
-    //{
-    //    // You can have a Composite Fixture made up of several items easily
-    //    var bar = default( IDisposable );
-    //    var foo = default( IDisposable );
+////    //[Scenario]
+////    //public void ComppositeFixtures()
+////    //{
+////    //    // You can have a Composite Fixture made up of several items easily
+////    //    var bar = default( IDisposable );
+////    //    var foo = default( IDisposable );
         
-    //    "Given a foo and a bar"
-    //        .ContextFixture(
-    //            () => foo = new DisposableAction( () => Console.WriteLine( "foo disposed" ) ),
-    //            () => bar = new DisposableAction( () => Console.WriteLine( "bar disposed" ) ) );
+////    //    "Given a foo and a bar"
+////    //        .ContextFixture(
+////    //            () => foo = new DisposableAction( () => Console.WriteLine( "foo disposed" ) ),
+////    //            () => bar = new DisposableAction( () => Console.WriteLine( "bar disposed" ) ) );
 
-    //    "observe foo exists"
-    //        .Observation( () => Assert.NotNull( foo ) );
-    //    "observe bar exists"
-    //        .Observation( () => Assert.NotNull( foo ) );
+////    //    "observe foo exists"
+////    //        .Observation( () => Assert.NotNull( foo ) );
+////    //    "observe bar exists"
+////    //        .Observation( () => Assert.NotNull( foo ) );
 
-    //    // Output: 
-    //    // bar disposed
-    //    // foo diposed
-    //}
+////    //    // Output: 
+////    //    // bar disposed
+////    //    // foo diposed
+////    //}
 
-    //[Scenario]
-    //public void ExpressionSyntax()
-    //{
-    //    const int element = 11;
+////    //[Scenario]
+////    //public void ExpressionSyntax()
+////    //{
+////    //    const int element = 11;
 
-    //    var spec = from sut in SpecificationExpression.Begin( () => new Stack<int>() )
-    //               where sut.Push( element )
-    //               select new Observations() 
-				//	{
-				//		() => Assert.NotEmpty(sut), 
-				//		() => Assert.Equal(element, sut.Peek()) 
-				//	};
-    //}
+////    //    var spec = from sut in SpecificationExpression.Begin( () => new Stack<int>() )
+////    //               where sut.Push( element )
+////    //               select new Observations() 
+////                //    {
+////                //        () => Assert.NotEmpty(sut), 
+////                //        () => Assert.Equal(element, sut.Peek()) 
+////                //    };
+////    //}
 
-}
+////}
