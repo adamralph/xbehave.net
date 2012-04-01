@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Linq.Expressions;
 
-namespace TestUtility
+namespace Xbehave.Test
 {
     internal static class StaticReflection
     {

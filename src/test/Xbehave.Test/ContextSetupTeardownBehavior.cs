@@ -2,8 +2,8 @@
 using Xbehave;
 using Xunit;
 using Xunit.Sdk;
-using TestUtility;
 using System.Collections;
+using Xbehave.Test;
 
 public class ContextSetupTeardownBehavior
 {

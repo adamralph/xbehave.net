@@ -69,7 +69,7 @@
     <Compile Include="SpecificationPrimitiveFacts.cs" />
     <Compile Include="SubSpecDemo.cs" />
     <Compile Include="ThreadIsolationFacts.cs" />
-    <Compile Include="Utils\StaticReflection.cs" />
+    <Compile Include="StaticReflection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave\Xbehave.csproj">
