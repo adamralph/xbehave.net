@@ -1,14 +1,18 @@
-﻿using System;
-using System.Reflection;
-using System.Linq.Expressions;
+﻿// <copyright file="StaticReflection.cs" company="Adam Ralph">
+//  Copyright (c) Adam Ralph. All rights reserved.
+// </copyright>
 
 namespace Xbehave.Test
 {
+    using System;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
     internal static class StaticReflection
     {
-        public static MethodInfo MethodOf( Expression<System.Action> expression )
+        public static MethodInfo MethodOf(Expression<Action> expression)
         {
-            MethodCallExpression body = (MethodCallExpression)expression.Body;
+            var body = (MethodCallExpression)expression.Body;
             return body.Method;
         }
     }
