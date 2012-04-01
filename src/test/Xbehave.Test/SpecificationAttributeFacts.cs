@@ -1,21 +1,26 @@
-﻿using System;
-using System.Linq;
-using Xunit;
-using Xbehave;
-using Xunit.Sdk;
-using FakeItEasy;
+﻿// <copyright file="SpecificationAttributeFacts.cs" company="Adam Ralph">
+//  Copyright (c) Adam Ralph. All rights reserved.
+// </copyright>
 
-public class SpecificationAttributeFacts
+namespace Xbehave.Test
 {
-	[Fact]
-	public void ReportsExceptionWhenFailingToEnumerateTestCommands()
-	{
-		SpecificationAttribute attribute = new SpecificationAttribute();
+    using FakeItEasy;
+    using Xbehave;
+    using Xunit;
+    using Xunit.Sdk;
 
-        var method = A.Fake<IMethodInfo>();
-        
-        var commands = attribute.CreateTestCommands(method);
+    public class SpecificationAttributeFacts
+    {
+        [Fact]
+        public void ReportsExceptionWhenFailingToEnumerateTestCommands()
+        {
+            var attribute = new ScenarioAttribute();
 
-		// Assert.IsAssignableFrom<SubSpec.Core.ExceptionTestCommand>(commands.Single().);
-	}
+            var method = A.Fake<IMethodInfo>();
+
+            var commands = attribute.CreateTestCommands(method);
+
+            // Assert.IsAssignableFrom<SubSpec.Core.ExceptionTestCommand>(commands.Single().);
+        }
+    }
 }
