@@ -62,15 +62,6 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Acceptance\ContextLifetime.cs" />
-    <Compile Include="Acceptance\ContextSetupTeardownFailure.cs" />
-    <Compile Include="Acceptance\InvalidSpecifications.cs" />
-    <Compile Include="Acceptance\OneTestPerVerification.cs" />
-    <Compile Include="Acceptance\OutputCapturing.cs" />
-    <Compile Include="Acceptance\SpecificationDeclarations.cs" />
-    <Compile Include="Acceptance\ThesisIntegration.cs" />
-    <Compile Include="Acceptance\TimeoutSpecifications.cs" />
-    <Compile Include="Acceptance\ToDoAssertion.cs" />
     <Compile Include="ContextSetupTeardownBehavior.cs" />
     <Compile Include="DisposableActionFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
