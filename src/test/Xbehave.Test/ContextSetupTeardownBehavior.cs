@@ -120,11 +120,11 @@ namespace Xbehave.Test
             Assert.True(DisposeSpy.WasDisposed);
         }
 
-        private static void ExecuteSpecification(IMethodInfo spec)
+        private static void ExecuteSpecification(IMethodInfo method)
         {
-            foreach (var item in SpecificationAttribute.FtoEnumerateTestCommands(spec))
+            foreach (var command in ScenarioAttribute.GetFactCommands(method))
             {
-                item.Execute(null);
+                command.Execute(null);
             }
         }
 
