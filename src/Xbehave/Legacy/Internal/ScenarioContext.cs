@@ -32,7 +32,7 @@ namespace Xbehave.Legacy
         private static List<Step<Action>> thenSkips;
 
         [ThreadStatic]
-        private static List<Action> exceptions;
+        private static List<Action> throwActions;
 
         public static IStep Given(string message, ContextDelegate arrange)
         {
@@ -44,7 +44,7 @@ namespace Xbehave.Legacy
             }
             else
             {
-                exceptions.Add(() => { throw new InvalidOperationException("The scenario has more than one Given."); });
+                throwActions.Add(() => { throw new InvalidOperationException("The scenario has more than one Given step."); });
             }
 
             return given;
@@ -60,7 +60,7 @@ namespace Xbehave.Legacy
             }
             else
             {
-                exceptions.Add(() => { throw new InvalidOperationException("The scenario has more than one Given."); });
+                throwActions.Add(() => { throw new InvalidOperationException("The scenario has more than one When step."); });
             }
 
             return when;
@@ -120,7 +120,7 @@ namespace Xbehave.Legacy
 
         private static void Reset()
         {
-            exceptions = new List<Action>();
+            throwActions = new List<Action>();
             given = null;
             when = null;
             thensInIsolation = new List<Step<Action>>();
@@ -199,13 +199,13 @@ namespace Xbehave.Legacy
         {
             if (given == null)
             {
-                exceptions.Add(() => { throw new InvalidOperationException("The scenario has no Given."); });
+                throwActions.Add(() => { throw new InvalidOperationException("The scenario has no Given step."); });
             }
 
-            if (exceptions.Count > 0)
+            if (throwActions.Count > 0)
             {
                 // throw the first recorded exception, preserves stacktraces nicely.
-                return new ExceptionTestCommand(method, () => exceptions[0]());
+                return new ExceptionTestCommand(method, () => throwActions[0]());
             }
 
             return null;
