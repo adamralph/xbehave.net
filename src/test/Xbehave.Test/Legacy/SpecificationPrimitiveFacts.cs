@@ -8,16 +8,16 @@ namespace Xbehave.Test.Legacy
     using Xbehave.Legacy;
     using Xunit;
 
-    public class SpecificationPrimitiveFacts
+    public static class SpecificationPrimitiveFacts
     {
         [Fact]
-        public void CreatePrimitive_WithNullAction_Throws()
+        public static void CreatePrimitive_WithNullAction_Throws()
         {
             Assert.Throws<ArgumentNullException>(() => new Step<Action>("foo", null));
         }
 
         [Fact]
-        public void CreatePrimitive_WithNullMessage_Throws()
+        public static void CreatePrimitive_WithNullMessage_Throws()
         {
             Assert.Throws<ArgumentNullException>(() => new Step<Action>(null, () => { }));
         }

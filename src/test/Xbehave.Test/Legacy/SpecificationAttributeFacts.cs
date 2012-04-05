@@ -6,21 +6,20 @@ namespace Xbehave.Test.Legacy
 {
     using System.Linq;
     using FakeItEasy;
-    using Xbehave;
     using Xbehave.Legacy;
     using Xunit;
     using Xunit.Sdk;
 
-    public class SpecificationAttributeFacts
+    public static class SpecificationAttributeFacts
     {
         [Fact]
-        public void ReportsExceptionWhenFailingToEnumerateTestCommands()
+        public static void ReportsExceptionWhenFailingToEnumerateTestCommands()
         {
-            var attribute = new ScenarioAttribute();
+            SpecificationAttribute attribute = new SpecificationAttribute();
 
-            var method = A.Fake<IMethodInfo>();
+            var mock = A.Fake<IMethodInfo>();
 
-            var commands = attribute.CreateTestCommands(method);
+            var commands = attribute.CreateTestCommands(mock);
 
             Assert.IsAssignableFrom<ExceptionTestCommand>(commands.Single());
         }

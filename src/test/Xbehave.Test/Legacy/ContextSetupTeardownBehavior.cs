@@ -9,24 +9,10 @@ namespace Xbehave.Test.Legacy
     using Xunit;
     using Xunit.Sdk;
 
-    public class ContextSetupTeardownBehavior
+    public static class ContextSetupTeardownBehavior
     {
-        public static void SpecificationThatShouldDisposeItsAssertionFixture()
-        {
-            "Given a disposable Fixture".Given(() => new DisposeSpy());
-            "when we encounter an exception during test execution ".When(() => { throw new Exception(); });
-            "with Assertions, we expect the context is nonetheless disposed".ThenInIsolation(() => { });
-        }
-
-        public static void SpecificationThatShouldDisposeItsObservationFixture()
-        {
-            "Given a disposable Fixture".Given(() => new DisposeSpy());
-            "when we encounter an exception during test execution ".When(() => { throw new Exception(); });
-            "with Observation, we expect the context is nonetheless disposed".Then(() => { });
-        }
-
         [Fact]
-        public void SutThrowsWhenCalledTwice()
+        public static void SutThrowsWhenCalledTwice()
         {
             var sut = new ContextFixtureSpy();
             Assert.Throws<InvalidOperationException>(() =>
@@ -36,68 +22,75 @@ namespace Xbehave.Test.Legacy
             });
         }
 
-        [Scenario]
-        public void MultipleAssertionsShouldCauseActionToBeRepeated()
+        [Specification]
+        public static void MultipleAssertionsShouldCauseActionToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
             sut.FailWhenCallingTwice();
 
             "Given an externally managed context"
-                .Given(() => { });
+                .Context(() => { });
 
             "when we execute an action on it that may be invoked only once"
-                .When(() =>
+                .Do(() =>
                     Assert.Throws<InvalidOperationException>(() => sut.FailWhenCallingTwice()));
 
             "we expect our first assertion to pass"
-                .ThenInIsolation(() =>
+                .Assert(() =>
                     Assert.True(true));
 
             "we expect the action not to be repeated for the second assertion"
-                .ThenInIsolation(() =>
+                .Assert(() =>
                     Assert.True(true));
         }
 
-        [Scenario]
-        public void MultipleAssertionsShouldCauseContextInstantiationToBeRepeated()
+        [Specification]
+        public static void MultipleAssertionsShouldCauseContextInstantiationToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
             sut.FailWhenCallingTwice();
 
-            "Given a context that may not be established twice".Given(
+            "Given a context that may not be established twice".Context(
                 () => Assert.Throws<InvalidOperationException>(() => sut.FailWhenCallingTwice()));
 
-            "when nothing happens".When(() => { });
+            "when".Do(() => { });
 
-            "we expect our first assertion to pass".ThenInIsolation(() => { Assert.True(true); });
-            "we expect the context instantiation not to be repeated for the second assertion".ThenInIsolation(() => { Assert.True(true); });
+            "we expect our first assertion to pass".Assert(() => { Assert.True(true); });
+            "we expect the context instantiation not to be repeated for the second assertion".Assert(() => { Assert.True(true); });
         }
 
-        [Scenario]
-        public void MultipleObservationsShouldNotCauseActionToBeRepeated()
+        [Specification]
+        public static void MultipleObservationsShouldNotCauseActionToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
 
-            "Given an externally managed context".Given(() => { });
-            "when we execute an action on it that may be invoked only once".When(() => { sut.FailWhenCallingTwice(); });
+            "Given an externally managed context".Context(() => { });
+            "when we execute an action on it that may be invoked only once".Do(() => { sut.FailWhenCallingTwice(); });
 
-            "we expect our first assertion to pass".Then(() => { Assert.True(true); });
-            "we expect the action not to be repeated for the second assertion".Then(() => { Assert.True(true); });
+            "we expect our first assertion to pass".Observation(() => { Assert.True(true); });
+            "we expect the action not to be repeated for the second assertion".Observation(() => { Assert.True(true); });
         }
 
-        [Scenario]
-        public void MultipleObservationsShouldNotCauseContextInstantiationToBeRepeated()
+        [Specification]
+        public static void MultipleObservationsShouldNotCauseContextInstantiationToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
 
-            "Given a context that may not be established twice".Given(() => { sut.FailWhenCallingTwice(); });
+            "Given a context that may not be established twice".Context(() => { sut.FailWhenCallingTwice(); });
 
-            "we expect our first assertion to pass".Then(() => { Assert.True(true); });
-            "we expect the context instantiation not to be repeated for the second assertion".Then(() => { Assert.True(true); });
+            "we expect our first assertion to pass".Observation(() => { Assert.True(true); });
+            "we expect the context instantiation not to be repeated for the second assertion".Observation(() => { Assert.True(true); });
+        }
+
+        public static void SpecificationThatShouldDisposeItsAssertionFixture()
+        {
+            "Given a disposable Fixture".ContextFixture(() => new DisposeSpy());
+            "when we encounter an exception during test execution ".Do(() => { throw new Exception(); });
+            "with Assertions, we expect the context is nonetheless disposed".Assert(() => { });
         }
 
         [Fact]
-        public void ErrorInDoForAssertionDisposesContext()
+        public static void ErrorInDoForAssertionDisposesContext()
         {
             DisposeSpy.Reset();
 
@@ -108,8 +101,15 @@ namespace Xbehave.Test.Legacy
             Assert.True(DisposeSpy.WasDisposed);
         }
 
+        public static void SpecificationThatShouldDisposeItsObservationFixture()
+        {
+            "Given a disposable Fixture".ContextFixture(() => new DisposeSpy());
+            "when we encounter an exception during test execution ".Do(() => { throw new Exception(); });
+            "with Observation, we expect the context is nonetheless disposed".Observation(() => { });
+        }
+
         [Fact]
-        public void ErrorInDoForObservationDisposesContext()
+        public static void ErrorInDoForObservationDisposesContext()
         {
             DisposeSpy.Reset();
 
@@ -119,9 +119,9 @@ namespace Xbehave.Test.Legacy
             Assert.True(DisposeSpy.WasDisposed);
         }
 
-        private static void ExecuteSpecification(IMethodInfo method)
+        private static void ExecuteSpecification(IMethodInfo spec)
         {
-            foreach (var command in ScenarioAttribute.GetFactCommands(method))
+            foreach (var command in SpecificationAttribute.FtoEnumerateTestCommands(spec))
             {
                 command.Execute(null);
             }

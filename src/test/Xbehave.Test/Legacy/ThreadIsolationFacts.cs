@@ -5,7 +5,6 @@
 namespace Xbehave.Test.Legacy
 {
     using System.Threading;
-    using Xbehave;
     using Xbehave.Legacy;
     using Xunit;
 
@@ -20,25 +19,25 @@ namespace Xbehave.Test.Legacy
         [Fact]
         public static void DoEnsuresThreadStatic()
         {
-            VerifyConcurrentExecution(() => "foo".When(() => { }));
+            VerifyConcurrentExecution(() => "foo".Do(() => { }));
         }
 
         [Fact]
         public static void AssertEnsuresThreadStatic()
         {
-            VerifyConcurrentExecution(() => "foo".ThenInIsolation(() => { }));
+            VerifyConcurrentExecution(() => "foo".Assert(() => { }));
         }
 
         [Fact]
         public static void ObservationEnsuresThreadStatic()
         {
-            VerifyConcurrentExecution(() => "foo".Then(() => { }));
+            VerifyConcurrentExecution(() => "foo".Observation(() => { }));
         }
 
         [Fact]
         public static void TodoEnsuresThreadStatic()
         {
-            VerifyConcurrentExecution(() => "foo".ThenSkip(() => { }));
+            VerifyConcurrentExecution(() => "foo".Todo(() => { }));
         }
 
         [Fact]
@@ -65,9 +64,9 @@ namespace Xbehave.Test.Legacy
 
         private static void SetUpSpecification()
         {
-            "foo".Given(() => { });
-            "foo".When(() => { });
-            "foo".ThenInIsolation(() => { });
+            "foo".Context(() => { });
+            "foo".Do(() => { });
+            "foo".Assert(() => { });
         }
     }
 }
