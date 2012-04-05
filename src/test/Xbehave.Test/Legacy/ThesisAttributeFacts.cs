@@ -1,4 +1,4 @@
-﻿// <copyright file="DisposableActionFacts.cs" company="Adam Ralph">
+﻿// <copyright file="ThesisAttributeFacts.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
