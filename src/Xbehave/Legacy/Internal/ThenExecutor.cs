@@ -61,7 +61,7 @@ namespace Xbehave.Legacy
                 {
                     if (givenOrWhenThrewException)
                     {
-                        throw new EitherGivenOrWhenFailedException("Execution of Given or When failed.");
+                        throw new InvalidOperationException("Execution of Given or When failed.");
                     }
 
                     StepExecutor.Execute(capturableObservation);
@@ -79,7 +79,7 @@ namespace Xbehave.Legacy
 
                 if (givenOrWhenThrewException)
                 {
-                    throw new EitherGivenOrWhenFailedException("Execution of Given or When failed but arrangement was disposed.");
+                    throw new InvalidOperationException("Execution of Given or When failed but arrangement was disposed.");
                 }
             };
 

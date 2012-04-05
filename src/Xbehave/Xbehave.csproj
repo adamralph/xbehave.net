@@ -87,7 +87,6 @@
     <Compile Include="Legacy\Deprecated\DisposableAction.cs" />
     <Compile Include="Legacy\Deprecated\SpecificationAttribute.cs" />
     <Compile Include="Legacy\Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="Legacy\Internal\EitherGivenOrWhenFailedException.cs" />
     <Compile Include="Legacy\Internal\ThenExecutor.cs" />
     <Compile Include="Legacy\Internal\ThenInIsolationExecutor.cs" />
     <Compile Include="Legacy\Internal\ExceptionTestCommand.cs" />
