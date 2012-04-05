@@ -186,7 +186,7 @@ namespace Xbehave.Legacy
                 {
                     yield return new ExceptionTestCommand(
                         method,
-                        () => { throw new InvalidOperationException("The scenario does not have at least one Then."); });
+                        () => { throw new InvalidOperationException("The scenario does not have at least one Then step."); });
                 }
             }
             finally
