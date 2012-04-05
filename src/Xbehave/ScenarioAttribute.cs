@@ -87,7 +87,7 @@ namespace Xbehave
                 throw new ArgumentNullException("method");
             }
 
-            if (method.MethodInfo.GetParameters().Any())
+            if (method.MethodInfo != null && method.MethodInfo.GetParameters().Any())
             {
                 var theoryTestCommands = base.EnumerateTestCommands(method);
                 return GetTheoryCommands(method, theoryTestCommands);
