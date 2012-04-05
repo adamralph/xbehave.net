@@ -10,6 +10,7 @@ namespace Xbehave
     using System.Globalization;
     using System.Linq;
 
+    using Xbehave.Legacy;
     using Xunit.Extensions;
     using Xunit.Sdk;
 

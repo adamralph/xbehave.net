@@ -2,10 +2,12 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test
+namespace Xbehave.Test.Legacy
 {
+    using System.Linq;
     using FakeItEasy;
     using Xbehave;
+    using Xbehave.Legacy;
     using Xunit;
     using Xunit.Sdk;
 
@@ -20,7 +22,7 @@ namespace Xbehave.Test
 
             var commands = attribute.CreateTestCommands(method);
 
-            // Assert.IsAssignableFrom<SubSpec.Core.ExceptionTestCommand>(commands.Single().);
+            Assert.IsAssignableFrom<ExceptionTestCommand>(commands.Single());
         }
     }
 }

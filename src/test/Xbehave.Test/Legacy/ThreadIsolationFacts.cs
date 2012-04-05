@@ -2,10 +2,11 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test
+namespace Xbehave.Test.Legacy
 {
     using System.Threading;
     using Xbehave;
+    using Xbehave.Legacy;
     using Xunit;
 
     public static class ThreadIsolationFacts
@@ -43,7 +44,7 @@ namespace Xbehave.Test
         [Fact]
         public static void CanEnumerateTestCommandsOfEmptySpecificationConcurrently()
         {
-            VerifyConcurrentExecution(() => Xbehave.ScenarioContext.SafelyEnumerateTestCommands(null, _ => { }));
+            VerifyConcurrentExecution(() => ScenarioContext.SafelyEnumerateTestCommands(null, _ => { }));
         }
 
         private static void VerifyConcurrentExecution(ThreadStart action)

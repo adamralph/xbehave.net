@@ -9,6 +9,7 @@ namespace Xbehave
     using System.Diagnostics.CodeAnalysis;
 
     using Xbehave.Fluent;
+    using Xbehave.Legacy;
 
     /// <summary>
     /// Extensions for declaring Given, When, Then scenario steps.

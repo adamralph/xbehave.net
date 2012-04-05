@@ -2,11 +2,10 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test
+namespace Xbehave.Test.Legacy
 {
     using System;
     using Xbehave;
-    using Xbehave.Test;
     using Xunit;
     using Xunit.Sdk;
 

@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test
+namespace Xbehave.Test.Legacy
 {
     using System;
     using System.Linq.Expressions;

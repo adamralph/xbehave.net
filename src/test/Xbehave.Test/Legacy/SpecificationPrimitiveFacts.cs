@@ -2,10 +2,10 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test
+namespace Xbehave.Test.Legacy
 {
     using System;
-    using Xbehave;
+    using Xbehave.Legacy;
     using Xunit;
 
     public class SpecificationPrimitiveFacts
