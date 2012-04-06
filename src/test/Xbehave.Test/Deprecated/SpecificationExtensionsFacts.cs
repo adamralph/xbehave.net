@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test.Legacy
+namespace Xbehave.Test.Deprecated
 {
     using System;
     using FakeItEasy;

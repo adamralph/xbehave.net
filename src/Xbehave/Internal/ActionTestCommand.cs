@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Legacy
+namespace Xbehave.Internal
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

@@ -6,7 +6,7 @@ namespace Xbehave.Test.Legacy
 {
     using System.Linq;
     using FakeItEasy;
-    using Xbehave.Legacy;
+    using Xbehave.Internal;
     using Xunit;
     using Xunit.Sdk;
 

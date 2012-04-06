@@ -7,7 +7,7 @@ namespace Xbehave
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Xbehave.Fluent;
-    using Xbehave.Legacy;
+    using Xbehave.Internal;
 
     /// <summary>
     /// Provides extensions for a fluent specification syntax
