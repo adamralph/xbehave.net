@@ -8,47 +8,47 @@ namespace Xbehave.Internal
 
     internal static class StepExecutor
     {
-        public static void Execute(Step<Action> primitive)
+        public static void Execute(Step<Action> step)
         {
-            if (primitive.MillisecondsTimeout > 0)
+            if (step.MillisecondsTimeout > 0)
             {
-                var result = primitive.Action.BeginInvoke(null, null);
+                var result = step.Action.BeginInvoke(null, null);
 
                 // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                if (!result.AsyncWaitHandle.WaitOne(primitive.MillisecondsTimeout, false))
+                if (!result.AsyncWaitHandle.WaitOne(step.MillisecondsTimeout, false))
                 {
-                    throw new Xunit.Sdk.TimeoutException(primitive.MillisecondsTimeout);
+                    throw new Xunit.Sdk.TimeoutException(step.MillisecondsTimeout);
                 }
                 else
                 {
-                    primitive.Action.EndInvoke(result);
+                    step.Action.EndInvoke(result);
                 }
             }
             else
             {
-                primitive.Action();
+                step.Action();
             }
         }
 
-        public static IDisposable Execute(Step<ContextDelegate> primitive)
+        public static IDisposable Execute(Step<ContextDelegate> step)
         {
-            if (primitive.MillisecondsTimeout > 0)
+            if (step.MillisecondsTimeout > 0)
             {
-                var result = primitive.Action.BeginInvoke(null, null);
+                var result = step.Action.BeginInvoke(null, null);
 
                 // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                if (!result.AsyncWaitHandle.WaitOne(primitive.MillisecondsTimeout, false))
+                if (!result.AsyncWaitHandle.WaitOne(step.MillisecondsTimeout, false))
                 {
-                    throw new Xunit.Sdk.TimeoutException(primitive.MillisecondsTimeout);
+                    throw new Xunit.Sdk.TimeoutException(step.MillisecondsTimeout);
                 }
                 else
                 {
-                    return primitive.Action.EndInvoke(result);
+                    return step.Action.EndInvoke(result);
                 }
             }
             else
             {
-                return primitive.Action();
+                return step.Action();
             }
         }
     }
