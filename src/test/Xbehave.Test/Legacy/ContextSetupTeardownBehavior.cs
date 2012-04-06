@@ -5,6 +5,7 @@
 namespace Xbehave.Test.Legacy
 {
     using System;
+    using System.Collections.Generic;
     using Xbehave;
     using Xunit;
     using Xunit.Sdk;
@@ -121,7 +122,7 @@ namespace Xbehave.Test.Legacy
 
         private static void ExecuteSpecification(IMethodInfo spec)
         {
-            foreach (var command in SpecificationAttribute.FtoEnumerateTestCommands(spec))
+            foreach (var command in new TestAttribute().EnumerateTestCommands(spec))
             {
                 command.Execute(null);
             }
@@ -159,6 +160,14 @@ namespace Xbehave.Test.Legacy
             public void Dispose()
             {
                 disposed = true;
+            }
+        }
+
+        private class TestAttribute : ScenarioAttribute
+        {
+            public new IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
+            {
+                return base.EnumerateTestCommands(method);
             }
         }
     }

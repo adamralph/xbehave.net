@@ -95,12 +95,12 @@ namespace Xbehave.Internal
 
         // TODO: address DoNotCatchGeneralExceptionTypes
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
-        public static IEnumerable<ITestCommand> SafelyEnumerateTestCommands(IMethodInfo method, Action<IMethodInfo> registerPrimitives)
+        public static IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method, Action registerSteps)
         {
             try
             {
-                registerPrimitives(method);
-                return ScenarioContext.BuildCommandsFromRegisteredPrimitives(method);
+                registerSteps();
+                return BuildCommandsFromRegisteredSteps(method);
             }
             catch (Exception ex)
             {
@@ -143,7 +143,7 @@ namespace Xbehave.Internal
                 : string.Concat(given.Message, " ", when.Message);
         }
 
-        private static IEnumerable<ITestCommand> BuildCommandsFromRegisteredPrimitives(IMethodInfo method)
+        private static IEnumerable<ITestCommand> BuildCommandsFromRegisteredSteps(IMethodInfo method)
         {
             EnsureThreadStaticInitialized();
 
