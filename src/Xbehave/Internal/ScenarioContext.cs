@@ -17,19 +17,19 @@ namespace Xbehave.Internal
         private static bool threadStaticInitialized;
 
         [ThreadStatic]
-        private static Step<Func<IDisposable>> given;
+        private static GivenStep given;
 
         [ThreadStatic]
-        private static Step<Action> when;
+        private static Step when;
 
         [ThreadStatic]
-        private static List<Step<Action>> thensInIsolation;
+        private static List<Step> thensInIsolation;
 
         [ThreadStatic]
-        private static List<Step<Action>> thens;
+        private static List<Step> thens;
 
         [ThreadStatic]
-        private static List<Step<Action>> thenSkips;
+        private static List<Step> thenSkips;
 
         [ThreadStatic]
         private static List<Action> throwActions;
@@ -37,10 +37,10 @@ namespace Xbehave.Internal
         public static IStep Given(string message, Func<IDisposable> arrange)
         {
             EnsureThreadStaticInitialized();
-
+            
             if (given == null)
             {
-                given = new Step<Func<IDisposable>>(message, arrange);
+                given = new GivenStep(message, arrange);
             }
             else
             {
@@ -53,10 +53,10 @@ namespace Xbehave.Internal
         public static IStep When(string message, Action action)
         {
             EnsureThreadStaticInitialized();
-
+            
             if (when == null)
             {
-                when = new Step<Action>(message, action);
+                when = new Step(message, action);
             }
             else
             {
@@ -69,31 +69,28 @@ namespace Xbehave.Internal
         public static IStep ThenInIsolation(string message, Action assert)
         {
             EnsureThreadStaticInitialized();
-
-            var primitive = new Step<Action>(message, assert);
-            thensInIsolation.Add(primitive);
-
-            return primitive;
+            
+            var step = new Step(message, assert);
+            thensInIsolation.Add(step);
+            return step;
         }
 
         public static IStep Then(string message, Action assert)
         {
             EnsureThreadStaticInitialized();
-
-            var primitive = new Step<Action>(message, assert);
-            thens.Add(primitive);
-
-            return primitive;
+            
+            var step = new Step(message, assert);
+            thens.Add(step);
+            return step;
         }
 
         public static IStep ThenSkip(string message, Action assert)
         {
             EnsureThreadStaticInitialized();
-
-            var primitive = new Step<Action>(message, assert);
-            thenSkips.Add(primitive);
-
-            return primitive;
+            
+            var step = new Step(message, assert);
+            thenSkips.Add(step);
+            return step;
         }
 
         // TODO: address DoNotCatchGeneralExceptionTypes
@@ -123,9 +120,9 @@ namespace Xbehave.Internal
             throwActions = new List<Action>();
             given = null;
             when = null;
-            thensInIsolation = new List<Step<Action>>();
-            thens = new List<Step<Action>>();
-            thenSkips = new List<Step<Action>>();
+            thensInIsolation = new List<Step>();
+            thens = new List<Step>();
+            thenSkips = new List<Step>();
         }
 
         private static void EnsureThreadStaticInitialized()

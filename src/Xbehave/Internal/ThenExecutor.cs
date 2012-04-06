@@ -11,11 +11,11 @@ namespace Xbehave.Internal
 
     internal class ThenExecutor
     {
-        private readonly Step<Func<IDisposable>> given;
-        private readonly Step<Action> when;
-        private readonly IEnumerable<Step<Action>> thens;
+        private readonly GivenStep given;
+        private readonly Step when;
+        private readonly IEnumerable<Step> thens;
 
-        public ThenExecutor(Step<Func<IDisposable>> given, Step<Action> when, IEnumerable<Step<Action>> thens)
+        public ThenExecutor(GivenStep given, Step when, IEnumerable<Step> thens)
         {
             this.thens = thens;
             this.given = given;
@@ -36,11 +36,11 @@ namespace Xbehave.Internal
             {
                 try
                 {
-                    arrangement = StepExecutor.Execute(given);
+                    arrangement = given.Execute();
 
                     if (when != null)
                     {
-                        StepExecutor.Execute(when);
+                        when.Execute();
                     }
                 }
                 catch (Exception)
@@ -56,7 +56,7 @@ namespace Xbehave.Internal
             {
                 // do not capture the iteration variable because 
                 // all tests would point to the same observation
-                var capturableObservation = then;
+                var localThen = then;
                 Action perform = () =>
                 {
                     if (givenOrWhenThrewException)
@@ -64,10 +64,10 @@ namespace Xbehave.Internal
                         throw new InvalidOperationException("Execution of Given or When failed.");
                     }
 
-                    StepExecutor.Execute(capturableObservation);
+                    localThen.Execute();
                 };
 
-                yield return new ActionTestCommand(method, "\t- " + capturableObservation.Message, 0, perform);
+                yield return new ActionTestCommand(method, "\t- " + localThen.Message, 0, perform);
             }
 
             Action disposal = () =>

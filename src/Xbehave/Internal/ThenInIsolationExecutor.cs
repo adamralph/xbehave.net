@@ -10,11 +10,11 @@ namespace Xbehave.Internal
 
     internal class ThenInIsolationExecutor
     {
-        private readonly Step<Func<IDisposable>> given;
-        private readonly Step<Action> when;
-        private readonly List<Step<Action>> thens;
+        private readonly GivenStep given;
+        private readonly Step when;
+        private readonly List<Step> thens;
 
-        public ThenInIsolationExecutor(Step<Func<IDisposable>> given, Step<Action> when, List<Step<Action>> thens)
+        public ThenInIsolationExecutor(GivenStep given, Step when, List<Step> thens)
         {
             this.thens = thens;
             this.given = given;
@@ -27,17 +27,17 @@ namespace Xbehave.Internal
             {
                 // do not capture the iteration variable because 
                 // all tests would point to the same assertion
-                var capturableAssertion = then;
+                var localThen = then;
                 Action test = () =>
                 {
-                    using (StepExecutor.Execute(given))
+                    using (given.Execute())
                     {
                         if (this.when != null)
                         {
-                            StepExecutor.Execute(when);
+                            when.Execute();
                         }
 
-                        StepExecutor.Execute(capturableAssertion);
+                        localThen.Execute();
                     }
                 };
 

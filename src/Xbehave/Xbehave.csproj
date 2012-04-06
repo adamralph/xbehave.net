@@ -82,6 +82,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Fluent\IStep.cs" />
+    <Compile Include="Internal\GivenStep.cs" />
+    <Compile Include="Internal\Step.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="ScenarioDataAttribute.cs" />
     <Compile Include="Deprecated\DisposableAction.cs" />
@@ -91,8 +93,7 @@
     <Compile Include="Internal\ThenInIsolationExecutor.cs" />
     <Compile Include="Internal\ExceptionTestCommand.cs" />
     <Compile Include="Internal\ActionTestCommand.cs" />
-    <Compile Include="Internal\Step.cs" />
-    <Compile Include="Internal\StepExecutor.cs" />
+    <Compile Include="Internal\StepBase.cs" />
     <Compile Include="Internal\ScenarioContext.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />
     <Compile Include="Deprecated\ThesisAttribute.cs" />

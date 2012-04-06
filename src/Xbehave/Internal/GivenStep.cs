@@ -1,4 +1,4 @@
-﻿// <copyright file="Step.cs" company="Adam Ralph">
+﻿// <copyright file="GivenStep.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -9,14 +9,14 @@ namespace Xbehave.Internal
     using System.Linq;
     using System.Text;
 
-    internal class Step : StepBase<Action>
+    internal class GivenStep : StepBase<Func<IDisposable>>
     {
-        public Step(string message, Action action)
+        public GivenStep(string message, Func<IDisposable> action)
             : base(message, action)
         {
         }
 
-        public void Execute()
+        public IDisposable Execute()
         {
             if (this.MillisecondsTimeout > 0)
             {
@@ -29,12 +29,12 @@ namespace Xbehave.Internal
                 }
                 else
                 {
-                    this.Action.EndInvoke(result);
+                    return this.Action.EndInvoke(result);
                 }
             }
             else
             {
-                this.Action();
+                return this.Action();
             }
         }
     }
