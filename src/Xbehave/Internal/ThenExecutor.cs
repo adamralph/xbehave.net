@@ -11,11 +11,11 @@ namespace Xbehave.Internal
 
     internal class ThenExecutor
     {
-        private readonly GivenStep given;
+        private readonly DisposableStep given;
         private readonly Step when;
         private readonly IEnumerable<Step> thens;
 
-        public ThenExecutor(GivenStep given, Step when, IEnumerable<Step> thens)
+        public ThenExecutor(DisposableStep given, Step when, IEnumerable<Step> thens)
         {
             this.thens = thens;
             this.given = given;

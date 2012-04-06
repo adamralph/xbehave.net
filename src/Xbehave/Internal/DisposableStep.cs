@@ -1,4 +1,4 @@
-﻿// <copyright file="GivenStep.cs" company="Adam Ralph">
+﻿// <copyright file="DisposableStep.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -9,9 +9,9 @@ namespace Xbehave.Internal
     using System.Linq;
     using System.Text;
 
-    internal class GivenStep : StepBase<Func<IDisposable>>
+    internal class DisposableStep : StepBase<Func<IDisposable>>
     {
-        public GivenStep(string message, Func<IDisposable> action)
+        public DisposableStep(string message, Func<IDisposable> action)
             : base(message, action)
         {
         }

@@ -17,7 +17,7 @@ namespace Xbehave.Internal
         private static bool threadStaticInitialized;
 
         [ThreadStatic]
-        private static GivenStep given;
+        private static DisposableStep given;
 
         [ThreadStatic]
         private static Step when;
@@ -40,7 +40,7 @@ namespace Xbehave.Internal
             
             if (given == null)
             {
-                given = new GivenStep(message, arrange);
+                given = new DisposableStep(message, arrange);
             }
             else
             {

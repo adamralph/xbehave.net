@@ -82,7 +82,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Fluent\IStep.cs" />
-    <Compile Include="Internal\GivenStep.cs" />
+    <Compile Include="Internal\DisposableStep.cs" />
     <Compile Include="Internal\Step.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="ScenarioDataAttribute.cs" />
