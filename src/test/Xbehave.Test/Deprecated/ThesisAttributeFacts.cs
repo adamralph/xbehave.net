@@ -4,14 +4,10 @@
 
 namespace Xbehave.Test.Deprecated
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using FakeItEasy;
+    using FluentAssertions;
     using Xunit;
     using Xunit.Extensions;
-    using Xunit.Sdk;
 
     public static class ThesisAttributeFacts
     {
@@ -26,7 +22,7 @@ namespace Xbehave.Test.Deprecated
             var commands = target.CreateTestCommands(method);
 
             // assert
-            Assert.Equal(6, commands.Count());
+            commands.Count().Should().Be(6);
         }
 
         [Thesis]

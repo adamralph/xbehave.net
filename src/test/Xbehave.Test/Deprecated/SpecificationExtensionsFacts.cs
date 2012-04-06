@@ -6,6 +6,7 @@ namespace Xbehave.Test.Deprecated
 {
     using System;
     using FakeItEasy;
+    using FluentAssertions;
     using Xunit;
 
     public static class SpecificationExtensionsFacts
@@ -21,7 +22,7 @@ namespace Xbehave.Test.Deprecated
             var exception = Record.Exception(() => message.Context(contextDelegate));
 
             // assert
-            Assert.IsType<InvalidOperationException>(exception);
+            exception.Should().BeOfType<InvalidOperationException>();
         }
     }
 }

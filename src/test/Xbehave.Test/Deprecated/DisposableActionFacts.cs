@@ -5,6 +5,7 @@
 namespace Xbehave.Test.Deprecated
 {
     using System;
+    using FluentAssertions;
     using Xunit;
 
     public static class DisposableActionFacts
@@ -19,7 +20,7 @@ namespace Xbehave.Test.Deprecated
             var exception = Record.Exception(() => new DisposableAction(action));
 
             // assert
-            Assert.IsType<ArgumentNullException>(exception);
+            exception.Should().BeOfType<ArgumentNullException>();
         }
     }
 }
