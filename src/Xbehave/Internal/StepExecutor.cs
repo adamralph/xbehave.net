@@ -30,7 +30,7 @@ namespace Xbehave.Internal
             }
         }
 
-        public static IDisposable Execute(Step<ContextDelegate> step)
+        public static IDisposable Execute(Step<Func<IDisposable>> step)
         {
             if (step.MillisecondsTimeout > 0)
             {

@@ -55,7 +55,7 @@ namespace Xbehave
         [Obsolete("Use Given() instead.")]
         public static IStep ContextFixture(this string message, ContextDelegate arrange)
         {
-            return ScenarioContext.Given(message, arrange);
+            return ScenarioContext.Given(message, () => arrange());
         }
 
         /// <summary>

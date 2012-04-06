@@ -10,11 +10,11 @@ namespace Xbehave.Internal
 
     internal class ThenInIsolationExecutor
     {
-        private readonly Step<ContextDelegate> given;
+        private readonly Step<Func<IDisposable>> given;
         private readonly Step<Action> when;
         private readonly List<Step<Action>> thens;
 
-        public ThenInIsolationExecutor(Step<ContextDelegate> given, Step<Action> when, List<Step<Action>> thens)
+        public ThenInIsolationExecutor(Step<Func<IDisposable>> given, Step<Action> when, List<Step<Action>> thens)
         {
             this.thens = thens;
             this.given = given;

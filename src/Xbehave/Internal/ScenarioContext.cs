@@ -17,7 +17,7 @@ namespace Xbehave.Internal
         private static bool threadStaticInitialized;
 
         [ThreadStatic]
-        private static Step<ContextDelegate> given;
+        private static Step<Func<IDisposable>> given;
 
         [ThreadStatic]
         private static Step<Action> when;
@@ -34,13 +34,13 @@ namespace Xbehave.Internal
         [ThreadStatic]
         private static List<Action> throwActions;
 
-        public static IStep Given(string message, ContextDelegate arrange)
+        public static IStep Given(string message, Func<IDisposable> arrange)
         {
             EnsureThreadStaticInitialized();
 
             if (given == null)
             {
-                given = new Step<ContextDelegate>(message, arrange);
+                given = new Step<Func<IDisposable>>(message, arrange);
             }
             else
             {
