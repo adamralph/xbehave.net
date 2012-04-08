@@ -110,20 +110,20 @@ namespace Xbehave.Internal
                     "An exception was thrown while building tests from scenario {0}.{1}:\r\n{2}",
                     method.TypeName,
                     method.Name,
-                    ex.ToString());
+                    ex.Message);
 
-                return new ITestCommand[] { new ExceptionTestCommand(method, () => { throw new InvalidOperationException(message); }) };
+                return new[] { new ExceptionTestCommand(method, () => { throw new InvalidOperationException(message, ex); }) };
             }
         }
 
         private static void Reset()
         {
-            throwActions = new List<Action>();
             given = null;
             when = null;
             thensInIsolation = new List<Step>();
             thens = new List<Step>();
             thenSkips = new List<Step>();
+            throwActions = new List<Action>();
         }
 
         private static void EnsureInitialized()
@@ -148,7 +148,7 @@ namespace Xbehave.Internal
                     yield break;
                 }
 
-                int testsReturned = 0;
+                int commandCount = 0;
                 string name = when == null
                     ? given.Message
                     : string.Concat(given.Message, " ", when.Message);
@@ -157,23 +157,23 @@ namespace Xbehave.Internal
                 foreach (var command in thenInIsolationExecutor.Commands(name, method))
                 {
                     yield return command;
-                    testsReturned++;
+                    ++commandCount;
                 }
 
                 var thenExecutor = new ThenExecutor(given, when, thens);
                 foreach (var command in thenExecutor.Commands(name, method))
                 {
                     yield return command;
-                    testsReturned++;
+                    ++commandCount;
                 }
 
                 foreach (var command in SkipCommands(name, method))
                 {
                     yield return command;
-                    testsReturned++;
+                    ++commandCount;
                 }
 
-                if (testsReturned == 0)
+                if (commandCount == 0)
                 {
                     yield return new ExceptionTestCommand(
                         method,
