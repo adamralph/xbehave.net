@@ -16,35 +16,28 @@ namespace Xbehave.Internal
         private readonly List<Step> thens = new List<Step>();
         private readonly List<Step> thensInIsolation = new List<Step>();
         private readonly List<Step> thenSkips = new List<Step>();
-        private readonly List<Action> throwActions = new List<Action>();
         private DisposableStep given;
         private Step when;
 
         public IStep Given(string message, Func<IDisposable> arrange)
         {
-            if (this.given == null)
+            if (this.given != null)
             {
-                this.given = new DisposableStep(message, arrange);
-            }
-            else
-            {
-                this.throwActions.Add(() => { throw new InvalidOperationException("The scenario has more than one Given step."); });
+                throw new InvalidOperationException("The scenario has more than one Given step.");
             }
 
+            this.given = new DisposableStep(message, arrange);
             return this.given;
         }
 
         public IStep When(string message, Action action)
         {
-            if (this.when == null)
+            if (this.when != null)
             {
-                this.when = new Step(message, action);
-            }
-            else
-            {
-                this.throwActions.Add(() => { throw new InvalidOperationException("The scenario has more than one When step."); });
+                throw new InvalidOperationException("The scenario has more than one When step.");
             }
 
+            this.when = new Step(message, action);
             return this.when;
         }
 
@@ -76,7 +69,7 @@ namespace Xbehave.Internal
             try
             {
                 registerSteps();
-                return TestCommandFactory.Create(this.throwActions, this.given, this.when, this.thens, this.thensInIsolation, this.thenSkips, method);
+                return TestCommandFactory.Create(this.given, this.when, this.thens, this.thensInIsolation, this.thenSkips, method);
             }
             catch (Exception ex)
             {

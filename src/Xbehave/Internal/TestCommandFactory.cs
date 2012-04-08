@@ -4,7 +4,6 @@
 
 namespace Xbehave.Internal
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Xunit.Sdk;
@@ -12,20 +11,8 @@ namespace Xbehave.Internal
     internal static class TestCommandFactory
     {
         public static IEnumerable<ITestCommand> Create(
-            IEnumerable<Action> throwActions,
-            DisposableStep given,
-            Step when,
-            IEnumerable<Step> thens,
-            IEnumerable<Step> thensInIsolation,
-            IEnumerable<Step> thenSkips,
-            IMethodInfo method)
+            DisposableStep given, Step when, IEnumerable<Step> thens, IEnumerable<Step> thensInIsolation, IEnumerable<Step> thenSkips, IMethodInfo method)
         {
-            if (throwActions.Any())
-            {
-                yield return new ExceptionTestCommand(method, () => throwActions.First());
-                yield break;
-            }
-
             var messages = new[] { (given == null ? null : given.Message), (when == null ? null : when.Message) }
                 .Where(message => message != null).ToArray();
 
