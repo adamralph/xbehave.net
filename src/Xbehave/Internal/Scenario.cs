@@ -64,7 +64,7 @@ namespace Xbehave.Internal
 
         // TODO: address DoNotCatchGeneralExceptionTypes
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
-        public IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method, Action registerSteps)
+        public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method, Action registerSteps)
         {
             try
             {

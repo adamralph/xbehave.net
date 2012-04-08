@@ -30,7 +30,7 @@ namespace Xbehave.Internal
         {
             try
             {
-                return Scenario.CreateTestCommands(method, registerSteps);
+                return Scenario.GetTestCommands(method, registerSteps);
             }
             finally
             {
