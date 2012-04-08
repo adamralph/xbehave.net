@@ -30,7 +30,7 @@ namespace Xbehave.Internal
                 var localThen = then;
                 Action test = () =>
                 {
-                    using (given.Execute())
+                    using (given != null ? given.Execute() : null)
                     {
                         if (this.when != null)
                         {

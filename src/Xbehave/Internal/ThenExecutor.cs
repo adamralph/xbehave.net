@@ -36,7 +36,10 @@ namespace Xbehave.Internal
             {
                 try
                 {
-                    arrangement = given.Execute();
+                    if (given != null)
+                    {
+                        arrangement = given.Execute();
+                    }
 
                     if (when != null)
                     {
