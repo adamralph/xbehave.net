@@ -10,10 +10,17 @@ namespace Xbehave.Internal
 
     internal class ThenSkipTestCommandFactory
     {
-        public IEnumerable<ITestCommand> Create(DisposableStep given, Step when, IEnumerable<Step> thens, string name, IMethodInfo method)
+        private readonly TestCommandNameFactory nameFactory;
+
+        public ThenSkipTestCommandFactory(TestCommandNameFactory nameFactory)
         {
-            return thens
-                .Select(step => (ITestCommand)new SkipCommand(method, name + ", " + step.Message, "Action is ThenSkip (instead of Then or ThenInIsolation)"));
+            this.nameFactory = nameFactory;
+        }
+
+        public IEnumerable<ITestCommand> Create(DisposableStep given, Step when, IEnumerable<Step> thens, IMethodInfo method)
+        {
+            return thens.Select(step =>
+                (ITestCommand)new SkipCommand(method, this.nameFactory.Create(given, when, step), "Action is ThenSkip (instead of Then or ThenInIsolation)."));
         }
     }
 }

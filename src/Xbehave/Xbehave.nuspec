@@ -10,7 +10,8 @@
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/c292659fa57d/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Removed throwing of exception when scenario has no steps.
+    <releaseNotes>Changed names of tests generated from Then steps with shared context to include Given and When step names.
+Removed throwing of exception when scenario has no steps.
 Removed throwing of exception when scenario has no Given step.
 Added guard against creation of steps with a null arrangement, action or assertion.</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>

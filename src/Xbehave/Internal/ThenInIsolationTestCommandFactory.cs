@@ -10,7 +10,14 @@ namespace Xbehave.Internal
 
     internal class ThenInIsolationTestCommandFactory
     {
-        public IEnumerable<ITestCommand> Create(DisposableStep given, Step when, IEnumerable<Step> thens, string name, IMethodInfo method)
+        private readonly TestCommandNameFactory nameFactory;
+
+        public ThenInIsolationTestCommandFactory(TestCommandNameFactory nameFactory)
+        {
+            this.nameFactory = nameFactory;
+        }
+
+        public IEnumerable<ITestCommand> Create(DisposableStep given, Step when, IEnumerable<Step> thens, IMethodInfo method)
         {
             foreach (var then in thens)
             {
@@ -30,8 +37,7 @@ namespace Xbehave.Internal
                     }
                 };
 
-                var testName = string.Format("{0}, {1}", name, then.Message);
-                yield return new ActionTestCommand(method, testName, MethodUtility.GetTimeoutParameter(method), test);
+                yield return new ActionTestCommand(method, this.nameFactory.Create(given, when, then), MethodUtility.GetTimeoutParameter(method), test);
             }
         }
     }

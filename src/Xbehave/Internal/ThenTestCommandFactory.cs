@@ -11,7 +11,14 @@ namespace Xbehave.Internal
 
     internal class ThenTestCommandFactory
     {
-        public IEnumerable<ITestCommand> Create(DisposableStep given, Step when, IEnumerable<Step> thens, string name, IMethodInfo method)
+        private readonly TestCommandNameFactory nameFactory;
+
+        public ThenTestCommandFactory(TestCommandNameFactory nameFactory)
+        {
+            this.nameFactory = nameFactory;
+        }
+
+        public IEnumerable<ITestCommand> Create(DisposableStep given, Step when, IEnumerable<Step> thens, IMethodInfo method)
         {
             if (!thens.Any())
             {
@@ -42,7 +49,7 @@ namespace Xbehave.Internal
                 }
             };
 
-            yield return new ActionTestCommand(method, "{ " + name, 0, setupAction);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateSetup(given, when), 0, setupAction);
 
             foreach (var then in thens)
             {
@@ -59,7 +66,7 @@ namespace Xbehave.Internal
                     localThen.Execute();
                 };
 
-                yield return new ActionTestCommand(method, "\t- " + localThen.Message, 0, perform);
+                yield return new ActionTestCommand(method, this.nameFactory.Create(given, when, then), 0, perform);
             }
 
             Action disposal = () =>
@@ -75,7 +82,7 @@ namespace Xbehave.Internal
                 }
             };
 
-            yield return new ActionTestCommand(method, "} " + name, 0, disposal);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateTeardown(given, when), 0, disposal);
         }
     }
 }
