@@ -66,16 +66,7 @@ namespace Xbehave.Internal
                 var localThen = then;
                 Action test = () =>
                 {
-                    if (givenThrew)
-                    {
-                        throw new InvalidOperationException("Execution of Given failed.");
-                    }
-
-                    if (whenThrew)
-                    {
-                        throw new InvalidOperationException("Execution of When failed.");
-                    }
-
+                    ThrowIfGivenOrWhenFailed(givenThrew, whenThrew);
                     localThen.Execute();
                 };
 
@@ -89,18 +80,23 @@ namespace Xbehave.Internal
                     arrangement.Dispose();
                 }
 
-                if (givenThrew)
-                {
-                    throw new InvalidOperationException("Execution of Given failed.");
-                }
-
-                if (whenThrew)
-                {
-                    throw new InvalidOperationException("Execution of When failed.");
-                }
+                ThrowIfGivenOrWhenFailed(givenThrew, whenThrew);
             };
 
             yield return new ActionTestCommand(method, this.nameFactory.CreateTeardown(given, when), 0, teardown);
+        }
+
+        private static void ThrowIfGivenOrWhenFailed(bool givenThrew, bool whenThrew)
+        {
+            if (givenThrew)
+            {
+                throw new InvalidOperationException("Execution of Given failed.");
+            }
+
+            if (whenThrew)
+            {
+                throw new InvalidOperationException("Execution of When failed.");
+            }
         }
     }
 }
