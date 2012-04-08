@@ -1,4 +1,4 @@
-﻿// <copyright file="ThenInIsolationExecutor.cs" company="Adam Ralph">
+﻿// <copyright file="ThenInIsolationTestCommandFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -8,13 +8,13 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using Xunit.Sdk;
 
-    internal class ThenInIsolationExecutor
+    internal class ThenInIsolationTestCommandFactory
     {
         private readonly DisposableStep given;
         private readonly Step when;
         private readonly IEnumerable<Step> thens;
 
-        public ThenInIsolationExecutor(DisposableStep given, Step when, IEnumerable<Step> thens)
+        public ThenInIsolationTestCommandFactory(DisposableStep given, Step when, IEnumerable<Step> thens)
         {
             this.thens = thens;
             this.given = given;

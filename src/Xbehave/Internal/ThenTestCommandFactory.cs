@@ -1,4 +1,4 @@
-﻿// <copyright file="ThenExecutor.cs" company="Adam Ralph">
+﻿// <copyright file="ThenTestCommandFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -9,13 +9,13 @@ namespace Xbehave.Internal
     using System.Linq;
     using Xunit.Sdk;
 
-    internal class ThenExecutor
+    internal class ThenTestCommandFactory
     {
         private readonly DisposableStep given;
         private readonly Step when;
         private readonly IEnumerable<Step> thens;
 
-        public ThenExecutor(DisposableStep given, Step when, IEnumerable<Step> thens)
+        public ThenTestCommandFactory(DisposableStep given, Step when, IEnumerable<Step> thens)
         {
             this.thens = thens;
             this.given = given;

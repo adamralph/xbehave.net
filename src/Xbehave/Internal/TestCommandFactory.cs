@@ -18,14 +18,14 @@ namespace Xbehave.Internal
 
             var name = string.Join(" ", messages);
 
-            var thenInIsolationExecutor = new ThenInIsolationExecutor(given, when, thensInIsolation);
-            foreach (var command in thenInIsolationExecutor.Commands(name, method))
+            var isolationfactory = new ThenInIsolationTestCommandFactory(given, when, thensInIsolation);
+            foreach (var command in isolationfactory.Commands(name, method))
             {
                 yield return command;
             }
 
-            var thenExecutor = new ThenExecutor(given, when, thens);
-            foreach (var command in thenExecutor.Commands(name, method))
+            var factory = new ThenTestCommandFactory(given, when, thens);
+            foreach (var command in factory.Commands(name, method))
             {
                 yield return command;
             }

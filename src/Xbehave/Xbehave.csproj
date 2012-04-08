@@ -93,8 +93,8 @@
     <Compile Include="Deprecated\DisposableAction.cs" />
     <Compile Include="Deprecated\SpecificationAttribute.cs" />
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="Internal\ThenExecutor.cs" />
-    <Compile Include="Internal\ThenInIsolationExecutor.cs" />
+    <Compile Include="Internal\ThenTestCommandFactory.cs" />
+    <Compile Include="Internal\ThenInIsolationTestCommandFactory.cs" />
     <Compile Include="Internal\ActionTestCommand.cs" />
     <Compile Include="Internal\StepBase.cs" />
     <Compile Include="Internal\ThreadContext.cs" />
