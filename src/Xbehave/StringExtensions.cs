@@ -14,7 +14,7 @@ namespace Xbehave
     /// <summary>
     /// Extensions for declaring Given, When, Then scenario steps.
     /// </summary>
-    public static class StringExtensions
+    public static partial class StringExtensions
     {
         /// <summary>
         /// Records the arrangement for this specification.
@@ -88,18 +88,6 @@ namespace Xbehave
                 });
 
             return new Given(step);
-        }
-
-        /// <summary>
-        /// Deprecated in version 0.4.0.
-        /// </summary>
-        /// <param name="message">A message describing the arrangment.</param>
-        /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="ISpecificationPrimitive"/>.</returns>
-        [Obsolete("Use Given(Func<IDisposable>) instead.")]
-        public static IStep GivenDisposable(this string message, ContextDelegate arrange)
-        {
-            return message.ContextFixture(arrange);
         }
 
         /// <summary>
