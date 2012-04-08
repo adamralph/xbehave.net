@@ -5,7 +5,6 @@
 namespace Xbehave.Internal
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using Xunit.Sdk;
 
     internal class ActionTestCommand : TestCommand, ITestCommand
@@ -18,19 +17,10 @@ namespace Xbehave.Internal
             this.action = action;
         }
 
-        // TODO: address DoNotCatchGeneralExceptionTypes
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
         public override MethodResult Execute(object testClass)
         {
-            try
-            {
-                this.action();
-                return new PassedResult(testMethod, DisplayName);
-            }
-            catch (Exception ex)
-            {
-                return new FailedResult(testMethod, ex, DisplayName);
-            }
+            this.action();
+            return new PassedResult(this.testMethod, this.DisplayName);
         }
     }
 }
