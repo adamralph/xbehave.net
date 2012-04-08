@@ -148,7 +148,6 @@ namespace Xbehave.Internal
                     yield break;
                 }
 
-                int commandCount = 0;
                 string name = when == null
                     ? given.Message
                     : string.Concat(given.Message, " ", when.Message);
@@ -157,20 +156,17 @@ namespace Xbehave.Internal
                 foreach (var command in thenInIsolationExecutor.Commands(name, method))
                 {
                     yield return command;
-                    ++commandCount;
                 }
 
                 var thenExecutor = new ThenExecutor(given, when, thens);
                 foreach (var command in thenExecutor.Commands(name, method))
                 {
                     yield return command;
-                    ++commandCount;
                 }
 
                 foreach (var command in SkipCommands(name, method))
                 {
                     yield return command;
-                    ++commandCount;
                 }
             }
             finally
