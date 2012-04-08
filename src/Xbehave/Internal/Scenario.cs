@@ -6,11 +6,16 @@ namespace Xbehave.Internal
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Xbehave.Fluent;
     using Xunit.Sdk;
 
     internal class Scenario
     {
+        private static readonly ThenInIsolationTestCommandFactory thenInIsolationTestCommandFactory = new ThenInIsolationTestCommandFactory(new TestCommandNameFactory());
+        private static readonly ThenTestCommandFactory thenTestCommandFactory = new ThenTestCommandFactory(new TestCommandNameFactory());
+        private static readonly ThenSkipTestCommandFactory thenSkipTestCommandFactory = new ThenSkipTestCommandFactory(new TestCommandNameFactory());
+
         private readonly List<Step> thens = new List<Step>();
         private readonly List<Step> thensInIsolation = new List<Step>();
         private readonly List<Step> thenSkips = new List<Step>();
@@ -62,7 +67,9 @@ namespace Xbehave.Internal
 
         public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)
         {
-            return TestCommandFactory.Create(this.given, this.when, this.thens, this.thensInIsolation, this.thenSkips, method);
+            return thenInIsolationTestCommandFactory.Create(this.given, this.when, this.thensInIsolation, method)
+               .Concat(thenTestCommandFactory.Create(this.given, this.when, this.thens, method))
+               .Concat(thenSkipTestCommandFactory.Create(this.given, this.when, this.thenSkips, method));
         }
     }
 }

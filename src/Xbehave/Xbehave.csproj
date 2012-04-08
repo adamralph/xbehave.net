@@ -85,7 +85,6 @@
     <Compile Include="Fluent\IStep.cs" />
     <Compile Include="Internal\TestCommandNameFactory.cs" />
     <Compile Include="Internal\ThenSkipTestCommandFactory.cs" />
-    <Compile Include="Internal\TestCommandFactory.cs" />
     <Compile Include="Internal\Require.cs" />
     <Compile Include="Internal\DisposableStep.cs" />
     <Compile Include="Internal\Scenario.cs" />
