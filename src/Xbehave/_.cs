@@ -10,6 +10,7 @@ namespace Xbehave
     using System.Linq.Expressions;
 
     using Xbehave.Fluent;
+    using Xbehave.Internal;
     using Xbehave.Naming;
 
     /// <summary>
@@ -28,7 +29,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated in helper method.")]
         public static IGiven Given(Expression<Action> arrange)
         {
-            ValidateArrange(arrange);
+            Require.NotNull(arrange, "arrange");
             return arrange.Body.ToGivenName().Given(arrange.Compile());
         }
 
@@ -41,7 +42,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated in helper method.")]
         public static IGiven Given(Expression<Func<IDisposable>> arrange)
         {
-            ValidateArrange(arrange);
+            Require.NotNull(arrange, "arrange");
             return arrange.Body.ToGivenName().Given(arrange.Compile());
         }
 
@@ -54,7 +55,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated in helper method.")]
         public static IGiven Given(Expression<Func<IEnumerable<IDisposable>>> arrange)
         {
-            ValidateArrange(arrange);
+            Require.NotNull(arrange, "arrange");
             return arrange.Body.ToGivenName().Given(arrange.Compile());
         }
 
@@ -67,7 +68,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated in helper method.")]
         public static IGiven Given(Expression<Action> arrange, Action dispose)
         {
-            ValidateArrange(arrange);
+            Require.NotNull(arrange, "arrange");
             return arrange.Body.ToGivenName().Given(arrange.Compile(), dispose);
         }
 
@@ -79,7 +80,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated in helper method.")]
         public static IWhen When(Expression<Action> act)
         {
-            ValidateAct(act);
+            Require.NotNull(act, "act");
             return act.Body.ToWhenName().When(act.Compile());
         }
 
@@ -91,7 +92,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated in helper method.")]
         public static IThen Then(Expression<Action> assert)
         {
-            ValidateAssert(assert);
+            Require.NotNull(assert, "assert");
             return assert.Body.ToThenName().Then(assert.Compile());
         }
 
@@ -103,7 +104,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated in helper method.")]
         public static IThen ThenInIsolation(Expression<Action> assert)
         {
-            ValidateAssert(assert);
+            Require.NotNull(assert, "assert");
             return assert.Body.ToThenName().ThenInIsolation(assert.Compile());
         }
 
@@ -119,32 +120,8 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "Validated in helper method.")]
         public static IThen ThenSkip(Expression<Action> assert)
         {
-            ValidateAssert(assert);
+            Require.NotNull(assert, "assert");
             return assert.Body.ToThenName().ThenSkip(assert.Compile());
-        }
-
-        private static void ValidateArrange(object arrange)
-        {
-            if (arrange == null)
-            {
-                throw new ArgumentNullException("arrange");
-            }
-        }
-
-        private static void ValidateAct(object act)
-        {
-            if (act == null)
-            {
-                throw new ArgumentNullException("act");
-            }
-        }
-
-        private static void ValidateAssert(object assert)
-        {
-            if (assert == null)
-            {
-                throw new ArgumentNullException("assert");
-            }
         }
     }
 }
