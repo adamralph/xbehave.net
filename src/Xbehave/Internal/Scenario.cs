@@ -172,13 +172,6 @@ namespace Xbehave.Internal
                     yield return command;
                     ++commandCount;
                 }
-
-                if (commandCount == 0)
-                {
-                    yield return new ExceptionTestCommand(
-                        method,
-                        () => { throw new InvalidOperationException("The scenario does not have at least one Then step."); });
-                }
             }
             finally
             {
