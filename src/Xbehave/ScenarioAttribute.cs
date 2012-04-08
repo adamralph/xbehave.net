@@ -38,11 +38,12 @@ namespace Xbehave
         /// <returns>The test commands which will execute the test runs for the given method.</returns>
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            var commands = method != null && method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
+            var xunitCommands = method != null && method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method)
                 : new[] { new FactCommand(method) };
 
-            return commands.SelectMany(cmd => ThreadContext.GetTestCommands(method, () => cmd.Execute(method.IsStatic ? null : method.CreateInstance())));
+            return xunitCommands.SelectMany(xunitCommand =>
+                ThreadContext.EnumerateTestCommands(method, () => xunitCommand.Execute(method.IsStatic ? null : method.CreateInstance())));
         }
     }
 }

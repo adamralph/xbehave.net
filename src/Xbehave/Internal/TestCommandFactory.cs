@@ -1,4 +1,4 @@
-﻿// <copyright file="CommandFactory.cs" company="Adam Ralph">
+﻿// <copyright file="TestCommandFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -9,7 +9,7 @@ namespace Xbehave.Internal
     using System.Linq;
     using Xunit.Sdk;
 
-    internal static class CommandFactory
+    internal static class TestCommandFactory
     {
         public static IEnumerable<ITestCommand> Create(
             IEnumerable<Action> throwActions,

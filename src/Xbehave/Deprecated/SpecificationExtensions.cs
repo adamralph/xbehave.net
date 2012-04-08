@@ -24,7 +24,7 @@ namespace Xbehave
         [Obsolete("Use Given() instead.")]
         public static IStep Context(this string message, Action arrange)
         {
-            return ThreadContext.Given(
+            return ThreadContext.Scenario.Given(
                 message,
                 () =>
                 {
@@ -55,7 +55,7 @@ namespace Xbehave
         [Obsolete("Use Given() instead.")]
         public static IStep ContextFixture(this string message, ContextDelegate arrange)
         {
-            return ThreadContext.Given(message, () => arrange());
+            return ThreadContext.Scenario.Given(message, () => arrange());
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Xbehave
         [Obsolete("Use When() instead.")]
         public static IStep Do(this string message, Action act)
         {
-            return ThreadContext.When(message, act);
+            return ThreadContext.Scenario.When(message, act);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Xbehave
         [Obsolete("Use ThenInIsolation() instead.")]
         public static IStep Assert(this string message, Action assert)
         {
-            return ThreadContext.ThenInIsolation(message, assert);
+            return ThreadContext.Scenario.ThenInIsolation(message, assert);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Xbehave
         [Obsolete("Use Then() instead.")]
         public static IStep Observation(this string message, Action observation)
         {
-            return ThreadContext.Then(message, observation);
+            return ThreadContext.Scenario.Then(message, observation);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Xbehave
         [Obsolete("Use ThenSkip() instead.")]
         public static IStep Todo(this string message, Action skippedAction)
         {
-            return ThreadContext.ThenSkip(message, skippedAction);
+            return ThreadContext.Scenario.ThenSkip(message, skippedAction);
         }
     }
 }
