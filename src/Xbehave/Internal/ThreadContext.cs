@@ -1,4 +1,4 @@
-﻿// <copyright file="Scenario.cs" company="Adam Ralph">
+﻿// <copyright file="ThreadContext.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -11,7 +11,7 @@ namespace Xbehave.Internal
     using Xbehave.Fluent;
     using Xunit.Sdk;
 
-    internal static class Scenario
+    internal static class ThreadContext
     {
         [ThreadStatic]
         private static bool initialized;

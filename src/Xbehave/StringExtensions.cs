@@ -26,7 +26,7 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
             
-            var step = Scenario.Given(
+            var step = ThreadContext.Given(
                 message,
                 () =>
                 {
@@ -47,7 +47,7 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
 
-            var step = Scenario.Given(
+            var step = ThreadContext.Given(
                 message,
                 () => arrange());
 
@@ -65,7 +65,7 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
 
-            var step = Scenario.Given(
+            var step = ThreadContext.Given(
                 message,
                 () =>
                 {
@@ -87,7 +87,7 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
 
-            var step = Scenario.Given(
+            var step = ThreadContext.Given(
                 message,
                 () =>
                 {
@@ -106,7 +106,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhen"/>.</returns>
         public static IWhen When(this string message, Action act)
         {
-            return new When(Scenario.When(message, act));
+            return new When(ThreadContext.When(message, act));
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen ThenInIsolation(this string message, Action assert)
         {
-            return new Then(Scenario.ThenInIsolation(message, assert));
+            return new Then(ThreadContext.ThenInIsolation(message, assert));
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen Then(this string message, Action assert)
         {
-            return new Then(Scenario.Then(message, assert));
+            return new Then(ThreadContext.Then(message, assert));
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Xbehave
         /// </remarks>
         public static IThen ThenSkip(this string message, Action assert)
         {
-            return new Then(Scenario.ThenSkip(message, assert));
+            return new Then(ThreadContext.ThenSkip(message, assert));
         }
 
         private class Disposable : IDisposable

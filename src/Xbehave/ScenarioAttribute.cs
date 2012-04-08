@@ -42,7 +42,7 @@ namespace Xbehave
                 ? base.EnumerateTestCommands(method)
                 : new[] { new FactCommand(method) };
 
-            return commands.SelectMany(cmd => Scenario.GetTestCommands(method, () => cmd.Execute(method.IsStatic ? null : method.CreateInstance())));
+            return commands.SelectMany(cmd => ThreadContext.GetTestCommands(method, () => cmd.Execute(method.IsStatic ? null : method.CreateInstance())));
         }
     }
 }
