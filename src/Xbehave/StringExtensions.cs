@@ -24,7 +24,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange)
         {
-            var step = ScenarioContext.Given(
+            var step = Scenario.Given(
                 message,
                 () =>
                 {
@@ -43,7 +43,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Func<IDisposable> arrange)
         {
-            var step = ScenarioContext.Given(
+            var step = Scenario.Given(
                 message,
                 () => arrange());
 
@@ -59,7 +59,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IGiven Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
-            var step = ScenarioContext.Given(
+            var step = Scenario.Given(
                 message,
                 () =>
                 {
@@ -79,7 +79,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange, Action dispose)
         {
-            var step = ScenarioContext.Given(
+            var step = Scenario.Given(
                 message,
                 () =>
                 {
@@ -110,7 +110,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhen"/>.</returns>
         public static IWhen When(this string message, Action act)
         {
-            return new When(ScenarioContext.When(message, act));
+            return new When(Scenario.When(message, act));
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen ThenInIsolation(this string message, Action assert)
         {
-            return new Then(ScenarioContext.ThenInIsolation(message, assert));
+            return new Then(Scenario.ThenInIsolation(message, assert));
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen Then(this string message, Action assert)
         {
-            return new Then(ScenarioContext.Then(message, assert));
+            return new Then(Scenario.Then(message, assert));
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Xbehave
         /// </remarks>
         public static IThen ThenSkip(this string message, Action assert)
         {
-            return new Then(ScenarioContext.ThenSkip(message, assert));
+            return new Then(Scenario.ThenSkip(message, assert));
         }
 
         private class Disposable : IDisposable

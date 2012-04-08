@@ -43,7 +43,7 @@ namespace Xbehave.Test.Legacy
         [Fact]
         public static void CanEnumerateTestCommandsOfEmptySpecificationConcurrently()
         {
-            VerifyConcurrentExecution(() => ScenarioContext.GetTestCommands(null, () => { }));
+            VerifyConcurrentExecution(() => Scenario.GetTestCommands(null, () => { }));
         }
 
         private static void VerifyConcurrentExecution(ThreadStart action)

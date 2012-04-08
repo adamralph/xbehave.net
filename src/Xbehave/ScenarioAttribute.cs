@@ -42,8 +42,8 @@ namespace Xbehave
 
             return method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method).SelectMany(cmd =>
-                    ScenarioContext.GetTestCommands(method, () => cmd.Execute(method.CreateInstanceOrDefault())))
-                : ScenarioContext.GetTestCommands(method, () => method.Invoke());
+                    Scenario.GetTestCommands(method, () => cmd.Execute(method.CreateInstanceOrDefault())))
+                : Scenario.GetTestCommands(method, () => method.Invoke());
         }
     }
 }

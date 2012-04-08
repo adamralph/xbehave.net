@@ -96,7 +96,7 @@
     <Compile Include="Internal\ExceptionTestCommand.cs" />
     <Compile Include="Internal\ActionTestCommand.cs" />
     <Compile Include="Internal\StepBase.cs" />
-    <Compile Include="Internal\ScenarioContext.cs" />
+    <Compile Include="Internal\Scenario.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />
     <Compile Include="Deprecated\ThesisAttribute.cs" />
     <Compile Include="Fluent\Then.cs" />
