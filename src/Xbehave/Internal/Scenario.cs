@@ -8,7 +8,6 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
-    using System.Linq;
     using Xbehave.Fluent;
     using Xunit.Sdk;
 
@@ -101,7 +100,16 @@ namespace Xbehave.Internal
             try
             {
                 registerSteps();
-                return BuildCommandsFromRegisteredSteps(method);
+                EnsureInitialized();
+
+                try
+                {
+                    return CommandFactory.Create(throwActions, given, when, thens, thensInIsolation, thenSkips, method);
+                }
+                finally
+                {
+                    Reset();
+                }
             }
             catch (Exception ex)
             {
@@ -132,47 +140,6 @@ namespace Xbehave.Internal
             {
                 Reset();
                 initialized = true;
-            }
-        }
-
-        private static IEnumerable<ITestCommand> BuildCommandsFromRegisteredSteps(IMethodInfo method)
-        {
-            EnsureInitialized();
-
-            try
-            {
-                if (throwActions.Any())
-                {
-                    yield return new ExceptionTestCommand(method, () => throwActions.First());
-                    yield break;
-                }
-
-                var messages = new[] { (given == null ? null : given.Message), (when == null ? null : when.Message) }
-                    .Where(message => message != null).ToArray();
-
-                var name = string.Join(" ", messages);
-
-                var thenInIsolationExecutor = new ThenInIsolationExecutor(given, when, thensInIsolation);
-                foreach (var command in thenInIsolationExecutor.Commands(name, method))
-                {
-                    yield return command;
-                }
-
-                var thenExecutor = new ThenExecutor(given, when, thens);
-                foreach (var command in thenExecutor.Commands(name, method))
-                {
-                    yield return command;
-                }
-
-                foreach (var command in thenSkips
-                    .Select(step => new SkipCommand(method, name + ", " + step.Message, "Action is ThenSkip (instead of Then or ThenInIsolation)")))
-                {
-                    yield return command;
-                }
-            }
-            finally
-            {
-                Reset();
             }
         }
     }

@@ -12,9 +12,9 @@ namespace Xbehave.Internal
     {
         private readonly DisposableStep given;
         private readonly Step when;
-        private readonly List<Step> thens;
+        private readonly IEnumerable<Step> thens;
 
-        public ThenInIsolationExecutor(DisposableStep given, Step when, List<Step> thens)
+        public ThenInIsolationExecutor(DisposableStep given, Step when, IEnumerable<Step> thens)
         {
             this.thens = thens;
             this.given = given;
