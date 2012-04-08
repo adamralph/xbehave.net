@@ -6,8 +6,6 @@ namespace Xbehave.Internal
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
     using Xbehave.Fluent;
     using Xunit.Sdk;
 
@@ -62,25 +60,9 @@ namespace Xbehave.Internal
             return step;
         }
 
-        // TODO: address DoNotCatchGeneralExceptionTypes
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
         public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)
         {
-            try
-            {
-                return TestCommandFactory.Create(this.given, this.when, this.thens, this.thensInIsolation, this.thenSkips, method);
-            }
-            catch (Exception ex)
-            {
-                var message = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "An exception was thrown while creating test commands from scenario {0}.{1}:\r\n{2}",
-                    method.TypeName,
-                    method.Name,
-                    ex.Message);
-
-                return new[] { new ExceptionTestCommand(method, () => { throw new InvalidOperationException(message, ex); }) };
-            }
+            return TestCommandFactory.Create(this.given, this.when, this.thens, this.thensInIsolation, this.thenSkips, method);
         }
     }
 }

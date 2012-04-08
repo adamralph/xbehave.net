@@ -95,7 +95,6 @@
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
     <Compile Include="Internal\ThenExecutor.cs" />
     <Compile Include="Internal\ThenInIsolationExecutor.cs" />
-    <Compile Include="Internal\ExceptionTestCommand.cs" />
     <Compile Include="Internal\ActionTestCommand.cs" />
     <Compile Include="Internal\StepBase.cs" />
     <Compile Include="Internal\ThreadContext.cs" />
