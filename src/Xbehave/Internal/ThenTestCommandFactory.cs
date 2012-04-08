@@ -58,7 +58,7 @@ namespace Xbehave.Internal
                 }
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateSetup(given, when), 0, setup);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateSetup(given, when), MethodUtility.GetTimeoutParameter(method), setup);
 
             foreach (var then in thens)
             {
@@ -70,7 +70,7 @@ namespace Xbehave.Internal
                     localThen.Execute();
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.Create(given, when, then), 0, test);
+                yield return new ActionTestCommand(method, this.nameFactory.Create(given, when, then), MethodUtility.GetTimeoutParameter(method), test);
             }
 
             Action teardown = () =>
@@ -83,7 +83,7 @@ namespace Xbehave.Internal
                 ThrowIfGivenOrWhenFailed(givenThrew, whenThrew);
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateTeardown(given, when), 0, teardown);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateTeardown(given, when), MethodUtility.GetTimeoutParameter(method), teardown);
         }
 
         private static void ThrowIfGivenOrWhenFailed(bool givenThrew, bool whenThrew)
