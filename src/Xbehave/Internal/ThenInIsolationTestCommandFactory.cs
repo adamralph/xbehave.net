@@ -21,8 +21,7 @@ namespace Xbehave.Internal
         {
             foreach (var then in thens)
             {
-                // do not capture the iteration variable because 
-                // all tests would point to the same assertion
+                // take a local copy otherwise all tests would point to the same step
                 var localThen = then;
                 Action test = () =>
                 {

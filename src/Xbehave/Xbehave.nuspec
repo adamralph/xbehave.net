@@ -13,6 +13,7 @@
     <releaseNotes>Changed names of tests generated from Then steps with shared context to include Given and When step names.
 Removed throwing of exception when scenario has no steps.
 Removed throwing of exception when scenario has no Given step.
+changed exception messages for shared Thens to indicate specifically whether Given or When failed.
 Added guard against creation of steps with a null arrangement, action or assertion.</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>

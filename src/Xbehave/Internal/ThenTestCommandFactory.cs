@@ -25,64 +25,82 @@ namespace Xbehave.Internal
                 yield break;
             }
 
-            var givenOrWhenThrewException = false;
             var arrangement = default(IDisposable);
+            var givenThrew = false;
+            var whenThrew = false;
 
-            Action setupAction = () =>
+            Action setup = () =>
             {
-                try
+                if (given != null)
                 {
-                    if (given != null)
+                    try
                     {
                         arrangement = given.Execute();
                     }
+                    catch (Exception)
+                    {
+                        givenThrew = true;
+                        throw;
+                    }
+                }
 
-                    if (when != null)
+                if (when != null)
+                {
+                    try
                     {
                         when.Execute();
                     }
-                }
-                catch (Exception)
-                {
-                    givenOrWhenThrewException = true;
-                    throw;
+                    catch (Exception)
+                    {
+                        whenThrew = true;
+                        throw;
+                    }
                 }
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateSetup(given, when), 0, setupAction);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateSetup(given, when), 0, setup);
 
             foreach (var then in thens)
             {
-                // do not capture the iteration variable because 
-                // all tests would point to the same observation
+                // take a local copy otherwise all tests would point to the same step
                 var localThen = then;
-                Action perform = () =>
+                Action test = () =>
                 {
-                    if (givenOrWhenThrewException)
+                    if (givenThrew)
                     {
-                        throw new InvalidOperationException("Execution of Given or When failed.");
+                        throw new InvalidOperationException("Execution of Given failed.");
+                    }
+
+                    if (whenThrew)
+                    {
+                        throw new InvalidOperationException("Execution of When failed.");
                     }
 
                     localThen.Execute();
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.Create(given, when, then), 0, perform);
+                yield return new ActionTestCommand(method, this.nameFactory.Create(given, when, then), 0, test);
             }
 
-            Action disposal = () =>
+            Action teardown = () =>
             {
                 if (arrangement != null)
                 {
                     arrangement.Dispose();
                 }
 
-                if (givenOrWhenThrewException)
+                if (givenThrew)
                 {
-                    throw new InvalidOperationException("Execution of Given or When failed but arrangement was disposed.");
+                    throw new InvalidOperationException("Execution of Given failed.");
+                }
+
+                if (whenThrew)
+                {
+                    throw new InvalidOperationException("Execution of When failed.");
                 }
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateTeardown(given, when), 0, disposal);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateTeardown(given, when), 0, teardown);
         }
     }
 }
