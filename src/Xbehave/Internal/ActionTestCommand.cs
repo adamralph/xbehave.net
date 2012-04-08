@@ -25,12 +25,13 @@ namespace Xbehave.Internal
             try
             {
                 this.action();
-                return new PassedResult(testMethod, DisplayName);
             }
             catch (Exception ex)
             {
                 return new FailedResult(testMethod, ex, DisplayName);
             }
+
+            return new PassedResult(testMethod, DisplayName);
         }
     }
 }
