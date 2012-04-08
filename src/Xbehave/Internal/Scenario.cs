@@ -148,9 +148,10 @@ namespace Xbehave.Internal
                     yield break;
                 }
 
-                string name = when == null
-                    ? given.Message
-                    : string.Concat(given.Message, " ", when.Message);
+                var messages = new[] { (given == null ? null : given.Message), (when == null ? null : when.Message) }
+                    .Where(message => message != null).ToArray();
+
+                var name = string.Join(" ", messages);
 
                 var thenInIsolationExecutor = new ThenInIsolationExecutor(given, when, thensInIsolation);
                 foreach (var command in thenInIsolationExecutor.Commands(name, method))
@@ -177,11 +178,6 @@ namespace Xbehave.Internal
 
         private static ExceptionTestCommand ValidateScenario(IMethodInfo method)
         {
-            if (given == null)
-            {
-                throwActions.Add(() => { throw new InvalidOperationException("The scenario has no Given step."); });
-            }
-
             if (throwActions.Any())
             {
                 // throw the first recorded exception, preserves stacktraces nicely.

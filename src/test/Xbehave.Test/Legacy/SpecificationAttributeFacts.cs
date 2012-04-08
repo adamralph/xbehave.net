@@ -13,7 +13,7 @@ namespace Xbehave.Test.Legacy
     public static class SpecificationAttributeFacts
     {
         [Fact]
-        public static void ReportsExceptionWhenFailingToEnumerateTestCommands()
+        public static void ReturnsNoCommandsForAMethodWithNoSteps()
         {
             SpecificationAttribute attribute = new SpecificationAttribute();
 
@@ -21,7 +21,7 @@ namespace Xbehave.Test.Legacy
 
             var commands = attribute.CreateTestCommands(mock);
 
-            Assert.IsAssignableFrom<ExceptionTestCommand>(commands.Single());
+            Assert.Empty(commands);
         }
     }
 }
