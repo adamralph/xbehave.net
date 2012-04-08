@@ -10,20 +10,9 @@ namespace Xbehave.Internal
 
     internal class ThenInIsolationTestCommandFactory
     {
-        private readonly DisposableStep given;
-        private readonly Step when;
-        private readonly IEnumerable<Step> thens;
-
-        public ThenInIsolationTestCommandFactory(DisposableStep given, Step when, IEnumerable<Step> thens)
+        public IEnumerable<ITestCommand> Create(DisposableStep given, Step when, IEnumerable<Step> thens, string name, IMethodInfo method)
         {
-            this.thens = thens;
-            this.given = given;
-            this.when = when;
-        }
-
-        public IEnumerable<ITestCommand> Commands(string name, IMethodInfo method)
-        {
-            foreach (var then in this.thens)
+            foreach (var then in thens)
             {
                 // do not capture the iteration variable because 
                 // all tests would point to the same assertion
@@ -32,7 +21,7 @@ namespace Xbehave.Internal
                 {
                     using (given != null ? given.Execute() : null)
                     {
-                        if (this.when != null)
+                        if (when != null)
                         {
                             when.Execute();
                         }

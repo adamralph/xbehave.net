@@ -10,6 +10,10 @@ namespace Xbehave.Internal
 
     internal static class TestCommandFactory
     {
+        private static readonly ThenInIsolationTestCommandFactory thenInIsolationTestCommandFactory = new ThenInIsolationTestCommandFactory();
+        private static readonly ThenTestCommandFactory thenTestCommandFactory = new ThenTestCommandFactory();
+        private static readonly ThenSkipTestCommandFactory thenSkipTestCommandFactory = new ThenSkipTestCommandFactory();
+
         public static IEnumerable<ITestCommand> Create(
             DisposableStep given, Step when, IEnumerable<Step> thens, IEnumerable<Step> thensInIsolation, IEnumerable<Step> thenSkips, IMethodInfo method)
         {
@@ -18,23 +22,9 @@ namespace Xbehave.Internal
 
             var name = string.Join(" ", messages);
 
-            var isolationfactory = new ThenInIsolationTestCommandFactory(given, when, thensInIsolation);
-            foreach (var command in isolationfactory.Commands(name, method))
-            {
-                yield return command;
-            }
-
-            var factory = new ThenTestCommandFactory(given, when, thens);
-            foreach (var command in factory.Commands(name, method))
-            {
-                yield return command;
-            }
-
-            foreach (var command in thenSkips
-                .Select(step => new SkipCommand(method, name + ", " + step.Message, "Action is ThenSkip (instead of Then or ThenInIsolation)")))
-            {
-                yield return command;
-            }
+            return thenInIsolationTestCommandFactory.Create(given, when, thensInIsolation, name, method)
+                .Concat(thenTestCommandFactory.Create(given, when, thens, name, method))
+                .Concat(thenSkipTestCommandFactory.Create(given, when, thenSkips, name, method));
         }
     }
 }
