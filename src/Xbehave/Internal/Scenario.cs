@@ -141,10 +141,9 @@ namespace Xbehave.Internal
 
             try
             {
-                var validationException = ValidateScenario(method);
-                if (validationException != null)
+                if (throwActions.Any())
                 {
-                    yield return validationException;
+                    yield return new ExceptionTestCommand(method, () => throwActions.First());
                     yield break;
                 }
 
@@ -165,7 +164,8 @@ namespace Xbehave.Internal
                     yield return command;
                 }
 
-                foreach (var command in SkipCommands(name, method))
+                foreach (var command in thenSkips
+                    .Select(step => new SkipCommand(method, name + ", " + step.Message, "Action is ThenSkip (instead of Then or ThenInIsolation)")))
                 {
                     yield return command;
                 }
@@ -174,23 +174,6 @@ namespace Xbehave.Internal
             {
                 Reset();
             }
-        }
-
-        private static ExceptionTestCommand ValidateScenario(IMethodInfo method)
-        {
-            if (throwActions.Any())
-            {
-                // throw the first recorded exception, preserves stacktraces nicely.
-                return new ExceptionTestCommand(method, () => throwActions[0]());
-            }
-
-            return null;
-        }
-
-        private static IEnumerable<SkipCommand> SkipCommands(string name, IMethodInfo method)
-        {
-            // TODO: work out way of passing reason from scenario
-            return thenSkips.Select(step => new SkipCommand(method, name + ", " + step.Message, "Action is ThenSkip (instead of Then or ThenInIsolation)"));
         }
     }
 }
