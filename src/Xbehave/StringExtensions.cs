@@ -24,6 +24,8 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange)
         {
+            Require.NotNull(arrange, "arrange");
+            
             var step = Scenario.Given(
                 message,
                 () =>
@@ -43,6 +45,8 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Func<IDisposable> arrange)
         {
+            Require.NotNull(arrange, "arrange");
+
             var step = Scenario.Given(
                 message,
                 () => arrange());
@@ -59,6 +63,8 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IGiven Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
+            Require.NotNull(arrange, "arrange");
+
             var step = Scenario.Given(
                 message,
                 () =>
@@ -79,6 +85,8 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange, Action dispose)
         {
+            Require.NotNull(arrange, "arrange");
+
             var step = Scenario.Given(
                 message,
                 () =>
