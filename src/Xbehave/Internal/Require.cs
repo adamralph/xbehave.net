@@ -8,12 +8,16 @@ namespace Xbehave.Internal
 
     internal static class Require
     {
-        public static void NotNull<T>(T arg, string parameterName) where T : class
+        public static void NotNull<T>([ValidatedNotNull]T arg, string parameterName) where T : class
         {
             if (arg == null)
             {
                 throw new ArgumentNullException(parameterName);
             }
+        }
+
+        private sealed class ValidatedNotNullAttribute : Attribute
+        {
         }
     }
 }
