@@ -5,9 +5,6 @@
 namespace Xbehave
 {
     using System;
-    using System.Collections.Generic;
-    using Xunit.Extensions;
-    using Xunit.Sdk;
 
     /// <summary>
     /// This member is deprecated.

@@ -4,9 +4,7 @@
 
 namespace Xbehave.Test.Legacy
 {
-    using System.Linq;
     using FakeItEasy;
-    using Xbehave.Internal;
     using Xunit;
     using Xunit.Sdk;
 
@@ -15,7 +13,7 @@ namespace Xbehave.Test.Legacy
         [Fact]
         public static void ReturnsNoCommandsForAMethodWithNoSteps()
         {
-            SpecificationAttribute attribute = new SpecificationAttribute();
+            var attribute = new SpecificationAttribute();
 
             var mock = A.Fake<IMethodInfo>();
 

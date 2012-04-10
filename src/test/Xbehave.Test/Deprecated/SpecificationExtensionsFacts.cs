@@ -16,7 +16,7 @@ namespace Xbehave.Test.Deprecated
         {
             // arrange
             var message = "foo";
-            var contextDelegate = new ContextDelegate(() => A.Fake<IDisposable>());
+            var contextDelegate = new ContextDelegate(A.Fake<IDisposable>);
 
             // act
             var exception = Record.Exception(() => message.Context(contextDelegate));

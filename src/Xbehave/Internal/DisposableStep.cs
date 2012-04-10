@@ -5,9 +5,6 @@
 namespace Xbehave.Internal
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     internal class DisposableStep : StepBase<Func<IDisposable>>
     {
@@ -27,15 +24,11 @@ namespace Xbehave.Internal
                 {
                     throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                 }
-                else
-                {
-                    return this.Action.EndInvoke(result);
-                }
+                
+                return this.Action.EndInvoke(result);
             }
-            else
-            {
-                return this.Action();
-            }
+            
+            return this.Action();
         }
     }
 }

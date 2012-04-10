@@ -5,9 +5,6 @@
 namespace Xbehave.Internal
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     internal class Step : StepBase<Action>
     {
@@ -27,10 +24,8 @@ namespace Xbehave.Internal
                 {
                     throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                 }
-                else
-                {
-                    this.Action.EndInvoke(result);
-                }
+                
+                this.Action.EndInvoke(result);
             }
             else
             {

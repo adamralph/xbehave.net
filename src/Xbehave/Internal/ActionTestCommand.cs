@@ -8,7 +8,7 @@ namespace Xbehave.Internal
     using System.Diagnostics.CodeAnalysis;
     using Xunit.Sdk;
 
-    internal class ActionTestCommand : TestCommand, ITestCommand
+    internal class ActionTestCommand : TestCommand
     {
         private readonly Action action;
 

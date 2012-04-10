@@ -12,7 +12,6 @@ namespace Xbehave.Internal
     {
         private readonly string message;
         private readonly T action;
-        private int millisecondsTimeout;
 
         protected StepBase(string message, T action)
         {
@@ -40,10 +39,7 @@ namespace Xbehave.Internal
             get { return this.action; }
         }
 
-        public int MillisecondsTimeout
-        {
-            get { return this.millisecondsTimeout; }
-        }
+        public int MillisecondsTimeout { get; private set; }
 
         [SuppressMessage(
             "Microsoft.Maintainability",
@@ -52,7 +48,7 @@ namespace Xbehave.Internal
             Justification = "StyleCop enforces the 'this.' prefix when referencing an instance field.")]
         public IStep WithTimeout(int millisecondsTimeout)
         {
-            this.millisecondsTimeout = millisecondsTimeout;
+            this.MillisecondsTimeout = millisecondsTimeout;
             return this;
         }
     }

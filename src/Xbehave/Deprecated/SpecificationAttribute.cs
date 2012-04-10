@@ -5,9 +5,6 @@
 namespace Xbehave
 {
     using System;
-    using System.Collections.Generic;
-    using Xunit;
-    using Xunit.Sdk;
 
     /// <summary>
     /// This member is deprecated (was part of the original SubSpec API).

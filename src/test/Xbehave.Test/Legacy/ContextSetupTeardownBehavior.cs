@@ -56,8 +56,8 @@ namespace Xbehave.Test.Legacy
 
             "when".Do(() => { });
 
-            "we expect our first assertion to pass".Assert(() => { Assert.True(true); });
-            "we expect the context instantiation not to be repeated for the second assertion".Assert(() => { Assert.True(true); });
+            "we expect our first assertion to pass".Assert(() => Assert.True(true));
+            "we expect the context instantiation not to be repeated for the second assertion".Assert(() => Assert.True(true));
         }
 
         [Specification]
@@ -66,10 +66,10 @@ namespace Xbehave.Test.Legacy
             var sut = new ContextFixtureSpy();
 
             "Given an externally managed context".Context(() => { });
-            "when we execute an action on it that may be invoked only once".Do(() => { sut.FailWhenCallingTwice(); });
+            "when we execute an action on it that may be invoked only once".Do(sut.FailWhenCallingTwice);
 
-            "we expect our first assertion to pass".Observation(() => { Assert.True(true); });
-            "we expect the action not to be repeated for the second assertion".Observation(() => { Assert.True(true); });
+            "we expect our first assertion to pass".Observation(() => Assert.True(true));
+            "we expect the action not to be repeated for the second assertion".Observation(() => Assert.True(true));
         }
 
         [Specification]
@@ -77,10 +77,10 @@ namespace Xbehave.Test.Legacy
         {
             var sut = new ContextFixtureSpy();
 
-            "Given a context that may not be established twice".Context(() => { sut.FailWhenCallingTwice(); });
+            "Given a context that may not be established twice".Context(() => sut.FailWhenCallingTwice());
 
-            "we expect our first assertion to pass".Observation(() => { Assert.True(true); });
-            "we expect the context instantiation not to be repeated for the second assertion".Observation(() => { Assert.True(true); });
+            "we expect our first assertion to pass".Observation(() => Assert.True(true));
+            "we expect the context instantiation not to be repeated for the second assertion".Observation(() => Assert.True(true));
         }
 
         public static void SpecificationThatShouldDisposeItsAssertionFixture()
@@ -94,11 +94,8 @@ namespace Xbehave.Test.Legacy
         public static void ErrorInDoForAssertionDisposesContext()
         {
             DisposeSpy.Reset();
-
-            IMethodInfo method = Reflector.Wrap(StaticReflection.MethodOf(() => SpecificationThatShouldDisposeItsAssertionFixture()));
-
+            var method = Reflector.Wrap(StaticReflection.MethodOf(() => SpecificationThatShouldDisposeItsAssertionFixture()));
             ExecuteSpecification(method);
-
             Assert.True(DisposeSpy.WasDisposed);
         }
 
@@ -113,10 +110,8 @@ namespace Xbehave.Test.Legacy
         public static void ErrorInDoForObservationDisposesContext()
         {
             DisposeSpy.Reset();
-
-            IMethodInfo method = Reflector.Wrap(StaticReflection.MethodOf(() => SpecificationThatShouldDisposeItsObservationFixture()));
+            var method = Reflector.Wrap(StaticReflection.MethodOf(() => SpecificationThatShouldDisposeItsObservationFixture()));
             ExecuteSpecification(method);
-
             Assert.True(DisposeSpy.WasDisposed);
         }
 
@@ -130,7 +125,7 @@ namespace Xbehave.Test.Legacy
 
         private class ContextFixtureSpy
         {
-            private bool called = false;
+            private bool called;
 
             public void FailWhenCallingTwice()
             {
@@ -145,21 +140,16 @@ namespace Xbehave.Test.Legacy
 
         private class DisposeSpy : IDisposable
         {
-            private static bool disposed = false;
-
-            public static bool WasDisposed
-            {
-                get { return disposed; }
-            }
+            public static bool WasDisposed { get; private set; }
 
             public static void Reset()
             {
-                disposed = false;
+                WasDisposed = false;
             }
 
             public void Dispose()
             {
-                disposed = true;
+                WasDisposed = true;
             }
         }
 

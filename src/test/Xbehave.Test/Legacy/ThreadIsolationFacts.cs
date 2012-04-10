@@ -51,8 +51,8 @@ namespace Xbehave.Test.Legacy
             Assert.DoesNotThrow(() =>
             {
                 // We could use the Task API here but we want to be explicit about getting two concurrent, physical threads
-                Thread a = new Thread(action);
-                Thread b = new Thread(action);
+                var a = new Thread(action);
+                var b = new Thread(action);
 
                 a.Start();
                 b.Start();

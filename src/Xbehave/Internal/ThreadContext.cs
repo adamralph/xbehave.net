@@ -15,15 +15,7 @@ namespace Xbehave.Internal
 
         public static Scenario Scenario
         {
-            get
-            {
-                if (scenario == null)
-                {
-                    scenario = new Scenario();
-                }
-
-                return scenario;
-            }
+            get { return scenario ?? (scenario = new Scenario()); }
         }
 
         public static IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method, Action registerSteps)

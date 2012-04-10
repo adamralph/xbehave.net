@@ -47,10 +47,7 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
 
-            var step = ThreadContext.Scenario.Given(
-                message,
-                () => arrange());
-
+            var step = ThreadContext.Scenario.Given(message, arrange);
             return new Given(step);
         }
 
