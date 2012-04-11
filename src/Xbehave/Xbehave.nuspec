@@ -10,7 +10,8 @@
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/c292659fa57d/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Changed names of tests generated from Then steps with shared context to include Given and When step names.
+    <releaseNotes>Added automatic comma separation of steps in test names.
+Changed names of tests generated from Then steps with shared context to include Given and When step names.
 Added application of ScenarioAttribute.Timeout property to each test generated from Then steps with shared context.
 Removed throwing of exception when scenario has no steps.
 Removed throwing of exception when scenario has no Given step.

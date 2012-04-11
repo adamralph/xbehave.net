@@ -10,36 +10,30 @@ namespace Xbehave.Internal
     {
         public string Create(Step given, Step when, Step then)
         {
-            var messages = new[]
-            {
-                (given == null ? null : given.Message),
-                (when == null ? null : when.Message),
-                (then == null ? null : then.Message),
-            };
-
-            return string.Join(" ", messages.Where(message => message != null).ToArray());
+            return Create(new[] { given, when, then });
         }
 
         public string CreateSetup(Step given, Step when)
         {
-            var messages = new[]
-            {
-                (given == null ? null : given.Message),
-                (when == null ? null : when.Message)
-            };
-
-            return string.Concat(string.Join(" ", messages.Where(message => message != null).ToArray()), " (setup)");
+            return string.Concat(Create(new[] { given, when }), " (setup)");
         }
 
         public string CreateTeardown(Step given, Step when)
         {
-            var messages = new[]
-            {
-                (given == null ? null : given.Message),
-                (when == null ? null : when.Message)
-            };
+            return string.Concat(Create(new[] { given, when }), " (teardown)");
+        }
 
-            return string.Concat(string.Join(" ", messages.Where(message => message != null).ToArray()), " (teardown)");
+        private static string Create(Step[] steps)
+        {
+            var tokens = steps.Where(step => step != null)
+                .Select(step => step.Message)
+                .Where(token => !string.IsNullOrEmpty(token))
+                .Select(token => token.Trim())
+                .Where(token => token.Length > 0)
+                .Select(token => token.Trim(','))
+                .Where(token => token.Length > 0);
+
+            return string.Join(", ", tokens.ToArray());
         }
     }
 }
