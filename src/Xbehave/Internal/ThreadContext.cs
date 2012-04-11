@@ -18,7 +18,7 @@ namespace Xbehave.Internal
             get { return scenario ?? (scenario = new Scenario()); }
         }
 
-        public static IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method, Action registerSteps)
+        public static IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method, Action registerSteps)
         {
             try
             {

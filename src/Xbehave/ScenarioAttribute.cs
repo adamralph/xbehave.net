@@ -45,7 +45,7 @@ namespace Xbehave
                 : new[] { new FactCommand(method) };
 
             return xunitCommands.SelectMany(xunitCommand =>
-                ThreadContext.EnumerateTestCommands(method, () => xunitCommand.Execute(method.IsStatic ? null : method.CreateInstance())));
+                ThreadContext.CreateTestCommands(method, () => xunitCommand.Execute(method.IsStatic ? null : method.CreateInstance())));
         }
     }
 }
