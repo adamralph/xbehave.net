@@ -18,7 +18,7 @@ namespace Xbehave.Internal
             this.action = action;
         }
 
-        // TODO: address DoNotCatchGeneralExceptionTypes
+        // TODO: address DoNotCatchGeneralExceptionTypes - it seems like this is being done so that the test runner doesn't stop and continues to run teardowns
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Part of the original SubSpec code - will be addressed.")]
         public override MethodResult Execute(object testClass)
         {
