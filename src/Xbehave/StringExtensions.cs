@@ -154,8 +154,6 @@ namespace Xbehave
 
         private class Disposable : IDisposable
         {
-            private static readonly Disposable empty = new Disposable(() => { });
-
             private readonly Action dispose;
             private readonly IEnumerable<IDisposable> disposables;
 
