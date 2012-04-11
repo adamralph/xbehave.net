@@ -5,15 +5,54 @@
 namespace Xbehave.Internal
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
+    using Xbehave.Fluent;
 
-    internal class Step : StepBase<Action>
+    internal class Step : IStep
     {
-        public Step(string message, Action action)
-            : base(message, action)
+        private readonly string message;
+        private readonly Func<IDisposable> action;
+
+        public Step(string message, Func<IDisposable> action)
         {
+            if (message == null)
+            {
+                throw new ArgumentNullException("message");
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException("action");
+            }
+
+            this.message = message;
+            this.action = action;
         }
 
-        public void Execute()
+        public string Message
+        {
+            get { return this.message; }
+        }
+
+        public Func<IDisposable> Action
+        {
+            get { return this.action; }
+        }
+
+        public int MillisecondsTimeout { get; private set; }
+
+        [SuppressMessage(
+            "Microsoft.Maintainability",
+            "CA1500:VariableNamesShouldNotMatchFieldNames",
+            MessageId = "millisecondsTimeout",
+            Justification = "StyleCop enforces the 'this.' prefix when referencing an instance field.")]
+        public IStep WithTimeout(int millisecondsTimeout)
+        {
+            this.MillisecondsTimeout = millisecondsTimeout;
+            return this;
+        }
+
+        public IDisposable Execute()
         {
             if (this.MillisecondsTimeout > 0)
             {
@@ -24,13 +63,11 @@ namespace Xbehave.Internal
                 {
                     throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                 }
-                
-                this.Action.EndInvoke(result);
+
+                return this.Action.EndInvoke(result);
             }
-            else
-            {
-                this.Action();
-            }
+
+            return this.Action();
         }
     }
 }

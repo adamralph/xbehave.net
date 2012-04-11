@@ -19,7 +19,7 @@ namespace Xbehave.Test.Legacy
         [Fact]
         public static void CreatePrimitiveWithNullMessageThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new Step(null, () => { }));
+            Assert.Throws<ArgumentNullException>(() => new Step(null, () => null));
         }
     }
 }

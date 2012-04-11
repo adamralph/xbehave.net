@@ -17,7 +17,7 @@ namespace Xbehave.Internal
             this.nameFactory = nameFactory;
         }
 
-        public IEnumerable<ITestCommand> Create(DisposableStep given, Step when, IEnumerable<Step> thens, IMethodInfo method)
+        public IEnumerable<ITestCommand> Create(Step given, Step when, IEnumerable<Step> thens, IMethodInfo method)
         {
             foreach (var then in thens)
             {

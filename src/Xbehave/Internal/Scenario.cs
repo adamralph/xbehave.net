@@ -19,7 +19,7 @@ namespace Xbehave.Internal
         private readonly List<Step> thens = new List<Step>();
         private readonly List<Step> thensInIsolation = new List<Step>();
         private readonly List<Step> thenSkips = new List<Step>();
-        private DisposableStep given;
+        private Step given;
         private Step when;
 
         public IStep Given(string message, Func<IDisposable> arrange)
@@ -29,11 +29,11 @@ namespace Xbehave.Internal
                 throw new InvalidOperationException("The scenario has more than one Given step.");
             }
 
-            this.given = new DisposableStep(message, arrange);
+            this.given = new Step(message, arrange);
             return this.given;
         }
 
-        public IStep When(string message, Action action)
+        public IStep When(string message, Func<IDisposable> action)
         {
             if (this.when != null)
             {
@@ -44,21 +44,21 @@ namespace Xbehave.Internal
             return this.when;
         }
 
-        public IStep ThenInIsolation(string message, Action assert)
+        public IStep ThenInIsolation(string message, Func<IDisposable> assert)
         {
             var step = new Step(message, assert);
             this.thensInIsolation.Add(step);
             return step;
         }
 
-        public IStep Then(string message, Action assert)
+        public IStep Then(string message, Func<IDisposable> assert)
         {
             var step = new Step(message, assert);
             this.thens.Add(step);
             return step;
         }
 
-        public IStep ThenSkip(string message, Action assert)
+        public IStep ThenSkip(string message, Func<IDisposable> assert)
         {
             var step = new Step(message, assert);
             this.thenSkips.Add(step);

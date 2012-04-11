@@ -31,7 +31,7 @@ namespace Xbehave
                 () =>
                 {
                     arrange();
-                    return Disposable.Empty;
+                    return null;
                 });
 
             return new Given(step);
@@ -103,7 +103,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhen"/>.</returns>
         public static IWhen When(this string message, Action act)
         {
-            return new When(ThreadContext.Scenario.When(message, act));
+            return new When(ThreadContext.Scenario.When(message, Wrap(act)));
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen ThenInIsolation(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenInIsolation(message, assert));
+            return new Then(ThreadContext.Scenario.ThenInIsolation(message, Wrap(assert)));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen Then(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.Then(message, assert));
+            return new Then(ThreadContext.Scenario.Then(message, Wrap(assert)));
         }
 
         /// <summary>
@@ -140,7 +140,16 @@ namespace Xbehave
         /// </remarks>
         public static IThen ThenSkip(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenSkip(message, assert));
+            return new Then(ThreadContext.Scenario.ThenSkip(message, Wrap(assert)));
+        }
+
+        internal static Func<IDisposable> Wrap(Action arrange)
+        {
+            return () =>
+            {
+                arrange();
+                return null;
+            };
         }
 
         private class Disposable : IDisposable
@@ -158,11 +167,6 @@ namespace Xbehave
             public Disposable(IEnumerable<IDisposable> disposables)
             {
                 this.disposables = disposables;
-            }
-
-            public static Disposable Empty
-            {
-                get { return empty; }
             }
 
             public void Dispose()

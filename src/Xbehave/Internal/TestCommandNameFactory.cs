@@ -8,7 +8,7 @@ namespace Xbehave.Internal
 
     internal class TestCommandNameFactory
     {
-        public string Create(DisposableStep given, Step when, Step then)
+        public string Create(Step given, Step when, Step then)
         {
             var messages = new[]
             {
@@ -20,7 +20,7 @@ namespace Xbehave.Internal
             return string.Join(" ", messages.Where(message => message != null).ToArray());
         }
 
-        public string CreateSetup(DisposableStep given, Step when)
+        public string CreateSetup(Step given, Step when)
         {
             var messages = new[]
             {
@@ -31,7 +31,7 @@ namespace Xbehave.Internal
             return string.Concat(string.Join(" ", messages.Where(message => message != null).ToArray()), " (setup)");
         }
 
-        public string CreateTeardown(DisposableStep given, Step when)
+        public string CreateTeardown(Step given, Step when)
         {
             var messages = new[]
             {
