@@ -1,10 +1,10 @@
 # What is it? #
-A [BDD](http://dannorth.net/introducing-bdd/) library based on [xUnit.net](http://xunit.codeplex.com/) designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.
+A fluent and concise [BDD](http://dannorth.net/introducing-bdd/)/[TDD](https://en.wikipedia.org/wiki/Test-driven_development) library based on [xUnit.net](http://xunit.codeplex.com/) designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.
 
-(xBehave.net was formerly known as SubSpecGWT.)
+Come and chat about xBehave.net at [JabbR](http://jabbr.net/#/rooms/xbehavenet).
 
 # Where can I get it? #
-xBehave.net is available as a binary package on [NuGet](https://nuget.org/packages/xBehave).
+xBehave.net is available as a binary package on [NuGet](https://nuget.org/packages/xBehave). 
 
 # How do I use it? #
 xBehave.net scenarios can be executed using any xUnit.net test runner.
