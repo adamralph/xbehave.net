@@ -8,7 +8,7 @@ namespace Xbehave.Internal
     using System.Linq;
     using Xunit.Sdk;
 
-    internal class ThenSkipTestCommandFactory
+    internal class ThenSkipTestCommandFactory : ITestCommandFactory
     {
         private readonly TestCommandNameFactory nameFactory;
 

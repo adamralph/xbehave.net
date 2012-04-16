@@ -8,7 +8,7 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using Xunit.Sdk;
 
-    internal class ThenInIsolationTestCommandFactory
+    internal class ThenInIsolationTestCommandFactory : ITestCommandFactory
     {
         private readonly TestCommandNameFactory nameFactory;
 

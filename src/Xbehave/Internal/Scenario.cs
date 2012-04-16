@@ -12,15 +12,25 @@ namespace Xbehave.Internal
 
     internal class Scenario
     {
-        private static readonly ThenInIsolationTestCommandFactory thenInIsolationTestCommandFactory = new ThenInIsolationTestCommandFactory(new TestCommandNameFactory());
-        private static readonly ThenTestCommandFactory thenTestCommandFactory = new ThenTestCommandFactory(new TestCommandNameFactory());
-        private static readonly ThenSkipTestCommandFactory thenSkipTestCommandFactory = new ThenSkipTestCommandFactory(new TestCommandNameFactory());
+        private readonly ITestCommandFactory thenInIsolationTestCommandFactory;
+        private readonly ITestCommandFactory thenTestCommandFactory;
+        private readonly ITestCommandFactory thenSkipTestCommandFactory;
 
         private readonly List<Step> thens = new List<Step>();
         private readonly List<Step> thensInIsolation = new List<Step>();
         private readonly List<Step> thenSkips = new List<Step>();
         private Step given;
         private Step when;
+
+        public Scenario(
+            ITestCommandFactory thenInIsolationTestCommandFactory,
+            ITestCommandFactory thenTestCommandFactory,
+            ITestCommandFactory thenSkipTestCommandFactory)
+        {
+            this.thenInIsolationTestCommandFactory = thenInIsolationTestCommandFactory;
+            this.thenTestCommandFactory = thenTestCommandFactory;
+            this.thenSkipTestCommandFactory = thenSkipTestCommandFactory;
+        }
 
         public IStep Given(string message, Func<IDisposable> arrange)
         {
@@ -67,9 +77,9 @@ namespace Xbehave.Internal
 
         public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)
         {
-            return thenInIsolationTestCommandFactory.Create(this.given, this.when, this.thensInIsolation, method)
-               .Concat(thenTestCommandFactory.Create(this.given, this.when, this.thens, method))
-               .Concat(thenSkipTestCommandFactory.Create(this.given, this.when, this.thenSkips, method));
+            return this.thenInIsolationTestCommandFactory.Create(this.given, this.when, this.thensInIsolation, method)
+               .Concat(this.thenTestCommandFactory.Create(this.given, this.when, this.thens, method))
+               .Concat(this.thenSkipTestCommandFactory.Create(this.given, this.when, this.thenSkips, method));
         }
     }
 }
