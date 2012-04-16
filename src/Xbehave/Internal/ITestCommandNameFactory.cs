@@ -6,10 +6,14 @@ namespace Xbehave.Internal
 {
     internal interface ITestCommandNameFactory
     {
-        string Create(Step given, Step when, Step then);
+        string CreateSharedContext(Step given, Step when);
 
-        string CreateSetup(Step given, Step when);
+        string CreateSharedStep(Step given, Step when, Step then);
 
-        string CreateTeardown(Step given, Step when);
+        string CreateDisposal(Step given, Step when);
+
+        string CreateIsolatedStep(Step given, Step when, Step then);
+
+        string CreateSkippedStep(Step given, Step when, Step then);
     }
 }

@@ -20,7 +20,7 @@ namespace Xbehave.Internal
         public IEnumerable<ITestCommand> Create(Step given, Step when, IEnumerable<Step> thens, IMethodInfo method)
         {
             return thens.Select(step =>
-                (ITestCommand)new SkipCommand(method, this.nameFactory.Create(given, when, step), "Action is ThenSkip (instead of Then or ThenInIsolation)."));
+                (ITestCommand)new SkipCommand(method, this.nameFactory.CreateSkippedStep(given, when, step), "Action is ThenSkip (instead of Then or ThenInIsolation)."));
         }
     }
 }

@@ -8,22 +8,32 @@ namespace Xbehave.Internal
 
     internal class TestCommandNameFactory : ITestCommandNameFactory
     {
-        public string Create(Step given, Step when, Step then)
+        public string CreateSharedContext(Step given, Step when)
         {
-            return Create(new[] { given, when, then });
+            return string.Concat(Create(given, when), " { (shared context)");
         }
 
-        public string CreateSetup(Step given, Step when)
+        public string CreateSharedStep(Step given, Step when, Step then)
         {
-            return string.Concat(Create(new[] { given, when }), " (setup)");
+            return string.Concat(Create(given, when), " | ", Create(then));
         }
 
-        public string CreateTeardown(Step given, Step when)
+        public string CreateDisposal(Step given, Step when)
         {
-            return string.Concat(Create(new[] { given, when }), " (teardown)");
+            return string.Concat(Create(given, when), " } (disposal)");
         }
 
-        private static string Create(Step[] steps)
+        public string CreateIsolatedStep(Step given, Step when, Step then)
+        {
+            return string.Concat(Create(given, when), ", ", Create(then));
+        }
+
+        public string CreateSkippedStep(Step given, Step when, Step then)
+        {
+            return this.CreateIsolatedStep(given, when, then);
+        }
+
+        private static string Create(params Step[] steps)
         {
             var tokens = steps
                 .Where(step => step != null)
