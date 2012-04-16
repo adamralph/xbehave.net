@@ -10,7 +10,7 @@ namespace Xbehave.Internal
 
     internal static class ThreadContext
     {
-        private static TestCommandNameFactory nameFactory = new TestCommandNameFactory();
+        private static ITestCommandNameFactory nameFactory = new TestCommandNameFactory();
 
         [ThreadStatic]
         private static Scenario scenario;

@@ -6,7 +6,7 @@ namespace Xbehave.Internal
 {
     using System.Linq;
 
-    internal class TestCommandNameFactory
+    internal class TestCommandNameFactory : ITestCommandNameFactory
     {
         public string Create(Step given, Step when, Step then)
         {

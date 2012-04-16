@@ -11,9 +11,9 @@ namespace Xbehave.Internal
 
     internal class ThenTestCommandFactory : ITestCommandFactory
     {
-        private readonly TestCommandNameFactory nameFactory;
+        private readonly ITestCommandNameFactory nameFactory;
 
-        public ThenTestCommandFactory(TestCommandNameFactory nameFactory)
+        public ThenTestCommandFactory(ITestCommandNameFactory nameFactory)
         {
             this.nameFactory = nameFactory;
         }

@@ -10,9 +10,9 @@ namespace Xbehave.Internal
 
     internal class ThenSkipTestCommandFactory : ITestCommandFactory
     {
-        private readonly TestCommandNameFactory nameFactory;
+        private readonly ITestCommandNameFactory nameFactory;
 
-        public ThenSkipTestCommandFactory(TestCommandNameFactory nameFactory)
+        public ThenSkipTestCommandFactory(ITestCommandNameFactory nameFactory)
         {
             this.nameFactory = nameFactory;
         }
