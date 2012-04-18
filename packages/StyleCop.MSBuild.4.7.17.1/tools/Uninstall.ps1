@@ -1,3 +1,5 @@
+#  Copyright (c) Adam Ralph. All rights reserved.
+
 param($installPath, $toolsPath, $package, $project)
 
 # save any unsaved changes before we start messing about with the project file on disk

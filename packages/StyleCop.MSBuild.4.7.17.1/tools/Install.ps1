@@ -1,3 +1,5 @@
+#  Copyright (c) Adam Ralph. All rights reserved.
+
 param($installPath, $toolsPath, $package, $project)
 
 # remove content hook from project and delete file
