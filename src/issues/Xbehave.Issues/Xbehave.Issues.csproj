@@ -54,6 +54,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="MultipleGivensAndWhens.cs" />
     <Compile Include="Old\Issue1.cs" />
     <Compile Include="Old\Issue2.cs" />
     <Compile Include="Old\Issue3.cs" />
