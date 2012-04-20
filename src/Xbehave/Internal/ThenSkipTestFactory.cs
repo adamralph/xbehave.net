@@ -1,4 +1,4 @@
-﻿// <copyright file="ThenSkipTestCommandFactory.cs" company="Adam Ralph">
+﻿// <copyright file="ThenSkipTestFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -8,11 +8,11 @@ namespace Xbehave.Internal
     using System.Linq;
     using Xunit.Sdk;
 
-    internal class ThenSkipTestCommandFactory : ITestCommandFactory
+    internal class ThenSkipTestFactory : ITestFactory
     {
-        private readonly ITestCommandNameFactory nameFactory;
+        private readonly ITestNameFactory nameFactory;
 
-        public ThenSkipTestCommandFactory(ITestCommandNameFactory nameFactory)
+        public ThenSkipTestFactory(ITestNameFactory nameFactory)
         {
             this.nameFactory = nameFactory;
         }

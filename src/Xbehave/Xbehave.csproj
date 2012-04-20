@@ -86,10 +86,10 @@
     <Compile Include="Internal\ObjectExtensions.cs" />
     <Compile Include="Internal\IDisposer.cs" />
     <Compile Include="Internal\Disposer.cs" />
-    <Compile Include="Internal\ITestCommandNameFactory.cs" />
-    <Compile Include="Internal\ITestCommandFactory.cs" />
-    <Compile Include="Internal\TestCommandNameFactory.cs" />
-    <Compile Include="Internal\ThenSkipTestCommandFactory.cs" />
+    <Compile Include="Internal\ITestNameFactory.cs" />
+    <Compile Include="Internal\ITestFactory.cs" />
+    <Compile Include="Internal\TestNameFactory.cs" />
+    <Compile Include="Internal\ThenSkipTestFactory.cs" />
     <Compile Include="Internal\Require.cs" />
     <Compile Include="Internal\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />
@@ -97,8 +97,8 @@
     <Compile Include="Deprecated\DisposableAction.cs" />
     <Compile Include="Deprecated\SpecificationAttribute.cs" />
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="Internal\ThenTestCommandFactory.cs" />
-    <Compile Include="Internal\ThenInIsolationTestCommandFactory.cs" />
+    <Compile Include="Internal\ThenTestFactory.cs" />
+    <Compile Include="Internal\ThenInIsolationTestFactory.cs" />
     <Compile Include="Internal\ActionTestCommand.cs" />
     <Compile Include="Internal\Step.cs" />
     <Compile Include="Internal\ThreadContext.cs" />

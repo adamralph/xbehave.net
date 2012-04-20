@@ -1,4 +1,4 @@
-﻿// <copyright file="TestCommandNameFactory.cs" company="Adam Ralph">
+﻿// <copyright file="TestNameFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using System.Linq;
 
-    internal class TestCommandNameFactory : ITestCommandNameFactory
+    internal class TestNameFactory : ITestNameFactory
     {
         public string CreateSharedContext(IEnumerable<Step> givens, IEnumerable<Step> whens)
         {

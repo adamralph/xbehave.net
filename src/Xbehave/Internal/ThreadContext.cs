@@ -10,7 +10,7 @@ namespace Xbehave.Internal
 
     internal static class ThreadContext
     {
-        private static ITestCommandNameFactory nameFactory = new TestCommandNameFactory();
+        private static ITestNameFactory testNameFactory = new TestNameFactory();
         private static IDisposer disposer = new Disposer();
 
         [ThreadStatic]
@@ -37,9 +37,7 @@ namespace Xbehave.Internal
         private static Scenario CreateScenario()
         {
             return new Scenario(
-                new ThenInIsolationTestCommandFactory(nameFactory, disposer),
-                new ThenTestCommandFactory(nameFactory, disposer),
-                new ThenSkipTestCommandFactory(nameFactory));
+                new ThenInIsolationTestFactory(testNameFactory, disposer), new ThenTestFactory(testNameFactory, disposer), new ThenSkipTestFactory(testNameFactory));
         }
     }
 }

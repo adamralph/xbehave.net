@@ -12,9 +12,9 @@ namespace Xbehave.Internal
 
     internal class Scenario
     {
-        private readonly ITestCommandFactory thenInIsolationTestCommandFactory;
-        private readonly ITestCommandFactory thenTestCommandFactory;
-        private readonly ITestCommandFactory thenSkipTestCommandFactory;
+        private readonly ITestFactory thenInIsolationTestFactory;
+        private readonly ITestFactory thenTestFactory;
+        private readonly ITestFactory thenSkipTestFactory;
 
         private readonly List<Step> givens = new List<Step>();
         private readonly List<Step> whens = new List<Step>();
@@ -23,13 +23,13 @@ namespace Xbehave.Internal
         private readonly List<Step> thenSkips = new List<Step>();
 
         public Scenario(
-            ITestCommandFactory thenInIsolationTestCommandFactory,
-            ITestCommandFactory thenTestCommandFactory,
-            ITestCommandFactory thenSkipTestCommandFactory)
+            ITestFactory thenInIsolationTestFactory,
+            ITestFactory thenTestFactory,
+            ITestFactory thenSkipTestFactory)
         {
-            this.thenInIsolationTestCommandFactory = thenInIsolationTestCommandFactory;
-            this.thenTestCommandFactory = thenTestCommandFactory;
-            this.thenSkipTestCommandFactory = thenSkipTestCommandFactory;
+            this.thenInIsolationTestFactory = thenInIsolationTestFactory;
+            this.thenTestFactory = thenTestFactory;
+            this.thenSkipTestFactory = thenSkipTestFactory;
         }
 
         public IStep Given(string message, Func<IDisposable> arrange)
@@ -59,9 +59,9 @@ namespace Xbehave.Internal
 
         public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)
         {
-            return this.thenInIsolationTestCommandFactory.Create(this.givens, this.whens, this.thensInIsolation, method)
-               .Concat(this.thenTestCommandFactory.Create(this.givens, this.whens, this.thens, method))
-               .Concat(this.thenSkipTestCommandFactory.Create(this.givens, this.whens, this.thenSkips, method));
+            return this.thenInIsolationTestFactory.Create(this.givens, this.whens, this.thensInIsolation, method)
+               .Concat(this.thenTestFactory.Create(this.givens, this.whens, this.thens, method))
+               .Concat(this.thenSkipTestFactory.Create(this.givens, this.whens, this.thenSkips, method));
         }
 
         private static IStep AddStep(IList<Step> list, string message, Func<IDisposable> func)
