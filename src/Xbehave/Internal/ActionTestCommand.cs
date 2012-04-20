@@ -10,12 +10,12 @@ namespace Xbehave.Internal
 
     internal class ActionTestCommand : TestCommand
     {
-        private readonly Action action;
+        private readonly Action test;
 
-        public ActionTestCommand(IMethodInfo method, string name, int timeout, Action action)
+        public ActionTestCommand(IMethodInfo method, string name, int timeout, Action test)
             : base(method, name, timeout)
         {
-            this.action = action;
+            this.test = test;
         }
 
         // TODO: address DoNotCatchGeneralExceptionTypes - it seems like this is being done so that the test runner doesn't stop and continues to run disposals
@@ -24,7 +24,7 @@ namespace Xbehave.Internal
         {
             try
             {
-                this.action();
+                this.test();
             }
             catch (Exception ex)
             {

@@ -28,7 +28,7 @@ namespace Xbehave.Internal
                 yield break;
             }
 
-            var disposables = new List<IDisposable>();
+            var disposables = new Stack<IDisposable>();
             Step throwingStep = null;
 
             Action setup = () =>
@@ -37,7 +37,7 @@ namespace Xbehave.Internal
                 {
                     try
                     {
-                        disposables.Add(step.Execute());
+                        disposables.Push(step.Execute());
                     }
                     catch (Exception)
                     {
@@ -55,7 +55,7 @@ namespace Xbehave.Internal
                 var localThen = then;
                 Action test = () =>
                 {
-                    Throw(throwingStep);
+                    ThrowIfContextThrew(throwingStep);
                     localThen.Execute();
                 };
 
@@ -65,17 +65,17 @@ namespace Xbehave.Internal
             Action disposal = () =>
             {
                 this.disposer.Dispose(disposables);
-                Throw(throwingStep);
+                ThrowIfContextThrew(throwingStep);
             };
 
             yield return new ActionTestCommand(method, this.nameFactory.CreateDisposal(givens, whens), MethodUtility.GetTimeoutParameter(method), disposal);
         }
 
-        private static void Throw(Step step)
+        private static void ThrowIfContextThrew(Step throwingStep)
         {
-            if (step != null)
+            if (throwingStep != null)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Execution of \"{0}\" failed.", step.Message));
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Execution of \"{0}\" failed.", throwingStep.Message));
             }
         }
     }

@@ -28,12 +28,12 @@ namespace Xbehave.Internal
                 var localThen = then;
                 Action test = () =>
                 {
-                    var disposables = new List<IDisposable>();
+                    var disposables = new Stack<IDisposable>();
                     try
                     {
-                        foreach (var step in givens.Concat(whens).Where(given => given != null))
+                        foreach (var step in givens.Concat(whens))
                         {
-                            disposables.Add(step.Execute());
+                            disposables.Push(step.Execute());
                         }
 
                         localThen.Execute();

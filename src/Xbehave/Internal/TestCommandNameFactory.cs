@@ -16,7 +16,7 @@ namespace Xbehave.Internal
 
         public string CreateSharedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
         {
-            return string.Concat(Create(givens.Concat(whens)), " | ", Create(then));
+            return string.Concat(Create(givens.Concat(whens)), " | ", Create(then.AsEnumerable()));
         }
 
         public string CreateDisposal(IEnumerable<Step> givens, IEnumerable<Step> whens)
@@ -26,17 +26,12 @@ namespace Xbehave.Internal
 
         public string CreateIsolatedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
         {
-            return string.Concat(Create(givens.Concat(whens)), ", ", Create(then));
+            return Create(givens.Concat(whens).Concat(then.AsEnumerable()));
         }
 
         public string CreateSkippedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
         {
             return this.CreateIsolatedStep(givens, whens, then);
-        }
-
-        private static string Create(Step step)
-        {
-            return Create(new[] { step });
         }
 
         private static string Create(IEnumerable<Step> steps)

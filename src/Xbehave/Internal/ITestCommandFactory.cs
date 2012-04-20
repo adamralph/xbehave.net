@@ -9,6 +9,6 @@ namespace Xbehave.Internal
 
     internal interface ITestCommandFactory
     {
-        IEnumerable<ITestCommand> Create(IEnumerable<Step> given, IEnumerable<Step> when, IEnumerable<Step> thens, IMethodInfo method);
+        IEnumerable<ITestCommand> Create(IEnumerable<Step> givens, IEnumerable<Step> whens, IEnumerable<Step> thens, IMethodInfo method);
     }
 }

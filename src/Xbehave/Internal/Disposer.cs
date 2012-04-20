@@ -10,24 +10,30 @@ namespace Xbehave.Internal
 
     internal class Disposer : IDisposer
     {
-        public void Dispose(IEnumerable<IDisposable> disposables)
+        public void Dispose(Stack<IDisposable> disposables)
         {
-            Exception exception = null;
-            foreach (var disposable in disposables.Where(x => x != null))
+            Exception lastException = null;
+            while (disposables.Any())
             {
+                var disposable = disposables.Pop();
+                if (disposable == null)
+                {
+                    continue;
+                }
+
                 try
                 {
                     disposable.Dispose();
                 }
                 catch (Exception ex)
                 {
-                    exception = ex;
+                    lastException = ex;
                 }
             }
 
-            if (exception != null)
+            if (lastException != null)
             {
-                Xunit.Sdk.ExceptionUtility.RethrowWithNoStackTraceLoss(exception);
+                Xunit.Sdk.ExceptionUtility.RethrowWithNoStackTraceLoss(lastException);
             }
         }
     }
