@@ -83,6 +83,8 @@
     </Compile>
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Fluent\IStep.cs" />
+    <Compile Include="Internal\IDisposer.cs" />
+    <Compile Include="Internal\Disposer.cs" />
     <Compile Include="Internal\ITestCommandNameFactory.cs" />
     <Compile Include="Internal\ITestCommandFactory.cs" />
     <Compile Include="Internal\TestCommandNameFactory.cs" />

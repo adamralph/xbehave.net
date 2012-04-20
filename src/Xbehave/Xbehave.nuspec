@@ -10,7 +10,8 @@
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/c292659fa57d/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Changed test command naming to group shared context commands correctly when sorted alphanumerically.</releaseNotes>
+    <releaseNotes>Added support for multiple givens and whens within a single scenario.
+Changed test command naming to group shared context commands correctly when sorted alphanumerically.</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>

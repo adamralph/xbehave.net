@@ -4,36 +4,42 @@
 
 namespace Xbehave.Internal
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     internal class TestCommandNameFactory : ITestCommandNameFactory
     {
-        public string CreateSharedContext(Step given, Step when)
+        public string CreateSharedContext(IEnumerable<Step> givens, IEnumerable<Step> whens)
         {
-            return string.Concat(Create(given, when), " { (shared context)");
+            return string.Concat(Create(givens.Concat(whens)), " { (shared context)");
         }
 
-        public string CreateSharedStep(Step given, Step when, Step then)
+        public string CreateSharedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
         {
-            return string.Concat(Create(given, when), " | ", Create(then));
+            return string.Concat(Create(givens.Concat(whens)), " | ", Create(then));
         }
 
-        public string CreateDisposal(Step given, Step when)
+        public string CreateDisposal(IEnumerable<Step> givens, IEnumerable<Step> whens)
         {
-            return string.Concat(Create(given, when), " } (disposal)");
+            return string.Concat(Create(givens.Concat(whens)), " } (disposal)");
         }
 
-        public string CreateIsolatedStep(Step given, Step when, Step then)
+        public string CreateIsolatedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
         {
-            return string.Concat(Create(given, when), ", ", Create(then));
+            return string.Concat(Create(givens.Concat(whens)), ", ", Create(then));
         }
 
-        public string CreateSkippedStep(Step given, Step when, Step then)
+        public string CreateSkippedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
         {
-            return this.CreateIsolatedStep(given, when, then);
+            return this.CreateIsolatedStep(givens, whens, then);
         }
 
-        private static string Create(params Step[] steps)
+        private static string Create(Step step)
+        {
+            return Create(new[] { step });
+        }
+
+        private static string Create(IEnumerable<Step> steps)
         {
             var tokens = steps
                 .Where(step => step != null)

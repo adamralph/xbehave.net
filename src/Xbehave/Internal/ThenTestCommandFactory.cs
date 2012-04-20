@@ -6,59 +6,48 @@ namespace Xbehave.Internal
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Xunit.Sdk;
 
     internal class ThenTestCommandFactory : ITestCommandFactory
     {
         private readonly ITestCommandNameFactory nameFactory;
+        private readonly IDisposer disposer;
 
-        public ThenTestCommandFactory(ITestCommandNameFactory nameFactory)
+        public ThenTestCommandFactory(ITestCommandNameFactory nameFactory, IDisposer disposer)
         {
             this.nameFactory = nameFactory;
+            this.disposer = disposer;
         }
 
-        public IEnumerable<ITestCommand> Create(Step given, Step when, IEnumerable<Step> thens, IMethodInfo method)
+        public IEnumerable<ITestCommand> Create(IEnumerable<Step> givens, IEnumerable<Step> whens, IEnumerable<Step> thens, IMethodInfo method)
         {
             if (!thens.Any())
             {
                 yield break;
             }
 
-            var arrangement = default(IDisposable);
-            var givenThrew = false;
-            var whenThrew = false;
+            var disposables = new List<IDisposable>();
+            Step throwingStep = null;
 
             Action setup = () =>
             {
-                if (given != null)
+                foreach (var step in givens.Concat(whens))
                 {
                     try
                     {
-                        arrangement = given.Execute();
+                        disposables.Add(step.Execute());
                     }
                     catch (Exception)
                     {
-                        givenThrew = true;
-                        throw;
-                    }
-                }
-
-                if (when != null)
-                {
-                    try
-                    {
-                        when.Execute();
-                    }
-                    catch (Exception)
-                    {
-                        whenThrew = true;
+                        throwingStep = step;
                         throw;
                     }
                 }
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateSharedContext(given, when), MethodUtility.GetTimeoutParameter(method), setup);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateSharedContext(givens, whens), MethodUtility.GetTimeoutParameter(method), setup);
 
             foreach (var then in thens)
             {
@@ -66,36 +55,27 @@ namespace Xbehave.Internal
                 var localThen = then;
                 Action test = () =>
                 {
-                    ThrowIfGivenOrWhenFailed(givenThrew, whenThrew);
+                    Throw(throwingStep);
                     localThen.Execute();
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.CreateSharedStep(given, when, then), MethodUtility.GetTimeoutParameter(method), test);
+                yield return new ActionTestCommand(method, this.nameFactory.CreateSharedStep(givens, whens, then), MethodUtility.GetTimeoutParameter(method), test);
             }
 
             Action disposal = () =>
             {
-                if (arrangement != null)
-                {
-                    arrangement.Dispose();
-                }
-
-                ThrowIfGivenOrWhenFailed(givenThrew, whenThrew);
+                this.disposer.Dispose(disposables);
+                Throw(throwingStep);
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateDisposal(given, when), MethodUtility.GetTimeoutParameter(method), disposal);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateDisposal(givens, whens), MethodUtility.GetTimeoutParameter(method), disposal);
         }
 
-        private static void ThrowIfGivenOrWhenFailed(bool givenThrew, bool whenThrew)
+        private static void Throw(Step step)
         {
-            if (givenThrew)
+            if (step != null)
             {
-                throw new InvalidOperationException("Execution of Given failed.");
-            }
-
-            if (whenThrew)
-            {
-                throw new InvalidOperationException("Execution of When failed.");
+                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Execution of \"{0}\" failed.", step.Message));
             }
         }
     }

@@ -6,18 +6,21 @@ namespace Xbehave.Internal
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Xunit.Sdk;
 
     internal class ThenInIsolationTestCommandFactory : ITestCommandFactory
     {
         private readonly ITestCommandNameFactory nameFactory;
+        private readonly IDisposer disposer;
 
-        public ThenInIsolationTestCommandFactory(ITestCommandNameFactory nameFactory)
+        public ThenInIsolationTestCommandFactory(ITestCommandNameFactory nameFactory, IDisposer disposer)
         {
             this.nameFactory = nameFactory;
+            this.disposer = disposer;
         }
 
-        public IEnumerable<ITestCommand> Create(Step given, Step when, IEnumerable<Step> thens, IMethodInfo method)
+        public IEnumerable<ITestCommand> Create(IEnumerable<Step> givens, IEnumerable<Step> whens, IEnumerable<Step> thens, IMethodInfo method)
         {
             foreach (var then in thens)
             {
@@ -25,18 +28,23 @@ namespace Xbehave.Internal
                 var localThen = then;
                 Action test = () =>
                 {
-                    using (given != null ? given.Execute() : null)
+                    var disposables = new List<IDisposable>();
+                    try
                     {
-                        if (when != null)
+                        foreach (var step in givens.Concat(whens).Where(given => given != null))
                         {
-                            when.Execute();
+                            disposables.Add(step.Execute());
                         }
 
                         localThen.Execute();
                     }
+                    finally
+                    {
+                        this.disposer.Dispose(disposables);
+                    }
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.CreateIsolatedStep(given, when, then), MethodUtility.GetTimeoutParameter(method), test);
+                yield return new ActionTestCommand(method, this.nameFactory.CreateIsolatedStep(givens, whens, then), MethodUtility.GetTimeoutParameter(method), test);
             }
         }
     }

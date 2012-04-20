@@ -4,16 +4,18 @@
 
 namespace Xbehave.Internal
 {
+    using System.Collections.Generic;
+
     internal interface ITestCommandNameFactory
     {
-        string CreateSharedContext(Step given, Step when);
+        string CreateSharedContext(IEnumerable<Step> givens, IEnumerable<Step> whens);
 
-        string CreateSharedStep(Step given, Step when, Step then);
+        string CreateSharedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then);
 
-        string CreateDisposal(Step given, Step when);
+        string CreateDisposal(IEnumerable<Step> givens, IEnumerable<Step> whens);
 
-        string CreateIsolatedStep(Step given, Step when, Step then);
+        string CreateIsolatedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then);
 
-        string CreateSkippedStep(Step given, Step when, Step then);
+        string CreateSkippedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then);
     }
 }
