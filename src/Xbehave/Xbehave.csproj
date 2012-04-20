@@ -83,9 +83,6 @@
     </Compile>
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Fluent\IStep.cs" />
-    <Compile Include="Internal\QueueTestCommandFactory.cs" />
-    <Compile Include="Internal\IQueueTestCommandFactory.cs" />
-    <Compile Include="Internal\IQueueTestCommandNameFactory.cs" />
     <Compile Include="Internal\ITestCommandNameFactory.cs" />
     <Compile Include="Internal\ITestCommandFactory.cs" />
     <Compile Include="Internal\TestCommandNameFactory.cs" />
