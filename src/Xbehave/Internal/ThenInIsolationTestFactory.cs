@@ -22,6 +22,7 @@ namespace Xbehave.Internal
 
         public IEnumerable<ITestCommand> Create(IEnumerable<Step> givens, IEnumerable<Step> whens, IEnumerable<Step> thens, IMethodInfo method)
         {
+            var contextSteps = givens.Concat(whens).ToArray();
             foreach (var then in thens)
             {
                 // take a local copy otherwise all tests would point to the same step
@@ -31,7 +32,7 @@ namespace Xbehave.Internal
                     var disposables = new Stack<IDisposable>();
                     try
                     {
-                        foreach (var step in givens.Concat(whens))
+                        foreach (var step in contextSteps)
                         {
                             disposables.Push(step.Execute());
                         }
@@ -44,7 +45,8 @@ namespace Xbehave.Internal
                     }
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.Create(givens, whens, then), MethodUtility.GetTimeoutParameter(method), test);
+                yield return new ActionTestCommand(
+                    method, this.nameFactory.Create(contextSteps.Concat(then.AsEnumerable())), MethodUtility.GetTimeoutParameter(method), test);
             }
         }
     }

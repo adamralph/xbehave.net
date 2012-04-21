@@ -8,10 +8,10 @@ namespace Xbehave.Internal
 
     internal interface ISharedContextTestNameFactory
     {
-        string CreateContext(IEnumerable<Step> givens, IEnumerable<Step> whens);
+        string CreateContext(IEnumerable<Step> steps);
 
-        string Create(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then);
+        string Create(IEnumerable<Step> contextSteps, Step step);
 
-        string CreateDisposal(IEnumerable<Step> givens, IEnumerable<Step> whens);
+        string CreateDisposal(IEnumerable<Step> steps);
     }
 }

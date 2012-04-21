@@ -16,19 +16,19 @@ namespace Xbehave.Internal
             this.testNameFactory = testNameFactory;
         }
 
-        public string CreateContext(IEnumerable<Step> givens, IEnumerable<Step> whens)
+        public string CreateContext(IEnumerable<Step> steps)
         {
-            return string.Concat(this.testNameFactory.Create(givens.Concat(whens)), " { (shared context)");
+            return string.Concat(this.testNameFactory.Create(steps), " { (shared context)");
         }
 
-        public string Create(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
+        public string Create(IEnumerable<Step> contextSteps, Step step)
         {
-            return string.Concat(this.testNameFactory.Create(givens.Concat(whens)), " | ", this.testNameFactory.Create(then.AsEnumerable()));
+            return string.Concat(this.testNameFactory.Create(contextSteps), " | ", this.testNameFactory.Create(step.AsEnumerable()));
         }
 
-        public string CreateDisposal(IEnumerable<Step> givens, IEnumerable<Step> whens)
+        public string CreateDisposal(IEnumerable<Step> steps)
         {
-            return string.Concat(this.testNameFactory.Create(givens.Concat(whens)), " } (disposal)");
+            return string.Concat(this.testNameFactory.Create(steps), " } (disposal)");
         }
     }
 }

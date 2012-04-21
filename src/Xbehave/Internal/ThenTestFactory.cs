@@ -28,12 +28,14 @@ namespace Xbehave.Internal
                 yield break;
             }
 
+            var contextSteps = givens.Concat(whens).ToArray();
+
             var disposables = new Stack<IDisposable>();
             Step throwingStep = null;
 
             Action setup = () =>
             {
-                foreach (var step in givens.Concat(whens))
+                foreach (var step in contextSteps)
                 {
                     try
                     {
@@ -47,7 +49,7 @@ namespace Xbehave.Internal
                 }
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateContext(givens, whens), MethodUtility.GetTimeoutParameter(method), setup);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateContext(contextSteps), MethodUtility.GetTimeoutParameter(method), setup);
 
             foreach (var then in thens)
             {
@@ -59,7 +61,7 @@ namespace Xbehave.Internal
                     localThen.Execute();
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.Create(givens, whens, then), MethodUtility.GetTimeoutParameter(method), test);
+                yield return new ActionTestCommand(method, this.nameFactory.Create(contextSteps, then), MethodUtility.GetTimeoutParameter(method), test);
             }
 
             Action disposal = () =>
@@ -68,7 +70,7 @@ namespace Xbehave.Internal
                 ThrowIfContextThrew(throwingStep);
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateDisposal(givens, whens), MethodUtility.GetTimeoutParameter(method), disposal);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateDisposal(contextSteps), MethodUtility.GetTimeoutParameter(method), disposal);
         }
 
         private static void ThrowIfContextThrew(Step throwingStep)

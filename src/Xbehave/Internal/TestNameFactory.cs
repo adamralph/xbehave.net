@@ -9,11 +9,6 @@ namespace Xbehave.Internal
 
     internal class TestNameFactory : ITestNameFactory
     {
-        public string Create(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
-        {
-            return Create(givens.Concat(whens).Concat(then.AsEnumerable()));
-        }
-
         public string Create(IEnumerable<Step> steps)
         {
             var tokens = steps

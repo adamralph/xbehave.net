@@ -8,8 +8,6 @@ namespace Xbehave.Internal
 
     internal interface ITestNameFactory
     {
-        string Create(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then);
-
         string Create(IEnumerable<Step> steps);
     }
 }
