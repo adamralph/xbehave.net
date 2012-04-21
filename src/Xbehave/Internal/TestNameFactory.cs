@@ -11,14 +11,14 @@ namespace Xbehave.Internal
     {
         public string Create(IEnumerable<Step> steps)
         {
-            var tokens = steps
+            var messages = steps
                 .Where(step => step != null)
                 .Select(step => step.Message)
-                .Where(token => !string.IsNullOrEmpty(token))
-                .Select(token => token.Trim(' ', ','))
-                .Where(token => token.Length > 0);
+                .Where(message => !string.IsNullOrEmpty(message))
+                .Select(message => message.Trim(' ', ','))
+                .Where(message => message.Length > 0);
 
-            return string.Join(", ", tokens.ToArray());
+            return string.Join(", ", messages.ToArray());
         }
     }
 }
