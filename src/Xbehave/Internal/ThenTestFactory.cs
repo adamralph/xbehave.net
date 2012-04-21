@@ -21,17 +21,15 @@ namespace Xbehave.Internal
             this.disposer = disposer;
         }
 
-        public IEnumerable<ITestCommand> Create(IEnumerable<Step> givens, IEnumerable<Step> whens, IEnumerable<Step> thens, IMethodInfo method)
+        public IEnumerable<ITestCommand> Create(IEnumerable<Step> contextSteps, IEnumerable<Step> thens, IMethodInfo method)
         {
             if (!thens.Any())
             {
                 yield break;
             }
 
-            var contextSteps = givens.Concat(whens).ToArray();
-
             var disposables = new Stack<IDisposable>();
-            Step throwingStep = null;
+            Step badContextStep = null;
 
             Action setup = () =>
             {
@@ -43,7 +41,7 @@ namespace Xbehave.Internal
                     }
                     catch (Exception)
                     {
-                        throwingStep = step;
+                        badContextStep = step;
                         throw;
                     }
                 }
@@ -57,7 +55,7 @@ namespace Xbehave.Internal
                 var localThen = then;
                 Action test = () =>
                 {
-                    ThrowIfContextThrew(throwingStep);
+                    ThrowIfBadContextStep(badContextStep);
                     localThen.Execute();
                 };
 
@@ -67,13 +65,13 @@ namespace Xbehave.Internal
             Action disposal = () =>
             {
                 this.disposer.Dispose(disposables);
-                ThrowIfContextThrew(throwingStep);
+                ThrowIfBadContextStep(badContextStep);
             };
 
             yield return new ActionTestCommand(method, this.nameFactory.CreateDisposal(contextSteps), MethodUtility.GetTimeoutParameter(method), disposal);
         }
 
-        private static void ThrowIfContextThrew(Step throwingStep)
+        private static void ThrowIfBadContextStep(Step throwingStep)
         {
             if (throwingStep != null)
             {

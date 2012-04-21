@@ -59,9 +59,10 @@ namespace Xbehave.Internal
 
         public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)
         {
-            return this.thenInIsolationTestFactory.Create(this.givens, this.whens, this.thensInIsolation, method)
-               .Concat(this.thenTestFactory.Create(this.givens, this.whens, this.thens, method))
-               .Concat(this.thenSkipTestFactory.Create(this.givens, this.whens, this.thenSkips, method));
+            var contextSteps = this.givens.Concat(this.whens).ToArray();
+            return this.thenInIsolationTestFactory.Create(contextSteps, this.thensInIsolation, method)
+               .Concat(this.thenTestFactory.Create(contextSteps, this.thens, method))
+               .Concat(this.thenSkipTestFactory.Create(contextSteps, this.thenSkips, method));
         }
 
         private static IStep AddStep(IList<Step> list, string message, Func<IDisposable> func)

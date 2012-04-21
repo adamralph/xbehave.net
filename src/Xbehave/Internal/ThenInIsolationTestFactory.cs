@@ -20,9 +20,8 @@ namespace Xbehave.Internal
             this.disposer = disposer;
         }
 
-        public IEnumerable<ITestCommand> Create(IEnumerable<Step> givens, IEnumerable<Step> whens, IEnumerable<Step> thens, IMethodInfo method)
+        public IEnumerable<ITestCommand> Create(IEnumerable<Step> contextSteps, IEnumerable<Step> thens, IMethodInfo method)
         {
-            var contextSteps = givens.Concat(whens).ToArray();
             foreach (var then in thens)
             {
                 // take a local copy otherwise all tests would point to the same step
