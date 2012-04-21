@@ -10,15 +10,14 @@ namespace Xbehave.Internal
 
     internal static class ThreadContext
     {
-        private static ITestNameFactory testNameFactory = new TestNameFactory();
-        private static IDisposer disposer = new Disposer();
+        private static ScenarioFactory scenarioFactory = new ScenarioFactory(new TestNameFactory(), new Disposer());
 
         [ThreadStatic]
         private static Scenario scenario;
 
         public static Scenario Scenario
         {
-            get { return scenario ?? (scenario = CreateScenario()); }
+            get { return scenario ?? (scenario = scenarioFactory.Create()); }
         }
 
         public static IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method, Action registerSteps)
@@ -32,12 +31,6 @@ namespace Xbehave.Internal
             {
                 scenario = null;
             }
-        }
-
-        private static Scenario CreateScenario()
-        {
-            return new Scenario(
-                new ThenInIsolationTestFactory(testNameFactory, disposer), new ThenTestFactory(testNameFactory, disposer), new ThenSkipTestFactory(testNameFactory));
         }
     }
 }
