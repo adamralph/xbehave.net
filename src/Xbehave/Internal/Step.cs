@@ -12,6 +12,7 @@ namespace Xbehave.Internal
     {
         private readonly string message;
         private readonly Func<IDisposable> action;
+        private int millisecondsTimeout;
 
         public Step(string message, Func<IDisposable> action)
         {
@@ -34,13 +35,6 @@ namespace Xbehave.Internal
             get { return this.message; }
         }
 
-        public Func<IDisposable> Action
-        {
-            get { return this.action; }
-        }
-
-        public int MillisecondsTimeout { get; private set; }
-
         [SuppressMessage(
             "Microsoft.Maintainability",
             "CA1500:VariableNamesShouldNotMatchFieldNames",
@@ -48,26 +42,26 @@ namespace Xbehave.Internal
             Justification = "StyleCop enforces the 'this.' prefix when referencing an instance field.")]
         public IStep WithTimeout(int millisecondsTimeout)
         {
-            this.MillisecondsTimeout = millisecondsTimeout;
+            this.millisecondsTimeout = millisecondsTimeout;
             return this;
         }
 
         public IDisposable Execute()
         {
-            if (this.MillisecondsTimeout > 0)
+            if (this.millisecondsTimeout > 0)
             {
-                var result = this.Action.BeginInvoke(null, null);
+                var result = this.action.BeginInvoke(null, null);
 
                 // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
+                if (!result.AsyncWaitHandle.WaitOne(this.millisecondsTimeout, false))
                 {
-                    throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
+                    throw new Xunit.Sdk.TimeoutException(this.millisecondsTimeout);
                 }
 
-                return this.Action.EndInvoke(result);
+                return this.action.EndInvoke(result);
             }
 
-            return this.Action();
+            return this.action();
         }
     }
 }

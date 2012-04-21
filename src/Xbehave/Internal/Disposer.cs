@@ -10,6 +10,7 @@ namespace Xbehave.Internal
 
     internal class Disposer : IDisposer
     {
+        // NOTE (aralph1): in practice we could accept IEnumerable since a Stack enumerates in a reverse order as required, but this behaviour is undocumented
         public void Dispose(Stack<IDisposable> disposables)
         {
             Exception lastException = null;

@@ -28,10 +28,10 @@ namespace Xbehave.Internal
             }
             catch (Exception ex)
             {
-                return new FailedResult(testMethod, ex, DisplayName);
+                return new FailedResult(this.testMethod, ex, DisplayName);
             }
 
-            return new PassedResult(testMethod, DisplayName);
+            return new PassedResult(this.testMethod, DisplayName);
         }
     }
 }
