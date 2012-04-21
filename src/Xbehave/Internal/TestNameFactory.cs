@@ -24,14 +24,9 @@ namespace Xbehave.Internal
             return string.Concat(Create(givens.Concat(whens)), " } (disposal)");
         }
 
-        public string CreateIsolatedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
+        public string Create(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
         {
             return Create(givens.Concat(whens).Concat(then.AsEnumerable()));
-        }
-
-        public string CreateSkippedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
-        {
-            return this.CreateIsolatedStep(givens, whens, then);
         }
 
         private static string Create(IEnumerable<Step> steps)

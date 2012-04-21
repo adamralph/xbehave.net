@@ -14,8 +14,6 @@ namespace Xbehave.Internal
 
         string CreateDisposal(IEnumerable<Step> givens, IEnumerable<Step> whens);
 
-        string CreateIsolatedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then);
-
-        string CreateSkippedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then);
+        string Create(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then);
     }
 }

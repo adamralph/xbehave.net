@@ -44,7 +44,7 @@ namespace Xbehave.Internal
                     }
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.CreateIsolatedStep(givens, whens, then), MethodUtility.GetTimeoutParameter(method), test);
+                yield return new ActionTestCommand(method, this.nameFactory.Create(givens, whens, then), MethodUtility.GetTimeoutParameter(method), test);
             }
         }
     }

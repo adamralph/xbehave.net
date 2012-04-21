@@ -19,8 +19,8 @@ namespace Xbehave.Internal
 
         public IEnumerable<ITestCommand> Create(IEnumerable<Step> givens, IEnumerable<Step> whens, IEnumerable<Step> thens, IMethodInfo method)
         {
-            return thens.Select(step =>
-                (ITestCommand)new SkipCommand(method, this.nameFactory.CreateSkippedStep(givens, whens, step), "Action is ThenSkip (instead of Then or ThenInIsolation)."));
+            return thens.Select(then =>
+                (ITestCommand)new SkipCommand(method, this.nameFactory.Create(givens, whens, then), "Action is ThenSkip (instead of Then or ThenInIsolation)."));
         }
     }
 }
