@@ -12,10 +12,10 @@ namespace Xbehave.Internal
 
     internal class ThenTestFactory : ITestFactory
     {
-        private readonly ITestNameFactory nameFactory;
+        private readonly ISharedContextTestNameFactory nameFactory;
         private readonly IDisposer disposer;
 
-        public ThenTestFactory(ITestNameFactory nameFactory, IDisposer disposer)
+        public ThenTestFactory(ISharedContextTestNameFactory nameFactory, IDisposer disposer)
         {
             this.nameFactory = nameFactory;
             this.disposer = disposer;
@@ -47,7 +47,7 @@ namespace Xbehave.Internal
                 }
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateSharedContext(givens, whens), MethodUtility.GetTimeoutParameter(method), setup);
+            yield return new ActionTestCommand(method, this.nameFactory.CreateContext(givens, whens), MethodUtility.GetTimeoutParameter(method), setup);
 
             foreach (var then in thens)
             {
@@ -59,7 +59,7 @@ namespace Xbehave.Internal
                     localThen.Execute();
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.CreateSharedStep(givens, whens, then), MethodUtility.GetTimeoutParameter(method), test);
+                yield return new ActionTestCommand(method, this.nameFactory.Create(givens, whens, then), MethodUtility.GetTimeoutParameter(method), test);
             }
 
             Action disposal = () =>

@@ -13,7 +13,7 @@ namespace Xbehave.Internal
         public ScenarioFactory(ITestNameFactory testNameFactory, IDisposer disposer)
         {
             this.thenInIsolationTestFactory = new ThenInIsolationTestFactory(testNameFactory, disposer);
-            this.thenTestFactory = new ThenTestFactory(testNameFactory, disposer);
+            this.thenTestFactory = new ThenTestFactory(new SharedContextTestNameFactory(testNameFactory), disposer);
             this.thenSkipTestFactory = new ThenSkipTestFactory(testNameFactory);
         }
 

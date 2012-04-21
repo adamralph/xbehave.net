@@ -9,27 +9,12 @@ namespace Xbehave.Internal
 
     internal class TestNameFactory : ITestNameFactory
     {
-        public string CreateSharedContext(IEnumerable<Step> givens, IEnumerable<Step> whens)
-        {
-            return string.Concat(Create(givens.Concat(whens)), " { (shared context)");
-        }
-
-        public string CreateSharedStep(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
-        {
-            return string.Concat(Create(givens.Concat(whens)), " | ", Create(then.AsEnumerable()));
-        }
-
-        public string CreateDisposal(IEnumerable<Step> givens, IEnumerable<Step> whens)
-        {
-            return string.Concat(Create(givens.Concat(whens)), " } (disposal)");
-        }
-
         public string Create(IEnumerable<Step> givens, IEnumerable<Step> whens, Step then)
         {
             return Create(givens.Concat(whens).Concat(then.AsEnumerable()));
         }
 
-        private static string Create(IEnumerable<Step> steps)
+        public string Create(IEnumerable<Step> steps)
         {
             var tokens = steps
                 .Where(step => step != null)
