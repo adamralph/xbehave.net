@@ -6,13 +6,11 @@ namespace Xbehave.Internal
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using Xbehave.Fluent;
 
-    internal class Step : IStep
+    internal class Step
     {
         private readonly string message;
         private readonly Func<IDisposable> action;
-        private int millisecondsTimeout;
 
         public Step(string message, Func<IDisposable> action)
         {
@@ -32,27 +30,18 @@ namespace Xbehave.Internal
             get { return this.message; }
         }
 
-        [SuppressMessage(
-            "Microsoft.Maintainability",
-            "CA1500:VariableNamesShouldNotMatchFieldNames",
-            MessageId = "millisecondsTimeout",
-            Justification = "StyleCop enforces the 'this.' prefix when referencing an instance field.")]
-        public IStep WithTimeout(int millisecondsTimeout)
-        {
-            this.millisecondsTimeout = millisecondsTimeout;
-            return this;
-        }
+        public int MillisecondsTimeout { get; set; }
 
         public IDisposable Execute()
         {
-            if (this.millisecondsTimeout > 0)
+            if (this.MillisecondsTimeout > 0)
             {
                 var result = this.action.BeginInvoke(null, null);
 
                 // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                if (!result.AsyncWaitHandle.WaitOne(this.millisecondsTimeout, false))
+                if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
                 {
-                    throw new Xunit.Sdk.TimeoutException(this.millisecondsTimeout);
+                    throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                 }
 
                 return this.action.EndInvoke(result);

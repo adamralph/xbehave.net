@@ -7,7 +7,6 @@ namespace Xbehave.Internal
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xbehave.Fluent;
     using Xunit.Sdk;
 
     internal class Scenario
@@ -32,27 +31,27 @@ namespace Xbehave.Internal
             this.thenSkipTestFactory = thenSkipTestFactory;
         }
 
-        public IStep Given(string message, Func<IDisposable> arrange)
+        public Step Given(string message, Func<IDisposable> arrange)
         {
             return AddStep(this.givens, message, arrange);
         }
 
-        public IStep When(string message, Func<IDisposable> action)
+        public Step When(string message, Func<IDisposable> action)
         {
             return AddStep(this.whens, message, action);
         }
 
-        public IStep ThenInIsolation(string message, Func<IDisposable> assert)
+        public Step ThenInIsolation(string message, Func<IDisposable> assert)
         {
             return AddStep(this.thensInIsolation, message, assert);
         }
 
-        public IStep Then(string message, Func<IDisposable> assert)
+        public Step Then(string message, Func<IDisposable> assert)
         {
             return AddStep(this.thens, message, assert);
         }
 
-        public IStep ThenSkip(string message, Func<IDisposable> assert)
+        public Step ThenSkip(string message, Func<IDisposable> assert)
         {
             return AddStep(this.thenSkips, message, assert);
         }
@@ -65,7 +64,7 @@ namespace Xbehave.Internal
                .Concat(this.thenSkipTestFactory.Create(contextSteps, this.thenSkips, method));
         }
 
-        private static IStep AddStep(IList<Step> list, string message, Func<IDisposable> func)
+        private static Step AddStep(IList<Step> list, string message, Func<IDisposable> func)
         {
             var step = new Step(message, func);
             list.Add(step);

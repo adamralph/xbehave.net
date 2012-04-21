@@ -4,18 +4,21 @@
 
 namespace Xbehave.Fluent
 {
+    using Xbehave.Internal;
+
     internal class Given : IGiven
     {
-        private readonly IStep step;
+        private readonly Step step;
 
-        public Given(IStep step)
+        public Given(Step step)
         {
             this.step = step;
         }
 
         public IStep WithTimeout(int millisecondsTimeout)
         {
-            return this.step.WithTimeout(millisecondsTimeout);
+            this.step.MillisecondsTimeout = millisecondsTimeout;
+            return this;
         }
     }
 }
