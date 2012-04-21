@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>Added support for multiple givens and whens within a single scenario.
+Added per-scenario ambient context accessed via dynamic step overloads (.NET 4.0 only).
 Changed test command naming to group shared context commands correctly when sorted alphanumerically.</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>

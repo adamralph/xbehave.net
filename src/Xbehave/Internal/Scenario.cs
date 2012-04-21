@@ -6,6 +6,9 @@ namespace Xbehave.Internal
 {
     using System;
     using System.Collections.Generic;
+#if NET40
+    using System.Dynamic;
+#endif
     using System.Linq;
     using Xunit.Sdk;
 
@@ -20,6 +23,9 @@ namespace Xbehave.Internal
         private readonly List<Step> thens = new List<Step>();
         private readonly List<Step> thensInIsolation = new List<Step>();
         private readonly List<Step> thenSkips = new List<Step>();
+#if NET40
+        private readonly dynamic context = new ExpandoObject();
+#endif
 
         public Scenario(
             ITestFactory thenInIsolationTestFactory,
@@ -31,6 +37,13 @@ namespace Xbehave.Internal
             this.thenSkipTestFactory = thenSkipTestFactory;
         }
 
+#if NET40
+        public dynamic Context
+        {
+            get { return this.context; }
+        }
+
+#endif
         public Step Given(string message, Func<IDisposable> arrange)
         {
             return AddStep(this.givens, message, arrange);

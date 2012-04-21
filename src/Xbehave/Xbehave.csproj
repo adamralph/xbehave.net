@@ -66,6 +66,7 @@
     <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="xunit, Version=1.9.0.1566, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
@@ -81,6 +82,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Fluent\IStep.cs" />
     <Compile Include="Internal\SharedContextTestNameFactory.cs" />
