@@ -10,7 +10,7 @@ namespace Xbehave.Internal
     {
         string CreateContext(IEnumerable<Step> steps);
 
-        string Create(IEnumerable<Step> contextSteps, Step step);
+        string Create(IEnumerable<Step> contextSteps, Step then);
 
         string CreateDisposal(IEnumerable<Step> steps);
     }

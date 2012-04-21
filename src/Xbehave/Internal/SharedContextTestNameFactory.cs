@@ -21,9 +21,9 @@ namespace Xbehave.Internal
             return string.Concat(this.testNameFactory.Create(steps), " { (shared context)");
         }
 
-        public string Create(IEnumerable<Step> contextSteps, Step step)
+        public string Create(IEnumerable<Step> contextSteps, Step then)
         {
-            return string.Concat(this.testNameFactory.Create(contextSteps), " | ", this.testNameFactory.Create(step.AsEnumerable()));
+            return string.Concat(this.testNameFactory.Create(contextSteps), " | ", this.testNameFactory.Create(then.AsEnumerable()));
         }
 
         public string CreateDisposal(IEnumerable<Step> steps)
