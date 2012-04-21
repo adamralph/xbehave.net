@@ -16,14 +16,11 @@ namespace Xbehave.Internal
 
         public Step(string message, Func<IDisposable> action)
         {
+            Require.NotNull(action, "action");
+
             if (message == null)
             {
                 throw new ArgumentNullException("message");
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException("action");
             }
 
             this.message = message;
