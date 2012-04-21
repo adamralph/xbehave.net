@@ -9,7 +9,6 @@ namespace Xbehave.Issues
 
     public class MultipleGivensAndWhens
     {
-        // 2 failures with 1 x 1 disposal
         [Scenario]
         public static void MultipleWithActionDisposables()
         {
