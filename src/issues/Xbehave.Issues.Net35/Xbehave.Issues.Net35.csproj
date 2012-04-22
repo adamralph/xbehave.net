@@ -50,15 +50,33 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ProvidedContext.cs" />
-    <Compile Include="MultipleGivensAndWhens.cs" />
-    <Compile Include="Old\Issue1.cs" />
-    <Compile Include="Old\Issue2.cs" />
-    <Compile Include="Old\Issue3.cs" />
-    <Compile Include="Old\Issue4.cs" />
-    <Compile Include="Old\Issue6.cs" />
-    <Compile Include="Old\Issue9.cs" />
-    <Compile Include="Old\ObjectRepository.cs" />
+    <Compile Include="..\Xbehave.Issues.Net40\MultipleGivensAndWhens.cs">
+      <Link>MultipleGivensAndWhens.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Old\Issue1.cs">
+      <Link>Old\Issue1.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Old\Issue2.cs">
+      <Link>Old\Issue2.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Old\Issue3.cs">
+      <Link>Old\Issue3.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Old\Issue4.cs">
+      <Link>Old\Issue4.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Old\Issue6.cs">
+      <Link>Old\Issue6.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Old\Issue9.cs">
+      <Link>Old\Issue9.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Old\ObjectRepository.cs">
+      <Link>Old\ObjectRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\ProvidedContext.cs">
+      <Link>ProvidedContext.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

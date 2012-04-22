@@ -66,7 +66,6 @@
     <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="xunit, Version=1.9.0.1566, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
@@ -82,55 +81,151 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DynamicStringExtensions.cs" />
-    <Compile Include="Deprecated\StringExtensions.cs" />
-    <Compile Include="Fluent\IStep.cs" />
-    <Compile Include="Internal\SharedContextTestNameFactory.cs" />
-    <Compile Include="Internal\ISharedContextTestNameFactory.cs" />
-    <Compile Include="Internal\ScenarioFactory.cs" />
-    <Compile Include="Internal\ObjectExtensions.cs" />
-    <Compile Include="Internal\IDisposer.cs" />
-    <Compile Include="Internal\Disposer.cs" />
-    <Compile Include="Internal\ITestNameFactory.cs" />
-    <Compile Include="Internal\ITestFactory.cs" />
-    <Compile Include="Internal\TestNameFactory.cs" />
-    <Compile Include="Internal\ThenSkipTestFactory.cs" />
-    <Compile Include="Internal\Require.cs" />
-    <Compile Include="Internal\Scenario.cs" />
-    <Compile Include="ScenarioAttribute.cs" />
-    <Compile Include="ScenarioDataAttribute.cs" />
-    <Compile Include="Deprecated\DisposableAction.cs" />
-    <Compile Include="Deprecated\SpecificationAttribute.cs" />
-    <Compile Include="Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="Internal\ThenTestFactory.cs" />
-    <Compile Include="Internal\ThenInIsolationTestFactory.cs" />
-    <Compile Include="Internal\ActionTestCommand.cs" />
-    <Compile Include="Internal\Step.cs" />
-    <Compile Include="Internal\ThreadContext.cs" />
-    <Compile Include="Deprecated\ContextDelegate.cs" />
-    <Compile Include="Deprecated\ThesisAttribute.cs" />
-    <Compile Include="Fluent\Then.cs" />
-    <Compile Include="Fluent\IThen.cs" />
-    <Compile Include="Fluent\Given.cs" />
-    <Compile Include="FluentExtensions.cs" />
-    <Compile Include="Fluent\IGiven.cs" />
-    <Compile Include="Fluent\IWhen.cs" />
-    <Compile Include="Naming\BinaryExpressionExtensions.cs" />
-    <Compile Include="Naming\ConstantExpressionExtensions.cs" />
-    <Compile Include="Naming\LambdaExpressionExtensions.cs" />
-    <Compile Include="Naming\Optimizations.cs" />
-    <Compile Include="Naming\UnaryExpressionExtensions.cs" />
-    <Compile Include="Naming\MemberExpressionExtensions.cs" />
-    <Compile Include="Naming\MethodCallExpressionExtensions.cs" />
-    <Compile Include="Naming\MethodInfoExtensions.cs" />
-    <Compile Include="Naming\TypeExtensions.cs" />
-    <Compile Include="Naming\StringExtensions.cs" />
-    <Compile Include="Naming\ExpressionTypeExtensions.cs" />
+    <Compile Include="..\Xbehave.Net40\Deprecated\ContextDelegate.cs">
+      <Link>Deprecated\ContextDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Deprecated\DisposableAction.cs">
+      <Link>Deprecated\DisposableAction.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Deprecated\SpecificationAttribute.cs">
+      <Link>Deprecated\SpecificationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Deprecated\SpecificationExtensions.cs">
+      <Link>Deprecated\SpecificationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Deprecated\StringExtensions.cs">
+      <Link>Deprecated\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Deprecated\ThesisAttribute.cs">
+      <Link>Deprecated\ThesisAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\DynamicStringExtensions.cs">
+      <Link>DynamicStringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\FluentExtensions.cs">
+      <Link>FluentExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\Given.cs">
+      <Link>Fluent\Given.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\IGiven.cs">
+      <Link>Fluent\IGiven.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\IStep.cs">
+      <Link>Fluent\IStep.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\IThen.cs">
+      <Link>Fluent\IThen.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\IWhen.cs">
+      <Link>Fluent\IWhen.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\Then.cs">
+      <Link>Fluent\Then.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\When.cs">
+      <Link>Fluent\When.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ActionTestCommand.cs">
+      <Link>Internal\ActionTestCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\Disposer.cs">
+      <Link>Internal\Disposer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\IDisposer.cs">
+      <Link>Internal\IDisposer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ISharedContextTestNameFactory.cs">
+      <Link>Internal\ISharedContextTestNameFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ITestFactory.cs">
+      <Link>Internal\ITestFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ITestNameFactory.cs">
+      <Link>Internal\ITestNameFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ObjectExtensions.cs">
+      <Link>Internal\ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\Require.cs">
+      <Link>Internal\Require.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\Scenario.cs">
+      <Link>Internal\Scenario.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ScenarioFactory.cs">
+      <Link>Internal\ScenarioFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\SharedContextTestNameFactory.cs">
+      <Link>Internal\SharedContextTestNameFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\Step.cs">
+      <Link>Internal\Step.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\TestNameFactory.cs">
+      <Link>Internal\TestNameFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ThenInIsolationTestFactory.cs">
+      <Link>Internal\ThenInIsolationTestFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ThenSkipTestFactory.cs">
+      <Link>Internal\ThenSkipTestFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ThenTestFactory.cs">
+      <Link>Internal\ThenTestFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ThreadContext.cs">
+      <Link>Internal\ThreadContext.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\BinaryExpressionExtensions.cs">
+      <Link>Naming\BinaryExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\ConstantExpressionExtensions.cs">
+      <Link>Naming\ConstantExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\ExpressionExtensions.cs">
+      <Link>Naming\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\ExpressionTypeExtensions.cs">
+      <Link>Naming\ExpressionTypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\LambdaExpressionExtensions.cs">
+      <Link>Naming\LambdaExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\MemberExpressionExtensions.cs">
+      <Link>Naming\MemberExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\MethodCallExpressionExtensions.cs">
+      <Link>Naming\MethodCallExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\MethodInfoExtensions.cs">
+      <Link>Naming\MethodInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\Optimizations.cs">
+      <Link>Naming\Optimizations.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\StringExtensions.cs">
+      <Link>Naming\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\TypeExtensions.cs">
+      <Link>Naming\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Naming\UnaryExpressionExtensions.cs">
+      <Link>Naming\UnaryExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
+      <Link>ScenarioAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ScenarioDataAttribute.cs">
+      <Link>ScenarioDataAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StringExtensions.cs">
+      <Link>StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\_.cs">
+      <Link>_.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Naming\ExpressionExtensions.cs" />
-    <Compile Include="StringExtensions.cs" />
-    <Compile Include="Fluent\When.cs" />
-    <Compile Include="_.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">
