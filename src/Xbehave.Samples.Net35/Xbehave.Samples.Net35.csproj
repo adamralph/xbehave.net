@@ -57,7 +57,7 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xbehave\Xbehave.csproj">
+    <ProjectReference Include="..\Xbehave.Net35\Xbehave.Net35.csproj">
       <Project>{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}</Project>
       <Name>Xbehave</Name>
     </ProjectReference>
