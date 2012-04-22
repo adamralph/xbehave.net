@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{425C1030-10E5-4CCF-80C2-A4A8966EA48A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Xbehave</RootNamespace>
+    <AssemblyName>Xbehave</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
+    <DocumentationFile>bin\Release\Xbehave.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Xbehave.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CI|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\CI\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit, Version=1.9.0.1566, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\xunit.1.9.0.1566\lib\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions, Version=1.9.0.1566, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\xunit.extensions.1.9.0.1566\lib\xunit.extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="DynamicStringExtensions.cs" />
+    <Compile Include="Deprecated\StringExtensions.cs" />
+    <Compile Include="Fluent\IStep.cs" />
+    <Compile Include="Internal\SharedContextTestNameFactory.cs" />
+    <Compile Include="Internal\ISharedContextTestNameFactory.cs" />
+    <Compile Include="Internal\ScenarioFactory.cs" />
+    <Compile Include="Internal\ObjectExtensions.cs" />
+    <Compile Include="Internal\IDisposer.cs" />
+    <Compile Include="Internal\Disposer.cs" />
+    <Compile Include="Internal\ITestNameFactory.cs" />
+    <Compile Include="Internal\ITestFactory.cs" />
+    <Compile Include="Internal\TestNameFactory.cs" />
+    <Compile Include="Internal\ThenSkipTestFactory.cs" />
+    <Compile Include="Internal\Require.cs" />
+    <Compile Include="Internal\Scenario.cs" />
+    <Compile Include="ScenarioAttribute.cs" />
+    <Compile Include="ScenarioDataAttribute.cs" />
+    <Compile Include="Deprecated\DisposableAction.cs" />
+    <Compile Include="Deprecated\SpecificationAttribute.cs" />
+    <Compile Include="Deprecated\SpecificationExtensions.cs" />
+    <Compile Include="Internal\ThenTestFactory.cs" />
+    <Compile Include="Internal\ThenInIsolationTestFactory.cs" />
+    <Compile Include="Internal\ActionTestCommand.cs" />
+    <Compile Include="Internal\Step.cs" />
+    <Compile Include="Internal\ThreadContext.cs" />
+    <Compile Include="Deprecated\ContextDelegate.cs" />
+    <Compile Include="Deprecated\ThesisAttribute.cs" />
+    <Compile Include="Fluent\Then.cs" />
+    <Compile Include="Fluent\IThen.cs" />
+    <Compile Include="Fluent\Given.cs" />
+    <Compile Include="FluentExtensions.cs" />
+    <Compile Include="Fluent\IGiven.cs" />
+    <Compile Include="Fluent\IWhen.cs" />
+    <Compile Include="Naming\BinaryExpressionExtensions.cs" />
+    <Compile Include="Naming\ConstantExpressionExtensions.cs" />
+    <Compile Include="Naming\LambdaExpressionExtensions.cs" />
+    <Compile Include="Naming\Optimizations.cs" />
+    <Compile Include="Naming\UnaryExpressionExtensions.cs" />
+    <Compile Include="Naming\MemberExpressionExtensions.cs" />
+    <Compile Include="Naming\MethodCallExpressionExtensions.cs" />
+    <Compile Include="Naming\MethodInfoExtensions.cs" />
+    <Compile Include="Naming\TypeExtensions.cs" />
+    <Compile Include="Naming\StringExtensions.cs" />
+    <Compile Include="Naming\ExpressionTypeExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Naming\ExpressionExtensions.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Fluent\When.cs" />
+    <Compile Include="_.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Xbehave.snk">
+      <Link>Properties\Xbehave.snk</Link>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Xbehave.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">
+      <Link>Properties\Xbehave.CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Import Project="..\..\packages\StyleCop.MSBuild.4.7.17.1\tools\StyleCop.targets" />
+</Project>
