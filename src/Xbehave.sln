@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net35", "Xbehave.Net35\Xbehave.Net35.csproj", "{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net40", "Xbehave.Net40\Xbehave.Net40.csproj", "{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1DAD0ED8-7F96-4299-BEBB-04F3C25BFC76}"
 	ProjectSection(SolutionItems) = preProject
