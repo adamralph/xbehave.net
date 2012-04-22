@@ -24,7 +24,7 @@ namespace Xbehave
         [Obsolete("Use Given() instead.")]
         public static IStep Context(this string message, Action arrange)
         {
-            return new Given(ThreadContext.Scenario.Given(message, StringExtensions.Wrap(arrange)));
+            return new Given(ThreadContext.Scenario.Given(message, arrange.ToDefaultFunc<IDisposable>()));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Xbehave
         [Obsolete("Use When() instead.")]
         public static IStep Do(this string message, Action act)
         {
-            return new Then(ThreadContext.Scenario.When(message, StringExtensions.Wrap(act)));
+            return new Then(ThreadContext.Scenario.When(message, act.ToDefaultFunc<IDisposable>()));
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Xbehave
         [Obsolete("Use ThenInIsolation() instead.")]
         public static IStep Assert(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenInIsolation(message, StringExtensions.Wrap(assert)));
+            return new Then(ThreadContext.Scenario.ThenInIsolation(message, assert.ToDefaultFunc<IDisposable>()));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Xbehave
         [Obsolete("Use Then() instead.")]
         public static IStep Observation(this string message, Action observation)
         {
-            return new Then(ThreadContext.Scenario.Then(message, StringExtensions.Wrap(observation)));
+            return new Then(ThreadContext.Scenario.Then(message, observation.ToDefaultFunc<IDisposable>()));
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Xbehave
         [Obsolete("Use ThenSkip() instead.")]
         public static IStep Todo(this string message, Action skippedAction)
         {
-            return new Then(ThreadContext.Scenario.ThenSkip(message, StringExtensions.Wrap(skippedAction)));
+            return new Then(ThreadContext.Scenario.ThenSkip(message, skippedAction.ToDefaultFunc<IDisposable>()));
         }
     }
 }

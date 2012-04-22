@@ -103,7 +103,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhen"/>.</returns>
         public static IWhen When(this string message, Action act)
         {
-            return new When(ThreadContext.Scenario.When(message, Wrap(act)));
+            return new When(ThreadContext.Scenario.When(message, act.ToDefaultFunc<IDisposable>()));
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen ThenInIsolation(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenInIsolation(message, Wrap(assert)));
+            return new Then(ThreadContext.Scenario.ThenInIsolation(message, assert.ToDefaultFunc<IDisposable>()));
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen Then(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.Then(message, Wrap(assert)));
+            return new Then(ThreadContext.Scenario.Then(message, assert.ToDefaultFunc<IDisposable>()));
         }
 
         /// <summary>
@@ -140,48 +140,7 @@ namespace Xbehave
         /// </remarks>
         public static IThen ThenSkip(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenSkip(message, Wrap(assert)));
-        }
-
-        internal static Func<IDisposable> Wrap(Action arrange)
-        {
-            return () =>
-            {
-                arrange();
-                return null;
-            };
-        }
-
-        private class Disposable : IDisposable
-        {
-            private readonly Action dispose;
-            private readonly IEnumerable<IDisposable> disposables;
-
-            public Disposable(Action dispose)
-            {
-                this.dispose = dispose;
-            }
-
-            public Disposable(IEnumerable<IDisposable> disposables)
-            {
-                this.disposables = disposables;
-            }
-
-            public void Dispose()
-            {
-                if (this.dispose != null)
-                {
-                    this.dispose();
-                }
-
-                if (this.disposables != null)
-                {
-                    foreach (var disposable in this.disposables)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
+            return new Then(ThreadContext.Scenario.ThenSkip(message, assert.ToDefaultFunc<IDisposable>()));
         }
     }
 }

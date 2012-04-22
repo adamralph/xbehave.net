@@ -104,7 +104,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhen"/>.</returns>
         public static IWhen When(this string message, Action<dynamic> act)
         {
-            return new When(ThreadContext.Scenario.When(message, Wrap(() => act(ThreadContext.Scenario.Context))));
+            return new When(ThreadContext.Scenario.When(message, ActionExtensions.ToDefaultFunc<IDisposable>(() => act(ThreadContext.Scenario.Context))));
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen ThenInIsolation(this string message, Action<dynamic> assert)
         {
-            return new Then(ThreadContext.Scenario.ThenInIsolation(message, Wrap(() => assert(ThreadContext.Scenario.Context))));
+            return new Then(ThreadContext.Scenario.ThenInIsolation(message, ActionExtensions.ToDefaultFunc<IDisposable>(() => assert(ThreadContext.Scenario.Context))));
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen Then(this string message, Action<dynamic> assert)
         {
-            return new Then(ThreadContext.Scenario.Then(message, Wrap(() => assert(ThreadContext.Scenario.Context))));
+            return new Then(ThreadContext.Scenario.Then(message, ActionExtensions.ToDefaultFunc<IDisposable>(() => assert(ThreadContext.Scenario.Context))));
         }
 
         /// <summary>
@@ -141,48 +141,7 @@ namespace Xbehave
         /// </remarks>
         public static IThen ThenSkip(this string message, Action<dynamic> assert)
         {
-            return new Then(ThreadContext.Scenario.ThenSkip(message, Wrap(() => assert(ThreadContext.Scenario.Context))));
-        }
-
-        internal static Func<IDisposable> Wrap(Action arrange)
-        {
-            return () =>
-            {
-                arrange();
-                return null;
-            };
-        }
-
-        private class Disposable : IDisposable
-        {
-            private readonly Action dispose;
-            private readonly IEnumerable<IDisposable> disposables;
-
-            public Disposable(Action dispose)
-            {
-                this.dispose = dispose;
-            }
-
-            public Disposable(IEnumerable<IDisposable> disposables)
-            {
-                this.disposables = disposables;
-            }
-
-            public void Dispose()
-            {
-                if (this.dispose != null)
-                {
-                    this.dispose();
-                }
-
-                if (this.disposables != null)
-                {
-                    foreach (var disposable in this.disposables)
-                    {
-                        disposable.Dispose();
-                    }
-                }
-            }
+            return new Then(ThreadContext.Scenario.ThenSkip(message, ActionExtensions.ToDefaultFunc<IDisposable>(() => assert(ThreadContext.Scenario.Context))));
         }
     }
 }
