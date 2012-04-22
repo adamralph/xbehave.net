@@ -27,6 +27,9 @@
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\..\packages\FakeItEasy.Net35.1.7.4257.42\lib\net35\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=1.7.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\FluentAssertions.1.7.1.1\Lib\net35\FluentAssertions.dll</HintPath>
@@ -57,9 +60,9 @@
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xbehave.Net40\Xbehave.Net40.csproj">
-      <Project>{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}</Project>
-      <Name>Xbehave</Name>
+    <ProjectReference Include="..\Xbehave.Net35\Xbehave.Net35.csproj">
+      <Project>{425C1030-10E5-4CCF-80C2-A4A8966EA48A}</Project>
+      <Name>Xbehave.Net35</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,8 +7,8 @@ Properties {
 Task Default -depends Test
 
 Task Test -depends Build {
-    #Exec { .$XunitConsole35 "test\Xbehave.Test.Net35\bin\Debug\Xbehave.Test.dll" /noshadow /nunit "test\Xbehave.Test.Net35\bin\Debug\XBehave.Test.Results.Xml" }
-    Exec { .$XunitConsole40 "test\Xbehave.Test.Net40\bin\Debug\Xbehave.Test.dll" /noshadow /nunit "test\Xbehave.Test.Net40\bin\Debug\XBehave.Test.Results.Xml" }
+    Exec { .$XunitConsole35 "test\Xbehave.Test.Net35\bin\Debug\Xbehave.Test.dll" /noshadow /nunit "test\Xbehave.Test.Net35\bin\Debug\XBehave.Test.Results.xml" /html "test\Xbehave.Test.Net35\bin\Debug\XBehave.Test.Results.html" }
+    Exec { .$XunitConsole40 "test\Xbehave.Test.Net40\bin\Debug\Xbehave.Test.dll" /noshadow /nunit "test\Xbehave.Test.Net40\bin\Debug\XBehave.Test.Results.xml" /html "test\Xbehave.Test.Net40\bin\Debug\XBehave.Test.Results.html" }
 }
 
 Task Build -depends Clean {
