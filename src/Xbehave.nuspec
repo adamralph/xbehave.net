@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>xBehave.net</id>
-    <version>0.9.0-a</version>
+    <id>Xbehave</id>
+    <version>0.9.0-beta1</version>
     <title>xBehave.net</title>
     <authors>Adam Ralph</authors>
     <owners>Adam Ralph</owners>
