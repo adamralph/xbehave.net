@@ -5,10 +5,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net40", "Xbehave.Ne
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1DAD0ED8-7F96-4299-BEBB-04F3C25BFC76}"
 	ProjectSection(SolutionItems) = preProject
+		build-ci.ps1 = build-ci.ps1
+		build-debug.ps1 = build-debug.ps1
+		build-release.ps1 = build-release.ps1
+		build-tasks.ps1 = build-tasks.ps1
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		nuget.config = nuget.config
 		Settings.StyleCop = Settings.StyleCop
 		Xbehave.CustomDictionary.xml = Xbehave.CustomDictionary.xml
+		Xbehave.nuspec = Xbehave.nuspec
 		Xbehave.ruleset = Xbehave.ruleset
 		Xbehave.snk = Xbehave.snk
 	EndProjectSection

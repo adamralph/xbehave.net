@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <id>xBehave.net</id>
+    <version>0.9.0-a</version>
+    <title>xBehave.net</title>
+    <authors>Adam Ralph</authors>
+    <owners>Adam Ralph</owners>
     <projectUrl>https://bitbucket.org/adamralph/xbehave.net</projectUrl>
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/c292659fa57d/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
+    <description>A fluent and concise BDD/TDD library based on xUnit.net designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
     <releaseNotes>Added support for multiple givens and whens within a single scenario.
 Added per-scenario ambient context accessed via dynamic step overloads (.NET 4.0 only).
 Changed test command naming to group shared context commands correctly when sorted alphanumerically.</releaseNotes>

@@ -232,9 +232,6 @@
       <Link>Properties\Xbehave.snk</Link>
     </None>
     <None Include="packages.config" />
-    <None Include="Xbehave.nuspec">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">
