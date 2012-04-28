@@ -16,7 +16,7 @@ namespace Xbehave
     public static partial class StringExtensions
     {
         /// <summary>
-        /// Records the arrangement for this specification.
+        /// Declares an arrangement for the scenario.
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The action that will perform the arrangment.</param>
@@ -27,7 +27,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records the disposable arrangement for this specification which will be disposed after all associated assertions have been executed.
+        /// Declares a disposable arrangement for the scenario which will be disposed after all steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
@@ -38,7 +38,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records the disposable arrangement for this specification which will be disposed after all associated assertions have been executed.
+        /// Declares a disposable arrangement for the scenario which will be disposed after all steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
@@ -50,7 +50,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records the disposable arrangement for this specification which will be disposed after all associated assertions have been executed.
+        /// Declares a disposable arrangement for the scenario which will be disposed after all steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The action that will perform the arrangement.</param>
@@ -62,7 +62,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records the act to be performed on the arrangment for this specification.
+        /// Declares an act to be performed in the scenario.
         /// </summary>
         /// <param name="message">A message describing the act.</param>
         /// <param name="act">The action that will perform the act.</param>
@@ -73,7 +73,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records an assertion of an expected outcome for this specification, to be executed on an isolated arrangement and action.
+        /// Records an assertion of an expected outcome of the scenario with all arrangements and actions isolated for this assertion.
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
@@ -84,7 +84,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records an assertion of an expected outcome for this specification, to be executed on a shared arrangement and action.
+        /// Records an assertion of an expected outcome of the scenario with all arrangements and actions shared with other assertions.
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
@@ -95,7 +95,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records a skipped assertion of an expected outcome for this specification.
+        /// Records a skipped assertion of an expected outcome for the scenario.
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which would have performed the assertion.</param>
