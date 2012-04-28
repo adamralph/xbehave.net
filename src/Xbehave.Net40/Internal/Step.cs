@@ -10,11 +10,11 @@ namespace Xbehave.Internal
     internal class Step
     {
         private readonly string message;
-        private readonly Func<IDisposable> action;
+        private readonly Func<IDisposable> execute;
 
-        public Step(string message, Func<IDisposable> action)
+        public Step(string message, Func<IDisposable> execute)
         {
-            Require.NotNull(action, "action");
+            Require.NotNull(execute, "execute");
 
             if (message == null)
             {
@@ -22,7 +22,7 @@ namespace Xbehave.Internal
             }
 
             this.message = message;
-            this.action = action;
+            this.execute = execute;
         }
 
         public string Message
@@ -36,7 +36,7 @@ namespace Xbehave.Internal
         {
             if (this.MillisecondsTimeout > 0)
             {
-                var result = this.action.BeginInvoke(null, null);
+                var result = this.execute.BeginInvoke(null, null);
 
                 // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
                 if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
@@ -44,10 +44,10 @@ namespace Xbehave.Internal
                     throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                 }
 
-                return this.action.EndInvoke(result);
+                return this.execute.EndInvoke(result);
             }
 
-            return this.action();
+            return this.execute();
         }
     }
 }
