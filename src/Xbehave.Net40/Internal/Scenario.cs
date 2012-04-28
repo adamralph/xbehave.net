@@ -18,11 +18,11 @@ namespace Xbehave.Internal
         private readonly ICommandFactory thenTestFactory;
         private readonly ICommandFactory thenSkipTestFactory;
 
-        private readonly List<Step> givens = new List<Step>();
-        private readonly List<Step> whens = new List<Step>();
-        private readonly List<Step> thens = new List<Step>();
-        private readonly List<Step> thensInIsolation = new List<Step>();
-        private readonly List<Step> thenSkips = new List<Step>();
+        private readonly Queue<Step> givens = new Queue<Step>();
+        private readonly Queue<Step> whens = new Queue<Step>();
+        private readonly Queue<Step> thens = new Queue<Step>();
+        private readonly Queue<Step> thensInIsolation = new Queue<Step>();
+        private readonly Queue<Step> thenSkips = new Queue<Step>();
 #if NET40
         private readonly dynamic context = new ExpandoObject();
 #endif
@@ -46,27 +46,27 @@ namespace Xbehave.Internal
 #endif
         public Step Given(string message, Func<IDisposable> arrange)
         {
-            return AddStep(this.givens, message, arrange);
+            return Enqueue(this.whens, new Step(message, arrange));
         }
 
         public Step When(string message, Func<IDisposable> action)
         {
-            return AddStep(this.whens, message, action);
+            return Enqueue(this.whens, new Step(message, action));
         }
 
         public Step ThenInIsolation(string message, Func<IDisposable> assert)
         {
-            return AddStep(this.thensInIsolation, message, assert);
+            return Enqueue(this.thensInIsolation, new Step(message, assert));
         }
 
         public Step Then(string message, Func<IDisposable> assert)
         {
-            return AddStep(this.thens, message, assert);
+            return Enqueue(this.thens, new Step(message, assert));
         }
 
         public Step ThenSkip(string message, Func<IDisposable> assert)
         {
-            return AddStep(this.thenSkips, message, assert);
+            return Enqueue(this.thenSkips, new Step(message, assert));
         }
 
         public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)
@@ -77,10 +77,9 @@ namespace Xbehave.Internal
                .Concat(this.thenSkipTestFactory.Create(contextSteps, this.thenSkips, method));
         }
 
-        private static Step AddStep(IList<Step> list, string message, Func<IDisposable> func)
+        private static Step Enqueue(Queue<Step> list, Step step)
         {
-            var step = new Step(message, func);
-            list.Add(step);
+            list.Enqueue(step);
             return step;
         }
     }
