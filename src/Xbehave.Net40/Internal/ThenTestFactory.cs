@@ -8,6 +8,7 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using Xbehave.Infra;
     using Xunit.Sdk;
 
     internal class ThenTestFactory : ITestFactory

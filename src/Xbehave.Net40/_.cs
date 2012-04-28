@@ -10,6 +10,7 @@ namespace Xbehave
     using System.Linq.Expressions;
 
     using Xbehave.Fluent;
+    using Xbehave.Infra;
     using Xbehave.Internal;
     using Xbehave.Naming;
 

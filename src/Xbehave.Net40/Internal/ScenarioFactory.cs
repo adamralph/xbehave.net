@@ -4,6 +4,8 @@
 
 namespace Xbehave.Internal
 {
+    using Xbehave.Infra;
+
     internal class ScenarioFactory
     {
         private readonly ITestFactory thenInIsolationTestFactory;

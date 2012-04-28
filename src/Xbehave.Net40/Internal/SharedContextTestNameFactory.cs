@@ -5,6 +5,7 @@
 namespace Xbehave.Internal
 {
     using System.Collections.Generic;
+    using Xbehave.Infra;
 
     internal class SharedContextTestNameFactory : ISharedContextTestNameFactory
     {

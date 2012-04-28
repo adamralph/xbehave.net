@@ -126,20 +126,26 @@
     <Compile Include="..\Xbehave.Net40\Fluent\When.cs">
       <Link>Fluent\When.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\ActionExtensions.cs">
+      <Link>Infra\ActionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
+      <Link>Infra\Disposable.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\Disposer.cs">
+      <Link>Infra\Disposer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\IDisposer.cs">
+      <Link>Infra\IDisposer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\ObjectExtensions.cs">
+      <Link>Infra\ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\Require.cs">
+      <Link>Infra\Require.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ActionCommand.cs">
       <Link>Internal\ActionCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ActionExtensions.cs">
-      <Link>Internal\ActionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\Disposable.cs">
-      <Link>Internal\Disposable.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\Disposer.cs">
-      <Link>Internal\Disposer.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\IDisposer.cs">
-      <Link>Internal\IDisposer.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ISharedContextTestNameFactory.cs">
       <Link>Internal\ISharedContextTestNameFactory.cs</Link>
@@ -149,12 +155,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ITestNameFactory.cs">
       <Link>Internal\ITestNameFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ObjectExtensions.cs">
-      <Link>Internal\ObjectExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\Require.cs">
-      <Link>Internal\Require.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Scenario.cs">
       <Link>Internal\Scenario.cs</Link>

@@ -9,6 +9,7 @@ namespace Xbehave
     using System.Diagnostics.CodeAnalysis;
 
     using Xbehave.Fluent;
+    using Xbehave.Infra;
     using Xbehave.Internal;
 
     /// <summary>

@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Internal
+namespace Xbehave.Infra
 {
     using System.Collections.Generic;
 

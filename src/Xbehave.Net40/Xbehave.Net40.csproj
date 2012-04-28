@@ -82,22 +82,22 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Internal\Disposable.cs" />
+    <Compile Include="Infra\Disposable.cs" />
     <None Include="DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Fluent\IStep.cs" />
-    <Compile Include="Internal\ActionExtensions.cs" />
+    <Compile Include="Infra\ActionExtensions.cs" />
     <Compile Include="Internal\SharedContextTestNameFactory.cs" />
     <Compile Include="Internal\ISharedContextTestNameFactory.cs" />
     <Compile Include="Internal\ScenarioFactory.cs" />
-    <Compile Include="Internal\ObjectExtensions.cs" />
-    <Compile Include="Internal\IDisposer.cs" />
-    <Compile Include="Internal\Disposer.cs" />
+    <Compile Include="Infra\ObjectExtensions.cs" />
+    <Compile Include="Infra\IDisposer.cs" />
+    <Compile Include="Infra\Disposer.cs" />
     <Compile Include="Internal\ITestNameFactory.cs" />
     <Compile Include="Internal\ITestFactory.cs" />
     <Compile Include="Internal\TestNameFactory.cs" />
     <Compile Include="Internal\ThenSkipTestFactory.cs" />
-    <Compile Include="Internal\Require.cs" />
+    <Compile Include="Infra\Require.cs" />
     <Compile Include="Internal\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="ScenarioDataAttribute.cs" />
