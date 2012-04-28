@@ -11,8 +11,8 @@ namespace Xbehave.Internal
     {
         private readonly Action test;
 
-        public ActionCommand(IMethodInfo method, string name, int timeout, Action test)
-            : base(method, name, timeout)
+        public ActionCommand(IMethodInfo method, string displayName, int timeout, Action test)
+            : base(method, displayName, timeout)
         {
             this.test = test;
         }
@@ -20,7 +20,7 @@ namespace Xbehave.Internal
         public override MethodResult Execute(object testClass)
         {
             this.test();
-            return new PassedResult(this.testMethod, DisplayName);
+            return new PassedResult(this.testMethod, this.DisplayName);
         }
     }
 }
