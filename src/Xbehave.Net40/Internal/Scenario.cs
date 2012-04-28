@@ -4,7 +4,6 @@
 
 namespace Xbehave.Internal
 {
-    using System;
     using System.Collections.Generic;
 #if NET40
     using System.Dynamic;

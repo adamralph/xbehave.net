@@ -11,7 +11,6 @@ namespace Xbehave
 
     using Xbehave.Fluent;
     using Xbehave.Infra;
-    using Xbehave.Internal;
     using Xbehave.Naming;
 
     /// <summary>
