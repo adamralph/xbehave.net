@@ -12,29 +12,18 @@ namespace Xbehave.Test.Legacy
 
     public static class ContextSetupTeardownBehavior
     {
-        [Fact]
-        public static void SutThrowsWhenCalledTwice()
-        {
-            var sut = new ContextFixtureSpy();
-            Assert.Throws<InvalidOperationException>(() =>
-            {
-                sut.FailWhenCallingTwice();
-                sut.FailWhenCallingTwice();
-            });
-        }
-
         [Specification]
         public static void MultipleAssertionsShouldCauseActionToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
-            sut.FailWhenCallingTwice();
+            sut.ThrowInvalidOperationExceptionOnSecondCall();
 
             "Given an externally managed context"
                 .Context(() => { });
 
             "when we execute an action on it that may be invoked only once"
                 .Do(() =>
-                    Assert.Throws<InvalidOperationException>(() => sut.FailWhenCallingTwice()));
+                    Assert.Throws<InvalidOperationException>(() => sut.ThrowInvalidOperationExceptionOnSecondCall()));
 
             "we expect our first assertion to pass"
                 .Assert(() =>
@@ -49,10 +38,10 @@ namespace Xbehave.Test.Legacy
         public static void MultipleAssertionsShouldCauseContextInstantiationToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
-            sut.FailWhenCallingTwice();
+            sut.ThrowInvalidOperationExceptionOnSecondCall();
 
             "Given a context that may not be established twice".Context(
-                () => Assert.Throws<InvalidOperationException>(() => sut.FailWhenCallingTwice()));
+                () => Assert.Throws<InvalidOperationException>(() => sut.ThrowInvalidOperationExceptionOnSecondCall()));
 
             "when".Do(() => { });
 
@@ -66,7 +55,7 @@ namespace Xbehave.Test.Legacy
             var sut = new ContextFixtureSpy();
 
             "Given an externally managed context".Context(() => { });
-            "when we execute an action on it that may be invoked only once".Do(sut.FailWhenCallingTwice);
+            "when we execute an action on it that may be invoked only once".Do(sut.ThrowInvalidOperationExceptionOnSecondCall);
 
             "we expect our first assertion to pass".Observation(() => Assert.True(true));
             "we expect the action not to be repeated for the second assertion".Observation(() => Assert.True(true));
@@ -77,7 +66,7 @@ namespace Xbehave.Test.Legacy
         {
             var sut = new ContextFixtureSpy();
 
-            "Given a context that may not be established twice".Context(() => sut.FailWhenCallingTwice());
+            "Given a context that may not be established twice".Context(() => sut.ThrowInvalidOperationExceptionOnSecondCall());
 
             "we expect our first assertion to pass".Observation(() => Assert.True(true));
             "we expect the context instantiation not to be repeated for the second assertion".Observation(() => Assert.True(true));
@@ -90,15 +79,6 @@ namespace Xbehave.Test.Legacy
             "with Assertions, we expect the context is nonetheless disposed".Assert(() => { });
         }
 
-        [Fact]
-        public static void ErrorInDoForAssertionDisposesContext()
-        {
-            DisposeSpy.Reset();
-            var method = Reflector.Wrap(StaticReflection.MethodOf(() => SpecificationThatShouldDisposeItsAssertionFixture()));
-            ExecuteSpecification(method);
-            Assert.True(DisposeSpy.WasDisposed);
-        }
-
         public static void SpecificationThatShouldDisposeItsObservationFixture()
         {
             "Given a disposable Fixture".ContextFixture(() => new DisposeSpy());
@@ -106,28 +86,11 @@ namespace Xbehave.Test.Legacy
             "with Observation, we expect the context is nonetheless disposed".Observation(() => { });
         }
 
-        [Fact]
-        public static void ErrorInDoForObservationDisposesContext()
-        {
-            DisposeSpy.Reset();
-            var method = Reflector.Wrap(StaticReflection.MethodOf(() => SpecificationThatShouldDisposeItsObservationFixture()));
-            ExecuteSpecification(method);
-            Assert.True(DisposeSpy.WasDisposed);
-        }
-
-        private static void ExecuteSpecification(IMethodInfo spec)
-        {
-            foreach (var command in new TestAttribute().EnumerateTestCommands(spec))
-            {
-                command.Execute(null);
-            }
-        }
-
         private class ContextFixtureSpy
         {
             private bool called;
 
-            public void FailWhenCallingTwice()
+            public void ThrowInvalidOperationExceptionOnSecondCall()
             {
                 if (this.called)
                 {
@@ -150,14 +113,6 @@ namespace Xbehave.Test.Legacy
             public void Dispose()
             {
                 WasDisposed = true;
-            }
-        }
-
-        private class TestAttribute : ScenarioAttribute
-        {
-            public new IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
-            {
-                return base.EnumerateTestCommands(method);
             }
         }
     }

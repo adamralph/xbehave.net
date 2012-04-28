@@ -7,11 +7,10 @@ namespace Xbehave.Issues.Old
     using System;
     using System.Diagnostics.CodeAnalysis;
 
-    using FakeItEasy;
-
     using FluentAssertions;
 
     using Xbehave;
+    using Xbehave.Issues;
 
     /// <summary>
     /// https://bitbucket.org/adamralph/subspecgwt/issue/3/new-given-overloads-for-context-disposal
@@ -22,16 +21,11 @@ namespace Xbehave.Issues.Old
         [Specification]
         public static void SingleDisposable()
         {
-            var disposable = default(IDisposable);
+            var disposable = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given(() =>
-                    {
-                        disposable = A.Fake<IDisposable>();
-                        A.CallTo(() => disposable.Dispose()).Invokes(x => Console.WriteLine("DISPOSED"));
-                        return disposable;
-                    })
-                .When(() => disposable.ToString());
+                .Given(() => disposable = new ImplicitDisposable())
+                .When(() => disposable.Use());
 
             _.Then(() => true.Should().Be(false));
             _.Then(() => true.Should().Be(false));
@@ -41,16 +35,11 @@ namespace Xbehave.Issues.Old
         [Specification]
         public static void SingleDisposableInIsolation()
         {
-            var disposable = default(IDisposable);
+            var disposable = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given(() =>
-                    {
-                        disposable = A.Fake<IDisposable>();
-                        A.CallTo(() => disposable.Dispose()).Invokes(x => Console.WriteLine("DISPOSED"));
-                        return disposable;
-                    })
-                .When(() => disposable.ToString());
+                .Given(() => disposable = new ImplicitDisposable())
+                .When(() => disposable.Use());
 
             _.ThenInIsolation(() => true.Should().Be(false));
             _.ThenInIsolation(() => true.Should().Be(false));
@@ -60,16 +49,11 @@ namespace Xbehave.Issues.Old
         [Specification]
         public static void SingleDisposableMixed()
         {
-            var disposable = default(IDisposable);
+            var disposable = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given(() =>
-                {
-                    disposable = A.Fake<IDisposable>();
-                    A.CallTo(() => disposable.Dispose()).Invokes(x => Console.WriteLine("DISPOSED"));
-                    return disposable;
-                })
-                .When(() => disposable.ToString());
+                .Given(() => disposable = new ImplicitDisposable())
+                .When(() => disposable.Use());
 
             _.ThenInIsolation(() => true.Should().Be(false));
             _.ThenInIsolation(() => true.Should().Be(false));
@@ -81,25 +65,22 @@ namespace Xbehave.Issues.Old
         [Specification]
         public static void MultipleWithActionDisposables()
         {
-            var disposable0 = default(IDisposable);
-            var disposable1 = default(IDisposable);
+            var disposable0 = default(ImplicitDisposable);
+            var disposable1 = default(ImplicitDisposable);
 
             "Given disposables,"
                 .Given(
                     () =>
                     {
-                        disposable0 = A.Fake<IDisposable>();
-                        A.CallTo(() => disposable0.Dispose()).Invokes(x => Console.WriteLine("DISPOSED0"));
-
-                        disposable1 = A.Fake<IDisposable>();
-                        A.CallTo(() => disposable1.Dispose()).Invokes(x => Console.WriteLine("DISPOSED1"));
+                        disposable0 = new ImplicitDisposable();
+                        disposable1 = new ImplicitDisposable();
                     },
                     () =>
                     {
                         disposable0.Dispose();
                         disposable1.Dispose();
                     })
-                .When(() => disposable0.ToString());
+                .When(() => disposable0.Use());
 
             _.Then(() => true.Should().Be(false));
             _.Then(() => true.Should().Be(false));
@@ -109,25 +90,22 @@ namespace Xbehave.Issues.Old
         [Specification]
         public static void MultipleDisposablesWithActionInIsolation()
         {
-            var disposable0 = default(IDisposable);
-            var disposable1 = default(IDisposable);
+            var disposable0 = default(ImplicitDisposable);
+            var disposable1 = default(ImplicitDisposable);
 
             "Given disposables,"
                 .Given(
                     () =>
                     {
-                        disposable0 = A.Fake<IDisposable>();
-                        A.CallTo(() => disposable0.Dispose()).Invokes(x => Console.WriteLine("DISPOSED0"));
-
-                        disposable1 = A.Fake<IDisposable>();
-                        A.CallTo(() => disposable1.Dispose()).Invokes(x => Console.WriteLine("DISPOSED1"));
+                        disposable0 = new ImplicitDisposable();
+                        disposable1 = new ImplicitDisposable();
                     },
                     () =>
                     {
                         disposable0.Dispose();
                         disposable1.Dispose();
                     })
-                .When(() => disposable0.ToString());
+                .When(() => disposable0.Use());
 
             _.ThenInIsolation(() => true.Should().Be(false));
             _.ThenInIsolation(() => true.Should().Be(false));
@@ -137,46 +115,25 @@ namespace Xbehave.Issues.Old
         [Specification]
         public static void MultipleDisposablesWithActionMixed()
         {
-            var disposable0 = default(IDisposable);
-            var disposable1 = default(IDisposable);
+            var disposable0 = default(ImplicitDisposable);
+            var disposable1 = default(ImplicitDisposable);
 
             "Given disposables,"
                 .Given(
                     () =>
                     {
-                        disposable0 = A.Fake<IDisposable>();
-                        A.CallTo(() => disposable0.Dispose()).Invokes(x => Console.WriteLine("DISPOSED0"));
-
-                        disposable1 = A.Fake<IDisposable>();
-                        A.CallTo(() => disposable1.Dispose()).Invokes(x => Console.WriteLine("DISPOSED1"));
+                        disposable0 = new ImplicitDisposable();
+                        disposable1 = new ImplicitDisposable();
                     },
                     () =>
                     {
                         disposable0.Dispose();
                         disposable1.Dispose();
                     })
-                .When(() => disposable0.ToString());
+                .When(() => disposable0.Use());
 
             _.ThenInIsolation(() => true.Should().Be(false));
             _.ThenInIsolation(() => true.Should().Be(false));
-            _.Then(() => true.Should().Be(false));
-            _.Then(() => true.Should().Be(false));
-        }
-
-        // 2 failures with 1 x 1 disposal
-        [Specification]
-        public static void SingleImplicittDisposable()
-        {
-            var disposable = default(ImplicitDisposable);
-
-            "Given a disposable,"
-                .Given(() =>
-                {
-                    disposable = new ImplicitDisposable();
-                    return disposable;
-                })
-                .When(() => disposable.ToString());
-
             _.Then(() => true.Should().Be(false));
             _.Then(() => true.Should().Be(false));
         }
@@ -193,27 +150,10 @@ namespace Xbehave.Issues.Old
                     disposable = new ExplicitDisposable();
                     return disposable;
                 })
-                .When(() => disposable.ToString());
+                .When(() => disposable.Use());
 
             _.Then(() => true.Should().Be(false));
             _.Then(() => true.Should().Be(false));
-        }
-
-        public sealed class ImplicitDisposable : IDisposable
-        {
-            public void Dispose()
-            {
-                Console.WriteLine("DISPOSED");
-            }
-        }
-
-        public sealed class ExplicitDisposable : IDisposable
-        {
-            [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Required to be an explicit implementation.")]
-            void IDisposable.Dispose()
-            {
-                Console.WriteLine("DISPOSED");
-            }
         }
     }
 }

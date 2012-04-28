@@ -27,9 +27,6 @@
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FakeItEasy, Version=1.7.4257.42, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\FakeItEasy.Net35.1.7.4257.42\lib\net35\FakeItEasy.dll</HintPath>
-    </Reference>
     <Reference Include="FluentAssertions, Version=1.7.1.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\FluentAssertions.1.7.1.1\Lib\net35\FluentAssertions.dll</HintPath>
     </Reference>
@@ -49,6 +46,12 @@
   <ItemGroup>
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\ExplicitDisposable.cs">
+      <Link>ExplicitDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\ImplicitDisposable.cs">
+      <Link>ImplicitDisposable.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Issues.Net40\MultipleGivensAndWhens.cs">
       <Link>MultipleGivensAndWhens.cs</Link>
