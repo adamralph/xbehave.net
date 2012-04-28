@@ -150,6 +150,9 @@
     <Compile Include="..\Xbehave.Net40\Internal\CommandNameFactory.cs">
       <Link>Internal\CommandNameFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\DisposableFunctionFactory.cs">
+      <Link>Internal\DisposableFunctionFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ICommandFactory.cs">
       <Link>Internal\ICommandFactory.cs</Link>
     </Compile>
@@ -170,9 +173,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Step.cs">
       <Link>Internal\Step.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\StepFactory.cs">
-      <Link>Internal\StepFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ThenCommandFactory.cs">
       <Link>Internal\ThenCommandFactory.cs</Link>
