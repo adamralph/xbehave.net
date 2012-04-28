@@ -44,29 +44,29 @@ namespace Xbehave.Internal
         }
 
 #endif
-        public Step Given(string message, Func<IDisposable> arrange)
+        public Step Given(Step step)
         {
-            return Enqueue(this.whens, new Step(message, arrange));
+            return Enqueue(this.whens, step);
         }
 
-        public Step When(string message, Func<IDisposable> action)
+        public Step When(Step step)
         {
-            return Enqueue(this.whens, new Step(message, action));
+            return Enqueue(this.whens, step);
         }
 
-        public Step ThenInIsolation(string message, Func<IDisposable> assert)
+        public Step ThenInIsolation(Step step)
         {
-            return Enqueue(this.thensInIsolation, new Step(message, assert));
+            return Enqueue(this.thensInIsolation, step);
         }
 
-        public Step Then(string message, Func<IDisposable> assert)
+        public Step Then(Step step)
         {
-            return Enqueue(this.thens, new Step(message, assert));
+            return Enqueue(this.thens, step);
         }
 
-        public Step ThenSkip(string message, Func<IDisposable> assert)
+        public Step ThenSkip(Step step)
         {
-            return Enqueue(this.thenSkips, new Step(message, assert));
+            return Enqueue(this.thenSkips, step);
         }
 
         public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)

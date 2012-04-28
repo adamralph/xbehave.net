@@ -28,13 +28,13 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
 
-            var step = ThreadContext.Scenario.Given(
+            var step = ThreadContext.Scenario.Given(new Step(
                 message,
                 () =>
                 {
                     arrange();
                     return null;
-                });
+                }));
 
             return new Given(step);
         }
@@ -49,7 +49,7 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
 
-            var step = ThreadContext.Scenario.Given(message, arrange);
+            var step = ThreadContext.Scenario.Given(new Step(message, arrange));
             return new Given(step);
         }
 
@@ -64,12 +64,12 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
 
-            var step = ThreadContext.Scenario.Given(
+            var step = ThreadContext.Scenario.Given(new Step(
                 message,
                 () =>
                 {
                     return new Disposable(arrange().Reverse());
-                });
+                }));
 
             return new Given(step);
         }
@@ -85,13 +85,13 @@ namespace Xbehave
         {
             Require.NotNull(arrange, "arrange");
 
-            var step = ThreadContext.Scenario.Given(
+            var step = ThreadContext.Scenario.Given(new Step(
                 message,
                 () =>
                 {
                     arrange();
                     return new Disposable(dispose);
-                });
+                }));
 
             return new Given(step);
         }
@@ -104,7 +104,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhen"/>.</returns>
         public static IWhen When(this string message, Action act)
         {
-            return new When(ThreadContext.Scenario.When(message, act.ToDefaultFunc<IDisposable>()));
+            return new When(ThreadContext.Scenario.When(new Step(message, act.ToDefaultFunc<IDisposable>())));
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen ThenInIsolation(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenInIsolation(message, assert.ToDefaultFunc<IDisposable>()));
+            return new Then(ThreadContext.Scenario.ThenInIsolation(new Step(message, assert.ToDefaultFunc<IDisposable>())));
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen Then(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.Then(message, assert.ToDefaultFunc<IDisposable>()));
+            return new Then(ThreadContext.Scenario.Then(new Step(message, assert.ToDefaultFunc<IDisposable>())));
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Xbehave
         /// </remarks>
         public static IThen ThenSkip(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenSkip(message, assert.ToDefaultFunc<IDisposable>()));
+            return new Then(ThreadContext.Scenario.ThenSkip(new Step(message, assert.ToDefaultFunc<IDisposable>())));
         }
     }
 }
