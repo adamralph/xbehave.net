@@ -21,6 +21,7 @@ namespace Xbehave.Internal
             get { return scenario ?? (scenario = scenarioFactory.Create()); }
         }
 
+        // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
         public static IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method, Action registerSteps)
         {
             try
