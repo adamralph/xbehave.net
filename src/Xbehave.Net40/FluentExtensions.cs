@@ -21,10 +21,10 @@ namespace Xbehave
         /// <param name="step">The step.</param>
         /// <param name="act">The action that will perform the act.</param>
         /// <returns>
-        /// An instance of <see cref="IWhen"/>.
+        /// An instance of <see cref="IWhenDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Required for fluent syntax.")]
-        public static IWhen When(this IGiven step, Expression<Action> act)
+        public static IWhenDefinition When(this IGivenDefinition step, Expression<Action> act)
         {
             return _.When(act);
         }
@@ -35,10 +35,10 @@ namespace Xbehave
         /// <param name="step">The step.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
         /// <returns>
-        /// An instance of <see cref="IThen"/>.
+        /// An instance of <see cref="IThenDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Required for fluent syntax.")]
-        public static IThen Then(this IWhen step, Expression<Action> assert)
+        public static IThenDefinition Then(this IWhenDefinition step, Expression<Action> assert)
         {
             return _.Then(assert);
         }
@@ -48,9 +48,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="step">The step.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThen"/>.</returns>
+        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Required for fluent syntax.")]
-        public static IThen ThenInIsolation(this IWhen step, Expression<Action> assert)
+        public static IThenDefinition ThenInIsolation(this IWhenDefinition step, Expression<Action> assert)
         {
             return _.ThenInIsolation(assert);
         }
@@ -60,13 +60,13 @@ namespace Xbehave
         /// </summary>
         /// <param name="step">The step.</param>
         /// <param name="assert">The action which would have performed the assertion.</param>
-        /// <returns>An instance of <see cref="IThen"/>.</returns>
+        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         /// <remarks>
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Required for fluent syntax.")]
-        public static IThen ThenSkip(this IWhen step, Expression<Action> assert)
+        public static IThenDefinition ThenSkip(this IWhenDefinition step, Expression<Action> assert)
         {
             return _.ThenSkip(assert);
         }
@@ -76,9 +76,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="step">The step.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThen"/>.</returns>
+        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Required for fluent syntax.")]
-        public static IThen Then(this IThen step, Expression<Action> assert)
+        public static IThenDefinition Then(this IThenDefinition step, Expression<Action> assert)
         {
             return _.Then(assert);
         }
@@ -88,9 +88,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="step">The step.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThen"/>.</returns>
+        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Required for fluent syntax.")]
-        public static IThen ThenInIsolation(this IThen step, Expression<Action> assert)
+        public static IThenDefinition ThenInIsolation(this IThenDefinition step, Expression<Action> assert)
         {
             return _.ThenInIsolation(assert);
         }
@@ -100,13 +100,13 @@ namespace Xbehave
         /// </summary>
         /// <param name="step">The step.</param>
         /// <param name="assert">The action which would have performed the assertion.</param>
-        /// <returns>An instance of <see cref="IThen"/>.</returns>
+        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         /// <remarks>
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Required for fluent syntax.")]
-        public static IThen ThenSkip(this IThen step, Expression<Action> assert)
+        public static IThenDefinition ThenSkip(this IThenDefinition step, Expression<Action> assert)
         {
             return _.ThenSkip(assert);
         }

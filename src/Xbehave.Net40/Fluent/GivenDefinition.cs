@@ -1,4 +1,4 @@
-﻿// <copyright file="Then.cs" company="Adam Ralph">
+﻿// <copyright file="GivenDefinition.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -6,16 +6,16 @@ namespace Xbehave.Fluent
 {
     using Xbehave.Internal;
 
-    internal class Then : IThen
+    internal class GivenDefinition : IGivenDefinition
     {
         private readonly Step step;
 
-        public Then(Step step)
+        public GivenDefinition(Step step)
         {
             this.step = step;
         }
 
-        public IStep WithTimeout(int millisecondsTimeout)
+        public IStepDefinition WithTimeout(int millisecondsTimeout)
         {
             this.step.MillisecondsTimeout = millisecondsTimeout;
             return this;

@@ -1,4 +1,4 @@
-﻿// <copyright file="IGiven.cs" company="Adam Ralph">
+﻿// <copyright file="IThenDefinition.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -7,10 +7,10 @@ namespace Xbehave.Fluent
     using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
-    /// The arrangement of a scenario.
+    /// The definition of an expectation of an outcome of a scenario.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Required for fluent syntax.")]
-    public interface IGiven : IStep
+    public interface IThenDefinition : IStepDefinition
     {
     }
 }

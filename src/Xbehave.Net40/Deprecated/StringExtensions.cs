@@ -18,9 +18,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Given(Func<IDisposable>) instead.")]
-        public static IStep GivenDisposable(this string message, ContextDelegate arrange)
+        public static IStepDefinition GivenDisposable(this string message, ContextDelegate arrange)
         {
             Require.NotNull(arrange, "arrange");
             return message.Given(() => arrange());

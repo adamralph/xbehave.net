@@ -19,9 +19,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish the context.</param>
-        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Given() instead.")]
-        public static IStep Context(this string message, Action arrange)
+        public static IStepDefinition Context(this string message, Action arrange)
         {
             return message.Given(arrange);
         }
@@ -44,9 +44,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="arrange">The action that will establish and return the context for this test.</param>
-        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Given() instead.")]
-        public static IStep ContextFixture(this string message, ContextDelegate arrange)
+        public static IStepDefinition ContextFixture(this string message, ContextDelegate arrange)
         {
             return message.GivenDisposable(arrange);
         }
@@ -56,9 +56,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the action.</param>
         /// <param name="act">The action to perform.</param>
-        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use When() instead.")]
-        public static IStep Do(this string message, Action act)
+        public static IStepDefinition Do(this string message, Action act)
         {
             return message.When(act);
         }
@@ -69,9 +69,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="assert">The action that will verify the expectation.</param>
-        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use ThenInIsolation() instead.")]
-        public static IStep Assert(this string message, Action assert)
+        public static IStepDefinition Assert(this string message, Action assert)
         {
             return message.ThenInIsolation(assert);
         }
@@ -82,9 +82,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="observation">The action that will verify the expectation.</param>
-        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Then() instead.")]
-        public static IStep Observation(this string message, Action observation)
+        public static IStepDefinition Observation(this string message, Action observation)
         {
             return message.Then(observation);
         }
@@ -94,9 +94,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="skippedAction">The action that will verify the expectation.</param>
-        /// <returns>An instance of <see cref="IStep"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use ThenSkip() instead.")]
-        public static IStep Todo(this string message, Action skippedAction)
+        public static IStepDefinition Todo(this string message, Action skippedAction)
         {
             return message.ThenSkip(skippedAction);
         }

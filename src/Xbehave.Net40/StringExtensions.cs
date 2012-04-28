@@ -20,10 +20,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The action that will perform the arrangment.</param>
-        /// <returns>An instance of <see cref="IGiven"/>.</returns>
-        public static IGiven Given(this string message, Action arrange)
+        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
+        public static IGivenDefinition Given(this string message, Action arrange)
         {
-            return new Given(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
+            return new GivenDefinition(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
         }
 
         /// <summary>
@@ -31,10 +31,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IGiven"/>.</returns>
-        public static IGiven Given(this string message, Func<IDisposable> arrange)
+        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
+        public static IGivenDefinition Given(this string message, Func<IDisposable> arrange)
         {
-            return new Given(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
+            return new GivenDefinition(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
         }
 
         /// <summary>
@@ -42,11 +42,11 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IGiven"/>.</returns>
+        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IGiven Given(this string message, Func<IEnumerable<IDisposable>> arrange)
+        public static IGivenDefinition Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
-            return new Given(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
+            return new GivenDefinition(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
         }
 
         /// <summary>
@@ -55,10 +55,10 @@ namespace Xbehave
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The action that will perform the arrangement.</param>
         /// <param name="dispose">The action that will dispose the arrangement.</param>
-        /// <returns>An instance of <see cref="IGiven"/>.</returns>
-        public static IGiven Given(this string message, Action arrange, Action dispose)
+        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
+        public static IGivenDefinition Given(this string message, Action arrange, Action dispose)
         {
-            return new Given(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange, dispose)));
+            return new GivenDefinition(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange, dispose)));
         }
 
         /// <summary>
@@ -66,10 +66,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the act.</param>
         /// <param name="act">The action that will perform the act.</param>
-        /// <returns>An instance of <see cref="IWhen"/>.</returns>
-        public static IWhen When(this string message, Action act)
+        /// <returns>An instance of <see cref="IWhenDefinition"/>.</returns>
+        public static IWhenDefinition When(this string message, Action act)
         {
-            return new When(ThreadContext.Scenario.When(StepFactory.Create(message, act)));
+            return new WhenDefinition(ThreadContext.Scenario.When(StepFactory.Create(message, act)));
         }
 
         /// <summary>
@@ -77,10 +77,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThen"/>.</returns>
-        public static IThen ThenInIsolation(this string message, Action assert)
+        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
+        public static IThenDefinition ThenInIsolation(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenInIsolation(StepFactory.Create(message, assert)));
+            return new ThenDefinition(ThreadContext.Scenario.ThenInIsolation(StepFactory.Create(message, assert)));
         }
 
         /// <summary>
@@ -88,10 +88,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThen"/>.</returns>
-        public static IThen Then(this string message, Action assert)
+        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
+        public static IThenDefinition Then(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.Then(StepFactory.Create(message, assert)));
+            return new ThenDefinition(ThreadContext.Scenario.Then(StepFactory.Create(message, assert)));
         }
 
         /// <summary>
@@ -99,14 +99,14 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which would have performed the assertion.</param>
-        /// <returns>An instance of <see cref="IThen"/>.</returns>
+        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         /// <remarks>
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        public static IThen ThenSkip(this string message, Action assert)
+        public static IThenDefinition ThenSkip(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenSkip(StepFactory.Create(message, assert)));
+            return new ThenDefinition(ThreadContext.Scenario.ThenSkip(StepFactory.Create(message, assert)));
         }
     }
 }
