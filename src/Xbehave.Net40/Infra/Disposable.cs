@@ -31,10 +31,7 @@ namespace Xbehave.Infra
 
             if (this.disposables != null)
             {
-                foreach (var disposable in this.disposables)
-                {
-                    disposable.Dispose();
-                }
+                new Disposer().Dispose(this.disposables);
             }
         }
     }

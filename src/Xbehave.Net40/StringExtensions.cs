@@ -7,6 +7,7 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     using Xbehave.Fluent;
     using Xbehave.Infra;
@@ -67,8 +68,7 @@ namespace Xbehave
                 message,
                 () =>
                 {
-                    var disposables = arrange();
-                    return new Disposable(disposables);
+                    return new Disposable(arrange().Reverse());
                 });
 
             return new Given(step);
