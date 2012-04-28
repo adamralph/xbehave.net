@@ -105,26 +105,26 @@
     <Compile Include="..\Xbehave.Net40\FluentExtensions.cs">
       <Link>FluentExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\Given.cs">
-      <Link>Fluent\Given.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Fluent\GivenDefinition.cs">
+      <Link>Fluent\GivenDefinition.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IGiven.cs">
-      <Link>Fluent\IGiven.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Fluent\IGivenDefinition.cs">
+      <Link>Fluent\IGivenDefinition.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IStep.cs">
-      <Link>Fluent\IStep.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.cs">
+      <Link>Fluent\IStepDefinition.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IThen.cs">
-      <Link>Fluent\IThen.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Fluent\IThenDefinition.cs">
+      <Link>Fluent\IThenDefinition.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IWhen.cs">
-      <Link>Fluent\IWhen.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Fluent\IWhenDefinition.cs">
+      <Link>Fluent\IWhenDefinition.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\Then.cs">
-      <Link>Fluent\Then.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Fluent\ThenDefinition.cs">
+      <Link>Fluent\ThenDefinition.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\When.cs">
-      <Link>Fluent\When.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Fluent\WhenDefinition.cs">
+      <Link>Fluent\WhenDefinition.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
       <Link>Infra\Disposable.cs</Link>
