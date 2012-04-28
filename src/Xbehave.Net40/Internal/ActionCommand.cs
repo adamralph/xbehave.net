@@ -5,7 +5,6 @@
 namespace Xbehave.Internal
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using Xunit.Sdk;
 
     internal class ActionCommand : TestCommand

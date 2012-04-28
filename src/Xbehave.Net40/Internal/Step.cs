@@ -5,7 +5,6 @@
 namespace Xbehave.Internal
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     internal class Step
     {

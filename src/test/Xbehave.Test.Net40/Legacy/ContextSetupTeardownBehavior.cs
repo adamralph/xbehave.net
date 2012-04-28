@@ -5,10 +5,8 @@
 namespace Xbehave.Test.Legacy
 {
     using System;
-    using System.Collections.Generic;
     using Xbehave;
     using Xunit;
-    using Xunit.Sdk;
 
     public static class ContextSetupTeardownBehavior
     {

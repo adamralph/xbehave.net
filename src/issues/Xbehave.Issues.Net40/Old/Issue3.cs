@@ -4,9 +4,6 @@
 
 namespace Xbehave.Issues.Old
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-
     using FluentAssertions;
 
     using Xbehave;

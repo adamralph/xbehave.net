@@ -4,8 +4,6 @@
 
 namespace Xbehave.Issues.Old
 {
-    using System;
-
     using FluentAssertions;
 
     using Xbehave;
