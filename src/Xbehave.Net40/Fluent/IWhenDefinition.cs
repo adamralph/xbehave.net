@@ -10,7 +10,7 @@ namespace Xbehave.Fluent
     /// The definition of an action in a scenario.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Required for fluent syntax.")]
-    public interface IWhenDefinition : IStepDefinition
+    public interface IWhenDefinition : IStepDefinition<IWhenDefinition>
     {
     }
 }

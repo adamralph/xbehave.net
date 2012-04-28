@@ -15,7 +15,7 @@ namespace Xbehave.Fluent
             this.step = step;
         }
 
-        public IStepDefinition WithTimeout(int millisecondsTimeout)
+        public IGivenDefinition WithTimeout(int millisecondsTimeout)
         {
             this.step.MillisecondsTimeout = millisecondsTimeout;
             return this;

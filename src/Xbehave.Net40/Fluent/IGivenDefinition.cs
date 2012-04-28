@@ -10,7 +10,7 @@ namespace Xbehave.Fluent
     /// The definition of an arrangement for a scenario.
     /// </summary>
     [SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Required for fluent syntax.")]
-    public interface IGivenDefinition : IStepDefinition
+    public interface IGivenDefinition : IStepDefinition<IGivenDefinition>
     {
     }
 }
