@@ -10,6 +10,11 @@ namespace Xbehave.Infra
     {
         public static Func<TResult> ToDefaultFunc<TResult>(this Action action)
         {
+            if (action == null)
+            {
+                return null;
+            }
+
             return () =>
             {
                 action();
