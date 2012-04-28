@@ -15,15 +15,22 @@ namespace Xbehave.Internal
                 .Where(step => step != null)
                 .Select(step => step.Message)
                 .Where(message => !string.IsNullOrEmpty(message))
-                .Select(message => new string(message.SkipWhile(x => !IsValid(x)).TakeWhile(x => IsValid(x)).ToArray()))
+                .Select(message => Trim(message))
                 .Where(message => message.Length > 0);
 
             return string.Join(", ", messages.ToArray());
         }
 
-        private static bool IsValid(char x)
+        private static string Trim(string message)
         {
-            return !(char.IsWhiteSpace(x) || x == ',');
+            var leading = message.TakeWhile(x => IsTrimmable(x)).Count();
+            var trailing = message.Reverse().TakeWhile(x => IsTrimmable(x)).Count();
+            return message.Substring(leading, message.Length - trailing - leading);
+        }
+
+        private static bool IsTrimmable(char x)
+        {
+            return char.IsWhiteSpace(x) || x == ',';
         }
     }
 }
