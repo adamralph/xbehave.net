@@ -99,9 +99,6 @@
     <Compile Include="..\Xbehave.Net40\Deprecated\ThesisAttribute.cs">
       <Link>Deprecated\ThesisAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\DynamicStringExtensions.cs">
-      <Link>DynamicStringExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\FluentExtensions.cs">
       <Link>FluentExtensions.cs</Link>
     </Compile>
@@ -222,6 +219,12 @@
     <Compile Include="..\Xbehave.Net40\Naming\UnaryExpressionExtensions.cs">
       <Link>Naming\UnaryExpressionExtensions.cs</Link>
     </Compile>
+    <None Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
+      <Link>Sandbox\DynamicStringExtensions.cs</Link>
+    </None>
+    <None Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
+      <Link>Sandbox\Scenario.cs</Link>
+    </None>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>

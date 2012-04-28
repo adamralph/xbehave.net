@@ -5,13 +5,10 @@
 namespace Xbehave.Internal
 {
     using System.Collections.Generic;
-#if NET40
-    using System.Dynamic;
-#endif
     using System.Linq;
     using Xunit.Sdk;
 
-    internal class Scenario
+    internal partial class Scenario
     {
         private readonly ICommandFactory thenInIsolationTestFactory;
         private readonly ICommandFactory thenTestFactory;
@@ -22,9 +19,6 @@ namespace Xbehave.Internal
         private readonly Queue<Step> thens = new Queue<Step>();
         private readonly Queue<Step> thensInIsolation = new Queue<Step>();
         private readonly Queue<Step> thenSkips = new Queue<Step>();
-#if NET40
-        private readonly dynamic context = new ExpandoObject();
-#endif
 
         public Scenario(
             ICommandFactory thenInIsolationTestFactory,
@@ -36,13 +30,6 @@ namespace Xbehave.Internal
             this.thenSkipTestFactory = thenSkipTestFactory;
         }
 
-#if NET40
-        public dynamic Context
-        {
-            get { return this.context; }
-        }
-
-#endif
         public Step Given(Step step)
         {
             return Enqueue(this.whens, step);

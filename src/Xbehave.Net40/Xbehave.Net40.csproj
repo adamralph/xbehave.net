@@ -83,7 +83,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Infra\Disposable.cs" />
-    <None Include="DynamicStringExtensions.cs" />
+    <None Include="Sandbox\DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Fluent\IStepDefinition.cs" />
     <Compile Include="Infra\StackExtensions.cs" />
@@ -100,6 +100,7 @@
     <Compile Include="Internal\ThenSkipCommandFactory.cs" />
     <Compile Include="Infra\Require.cs" />
     <Compile Include="Internal\Scenario.cs" />
+    <None Include="Sandbox\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="ScenarioDataAttribute.cs" />
     <Compile Include="Deprecated\DisposableAction.cs" />
