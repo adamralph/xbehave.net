@@ -126,11 +126,11 @@
     <Compile Include="..\Xbehave.Net40\Fluent\When.cs">
       <Link>Fluent\When.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\ActionCommand.cs">
+      <Link>Internal\ActionCommand.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ActionExtensions.cs">
       <Link>Internal\ActionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ActionTestCommand.cs">
-      <Link>Internal\ActionTestCommand.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Disposable.cs">
       <Link>Internal\Disposable.cs</Link>

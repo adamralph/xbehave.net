@@ -106,7 +106,7 @@
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
     <Compile Include="Internal\ThenTestFactory.cs" />
     <Compile Include="Internal\ThenInIsolationTestFactory.cs" />
-    <Compile Include="Internal\ActionTestCommand.cs" />
+    <Compile Include="Internal\ActionCommand.cs" />
     <Compile Include="Internal\Step.cs" />
     <Compile Include="Internal\ThreadContext.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />

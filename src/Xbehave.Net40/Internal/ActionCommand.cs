@@ -1,4 +1,4 @@
-﻿// <copyright file="ActionTestCommand.cs" company="Adam Ralph">
+﻿// <copyright file="ActionCommand.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -8,11 +8,11 @@ namespace Xbehave.Internal
     using System.Diagnostics.CodeAnalysis;
     using Xunit.Sdk;
 
-    internal class ActionTestCommand : TestCommand
+    internal class ActionCommand : TestCommand
     {
         private readonly Action test;
 
-        public ActionTestCommand(IMethodInfo method, string name, int timeout, Action test)
+        public ActionCommand(IMethodInfo method, string name, int timeout, Action test)
             : base(method, name, timeout)
         {
             this.test = test;

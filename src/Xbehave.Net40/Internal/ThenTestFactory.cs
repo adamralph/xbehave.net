@@ -47,7 +47,7 @@ namespace Xbehave.Internal
                 }
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateContext(contextSteps), MethodUtility.GetTimeoutParameter(method), setup);
+            yield return new ActionCommand(method, this.nameFactory.CreateContext(contextSteps), MethodUtility.GetTimeoutParameter(method), setup);
 
             foreach (var then in thens)
             {
@@ -59,7 +59,7 @@ namespace Xbehave.Internal
                     localThen.Execute();
                 };
 
-                yield return new ActionTestCommand(method, this.nameFactory.Create(contextSteps, then), MethodUtility.GetTimeoutParameter(method), test);
+                yield return new ActionCommand(method, this.nameFactory.Create(contextSteps, then), MethodUtility.GetTimeoutParameter(method), test);
             }
 
             Action disposal = () =>
@@ -68,7 +68,7 @@ namespace Xbehave.Internal
                 ThrowIfBadContextStep(badContextStep);
             };
 
-            yield return new ActionTestCommand(method, this.nameFactory.CreateDisposal(contextSteps), MethodUtility.GetTimeoutParameter(method), disposal);
+            yield return new ActionCommand(method, this.nameFactory.CreateDisposal(contextSteps), MethodUtility.GetTimeoutParameter(method), disposal);
         }
 
         private static void ThrowIfBadContextStep(Step throwingStep)

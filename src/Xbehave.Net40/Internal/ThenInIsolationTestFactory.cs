@@ -44,7 +44,7 @@ namespace Xbehave.Internal
                     }
                 };
 
-                yield return new ActionTestCommand(
+                yield return new ActionCommand(
                     method, this.nameFactory.Create(contextSteps.Concat(then.AsEnumerable())), MethodUtility.GetTimeoutParameter(method), test);
             }
         }
