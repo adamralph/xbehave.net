@@ -5,8 +5,8 @@
 namespace Xbehave
 {
     using System;
-
     using Xbehave.Fluent;
+    using Xbehave.Infra;
 
     /// <summary>
     /// Extensions for declaring Given, When, Then scenario steps.
@@ -22,7 +22,8 @@ namespace Xbehave
         [Obsolete("Use Given(Func<IDisposable>) instead.")]
         public static IStep GivenDisposable(this string message, ContextDelegate arrange)
         {
-            return message.ContextFixture(arrange);
+            Require.NotNull(arrange, "arrange");
+            return message.Given(() => arrange());
         }
     }
 }

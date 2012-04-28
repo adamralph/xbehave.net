@@ -7,8 +7,6 @@ namespace Xbehave
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Xbehave.Fluent;
-    using Xbehave.Infra;
-    using Xbehave.Internal;
 
     /// <summary>
     /// Provides extensions for a fluent specification syntax
@@ -25,7 +23,7 @@ namespace Xbehave
         [Obsolete("Use Given() instead.")]
         public static IStep Context(this string message, Action arrange)
         {
-            return new Given(ThreadContext.Scenario.Given(new Step(message, arrange.ToDefaultFunc<IDisposable>())));
+            return message.Given(arrange);
         }
 
         /// <summary>
@@ -50,7 +48,7 @@ namespace Xbehave
         [Obsolete("Use Given() instead.")]
         public static IStep ContextFixture(this string message, ContextDelegate arrange)
         {
-            return new When(ThreadContext.Scenario.Given(new Step(message, () => arrange())));
+            return message.GivenDisposable(arrange);
         }
 
         /// <summary>
@@ -62,7 +60,7 @@ namespace Xbehave
         [Obsolete("Use When() instead.")]
         public static IStep Do(this string message, Action act)
         {
-            return new Then(ThreadContext.Scenario.When(new Step(message, act.ToDefaultFunc<IDisposable>())));
+            return message.When(act);
         }
 
         /// <summary>
@@ -75,7 +73,7 @@ namespace Xbehave
         [Obsolete("Use ThenInIsolation() instead.")]
         public static IStep Assert(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenInIsolation(new Step(message, assert.ToDefaultFunc<IDisposable>())));
+            return message.ThenInIsolation(assert);
         }
 
         /// <summary>
@@ -88,7 +86,7 @@ namespace Xbehave
         [Obsolete("Use Then() instead.")]
         public static IStep Observation(this string message, Action observation)
         {
-            return new Then(ThreadContext.Scenario.Then(new Step(message, observation.ToDefaultFunc<IDisposable>())));
+            return message.Then(observation);
         }
 
         /// <summary>
@@ -100,7 +98,7 @@ namespace Xbehave
         [Obsolete("Use ThenSkip() instead.")]
         public static IStep Todo(this string message, Action skippedAction)
         {
-            return new Then(ThreadContext.Scenario.ThenSkip(new Step(message, skippedAction.ToDefaultFunc<IDisposable>())));
+            return message.ThenSkip(skippedAction);
         }
     }
 }

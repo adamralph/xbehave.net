@@ -86,8 +86,8 @@
     <None Include="DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Fluent\IStep.cs" />
-    <Compile Include="Infra\ActionExtensions.cs" />
     <Compile Include="Infra\StackExtensions.cs" />
+    <Compile Include="Internal\StepFactory.cs" />
     <Compile Include="Internal\SharedContextCommandNameFactory.cs" />
     <Compile Include="Internal\ISharedContextCommandNameFactory.cs" />
     <Compile Include="Internal\ScenarioFactory.cs" />

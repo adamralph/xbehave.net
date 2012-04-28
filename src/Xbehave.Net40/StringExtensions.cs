@@ -7,10 +7,7 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-
     using Xbehave.Fluent;
-    using Xbehave.Infra;
     using Xbehave.Internal;
 
     /// <summary>
@@ -26,17 +23,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange)
         {
-            Require.NotNull(arrange, "arrange");
-
-            var step = ThreadContext.Scenario.Given(new Step(
-                message,
-                () =>
-                {
-                    arrange();
-                    return null;
-                }));
-
-            return new Given(step);
+            return new Given(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
         }
 
         /// <summary>
@@ -47,10 +34,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Func<IDisposable> arrange)
         {
-            Require.NotNull(arrange, "arrange");
-
-            var step = ThreadContext.Scenario.Given(new Step(message, arrange));
-            return new Given(step);
+            return new Given(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
         }
 
         /// <summary>
@@ -62,16 +46,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IGiven Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
-            Require.NotNull(arrange, "arrange");
-
-            var step = ThreadContext.Scenario.Given(new Step(
-                message,
-                () =>
-                {
-                    return new Disposable(arrange().Reverse());
-                }));
-
-            return new Given(step);
+            return new Given(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange)));
         }
 
         /// <summary>
@@ -83,17 +58,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGiven"/>.</returns>
         public static IGiven Given(this string message, Action arrange, Action dispose)
         {
-            Require.NotNull(arrange, "arrange");
-
-            var step = ThreadContext.Scenario.Given(new Step(
-                message,
-                () =>
-                {
-                    arrange();
-                    return new Disposable(dispose);
-                }));
-
-            return new Given(step);
+            return new Given(ThreadContext.Scenario.Given(StepFactory.Create(message, arrange, dispose)));
         }
 
         /// <summary>
@@ -104,7 +69,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhen"/>.</returns>
         public static IWhen When(this string message, Action act)
         {
-            return new When(ThreadContext.Scenario.When(new Step(message, act.ToDefaultFunc<IDisposable>())));
+            return new When(ThreadContext.Scenario.When(StepFactory.Create(message, act)));
         }
 
         /// <summary>
@@ -115,7 +80,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen ThenInIsolation(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenInIsolation(new Step(message, assert.ToDefaultFunc<IDisposable>())));
+            return new Then(ThreadContext.Scenario.ThenInIsolation(StepFactory.Create(message, assert)));
         }
 
         /// <summary>
@@ -126,7 +91,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThen"/>.</returns>
         public static IThen Then(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.Then(new Step(message, assert.ToDefaultFunc<IDisposable>())));
+            return new Then(ThreadContext.Scenario.Then(StepFactory.Create(message, assert)));
         }
 
         /// <summary>
@@ -141,7 +106,7 @@ namespace Xbehave
         /// </remarks>
         public static IThen ThenSkip(this string message, Action assert)
         {
-            return new Then(ThreadContext.Scenario.ThenSkip(new Step(message, assert.ToDefaultFunc<IDisposable>())));
+            return new Then(ThreadContext.Scenario.ThenSkip(StepFactory.Create(message, assert)));
         }
     }
 }
