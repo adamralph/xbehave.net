@@ -14,9 +14,9 @@ namespace Xbehave.Internal
 
     internal class Scenario
     {
-        private readonly ITestFactory thenInIsolationTestFactory;
-        private readonly ITestFactory thenTestFactory;
-        private readonly ITestFactory thenSkipTestFactory;
+        private readonly ICommandFactory thenInIsolationTestFactory;
+        private readonly ICommandFactory thenTestFactory;
+        private readonly ICommandFactory thenSkipTestFactory;
 
         private readonly List<Step> givens = new List<Step>();
         private readonly List<Step> whens = new List<Step>();
@@ -28,9 +28,9 @@ namespace Xbehave.Internal
 #endif
 
         public Scenario(
-            ITestFactory thenInIsolationTestFactory,
-            ITestFactory thenTestFactory,
-            ITestFactory thenSkipTestFactory)
+            ICommandFactory thenInIsolationTestFactory,
+            ICommandFactory thenTestFactory,
+            ICommandFactory thenSkipTestFactory)
         {
             this.thenInIsolationTestFactory = thenInIsolationTestFactory;
             this.thenTestFactory = thenTestFactory;

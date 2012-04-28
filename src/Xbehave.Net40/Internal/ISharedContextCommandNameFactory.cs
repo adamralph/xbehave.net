@@ -1,4 +1,4 @@
-﻿// <copyright file="ISharedContextTestNameFactory.cs" company="Adam Ralph">
+﻿// <copyright file="ISharedContextCommandNameFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ namespace Xbehave.Internal
 {
     using System.Collections.Generic;
 
-    internal interface ISharedContextTestNameFactory
+    internal interface ISharedContextCommandNameFactory
     {
         string CreateContext(IEnumerable<Step> steps);
 

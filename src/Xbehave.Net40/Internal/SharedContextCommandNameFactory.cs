@@ -1,4 +1,4 @@
-﻿// <copyright file="SharedContextTestNameFactory.cs" company="Adam Ralph">
+﻿// <copyright file="SharedContextCommandNameFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -7,11 +7,11 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using Xbehave.Infra;
 
-    internal class SharedContextTestNameFactory : ISharedContextTestNameFactory
+    internal class SharedContextCommandNameFactory : ISharedContextCommandNameFactory
     {
-        private readonly ITestNameFactory testNameFactory;
+        private readonly ICommandNameFactory testNameFactory;
 
-        public SharedContextTestNameFactory(ITestNameFactory testNameFactory)
+        public SharedContextCommandNameFactory(ICommandNameFactory testNameFactory)
         {
             this.testNameFactory = testNameFactory;
         }

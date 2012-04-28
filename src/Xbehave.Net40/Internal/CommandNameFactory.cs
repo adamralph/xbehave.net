@@ -1,4 +1,4 @@
-﻿// <copyright file="TestNameFactory.cs" company="Adam Ralph">
+﻿// <copyright file="CommandNameFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using System.Linq;
 
-    internal class TestNameFactory : ITestNameFactory
+    internal class CommandNameFactory : ICommandNameFactory
     {
         public string Create(IEnumerable<Step> steps)
         {

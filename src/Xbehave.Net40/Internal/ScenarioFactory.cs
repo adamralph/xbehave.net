@@ -8,15 +8,15 @@ namespace Xbehave.Internal
 
     internal class ScenarioFactory
     {
-        private readonly ITestFactory thenInIsolationTestFactory;
-        private readonly ITestFactory thenTestFactory;
-        private readonly ITestFactory thenSkipTestFactory;
+        private readonly ICommandFactory thenInIsolationTestFactory;
+        private readonly ICommandFactory thenTestFactory;
+        private readonly ICommandFactory thenSkipTestFactory;
 
-        public ScenarioFactory(ITestNameFactory testNameFactory, IDisposer disposer)
+        public ScenarioFactory(ICommandNameFactory testNameFactory, IDisposer disposer)
         {
-            this.thenInIsolationTestFactory = new ThenInIsolationTestFactory(testNameFactory, disposer);
-            this.thenTestFactory = new ThenTestFactory(new SharedContextTestNameFactory(testNameFactory), disposer);
-            this.thenSkipTestFactory = new ThenSkipTestFactory(testNameFactory);
+            this.thenInIsolationTestFactory = new ThenInIsolationCommandFactory(testNameFactory, disposer);
+            this.thenTestFactory = new ThenCommandFactory(new SharedContextCommandNameFactory(testNameFactory), disposer);
+            this.thenSkipTestFactory = new ThenSkipCommandFactory(testNameFactory);
         }
 
         public Scenario Create()

@@ -1,4 +1,4 @@
-﻿// <copyright file="ThenTestFactory.cs" company="Adam Ralph">
+﻿// <copyright file="ThenCommandFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -11,12 +11,12 @@ namespace Xbehave.Internal
     using Xbehave.Infra;
     using Xunit.Sdk;
 
-    internal class ThenTestFactory : ITestFactory
+    internal class ThenCommandFactory : ICommandFactory
     {
-        private readonly ISharedContextTestNameFactory nameFactory;
+        private readonly ISharedContextCommandNameFactory nameFactory;
         private readonly IDisposer disposer;
 
-        public ThenTestFactory(ISharedContextTestNameFactory nameFactory, IDisposer disposer)
+        public ThenCommandFactory(ISharedContextCommandNameFactory nameFactory, IDisposer disposer)
         {
             this.nameFactory = nameFactory;
             this.disposer = disposer;
