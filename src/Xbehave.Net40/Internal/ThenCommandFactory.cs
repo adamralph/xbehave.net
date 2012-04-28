@@ -65,7 +65,7 @@ namespace Xbehave.Internal
 
             Action disposal = () =>
             {
-                this.disposer.Dispose(disposables);
+                this.disposer.Dispose(disposables.Unwind());
                 ThrowIfBadContextStep(badContextStep);
             };
 

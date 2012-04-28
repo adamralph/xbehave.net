@@ -144,6 +144,9 @@
     <Compile Include="..\Xbehave.Net40\Infra\Require.cs">
       <Link>Infra\Require.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\StackExtensions.cs">
+      <Link>Infra\StackExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ActionCommand.cs">
       <Link>Internal\ActionCommand.cs</Link>
     </Compile>

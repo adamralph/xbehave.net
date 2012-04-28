@@ -11,19 +11,12 @@ namespace Xbehave.Infra
 
     internal class Disposer : IDisposer
     {
-        // NOTE (aralph1): in practice we could accept IEnumerable since a Stack enumerates in a reverse order as required, but this behaviour is undocumented
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Emulating behaviour of nested using blocks")]
-        public void Dispose(Stack<IDisposable> disposables)
+        public void Dispose(IEnumerable<IDisposable> disposables)
         {
             Exception lastException = null;
-            while (disposables.Any())
+            foreach (var disposable in disposables.Where(disposable => disposable != null))
             {
-                var disposable = disposables.Pop();
-                if (disposable == null)
-                {
-                    continue;
-                }
-
                 try
                 {
                     disposable.Dispose();

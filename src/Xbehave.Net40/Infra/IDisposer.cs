@@ -9,6 +9,6 @@ namespace Xbehave.Infra
 
     internal interface IDisposer
     {
-        void Dispose(Stack<IDisposable> disposables);
+        void Dispose(IEnumerable<IDisposable> disposables);
     }
 }

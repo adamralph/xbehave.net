@@ -41,7 +41,7 @@ namespace Xbehave.Internal
                     }
                     finally
                     {
-                        this.disposer.Dispose(disposables);
+                        this.disposer.Dispose(disposables.Unwind());
                     }
                 };
 
