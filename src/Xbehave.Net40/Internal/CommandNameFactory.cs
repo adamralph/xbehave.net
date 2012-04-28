@@ -15,10 +15,15 @@ namespace Xbehave.Internal
                 .Where(step => step != null)
                 .Select(step => step.Message)
                 .Where(message => !string.IsNullOrEmpty(message))
-                .Select(message => message.Trim(' ', ','))
+                .Select(message => new string(message.SkipWhile(x => !IsValid(x)).TakeWhile(x => IsValid(x)).ToArray()))
                 .Where(message => message.Length > 0);
 
             return string.Join(", ", messages.ToArray());
+        }
+
+        private static bool IsValid(char x)
+        {
+            return !(char.IsWhiteSpace(x) || x == ',');
         }
     }
 }

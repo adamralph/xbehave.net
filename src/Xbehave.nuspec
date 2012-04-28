@@ -11,7 +11,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A fluent and concise BDD/TDD library based on xUnit.net designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
     <releaseNotes>Changed Given(this string message, Func&lt;IEnumerable&lt;IDisposable&gt;&gt; arrange) to dispose of items in reverse order.
-Changed Given(this string message, Func&lt;IEnumerable&lt;IDisposable&gt;&gt; arrange) to guarantee disposal of remaining items when disposal of a given item throws an exception.</releaseNotes>
+Changed Given(this string message, Func&lt;IEnumerable&lt;IDisposable&gt;&gt; arrange) to guarantee disposal of remaining items when disposal of a given item throws an exception.
+Fixed test naming to remove all possible combinations of redundant whitespace and commas.</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
