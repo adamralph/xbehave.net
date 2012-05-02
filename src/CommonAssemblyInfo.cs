@@ -11,7 +11,7 @@ using System.Reflection;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
-[assembly: AssemblyInformationalVersion("0.9.0-alpha01")]
+[assembly: AssemblyVersion("0.10.0.0")]
+[assembly: AssemblyFileVersion("0.10.0.0")]
+[assembly: AssemblyInformationalVersion("0.10.0-alpha02")]
 [assembly: SuppressMessage("Microsoft.Usage", "CA2243:AttributeStringLiteralsShouldParseCorrectly")]
