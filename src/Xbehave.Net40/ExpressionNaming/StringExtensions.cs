@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Naming
+namespace Xbehave.ExpressionNaming
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;

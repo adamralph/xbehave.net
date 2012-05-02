@@ -99,6 +99,42 @@
     <Compile Include="..\Xbehave.Net40\Deprecated\ThesisAttribute.cs">
       <Link>Deprecated\ThesisAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\BinaryExpressionExtensions.cs">
+      <Link>ExpressionNaming\BinaryExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\ConstantExpressionExtensions.cs">
+      <Link>ExpressionNaming\ConstantExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\ExpressionExtensions.cs">
+      <Link>ExpressionNaming\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\ExpressionTypeExtensions.cs">
+      <Link>ExpressionNaming\ExpressionTypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\LambdaExpressionExtensions.cs">
+      <Link>ExpressionNaming\LambdaExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\MemberExpressionExtensions.cs">
+      <Link>ExpressionNaming\MemberExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\MethodCallExpressionExtensions.cs">
+      <Link>ExpressionNaming\MethodCallExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\MethodInfoExtensions.cs">
+      <Link>ExpressionNaming\MethodInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\Optimizations.cs">
+      <Link>ExpressionNaming\Optimizations.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\StringExtensions.cs">
+      <Link>ExpressionNaming\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\TypeExtensions.cs">
+      <Link>ExpressionNaming\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExpressionNaming\UnaryExpressionExtensions.cs">
+      <Link>ExpressionNaming\UnaryExpressionExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\FluentExtensions.cs">
       <Link>FluentExtensions.cs</Link>
     </Compile>
@@ -182,42 +218,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ThreadContext.cs">
       <Link>Internal\ThreadContext.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\BinaryExpressionExtensions.cs">
-      <Link>Naming\BinaryExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\ConstantExpressionExtensions.cs">
-      <Link>Naming\ConstantExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\ExpressionExtensions.cs">
-      <Link>Naming\ExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\ExpressionTypeExtensions.cs">
-      <Link>Naming\ExpressionTypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\LambdaExpressionExtensions.cs">
-      <Link>Naming\LambdaExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\MemberExpressionExtensions.cs">
-      <Link>Naming\MemberExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\MethodCallExpressionExtensions.cs">
-      <Link>Naming\MethodCallExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\MethodInfoExtensions.cs">
-      <Link>Naming\MethodInfoExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\Optimizations.cs">
-      <Link>Naming\Optimizations.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\StringExtensions.cs">
-      <Link>Naming\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\TypeExtensions.cs">
-      <Link>Naming\TypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Naming\UnaryExpressionExtensions.cs">
-      <Link>Naming\UnaryExpressionExtensions.cs</Link>
     </Compile>
     <None Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
       <Link>Sandbox\DynamicStringExtensions.cs</Link>

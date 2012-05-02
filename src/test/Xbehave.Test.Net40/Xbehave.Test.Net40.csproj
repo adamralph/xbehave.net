@@ -67,7 +67,7 @@
     <Compile Include="Deprecated\ThesisAttributeFacts.cs" />
     <Compile Include="Deprecated\DisposableActionFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Naming\ExpressionExtensionsStory.cs" />
+    <Compile Include="ExpressionNaming\ExpressionExtensionsStory.cs" />
     <Compile Include="Legacy\SpecificationAttributeFacts.cs" />
     <Compile Include="Legacy\SpecificationPrimitiveFacts.cs" />
     <Compile Include="Legacy\SubSpecDemo.cs" />

@@ -68,6 +68,9 @@
     <Compile Include="..\Xbehave.Test.Net40\Deprecated\ThesisAttributeFacts.cs">
       <Link>Deprecated\ThesisAttributeFacts.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\ExpressionNaming\ExpressionExtensionsStory.cs">
+      <Link>ExpressionNaming\ExpressionExtensionsStory.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Test.Net40\Legacy\ContextSetupTeardownBehavior.cs">
       <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
     </Compile>
@@ -85,9 +88,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Test.Net40\Legacy\ThreadIsolationFacts.cs">
       <Link>Legacy\ThreadIsolationFacts.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Net40\Naming\ExpressionExtensionsStory.cs">
-      <Link>Naming\ExpressionExtensionsStory.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

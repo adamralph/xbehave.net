@@ -12,7 +12,7 @@ namespace Xbehave.Test.Naming
     using FluentAssertions;
 
     using Xbehave;
-    using Xbehave.Naming;
+    using Xbehave.ExpressionNaming;
 
     public static class ExpressionExtensionsStory
     {
