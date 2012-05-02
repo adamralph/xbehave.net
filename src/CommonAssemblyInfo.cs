@@ -13,5 +13,5 @@ using System.Reflection;
 
 [assembly: AssemblyVersion("0.10.0.0")]
 [assembly: AssemblyFileVersion("0.10.0.0")]
-[assembly: AssemblyInformationalVersion("0.10.0-alpha02")]
+[assembly: AssemblyInformationalVersion("0.10.0-alpha03")]
 [assembly: SuppressMessage("Microsoft.Usage", "CA2243:AttributeStringLiteralsShouldParseCorrectly")]
