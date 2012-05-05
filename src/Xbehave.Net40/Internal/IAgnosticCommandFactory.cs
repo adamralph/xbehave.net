@@ -9,6 +9,6 @@ namespace Xbehave.Internal
 
     internal interface IAgnosticCommandFactory
     {
-        IEnumerable<ITestCommand> Create(IEnumerable<Step> steps, IMethodInfo method);
+        IEnumerable<ITestCommand> Create(Queue<Step> steps, IMethodInfo method);
     }
 }

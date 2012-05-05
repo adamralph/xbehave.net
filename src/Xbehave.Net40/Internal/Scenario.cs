@@ -10,9 +10,7 @@ namespace Xbehave.Internal
 
     internal partial class Scenario
     {
-        private readonly ICommandFactory thenInIsolationTestFactory;
-        private readonly ICommandFactory thenTestFactory;
-        private readonly ICommandFactory thenSkipTestFactory;
+        private readonly IAgnosticCommandFactory agnosticCommandFactory;
 
         private readonly Queue<Step> givens = new Queue<Step>();
         private readonly Queue<Step> whens = new Queue<Step>();
@@ -20,14 +18,9 @@ namespace Xbehave.Internal
         private readonly Queue<Step> thensInIsolation = new Queue<Step>();
         private readonly Queue<Step> thenSkips = new Queue<Step>();
 
-        public Scenario(
-            ICommandFactory thenInIsolationTestFactory,
-            ICommandFactory thenTestFactory,
-            ICommandFactory thenSkipTestFactory)
+        public Scenario(IAgnosticCommandFactory agnosticCommandFactory)
         {
-            this.thenInIsolationTestFactory = thenInIsolationTestFactory;
-            this.thenTestFactory = thenTestFactory;
-            this.thenSkipTestFactory = thenSkipTestFactory;
+            this.agnosticCommandFactory = agnosticCommandFactory;
         }
 
         public Step Given(Step step)
@@ -57,10 +50,8 @@ namespace Xbehave.Internal
 
         public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)
         {
-            var contextSteps = this.givens.Concat(this.whens).ToArray();
-            return this.thenInIsolationTestFactory.Create(contextSteps, this.thensInIsolation, method)
-               .Concat(this.thenTestFactory.Create(contextSteps, this.thens, method))
-               .Concat(this.thenSkipTestFactory.Create(contextSteps, this.thenSkips, method));
+            return this.agnosticCommandFactory.Create(
+                new Queue<Step>(this.givens.Concat(this.whens).Concat(this.thensInIsolation).Concat(this.thens).Concat(this.thenSkips)), method);
         }
 
         private static Step Enqueue(Queue<Step> list, Step step)

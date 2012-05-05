@@ -171,6 +171,9 @@
     <Compile Include="..\Xbehave.Net40\Infra\ObjectExtensions.cs">
       <Link>Infra\ObjectExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\QueueExtensions.cs">
+      <Link>Infra\QueueExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Infra\Require.cs">
       <Link>Infra\Require.cs</Link>
     </Compile>
@@ -180,11 +183,17 @@
     <Compile Include="..\Xbehave.Net40\Internal\ActionCommand.cs">
       <Link>Internal\ActionCommand.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\AgnosticCommandFactory.cs">
+      <Link>Internal\AgnosticCommandFactory.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\CommandNameFactory.cs">
       <Link>Internal\CommandNameFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\DisposableFunctionFactory.cs">
       <Link>Internal\DisposableFunctionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\IAgnosticCommandFactory.cs">
+      <Link>Internal\IAgnosticCommandFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ICommandFactory.cs">
       <Link>Internal\ICommandFactory.cs</Link>

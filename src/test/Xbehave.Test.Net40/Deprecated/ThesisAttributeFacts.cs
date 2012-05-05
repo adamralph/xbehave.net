@@ -22,7 +22,7 @@ namespace Xbehave.Test.Deprecated
             var commands = target.CreateTestCommands(method);
 
             // assert
-            commands.Count().Should().Be(6);
+            commands.Count().Should().Be(18);
         }
 
         [Thesis]
