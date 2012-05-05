@@ -22,12 +22,12 @@ namespace Xbehave.Internal
         }
 
         // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
-        public static IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method, Action registerSteps)
+        public static IEnumerable<ITestCommand> CreateTestCommands(MethodCall call, Action registerSteps)
         {
             try
             {
                 registerSteps();
-                return Scenario.GetTestCommands(method);
+                return Scenario.GetTestCommands(call);
             }
             finally
             {

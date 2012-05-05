@@ -192,6 +192,9 @@
     <Compile Include="..\Xbehave.Net40\Internal\ICommandFactory.cs">
       <Link>Internal\ICommandFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\MethodCall.cs">
+      <Link>Internal\MethodCall.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Scenario.cs">
       <Link>Internal\Scenario.cs</Link>
     </Compile>

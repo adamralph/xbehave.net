@@ -24,9 +24,9 @@ namespace Xbehave.Internal
             return this.steps.EnqueueAndReturn(step);
         }
 
-        public IEnumerable<ITestCommand> GetTestCommands(IMethodInfo method)
+        public IEnumerable<ITestCommand> GetTestCommands(MethodCall call)
         {
-            return this.commandFactory.Create(this.steps, method);
+            return this.commandFactory.Create(this.steps, call);
         }
     }
 }
