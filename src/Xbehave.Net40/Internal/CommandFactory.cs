@@ -75,15 +75,6 @@ namespace Xbehave.Internal
                 contextSuffix);
         }
 
-        private static void ThrowIfBadStep(Step badStep, int badStepOrdinal)
-        {
-            if (badStep != null)
-            {
-                var message = string.Format(CultureInfo.InvariantCulture, "Execution of {0}.\"{1}\" failed.", badStepOrdinal.ToString("D2"), badStep.Message);
-                throw new InvalidOperationException(message);
-            }
-        }
-
         private IEnumerable<ITestCommand> Generate(IEnumerable<Step> steps, IMethodInfo method, string contextSuffix)
         {
             var disposables = new Stack<IDisposable>();
