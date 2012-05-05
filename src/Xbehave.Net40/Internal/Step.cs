@@ -11,6 +11,8 @@ namespace Xbehave.Internal
     {
         private readonly string message;
         private readonly Func<IDisposable> execute;
+        private readonly bool inIsolation;
+        private readonly string skipReason;
 
         public Step(string message, Func<IDisposable> execute)
         {
@@ -25,9 +27,26 @@ namespace Xbehave.Internal
             this.execute = execute;
         }
 
+        public Step(string message, Func<IDisposable> execute, bool inIsolation)
+            : this(message, execute)
+        {
+            this.inIsolation = inIsolation;
+        }
+
+        public Step(string message, Func<IDisposable> execute, string skipReason)
+            : this(message, execute)
+        {
+            this.skipReason = skipReason;
+        }
+
         public string Message
         {
             get { return this.message; }
+        }
+
+        public bool InIsolation
+        {
+            get { return this.inIsolation; }
         }
 
         public int MillisecondsTimeout { get; set; }

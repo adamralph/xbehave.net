@@ -80,7 +80,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         public static IThenDefinition ThenInIsolation(this string message, Action assert)
         {
-            return new ThenDefinition(ThreadContext.Scenario.ThenInIsolation(new Step(message, DisposableFunctionFactory.Create(assert))));
+            return new ThenDefinition(ThreadContext.Scenario.ThenInIsolation(new Step(message, DisposableFunctionFactory.Create(assert), true)));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Xbehave
         /// </remarks>
         public static IThenDefinition ThenSkip(this string message, Action assert)
         {
-            return new ThenDefinition(ThreadContext.Scenario.ThenSkip(new Step(message, DisposableFunctionFactory.Create(assert))));
+            return new ThenDefinition(ThreadContext.Scenario.ThenSkip(new Step(message, DisposableFunctionFactory.Create(assert), "Unknown.")));
         }
     }
 }
