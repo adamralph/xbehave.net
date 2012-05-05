@@ -44,6 +44,11 @@ namespace Xbehave.Internal
             get { return this.message; }
         }
 
+        public string SkipReason
+        {
+            get { return this.skipReason; }
+        }
+
         public bool InIsolation
         {
             get { return this.inIsolation; }
