@@ -43,7 +43,7 @@ namespace Xbehave.Internal
                 }
                 else if (!steps.Any())
                 {
-                    foreach (var command in this.Generate(sharedContext.Concat(step.AsEnumerable()), method, isolatedContextOrdinal > 1 ? " (shared context)" : null))
+                    foreach (var command in this.Generate(sharedContext, method, isolatedContextOrdinal > 1 ? " (shared context)" : null))
                     {
                         yield return command;
                     }
