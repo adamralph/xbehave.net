@@ -1,3 +1,29 @@
+3.0.0 (2011-12-13)
+==================
+no major changes
+
+3.0.0 RC 1 (2011-11-20)
+==================
+- Applied Jeff Sharps patch that refactored Xml DictionaryAdapter to improve maintainability and enable more complete functionality
+
+- fixed DYNPROXY-165 - Object.GetType() and Object.MemberwiseClone() should be ignored and not reported as non-interceptable to IProxyGenerationHook
+- fixed DYNPROXY-164 - Invalid Proxy type generated when there are more than one base class generic constraints
+- fixed DYNPROXY-162 - ref or out parameters can not be passed back if proxied method throw an exception
+
+3.0.0 beta 1 (2011-08-14)
+==================
+- fixed CORE-37 - TAB characters in the XML Configuration of a component parameter is read as String.Empty
+- fixed DYNPROXY-161 - Strong Named DynamicProxy Assembly Not Available in Silverligh
+- fixed DYNPROXY-159 - Sorting MemberInfo array for serialization has side effects
+- fixed DYNPROXY-158 - Can't create class proxy with target and without target in same ProxyGenerator
+- fixed DYNPROXY-153 - When proxying a generic interface which has an interface as GenericType . No proxy can be created
+- fixed DYNPROXY-151 - Cast error when using attributes 
+
+- implemented CORE-33 - Add lazy logging
+- implemented DYNPROXY-156 - Provide mechanism for interceptors to implement retry logic
+
+- removed obsolete members from ILogger and its implementations
+
 2.5.2 (2010-11-15)
 ==================
 - fixed DYNPROXY-150 - Finalizer should not be proxied
