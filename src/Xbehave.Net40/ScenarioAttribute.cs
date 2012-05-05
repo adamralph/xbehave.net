@@ -40,19 +40,28 @@ namespace Xbehave
         {
             Require.NotNull(method, "method");
 
-            var xunitCommands = method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
-                ? base.EnumerateTestCommands(method)
-                : new[] { new FactCommand(method) };
-
-            return xunitCommands.SelectMany(xunitCommand => CreateTestCommands(method, xunitCommand));
+            foreach (var xunitCommand in this.CreateXunitCommands(method))
+            {
+                foreach (var stepCommand in CreateStepCommands(method, xunitCommand))
+                {
+                    yield return stepCommand;
+                }
+            }
         }
 
-        private static IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method, ITestCommand xunitCommand)
+        private static IEnumerable<ITestCommand> CreateStepCommands(IMethodInfo method, ITestCommand xunitCommand)
         {
             var theoryCommand = xunitCommand as TheoryCommand;
-            return ThreadContext.CreateTestCommands(
-                new MethodCall(method, theoryCommand == null ? null : theoryCommand.Parameters),
-                () => xunitCommand.Execute(method.IsStatic ? null : method.CreateInstance()));
+            var arguments = theoryCommand == null ? null : theoryCommand.Parameters;
+            var testClassInstance = method.IsStatic ? null : method.CreateInstance();
+            return ThreadContext.CreateTestCommands(new MethodCall(method, arguments), () => xunitCommand.Execute(testClassInstance));
+        }
+
+        private IEnumerable<ITestCommand> CreateXunitCommands(IMethodInfo method)
+        {
+            return method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
+                ? base.EnumerateTestCommands(method)
+                : new[] { new FactCommand(method) };
         }
     }
 }
