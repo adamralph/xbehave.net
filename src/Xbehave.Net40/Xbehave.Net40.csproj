@@ -91,16 +91,10 @@
     <Compile Include="Internal\AgnosticCommandFactory.cs" />
     <Compile Include="Internal\IAgnosticCommandFactory.cs" />
     <Compile Include="Internal\DisposableFunctionFactory.cs" />
-    <Compile Include="Internal\SharedContextCommandNameFactory.cs" />
-    <Compile Include="Internal\ISharedContextCommandNameFactory.cs" />
     <Compile Include="Internal\ScenarioFactory.cs" />
     <Compile Include="Infra\ObjectExtensions.cs" />
     <Compile Include="Infra\IDisposer.cs" />
     <Compile Include="Infra\Disposer.cs" />
-    <Compile Include="Internal\ICommandNameFactory.cs" />
-    <Compile Include="Internal\ICommandFactory.cs" />
-    <Compile Include="Internal\CommandNameFactory.cs" />
-    <Compile Include="Internal\ThenSkipCommandFactory.cs" />
     <Compile Include="Infra\Require.cs" />
     <Compile Include="Internal\Scenario.cs" />
     <None Include="Sandbox\Scenario.cs" />
@@ -109,8 +103,6 @@
     <Compile Include="Deprecated\DisposableAction.cs" />
     <Compile Include="Deprecated\SpecificationAttribute.cs" />
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="Internal\ThenCommandFactory.cs" />
-    <Compile Include="Internal\ThenInIsolationCommandFactory.cs" />
     <Compile Include="Internal\ActionCommand.cs" />
     <Compile Include="Internal\Step.cs" />
     <Compile Include="Internal\ThreadContext.cs" />

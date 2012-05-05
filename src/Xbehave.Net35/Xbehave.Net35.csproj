@@ -186,23 +186,11 @@
     <Compile Include="..\Xbehave.Net40\Internal\AgnosticCommandFactory.cs">
       <Link>Internal\AgnosticCommandFactory.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\CommandNameFactory.cs">
-      <Link>Internal\CommandNameFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\DisposableFunctionFactory.cs">
       <Link>Internal\DisposableFunctionFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\IAgnosticCommandFactory.cs">
       <Link>Internal\IAgnosticCommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ICommandFactory.cs">
-      <Link>Internal\ICommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ICommandNameFactory.cs">
-      <Link>Internal\ICommandNameFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ISharedContextCommandNameFactory.cs">
-      <Link>Internal\ISharedContextCommandNameFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Scenario.cs">
       <Link>Internal\Scenario.cs</Link>
@@ -210,20 +198,8 @@
     <Compile Include="..\Xbehave.Net40\Internal\ScenarioFactory.cs">
       <Link>Internal\ScenarioFactory.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\SharedContextCommandNameFactory.cs">
-      <Link>Internal\SharedContextCommandNameFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Step.cs">
       <Link>Internal\Step.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ThenCommandFactory.cs">
-      <Link>Internal\ThenCommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ThenInIsolationCommandFactory.cs">
-      <Link>Internal\ThenInIsolationCommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ThenSkipCommandFactory.cs">
-      <Link>Internal\ThenSkipCommandFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ThreadContext.cs">
       <Link>Internal\ThreadContext.cs</Link>
