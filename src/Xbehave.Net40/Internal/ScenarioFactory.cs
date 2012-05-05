@@ -10,7 +10,7 @@ namespace Xbehave.Internal
     {
         private readonly IAgnosticCommandFactory agnosticCommandFactory;
 
-        public ScenarioFactory(ICommandNameFactory testNameFactory, IDisposer disposer)
+        public ScenarioFactory(IDisposer disposer)
         {
             this.agnosticCommandFactory = new AgnosticCommandFactory(disposer);
         }

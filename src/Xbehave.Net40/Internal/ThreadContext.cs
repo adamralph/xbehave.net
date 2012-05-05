@@ -11,7 +11,7 @@ namespace Xbehave.Internal
 
     internal static class ThreadContext
     {
-        private static ScenarioFactory scenarioFactory = new ScenarioFactory(new CommandNameFactory(), new Disposer());
+        private static ScenarioFactory scenarioFactory = new ScenarioFactory(new Disposer());
 
         [ThreadStatic]
         private static Scenario scenario;
