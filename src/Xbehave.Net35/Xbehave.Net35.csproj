@@ -195,9 +195,6 @@
     <Compile Include="..\Xbehave.Net40\Internal\Scenario.cs">
       <Link>Internal\Scenario.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ScenarioFactory.cs">
-      <Link>Internal\ScenarioFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Step.cs">
       <Link>Internal\Step.cs</Link>
     </Compile>

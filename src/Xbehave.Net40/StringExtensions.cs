@@ -23,7 +23,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
         public static IGivenDefinition Given(this string message, Action arrange)
         {
-            return new GivenDefinition(ThreadContext.Scenario.Given(new Step(message, DisposableFunctionFactory.Create(arrange))));
+            return new GivenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(arrange))));
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
         public static IGivenDefinition Given(this string message, Func<IDisposable> arrange)
         {
-            return new GivenDefinition(ThreadContext.Scenario.Given(new Step(message, arrange)));
+            return new GivenDefinition(ThreadContext.Scenario.AddStep(new Step(message, arrange)));
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IGivenDefinition Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
-            return new GivenDefinition(ThreadContext.Scenario.Given(new Step(message, DisposableFunctionFactory.Create(arrange))));
+            return new GivenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(arrange))));
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
         public static IGivenDefinition Given(this string message, Action arrange, Action dispose)
         {
-            return new GivenDefinition(ThreadContext.Scenario.Given(new Step(message, DisposableFunctionFactory.Create(arrange, dispose))));
+            return new GivenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(arrange, dispose))));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IWhenDefinition"/>.</returns>
         public static IWhenDefinition When(this string message, Action act)
         {
-            return new WhenDefinition(ThreadContext.Scenario.When(new Step(message, DisposableFunctionFactory.Create(act))));
+            return new WhenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(act))));
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         public static IThenDefinition ThenInIsolation(this string message, Action assert)
         {
-            return new ThenDefinition(ThreadContext.Scenario.ThenInIsolation(new Step(message, DisposableFunctionFactory.Create(assert), true)));
+            return new ThenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(assert), true)));
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
         public static IThenDefinition Then(this string message, Action assert)
         {
-            return new ThenDefinition(ThreadContext.Scenario.Then(new Step(message, DisposableFunctionFactory.Create(assert))));
+            return new ThenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(assert))));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Xbehave
         /// </remarks>
         public static IThenDefinition ThenSkip(this string message, Action assert)
         {
-            return new ThenDefinition(ThreadContext.Scenario.ThenSkip(new Step(message, DisposableFunctionFactory.Create(assert), "Unknown.")));
+            return new ThenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(assert), "Unknown.")));
         }
     }
 }

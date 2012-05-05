@@ -11,14 +11,14 @@ namespace Xbehave.Internal
 
     internal static class ThreadContext
     {
-        private static ScenarioFactory scenarioFactory = new ScenarioFactory(new Disposer());
+        private static ICommandFactory commandFactory = new CommandFactory(new Disposer());
 
         [ThreadStatic]
         private static Scenario scenario;
 
         public static Scenario Scenario
         {
-            get { return scenario ?? (scenario = scenarioFactory.Create()); }
+            get { return scenario ?? (scenario = new Scenario(commandFactory)); }
         }
 
         // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work

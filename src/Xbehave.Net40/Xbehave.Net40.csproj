@@ -91,7 +91,6 @@
     <Compile Include="Internal\CommandFactory.cs" />
     <Compile Include="Internal\ICommandFactory.cs" />
     <Compile Include="Internal\DisposableFunctionFactory.cs" />
-    <Compile Include="Internal\ScenarioFactory.cs" />
     <Compile Include="Infra\ObjectExtensions.cs" />
     <Compile Include="Infra\IDisposer.cs" />
     <Compile Include="Infra\Disposer.cs" />
