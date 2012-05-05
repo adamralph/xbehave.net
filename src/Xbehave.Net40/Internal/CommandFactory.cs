@@ -1,4 +1,4 @@
-﻿// <copyright file="AgnosticCommandFactory.cs" company="Adam Ralph">
+﻿// <copyright file="CommandFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -11,12 +11,12 @@ namespace Xbehave.Internal
     using Xbehave.Infra;
     using Xunit.Sdk;
 
-    internal class AgnosticCommandFactory : IAgnosticCommandFactory
+    internal class CommandFactory : ICommandFactory
     {
         private readonly IDisposer disposer;
         private int stepOrdinal;
 
-        public AgnosticCommandFactory(IDisposer disposer)
+        public CommandFactory(IDisposer disposer)
         {
             this.disposer = disposer;
         }

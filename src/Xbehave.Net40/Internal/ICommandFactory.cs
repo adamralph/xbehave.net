@@ -1,4 +1,4 @@
-﻿// <copyright file="IAgnosticCommandFactory.cs" company="Adam Ralph">
+﻿// <copyright file="ICommandFactory.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -7,7 +7,7 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using Xunit.Sdk;
 
-    internal interface IAgnosticCommandFactory
+    internal interface ICommandFactory
     {
         IEnumerable<ITestCommand> Create(Queue<Step> steps, IMethodInfo method);
     }

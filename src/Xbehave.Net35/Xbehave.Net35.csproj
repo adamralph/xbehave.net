@@ -183,14 +183,14 @@
     <Compile Include="..\Xbehave.Net40\Internal\ActionCommand.cs">
       <Link>Internal\ActionCommand.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\AgnosticCommandFactory.cs">
-      <Link>Internal\AgnosticCommandFactory.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Internal\CommandFactory.cs">
+      <Link>Internal\CommandFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\DisposableFunctionFactory.cs">
       <Link>Internal\DisposableFunctionFactory.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\IAgnosticCommandFactory.cs">
-      <Link>Internal\IAgnosticCommandFactory.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Internal\ICommandFactory.cs">
+      <Link>Internal\ICommandFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Scenario.cs">
       <Link>Internal\Scenario.cs</Link>

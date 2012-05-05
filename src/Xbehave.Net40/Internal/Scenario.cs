@@ -10,7 +10,7 @@ namespace Xbehave.Internal
 
     internal partial class Scenario
     {
-        private readonly IAgnosticCommandFactory agnosticCommandFactory;
+        private readonly ICommandFactory agnosticCommandFactory;
 
         private readonly Queue<Step> givens = new Queue<Step>();
         private readonly Queue<Step> whens = new Queue<Step>();
@@ -18,7 +18,7 @@ namespace Xbehave.Internal
         private readonly Queue<Step> thensInIsolation = new Queue<Step>();
         private readonly Queue<Step> thenSkips = new Queue<Step>();
 
-        public Scenario(IAgnosticCommandFactory agnosticCommandFactory)
+        public Scenario(ICommandFactory agnosticCommandFactory)
         {
             this.agnosticCommandFactory = agnosticCommandFactory;
         }

@@ -8,11 +8,11 @@ namespace Xbehave.Internal
 
     internal class ScenarioFactory
     {
-        private readonly IAgnosticCommandFactory agnosticCommandFactory;
+        private readonly ICommandFactory agnosticCommandFactory;
 
         public ScenarioFactory(IDisposer disposer)
         {
-            this.agnosticCommandFactory = new AgnosticCommandFactory(disposer);
+            this.agnosticCommandFactory = new CommandFactory(disposer);
         }
 
         public Scenario Create()
