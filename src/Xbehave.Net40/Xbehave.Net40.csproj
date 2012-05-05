@@ -87,6 +87,8 @@
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Fluent\IStepDefinition.cs" />
     <Compile Include="Infra\StackExtensions.cs" />
+    <Compile Include="Internal\AgnosticCommandFactory.cs" />
+    <Compile Include="Internal\IAgnosticCommandFactory.cs" />
     <Compile Include="Internal\DisposableFunctionFactory.cs" />
     <Compile Include="Internal\SharedContextCommandNameFactory.cs" />
     <Compile Include="Internal\ISharedContextCommandNameFactory.cs" />
