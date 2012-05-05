@@ -106,7 +106,7 @@ namespace Xbehave
         /// </remarks>
         public static IThenDefinition ThenSkip(this string message, Action assert)
         {
-            return new ThenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(assert), "Unknown.")));
+            return new ThenDefinition(ThreadContext.Scenario.AddStep(new Step(message, DisposableFunctionFactory.Create(assert), "Skipped for an unknown reason.")));
         }
     }
 }
