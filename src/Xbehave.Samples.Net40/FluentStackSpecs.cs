@@ -16,18 +16,13 @@ namespace Xbehave.Samples
             var target = default(Stack<int>);
             var element = default(int);
             _
-            .Given(
-                "an element",
-                () =>
-                {
-                    element = 11;
-                    target = new Stack<int>();
-                })
+            .Given("an element", () => element = 11)
+            .And("a stack", () => target = new Stack<int>())
             .When("pushing the element", () => target.Push(element))
             .Then("the target should not be empty", () => target.Should().NotBeEmpty())
             .And("the target peek should be the element", () => target.Peek().Should().Be(element))
-            .And("in isolation the target peek should be the element", () => target.Peek().Should().Be(element), inIsolation: true)
-            .And("skip the target peek should be the element", () => target.Peek().Should().Be(element), skip: "because I can");
+            .AndInIsolation("the target peek should be the element", () => target.Peek().Should().Be(element))
+            .AndSkip("the target peek should be the element", "because I can", () => target.Peek().Should().Be(element));
         }
     }
 }
