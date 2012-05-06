@@ -65,14 +65,10 @@ namespace Xbehave.Fluent
         /// </summary>
         /// <param name="message">A message describing the step.</param>
         /// <param name="step">The action which performs the step.</param>
-        /// <param name="inIsolation">if set to <c>true</c> an isolated context will be created containing this step and a copy of all preceding steps.</param>
-        /// <param name="skip">Marks the step so that it will not be executed and provides the reason.
-        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
-        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        IStepDefinition Then(string message, Action step, bool inIsolation = false, string skip = null);
+        IStepDefinition Then(string message, Action step);
         
         /// <summary>
         /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.

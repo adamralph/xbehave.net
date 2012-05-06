@@ -204,16 +204,12 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the step.</param>
         /// <param name="step">The action which performs the step.</param>
-        /// <param name="inIsolation">if set to <c>true</c> an isolated context will be created containing this step and a copy of all preceding steps.</param>
-        /// <param name="skip">Marks the step so that it will not be executed and provides the reason.
-        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
-        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition Then(this string message, Action step, bool inIsolation = false, string skip = null)
+        public static IStepDefinition Then(this string message, Action step)
         {
-            return _(message, step, inIsolation, skip);
+            return _(message, step);
         }
 
         /// <summary>

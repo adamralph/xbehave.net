@@ -25,77 +25,77 @@ namespace Xbehave.Fluent
 
         public IStepDefinition When(string message, Func<IDisposable> step)
         {
-            return ("When " + message)._(step, false, null);
+            return ("When " + message).When(step);
         }
 
         public IStepDefinition When(string message, Action step)
         {
-            return ("When " + message)._(step, false, null);
+            return ("When " + message).When(step);
         }
 
         public IStepDefinition When(string message, Func<IEnumerable<IDisposable>> step)
         {
-            return ("When " + message)._(step, false, null);
+            return ("When " + message).When(step);
         }
 
         public IStepDefinition When(string message, Action step, Action dispose)
         {
-            return ("When " + message)._(step, dispose, false, null);
+            return ("When " + message).When(step, dispose);
         }
 
-        public IStepDefinition Then(string message, Action step, bool inIsolation = false, string skip = null)
+        public IStepDefinition Then(string message, Action step)
         {
-            return ("Then " + message)._(step, inIsolation, skip);
+            return ("Then " + message).Then(step);
         }
 
         public IStepDefinition ThenInIsolation(string message, Action step)
         {
-            return ("Then in isolation " + message)._(step, true, null);
+            return ("Then in isolation " + message).ThenInIsolation(step);
         }
 
         public IStepDefinition ThenSkip(string message, string reason, Action step)
         {
-            return ("Then skip " + message)._(step, false, reason);
+            return ("Then skip " + message).ThenSkip(reason, step);
         }
 
         public IStepDefinition And(string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
         {
-            return ("And " + message)._(step, inIsolation, skip);
+            return ("And " + message).And(step, inIsolation, skip);
         }
 
         public IStepDefinition And(string message, Action step, bool inIsolation = false, string skip = null)
         {
-            return ("And " + message)._(step, inIsolation, skip);
+            return ("And " + message).And(step, inIsolation, skip);
         }
 
         public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
-            return ("And " + message)._(step, inIsolation, skip);
+            return ("And " + message).And(step, inIsolation, skip);
         }
 
         public IStepDefinition And(string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
-            return ("And " + message)._(step, dispose, inIsolation, skip);
+            return ("And " + message).And(step, dispose, inIsolation, skip);
         }
 
         public IStepDefinition But(string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
         {
-            return ("But " + message)._(step, inIsolation, skip);
+            return ("But " + message).But(step, inIsolation, skip);
         }
 
         public IStepDefinition But(string message, Action step, bool inIsolation = false, string skip = null)
         {
-            return ("But " + message)._(step, inIsolation, skip);
+            return ("But " + message).But(step, inIsolation, skip);
         }
 
         public IStepDefinition But(string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
-            return ("But " + message)._(step, inIsolation, skip);
+            return ("But " + message).But(step, inIsolation, skip);
         }
 
         public IStepDefinition But(string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
-            return ("But " + message)._(step, dispose, inIsolation, skip);
+            return ("But " + message).But(step, dispose, inIsolation, skip);
         }
     }
 }

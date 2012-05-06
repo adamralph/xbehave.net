@@ -26,7 +26,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(string message, Func<IDisposable> step)
         {
-            return ("Given " + message)._(step, false, null);
+            return ("Given " + message).Given(step);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(string message, Action step)
         {
-            return ("Given " + message)._(step, false, null);
+            return ("Given " + message).Given(step);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(string message, Func<IEnumerable<IDisposable>> step)
         {
-            return ("Given " + message)._(step, false, null);
+            return ("Given " + message).Given(step);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(string message, Action step, Action dispose)
         {
-            return ("Given " + message)._(step, dispose, false, null);
+            return ("Given " + message).Given(step, dispose);
         }
     }
 }
