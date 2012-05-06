@@ -10,21 +10,6 @@ namespace Xbehave.ExpressionNaming
 
     internal static class ExpressionExtensions
     {
-        public static string ToGivenName(this Expression expression)
-        {
-            return string.Concat("Given ", expression.ToStepName(), ",");
-        }
-
-        public static string ToWhenName(this Expression expression)
-        {
-            return string.Concat("when ", expression.ToStepName());
-        }
-
-        public static string ToThenName(this Expression expression)
-        {
-            return string.Concat("then ", expression.ToStepName(), ".");
-        }
-
         public static string ToStepName(this Expression expression)
         {
             return expression.ToStepName(" ");
