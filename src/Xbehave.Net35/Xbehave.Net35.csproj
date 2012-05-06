@@ -180,6 +180,9 @@
     <Compile Include="..\Xbehave.Net40\Infra\StackExtensions.cs">
       <Link>Infra\StackExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\CommandBase.cs">
+      <Link>Internal\CommandBase.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\CommandFactory.cs">
       <Link>Internal\CommandFactory.cs</Link>
     </Compile>

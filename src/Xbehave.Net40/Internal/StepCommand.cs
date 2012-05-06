@@ -5,19 +5,18 @@
 namespace Xbehave.Internal
 {
     using System;
-    using System.Globalization;
     using Xunit.Sdk;
 
-    internal class StepCommand : TestCommand
+    internal class StepCommand : CommandBase
     {
-        private readonly Action<IDisposable> handleResult;
         private readonly Step step;
+        private readonly Action<IDisposable> handleResult;
 
         public StepCommand(MethodCall call, int ordinal, Step step, string context, Action<IDisposable> handleResult)
-            : base(call.Method, CreateCommandName(call, ordinal, step.Message, context), MethodUtility.GetTimeoutParameter(call.Method))
+            : base(call, ordinal, string.Concat("\"", step.Message, "\""), context)
         {
-            this.handleResult = handleResult;
             this.step = step;
+            this.handleResult = handleResult;
         }
 
         public override MethodResult Execute(object testClass)
@@ -29,19 +28,6 @@ namespace Xbehave.Internal
 
             this.handleResult(this.step.Execute());
             return new PassedResult(this.testMethod, this.DisplayName);
-        }
-
-        private static string CreateCommandName(MethodCall call, int stepOrdinal, string stepName, string context)
-        {
-            return string.Concat(
-                call.ToString(),
-                context == null ? null : "(" + context + ")",
-                ".",
-                stepOrdinal.ToString("D2", CultureInfo.InvariantCulture),
-                ".",
-                "\"",
-                stepName,
-                "\"");
         }
     }
 }
