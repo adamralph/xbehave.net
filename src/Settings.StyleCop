@@ -1,6 +1,13 @@
 <StyleCopSettings Version="105">
   <Analyzers>
     <Analyzer AnalyzerId="StyleCop.CSharp.DocumentationRules">
+      <Rules>
+        <Rule Name="FileHeaderFileNameDocumentationMustMatchTypeName">
+          <RuleSettings>
+            <BooleanProperty Name="Enabled">False</BooleanProperty>
+          </RuleSettings>
+        </Rule>
+      </Rules>
       <AnalyzerSettings>
         <StringProperty Name="CompanyName">Adam Ralph</StringProperty>
         <StringProperty Name="Copyright">Copyright (c) Adam Ralph. All rights reserved.</StringProperty>

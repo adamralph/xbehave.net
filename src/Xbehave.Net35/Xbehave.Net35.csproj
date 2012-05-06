@@ -138,8 +138,16 @@
     <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.cs">
       <Link>Fluent\IStepDefinition.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.Expressions.cs">
+      <Link>Fluent\IStepDefinition.Expressions.cs</Link>
+      <DependentUpon>IStepDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Fluent\StepDefinition.cs">
       <Link>Fluent\StepDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\StepDefinition.Expressions.cs">
+      <Link>Fluent\StepDefinition.Expressions.cs</Link>
+      <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
       <Link>Infra\Disposable.cs</Link>
@@ -209,6 +217,10 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\_.cs">
       <Link>_.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\_.Expressions.cs">
+      <Link>_.Expressions.cs</Link>
+      <DependentUpon>_.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
