@@ -135,29 +135,11 @@
     <Compile Include="..\Xbehave.Net40\ExpressionNaming\UnaryExpressionExtensions.cs">
       <Link>ExpressionNaming\UnaryExpressionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\FluentExtensions.cs">
-      <Link>FluentExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\GivenDefinition.cs">
-      <Link>Fluent\GivenDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IGivenDefinition.cs">
-      <Link>Fluent\IGivenDefinition.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.cs">
       <Link>Fluent\IStepDefinition.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IThenDefinition.cs">
-      <Link>Fluent\IThenDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IWhenDefinition.cs">
-      <Link>Fluent\IWhenDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\ThenDefinition.cs">
-      <Link>Fluent\ThenDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\WhenDefinition.cs">
-      <Link>Fluent\WhenDefinition.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Fluent\StepDefinition.cs">
+      <Link>Fluent\StepDefinition.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
       <Link>Infra\Disposable.cs</Link>

@@ -24,8 +24,8 @@ namespace Xbehave
         /// This is an experimental feature.
         /// </summary>
         /// <param name="arrange">The action that will perform the arrangment.</param>
-        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
-        public static IGivenDefinition Given(Expression<Action> arrange)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition Given(Expression<Action> arrange)
         {
             Require.NotNull(arrange, "arrange");
             return ("Given " + arrange.Body.ToStepName()).Given(arrange.Compile());
@@ -35,9 +35,9 @@ namespace Xbehave
         /// This is an experimental feature.
         /// </summary>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IGivenDefinition Given(Expression<Func<IDisposable>> arrange)
+        public static IStepDefinition Given(Expression<Func<IDisposable>> arrange)
         {
             Require.NotNull(arrange, "arrange");
             return ("Given " + arrange.Body.ToStepName()).Given(arrange.Compile());
@@ -47,9 +47,9 @@ namespace Xbehave
         /// This is an experimental feature.
         /// </summary>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IGivenDefinition Given(Expression<Func<IEnumerable<IDisposable>>> arrange)
+        public static IStepDefinition Given(Expression<Func<IEnumerable<IDisposable>>> arrange)
         {
             Require.NotNull(arrange, "arrange");
             return ("Given " + arrange.Body.ToStepName()).Given(arrange.Compile());
@@ -60,8 +60,8 @@ namespace Xbehave
         /// </summary>
         /// <param name="arrange">The action that will perform the arrangement.</param>
         /// <param name="dispose">The action that will dispose the arrangement.</param>
-        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
-        public static IGivenDefinition Given(Expression<Action> arrange, Action dispose)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition Given(Expression<Action> arrange, Action dispose)
         {
             Require.NotNull(arrange, "arrange");
             return ("Given " + arrange.Body.ToStepName()).Given(arrange.Compile(), dispose);
@@ -71,8 +71,8 @@ namespace Xbehave
         /// This is an experimental feature.
         /// </summary>
         /// <param name="act">The action that will perform the act.</param>
-        /// <returns>An instance of <see cref="IWhenDefinition"/>.</returns>
-        public static IWhenDefinition When(Expression<Action> act)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition When(Expression<Action> act)
         {
             Require.NotNull(act, "act");
             return ("When " + act.Body.ToStepName()).When(act.Compile());
@@ -82,8 +82,8 @@ namespace Xbehave
         /// This is an experimental feature.
         /// </summary>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
-        public static IThenDefinition Then(Expression<Action> assert)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition Then(Expression<Action> assert)
         {
             Require.NotNull(assert, "assert");
             return ("Then " + assert.Body.ToStepName()).Then(assert.Compile());
@@ -93,8 +93,8 @@ namespace Xbehave
         /// This is an experimental feature.
         /// </summary>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
-        public static IThenDefinition ThenInIsolation(Expression<Action> assert)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition ThenInIsolation(Expression<Action> assert)
         {
             Require.NotNull(assert, "assert");
             return ("Then " + assert.Body.ToStepName()).ThenInIsolation(assert.Compile());
@@ -104,12 +104,12 @@ namespace Xbehave
         /// This is an experimental feature.
         /// </summary>
         /// <param name="assert">The action which would have performed the assertion.</param>
-        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         /// <remarks>
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        public static IThenDefinition ThenSkip(Expression<Action> assert)
+        public static IStepDefinition ThenSkip(Expression<Action> assert)
         {
             Require.NotNull(assert, "assert");
             return ("Then " + assert.Body.ToStepName()).ThenSkip(assert.Compile());

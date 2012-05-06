@@ -20,10 +20,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The action that will perform the arrangment.</param>
-        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
-        public static IGivenDefinition Given(this string message, Action arrange)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition Given(this string message, Action arrange)
         {
-            return new GivenDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(arrange))));
+            return new StepDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(arrange))));
         }
 
         /// <summary>
@@ -31,10 +31,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
-        public static IGivenDefinition Given(this string message, Func<IDisposable> arrange)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition Given(this string message, Func<IDisposable> arrange)
         {
-            return new GivenDefinition(CurrentThread.Scenario.Enqueue(new Step(message, arrange)));
+            return new StepDefinition(CurrentThread.Scenario.Enqueue(new Step(message, arrange)));
         }
 
         /// <summary>
@@ -42,11 +42,11 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IGivenDefinition Given(this string message, Func<IEnumerable<IDisposable>> arrange)
+        public static IStepDefinition Given(this string message, Func<IEnumerable<IDisposable>> arrange)
         {
-            return new GivenDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(arrange))));
+            return new StepDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(arrange))));
         }
 
         /// <summary>
@@ -55,10 +55,10 @@ namespace Xbehave
         /// <param name="message">A message describing the arrangment.</param>
         /// <param name="arrange">The action that will perform the arrangement.</param>
         /// <param name="dispose">The action that will dispose the arrangement.</param>
-        /// <returns>An instance of <see cref="IGivenDefinition"/>.</returns>
-        public static IGivenDefinition Given(this string message, Action arrange, Action dispose)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition Given(this string message, Action arrange, Action dispose)
         {
-            return new GivenDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(arrange, dispose))));
+            return new StepDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(arrange, dispose))));
         }
 
         /// <summary>
@@ -66,10 +66,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the act.</param>
         /// <param name="act">The action that will perform the act.</param>
-        /// <returns>An instance of <see cref="IWhenDefinition"/>.</returns>
-        public static IWhenDefinition When(this string message, Action act)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition When(this string message, Action act)
         {
-            return new WhenDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(act))));
+            return new StepDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(act))));
         }
 
         /// <summary>
@@ -77,10 +77,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
-        public static IThenDefinition ThenInIsolation(this string message, Action assert)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition ThenInIsolation(this string message, Action assert)
         {
-            return new ThenDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(assert), true)));
+            return new StepDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(assert), true)));
         }
 
         /// <summary>
@@ -88,10 +88,10 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
-        public static IThenDefinition Then(this string message, Action assert)
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition Then(this string message, Action assert)
         {
-            return new ThenDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(assert))));
+            return new StepDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(assert))));
         }
 
         /// <summary>
@@ -99,14 +99,14 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="assert">The action which would have performed the assertion.</param>
-        /// <returns>An instance of <see cref="IThenDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         /// <remarks>
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        public static IThenDefinition ThenSkip(this string message, Action assert)
+        public static IStepDefinition ThenSkip(this string message, Action assert)
         {
-            return new ThenDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(assert), "Skipped for an unknown reason.")));
+            return new StepDefinition(CurrentThread.Scenario.Enqueue(new Step(message, DisposableFunctionFactory.Create(assert), "Skipped for an unknown reason.")));
         }
     }
 }
