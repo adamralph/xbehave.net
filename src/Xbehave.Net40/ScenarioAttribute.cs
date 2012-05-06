@@ -40,42 +40,30 @@ namespace Xbehave
         {
             Require.NotNull(method, "method");
 
-            foreach (var xunitCommand in this.CreateXunitCommands(method))
-            {
-                foreach (var stepCommand in CreateStepCommands(method, xunitCommand))
-                {
-                    yield return stepCommand;
-                }
-            }
+            var scenarioDefinitions = method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
+                ? base.EnumerateTestCommands(method)
+                : new[] { new FactCommand(method) };
+
+            return scenarioDefinitions.SelectMany(definition => CreateCommands(method, definition));
         }
 
-        // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
-        private static IEnumerable<ITestCommand> CreateTestCommands(MethodCall call, Action registerSteps)
+        private static IEnumerable<ITestCommand> CreateCommands(IMethodInfo method, ITestCommand scenarioDefinition)
         {
+            var story = method.IsStatic ? null : method.CreateInstance();
+
+            var theoryCommand = scenarioDefinition as TheoryCommand;
+            var call = new MethodCall(method, theoryCommand == null ? new object[0] : theoryCommand.Parameters);
+
+            // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
             try
             {
-                registerSteps();
+                scenarioDefinition.Execute(story);
                 return CurrentThread.Scenario.GetTestCommands(call);
             }
             finally
             {
                 CurrentThread.ResetScenario();
             }
-        }
-
-        private static IEnumerable<ITestCommand> CreateStepCommands(IMethodInfo method, ITestCommand xunitCommand)
-        {
-            var theoryCommand = xunitCommand as TheoryCommand;
-            var arguments = theoryCommand == null ? null : theoryCommand.Parameters;
-            var testClassInstance = method.IsStatic ? null : method.CreateInstance();
-            return CreateTestCommands(new MethodCall(method, arguments), () => xunitCommand.Execute(testClassInstance));
-        }
-
-        private IEnumerable<ITestCommand> CreateXunitCommands(IMethodInfo method)
-        {
-            return method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
-                ? base.EnumerateTestCommands(method)
-                : new[] { new FactCommand(method) };
         }
     }
 }

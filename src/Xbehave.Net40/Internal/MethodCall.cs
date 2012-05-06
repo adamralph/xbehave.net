@@ -9,6 +9,7 @@ namespace Xbehave.Internal
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using Xbehave.Infra;
     using Xunit.Sdk;
 
     internal partial class MethodCall
@@ -19,8 +20,10 @@ namespace Xbehave.Internal
 
         public MethodCall(IMethodInfo method, IEnumerable<object> args)
         {
+            Require.NotNull(args, "args");
+
             this.method = method;
-            this.args = (args ?? new object[0]).ToArray();
+            this.args = args.ToArray();
         }
 
         public IMethodInfo Method
