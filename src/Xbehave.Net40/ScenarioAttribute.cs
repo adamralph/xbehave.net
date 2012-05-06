@@ -49,7 +49,7 @@ namespace Xbehave
 
         private static IEnumerable<ITestCommand> CreateCommands(IMethodInfo method, ITestCommand scenarioDefinition)
         {
-            var story = method.IsStatic ? null : method.CreateInstance();
+            var feature = method.IsStatic ? null : method.CreateInstance();
 
             var theoryCommand = scenarioDefinition as TheoryCommand;
             var call = new MethodCall(method, theoryCommand == null ? new object[0] : theoryCommand.Parameters);
@@ -57,7 +57,7 @@ namespace Xbehave
             // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
             try
             {
-                scenarioDefinition.Execute(story);
+                scenarioDefinition.Execute(feature);
                 return CurrentThread.Scenario.GetTestCommands(call);
             }
             finally
