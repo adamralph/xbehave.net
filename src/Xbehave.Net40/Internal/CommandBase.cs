@@ -10,8 +10,8 @@ namespace Xbehave.Internal
 
     internal abstract class CommandBase : TestCommand
     {
-        protected CommandBase(MethodCall call, int? contextOrdinal, int commandOrdinal, string displayName)
-            : base(call.Method, displayName, MethodUtility.GetTimeoutParameter(call.Method))
+        protected CommandBase(MethodCall call, int? contextOrdinal, int commandOrdinal, string commandName)
+            : base(call.Method, commandName, MethodUtility.GetTimeoutParameter(call.Method))
         {
             var provider = CultureInfo.InvariantCulture;
             var tokens = new[]
@@ -19,7 +19,7 @@ namespace Xbehave.Internal
                     call.ToString(),
                     contextOrdinal.HasValue ? string.Format(provider, "context {0} ", contextOrdinal.Value.ToString("D2", provider)) : null,
                     string.Format(provider, "test {0} ", commandOrdinal.ToString("D2", provider)),
-                    displayName,
+                    commandName,
                 };
 
             this.DisplayName = string.Join(", ", tokens.Where(token => token != null).ToArray());
