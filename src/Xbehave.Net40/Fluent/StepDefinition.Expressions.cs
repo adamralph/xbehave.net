@@ -24,9 +24,9 @@ namespace Xbehave.Fluent
             return _.ThenInIsolation(assert);
         }
 
-        public IStepDefinition ThenSkip(Expression<Action> assert)
+        public IStepDefinition ThenSkip(string reason, Expression<Action> assert)
         {
-            return _.ThenSkip(assert);
+            return _.ThenSkip(reason, assert);
         }
     }
 }

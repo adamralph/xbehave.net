@@ -87,11 +87,17 @@
     <Compile Include="..\Xbehave.Net40\Deprecated\DisposableAction.cs">
       <Link>Deprecated\DisposableAction.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Deprecated\IStepDefinition.Expressions.cs">
+      <Link>Deprecated\IStepDefinition.Expressions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Deprecated\SpecificationAttribute.cs">
       <Link>Deprecated\SpecificationAttribute.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Deprecated\SpecificationExtensions.cs">
       <Link>Deprecated\SpecificationExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Deprecated\StepDefinition.Expressions.cs">
+      <Link>Deprecated\StepDefinition.Expressions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Deprecated\ThesisAttribute.cs">
       <Link>Deprecated\ThesisAttribute.cs</Link>

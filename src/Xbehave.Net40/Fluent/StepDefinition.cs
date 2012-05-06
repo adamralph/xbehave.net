@@ -57,45 +57,50 @@ namespace Xbehave.Fluent
         {
             return message.ThenSkip(reason, step);
         }
-
-        public IStepDefinition And(string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
+        
+        public IStepDefinition And(string message, Func<IDisposable> step)
         {
-            return message.And(step, inIsolation, skip);
+            return message.And(step);
         }
 
-        public IStepDefinition And(string message, Action step, bool inIsolation = false, string skip = null)
+        public IStepDefinition And(string message, Action step)
         {
-            return message.And(step, inIsolation, skip);
+            return message.And(step);
         }
 
-        public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
+        public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> step)
         {
-            return message.And(step, inIsolation, skip);
+            return message.And(step);
         }
 
-        public IStepDefinition And(string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
+        public IStepDefinition And(string message, Action step, Action dispose)
         {
-            return message.And(step, dispose, inIsolation, skip);
+            return message.And(step, dispose);
         }
 
-        public IStepDefinition But(string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
+        public IStepDefinition AndInIsolation(string message, Action step)
         {
-            return message.But(step, inIsolation, skip);
+            return message.AndInIsolation(step);
         }
 
-        public IStepDefinition But(string message, Action step, bool inIsolation = false, string skip = null)
+        public IStepDefinition AndSkip(string message, string reason, Action step)
         {
-            return message.But(step, inIsolation, skip);
+            return message.AndSkip(reason, step);
         }
 
-        public IStepDefinition But(string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
+        public IStepDefinition But(string message, Action step)
         {
-            return message.But(step, inIsolation, skip);
+            return message.But(step);
         }
 
-        public IStepDefinition But(string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
+        public IStepDefinition ButInIsolation(string message, Action step)
         {
-            return message.But(step, dispose, inIsolation, skip);
+            return message.ButInIsolation(step);
+        }
+
+        public IStepDefinition ButSkip(string message, string reason, Action step)
+        {
+            return message.ButSkip(reason, step);
         }
     }
 }

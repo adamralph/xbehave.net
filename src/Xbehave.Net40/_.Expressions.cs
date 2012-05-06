@@ -103,16 +103,17 @@ namespace Xbehave
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
+        /// <param name="reason">The reason for skipping the assertion.</param>
         /// <param name="assert">The action which would have performed the assertion.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         /// <remarks>
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        public static IStepDefinition ThenSkip(Expression<Action> assert)
+        public static IStepDefinition ThenSkip(string reason, Expression<Action> assert)
         {
             Require.NotNull(assert, "assert");
-            return assert.Body.ToStepName().ThenSkip(assert.Compile());
+            return assert.Body.ToStepName().ThenSkip(reason, assert.Compile());
         }
     }
 }

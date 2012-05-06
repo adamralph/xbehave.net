@@ -5,6 +5,8 @@
 namespace Xbehave
 {
     using System;
+    using System.Linq.Expressions;
+    using Xbehave.ExpressionNaming;
     using Xbehave.Fluent;
     using Xbehave.Infra;
 
@@ -36,6 +38,17 @@ namespace Xbehave
         public static IStepDefinition ThenSkip(this string message, Action assert)
         {
             return message.ThenSkip("Skipped for an unknown reason.", assert);
+        }
+
+        /// <summary>
+        /// Deprecated in version 0.10.0.
+        /// </summary>
+        /// <param name="assert">The action which would have performed the assertion.</param>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        [Obsolete("Use ThenSkip(reason, assert) instead.")]
+        public static IStepDefinition ThenSkip(Expression<Action> assert)
+        {
+            return ThenSkip("Skipped for an unknown reason", assert);
         }
     }
 }
