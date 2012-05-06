@@ -21,7 +21,7 @@ namespace Xbehave.Issues
                     () => disposable0.Dispose());
 
             "and another disposable"
-                .Given(
+                .And(
                     () => disposable1 = new Disposable(),
                     () => disposable1.Dispose());
 
@@ -29,7 +29,7 @@ namespace Xbehave.Issues
                 .When(() => disposable0.Use());
 
             "and using the second disposable"
-                .When(() => disposable1.Use());
+                .And(() => disposable1.Use());
 
             _.ThenInIsolation(() => true.Should().Be(false));
             _.ThenInIsolation(() => true.Should().Be(false));

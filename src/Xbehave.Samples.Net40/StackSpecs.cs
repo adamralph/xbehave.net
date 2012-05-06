@@ -15,24 +15,23 @@ namespace Xbehave.Samples
         [Scenario]
         public void Push()
         {
-            var target = default(Stack<int>);
+            var stack = default(Stack<int>);
             var element = default(int);
 
             "Given an element"
-                .Given(() =>
-                {
-                    element = 11;
-                    target = new Stack<int>();
-                });
+                .Given(() => element = 11);
 
-            "when pushing the element"
-                .When(() => target.Push(element));
+            "And a stack"
+                .And(() => stack = new Stack<int>());
 
-            "then the target should not be empty"
-                .Then(() => target.Should().NotBeEmpty());
+            "When pushing the element onto the stack"
+                .When(() => stack.Push(element));
 
-            "then the target peek should be the element"
-                .Then(() => target.Peek().Should().Be(element));
+            "Then the stack should not be empty"
+                .Then(() => stack.Should().NotBeEmpty());
+
+            "And the stack peek should be the element"
+                .And(() => stack.Peek().Should().Be(element));
         }
     }
 }

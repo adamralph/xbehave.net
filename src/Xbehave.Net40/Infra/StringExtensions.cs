@@ -9,22 +9,22 @@ namespace Xbehave.Infra
 
     internal static class StringExtensions
     {
-        public static string ToSentenceStartingWith(this string sentence, string text)
+        public static string ToSentenceStartingWith(this string sentence, string words)
         {
-            text = (text ?? string.Empty).ToSingleSpaceSentence();
+            words = (words ?? string.Empty).ToSingleSpaceSentence();
             sentence = (sentence ?? string.Empty).ToSingleSpaceSentence();
 
-            if (sentence.Equals(text, StringComparison.OrdinalIgnoreCase))
+            if (sentence.Equals(words, StringComparison.OrdinalIgnoreCase))
             {
-                return text;
+                return words;
             }
 
-            if (sentence.StartsWith(text, StringComparison.OrdinalIgnoreCase))
+            if (sentence.StartsWith(words, StringComparison.OrdinalIgnoreCase))
             {
-                return string.Concat(text, " ", sentence.Substring(text.Length));
+                return string.Concat(words, sentence.Substring(words.Length));
             }
 
-            return string.Concat(text, " ", sentence);
+            return string.Concat(words, " ", sentence);
         }
 
         public static string ToSingleSpaceSentence(this string text)
