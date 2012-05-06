@@ -10,7 +10,8 @@
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/c292659fa57d/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A fluent and concise BDD/TDD library based on xUnit.net designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
-    <releaseNotes>Changed to creating a separate a test command for each step in a scenario.
+    <releaseNotes>Added method for defining steps with unrestricted vocabulary, e.g. &quot;foo bar&quot;._(() =&gt; Something())).
+Changed to creating a separate a test command for each step in a scenario.
 Added scenario name to test command names.
 Added scenario parameters and arguments to test command names.
 Changed Given(this string message, Func&lt;IEnumerable&lt;IDisposable&gt;&gt; arrange) to dispose of items in reverse order.

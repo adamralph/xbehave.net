@@ -39,6 +39,13 @@ namespace Xbehave.Internal
             this.skipReason = skipReason;
         }
 
+        public Step(string message, Func<IDisposable> execute, bool inIsolation, string skipReason)
+            : this(message, execute)
+        {
+            this.inIsolation = inIsolation;
+            this.skipReason = skipReason;
+        }
+
         public string Message
         {
             get { return this.message; }
