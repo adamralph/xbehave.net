@@ -6,9 +6,9 @@ namespace Xbehave.Internal
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
     using Xunit.Sdk;
 
     internal partial class MethodCall
@@ -32,18 +32,9 @@ namespace Xbehave.Internal
         {
             if (this.text == null)
             {
-                var builder = new StringBuilder();
-                builder.Append(this.method.TypeName);
-                builder.Append(".");
-                builder.Append(this.method.Name);
-                if (this.args.Any())
-                {
-                    builder.Append("(");
-                    builder.Append(string.Join(", ", ToStrings(this.method.MethodInfo.GetParameters(), this.args).ToArray()));
-                    builder.Append(")");
-                }
-
-                this.text = builder.ToString();
+                var paramList = string.Join(", ", ToStrings(this.method.MethodInfo.GetParameters(), this.args).ToArray());
+                var paramSuffix = paramList.Length == 0 ? null : string.Concat("(", paramList, ")");
+                this.text = string.Format(CultureInfo.InvariantCulture, "{0}.{1}{2}", this.method.TypeName, this.method.Name, paramSuffix);
             }
 
             return this.text;
