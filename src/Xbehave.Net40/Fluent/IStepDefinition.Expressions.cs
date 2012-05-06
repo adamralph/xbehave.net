@@ -45,8 +45,8 @@ namespace Xbehave.Fluent
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="reason">The reason for skipping the assertion.</param>
         /// <param name="assert">The action which would have performed the assertion.</param>
+        /// <param name="reason">The reason for skipping the assertion.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
@@ -54,6 +54,6 @@ namespace Xbehave.Fluent
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        IStepDefinition ThenSkip(string reason, Expression<Action> assert);
+        IStepDefinition ThenSkip(Expression<Action> assert, string reason);
     }
 }

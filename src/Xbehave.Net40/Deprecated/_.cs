@@ -36,7 +36,7 @@ namespace Xbehave
         [Obsolete("Use ThenSkip(reason, step) instead.")]
         public static IStepDefinition ThenSkip(this string message, Action assert)
         {
-            return message.ThenSkip("Skipped for an unknown reason.", assert);
+            return message.ThenSkip(assert, "Skipped for an unknown reason.");
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Xbehave
         [Obsolete("Use ThenSkip(reason, assert) instead.")]
         public static IStepDefinition ThenSkip(Expression<Action> assert)
         {
-            return ThenSkip("Skipped for an unknown reason", assert);
+            return ThenSkip(assert, "Skipped for an unknown reason");
         }
     }
 }

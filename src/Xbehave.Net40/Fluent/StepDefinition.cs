@@ -53,9 +53,9 @@ namespace Xbehave.Fluent
             return message.ThenInIsolation(step);
         }
 
-        public IStepDefinition ThenSkip(string message, string reason, Action step)
+        public IStepDefinition ThenSkip(string message, Action step, string reason)
         {
-            return message.ThenSkip(reason, step);
+            return message.ThenSkip(step, reason);
         }
         
         public IStepDefinition And(string message, Func<IDisposable> step)
@@ -83,9 +83,9 @@ namespace Xbehave.Fluent
             return message.AndInIsolation(step);
         }
 
-        public IStepDefinition AndSkip(string message, string reason, Action step)
+        public IStepDefinition AndSkip(string message, Action step, string reason)
         {
-            return message.AndSkip(reason, step);
+            return message.AndSkip(step, reason);
         }
 
         public IStepDefinition But(string message, Action step)
@@ -98,9 +98,9 @@ namespace Xbehave.Fluent
             return message.ButInIsolation(step);
         }
 
-        public IStepDefinition ButSkip(string message, string reason, Action step)
+        public IStepDefinition ButSkip(string message, Action step, string reason)
         {
-            return message.ButSkip(reason, step);
+            return message.ButSkip(step, reason);
         }
     }
 }

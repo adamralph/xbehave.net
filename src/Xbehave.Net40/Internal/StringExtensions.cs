@@ -8,6 +8,7 @@ namespace Xbehave.Internal
     using System.Collections.Generic;
     using Xbehave.Fluent;
 
+    // TODO: refactor - this isn't right - should be some kind of factory, not extensions
     internal static partial class StringExtensions
     {
         public static IStepDefinition _(this string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)

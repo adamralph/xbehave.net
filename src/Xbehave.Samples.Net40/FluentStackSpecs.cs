@@ -22,7 +22,7 @@ namespace Xbehave.Samples
             .Then("the target should not be empty", () => target.Should().NotBeEmpty())
             .And("the target peek should be the element", () => target.Peek().Should().Be(element))
             .AndInIsolation("the target peek should be the element", () => target.Peek().Should().Be(element))
-            .AndSkip("the target peek should be the element", "because I can", () => target.Peek().Should().Be(element));
+            .AndSkip("the target peek should be the element", () => target.Peek().Should().Be(element), "because I can");
         }
     }
 }

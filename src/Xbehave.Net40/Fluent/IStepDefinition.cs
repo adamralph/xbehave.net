@@ -97,13 +97,13 @@ namespace Xbehave.Fluent
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
         /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ThenSkip(string message, string reason, Action step);
+        IStepDefinition ThenSkip(string message, Action step, string reason);
 
         /// <summary>
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
@@ -170,13 +170,13 @@ namespace Xbehave.Fluent
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
         /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition AndSkip(string message, string reason, Action step);
+        IStepDefinition AndSkip(string message, Action step, string reason);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -204,12 +204,12 @@ namespace Xbehave.Fluent
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
         /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ButSkip(string message, string reason, Action step);
+        IStepDefinition ButSkip(string message, Action step, string reason);
     }
 }

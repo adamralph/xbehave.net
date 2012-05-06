@@ -156,12 +156,12 @@ namespace Xbehave
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
         /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition ThenSkip(this string message, string reason, Action step)
+        public static IStepDefinition ThenSkip(this string message, Action step, string reason)
         {
             return message.ToSentenceStartingWith("Then")._(step, false, reason);
         }
@@ -237,12 +237,12 @@ namespace Xbehave
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
         /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition AndSkip(this string message, string reason, Action step)
+        public static IStepDefinition AndSkip(this string message, Action step, string reason)
         {
             return message.ToSentenceStartingWith("And")._(step, false, reason);
         }
@@ -277,12 +277,12 @@ namespace Xbehave
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
         /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition ButSkip(this string message, string reason, Action step)
+        public static IStepDefinition ButSkip(this string message, Action step, string reason)
         {
             return message.ToSentenceStartingWith("But")._(step, false, reason);
         }
