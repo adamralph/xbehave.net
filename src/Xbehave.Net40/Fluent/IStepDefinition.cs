@@ -6,6 +6,7 @@ namespace Xbehave.Fluent
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// The definition of a scenario step.
@@ -27,6 +28,8 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition When(string message, Func<IDisposable> step);
 
         /// <summary>
@@ -37,6 +40,8 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition When(string message, Action step);
 
         /// <summary>
@@ -47,6 +52,9 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         IStepDefinition When(string message, Func<IEnumerable<IDisposable>> step);
 
         /// <summary>
@@ -58,6 +66,8 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition When(string message, Action step, Action dispose);
 
         /// <summary>
@@ -68,8 +78,10 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Then", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition Then(string message, Action step);
-        
+
         /// <summary>
         /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
         /// </summary>
@@ -78,6 +90,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition ThenInIsolation(string message, Action step);
 
         /// <summary>
@@ -89,6 +102,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition ThenSkip(string message, string reason, Action step);
 
         /// <summary>
@@ -105,6 +119,8 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition And(string message, Func<IDisposable> step, bool inIsolation = false, string skip = null);
 
         /// <summary>
@@ -121,6 +137,8 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition And(string message, Action step, bool inIsolation = false, string skip = null);
 
         /// <summary>
@@ -137,6 +155,9 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         IStepDefinition And(string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null);
 
         /// <summary>
@@ -152,6 +173,8 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition And(string message, Action step, Action dispose, bool inIsolation = false, string skip = null);
 
         /// <summary>
@@ -168,6 +191,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition But(string message, Func<IDisposable> step, bool inIsolation = false, string skip = null);
 
         /// <summary>
@@ -184,6 +208,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition But(string message, Action step, bool inIsolation = false, string skip = null);
 
         /// <summary>
@@ -200,6 +225,8 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         IStepDefinition But(string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null);
 
         /// <summary>
@@ -215,6 +242,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         IStepDefinition But(string message, Action step, Action dispose, bool inIsolation = false, string skip = null);
     }
 }

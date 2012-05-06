@@ -28,7 +28,7 @@ namespace Xbehave
         public static IStepDefinition Given(Expression<Action> arrange)
         {
             Require.NotNull(arrange, "arrange");
-            return ("Given " + arrange.Body.ToStepName()).Given(arrange.Compile());
+            return arrange.Body.ToStepName().Given(arrange.Compile());
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Xbehave
         public static IStepDefinition Given(Expression<Func<IDisposable>> arrange)
         {
             Require.NotNull(arrange, "arrange");
-            return ("Given " + arrange.Body.ToStepName()).Given(arrange.Compile());
+            return arrange.Body.ToStepName().Given(arrange.Compile());
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Xbehave
         public static IStepDefinition Given(Expression<Func<IEnumerable<IDisposable>>> arrange)
         {
             Require.NotNull(arrange, "arrange");
-            return ("Given " + arrange.Body.ToStepName()).Given(arrange.Compile());
+            return arrange.Body.ToStepName().Given(arrange.Compile());
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Xbehave
         public static IStepDefinition Given(Expression<Action> arrange, Action dispose)
         {
             Require.NotNull(arrange, "arrange");
-            return ("Given " + arrange.Body.ToStepName()).Given(arrange.Compile(), dispose);
+            return arrange.Body.ToStepName().Given(arrange.Compile(), dispose);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Xbehave
         public static IStepDefinition When(Expression<Action> act)
         {
             Require.NotNull(act, "act");
-            return ("When " + act.Body.ToStepName()).When(act.Compile());
+            return act.Body.ToStepName().When(act.Compile());
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Xbehave
         public static IStepDefinition Then(Expression<Action> assert)
         {
             Require.NotNull(assert, "assert");
-            return ("Then " + assert.Body.ToStepName()).Then(assert.Compile());
+            return assert.Body.ToStepName().Then(assert.Compile());
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Xbehave
         public static IStepDefinition ThenInIsolation(Expression<Action> assert)
         {
             Require.NotNull(assert, "assert");
-            return ("Then " + assert.Body.ToStepName()).ThenInIsolation(assert.Compile());
+            return assert.Body.ToStepName().ThenInIsolation(assert.Compile());
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Xbehave
         public static IStepDefinition ThenSkip(Expression<Action> assert)
         {
             Require.NotNull(assert, "assert");
-            return ("Then " + assert.Body.ToStepName()).ThenSkip(assert.Compile());
+            return assert.Body.ToStepName().ThenSkip(assert.Compile());
         }
     }
 }

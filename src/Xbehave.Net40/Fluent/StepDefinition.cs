@@ -10,16 +10,16 @@ namespace Xbehave.Fluent
 
     internal partial class StepDefinition : IStepDefinition
     {
-        private readonly Step step;
+        private readonly Step createdStep;
 
-        public StepDefinition(Step step)
+        public StepDefinition(Step createdStep)
         {
-            this.step = step;
+            this.createdStep = createdStep;
         }
 
         public IStepDefinition WithTimeout(int millisecondsTimeout)
         {
-            this.step.MillisecondsTimeout = millisecondsTimeout;
+            this.createdStep.MillisecondsTimeout = millisecondsTimeout;
             return this;
         }
 

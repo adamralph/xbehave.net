@@ -5,7 +5,8 @@
 namespace Xbehave.Fluent
 {
     using System;
-    using System.Linq.Expressions;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq.Expressions;    
 
     /// <summary>
     /// The definition of a scenario step.
@@ -19,6 +20,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
         IStepDefinition When(Expression<Action> act);
         
         /// <summary>
@@ -28,6 +30,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Then", Justification = "By design.")]
         IStepDefinition Then(Expression<Action> assert);
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace Xbehave.Internal
         private readonly bool inIsolation;
         private readonly string skipReason;
 
-        public Step(string message, Func<IDisposable> execute)
+        public Step(string message, Func<IDisposable> execute, bool inIsolation, string skipReason)
         {
             Require.NotNull(execute, "execute");
 
@@ -25,23 +25,6 @@ namespace Xbehave.Internal
 
             this.message = message;
             this.execute = execute;
-        }
-
-        public Step(string message, Func<IDisposable> execute, bool inIsolation)
-            : this(message, execute)
-        {
-            this.inIsolation = inIsolation;
-        }
-
-        public Step(string message, Func<IDisposable> execute, string skipReason)
-            : this(message, execute)
-        {
-            this.skipReason = skipReason;
-        }
-
-        public Step(string message, Func<IDisposable> execute, bool inIsolation, string skipReason)
-            : this(message, execute)
-        {
             this.inIsolation = inIsolation;
             this.skipReason = skipReason;
         }

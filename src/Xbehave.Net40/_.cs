@@ -52,6 +52,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition Given(this string message, Func<IEnumerable<IDisposable>> step)
         {
             return message.ToSentenceStartingWith("Given")._(step, false, null);
@@ -105,6 +106,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition When(this string message, Func<IEnumerable<IDisposable>> step)
         {
             return message.ToSentenceStartingWith("When")._(step, false, null);
@@ -216,6 +218,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition And(this string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
             return message.ToSentenceStartingWith("And")._(step, inIsolation, skip);
@@ -236,7 +239,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
-            return message.ToSentenceStartingWith("And")._(step, dispose, false, null);
+            return message.ToSentenceStartingWith("And")._(step, dispose, inIsolation, skip);
         }
 
         /// <summary>
@@ -291,6 +294,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition But(this string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
             return message.ToSentenceStartingWith("But")._(step, inIsolation, skip);
