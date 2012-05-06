@@ -8,6 +8,7 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using Xbehave.Fluent;
+    using Xbehave.Infra;
     using Xbehave.Internal;
 
     /// <summary>
@@ -27,7 +28,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(this string message, Func<IDisposable> step)
         {
-            return message.ToStepMessage("Given")._(step, false, null);
+            return message.ToSentenceStartingWith("Given")._(step, false, null);
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(this string message, Action step)
         {
-            return message.ToStepMessage("Given")._(step, false, null);
+            return message.ToSentenceStartingWith("Given")._(step, false, null);
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(this string message, Func<IEnumerable<IDisposable>> step)
         {
-            return message.ToStepMessage("Given")._(step, false, null);
+            return message.ToSentenceStartingWith("Given")._(step, false, null);
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(this string message, Action step, Action dispose)
         {
-            return message.ToStepMessage("Given")._(step, dispose, false, null);
+            return message.ToSentenceStartingWith("Given")._(step, dispose, false, null);
         }
 
         /// <summary>
@@ -80,7 +81,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition When(this string message, Func<IDisposable> step)
         {
-            return message.ToStepMessage("When")._(step, false, null);
+            return message.ToSentenceStartingWith("When")._(step, false, null);
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition When(this string message, Action step)
         {
-            return message.ToStepMessage("When")._(step, false, null);
+            return message.ToSentenceStartingWith("When")._(step, false, null);
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition When(this string message, Func<IEnumerable<IDisposable>> step)
         {
-            return message.ToStepMessage("When")._(step, false, null);
+            return message.ToSentenceStartingWith("When")._(step, false, null);
         }
 
         /// <summary>
@@ -120,7 +121,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition When(this string message, Action step, Action dispose)
         {
-            return message.ToStepMessage("When")._(step, dispose, false, null);
+            return message.ToSentenceStartingWith("When")._(step, dispose, false, null);
         }
 
         /// <summary>
@@ -133,7 +134,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Then(this string message, Action step)
         {
-            return message.ToStepMessage("Then")._(step, false, null);
+            return message.ToSentenceStartingWith("Then")._(step, false, null);
         }
 
         /// <summary>
@@ -146,7 +147,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition ThenInIsolation(this string message, Action step)
         {
-            return message.ToStepMessage("Then")._(step, true, null);
+            return message.ToSentenceStartingWith("Then")._(step, true, null);
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition ThenSkip(this string message, string reason, Action step)
         {
-            return message.ToStepMessage("Then")._(step, false, reason);
+            return message.ToSentenceStartingWith("Then")._(step, false, reason);
         }
 
         /// <summary>
@@ -179,7 +180,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
         {
-            return message.ToStepMessage("And")._(step, inIsolation, skip);
+            return message.ToSentenceStartingWith("And")._(step, inIsolation, skip);
         }
 
         /// <summary>
@@ -198,7 +199,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Action step, bool inIsolation = false, string skip = null)
         {
-            return message.ToStepMessage("And")._(step, inIsolation, skip);
+            return message.ToSentenceStartingWith("And")._(step, inIsolation, skip);
         }
 
         /// <summary>
@@ -217,7 +218,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
-            return message.ToStepMessage("And")._(step, inIsolation, skip);
+            return message.ToSentenceStartingWith("And")._(step, inIsolation, skip);
         }
 
         /// <summary>
@@ -235,7 +236,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
-            return message.ToStepMessage("And")._(step, dispose, false, null);
+            return message.ToSentenceStartingWith("And")._(step, dispose, false, null);
         }
 
         /// <summary>
@@ -254,7 +255,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition But(this string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
         {
-            return message.ToStepMessage("But")._(step, inIsolation, skip);
+            return message.ToSentenceStartingWith("But")._(step, inIsolation, skip);
         }
 
         /// <summary>
@@ -273,7 +274,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition But(this string message, Action step, bool inIsolation = false, string skip = null)
         {
-            return message.ToStepMessage("But")._(step, inIsolation, skip);
+            return message.ToSentenceStartingWith("But")._(step, inIsolation, skip);
         }
 
         /// <summary>
@@ -292,7 +293,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition But(this string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
-            return message.ToStepMessage("But")._(step, inIsolation, skip);
+            return message.ToSentenceStartingWith("But")._(step, inIsolation, skip);
         }
 
         /// <summary>
@@ -310,7 +311,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition But(this string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
-            return message.ToStepMessage("But")._(step, dispose, inIsolation, skip);
+            return message.ToSentenceStartingWith("But")._(step, dispose, inIsolation, skip);
         }
     }
 }
