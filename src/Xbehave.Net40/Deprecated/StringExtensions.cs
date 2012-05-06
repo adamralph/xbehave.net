@@ -23,7 +23,19 @@ namespace Xbehave
         public static IStepDefinition GivenDisposable(this string message, ContextDelegate arrange)
         {
             Require.NotNull(arrange, "arrange");
-            return message.Given(() => arrange());
+            return message._(() => arrange());
+        }
+
+        /// <summary>
+        /// Deprecated in version 0.10.0.
+        /// </summary>
+        /// <param name="message">A message describing the assertion.</param>
+        /// <param name="assert">The action which would have performed the assertion.</param>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        [Obsolete("Use ThenSkip(reason, step) instead.")]
+        public static IStepDefinition ThenSkip(this string message, Action assert)
+        {
+            return message._(assert, skip: "Skipped for an unknown reason.");
         }
     }
 }

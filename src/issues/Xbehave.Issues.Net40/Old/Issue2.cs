@@ -21,7 +21,7 @@ namespace Xbehave.Issues.Old
                 .Given(() => ObjectRepository.Add(1));
 
             "when clearing"
-                .When(ObjectRepository.Clear);
+                .When(() => ObjectRepository.Clear());
 
             _.ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
         }
