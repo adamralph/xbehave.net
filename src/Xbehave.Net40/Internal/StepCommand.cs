@@ -12,8 +12,8 @@ namespace Xbehave.Internal
         private readonly Step step;
         private readonly Action<IDisposable> handleResult;
 
-        public StepCommand(MethodCall call, int ordinal, Step step, string context, Action<IDisposable> handleResult)
-            : base(call, ordinal, string.Concat("\"", step.Message, "\""), context)
+        public StepCommand(MethodCall call, int? contextOrdinal, int ordinal, Step step, Action<IDisposable> handleResult)
+            : base(call, contextOrdinal, ordinal, string.Concat("\"", step.Message, "\""))
         {
             this.step = step;
             this.handleResult = handleResult;

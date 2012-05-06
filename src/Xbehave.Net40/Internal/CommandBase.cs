@@ -5,26 +5,24 @@
 namespace Xbehave.Internal
 {
     using System.Globalization;
+    using System.Linq;
     using Xunit.Sdk;
 
     internal abstract class CommandBase : TestCommand
     {
-        protected CommandBase(MethodCall call, int ordinal, string name, string context)
-            : base(call.Method, CreateCommandName(call, ordinal, name, context), MethodUtility.GetTimeoutParameter(call.Method))
+        protected CommandBase(MethodCall call, int? contextOrdinal, int commandOrdinal, string displayName)
+            : base(call.Method, displayName, MethodUtility.GetTimeoutParameter(call.Method))
         {
-        }
+            var provider = CultureInfo.InvariantCulture;
+            var tokens = new[]
+                {
+                    call.ToString(),
+                    contextOrdinal.HasValue ? string.Format(provider, "context {0} ", contextOrdinal.Value.ToString("D2", provider)) : null,
+                    string.Format(provider, "test {0} ", commandOrdinal.ToString("D2", provider)),
+                    displayName,
+                };
 
-        private static string CreateCommandName(MethodCall call, int ordinal, string name, string context)
-        {
-            return string.Concat(
-                call.ToString(),
-                context == null ? null : "(" + context + ")",
-                ".",
-                ordinal.ToString("D2", CultureInfo.InvariantCulture),
-                ".",
-                "\"",
-                name,
-                "\"");
+            this.DisplayName = string.Join(", ", tokens.Where(token => token != null).ToArray());
         }
     }
 }

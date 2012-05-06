@@ -12,18 +12,19 @@ namespace Xbehave.Internal
 
     internal class CommandFactory : ICommandFactory
     {
-        public IEnumerable<ITestCommand> Create(IEnumerable<Step> steps, MethodCall call, string context)
+        public IEnumerable<ITestCommand> Create(IEnumerable<Step> steps, MethodCall call, int? contextOrdinal)
         {
-            var stepOrdinal = 1;
+            var ordinal = 1;
             var disposables = new Stack<IDisposable>();
+
             foreach (var step in steps)
             {
-                yield return new StepCommand(call, stepOrdinal++, step, context, result => disposables.Push(result));
+                yield return new StepCommand(call, contextOrdinal, ordinal++, step, result => disposables.Push(result));
             }
 
             if (disposables.Any(disposable => disposable != null))
             {
-                yield return new DisposalCommand(call, stepOrdinal++, context, disposables.Unwind());
+                yield return new DisposalCommand(call, contextOrdinal, ordinal++, disposables.Unwind());
             }
         }
     }

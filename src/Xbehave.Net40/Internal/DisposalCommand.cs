@@ -14,8 +14,8 @@ namespace Xbehave.Internal
         private readonly IDisposer disposer = new Disposer();
         private readonly IEnumerable<IDisposable> disposables;
 
-        public DisposalCommand(MethodCall call, int ordinal, string context, IEnumerable<IDisposable> disposables)
-            : base(call, ordinal, "Disposal", context)
+        public DisposalCommand(MethodCall call, int? contextOrdinal, int ordinal, IEnumerable<IDisposable> disposables)
+            : base(call, contextOrdinal, ordinal, "Disposal")
         {
             this.disposables = disposables;
         }

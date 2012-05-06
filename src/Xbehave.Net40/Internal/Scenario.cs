@@ -5,7 +5,6 @@
 namespace Xbehave.Internal
 {
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using Xbehave.Infra;
     using Xunit.Sdk;
@@ -21,7 +20,7 @@ namespace Xbehave.Internal
             this.commandFactory = commandFactory;
         }
 
-        public Step AddStep(Step step)
+        public Step Enqueue(Step step)
         {
             return this.steps.EnqueueAndReturn(step);
         }
@@ -29,7 +28,7 @@ namespace Xbehave.Internal
         public IEnumerable<ITestCommand> GetTestCommands(MethodCall call)
         {
             var sharedContext = new Queue<Step>();
-            var isolatedContextOrdinal = 1;
+            var contextOrdinal = 1;
             foreach (var step in this.steps.DequeueAll())
             {
                 if (!step.InIsolation)
@@ -39,19 +38,16 @@ namespace Xbehave.Internal
 
                 if (step.InIsolation)
                 {
-                    var context = (this.steps.Any() || isolatedContextOrdinal > 1)
-                        ? "context " + (isolatedContextOrdinal++).ToString(CultureInfo.InvariantCulture)
-                        : null;
-
-                    foreach (var command in this.commandFactory.Create(sharedContext.Concat(step.AsEnumerable()), call, context))
+                    var ordinal = (this.steps.Any() || contextOrdinal > 1) ? (int?)contextOrdinal++ : null;
+                    foreach (var command in this.commandFactory.Create(sharedContext.Concat(step.AsEnumerable()), call, ordinal))
                     {
                         yield return command;
                     }
                 }
                 else if (!this.steps.Any())
                 {
-                    var context = isolatedContextOrdinal > 1 ? "shared context" : null;
-                    foreach (var command in this.commandFactory.Create(sharedContext, call, context))
+                    var ordinal = contextOrdinal > 1 ? (int?)contextOrdinal : null;
+                    foreach (var command in this.commandFactory.Create(sharedContext, call, ordinal))
                     {
                         yield return command;
                     }

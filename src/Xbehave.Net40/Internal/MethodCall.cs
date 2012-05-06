@@ -33,6 +33,8 @@ namespace Xbehave.Internal
             if (this.text == null)
             {
                 var builder = new StringBuilder();
+                builder.Append(this.method.TypeName);
+                builder.Append(".");
                 builder.Append(this.method.Name);
                 if (this.args.Any())
                 {
