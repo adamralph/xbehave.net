@@ -59,7 +59,7 @@ namespace Xbehave.Internal
         private static string CreateCommandName(MethodCall call, int stepOrdinal, string stepName, string contextSuffix)
         {
             return string.Concat(
-                call.Name,
+                call.ToString(),
                 ".",
                 stepOrdinal.ToString("D2", CultureInfo.InvariantCulture),
                 ".",
@@ -72,7 +72,7 @@ namespace Xbehave.Internal
         private static string CreateDisposalCommandName(MethodCall call, int stepOrdinal, string contextSuffix)
         {
             return string.Concat(
-                call.Name,
+                call.ToString(),
                 ".",
                 stepOrdinal.ToString("D2", CultureInfo.InvariantCulture),
                 ".",
