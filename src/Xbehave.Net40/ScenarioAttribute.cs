@@ -49,12 +49,26 @@ namespace Xbehave
             }
         }
 
+        // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
+        private static IEnumerable<ITestCommand> CreateTestCommands(MethodCall call, Action registerSteps)
+        {
+            try
+            {
+                registerSteps();
+                return CurrentThread.Scenario.GetTestCommands(call);
+            }
+            finally
+            {
+                CurrentThread.ResetScenario();
+            }
+        }
+
         private static IEnumerable<ITestCommand> CreateStepCommands(IMethodInfo method, ITestCommand xunitCommand)
         {
             var theoryCommand = xunitCommand as TheoryCommand;
             var arguments = theoryCommand == null ? null : theoryCommand.Parameters;
             var testClassInstance = method.IsStatic ? null : method.CreateInstance();
-            return ThreadContext.CreateTestCommands(new MethodCall(method, arguments), () => xunitCommand.Execute(testClassInstance));
+            return CreateTestCommands(new MethodCall(method, arguments), () => xunitCommand.Execute(testClassInstance));
         }
 
         private IEnumerable<ITestCommand> CreateXunitCommands(IMethodInfo method)

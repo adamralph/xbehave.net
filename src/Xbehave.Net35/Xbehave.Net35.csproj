@@ -186,6 +186,9 @@
     <Compile Include="..\Xbehave.Net40\Internal\CommandFactory.cs">
       <Link>Internal\CommandFactory.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\CurrentThread.cs">
+      <Link>Internal\CurrentThread.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\DisposableFunctionFactory.cs">
       <Link>Internal\DisposableFunctionFactory.cs</Link>
     </Compile>
@@ -200,9 +203,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\Step.cs">
       <Link>Internal\Step.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ThreadContext.cs">
-      <Link>Internal\ThreadContext.cs</Link>
     </Compile>
     <None Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
       <Link>Sandbox\DynamicStringExtensions.cs</Link>

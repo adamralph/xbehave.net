@@ -40,12 +40,6 @@ namespace Xbehave.Test.Legacy
             VerifyConcurrentExecution(() => "foo".Todo(() => { }));
         }
 
-        [Fact]
-        public static void CanEnumerateTestCommandsOfEmptySpecificationConcurrently()
-        {
-            VerifyConcurrentExecution(() => ThreadContext.CreateTestCommands(null, () => { }));
-        }
-
         private static void VerifyConcurrentExecution(ThreadStart action)
         {
             Assert.DoesNotThrow(() =>

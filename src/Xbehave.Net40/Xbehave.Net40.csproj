@@ -105,7 +105,7 @@
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
     <Compile Include="Internal\ActionCommand.cs" />
     <Compile Include="Internal\Step.cs" />
-    <Compile Include="Internal\ThreadContext.cs" />
+    <Compile Include="Internal\CurrentThread.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />
     <Compile Include="Deprecated\ThesisAttribute.cs" />
     <Compile Include="Fluent\ThenDefinition.cs" />
