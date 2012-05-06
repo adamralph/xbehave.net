@@ -5,9 +5,7 @@
 namespace Xbehave.Samples
 {
     using System.Collections.Generic;
-
     using FluentAssertions;
-
     using Xbehave;
 
     public class StackSpecs
