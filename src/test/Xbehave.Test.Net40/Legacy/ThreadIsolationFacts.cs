@@ -5,7 +5,6 @@
 namespace Xbehave.Test.Legacy
 {
     using System.Threading;
-    using Xbehave.Internal;
     using Xunit;
 
     public static class ThreadIsolationFacts

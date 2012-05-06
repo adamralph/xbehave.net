@@ -5,7 +5,6 @@
 namespace Xbehave.Internal
 {
     using System;
-    using Xbehave.Infra;
 
     internal static class CurrentThread
     {
