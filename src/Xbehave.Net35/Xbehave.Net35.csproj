@@ -93,11 +93,11 @@
     <Compile Include="..\Xbehave.Net40\Deprecated\SpecificationExtensions.cs">
       <Link>Deprecated\SpecificationExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\StringExtensions.cs">
-      <Link>Deprecated\StringExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Deprecated\ThesisAttribute.cs">
       <Link>Deprecated\ThesisAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Deprecated\_.cs">
+      <Link>Deprecated\_.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\ExpressionNaming\BinaryExpressionExtensions.cs">
       <Link>ExpressionNaming\BinaryExpressionExtensions.cs</Link>
@@ -206,14 +206,14 @@
     <Compile Include="..\Xbehave.Net40\Internal\StepCommand.cs">
       <Link>Internal\StepCommand.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\StringExtensions.cs">
+      <Link>Internal\StringExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioDataAttribute.cs">
       <Link>ScenarioDataAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\StringExtensions.cs">
-      <Link>StringExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\_.cs">
       <Link>_.cs</Link>

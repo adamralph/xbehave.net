@@ -1,4 +1,4 @@
-﻿// <copyright file="StringExtensions.cs" company="Adam Ralph">
+﻿// <copyright file="_.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -11,7 +11,7 @@ namespace Xbehave
     /// <summary>
     /// Extensions for declaring Given, When, Then scenario steps.
     /// </summary>
-    public static partial class StringExtensions
+    public static partial class _
     {
         /// <summary>
         /// Deprecated in version 0.4.0.
@@ -23,7 +23,7 @@ namespace Xbehave
         public static IStepDefinition GivenDisposable(this string message, ContextDelegate arrange)
         {
             Require.NotNull(arrange, "arrange");
-            return message._(() => arrange());
+            return message.Given(() => arrange());
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Xbehave
         [Obsolete("Use ThenSkip(reason, step) instead.")]
         public static IStepDefinition ThenSkip(this string message, Action assert)
         {
-            return message._(assert, skip: "Skipped for an unknown reason.");
+            return message.ThenSkip("Skipped for an unknown reason.", assert);
         }
     }
 }
