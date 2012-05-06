@@ -60,42 +60,42 @@ namespace Xbehave.Fluent
 
         public IStepDefinition And(string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
         {
-            return ("and " + message)._(step, inIsolation, skip);
+            return ("And " + message)._(step, inIsolation, skip);
         }
 
         public IStepDefinition And(string message, Action step, bool inIsolation = false, string skip = null)
         {
-            return message._(step, inIsolation, skip);
+            return ("And " + message)._(step, inIsolation, skip);
         }
 
         public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
-            return message._(step, inIsolation, skip);
+            return ("And " + message)._(step, inIsolation, skip);
         }
 
         public IStepDefinition And(string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
-            return message._(step, dispose, inIsolation, skip);
+            return ("And " + message)._(step, dispose, inIsolation, skip);
         }
 
         public IStepDefinition But(string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
         {
-            return message._(step, inIsolation, skip);
+            return ("But " + message)._(step, inIsolation, skip);
         }
 
         public IStepDefinition But(string message, Action step, bool inIsolation = false, string skip = null)
         {
-            return message._(step, inIsolation, skip);
+            return ("But " + message)._(step, inIsolation, skip);
         }
 
         public IStepDefinition But(string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
-            return message._(step, inIsolation, skip);
+            return ("But " + message)._(step, inIsolation, skip);
         }
 
         public IStepDefinition But(string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
-            return message._(step, dispose, inIsolation, skip);
+            return ("But " + message)._(step, dispose, inIsolation, skip);
         }
     }
 }

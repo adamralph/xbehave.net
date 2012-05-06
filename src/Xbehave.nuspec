@@ -11,6 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A fluent and concise BDD/TDD library based on xUnit.net designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
     <releaseNotes>Added And() and But() step definition methods.
+Added fluent step definition syntax, e.g. _.Given(&quot;foo&quot;, () =&gt; foo()).When(&quot;bar&quot;, =&gt; bar()).Then(&quot;baz&quot;, ()=&gt; baz()).
 Added overload of ThenSkip() with a reason parameter.
 Deprecated ThenSkip() without a reason parameter.
 Added method for defining steps with unrestricted vocabulary, e.g. &quot;foo bar&quot;._(() =&gt; Something())).
