@@ -23,97 +23,285 @@ namespace Xbehave
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="arrange">The action that will perform the arrangment.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        public static IStepDefinition Given(Expression<Action> arrange)
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition Given(Expression<Action> step)
         {
-            Require.NotNull(arrange, "arrange");
-            return arrange.Body.ToStepName().Given(arrange.Compile());
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().Given(step.Compile());
         }
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IStepDefinition Given(Expression<Func<IDisposable>> arrange)
+        public static IStepDefinition Given(Expression<Func<IDisposable>> step)
         {
-            Require.NotNull(arrange, "arrange");
-            return arrange.Body.ToStepName().Given(arrange.Compile());
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().Given(step.Compile());
         }
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="arrange">The function that will perform and return the arrangement.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IStepDefinition Given(Expression<Func<IEnumerable<IDisposable>>> arrange)
+        public static IStepDefinition Given(Expression<Func<IEnumerable<IDisposable>>> step)
         {
-            Require.NotNull(arrange, "arrange");
-            return arrange.Body.ToStepName().Given(arrange.Compile());
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().Given(step.Compile());
         }
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="arrange">The action that will perform the arrangement.</param>
-        /// <param name="dispose">The action that will dispose the arrangement.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        public static IStepDefinition Given(Expression<Action> arrange, Action dispose)
+        /// <param name="step">The step.</param>
+        /// <param name="dispose">The dispose.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition Given(Expression<Action> step, Action dispose)
         {
-            Require.NotNull(arrange, "arrange");
-            return arrange.Body.ToStepName().Given(arrange.Compile(), dispose);
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().Given(step.Compile(), dispose);
         }
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="act">The action that will perform the act.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        public static IStepDefinition When(Expression<Action> act)
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition When(Expression<Action> step)
         {
-            Require.NotNull(act, "act");
-            return act.Body.ToStepName().When(act.Compile());
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().When(step.Compile());
         }
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        public static IStepDefinition Then(Expression<Action> assert)
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition When(Expression<Func<IDisposable>> step)
         {
-            Require.NotNull(assert, "assert");
-            return assert.Body.ToStepName().Then(assert.Compile());
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().When(step.Compile());
         }
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="assert">The action which will perform the assertion.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        public static IStepDefinition ThenInIsolation(Expression<Action> assert)
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition When(Expression<Func<IEnumerable<IDisposable>>> step)
         {
-            Require.NotNull(assert, "assert");
-            return assert.Body.ToStepName().ThenInIsolation(assert.Compile());
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().When(step.Compile());
         }
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="assert">The action which would have performed the assertion.</param>
-        /// <param name="reason">The reason for skipping the assertion.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <param name="step">The step.</param>
+        /// <param name="dispose">The dispose.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition When(Expression<Action> step, Action dispose)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().When(step.Compile(), dispose);
+        }
+        
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition Then(Expression<Action> step)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().Then(step.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition ThenInIsolation(Expression<Action> step)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().ThenInIsolation(step.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <param name="reason">The reason.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
         /// <remarks>
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        public static IStepDefinition ThenSkip(Expression<Action> assert, string reason)
+        public static IStepDefinition ThenSkip(Expression<Action> step, string reason)
         {
-            Require.NotNull(assert, "assert");
-            return assert.Body.ToStepName().ThenSkip(assert.Compile(), reason);
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().ThenSkip(step.Compile(), reason);
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition And(Expression<Action> step)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().And(step.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition And(Expression<Func<IDisposable>> step)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().And(step.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition And(Expression<Func<IEnumerable<IDisposable>>> step)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().And(step.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <param name="dispose">The dispose.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition And(Expression<Action> step, Action dispose)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().And(step.Compile(), dispose);
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition AndInIsolation(Expression<Action> step)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().AndInIsolation(step.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <param name="reason">The reason.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        /// <remarks>
+        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
+        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
+        /// </remarks>
+        public static IStepDefinition AndSkip(Expression<Action> step, string reason)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().AndSkip(step.Compile(), reason);
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition But(Expression<Action> step)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().But(step.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition ButInIsolation(Expression<Action> step)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().ButInIsolation(step.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="step">The step.</param>
+        /// <param name="reason">The reason.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        /// <remarks>
+        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
+        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
+        /// </remarks>
+        public static IStepDefinition ButSkip(Expression<Action> step, string reason)
+        {
+            Require.NotNull(step, "step");
+            return step.Body.ToStepName().ButSkip(step.Compile(), reason);
         }
     }
 }
