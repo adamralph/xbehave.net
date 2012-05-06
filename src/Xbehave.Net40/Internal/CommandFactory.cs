@@ -11,22 +11,11 @@ namespace Xbehave.Internal
     using Xbehave.Infra;
     using Xunit.Sdk;
 
-    // TODO: refactor - a beta impl if ever I saw one...
-    // TODO: push test command naming into ActionCommand (and perhaps rename that type to StepCommand)
     internal class CommandFactory : ICommandFactory
     {
-        private readonly IDisposer disposer;
-        private int stepOrdinal;
-
-        public CommandFactory(IDisposer disposer)
-        {
-            this.disposer = disposer;
-        }
-
         public IEnumerable<ITestCommand> Create(Queue<Step> steps, MethodCall call)
         {
-            var sharedContext = new Queue<Step>();
-            this.stepOrdinal = 1;
+            var sharedContext = new Queue<Step>();            
             var isolatedContextOrdinal = 1;
             foreach (var step in steps.DequeueAll())
             {
@@ -37,18 +26,19 @@ namespace Xbehave.Internal
 
                 if (step.InIsolation)
                 {
-                    var contextSuffix = (steps.Any() || isolatedContextOrdinal > 1)
-                        ? " (isolated context " + (isolatedContextOrdinal++).ToString(CultureInfo.InvariantCulture) + ")"
+                    var context = (steps.Any() || isolatedContextOrdinal > 1)
+                        ? "context " + (isolatedContextOrdinal++).ToString(CultureInfo.InvariantCulture)
                         : null;
-                    
-                    foreach (var command in this.Generate(sharedContext.Concat(step.AsEnumerable()), call, contextSuffix))
+
+                    foreach (var command in Generate(sharedContext.Concat(step.AsEnumerable()), call, context))
                     {
                         yield return command;
                     }
                 }
                 else if (!steps.Any())
                 {
-                    foreach (var command in this.Generate(sharedContext, call, isolatedContextOrdinal > 1 ? " (shared context)" : null))
+                    var context = isolatedContextOrdinal > 1 ? "shared context" : null;
+                    foreach (var command in Generate(sharedContext, call, context))
                     {
                         yield return command;
                     }
@@ -56,56 +46,18 @@ namespace Xbehave.Internal
             }
         }
 
-        private static string CreateCommandName(MethodCall call, int stepOrdinal, string stepName, string contextSuffix)
+        private static IEnumerable<ITestCommand> Generate(IEnumerable<Step> steps, MethodCall call, string context)
         {
-            return string.Concat(
-                call.ToString(),
-                ".",
-                stepOrdinal.ToString("D2", CultureInfo.InvariantCulture),
-                ".",
-                "\"",
-                stepName,
-                "\"",
-                contextSuffix);
-        }
-
-        private static string CreateDisposalCommandName(MethodCall call, int stepOrdinal, string contextSuffix)
-        {
-            return string.Concat(
-                call.ToString(),
-                ".",
-                stepOrdinal.ToString("D2", CultureInfo.InvariantCulture),
-                ".",
-                "Disposal",
-                contextSuffix);
-        }
-
-        private IEnumerable<ITestCommand> Generate(IEnumerable<Step> steps, MethodCall call, string contextSuffix)
-        {
+            var stepOrdinal = 1;
             var disposables = new Stack<IDisposable>();
             foreach (var step in steps)
             {
-                if (step.Skip)
-                {
-                    yield return new SkipCommand(call.Method, CreateCommandName(call, this.stepOrdinal++, step.Message, contextSuffix), step.SkipReason);
-                }
-                else
-                {
-                    yield return new ActionCommand(
-                        call.Method,
-                        CreateCommandName(call, this.stepOrdinal++, step.Message, contextSuffix),
-                        MethodUtility.GetTimeoutParameter(call.Method),
-                        () => disposables.Push(step.Execute()));
-                }
+                yield return new StepCommand(call, stepOrdinal++, step, context, result => disposables.Push(result));
             }
 
             if (disposables.Any(disposable => disposable != null))
             {
-                yield return new ActionCommand(
-                    call.Method,
-                    CreateDisposalCommandName(call, this.stepOrdinal++, contextSuffix),
-                    MethodUtility.GetTimeoutParameter(call.Method),
-                    () => this.disposer.Dispose(disposables.Unwind()));
+                yield return new DisposalCommand(call, stepOrdinal++, context, disposables.Unwind());
             }
         }
     }

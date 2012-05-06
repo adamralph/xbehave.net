@@ -180,9 +180,6 @@
     <Compile Include="..\Xbehave.Net40\Infra\StackExtensions.cs">
       <Link>Infra\StackExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ActionCommand.cs">
-      <Link>Internal\ActionCommand.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\CommandFactory.cs">
       <Link>Internal\CommandFactory.cs</Link>
     </Compile>
@@ -191,6 +188,9 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\DisposableFunctionFactory.cs">
       <Link>Internal\DisposableFunctionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Internal\DisposalCommand.cs">
+      <Link>Internal\DisposalCommand.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Internal\ICommandFactory.cs">
       <Link>Internal\ICommandFactory.cs</Link>
@@ -210,6 +210,9 @@
     <None Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
       <Link>Sandbox\Scenario.cs</Link>
     </None>
+    <Compile Include="..\Xbehave.Net40\Internal\StepCommand.cs">
+      <Link>Internal\StepCommand.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>

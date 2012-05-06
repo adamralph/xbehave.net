@@ -89,6 +89,7 @@
     <Compile Include="Fluent\IStepDefinition.cs" />
     <Compile Include="Infra\StackExtensions.cs" />
     <Compile Include="Internal\CommandFactory.cs" />
+    <Compile Include="Internal\DisposalCommand.cs" />
     <Compile Include="Internal\MethodCall.cs" />
     <Compile Include="Internal\ICommandFactory.cs" />
     <Compile Include="Internal\DisposableFunctionFactory.cs" />
@@ -103,7 +104,7 @@
     <Compile Include="Deprecated\DisposableAction.cs" />
     <Compile Include="Deprecated\SpecificationAttribute.cs" />
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="Internal\ActionCommand.cs" />
+    <Compile Include="Internal\StepCommand.cs" />
     <Compile Include="Internal\Step.cs" />
     <Compile Include="Internal\CurrentThread.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />

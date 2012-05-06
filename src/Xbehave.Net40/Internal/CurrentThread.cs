@@ -9,7 +9,7 @@ namespace Xbehave.Internal
 
     internal static class CurrentThread
     {
-        private static ICommandFactory commandFactory = new CommandFactory(new Disposer());
+        private static ICommandFactory commandFactory = new CommandFactory();
 
         [ThreadStatic]
         private static Scenario scenario;
