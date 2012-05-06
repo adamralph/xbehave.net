@@ -14,15 +14,22 @@ namespace Xbehave.Internal
     {
         public IEnumerable<ITestCommand> Create(IEnumerable<Step> steps, MethodCall call, int? contextOrdinal)
         {
-            var ordinal = 1;
             var disposables = new Stack<IDisposable>();
+            Action<IDisposable> handleResult = result =>
+            {
+                if (result != null)
+                {
+                    disposables.Push(result);
+                }
+            };
 
+            var ordinal = 1;
             foreach (var step in steps)
             {
-                yield return new StepCommand(call, contextOrdinal, ordinal++, step, result => disposables.Push(result));
+                yield return new StepCommand(call, contextOrdinal, ordinal++, step, handleResult);
             }
 
-            if (disposables.Any(disposable => disposable != null))
+            if (disposables.Any())
             {
                 yield return new DisposalCommand(call, contextOrdinal, ordinal++, disposables.Unwind());
             }
