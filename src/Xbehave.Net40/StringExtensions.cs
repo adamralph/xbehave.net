@@ -101,7 +101,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition Given(this string message, Func<IDisposable> step)
         {
             return _(message, step, false, null);
@@ -115,7 +114,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition Given(this string message, Action step)
         {
             return _(message, step, false, null);
@@ -129,7 +127,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition Given(this string message, Func<IEnumerable<IDisposable>> step)
         {
             return _(message, step, false, null);
@@ -144,7 +141,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition Given(this string message, Action step, Action dispose)
         {
             return _(message, step, dispose, false, null);
@@ -158,7 +154,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition When(this string message, Func<IDisposable> step)
         {
             return _(message, step, false, null);
@@ -172,7 +167,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition When(this string message, Action step)
         {
             return _(message, step, false, null);
@@ -186,7 +180,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition When(this string message, Func<IEnumerable<IDisposable>> step)
         {
             return _(message, step, false, null);
@@ -201,7 +194,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition When(this string message, Action step, Action dispose)
         {
             return _(message, step, dispose, false, null);
@@ -219,7 +211,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition Then(this string message, Action step, bool inIsolation = false, string skip = null)
         {
             return _(message, step, inIsolation, skip);
@@ -266,7 +257,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition And(this string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
         {
             return _(message, step, inIsolation, skip);
@@ -286,7 +276,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition And(this string message, Action step, bool inIsolation = false, string skip = null)
         {
             return _(message, step, inIsolation, skip);
@@ -306,7 +295,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition And(this string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
             return _(message, step, inIsolation, skip);
@@ -325,7 +313,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition And(this string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
             return _(message, step, dispose, inIsolation, skip);
@@ -345,7 +332,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition But(this string message, Func<IDisposable> step, bool inIsolation = false, string skip = null)
         {
             return _(message, step, inIsolation, skip);
@@ -365,7 +351,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition But(this string message, Action step, bool inIsolation = false, string skip = null)
         {
             return _(message, step, inIsolation, skip);
@@ -385,7 +370,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition But(this string message, Func<IEnumerable<IDisposable>> step, bool inIsolation = false, string skip = null)
         {
             return _(message, step, inIsolation, skip);
@@ -404,7 +388,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [CLSCompliant(false)]
         public static IStepDefinition But(this string message, Action step, Action dispose, bool inIsolation = false, string skip = null)
         {
             return _(message, step, dispose, inIsolation, skip);
