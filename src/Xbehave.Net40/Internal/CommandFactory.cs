@@ -85,7 +85,7 @@ namespace Xbehave.Internal
             var disposables = new Stack<IDisposable>();
             foreach (var step in steps)
             {
-                if (step.SkipReason != null)
+                if (step.Skip)
                 {
                     yield return new SkipCommand(call.Method, CreateCommandName(call, this.stepOrdinal++, step.Message, contextSuffix), step.SkipReason);
                 }
