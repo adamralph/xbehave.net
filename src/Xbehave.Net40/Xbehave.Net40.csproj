@@ -86,56 +86,56 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Deprecated\IStepDefinition.Expressions.cs" />
     <Compile Include="Deprecated\StepDefinition.Expressions.cs" />
-    <Compile Include="Infra\StringExtensions.cs" />
+    <Compile Include="Sdk\Infra\StringExtensions.cs" />
     <Compile Include="_.cs" />
-    <Compile Include="Fluent\StepDefinition.Expressions.cs">
+    <Compile Include="Sdk\Fluent\StepDefinition.Expressions.cs">
       <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Fluent\IStepDefinition.Expressions.cs">
+    <Compile Include="Sdk\Fluent\IStepDefinition.Expressions.cs">
       <DependentUpon>IStepDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Infra\QueueExtensions.cs" />
-    <Compile Include="Infra\Disposable.cs" />
+    <Compile Include="Sdk\Infra\QueueExtensions.cs" />
+    <Compile Include="Sdk\Infra\Disposable.cs" />
     <None Include="Sandbox\DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\_.cs" />
-    <Compile Include="Fluent\IStepDefinition.cs" />
-    <Compile Include="Infra\StackExtensions.cs" />
-    <Compile Include="Internal\CommandFactory.cs" />
-    <Compile Include="Internal\CommandBase.cs" />
-    <Compile Include="Internal\DisposalCommand.cs" />
-    <Compile Include="Internal\MethodCall.cs" />
-    <Compile Include="Internal\ICommandFactory.cs" />
-    <Compile Include="Internal\DisposableFunctionFactory.cs" />
-    <Compile Include="Infra\ObjectExtensions.cs" />
-    <Compile Include="Infra\IDisposer.cs" />
-    <Compile Include="Infra\Disposer.cs" />
-    <Compile Include="Infra\Require.cs" />
-    <Compile Include="Internal\Scenario.cs" />
+    <Compile Include="Sdk\Fluent\IStepDefinition.cs" />
+    <Compile Include="Sdk\Infra\StackExtensions.cs" />
+    <Compile Include="Sdk\CommandFactory.cs" />
+    <Compile Include="Sdk\CommandBase.cs" />
+    <Compile Include="Sdk\DisposalCommand.cs" />
+    <Compile Include="Sdk\MethodCall.cs" />
+    <Compile Include="Sdk\ICommandFactory.cs" />
+    <Compile Include="Sdk\DisposableFunctionFactory.cs" />
+    <Compile Include="Sdk\Infra\ObjectExtensions.cs" />
+    <Compile Include="Sdk\Infra\IDisposer.cs" />
+    <Compile Include="Sdk\Infra\Disposer.cs" />
+    <Compile Include="Sdk\Infra\Require.cs" />
+    <Compile Include="Sdk\Scenario.cs" />
     <None Include="Sandbox\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="ScenarioDataAttribute.cs" />
     <Compile Include="Deprecated\DisposableAction.cs" />
     <Compile Include="Deprecated\SpecificationAttribute.cs" />
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="Internal\StepCommand.cs" />
-    <Compile Include="Internal\Step.cs" />
-    <Compile Include="Internal\CurrentThread.cs" />
+    <Compile Include="Sdk\StepCommand.cs" />
+    <Compile Include="Sdk\Step.cs" />
+    <Compile Include="Sdk\CurrentThread.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />
     <Compile Include="Deprecated\ThesisAttribute.cs" />
-    <Compile Include="Fluent\StepDefinition.cs" />
-    <Compile Include="ExpressionNaming\BinaryExpressionExtensions.cs" />
-    <Compile Include="ExpressionNaming\ConstantExpressionExtensions.cs" />
-    <Compile Include="ExpressionNaming\LambdaExpressionExtensions.cs" />
-    <Compile Include="ExpressionNaming\Optimizations.cs" />
-    <Compile Include="ExpressionNaming\UnaryExpressionExtensions.cs" />
-    <Compile Include="ExpressionNaming\MemberExpressionExtensions.cs" />
-    <Compile Include="ExpressionNaming\MethodCallExpressionExtensions.cs" />
-    <Compile Include="ExpressionNaming\MethodInfoExtensions.cs" />
-    <Compile Include="ExpressionNaming\TypeExtensions.cs" />
-    <Compile Include="ExpressionNaming\StringExtensions.cs" />
-    <Compile Include="ExpressionNaming\ExpressionTypeExtensions.cs" />
+    <Compile Include="Sdk\Fluent\StepDefinition.cs" />
+    <Compile Include="Sdk\ExpressionNaming\BinaryExpressionExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\ConstantExpressionExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\LambdaExpressionExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\Optimizations.cs" />
+    <Compile Include="Sdk\ExpressionNaming\UnaryExpressionExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\MemberExpressionExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\MethodCallExpressionExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\MethodInfoExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\TypeExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\StringExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\ExpressionTypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExpressionNaming\ExpressionExtensions.cs" />
+    <Compile Include="Sdk\ExpressionNaming\ExpressionExtensions.cs" />
     <Compile Include="_.Expressions.cs">
       <DependentUpon>_.cs</DependentUpon>
     </Compile>
@@ -152,7 +152,7 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infra\TODO.cs" />
+    <Compile Include="Sdk\Infra\TODO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

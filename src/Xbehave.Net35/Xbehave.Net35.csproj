@@ -108,121 +108,122 @@
     <Compile Include="..\Xbehave.Net40\Deprecated\_.cs">
       <Link>Deprecated\_.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\BinaryExpressionExtensions.cs">
-      <Link>ExpressionNaming\BinaryExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\ConstantExpressionExtensions.cs">
-      <Link>ExpressionNaming\ConstantExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\ExpressionExtensions.cs">
-      <Link>ExpressionNaming\ExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\ExpressionTypeExtensions.cs">
-      <Link>ExpressionNaming\ExpressionTypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\LambdaExpressionExtensions.cs">
-      <Link>ExpressionNaming\LambdaExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\MemberExpressionExtensions.cs">
-      <Link>ExpressionNaming\MemberExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\MethodCallExpressionExtensions.cs">
-      <Link>ExpressionNaming\MethodCallExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\MethodInfoExtensions.cs">
-      <Link>ExpressionNaming\MethodInfoExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\Optimizations.cs">
-      <Link>ExpressionNaming\Optimizations.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\StringExtensions.cs">
-      <Link>ExpressionNaming\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\TypeExtensions.cs">
-      <Link>ExpressionNaming\TypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExpressionNaming\UnaryExpressionExtensions.cs">
-      <Link>ExpressionNaming\UnaryExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.cs">
-      <Link>Fluent\IStepDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.Expressions.cs">
-      <Link>Fluent\IStepDefinition.Expressions.cs</Link>
-      <DependentUpon>IStepDefinition.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\StepDefinition.cs">
-      <Link>Fluent\StepDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\StepDefinition.Expressions.cs">
-      <Link>Fluent\StepDefinition.Expressions.cs</Link>
-      <DependentUpon>StepDefinition.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
-      <Link>Infra\Disposable.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\Disposer.cs">
-      <Link>Infra\Disposer.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\IDisposer.cs">
-      <Link>Infra\IDisposer.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\ObjectExtensions.cs">
-      <Link>Infra\ObjectExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\QueueExtensions.cs">
-      <Link>Infra\QueueExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\Require.cs">
-      <Link>Infra\Require.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\StackExtensions.cs">
-      <Link>Infra\StackExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\StringExtensions.cs">
-      <Link>Infra\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\CommandBase.cs">
-      <Link>Internal\CommandBase.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\CommandFactory.cs">
-      <Link>Internal\CommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\CurrentThread.cs">
-      <Link>Internal\CurrentThread.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\DisposableFunctionFactory.cs">
-      <Link>Internal\DisposableFunctionFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\DisposalCommand.cs">
-      <Link>Internal\DisposalCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\ICommandFactory.cs">
-      <Link>Internal\ICommandFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\MethodCall.cs">
-      <Link>Internal\MethodCall.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\Scenario.cs">
-      <Link>Internal\Scenario.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\Step.cs">
-      <Link>Internal\Step.cs</Link>
-    </Compile>
     <None Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
       <Link>Sandbox\DynamicStringExtensions.cs</Link>
     </None>
     <None Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
       <Link>Sandbox\Scenario.cs</Link>
     </None>
-    <Compile Include="..\Xbehave.Net40\Internal\StepCommand.cs">
-      <Link>Internal\StepCommand.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioDataAttribute.cs">
       <Link>ScenarioDataAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\CommandBase.cs">
+      <Link>Sdk\CommandBase.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\CommandFactory.cs">
+      <Link>Sdk\CommandFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\CurrentThread.cs">
+      <Link>Sdk\CurrentThread.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\DisposableFunctionFactory.cs">
+      <Link>Sdk\DisposableFunctionFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\DisposalCommand.cs">
+      <Link>Sdk\DisposalCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\BinaryExpressionExtensions.cs">
+      <Link>Sdk\ExpressionNaming\BinaryExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\ConstantExpressionExtensions.cs">
+      <Link>Sdk\ExpressionNaming\ConstantExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\ExpressionExtensions.cs">
+      <Link>Sdk\ExpressionNaming\ExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\ExpressionTypeExtensions.cs">
+      <Link>Sdk\ExpressionNaming\ExpressionTypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\LambdaExpressionExtensions.cs">
+      <Link>Sdk\ExpressionNaming\LambdaExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\MemberExpressionExtensions.cs">
+      <Link>Sdk\ExpressionNaming\MemberExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\MethodCallExpressionExtensions.cs">
+      <Link>Sdk\ExpressionNaming\MethodCallExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\MethodInfoExtensions.cs">
+      <Link>Sdk\ExpressionNaming\MethodInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\Optimizations.cs">
+      <Link>Sdk\ExpressionNaming\Optimizations.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\StringExtensions.cs">
+      <Link>Sdk\ExpressionNaming\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\TypeExtensions.cs">
+      <Link>Sdk\ExpressionNaming\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\UnaryExpressionExtensions.cs">
+      <Link>Sdk\ExpressionNaming\UnaryExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Fluent\IStepDefinition.cs">
+      <Link>Sdk\Fluent\IStepDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Fluent\IStepDefinition.Expressions.cs">
+      <Link>Sdk\Fluent\IStepDefinition.Expressions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Fluent\StepDefinition.cs">
+      <Link>Sdk\Fluent\StepDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Fluent\StepDefinition.Expressions.cs">
+      <Link>Sdk\Fluent\StepDefinition.Expressions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ICommandFactory.cs">
+      <Link>Sdk\ICommandFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\Disposable.cs">
+      <Link>Sdk\Infra\Disposable.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\Disposer.cs">
+      <Link>Sdk\Infra\Disposer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\IDisposer.cs">
+      <Link>Sdk\Infra\IDisposer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\ObjectExtensions.cs">
+      <Link>Sdk\Infra\ObjectExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\QueueExtensions.cs">
+      <Link>Sdk\Infra\QueueExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\Require.cs">
+      <Link>Sdk\Infra\Require.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\StackExtensions.cs">
+      <Link>Sdk\Infra\StackExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\StringExtensions.cs">
+      <Link>Sdk\Infra\StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\TODO.cs">
+      <Link>Sdk\Infra\TODO.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\MethodCall.cs">
+      <Link>Sdk\MethodCall.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Scenario.cs">
+      <Link>Sdk\Scenario.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Step.cs">
+      <Link>Sdk\Step.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\StepCommand.cs">
+      <Link>Sdk\StepCommand.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\StringExtensions.cs">
       <Link>StringExtensions.cs</Link>
