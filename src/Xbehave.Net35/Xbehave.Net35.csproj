@@ -176,12 +176,14 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Fluent\IStepDefinition.Expressions.cs">
       <Link>Sdk\Fluent\IStepDefinition.Expressions.cs</Link>
+      <DependentUpon>IStepDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Fluent\StepDefinition.cs">
       <Link>Sdk\Fluent\StepDefinition.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Fluent\StepDefinition.Expressions.cs">
       <Link>Sdk\Fluent\StepDefinition.Expressions.cs</Link>
+      <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ICommandFactory.cs">
       <Link>Sdk\ICommandFactory.cs</Link>

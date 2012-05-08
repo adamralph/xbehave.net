@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Fluent
+namespace Xbehave.Sdk.Fluent
 {
     using System;
     using System.Linq.Expressions;

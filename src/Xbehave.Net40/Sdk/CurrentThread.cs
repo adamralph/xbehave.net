@@ -2,10 +2,10 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Internal
+namespace Xbehave.Sdk
 {
     using System;
-    using Xbehave.Fluent;
+    using Xbehave.Sdk.Fluent;
 
     internal static class CurrentThread
     {

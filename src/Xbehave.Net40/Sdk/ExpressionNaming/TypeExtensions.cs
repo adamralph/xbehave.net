@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.ExpressionNaming
+namespace Xbehave.Sdk.ExpressionNaming
 {
     using System;
     using System.Linq;

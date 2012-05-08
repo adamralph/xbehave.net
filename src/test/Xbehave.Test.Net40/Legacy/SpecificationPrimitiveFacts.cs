@@ -5,7 +5,7 @@
 namespace Xbehave.Test.Legacy
 {
     using System;
-    using Xbehave.Internal;
+    using Xbehave.Sdk;
     using Xunit;
 
     public static class SpecificationPrimitiveFacts

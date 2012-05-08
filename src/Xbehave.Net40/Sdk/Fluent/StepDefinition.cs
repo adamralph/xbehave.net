@@ -2,11 +2,10 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Fluent
+namespace Xbehave.Sdk.Fluent
 {
     using System;
     using System.Collections.Generic;
-    using Xbehave.Internal;
 
     internal partial class StepDefinition : IStepDefinition
     {
@@ -57,7 +56,7 @@ namespace Xbehave.Fluent
         {
             return message.ThenSkip(body, reason);
         }
-        
+
         public IStepDefinition And(string message, Func<IDisposable> body)
         {
             return message.And(body);

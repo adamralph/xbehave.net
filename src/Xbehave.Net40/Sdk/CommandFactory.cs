@@ -2,12 +2,12 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Internal
+namespace Xbehave.Sdk
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xbehave.Infra;
+    using Xbehave.Sdk.Infra;
     using Xunit.Sdk;
 
     internal class CommandFactory : ICommandFactory

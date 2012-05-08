@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Infra
+namespace Xbehave.Sdk.Infra
 {
     using System;
     using System.Linq;

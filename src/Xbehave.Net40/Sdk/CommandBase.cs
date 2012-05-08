@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Internal
+namespace Xbehave.Sdk
 {
     using System.Globalization;
     using Xunit.Sdk;

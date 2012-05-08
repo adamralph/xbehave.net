@@ -2,12 +2,12 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Fluent
+namespace Xbehave.Sdk.Fluent
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq.Expressions;    
+    using System.Linq.Expressions;
 
     /// <summary>
     /// The definition of a scenario step.

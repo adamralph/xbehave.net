@@ -9,8 +9,8 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
-    using Xbehave.Fluent;
-    using Xbehave.Internal;
+    using Xbehave.Sdk.Fluent;
+    using Xbehave.Sdk;
 
     /// <summary>
     /// Extensions for declaring Given, When, Then scenario steps.
