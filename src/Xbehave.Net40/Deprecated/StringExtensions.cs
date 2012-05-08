@@ -18,25 +18,25 @@ namespace Xbehave
         /// Deprecated in version 0.4.0.
         /// </summary>
         /// <param name="message">A message describing the arrangment.</param>
-        /// <param name="arrange">The function that will perform and return the arrangement.</param>
+        /// <param name="body">The function that will perform and return the arrangement.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Given(Func<IDisposable>) instead.")]
-        public static IStepDefinition GivenDisposable(this string message, ContextDelegate arrange)
+        public static IStepDefinition GivenDisposable(this string message, ContextDelegate body)
         {
-            Require.NotNull(arrange, "arrange");
-            return message.Given(() => arrange());
+            Require.NotNull(body, "arrange");
+            return message.Given(() => body());
         }
 
         /// <summary>
         /// Deprecated in version 0.10.0.
         /// </summary>
         /// <param name="message">A message describing the assertion.</param>
-        /// <param name="assert">The action which would have performed the assertion.</param>
+        /// <param name="body">The action which would have performed the assertion.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use ThenSkip(reason, step) instead.")]
-        public static IStepDefinition ThenSkip(this string message, Action assert)
+        public static IStepDefinition ThenSkip(this string message, Action body)
         {
-            return message.ThenSkip(assert, "Skipped for an unknown reason.");
+            return message.ThenSkip(body, "Skipped for an unknown reason.");
         }
     }
 }

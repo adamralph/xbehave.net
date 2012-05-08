@@ -24,192 +24,176 @@ namespace Xbehave.Fluent
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition When(string message, Func<IDisposable> step);
+        IStepDefinition When(string message, Func<IDisposable> body);
 
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which performs the step.</param>
+        /// <param name="body">The action which performs the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition When(string message, Action step);
+        IStepDefinition When(string message, Action body);
 
         /// <summary>
         /// Defines a step in the current scenario which returns a collection of resources which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The function that will perform the step and return the disposable resources.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resources.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition When(string message, Func<IEnumerable<IDisposable>> step);
+        IStepDefinition When(string message, Func<IEnumerable<IDisposable>> body);
 
         /// <summary>
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
         /// <param name="dispose">The action that will dispose the resource.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition When(string message, Action step, Action dispose);
+        IStepDefinition When(string message, Action body, Action dispose);
 
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which performs the step.</param>
+        /// <param name="body">The action which performs the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Then", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition Then(string message, Action step);
+        IStepDefinition Then(string message, Action body);
 
         /// <summary>
         /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which performs the step.</param>
+        /// <param name="body">The action which performs the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ThenInIsolation(string message, Action step);
+        IStepDefinition ThenInIsolation(string message, Action body);
 
         /// <summary>
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="body">The action which would have performed the step.</param>
         /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ThenSkip(string message, Action step, string reason);
+        IStepDefinition ThenSkip(string message, Action body, string reason);
 
         /// <summary>
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition And(string message, Func<IDisposable> step);
+        IStepDefinition And(string message, Func<IDisposable> body);
 
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which performs the step.</param>
+        /// <param name="body">The action which performs the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition And(string message, Action step);
+        IStepDefinition And(string message, Action body);
 
         /// <summary>
         /// Defines a step in the current scenario which returns a collection of resources which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The function that will perform the step and return the disposable resources.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resources.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition And(string message, Func<IEnumerable<IDisposable>> step);
+        IStepDefinition And(string message, Func<IEnumerable<IDisposable>> body);
 
         /// <summary>
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
         /// <param name="dispose">The action that will dispose the resource.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition And(string message, Action step, Action dispose);
+        IStepDefinition And(string message, Action body, Action dispose);
 
         /// <summary>
         /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which performs the step.</param>
+        /// <param name="body">The action which performs the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition AndInIsolation(string message, Action step);
+        IStepDefinition AndInIsolation(string message, Action body);
 
         /// <summary>
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="body">The action which would have performed the step.</param>
         /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition AndSkip(string message, Action step, string reason);
+        IStepDefinition AndSkip(string message, Action body, string reason);
 
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which performs the step.</param>
+        /// <param name="body">The action which performs the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition But(string message, Action step);
+        IStepDefinition But(string message, Action body);
 
         /// <summary>
         /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which performs the step.</param>
+        /// <param name="body">The action which performs the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ButInIsolation(string message, Action step);
+        IStepDefinition ButInIsolation(string message, Action body);
 
         /// <summary>
         /// Defines a step in the current scenario that it will not be executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
-        /// <param name="step">The action which would have performed the step.</param>
+        /// <param name="body">The action which would have performed the step.</param>
         /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ButSkip(string message, Action step, string reason);
+        IStepDefinition ButSkip(string message, Action body, string reason);
     }
 }

@@ -23,84 +23,84 @@ namespace Xbehave.Fluent
             return this;
         }
 
-        public IStepDefinition When(string message, Func<IDisposable> step)
+        public IStepDefinition When(string message, Func<IDisposable> body)
         {
-            return message.When(step);
+            return message.When(body);
         }
 
-        public IStepDefinition When(string message, Action step)
+        public IStepDefinition When(string message, Action body)
         {
-            return message.When(step);
+            return message.When(body);
         }
 
-        public IStepDefinition When(string message, Func<IEnumerable<IDisposable>> step)
+        public IStepDefinition When(string message, Func<IEnumerable<IDisposable>> body)
         {
-            return message.When(step);
+            return message.When(body);
         }
 
-        public IStepDefinition When(string message, Action step, Action dispose)
+        public IStepDefinition When(string message, Action body, Action dispose)
         {
-            return message.When(step, dispose);
+            return message.When(body, dispose);
         }
 
-        public IStepDefinition Then(string message, Action step)
+        public IStepDefinition Then(string message, Action body)
         {
-            return message.Then(step);
+            return message.Then(body);
         }
 
-        public IStepDefinition ThenInIsolation(string message, Action step)
+        public IStepDefinition ThenInIsolation(string message, Action body)
         {
-            return message.ThenInIsolation(step);
+            return message.ThenInIsolation(body);
         }
 
-        public IStepDefinition ThenSkip(string message, Action step, string reason)
+        public IStepDefinition ThenSkip(string message, Action body, string reason)
         {
-            return message.ThenSkip(step, reason);
+            return message.ThenSkip(body, reason);
         }
         
-        public IStepDefinition And(string message, Func<IDisposable> step)
+        public IStepDefinition And(string message, Func<IDisposable> body)
         {
-            return message.And(step);
+            return message.And(body);
         }
 
-        public IStepDefinition And(string message, Action step)
+        public IStepDefinition And(string message, Action body)
         {
-            return message.And(step);
+            return message.And(body);
         }
 
-        public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> step)
+        public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> body)
         {
-            return message.And(step);
+            return message.And(body);
         }
 
-        public IStepDefinition And(string message, Action step, Action dispose)
+        public IStepDefinition And(string message, Action body, Action dispose)
         {
-            return message.And(step, dispose);
+            return message.And(body, dispose);
         }
 
-        public IStepDefinition AndInIsolation(string message, Action step)
+        public IStepDefinition AndInIsolation(string message, Action body)
         {
-            return message.AndInIsolation(step);
+            return message.AndInIsolation(body);
         }
 
-        public IStepDefinition AndSkip(string message, Action step, string reason)
+        public IStepDefinition AndSkip(string message, Action body, string reason)
         {
-            return message.AndSkip(step, reason);
+            return message.AndSkip(body, reason);
         }
 
-        public IStepDefinition But(string message, Action step)
+        public IStepDefinition But(string message, Action body)
         {
-            return message.But(step);
+            return message.But(body);
         }
 
-        public IStepDefinition ButInIsolation(string message, Action step)
+        public IStepDefinition ButInIsolation(string message, Action body)
         {
-            return message.ButInIsolation(step);
+            return message.ButInIsolation(body);
         }
 
-        public IStepDefinition ButSkip(string message, Action step, string reason)
+        public IStepDefinition ButSkip(string message, Action body, string reason)
         {
-            return message.ButSkip(step, reason);
+            return message.ButSkip(body, reason);
         }
     }
 }

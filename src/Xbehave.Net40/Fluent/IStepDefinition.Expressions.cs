@@ -17,75 +17,69 @@ namespace Xbehave.Fluent
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition When(Expression<Action> step);
+        IStepDefinition When(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition When(Expression<Func<IDisposable>> step);
+        IStepDefinition When(Expression<Func<IDisposable>> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition When(Expression<Func<IEnumerable<IDisposable>>> step);
+        IStepDefinition When(Expression<Func<IEnumerable<IDisposable>>> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <param name="dispose">The dispose.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition When(Expression<Action> step, Action dispose);
+        IStepDefinition When(Expression<Action> body, Action dispose);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The action which will perform the assertion.</param>
+        /// <param name="body">The action which will perform the assertion.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Then", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition Then(Expression<Action> step);
+        IStepDefinition Then(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ThenInIsolation(Expression<Action> step);
+        IStepDefinition ThenInIsolation(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <param name="reason">The reason.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
@@ -94,70 +88,64 @@ namespace Xbehave.Fluent
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ThenSkip(Expression<Action> step, string reason);
+        IStepDefinition ThenSkip(Expression<Action> body, string reason);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition And(Expression<Action> step);
+        IStepDefinition And(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition And(Expression<Func<IDisposable>> step);
+        IStepDefinition And(Expression<Func<IDisposable>> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition And(Expression<Func<IEnumerable<IDisposable>>> step);
+        IStepDefinition And(Expression<Func<IEnumerable<IDisposable>>> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <param name="dispose">The dispose.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition And(Expression<Action> step, Action dispose);
+        IStepDefinition And(Expression<Action> body, Action dispose);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition AndInIsolation(Expression<Action> step);
+        IStepDefinition AndInIsolation(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <param name="reason">The reason.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
@@ -166,33 +154,30 @@ namespace Xbehave.Fluent
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition AndSkip(Expression<Action> step, string reason);
+        IStepDefinition AndSkip(Expression<Action> body, string reason);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The action which will perform the assertion.</param>
+        /// <param name="body">The action which will perform the assertion.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition But(Expression<Action> step);
+        IStepDefinition But(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ButInIsolation(Expression<Action> step);
+        IStepDefinition ButInIsolation(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="step">The step.</param>
+        /// <param name="body">The body of the step.</param>
         /// <param name="reason">The reason.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
@@ -201,7 +186,6 @@ namespace Xbehave.Fluent
         /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
         /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
         /// </remarks>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-        IStepDefinition ButSkip(Expression<Action> step, string reason);
+        IStepDefinition ButSkip(Expression<Action> body, string reason);
     }
 }

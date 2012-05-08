@@ -16,12 +16,12 @@ namespace Xbehave
         /// <summary>
         /// Deprecated in version 0.10.0.
         /// </summary>
-        /// <param name="assert">The action which would have performed the assertion.</param>
+        /// <param name="body">The action which would have performed the assertion.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use ThenSkip(reason, assert) instead.")]
-        public static IStepDefinition ThenSkip(Expression<Action> assert)
+        public static IStepDefinition ThenSkip(Expression<Action> body)
         {
-            return ThenSkip(assert, "Skipped for an unknown reason");
+            return ThenSkip(body, "Skipped for an unknown reason");
         }
     }
 }

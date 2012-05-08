@@ -18,23 +18,23 @@ namespace Xbehave
         /// Records a context setup for this specification.
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
-        /// <param name="arrange">The action that will establish the context.</param>
+        /// <param name="body">The action that will establish the context.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Given() instead.")]
-        public static IStepDefinition Context(this string message, Action arrange)
+        public static IStepDefinition Context(this string message, Action body)
         {
-            return message.Given(arrange);
+            return message.Given(body);
         }
 
         /// <summary>
         /// Trap for using contexts implementing IDisposable with the wrong overload.
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
-        /// <param name="arrange">The action that will establish and return the context for this test.</param>
+        /// <param name="body">The action that will establish and return the context for this test.</param>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "message", Justification = "The member is deprecated and will be removed.")]
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "arrange", Justification = "The member is deprecated and will be removed.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "body", Justification = "The member is deprecated and will be removed.")]
         [Obsolete("Use Given() instead.")]
-        public static void Context(this string message, ContextDelegate arrange)
+        public static void Context(this string message, ContextDelegate body)
         {
             throw new InvalidOperationException("Use Given() instead.");
         }
@@ -43,24 +43,24 @@ namespace Xbehave
         /// Records a disposable context for this specification. The context lifecycle will be managed by Xbehave.
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
-        /// <param name="arrange">The action that will establish and return the context for this test.</param>
+        /// <param name="body">The action that will establish and return the context for this test.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Given() instead.")]
-        public static IStepDefinition ContextFixture(this string message, ContextDelegate arrange)
+        public static IStepDefinition ContextFixture(this string message, ContextDelegate body)
         {
-            return message.GivenDisposable(arrange);
+            return message.GivenDisposable(body);
         }
 
         /// <summary>
         /// Records an action to be performed on the context for this specification.
         /// </summary>
         /// <param name="message">A message describing the action.</param>
-        /// <param name="act">The action to perform.</param>
+        /// <param name="body">The action to perform.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use When() instead.")]
-        public static IStepDefinition Do(this string message, Action act)
+        public static IStepDefinition Do(this string message, Action body)
         {
-            return message.When(act);
+            return message.When(body);
         }
 
         /// <summary>
@@ -68,12 +68,12 @@ namespace Xbehave
         /// Each assertion is executed on an isolated context.
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
-        /// <param name="assert">The action that will verify the expectation.</param>
+        /// <param name="body">The action that will verify the expectation.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use ThenInIsolation() instead.")]
-        public static IStepDefinition Assert(this string message, Action assert)
+        public static IStepDefinition Assert(this string message, Action body)
         {
-            return message.ThenInIsolation(assert);
+            return message.ThenInIsolation(body);
         }
 
         /// <summary>
@@ -81,24 +81,24 @@ namespace Xbehave
         /// All observations are executed on the same context.
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
-        /// <param name="observation">The action that will verify the expectation.</param>
+        /// <param name="body">The action that will verify the expectation.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Then() instead.")]
-        public static IStepDefinition Observation(this string message, Action observation)
+        public static IStepDefinition Observation(this string message, Action body)
         {
-            return message.Then(observation);
+            return message.Then(body);
         }
 
         /// <summary>
         /// Records a skipped assertion for this specification.
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
-        /// <param name="skippedAction">The action that will verify the expectation.</param>
+        /// <param name="body">The action that will verify the expectation.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use ThenSkip() instead.")]
-        public static IStepDefinition Todo(this string message, Action skippedAction)
+        public static IStepDefinition Todo(this string message, Action body)
         {
-            return message.ThenSkip(skippedAction);
+            return message.ThenSkip(body);
         }
     }
 }

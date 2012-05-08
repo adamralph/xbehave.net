@@ -10,84 +10,84 @@ namespace Xbehave.Fluent
 
     internal partial class StepDefinition : IStepDefinition
     {
-        public IStepDefinition When(Expression<Action> step)
+        public IStepDefinition When(Expression<Action> body)
         {
-            return _.When(step);
+            return _.When(body);
         }
 
-        public IStepDefinition When(Expression<Func<IDisposable>> step)
+        public IStepDefinition When(Expression<Func<IDisposable>> body)
         {
-            return _.When(step);
+            return _.When(body);
         }
 
-        public IStepDefinition When(Expression<Func<System.Collections.Generic.IEnumerable<IDisposable>>> step)
+        public IStepDefinition When(Expression<Func<System.Collections.Generic.IEnumerable<IDisposable>>> body)
         {
-            return _.When(step);
+            return _.When(body);
         }
 
-        public IStepDefinition When(Expression<Action> step, Action dispose)
+        public IStepDefinition When(Expression<Action> body, Action dispose)
         {
-            return _.When(step, dispose);
+            return _.When(body, dispose);
         }
 
-        public IStepDefinition Then(Expression<Action> step)
+        public IStepDefinition Then(Expression<Action> body)
         {
-            return _.Then(step);
+            return _.Then(body);
         }
 
-        public IStepDefinition ThenInIsolation(Expression<Action> step)
+        public IStepDefinition ThenInIsolation(Expression<Action> body)
         {
-            return _.ThenInIsolation(step);
+            return _.ThenInIsolation(body);
         }
 
-        public IStepDefinition ThenSkip(Expression<Action> step, string reason)
+        public IStepDefinition ThenSkip(Expression<Action> body, string reason)
         {
-            return _.ThenSkip(step, reason);
+            return _.ThenSkip(body, reason);
         }
 
-        public IStepDefinition And(Expression<Action> step)
+        public IStepDefinition And(Expression<Action> body)
         {
-            return _.And(step);
+            return _.And(body);
         }
 
-        public IStepDefinition And(Expression<Func<IDisposable>> step)
+        public IStepDefinition And(Expression<Func<IDisposable>> body)
         {
-            return _.And(step);
+            return _.And(body);
         }
 
-        public IStepDefinition And(Expression<Func<IEnumerable<IDisposable>>> step)
+        public IStepDefinition And(Expression<Func<IEnumerable<IDisposable>>> body)
         {
-            return _.And(step);
+            return _.And(body);
         }
 
-        public IStepDefinition And(Expression<Action> step, Action dispose)
+        public IStepDefinition And(Expression<Action> body, Action dispose)
         {
-            return _.And(step, dispose);
+            return _.And(body, dispose);
         }
 
-        public IStepDefinition AndInIsolation(Expression<Action> step)
+        public IStepDefinition AndInIsolation(Expression<Action> body)
         {
-            return _.AndInIsolation(step);
+            return _.AndInIsolation(body);
         }
 
-        public IStepDefinition AndSkip(Expression<Action> step, string reason)
+        public IStepDefinition AndSkip(Expression<Action> body, string reason)
         {
-            return _.AndSkip(step, reason);
+            return _.AndSkip(body, reason);
         }
 
-        public IStepDefinition But(Expression<Action> step)
+        public IStepDefinition But(Expression<Action> body)
         {
-            return _.But(step);
+            return _.But(body);
         }
 
-        public IStepDefinition ButInIsolation(Expression<Action> step)
+        public IStepDefinition ButInIsolation(Expression<Action> body)
         {
-            return _.ButInIsolation(step);
+            return _.ButInIsolation(body);
         }
 
-        public IStepDefinition ButSkip(Expression<Action> step, string reason)
+        public IStepDefinition ButSkip(Expression<Action> body, string reason)
         {
-            return _.ButSkip(step, reason);
+            return _.ButSkip(body, reason);
         }
     }
 }
