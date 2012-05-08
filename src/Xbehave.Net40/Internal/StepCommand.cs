@@ -21,7 +21,7 @@ namespace Xbehave.Internal
 
         public override MethodResult Execute(object testClass)
         {
-            if (this.step.Skip)
+            if (this.step.SkipReason != null)
             {
                 return new SkipResult(this.testMethod, this.DisplayName, this.step.SkipReason);
             }
