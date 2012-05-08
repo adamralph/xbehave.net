@@ -5,6 +5,7 @@
 namespace Xbehave.Internal
 {
     using System;
+    using Xbehave.Fluent;
 
     internal static class CurrentThread
     {
@@ -16,6 +17,11 @@ namespace Xbehave.Internal
         public static Scenario Scenario
         {
             get { return scenario ?? (scenario = new Scenario(commandFactory)); }
+        }
+
+        public static StepDefinition Enqueue(Step step)
+        {
+            return new StepDefinition(Scenario.Enqueue(step));
         }
 
         public static void ResetScenario()

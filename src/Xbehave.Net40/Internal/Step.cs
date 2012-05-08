@@ -5,33 +5,46 @@
 namespace Xbehave.Internal
 {
     using System;
+    using System.Collections.Generic;
     using Xbehave.Infra;
 
     internal class Step
     {
-        private readonly string message;
-        private readonly Func<IDisposable> execute;
+        private readonly string name;
+        private readonly Func<IDisposable> body;
         private readonly bool inIsolation;
         private readonly string skipReason;
 
-        public Step(string message, Func<IDisposable> execute, bool inIsolation, string skipReason)
+        public Step(string prefix, string message, Func<IDisposable> body, bool inIsolation, string skipReason)
         {
-            Require.NotNull(execute, "execute");
+            Require.NotNull(prefix, "prefix");
+            Require.NotNull(message, "message");
+            Require.NotNull(body, "body");
 
-            if (message == null)
-            {
-                throw new ArgumentNullException("message");
-            }
-
-            this.message = message;
-            this.execute = execute;
+            this.name = message.ToSentenceStartingWith(prefix);
+            this.body = body;
             this.inIsolation = inIsolation;
             this.skipReason = skipReason;
         }
 
-        public string Message
+        public Step(string prefix, string message, Action body, bool inIsolation, string skipReason)
+            : this(prefix, message, DisposableFunctionFactory.Create(body), inIsolation, skipReason)
         {
-            get { return this.message; }
+        }
+
+        public Step(string prefix, string message, Func<IEnumerable<IDisposable>> body, bool inIsolation, string skipReason)
+            : this(prefix, message, DisposableFunctionFactory.Create(body), inIsolation, skipReason)
+        {
+        }
+
+        public Step(string prefix, string message, Action body, Action dispose, bool inIsolation, string skipReason)
+            : this(prefix, message, DisposableFunctionFactory.Create(body, dispose), inIsolation, skipReason)
+        {
+        }
+
+        public string Name
+        {
+            get { return this.name; }
         }
 
         public bool Skip
@@ -55,7 +68,7 @@ namespace Xbehave.Internal
         {
             if (this.MillisecondsTimeout > 0)
             {
-                var result = this.execute.BeginInvoke(null, null);
+                var result = this.body.BeginInvoke(null, null);
 
                 // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
                 if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
@@ -63,10 +76,10 @@ namespace Xbehave.Internal
                     throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                 }
 
-                return this.execute.EndInvoke(result);
+                return this.body.EndInvoke(result);
             }
 
-            return this.execute();
+            return this.body();
         }
     }
 }

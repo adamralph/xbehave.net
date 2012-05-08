@@ -218,9 +218,6 @@
     <Compile Include="..\Xbehave.Net40\Internal\StepCommand.cs">
       <Link>Internal\StepCommand.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Internal\StringExtensions.cs">
-      <Link>Internal\StringExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>

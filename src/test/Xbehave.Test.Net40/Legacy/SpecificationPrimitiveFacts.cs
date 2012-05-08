@@ -13,13 +13,13 @@ namespace Xbehave.Test.Legacy
         [Fact]
         public static void CreatePrimitiveWithNullActionThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new Step("foo", null, false, null));
+            Assert.Throws<ArgumentNullException>(() => new Step("Given", "foo", (Action)null, false, null));
         }
 
         [Fact]
         public static void CreatePrimitiveWithNullMessageThrows()
         {
-            Assert.Throws<ArgumentNullException>(() => new Step(null, () => null, false, null));
+            Assert.Throws<ArgumentNullException>(() => new Step("Given", null, () => (IDisposable)null, false, null));
         }
     }
 }

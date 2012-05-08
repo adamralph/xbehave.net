@@ -11,11 +11,6 @@ namespace Xbehave.Internal
 
     internal static class DisposableFunctionFactory
     {
-        public static Func<IDisposable> Create(Func<IDisposable> source)
-        {
-            return source;
-        }
-
         public static Func<IDisposable> Create(Action source, Action dispose)
         {
             return source == null ? null : new Func<IDisposable>(() =>
