@@ -1,4 +1,4 @@
-﻿// <copyright file="_.cs" company="Adam Ralph">
+﻿// <copyright file="StringExtensions.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -16,7 +16,7 @@ namespace Xbehave
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "_", Justification = "By design.")]
     [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores", Justification = "By design.")]
-    public static partial class _
+    public static partial class StringExtensions
     {
         /// <summary>
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
@@ -26,7 +26,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition Given(string message, Func<IDisposable> step)
+        public static IStepDefinition Given(this string message, Func<IDisposable> step)
         {
             return message.ToSentenceStartingWith("Given")._(step, false, null);
         }
@@ -39,7 +39,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition Given(string message, Action step)
+        public static IStepDefinition Given(this string message, Action step)
         {
             return message.ToSentenceStartingWith("Given")._(step, false, null);
         }
@@ -53,7 +53,7 @@ namespace Xbehave
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IStepDefinition Given(string message, Func<IEnumerable<IDisposable>> step)
+        public static IStepDefinition Given(this string message, Func<IEnumerable<IDisposable>> step)
         {
             return message.ToSentenceStartingWith("Given")._(step, false, null);
         }
@@ -67,7 +67,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition Given(string message, Action step, Action dispose)
+        public static IStepDefinition Given(this string message, Action step, Action dispose)
         {
             return message.ToSentenceStartingWith("Given")._(step, dispose, false, null);
         }
@@ -80,7 +80,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition When(string message, Func<IDisposable> step)
+        public static IStepDefinition When(this string message, Func<IDisposable> step)
         {
             return message.ToSentenceStartingWith("When")._(step, false, null);
         }
@@ -93,7 +93,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition When(string message, Action step)
+        public static IStepDefinition When(this string message, Action step)
         {
             return message.ToSentenceStartingWith("When")._(step, false, null);
         }
@@ -107,7 +107,7 @@ namespace Xbehave
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IStepDefinition When(string message, Func<IEnumerable<IDisposable>> step)
+        public static IStepDefinition When(this string message, Func<IEnumerable<IDisposable>> step)
         {
             return message.ToSentenceStartingWith("When")._(step, false, null);
         }
@@ -121,7 +121,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition When(string message, Action step, Action dispose)
+        public static IStepDefinition When(this string message, Action step, Action dispose)
         {
             return message.ToSentenceStartingWith("When")._(step, dispose, false, null);
         }
@@ -134,7 +134,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition Then(string message, Action step)
+        public static IStepDefinition Then(this string message, Action step)
         {
             return message.ToSentenceStartingWith("Then")._(step, false, null);
         }
@@ -147,7 +147,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition ThenInIsolation(string message, Action step)
+        public static IStepDefinition ThenInIsolation(this string message, Action step)
         {
             return message.ToSentenceStartingWith("Then")._(step, true, null);
         }
@@ -161,7 +161,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition ThenSkip(string message, Action step, string reason)
+        public static IStepDefinition ThenSkip(this string message, Action step, string reason)
         {
             return message.ToSentenceStartingWith("Then")._(step, false, reason);
         }
@@ -174,7 +174,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition And(string message, Func<IDisposable> step)
+        public static IStepDefinition And(this string message, Func<IDisposable> step)
         {
             return message.ToSentenceStartingWith("And")._(step, false, null);
         }
@@ -187,7 +187,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition And(string message, Action step)
+        public static IStepDefinition And(this string message, Action step)
         {
             return message.ToSentenceStartingWith("And")._(step, false, null);
         }
@@ -201,7 +201,7 @@ namespace Xbehave
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IStepDefinition And(string message, Func<IEnumerable<IDisposable>> step)
+        public static IStepDefinition And(this string message, Func<IEnumerable<IDisposable>> step)
         {
             return message.ToSentenceStartingWith("And")._(step, false, null);
         }
@@ -215,7 +215,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition And(string message, Action step, Action dispose)
+        public static IStepDefinition And(this string message, Action step, Action dispose)
         {
             return message.ToSentenceStartingWith("And")._(step, dispose, false, null);
         }
@@ -228,7 +228,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition AndInIsolation(string message, Action step)
+        public static IStepDefinition AndInIsolation(this string message, Action step)
         {
             return message.ToSentenceStartingWith("And")._(step, true, null);
         }
@@ -242,7 +242,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition AndSkip(string message, Action step, string reason)
+        public static IStepDefinition AndSkip(this string message, Action step, string reason)
         {
             return message.ToSentenceStartingWith("And")._(step, false, reason);
         }
@@ -255,7 +255,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition But(string message, Action step)
+        public static IStepDefinition But(this string message, Action step)
         {
             return message.ToSentenceStartingWith("But")._(step, false, null);
         }
@@ -268,7 +268,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition ButInIsolation(string message, Action step)
+        public static IStepDefinition ButInIsolation(this string message, Action step)
         {
             return message.ToSentenceStartingWith("But")._(step, true, null);
         }
@@ -282,7 +282,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition ButSkip(string message, Action step, string reason)
+        public static IStepDefinition ButSkip(this string message, Action step, string reason)
         {
             return message.ToSentenceStartingWith("But")._(step, false, reason);
         }
