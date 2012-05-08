@@ -30,7 +30,7 @@ namespace Xbehave
         public static IStepDefinition Given(Expression<Action> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().Given(step.Compile());
+            return step.Body.ToSentence().Given(step.Compile());
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Xbehave
         public static IStepDefinition Given(Expression<Func<IDisposable>> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().Given(step.Compile());
+            return step.Body.ToSentence().Given(step.Compile());
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Xbehave
         public static IStepDefinition Given(Expression<Func<IEnumerable<IDisposable>>> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().Given(step.Compile());
+            return step.Body.ToSentence().Given(step.Compile());
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Xbehave
         public static IStepDefinition Given(Expression<Action> step, Action dispose)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().Given(step.Compile(), dispose);
+            return step.Body.ToSentence().Given(step.Compile(), dispose);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Xbehave
         public static IStepDefinition When(Expression<Action> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().When(step.Compile());
+            return step.Body.ToSentence().When(step.Compile());
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Xbehave
         public static IStepDefinition When(Expression<Func<IDisposable>> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().When(step.Compile());
+            return step.Body.ToSentence().When(step.Compile());
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Xbehave
         public static IStepDefinition When(Expression<Func<IEnumerable<IDisposable>>> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().When(step.Compile());
+            return step.Body.ToSentence().When(step.Compile());
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Xbehave
         public static IStepDefinition When(Expression<Action> step, Action dispose)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().When(step.Compile(), dispose);
+            return step.Body.ToSentence().When(step.Compile(), dispose);
         }
         
         /// <summary>
@@ -140,7 +140,7 @@ namespace Xbehave
         public static IStepDefinition Then(Expression<Action> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().Then(step.Compile());
+            return step.Body.ToSentence().Then(step.Compile());
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Xbehave
         public static IStepDefinition ThenInIsolation(Expression<Action> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().ThenInIsolation(step.Compile());
+            return step.Body.ToSentence().ThenInIsolation(step.Compile());
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Xbehave
         public static IStepDefinition ThenSkip(Expression<Action> step, string reason)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().ThenSkip(step.Compile(), reason);
+            return step.Body.ToSentence().ThenSkip(step.Compile(), reason);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace Xbehave
         public static IStepDefinition And(Expression<Action> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().And(step.Compile());
+            return step.Body.ToSentence().And(step.Compile());
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace Xbehave
         public static IStepDefinition And(Expression<Func<IDisposable>> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().And(step.Compile());
+            return step.Body.ToSentence().And(step.Compile());
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Xbehave
         public static IStepDefinition And(Expression<Func<IEnumerable<IDisposable>>> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().And(step.Compile());
+            return step.Body.ToSentence().And(step.Compile());
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Xbehave
         public static IStepDefinition And(Expression<Action> step, Action dispose)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().And(step.Compile(), dispose);
+            return step.Body.ToSentence().And(step.Compile(), dispose);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Xbehave
         public static IStepDefinition AndInIsolation(Expression<Action> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().AndInIsolation(step.Compile());
+            return step.Body.ToSentence().AndInIsolation(step.Compile());
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Xbehave
         public static IStepDefinition AndSkip(Expression<Action> step, string reason)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().AndSkip(step.Compile(), reason);
+            return step.Body.ToSentence().AndSkip(step.Compile(), reason);
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Xbehave
         public static IStepDefinition But(Expression<Action> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().But(step.Compile());
+            return step.Body.ToSentence().But(step.Compile());
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace Xbehave
         public static IStepDefinition ButInIsolation(Expression<Action> step)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().ButInIsolation(step.Compile());
+            return step.Body.ToSentence().ButInIsolation(step.Compile());
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace Xbehave
         public static IStepDefinition ButSkip(Expression<Action> step, string reason)
         {
             Require.NotNull(step, "step");
-            return step.Body.ToStepName().ButSkip(step.Compile(), reason);
+            return step.Body.ToSentence().ButSkip(step.Compile(), reason);
         }
     }
 }

@@ -193,7 +193,7 @@ namespace Xbehave.Test.Naming
                 .Given(() => { });
 
             "when converting the expression to a step name"
-                .When(() => result = expression.ToStepName(delimiter))
+                .When(() => result = expression.ToSentence(delimiter))
                 .Then(() => result.Should().Be(expectedStepName));
         }
     }

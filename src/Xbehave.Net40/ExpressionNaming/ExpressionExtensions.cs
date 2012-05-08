@@ -10,12 +10,12 @@ namespace Xbehave.ExpressionNaming
 
     internal static class ExpressionExtensions
     {
-        public static string ToStepName(this Expression expression)
+        public static string ToSentence(this Expression expression)
         {
-            return expression.ToStepName(" ");
+            return expression.ToSentence(" ");
         }
 
-        public static string ToStepName(this Expression expression, string delimiter)
+        public static string ToSentence(this Expression expression, string delimiter)
         {
             return string.Join(delimiter, expression.ToTokens().Reverse().ToArray());
         }
