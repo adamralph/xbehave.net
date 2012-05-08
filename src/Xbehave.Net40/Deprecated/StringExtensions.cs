@@ -5,7 +5,6 @@
 namespace Xbehave
 {
     using System;
-    using System.Linq.Expressions;
     using Xbehave.Fluent;
     using Xbehave.Infra;
 
