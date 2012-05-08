@@ -9,7 +9,7 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
 
-    using Xbehave.Sdk.Fluent;
+    using Xbehave.Fluent;
     using Xbehave.Sdk;
 
     /// <summary>

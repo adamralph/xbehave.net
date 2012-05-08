@@ -114,6 +114,20 @@
     <None Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
       <Link>Sandbox\Scenario.cs</Link>
     </None>
+    <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.cs">
+      <Link>Fluent\IStepDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.Expressions.cs">
+      <Link>Fluent\IStepDefinition.Expressions.cs</Link>
+      <DependentUpon>IStepDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\StepDefinition.cs">
+      <Link>Fluent\StepDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\StepDefinition.Expressions.cs">
+      <Link>Fluent\StepDefinition.Expressions.cs</Link>
+      <DependentUpon>StepDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>
@@ -170,20 +184,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\UnaryExpressionExtensions.cs">
       <Link>Sdk\ExpressionNaming\UnaryExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Fluent\IStepDefinition.cs">
-      <Link>Sdk\Fluent\IStepDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Fluent\IStepDefinition.Expressions.cs">
-      <Link>Sdk\Fluent\IStepDefinition.Expressions.cs</Link>
-      <DependentUpon>IStepDefinition.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Fluent\StepDefinition.cs">
-      <Link>Sdk\Fluent\StepDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Fluent\StepDefinition.Expressions.cs">
-      <Link>Sdk\Fluent\StepDefinition.Expressions.cs</Link>
-      <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ICommandFactory.cs">
       <Link>Sdk\ICommandFactory.cs</Link>
@@ -250,6 +250,7 @@
       <Link>Properties\Xbehave.CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

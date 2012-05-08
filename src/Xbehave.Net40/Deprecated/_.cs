@@ -6,7 +6,7 @@ namespace Xbehave
 {
     using System;
     using System.Linq.Expressions;
-    using Xbehave.Sdk.Fluent;
+    using Xbehave.Fluent;
 
     /// <summary>
     /// Extensions for declaring Given, When, Then scenario steps.

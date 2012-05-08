@@ -5,7 +5,7 @@
 namespace Xbehave
 {
     using System;
-    using Xbehave.Sdk.Fluent;
+    using Xbehave.Fluent;
     using Xbehave.Sdk.Infra;
 
     /// <summary>

@@ -7,8 +7,8 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using Xbehave.Fluent;
     using Xbehave.Sdk;
-    using Xbehave.Sdk.Fluent;
 
     /// <summary>
     /// Provides access to step definition methods.

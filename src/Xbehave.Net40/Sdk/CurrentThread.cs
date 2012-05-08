@@ -5,7 +5,7 @@
 namespace Xbehave.Sdk
 {
     using System;
-    using Xbehave.Sdk.Fluent;
+    using Xbehave.Fluent;
 
     internal static class CurrentThread
     {

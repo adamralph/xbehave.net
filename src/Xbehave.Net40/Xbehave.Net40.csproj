@@ -88,17 +88,17 @@
     <Compile Include="Deprecated\StepDefinition.Expressions.cs" />
     <Compile Include="Sdk\Infra\StringExtensions.cs" />
     <Compile Include="_.cs" />
-    <Compile Include="Sdk\Fluent\StepDefinition.Expressions.cs">
+    <Compile Include="Fluent\StepDefinition.Expressions.cs">
       <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sdk\Fluent\IStepDefinition.Expressions.cs">
+    <Compile Include="Fluent\IStepDefinition.Expressions.cs">
       <DependentUpon>IStepDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Sdk\Infra\QueueExtensions.cs" />
     <Compile Include="Sdk\Infra\Disposable.cs" />
     <None Include="Sandbox\DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\_.cs" />
-    <Compile Include="Sdk\Fluent\IStepDefinition.cs" />
+    <Compile Include="Fluent\IStepDefinition.cs" />
     <Compile Include="Sdk\Infra\StackExtensions.cs" />
     <Compile Include="Sdk\CommandFactory.cs" />
     <Compile Include="Sdk\CommandBase.cs" />
@@ -122,7 +122,7 @@
     <Compile Include="Sdk\CurrentThread.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />
     <Compile Include="Deprecated\ThesisAttribute.cs" />
-    <Compile Include="Sdk\Fluent\StepDefinition.cs" />
+    <Compile Include="Fluent\StepDefinition.cs" />
     <Compile Include="Sdk\ExpressionNaming\BinaryExpressionExtensions.cs" />
     <Compile Include="Sdk\ExpressionNaming\ConstantExpressionExtensions.cs" />
     <Compile Include="Sdk\ExpressionNaming\LambdaExpressionExtensions.cs" />

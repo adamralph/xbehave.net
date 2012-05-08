@@ -2,10 +2,11 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Sdk.Fluent
+namespace Xbehave.Fluent
 {
     using System;
     using System.Collections.Generic;
+    using Xbehave.Sdk;
 
     internal partial class StepDefinition : IStepDefinition
     {

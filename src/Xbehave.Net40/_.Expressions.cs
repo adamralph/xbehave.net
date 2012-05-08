@@ -8,8 +8,8 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
+    using Xbehave.Fluent;
     using Xbehave.Sdk.ExpressionNaming;
-    using Xbehave.Sdk.Fluent;
     using Xbehave.Sdk.Infra;
 
     /// <summary>
