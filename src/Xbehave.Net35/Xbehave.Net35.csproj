@@ -128,6 +128,9 @@
       <Link>Fluent\StepDefinition.Expressions.cs</Link>
       <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Helper.cs">
+      <Link>Helper.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>

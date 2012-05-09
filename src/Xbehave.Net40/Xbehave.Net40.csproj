@@ -82,6 +82,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Deprecated\IStepDefinition.Expressions.cs" />
