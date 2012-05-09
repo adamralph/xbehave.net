@@ -14,7 +14,7 @@
 Added fluent step definition syntax, e.g. _.Given(&quot;foo&quot;, () =&gt; foo()).When(&quot;bar&quot;, =&gt; bar()).Then(&quot;baz&quot;, ()=&gt; baz()).
 Added overload of ThenSkip() with a reason parameter.
 Deprecated ThenSkip() without a reason parameter.
-Changed to creating a separate a test command for each step in a scenario.
+Changed to creating a separate test command for each step in a scenario.
 Added scenario name to test command names.
 Added scenario parameters and arguments to test command names.
 Changed Given(this string message, Func&lt;IEnumerable&lt;IDisposable&gt;&gt; arrange) to dispose of items in reverse order.
