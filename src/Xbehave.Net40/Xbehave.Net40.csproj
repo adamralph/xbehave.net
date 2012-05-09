@@ -82,6 +82,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ExampleAttribute.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
@@ -114,7 +115,7 @@
     <Compile Include="Sdk\Scenario.cs" />
     <None Include="Sandbox\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />
-    <Compile Include="ScenarioDataAttribute.cs" />
+    <Compile Include="Deprecated\ScenarioDataAttribute.cs" />
     <Compile Include="Deprecated\DisposableAction.cs" />
     <Compile Include="Deprecated\SpecificationAttribute.cs" />
     <Compile Include="Deprecated\SpecificationExtensions.cs" />

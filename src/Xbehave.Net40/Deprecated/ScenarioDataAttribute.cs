@@ -19,9 +19,11 @@ namespace Xbehave
     /// <see cref="Xunit.Extensions.ExcelDataAttribute"/> or
     /// <see cref="Xunit.Extensions.PropertyDataAttribute"/>.
     /// </summary>
+    /// <remarks>Deprecated in favour of ExampleAttribute in version 0.10.0.</remarks>
     [CLSCompliant(false)]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
+    [Obsolete("Use the Example attribute instead.")]
     public class ScenarioDataAttribute : InlineDataAttribute
     {
         /// <summary>
