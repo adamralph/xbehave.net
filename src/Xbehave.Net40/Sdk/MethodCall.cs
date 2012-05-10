@@ -16,6 +16,7 @@ namespace Xbehave.Sdk
     {
         private readonly IMethodInfo method;
         private readonly object[] args;
+
         private string text;
 
         public MethodCall(IMethodInfo method, IEnumerable<object> args)
@@ -24,6 +25,11 @@ namespace Xbehave.Sdk
 
             this.method = method;
             this.args = args.ToArray();
+        }
+
+        public object[] Args
+        {
+            get { return this.args; }
         }
 
         public IMethodInfo Method

@@ -17,19 +17,19 @@ namespace Xbehave.Samples
         {
             var stack = default(Stack<int>);
 
-            ("Given the element " + element.ToString())
+            "Given {0}"
                 .Given(() => { });
 
             "And a stack"
                 .And(() => stack = new Stack<int>());
 
-            "When pushing the element onto the stack"
+            "When pushing {0} onto the stack"
                 .When(() => stack.Push(element));
 
             "Then the stack should not be empty"
                 .Then(() => stack.Should().NotBeEmpty());
 
-            "And the stack peek should be the element"
+            "And the stack peek should be {0}"
                 .And(() => stack.Peek().Should().Be(element));
         }
     }
