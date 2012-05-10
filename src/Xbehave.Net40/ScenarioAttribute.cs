@@ -38,14 +38,16 @@ namespace Xbehave
         /// <returns>The test commands which will execute the test runs for the given method.</returns>
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
+            ////throw new Exception();
             Require.NotNull(method, "method");
 
             var xunitCommands = method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method)
                 : new[] { new FactCommand(method) };
-            
+
             try
             {
+                ////throw new Exception();
                 return CreateTestCommands(method, xunitCommands);
             }
             catch (Exception ex)
@@ -54,20 +56,36 @@ namespace Xbehave
                     method,
                     method.Name,
                     MethodUtility.GetTimeoutParameter(method),
-                    () => { ExceptionUtility.RethrowWithNoStackTraceLoss(ex); });
+                    () => ExceptionUtility.RethrowWithNoStackTraceLoss(ex));
 
                 return new ITestCommand[] { command };
-            }           
+            }
         }
 
         private static IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method, IEnumerable<ITestCommand> xunitCommands)
         {
+            ////var commands = new List<ITestCommand>();
             foreach (var xunitCommand in xunitCommands)
             {
-                foreach (var xbehaveCommand in ThreadContext.CreateTestCommands(method, () => xunitCommand.Execute(method.IsStatic ? null : method.CreateInstance())))
+                foreach (var xbehaveCommand in ThreadContext.CreateTestCommands(method, () => Foo(xunitCommand, method)))
                 {
+                    ////commands.Add(xbehaveCommand);
                     yield return xbehaveCommand;
                 }
+            }
+
+            ////return commands;
+        }
+
+        private static void Foo(ITestCommand xunitCommand, IMethodInfo method)
+        {
+            try
+            {
+                xunitCommand.Execute(method.IsStatic ? null : method.CreateInstance());
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
