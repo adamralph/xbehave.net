@@ -1,9 +1,9 @@
 Properties {
     $ThisDir = Split-Path $psake.build_script_file
     $MSBuildConfiguration="Release"
-    $NuGetConsole="..\packages\NuGet.CommandLine.1.7.0\tools\NuGet.exe"
-    $XunitConsole35="..\packages\xunit.runners.1.9.0.1566\tools\xunit.console.exe"
-    $XunitConsole40="..\packages\xunit.runners.1.9.0.1566\tools\xunit.console.clr4.exe"
+    $NuGetConsole="$ThisDir\..\packages\NuGet.CommandLine.1.7.0\tools\NuGet.exe"
+    $XunitConsole35="$ThisDir\..\packages\xunit.runners.1.9.0.1566\tools\xunit.console.exe"
+    $XunitConsole40="$ThisDir\..\packages\xunit.runners.1.9.0.1566\tools\xunit.console.clr4.exe"
 }
 
 Task Default -depends Package
