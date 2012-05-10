@@ -43,9 +43,32 @@ namespace Xbehave
             var xunitCommands = method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method)
                 : new[] { new FactCommand(method) };
+            
+            try
+            {
+                return CreateTestCommands(method, xunitCommands);
+            }
+            catch (Exception ex)
+            {
+                var command = new ActionTestCommand(
+                    method,
+                    method.Name,
+                    MethodUtility.GetTimeoutParameter(method),
+                    () => { ExceptionUtility.RethrowWithNoStackTraceLoss(ex); });
 
-            return xunitCommands.SelectMany(xunitCommand =>
-                ThreadContext.CreateTestCommands(method, () => xunitCommand.Execute(method.IsStatic ? null : method.CreateInstance())));
+                return new ITestCommand[] { command };
+            }           
+        }
+
+        private static IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method, IEnumerable<ITestCommand> xunitCommands)
+        {
+            foreach (var xunitCommand in xunitCommands)
+            {
+                foreach (var xbehaveCommand in ThreadContext.CreateTestCommands(method, () => xunitCommand.Execute(method.IsStatic ? null : method.CreateInstance())))
+                {
+                    yield return xbehaveCommand;
+                }
+            }
         }
     }
 }

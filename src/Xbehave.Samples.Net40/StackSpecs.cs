@@ -33,6 +33,8 @@ namespace Xbehave.Samples
 
             "then the target peek should be the element"
                 .Then(() => target.Peek().Should().Be(element));
+
+            throw new System.Exception();
         }
     }
 }
