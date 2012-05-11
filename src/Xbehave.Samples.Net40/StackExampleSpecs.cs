@@ -23,7 +23,7 @@ namespace Xbehave.Samples
             "And a stack"
                 .And(() => stack = new Stack<int>());
 
-            "When pushing {0} onto the stack"
+            "When pushing {1} onto the stack"
                 .When(() => stack.Push(element));
 
             "Then the stack should not be empty"

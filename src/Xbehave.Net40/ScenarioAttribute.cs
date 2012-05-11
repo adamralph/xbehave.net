@@ -58,7 +58,11 @@ namespace Xbehave
             try
             {
                 scenarioDefinition.Execute(feature);
-                return CurrentThread.Scenario.GetTestCommands(call);
+                return CurrentThread.Scenario.GetTestCommands(call).ToArray();
+            }
+            catch (Exception ex)
+            {
+                return new ITestCommand[] { new ExceptionCommand(method, ex) };
             }
             finally
             {

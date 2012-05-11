@@ -30,6 +30,8 @@ namespace Xbehave.Samples
 
             "And the stack peek should be the element"
                 .And(() => stack.Peek().Should().Be(element));
+
+            throw new System.Exception();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Xbehave.Test.Deprecated
 
             // assert
             commands.Count().Should().Be(18);
+            throw new System.Exception("The foo bar baz.");
         }
 
         [Thesis]
