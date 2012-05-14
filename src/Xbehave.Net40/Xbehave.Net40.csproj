@@ -85,6 +85,7 @@
     <Compile Include="ExampleAttribute.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
+    <Compile Include="Sdk\ExceptionCommand.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Deprecated\IStepDefinition.Expressions.cs" />
     <Compile Include="Deprecated\StepDefinition.Expressions.cs" />

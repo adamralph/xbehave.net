@@ -51,6 +51,7 @@
     <None Include="ProvidedContext.cs" />
     <Compile Include="ExplicitDisposable.cs" />
     <Compile Include="ImplicitDisposable.cs" />
+    <Compile Include="Issue8.cs" />
     <Compile Include="MultipleGivensAndWhens.cs" />
     <Compile Include="Old\Issue1.cs" />
     <Compile Include="Old\Issue2.cs" />

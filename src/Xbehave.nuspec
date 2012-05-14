@@ -21,7 +21,9 @@ Added scenario name to test command names.
 Added scenario parameters and arguments to test command names.
 Changed Given(this string message, Func&lt;IEnumerable&lt;IDisposable&gt;&gt; arrange) to dispose of items in reverse order.
 Changed Given(this string message, Func&lt;IEnumerable&lt;IDisposable&gt;&gt; arrange) to guarantee disposal of remaining items when disposal of a given item throws an exception.
-Removed unecessary creation of empty disposal test commands.</releaseNotes>
+Removed unecessary creation of empty disposal test commands.
+Bug fixes:-
+#8: infinite loops when running from TD.NET or Resharper and test command creation throws exception</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>

@@ -155,6 +155,9 @@
     <Compile Include="..\Xbehave.Net40\Sdk\DisposalCommand.cs">
       <Link>Sdk\DisposalCommand.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ExceptionCommand.cs">
+      <Link>Sdk\ExceptionCommand.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\BinaryExpressionExtensions.cs">
       <Link>Sdk\ExpressionNaming\BinaryExpressionExtensions.cs</Link>
     </Compile>
