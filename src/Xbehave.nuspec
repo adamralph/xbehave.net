@@ -7,9 +7,9 @@
     <authors>Adam Ralph</authors>
     <owners>Adam Ralph</owners>
     <projectUrl>https://bitbucket.org/adamralph/xbehave.net</projectUrl>
-    <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/c292659fa57d/license.txt</licenseUrl>
+    <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/5b719723bcfe/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A fluent and concise BDD/TDD library based on xUnit.net designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
+    <description>A BDD/TDD framework based on xUnit.net inspired by the Gherkin behaviour language. Dispenses with the need to map Gherkin feature files to code implementations by allowing the developer to bake the behaviours/specifications directly into code. Designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
     <releaseNotes>Added And() and But() step definition methods.
 Added fluent step definition syntax, e.g. _.Given(&quot;foo&quot;, () =&gt; foo()).When(&quot;bar&quot;, =&gt; bar()).Then(&quot;baz&quot;, ()=&gt; baz()).
 Added ExampleAttribute and deprecated ScenarioDataAttribute.
