@@ -23,6 +23,18 @@ namespace Xbehave.Fluent
             return this;
         }
 
+        public IStepDefinition InIsolation()
+        {
+            this.createdStep.InIsolation = true;
+            return this;
+        }
+
+        public IStepDefinition Skip(string reason)
+        {
+            this.createdStep.SkipReason = reason;
+            return this;
+        }
+
         public IStepDefinition When(string message, Func<IDisposable> body)
         {
             return message.When(body);

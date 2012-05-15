@@ -12,8 +12,6 @@ namespace Xbehave.Sdk
     {
         private readonly string name;
         private readonly Func<IDisposable> body;
-        private readonly bool inIsolation;
-        private readonly string skipReason;
 
         public Step(string prefix, string message, Func<IDisposable> body, bool inIsolation, string skipReason)
         {
@@ -23,8 +21,8 @@ namespace Xbehave.Sdk
 
             this.name = message.ToSentenceStartingWith(prefix);
             this.body = body;
-            this.inIsolation = inIsolation;
-            this.skipReason = skipReason;
+            this.InIsolation = inIsolation;
+            this.SkipReason = skipReason;
         }
 
         public Step(string prefix, string message, Action body, bool inIsolation, string skipReason)
@@ -47,15 +45,9 @@ namespace Xbehave.Sdk
             get { return this.name; }
         }
 
-        public string SkipReason
-        {
-            get { return this.skipReason; }
-        }
+        public string SkipReason { get; set; }
 
-        public bool InIsolation
-        {
-            get { return this.inIsolation; }
-        }
+        public bool InIsolation { get; set; }
 
         public int MillisecondsTimeout { get; set; }
 

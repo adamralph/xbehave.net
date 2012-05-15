@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Issues.Old
+namespace Xbehave.Issues
 {
     using Xbehave;
 
