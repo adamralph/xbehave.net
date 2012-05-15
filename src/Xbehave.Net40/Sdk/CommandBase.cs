@@ -14,8 +14,6 @@ namespace Xbehave.Sdk
         {
             var provider = CultureInfo.InvariantCulture;
 
-            commandName = string.Format(provider, commandName, call.Args);
-
             this.DisplayName = string.Format(
                 provider,
                 "{0} [{1}{2}] {3}",
