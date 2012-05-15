@@ -158,27 +158,6 @@ namespace Xbehave.Fluent
         IStepDefinition And(string message, Action body, Action dispose);
 
         /// <summary>
-        /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which performs the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition AndInIsolation(string message, Action body);
-
-        /// <summary>
-        /// Defines a step in the current scenario that it will not be executed.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which would have performed the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition AndSkip(string message, Action body, string reason);
-
-        /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
@@ -187,26 +166,5 @@ namespace Xbehave.Fluent
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         IStepDefinition But(string message, Action body);
-
-        /// <summary>
-        /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which performs the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition ButInIsolation(string message, Action body);
-
-        /// <summary>
-        /// Defines a step in the current scenario that it will not be executed.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which would have performed the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition ButSkip(string message, Action body, string reason);
     }
 }

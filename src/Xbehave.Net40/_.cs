@@ -220,33 +220,6 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which performs the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        public static IStepDefinition AndInIsolation(string message, Action body)
-        {
-            return Helper.Enqueue("And", message, body, true, null);
-        }
-
-        /// <summary>
-        /// Defines a step in the current scenario that it will not be executed.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which would have performed the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        public static IStepDefinition AndSkip(string message, Action body, string reason)
-        {
-            return Helper.Enqueue("And", message, body, false, reason);
-        }
-
-        /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="message">A message describing the step.</param>
@@ -257,33 +230,6 @@ namespace Xbehave
         public static IStepDefinition But(string message, Action body)
         {
             return Helper.Enqueue("But", message, body, false, null);
-        }
-
-        /// <summary>
-        /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which performs the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        public static IStepDefinition ButInIsolation(string message, Action body)
-        {
-            return Helper.Enqueue("But", message, body, true, null);
-        }
-
-        /// <summary>
-        /// Defines a step in the current scenario that it will not be executed.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which would have performed the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        public static IStepDefinition ButSkip(string message, Action body, string reason)
-        {
-            return Helper.Enqueue("But", message, body, false, reason);
         }
     }
 }

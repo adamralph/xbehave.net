@@ -90,29 +90,9 @@ namespace Xbehave.Fluent
             return message.And(body, dispose);
         }
 
-        public IStepDefinition AndInIsolation(string message, Action body)
-        {
-            return message.AndInIsolation(body);
-        }
-
-        public IStepDefinition AndSkip(string message, Action body, string reason)
-        {
-            return message.AndSkip(body, reason);
-        }
-
         public IStepDefinition But(string message, Action body)
         {
             return message.But(body);
-        }
-
-        public IStepDefinition ButInIsolation(string message, Action body)
-        {
-            return message.ButInIsolation(body);
-        }
-
-        public IStepDefinition ButSkip(string message, Action body, string reason)
-        {
-            return message.ButSkip(body, reason);
         }
     }
 }

@@ -65,29 +65,9 @@ namespace Xbehave.Fluent
             return _.And(body, dispose);
         }
 
-        public IStepDefinition AndInIsolation(Expression<Action> body)
-        {
-            return _.AndInIsolation(body);
-        }
-
-        public IStepDefinition AndSkip(Expression<Action> body, string reason)
-        {
-            return _.AndSkip(body, reason);
-        }
-
         public IStepDefinition But(Expression<Action> body)
         {
             return _.But(body);
-        }
-
-        public IStepDefinition ButInIsolation(Expression<Action> body)
-        {
-            return _.ButInIsolation(body);
-        }
-
-        public IStepDefinition ButSkip(Expression<Action> body, string reason)
-        {
-            return _.ButSkip(body, reason);
         }
     }
 }

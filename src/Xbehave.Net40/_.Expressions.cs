@@ -236,72 +236,10 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition AndInIsolation(Expression<Action> body)
-        {
-            Require.NotNull(body, "body");
-            return body.Body.ToSentence().AndInIsolation(body.Compile());
-        }
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <param name="reason">The reason.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        /// <remarks>
-        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
-        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
-        /// </remarks>
-        public static IStepDefinition AndSkip(Expression<Action> body, string reason)
-        {
-            Require.NotNull(body, "body");
-            return body.Body.ToSentence().AndSkip(body.Compile(), reason);
-        }
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
         public static IStepDefinition But(Expression<Action> body)
         {
             Require.NotNull(body, "body");
             return body.Body.ToSentence().But(body.Compile());
-        }
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        public static IStepDefinition ButInIsolation(Expression<Action> body)
-        {
-            Require.NotNull(body, "body");
-            return body.Body.ToSentence().ButInIsolation(body.Compile());
-        }
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <param name="reason">The reason.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        /// <remarks>
-        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
-        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
-        /// </remarks>
-        public static IStepDefinition ButSkip(Expression<Action> body, string reason)
-        {
-            Require.NotNull(body, "body");
-            return body.Body.ToSentence().ButSkip(body.Compile(), reason);
         }
     }
 }

@@ -136,56 +136,10 @@ namespace Xbehave.Fluent
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition AndInIsolation(Expression<Action> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <param name="reason">The reason.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        /// <remarks>
-        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
-        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
-        /// </remarks>
-        IStepDefinition AndSkip(Expression<Action> body, string reason);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
         /// <param name="body">The action which will perform the assertion.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         IStepDefinition But(Expression<Action> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition ButInIsolation(Expression<Action> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <param name="reason">The reason.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        /// <remarks>
-        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
-        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
-        /// </remarks>
-        IStepDefinition ButSkip(Expression<Action> body, string reason);
     }
 }
