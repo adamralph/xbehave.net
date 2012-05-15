@@ -35,11 +35,6 @@ namespace Xbehave.Fluent
             return _.Then(body);
         }
 
-        public IStepDefinition ThenInIsolation(Expression<Action> body)
-        {
-            return _.ThenInIsolation(body);
-        }
-
         public IStepDefinition And(Expression<Action> body)
         {
             return _.And(body);

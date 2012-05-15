@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Xbehave</id>
-    <version>0.10.0-beta3</version>
+    <version>0.10.0-beta4</version>
     <title>xBehave.net</title>
     <authors>Adam Ralph</authors>
     <owners>Adam Ralph</owners>
@@ -13,9 +13,8 @@
     <releaseNotes>Added And() and But() step definition methods.
 Added fluent step definition syntax, e.g. _.Given(&quot;foo&quot;, () =&gt; foo()).When(&quot;bar&quot;, =&gt; bar()).Then(&quot;baz&quot;, ()=&gt; baz()).
 Added ExampleAttribute and deprecated ScenarioDataAttribute.
+Added InIsolation() and Skip() fluent step definition methods and deprecated ThenInIsolation() and ThenSkip().
 Added string substitution of argument values in step names, e.g. [Example(123, 234)]public void SomeScenario(int x, int y) { ... &quot;Given x is {0} and y is {1}&quot; ... }.
-Added overload of ThenSkip() with a reason parameter.
-Deprecated ThenSkip() without a reason parameter.
 Changed to creating a separate test command for each step in a scenario.
 Added scenario name to test command names.
 Added scenario parameters and arguments to test command names.

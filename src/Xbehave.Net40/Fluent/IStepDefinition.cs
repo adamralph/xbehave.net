@@ -91,16 +91,6 @@ namespace Xbehave.Fluent
         IStepDefinition Then(string message, Action body);
 
         /// <summary>
-        /// Defines a step in the current scenario for which an isolated context will be created containing this step and a copy of all preceding steps.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which performs the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition ThenInIsolation(string message, Action body);
-
-        /// <summary>
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>

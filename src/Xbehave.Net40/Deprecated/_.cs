@@ -16,6 +16,17 @@ namespace Xbehave
         /// <summary>
         /// Deprecated in version 0.10.0.
         /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        [Obsolete("Use Then().InIsolation() instead.")]
+        public static IStepDefinition ThenInIsolation(Expression<Action> body)
+        {
+            return Then(body).InIsolation();
+        }
+
+        /// <summary>
+        /// Deprecated in version 0.10.0.
+        /// </summary>
         /// <param name="body">The action which would have performed the assertion.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Then().Skip() instead.")]

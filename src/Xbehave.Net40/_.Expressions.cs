@@ -150,19 +150,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition ThenInIsolation(Expression<Action> body)
-        {
-            Require.NotNull(body, "body");
-            return body.Body.ToSentence().ThenInIsolation(body.Compile());
-        }
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
         public static IStepDefinition And(Expression<Action> body)
         {
             Require.NotNull(body, "body");

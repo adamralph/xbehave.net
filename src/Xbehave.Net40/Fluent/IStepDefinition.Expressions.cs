@@ -74,15 +74,6 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        IStepDefinition ThenInIsolation(Expression<Action> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
         IStepDefinition And(Expression<Action> body);
 

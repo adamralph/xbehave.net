@@ -21,5 +21,15 @@ namespace Xbehave.Fluent
         /// </returns>
         [Obsolete("Use Then().Skip() instead.")]
         IStepDefinition ThenSkip(Expression<Action> assert);
+
+        /// <summary>
+        /// Deprecated in version 0.10.0.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [Obsolete("Use Then().InIsolation() instead.")]
+        IStepDefinition ThenInIsolation(Expression<Action> body);
     }
 }

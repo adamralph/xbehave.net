@@ -60,11 +60,6 @@ namespace Xbehave.Fluent
             return message.Then(body);
         }
 
-        public IStepDefinition ThenInIsolation(string message, Action body)
-        {
-            return message.ThenInIsolation(body);
-        }
-
         public IStepDefinition And(string message, Func<IDisposable> body)
         {
             return message.And(body);

@@ -20,11 +20,10 @@ namespace Xbehave.Issues
             var element = default(int);
 
             "Given an element"
-                .Given(() =>
-                {
-                    element = 11;
-                    target = new Stack<int>();
-                });
+                .Given(() => element = 11);
+
+            "and a stack"
+                .And(() => target = new Stack<int>());
 
             "when pushing the element"
                 .When(() => target.Push(element));
@@ -36,9 +35,25 @@ namespace Xbehave.Issues
             "then the target should not be empty"
                 .Then(() => target.Should().NotBeEmpty());
 
-            "then the target count should be 2"
-                .Then(() => target.Count.Should().Be(2))
+            "and the target count should be 2"
+                .And(() => target.Count.Should().Be(2))
                 .Skip("because the target count is 1");
+        }
+
+        [Scenario]
+        public void PushFluent()
+        {
+            var target = default(Stack<int>);
+            var element = default(int);
+            _
+            .Given("an element", () => element = 11)
+                .And("a stack", () => target = new Stack<int>())
+            .When("pushing the element", () => target.Push(element))
+            .Then("the target pop should be the element", () => target.Pop().Should().Be(element))
+                .InIsolation()
+            .Then("the target should not be empty", () => target.Should().NotBeEmpty())
+                .And("the target count should be 2", () => target.Count.Should().Be(2))
+                    .Skip("because the target count is 1");
         }
     }
 }

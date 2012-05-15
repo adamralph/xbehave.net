@@ -14,5 +14,11 @@ namespace Xbehave.Fluent
         {
             return _.ThenSkip(body);
         }
+
+        [Obsolete("Use Then().InIsolation() instead.")]
+        public IStepDefinition ThenInIsolation(Expression<Action> body)
+        {
+            return _.ThenInIsolation(body);
+        }
     }
 }

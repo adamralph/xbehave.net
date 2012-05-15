@@ -37,5 +37,17 @@ namespace Xbehave
         {
             return message.Then(body).Skip("Skipped for an unknown reason.");
         }
+
+        /// <summary>
+        /// Deprecated in version 0.10.0.
+        /// </summary>
+        /// <param name="message">A message describing the step.</param>
+        /// <param name="body">The action which performs the step.</param>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        [Obsolete("Use Then().InIsolation() instead.")]
+        public static IStepDefinition ThenInIsolation(this string message, Action body)
+        {
+            return message.Then(body).InIsolation();
+        }
     }
 }
