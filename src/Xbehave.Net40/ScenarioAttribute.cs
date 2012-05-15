@@ -47,6 +47,10 @@ namespace Xbehave
             return scenarioDefinitions.SelectMany(definition => CreateCommands(method, definition));
         }
 
+        [SuppressMessage(
+            "Microsoft.Design",
+            "CA1031:DoNotCatchGeneralExceptionTypes",
+            Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
         private static IEnumerable<ITestCommand> CreateCommands(IMethodInfo method, ITestCommand scenarioDefinition)
         {
             var feature = method.IsStatic ? null : method.CreateInstance();
