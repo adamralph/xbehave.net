@@ -152,20 +152,6 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Defines a step in the current scenario that it will not be executed.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which would have performed the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        public static IStepDefinition ThenSkip(this string message, Action body, string reason)
-        {
-            return Helper.Enqueue("Then", message, body, false, reason);
-        }
-
-        /// <summary>
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>

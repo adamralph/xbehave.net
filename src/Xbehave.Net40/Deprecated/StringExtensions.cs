@@ -32,10 +32,10 @@ namespace Xbehave
         /// <param name="message">A message describing the assertion.</param>
         /// <param name="body">The action which would have performed the assertion.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        [Obsolete("Use ThenSkip(reason, step) instead.")]
+        [Obsolete("Use Then().Skip() instead.")]
         public static IStepDefinition ThenSkip(this string message, Action body)
         {
-            return message.ThenSkip(body, "Skipped for an unknown reason.");
+            return message.Then(body).Skip("Skipped for an unknown reason.");
         }
     }
 }

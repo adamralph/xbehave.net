@@ -70,7 +70,7 @@ namespace Xbehave
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="body">The action that will verify the expectation.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        [Obsolete("Use ThenInIsolation() instead.")]
+        [Obsolete("Use Then().InIsolation() instead.")]
         public static IStepDefinition Assert(this string message, Action body)
         {
             return message.ThenInIsolation(body);
@@ -95,7 +95,7 @@ namespace Xbehave
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="body">The action that will verify the expectation.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        [Obsolete("Use ThenSkip() instead.")]
+        [Obsolete("Use Then().Skip() instead.")]
         public static IStepDefinition Todo(this string message, Action body)
         {
             return message.ThenSkip(body);

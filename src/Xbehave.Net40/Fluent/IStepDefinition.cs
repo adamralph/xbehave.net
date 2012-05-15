@@ -101,17 +101,6 @@ namespace Xbehave.Fluent
         IStepDefinition ThenInIsolation(string message, Action body);
 
         /// <summary>
-        /// Defines a step in the current scenario that it will not be executed.
-        /// </summary>
-        /// <param name="message">A message describing the step.</param>
-        /// <param name="body">The action which would have performed the step.</param>
-        /// <param name="reason">The reason for not executing the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition ThenSkip(string message, Action body, string reason);
-
-        /// <summary>
         /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
         /// </summary>
         /// <param name="message">A message describing the step.</param>

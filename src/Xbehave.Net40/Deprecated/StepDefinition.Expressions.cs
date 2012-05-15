@@ -9,7 +9,7 @@ namespace Xbehave.Fluent
 
     internal partial class StepDefinition
     {
-        [Obsolete("Use ThenSkip(reason, assert) instead.")]
+        [Obsolete("Use Then().Skip() instead.")]
         public IStepDefinition ThenSkip(Expression<Action> body)
         {
             return _.ThenSkip(body);

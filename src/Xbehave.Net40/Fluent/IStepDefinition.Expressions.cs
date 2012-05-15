@@ -80,20 +80,6 @@ namespace Xbehave.Fluent
         /// This is an experimental feature.
         /// </summary>
         /// <param name="body">The body of the step.</param>
-        /// <param name="reason">The reason.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        /// <remarks>
-        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
-        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
-        /// </remarks>
-        IStepDefinition ThenSkip(Expression<Action> body, string reason);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>

@@ -160,24 +160,6 @@ namespace Xbehave
         /// This is an experimental feature.
         /// </summary>
         /// <param name="body">The body of the step.</param>
-        /// <param name="reason">The reason.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        /// <remarks>
-        /// This is the equivalent of <see cref="Xunit.FactAttribute.Skip"/>.
-        /// E.g. <code>[Fact(Skip = "Work in progress.")]</code>.
-        /// </remarks>
-        public static IStepDefinition ThenSkip(Expression<Action> body, string reason)
-        {
-            Require.NotNull(body, "body");
-            return body.Body.ToSentence().ThenSkip(body.Compile(), reason);
-        }
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>

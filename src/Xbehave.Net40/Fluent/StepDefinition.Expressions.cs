@@ -40,11 +40,6 @@ namespace Xbehave.Fluent
             return _.ThenInIsolation(body);
         }
 
-        public IStepDefinition ThenSkip(Expression<Action> body, string reason)
-        {
-            return _.ThenSkip(body, reason);
-        }
-
         public IStepDefinition And(Expression<Action> body)
         {
             return _.And(body);

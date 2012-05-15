@@ -65,11 +65,6 @@ namespace Xbehave.Fluent
             return message.ThenInIsolation(body);
         }
 
-        public IStepDefinition ThenSkip(string message, Action body, string reason)
-        {
-            return message.ThenSkip(body, reason);
-        }
-
         public IStepDefinition And(string message, Func<IDisposable> body)
         {
             return message.And(body);

@@ -19,7 +19,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use ThenSkip(reason, assert) instead.")]
+        [Obsolete("Use Then().Skip() instead.")]
         IStepDefinition ThenSkip(Expression<Action> assert);
     }
 }
