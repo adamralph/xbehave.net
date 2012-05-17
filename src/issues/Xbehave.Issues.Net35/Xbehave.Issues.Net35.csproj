@@ -59,6 +59,9 @@
     <Compile Include="..\Xbehave.Issues.Net40\Issue8.cs">
       <Link>Issue8.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Issue9.cs">
+      <Link>Issue9.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Issues.Net40\MultipleGivensAndWhens.cs">
       <Link>MultipleGivensAndWhens.cs</Link>
     </Compile>
