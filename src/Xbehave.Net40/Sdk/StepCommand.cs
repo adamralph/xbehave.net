@@ -34,11 +34,10 @@ namespace Xbehave.Sdk
 
         private static string Format(MethodCall call, Step step)
         {
-            var provider = CultureInfo.InvariantCulture;
             string stepName;
             try
             {
-                stepName = string.Format(provider, step.Name, call.Args);
+                stepName = string.Format(CultureInfo.InvariantCulture, step.Name, call.Args);
             }
             catch (FormatException)
             {

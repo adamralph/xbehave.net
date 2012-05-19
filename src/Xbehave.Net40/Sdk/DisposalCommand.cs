@@ -11,7 +11,6 @@ namespace Xbehave.Sdk
 
     internal class DisposalCommand : CommandBase
     {
-        private readonly IDisposer disposer = new Disposer();
         private readonly IEnumerable<IDisposable> disposables;
 
         public DisposalCommand(MethodCall call, int? contextOrdinal, int ordinal, IEnumerable<IDisposable> disposables)
@@ -22,7 +21,7 @@ namespace Xbehave.Sdk
 
         public override MethodResult Execute(object testClass)
         {
-            this.disposer.Dispose(this.disposables);
+            this.disposables.DisposeAll();
             return new PassedResult(this.testMethod, this.DisplayName);
         }
     }

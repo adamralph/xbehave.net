@@ -149,9 +149,6 @@
     <Compile Include="..\Xbehave.Net40\Sdk\CurrentThread.cs">
       <Link>Sdk\CurrentThread.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\DisposableFunctionFactory.cs">
-      <Link>Sdk\DisposableFunctionFactory.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\DisposalCommand.cs">
       <Link>Sdk\DisposalCommand.cs</Link>
     </Compile>
@@ -200,11 +197,8 @@
     <Compile Include="..\Xbehave.Net40\Sdk\Infra\Disposable.cs">
       <Link>Sdk\Infra\Disposable.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\Disposer.cs">
-      <Link>Sdk\Infra\Disposer.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\IDisposer.cs">
-      <Link>Sdk\Infra\IDisposer.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\DisposableExtensions.cs">
+      <Link>Sdk\Infra\DisposableExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Infra\ObjectExtensions.cs">
       <Link>Sdk\Infra\ObjectExtensions.cs</Link>
@@ -220,9 +214,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Infra\StringExtensions.cs">
       <Link>Sdk\Infra\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\TODO.cs">
-      <Link>Sdk\Infra\TODO.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\MethodCall.cs">
       <Link>Sdk\MethodCall.cs</Link>

@@ -9,30 +9,25 @@ namespace Xbehave.Sdk.Infra
 
     internal class Disposable : IDisposable
     {
-        private readonly Action dispose;
-        private readonly IEnumerable<IDisposable> disposables;
+        private readonly Action disposal;
 
-        public Disposable(Action dispose)
+        public Disposable(Action disposal)
         {
-            this.dispose = dispose;
+            Require.NotNull(disposal, "disposal");
+
+            this.disposal = disposal;
         }
 
         public Disposable(IEnumerable<IDisposable> disposables)
         {
-            this.disposables = disposables;
+            Require.NotNull(disposables, "disposables");
+
+            this.disposal = () => disposables.DisposeAll();
         }
 
         public void Dispose()
         {
-            if (this.dispose != null)
-            {
-                this.dispose();
-            }
-
-            if (this.disposables != null)
-            {
-                new Disposer().Dispose(this.disposables);
-            }
+            this.disposal.Invoke();
         }
     }
 }

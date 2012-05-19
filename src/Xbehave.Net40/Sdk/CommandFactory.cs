@@ -14,19 +14,11 @@ namespace Xbehave.Sdk
     {
         public IEnumerable<ITestCommand> Create(IEnumerable<Step> steps, MethodCall call, int? contextOrdinal)
         {
-            var disposables = new Stack<IDisposable>();
-            Action<IDisposable> handleResult = result =>
-            {
-                if (result != null)
-                {
-                    disposables.Push(result);
-                }
-            };
-
             var ordinal = 1;
+            var disposables = new Stack<IDisposable>();
             foreach (var step in steps)
             {
-                yield return new StepCommand(call, contextOrdinal, ordinal++, step, handleResult);
+                yield return new StepCommand(call, contextOrdinal, ordinal++, step, result => disposables.PushIfNotNull(result));
             }
 
             if (disposables.Any())

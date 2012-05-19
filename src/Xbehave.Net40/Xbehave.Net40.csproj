@@ -86,6 +86,7 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Sdk\ExceptionCommand.cs" />
+    <Compile Include="Sdk\Infra\DisposableExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Deprecated\IStepDefinition.Expressions.cs" />
     <Compile Include="Deprecated\StepDefinition.Expressions.cs" />
@@ -108,10 +109,7 @@
     <Compile Include="Sdk\DisposalCommand.cs" />
     <Compile Include="Sdk\MethodCall.cs" />
     <Compile Include="Sdk\ICommandFactory.cs" />
-    <Compile Include="Sdk\DisposableFunctionFactory.cs" />
     <Compile Include="Sdk\Infra\ObjectExtensions.cs" />
-    <Compile Include="Sdk\Infra\IDisposer.cs" />
-    <Compile Include="Sdk\Infra\Disposer.cs" />
     <Compile Include="Sdk\Infra\Require.cs" />
     <Compile Include="Sdk\Scenario.cs" />
     <None Include="Sandbox\Scenario.cs" />
@@ -153,9 +151,6 @@
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">
       <Link>Properties\Xbehave.CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sdk\Infra\TODO.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
