@@ -86,6 +86,7 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Sdk\ExceptionCommand.cs" />
+    <Compile Include="Sdk\Infra\EnumerableExtensions.cs" />
     <Compile Include="Sdk\Infra\DisposableExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Deprecated\IStepDefinition.Expressions.cs" />
@@ -109,7 +110,6 @@
     <Compile Include="Sdk\DisposalCommand.cs" />
     <Compile Include="Sdk\MethodCall.cs" />
     <Compile Include="Sdk\ICommandFactory.cs" />
-    <Compile Include="Sdk\Infra\ObjectExtensions.cs" />
     <Compile Include="Sdk\Infra\Require.cs" />
     <Compile Include="Sdk\Scenario.cs" />
     <None Include="Sandbox\Scenario.cs" />

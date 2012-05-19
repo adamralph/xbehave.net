@@ -200,8 +200,8 @@
     <Compile Include="..\Xbehave.Net40\Sdk\Infra\DisposableExtensions.cs">
       <Link>Sdk\Infra\DisposableExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\ObjectExtensions.cs">
-      <Link>Sdk\Infra\ObjectExtensions.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infra\EnumerableExtensions.cs">
+      <Link>Sdk\Infra\EnumerableExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Infra\QueueExtensions.cs">
       <Link>Sdk\Infra\QueueExtensions.cs</Link>

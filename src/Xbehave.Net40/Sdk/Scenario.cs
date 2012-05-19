@@ -39,7 +39,7 @@ namespace Xbehave.Sdk
                 if (step.InIsolation)
                 {
                     var ordinal = (this.steps.Any() || contextOrdinal > 1) ? (int?)contextOrdinal++ : null;
-                    foreach (var command in this.commandFactory.Create(sharedContext.Concat(step.AsEnumerable()), call, ordinal))
+                    foreach (var command in this.commandFactory.Create(sharedContext.Concat(step), call, ordinal))
                     {
                         yield return command;
                     }
