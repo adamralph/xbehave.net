@@ -10,31 +10,35 @@ namespace Xbehave.Sdk
 
     internal partial class Scenario
     {
-        private readonly Queue<Step> steps = new Queue<Step>();
+        private readonly List<Step> steps = new List<Step>();
 
-        public Step Enqueue(Step step)
+        public Step AddStep(Step step)
         {
-            this.steps.Enqueue(step);
+            this.steps.Add(step);
             return step;
         }
 
         public IEnumerable<Context> CreateContexts(ScenarioDefinition definition)
         {
-            var sharedContext = new Queue<Step>();
-            foreach (var step in this.steps.DequeueAll())
+            var sharedContext = new List<Step>();
+            var isPendingYield = false;
+            foreach (var step in this.steps)
             {
                 if (step.InIsolation)
                 {
-                    yield return new Context(definition, sharedContext.Concat(step));
+                    yield return new Context(definition, sharedContext.ToList().Concat(step));
+                    isPendingYield = false;
                 }
                 else
                 {
-                    sharedContext.Enqueue(step);
-                    if (!this.steps.Any())
-                    {
-                        yield return new Context(definition, sharedContext);
-                    }
+                    sharedContext.Add(step);
+                    isPendingYield = true;
                 }
+            }
+
+            if (isPendingYield)
+            {
+                yield return new Context(definition, sharedContext);
             }
         }
     }

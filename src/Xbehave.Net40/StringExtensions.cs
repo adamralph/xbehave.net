@@ -26,7 +26,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(this string message, Func<IDisposable> body)
         {
-            return Helper.Enqueue("Given", message, body, false, null);
+            return Helper.AddStep("Given", message, body, false, null);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(this string message, Action body)
         {
-            return Helper.Enqueue("Given", message, body, false, null);
+            return Helper.AddStep("Given", message, body, false, null);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition Given(this string message, Func<IEnumerable<IDisposable>> body)
         {
-            return Helper.Enqueue("Given", message, body, false, null);
+            return Helper.AddStep("Given", message, body, false, null);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(this string message, Action body, Action dispose)
         {
-            return Helper.Enqueue("Given", message, body, dispose, false, null);
+            return Helper.AddStep("Given", message, body, dispose, false, null);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition When(this string message, Func<IDisposable> body)
         {
-            return Helper.Enqueue("When", message, body, false, null);
+            return Helper.AddStep("When", message, body, false, null);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition When(this string message, Action body)
         {
-            return Helper.Enqueue("When", message, body, false, null);
+            return Helper.AddStep("When", message, body, false, null);
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition When(this string message, Func<IEnumerable<IDisposable>> body)
         {
-            return Helper.Enqueue("When", message, body, false, null);
+            return Helper.AddStep("When", message, body, false, null);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition When(this string message, Action body, Action dispose)
         {
-            return Helper.Enqueue("When", message, body, dispose, false, null);
+            return Helper.AddStep("When", message, body, dispose, false, null);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Then(this string message, Action body)
         {
-            return Helper.Enqueue("Then", message, body, false, null);
+            return Helper.AddStep("Then", message, body, false, null);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Func<IDisposable> body)
         {
-            return Helper.Enqueue("And", message, body, false, null);
+            return Helper.AddStep("And", message, body, false, null);
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Action body)
         {
-            return Helper.Enqueue("And", message, body, false, null);
+            return Helper.AddStep("And", message, body, false, null);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition And(this string message, Func<IEnumerable<IDisposable>> body)
         {
-            return Helper.Enqueue("And", message, body, false, null);
+            return Helper.AddStep("And", message, body, false, null);
         }
 
         /// <summary>
@@ -188,7 +188,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Action body, Action dispose)
         {
-            return Helper.Enqueue("And", message, body, dispose, false, null);
+            return Helper.AddStep("And", message, body, dispose, false, null);
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition But(this string message, Action body)
         {
-            return Helper.Enqueue("But", message, body, false, null);
+            return Helper.AddStep("But", message, body, false, null);
         }
     }
 }

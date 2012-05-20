@@ -99,12 +99,10 @@
     <Compile Include="Fluent\IStepDefinition.Expressions.cs">
       <DependentUpon>IStepDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sdk\Infra\QueueExtensions.cs" />
     <Compile Include="Sdk\Infra\Disposable.cs" />
     <None Include="Sandbox\DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\_.cs" />
     <Compile Include="Fluent\IStepDefinition.cs" />
-    <Compile Include="Sdk\Infra\StackExtensions.cs" />
     <Compile Include="Sdk\Context.cs" />
     <Compile Include="Sdk\CommandBase.cs" />
     <Compile Include="Sdk\DisposalCommand.cs" />

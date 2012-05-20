@@ -27,13 +27,13 @@ namespace Xbehave.Sdk
         public IEnumerable<ITestCommand> CreateTestCommands(int? ordinal)
         {
             var stepOrdinal = 1;
-            var disposables = new Stack<IDisposable>();
+            var disposables = new List<IDisposable>();
 
             Action<IDisposable> handleResult = disposable =>
             {
                 if (disposable != null)
                 {
-                    disposables.Push(disposable);
+                    disposables.Add(disposable);
                 }
             };
 
@@ -44,7 +44,8 @@ namespace Xbehave.Sdk
 
             if (disposables.Any())
             {
-                yield return new DisposalCommand(this.definition, ordinal, stepOrdinal++, disposables.PopAll());
+                disposables.Reverse();
+                yield return new DisposalCommand(this.definition, ordinal, stepOrdinal++, disposables);
             }
         }
     }
