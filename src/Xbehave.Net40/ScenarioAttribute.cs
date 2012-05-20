@@ -61,12 +61,16 @@ namespace Xbehave
             // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
             try
             {
-                scenarioDefinition.Execute(feature);
-                return CurrentThread.Scenario.GetTestCommands(call).ToArray();
-            }
-            catch (Exception ex)
-            {
-                return new ITestCommand[] { new ExceptionCommand(method, ex) };
+                try
+                {
+                    scenarioDefinition.Execute(feature);
+                }
+                catch (Exception ex)
+                {
+                    return new ITestCommand[] { new ExceptionCommand(method, ex) };
+                }
+                
+                return CurrentThread.Scenario.GetTestCommands(call);
             }
             finally
             {
