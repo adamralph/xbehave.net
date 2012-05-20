@@ -6,7 +6,6 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Globalization;
-    using System.Linq;
     using Xunit.Sdk;
 
     internal class StepCommand : CommandBase
