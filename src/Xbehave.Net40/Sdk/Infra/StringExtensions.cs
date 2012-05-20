@@ -5,6 +5,7 @@
 namespace Xbehave.Sdk.Infra
 {
     using System;
+    using System.Globalization;
     using System.Linq;
 
     internal static class StringExtensions
@@ -35,6 +36,18 @@ namespace Xbehave.Sdk.Infra
         public static string[] ToWords(this string text)
         {
             return new string(text.Select(x => char.IsWhiteSpace(x) ? ' ' : x).ToArray()).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        public static string TryFormatInvariant(this string format, params object[] args)
+        {
+            try
+            {
+                return string.Format(CultureInfo.InvariantCulture, format, args);
+            }
+            catch (FormatException)
+            {
+                return format;
+            }
         }
     }
 }

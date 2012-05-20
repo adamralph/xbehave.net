@@ -5,7 +5,7 @@
 namespace Xbehave.Sdk
 {
     using System;
-    using System.Globalization;
+    using Xbehave.Sdk.Infra;
     using Xunit.Sdk;
 
     internal class StepCommand : CommandBase
@@ -14,7 +14,7 @@ namespace Xbehave.Sdk
         private readonly Action<IDisposable> handleResult;
 
         public StepCommand(MethodCall call, int? contextOrdinal, int ordinal, Step step, Action<IDisposable> handleResult)
-            : base(call, contextOrdinal, ordinal, Format(call, step))
+            : base(call, contextOrdinal, ordinal, step.Name.TryFormatInvariant(call.Args))
         {
             this.step = step;
             this.handleResult = handleResult;
@@ -29,21 +29,6 @@ namespace Xbehave.Sdk
 
             this.handleResult(this.step.Execute());
             return new PassedResult(this.testMethod, this.DisplayName);
-        }
-
-        private static string Format(MethodCall call, Step step)
-        {
-            string stepName;
-            try
-            {
-                stepName = string.Format(CultureInfo.InvariantCulture, step.Name, call.Args);
-            }
-            catch (FormatException)
-            {
-                stepName = step.Name;
-            }
-
-            return string.Concat("\"", stepName.Replace("\"", "\\\""), "\"");
         }
     }
 }
