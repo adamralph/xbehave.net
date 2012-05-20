@@ -30,9 +30,21 @@ namespace Xbehave.Sdk
             var disposables = new List<IDisposable>();
             foreach (var step in this.steps)
             {
-                yield return new StepCommand(this.definition, contextOrdinal, stepOrdinal++, step, result => disposables.Add(result));
+                yield return new StepCommand(
+                    this.definition,
+                    contextOrdinal,
+                    stepOrdinal++,
+                    step,
+                    disposable =>
+                    {
+                        if (disposable != null)
+                        {
+                            disposables.Add(disposable);
+                        }
+                    });
             }
 
+            // NOTE: this relies on the test runner executing each above command as soon as it is recieved, which TD.NET, R# and xunit.console all seem to do
             if (disposables.Any())
             {
                 disposables.Reverse();

@@ -20,7 +20,7 @@ namespace Xbehave.Sdk.Infra
                 return words;
             }
 
-            // NOTE: doesn't properly deal with:- words = "Foo Bar Baz", sentence = "Foo Bar Bazzzzz"
+            // TODO: doesn't properly deal with:- words = "Foo Bar Baz", sentence = "Foo Bar Bazzzzz"
             if (sentence.StartsWith(words, StringComparison.OrdinalIgnoreCase))
             {
                 return string.Concat(words, sentence.Substring(words.Length));

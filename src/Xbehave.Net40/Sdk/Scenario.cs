@@ -21,22 +21,22 @@ namespace Xbehave.Sdk
         public IEnumerable<Context> CreateContexts(ScenarioDefinition definition)
         {
             var sharedContext = new List<Step>();
-            var isPendingYield = false;
+            var pendingYield = false;
             foreach (var step in this.steps)
             {
                 if (step.InIsolation)
                 {
                     yield return new Context(definition, sharedContext.ToList().Concat(step));
-                    isPendingYield = false;
+                    pendingYield = false;
                 }
                 else
                 {
                     sharedContext.Add(step);
-                    isPendingYield = true;
+                    pendingYield = true;
                 }
             }
 
-            if (isPendingYield)
+            if (pendingYield)
             {
                 yield return new Context(definition, sharedContext);
             }
