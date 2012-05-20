@@ -40,42 +40,14 @@ namespace Xbehave
         {
             Require.NotNull(method, "method");
 
-            var scenarioDefinitions = method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
-                ? base.EnumerateTestCommands(method)
-                : new[] { new FactCommand(method) };
+            var scenarioCommands = method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
+                ? base.EnumerateTestCommands(method).Cast<TheoryCommand>()
+                : new[] { new TheoryCommand(method, new object[0]) };
 
-            return scenarioDefinitions.SelectMany(definition => CreateCommands(method, definition));
-        }
-
-        [SuppressMessage(
-            "Microsoft.Design",
-            "CA1031:DoNotCatchGeneralExceptionTypes",
-            Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
-        private static IEnumerable<ITestCommand> CreateCommands(IMethodInfo method, ITestCommand scenarioDefinition)
-        {
             var feature = method.IsStatic ? null : method.CreateInstance();
 
-            var theoryCommand = scenarioDefinition as TheoryCommand;
-            var call = new MethodCall(method, theoryCommand == null ? new object[0] : theoryCommand.Parameters);
-
-            // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
-            try
-            {
-                try
-                {
-                    scenarioDefinition.Execute(feature);
-                }
-                catch (Exception ex)
-                {
-                    return new ITestCommand[] { new ExceptionCommand(method, ex) };
-                }
-                
-                return CurrentThread.Scenario.GetTestCommands(call);
-            }
-            finally
-            {
-                CurrentThread.ResetScenario();
-            }
+            return scenarioCommands.SelectMany(scenarioCommand =>
+                CurrentThread.CreateCommands(new MethodCall(method, scenarioCommand.Parameters), () => scenarioCommand.Execute(feature)));
         }
     }
 }

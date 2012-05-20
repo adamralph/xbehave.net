@@ -78,9 +78,6 @@
     <Compile Include="..\Xbehave.Test.Net40\Legacy\ContextSetupTeardownBehavior.cs">
       <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Net40\Legacy\SpecificationAttributeFacts.cs">
-      <Link>Legacy\SpecificationAttributeFacts.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Net40\Legacy\SpecificationPrimitiveFacts.cs">
       <Link>Legacy\SpecificationPrimitiveFacts.cs</Link>
     </Compile>
