@@ -7,49 +7,32 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Linq;
     using Xbehave.Sdk.Infra;
-    using Xunit.Sdk;
 
     internal partial class Scenario
     {
-        private readonly ICommandFactory commandFactory;
-
         private readonly Queue<Step> steps = new Queue<Step>();
-
-        public Scenario(ICommandFactory commandFactory)
-        {
-            this.commandFactory = commandFactory;
-        }
 
         public Step Enqueue(Step step)
         {
-            return this.steps.EnqueueAndReturn(step);
+            this.steps.Enqueue(step);
+            return step;
         }
 
-        public IEnumerable<ITestCommand> GetTestCommands(ScenarioDefinition definition)
+        public IEnumerable<Context> CreateContexts(ScenarioDefinition definition)
         {
             var sharedContext = new Queue<Step>();
-            var contextOrdinal = 1;
             foreach (var step in this.steps.DequeueAll())
             {
-                if (!step.InIsolation)
-                {
-                    sharedContext.Enqueue(step);
-                }
-
                 if (step.InIsolation)
                 {
-                    var ordinal = (this.steps.Any() || contextOrdinal > 1) ? (int?)contextOrdinal++ : null;
-                    foreach (var command in this.commandFactory.Create(definition, ordinal, sharedContext.Concat(step)))
-                    {
-                        yield return command;
-                    }
+                    yield return new Context(definition, sharedContext.Concat(step));
                 }
-                else if (!this.steps.Any())
+                else
                 {
-                    var ordinal = contextOrdinal > 1 ? (int?)contextOrdinal : null;
-                    foreach (var command in this.commandFactory.Create(definition, ordinal, sharedContext))
+                    sharedContext.Enqueue(step);
+                    if (!this.steps.Any())
                     {
-                        yield return command;
+                        yield return new Context(definition, sharedContext);
                     }
                 }
             }

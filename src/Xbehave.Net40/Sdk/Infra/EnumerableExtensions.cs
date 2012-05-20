@@ -17,7 +17,9 @@ namespace Xbehave.Sdk.Infra
                 yield return t;
             }
 
-            source = null; // http://msmvps.com/blogs/jon_skeet/archive/2010/12/27/reimplementing-linq-to-objects-part-8-concat.aspx
+            // NOTE: see http://msmvps.com/blogs/jon_skeet/archive/2010/12/27/reimplementing-linq-to-objects-part-8-concat.aspx
+            source = null;
+
             yield return item;
         }
     }

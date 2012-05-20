@@ -7,18 +7,17 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Xunit.Sdk;
 
     internal static class CurrentThread
     {
-        private static ICommandFactory commandFactory = new CommandFactory();
-
         [ThreadStatic]
         private static Scenario scenario;
 
         public static Scenario Scenario
         {
-            get { return scenario ?? (scenario = new Scenario(commandFactory)); }
+            get { return scenario ?? (scenario = new Scenario()); }
         }
 
         [SuppressMessage(
@@ -39,7 +38,8 @@ namespace Xbehave.Sdk
                     return new ITestCommand[] { new ExceptionCommand(definition.Method, ex) };
                 }
 
-                return Scenario.GetTestCommands(definition);
+                var contexts = Scenario.CreateContexts(definition).ToArray();
+                return contexts.SelectMany((context, index) => context.CreateTestCommands(contexts.Length > 1 ? (int?)(index + 1) : null));
             }
             finally
             {

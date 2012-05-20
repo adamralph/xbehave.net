@@ -143,8 +143,8 @@
     <Compile Include="..\Xbehave.Net40\Sdk\CommandBase.cs">
       <Link>Sdk\CommandBase.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\CommandFactory.cs">
-      <Link>Sdk\CommandFactory.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Sdk\Context.cs">
+      <Link>Sdk\Infra\Context.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\CurrentThread.cs">
       <Link>Sdk\CurrentThread.cs</Link>
@@ -190,9 +190,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\UnaryExpressionExtensions.cs">
       <Link>Sdk\ExpressionNaming\UnaryExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ICommandFactory.cs">
-      <Link>Sdk\ICommandFactory.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Infra\Disposable.cs">
       <Link>Sdk\Infra\Disposable.cs</Link>

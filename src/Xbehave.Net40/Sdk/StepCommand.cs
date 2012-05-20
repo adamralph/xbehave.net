@@ -14,7 +14,7 @@ namespace Xbehave.Sdk
         private readonly Action<IDisposable> handleResult;
 
         public StepCommand(ScenarioDefinition definition, int? contextOrdinal, int ordinal, Step step, Action<IDisposable> handleResult)
-            : base(definition, contextOrdinal, ordinal, step.Name.TryFormatInvariant(definition.Args))
+            : base(definition, contextOrdinal, ordinal, step.Name.AttemptFormat(definition.Args))
         {
             this.step = step;
             this.handleResult = handleResult;

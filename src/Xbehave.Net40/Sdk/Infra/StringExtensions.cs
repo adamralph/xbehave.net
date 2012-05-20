@@ -39,7 +39,7 @@ namespace Xbehave.Sdk.Infra
             return new string(text.Select(x => char.IsWhiteSpace(x) ? ' ' : x).ToArray()).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public static string TryFormatInvariant(this string format, params object[] args)
+        public static string AttemptFormat(this string format, params object[] args)
         {
             try
             {

@@ -105,11 +105,10 @@
     <Compile Include="Deprecated\_.cs" />
     <Compile Include="Fluent\IStepDefinition.cs" />
     <Compile Include="Sdk\Infra\StackExtensions.cs" />
-    <Compile Include="Sdk\CommandFactory.cs" />
+    <Compile Include="Sdk\Context.cs" />
     <Compile Include="Sdk\CommandBase.cs" />
     <Compile Include="Sdk\DisposalCommand.cs" />
     <Compile Include="Sdk\ScenarioDefinition.cs" />
-    <Compile Include="Sdk\ICommandFactory.cs" />
     <Compile Include="Sdk\Infra\Require.cs" />
     <Compile Include="Sdk\Scenario.cs" />
     <None Include="Sandbox\Scenario.cs" />
