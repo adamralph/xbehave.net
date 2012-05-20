@@ -18,6 +18,7 @@ namespace Xbehave.Sdk.Infra
             }
         }
 
+        // NOTE: provided purely for code tersity
         public static T EnqueueAndReturn<T>(this Queue<T> destination, T item)
         {
             destination.Enqueue(item);

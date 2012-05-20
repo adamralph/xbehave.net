@@ -21,6 +21,7 @@ namespace Xbehave.Sdk.Infra
             }
         }
 
+        // NOTE: provided purely for optimization
         public static void PushIfNotNull<T>(this Stack<T> source, T item)
         {
             Require.NotNull(source, "source");

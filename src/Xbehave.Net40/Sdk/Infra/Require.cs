@@ -16,6 +16,7 @@ namespace Xbehave.Sdk.Infra
             }
         }
 
+        // NOTE: when applied to a parameter, this attribute provides an indication to code analysis that the argument has been null checked
         private sealed class ValidatedNotNullAttribute : Attribute
         {
         }
