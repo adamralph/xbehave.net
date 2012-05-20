@@ -108,7 +108,7 @@
     <Compile Include="Sdk\CommandFactory.cs" />
     <Compile Include="Sdk\CommandBase.cs" />
     <Compile Include="Sdk\DisposalCommand.cs" />
-    <Compile Include="Sdk\MethodCall.cs" />
+    <Compile Include="Sdk\ScenarioDefinition.cs" />
     <Compile Include="Sdk\ICommandFactory.cs" />
     <Compile Include="Sdk\Infra\Require.cs" />
     <Compile Include="Sdk\Scenario.cs" />

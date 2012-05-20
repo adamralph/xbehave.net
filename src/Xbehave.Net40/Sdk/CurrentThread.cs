@@ -25,21 +25,21 @@ namespace Xbehave.Sdk
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
-        public static IEnumerable<ITestCommand> CreateCommands(MethodCall call, Action defineScenario)
+        public static IEnumerable<ITestCommand> CreateCommands(ScenarioDefinition definition)
         {
             // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
             try
             {
                 try
                 {
-                    defineScenario.Invoke();
+                    definition.Execute();
                 }
                 catch (Exception ex)
                 {
-                    return new ITestCommand[] { new ExceptionCommand(call.Method, ex) };
+                    return new ITestCommand[] { new ExceptionCommand(definition.Method, ex) };
                 }
 
-                return Scenario.GetTestCommands(call);
+                return Scenario.GetTestCommands(definition);
             }
             finally
             {

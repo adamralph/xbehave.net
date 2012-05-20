@@ -25,7 +25,7 @@ namespace Xbehave.Sdk
             return this.steps.EnqueueAndReturn(step);
         }
 
-        public IEnumerable<ITestCommand> GetTestCommands(MethodCall call)
+        public IEnumerable<ITestCommand> GetTestCommands(ScenarioDefinition definition)
         {
             var sharedContext = new Queue<Step>();
             var contextOrdinal = 1;
@@ -39,7 +39,7 @@ namespace Xbehave.Sdk
                 if (step.InIsolation)
                 {
                     var ordinal = (this.steps.Any() || contextOrdinal > 1) ? (int?)contextOrdinal++ : null;
-                    foreach (var command in this.commandFactory.Create(sharedContext.Concat(step), call, ordinal))
+                    foreach (var command in this.commandFactory.Create(definition, ordinal, sharedContext.Concat(step)))
                     {
                         yield return command;
                     }
@@ -47,7 +47,7 @@ namespace Xbehave.Sdk
                 else if (!this.steps.Any())
                 {
                     var ordinal = contextOrdinal > 1 ? (int?)contextOrdinal : null;
-                    foreach (var command in this.commandFactory.Create(sharedContext, call, ordinal))
+                    foreach (var command in this.commandFactory.Create(definition, ordinal, sharedContext))
                     {
                         yield return command;
                     }

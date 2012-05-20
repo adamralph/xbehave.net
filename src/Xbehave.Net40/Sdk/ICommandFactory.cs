@@ -9,6 +9,6 @@ namespace Xbehave.Sdk
 
     internal interface ICommandFactory
     {
-        IEnumerable<ITestCommand> Create(IEnumerable<Step> steps, MethodCall call, int? contextOrdinal);
+        IEnumerable<ITestCommand> Create(ScenarioDefinition definition, int? contextOrdinal, IEnumerable<Step> steps);
     }
 }

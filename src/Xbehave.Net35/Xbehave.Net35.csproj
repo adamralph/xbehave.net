@@ -215,11 +215,11 @@
     <Compile Include="..\Xbehave.Net40\Sdk\Infra\StringExtensions.cs">
       <Link>Sdk\Infra\StringExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\MethodCall.cs">
-      <Link>Sdk\MethodCall.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Scenario.cs">
       <Link>Sdk\Scenario.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\ScenarioDefinition.cs">
+      <Link>Sdk\ScenarioDefinition.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Step.cs">
       <Link>Sdk\Step.cs</Link>

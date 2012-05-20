@@ -1,4 +1,4 @@
-﻿// <copyright file="MethodCall.cs" company="Adam Ralph">
+﻿// <copyright file="ScenarioDefinition.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -12,19 +12,28 @@ namespace Xbehave.Sdk
     using Xbehave.Sdk.Infra;
     using Xunit.Sdk;
 
-    internal partial class MethodCall
+    internal partial class ScenarioDefinition
     {
+        private readonly Action body;
         private readonly IMethodInfo method;
         private readonly object[] args;
 
         private string text;
 
-        public MethodCall(IMethodInfo method, IEnumerable<object> args)
+        public ScenarioDefinition(IMethodInfo method, IEnumerable<object> args, Action body)
         {
+            Require.NotNull(body, "body");
+            Require.NotNull(method, "method");
             Require.NotNull(args, "args");
 
+            this.body = body;
             this.method = method;
             this.args = args.ToArray();
+        }
+
+        public IMethodInfo Method
+        {
+            get { return this.method; }
         }
 
         public object[] Args
@@ -32,9 +41,9 @@ namespace Xbehave.Sdk
             get { return this.args; }
         }
 
-        public IMethodInfo Method
+        public void Execute()
         {
-            get { return this.method; }
+            this.body.Invoke();
         }
 
         public override string ToString()
@@ -49,9 +58,9 @@ namespace Xbehave.Sdk
             return this.text;
         }
 
-        private static IEnumerable<string> ToStrings(ParameterInfo[] parameters, object[] args)
+        private static IEnumerable<string> ToStrings(IEnumerable<ParameterInfo> parameters, IEnumerable<object> args)
         {
-            for (var i = 0; i < Math.Max(parameters.Length, args.Length); ++i)
+            for (var i = 0; i < Math.Max(parameters.Count(), args.Count()); ++i)
             {
                 yield return ToString(parameters.ElementAtOrDefault(i), args.ElementAtOrDefault(i));
             }

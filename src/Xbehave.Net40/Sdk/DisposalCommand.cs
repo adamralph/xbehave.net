@@ -13,7 +13,7 @@ namespace Xbehave.Sdk
     {
         private readonly IEnumerable<IDisposable> disposables;
 
-        public DisposalCommand(MethodCall call, int? contextOrdinal, int ordinal, IEnumerable<IDisposable> disposables)
+        public DisposalCommand(ScenarioDefinition call, int? contextOrdinal, int ordinal, IEnumerable<IDisposable> disposables)
             : base(call, contextOrdinal, ordinal, "Disposal")
         {
             this.disposables = disposables;
