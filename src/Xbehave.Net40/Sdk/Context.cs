@@ -24,28 +24,19 @@ namespace Xbehave.Sdk
             this.steps = steps;
         }
 
-        public IEnumerable<ITestCommand> CreateTestCommands(int? ordinal)
+        public IEnumerable<ITestCommand> CreateTestCommands(int? contextOrdinal)
         {
             var stepOrdinal = 1;
             var disposables = new List<IDisposable>();
-
-            Action<IDisposable> handleResult = disposable =>
-            {
-                if (disposable != null)
-                {
-                    disposables.Add(disposable);
-                }
-            };
-
             foreach (var step in this.steps)
             {
-                yield return new StepCommand(this.definition, ordinal, stepOrdinal++, step, handleResult);
+                yield return new StepCommand(this.definition, contextOrdinal, stepOrdinal++, step, result => disposables.Add(result));
             }
 
             if (disposables.Any())
             {
                 disposables.Reverse();
-                yield return new DisposalCommand(this.definition, ordinal, stepOrdinal++, disposables);
+                yield return new DisposalCommand(this.definition, contextOrdinal, stepOrdinal++, disposables);
             }
         }
     }

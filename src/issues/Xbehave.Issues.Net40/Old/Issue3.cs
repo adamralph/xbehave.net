@@ -74,8 +74,8 @@ namespace Xbehave.Issues.Old
                     },
                     () =>
                     {
-                        disposable0.Dispose();
                         disposable1.Dispose();
+                        disposable0.Dispose();                        
                     })
                 .When(() => disposable0.Use());
 
