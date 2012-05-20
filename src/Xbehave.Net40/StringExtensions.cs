@@ -188,7 +188,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(this string message, Action body, Action dispose)
         {
-            return Helper.Enqueue("And", message, dispose, body, false, null);
+            return Helper.Enqueue("And", message, body, dispose, false, null);
         }
 
         /// <summary>
