@@ -108,7 +108,7 @@
     <Compile Include="Sdk\DisposalCommand.cs" />
     <Compile Include="Sdk\ScenarioDefinition.cs" />
     <Compile Include="Sdk\Infra\Require.cs" />
-    <Compile Include="Sdk\Scenario.cs" />
+    <Compile Include="Sdk\ContextFactory.cs" />
     <None Include="Sandbox\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="Deprecated\ScenarioDataAttribute.cs" />
@@ -117,7 +117,7 @@
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
     <Compile Include="Sdk\StepCommand.cs" />
     <Compile Include="Sdk\Step.cs" />
-    <Compile Include="Sdk\CurrentThread.cs" />
+    <Compile Include="Sdk\CurrentScenario.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />
     <Compile Include="Deprecated\ThesisAttribute.cs" />
     <Compile Include="Fluent\StepDefinition.cs" />

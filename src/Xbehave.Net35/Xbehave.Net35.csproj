@@ -146,8 +146,11 @@
     <Compile Include="..\Xbehave.Net40\Sdk\Context.cs">
       <Link>Sdk\Infra\Context.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\CurrentThread.cs">
-      <Link>Sdk\CurrentThread.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Sdk\ContextFactory.cs">
+      <Link>Sdk\ContextFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\CurrentScenario.cs">
+      <Link>Sdk\CurrentScenario.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\DisposalCommand.cs">
       <Link>Sdk\DisposalCommand.cs</Link>
@@ -205,9 +208,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Infra\StringExtensions.cs">
       <Link>Sdk\Infra\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Scenario.cs">
-      <Link>Sdk\Scenario.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ScenarioDefinition.cs">
       <Link>Sdk\ScenarioDefinition.cs</Link>

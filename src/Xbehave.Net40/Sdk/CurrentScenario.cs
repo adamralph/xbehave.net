@@ -1,4 +1,4 @@
-﻿// <copyright file="CurrentThread.cs" company="Adam Ralph">
+﻿// <copyright file="CurrentScenario.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -10,14 +10,20 @@ namespace Xbehave.Sdk
     using System.Linq;
     using Xunit.Sdk;
 
-    internal static class CurrentThread
+    internal static class CurrentScenario
     {
         [ThreadStatic]
-        private static Scenario scenario;
+        private static List<Step> steps;
 
-        public static Scenario Scenario
+        private static List<Step> Steps
         {
-            get { return scenario ?? (scenario = new Scenario()); }
+            get { return steps ?? (steps = new List<Step>()); }
+        }
+
+        public static Step AddStep(Step step)
+        {
+            Steps.Add(step);
+            return step;
         }
 
         [SuppressMessage(
@@ -26,7 +32,6 @@ namespace Xbehave.Sdk
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
         public static IEnumerable<ITestCommand> CreateCommands(ScenarioDefinition definition)
         {
-            // NOTE: I've tried to move this into Scenario, with the finally block clearing the steps but it just doesn't seem to work
             try
             {
                 try
@@ -38,12 +43,12 @@ namespace Xbehave.Sdk
                     return new ITestCommand[] { new ExceptionCommand(definition.Method, ex) };
                 }
 
-                var contexts = Scenario.CreateContexts(definition).ToArray();
+                var contexts = new ContextFactory().CreateContexts(definition, Steps).ToArray();
                 return contexts.SelectMany((context, index) => context.CreateTestCommands(contexts.Length > 1 ? (int?)(index + 1) : null));
             }
             finally
             {
-                scenario = null;
+                steps = null;
             }
         }
     }

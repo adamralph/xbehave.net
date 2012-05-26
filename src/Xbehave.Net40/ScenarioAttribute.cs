@@ -47,7 +47,7 @@ namespace Xbehave
             var feature = method.IsStatic ? null : method.CreateInstance();
 
             return scenarioCommands.SelectMany(scenarioCommand =>
-                CurrentThread.CreateCommands(new ScenarioDefinition(method, scenarioCommand.Parameters, () => scenarioCommand.Execute(feature))));
+                CurrentScenario.CreateCommands(new ScenarioDefinition(method, scenarioCommand.Parameters, () => scenarioCommand.Execute(feature))));
         }
     }
 }
