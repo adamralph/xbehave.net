@@ -5,9 +5,11 @@
 namespace Xbehave.Sdk.Infra
 {
     using System;
+    using System.Diagnostics;
 
     internal static class Require
     {
+        [DebuggerStepThrough]
         public static void NotNull<T>([ValidatedNotNull]T arg, string parameterName) where T : class
         {
             if (arg == null)
