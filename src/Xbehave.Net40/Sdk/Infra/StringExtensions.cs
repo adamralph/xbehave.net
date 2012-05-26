@@ -10,33 +10,28 @@ namespace Xbehave.Sdk.Infra
 
     internal static class StringExtensions
     {
-        public static string ToSentenceStartingWith(this string sentence, string words)
+        public static string StartingWith(this string source, string text)
         {
-            words = (words ?? string.Empty).ToSingleSpaceSentence();
-            sentence = (sentence ?? string.Empty).ToSingleSpaceSentence();
-
-            if (sentence.Equals(words, StringComparison.OrdinalIgnoreCase))
+            if (text == null)
             {
-                return words;
+                return source;
             }
 
-            // TODO: doesn't properly deal with:- words = "Foo Bar Baz", sentence = "Foo Bar Bazzzzz"
-            if (sentence.StartsWith(words, StringComparison.OrdinalIgnoreCase))
+            if (source == null)
             {
-                return string.Concat(words, sentence.Substring(words.Length));
+                return text;
             }
 
-            return string.Concat(words, " ", sentence);
-        }
+            for (var i = text.Length; i > 0; --i)
+            {
+                var result = string.Concat(text, new string(source.Skip(i).ToArray()));
+                if (result.EndsWith(source, StringComparison.OrdinalIgnoreCase))
+                {
+                    return result;
+                }
+            }
 
-        public static string ToSingleSpaceSentence(this string text)
-        {
-            return string.Join(" ", text.ToWords());
-        }
-
-        public static string[] ToWords(this string text)
-        {
-            return new string(text.Select(x => char.IsWhiteSpace(x) ? ' ' : x).ToArray()).Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return string.Concat(text, source);
         }
 
         public static string AttemptFormat(this string format, params object[] args)

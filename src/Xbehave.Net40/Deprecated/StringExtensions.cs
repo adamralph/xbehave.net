@@ -16,38 +16,38 @@ namespace Xbehave
         /// <summary>
         /// Deprecated in version 0.4.0.
         /// </summary>
-        /// <param name="message">A message describing the arrangment.</param>
+        /// <param name="text">A text describing the arrangment.</param>
         /// <param name="body">The function that will perform and return the arrangement.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Given(Func<IDisposable>) instead.")]
-        public static IStepDefinition GivenDisposable(this string message, ContextDelegate body)
+        public static IStepDefinition GivenDisposable(this string text, ContextDelegate body)
         {
             Require.NotNull(body, "arrange");
-            return message.Given(() => body());
+            return text.Given(() => body());
         }
 
         /// <summary>
         /// Deprecated in version 0.10.0.
         /// </summary>
-        /// <param name="message">A message describing the assertion.</param>
+        /// <param name="text">A text describing the assertion.</param>
         /// <param name="body">The action which would have performed the assertion.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Then().Skip() instead.")]
-        public static IStepDefinition ThenSkip(this string message, Action body)
+        public static IStepDefinition ThenSkip(this string text, Action body)
         {
-            return message.Then(body).Skip("Skipped for an unknown reason.");
+            return text.Then(body).Skip("Skipped for an unknown reason.");
         }
 
         /// <summary>
         /// Deprecated in version 0.10.0.
         /// </summary>
-        /// <param name="message">A message describing the step.</param>
+        /// <param name="text">The step text.</param>
         /// <param name="body">The action which performs the step.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
         [Obsolete("Use Then().InIsolation() instead.")]
-        public static IStepDefinition ThenInIsolation(this string message, Action body)
+        public static IStepDefinition ThenInIsolation(this string text, Action body)
         {
-            return message.Then(body).InIsolation();
+            return text.Then(body).InIsolation();
         }
     }
 }

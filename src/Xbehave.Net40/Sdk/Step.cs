@@ -14,16 +14,16 @@ namespace Xbehave.Sdk
         private readonly string name;
         private readonly Func<IDisposable> body;
 
-        public Step(string prefix, string message, Func<IDisposable> body, bool inIsolation, string skipReason)
-            : this(prefix, message, inIsolation, skipReason)
+        public Step(string stepType, string text, Func<IDisposable> body, bool inIsolation, string skipReason)
+            : this(stepType, text, inIsolation, skipReason)
         {
             Require.NotNull(body, "body");
 
             this.body = body;
         }
 
-        public Step(string prefix, string message, Action body, bool inIsolation, string skipReason)
-            : this(prefix, message, inIsolation, skipReason)
+        public Step(string stepType, string text, Action body, bool inIsolation, string skipReason)
+            : this(stepType, text, inIsolation, skipReason)
         {
             Require.NotNull(body, "body");
 
@@ -34,16 +34,16 @@ namespace Xbehave.Sdk
             });
         }
 
-        public Step(string prefix, string message, Func<IEnumerable<IDisposable>> body, bool inIsolation, string skipReason)
-            : this(prefix, message, inIsolation, skipReason)
+        public Step(string stepType, string text, Func<IEnumerable<IDisposable>> body, bool inIsolation, string skipReason)
+            : this(stepType, text, inIsolation, skipReason)
         {
             Require.NotNull(body, "body");
 
             this.body = new Func<IDisposable>(() => new Disposable(body().Reverse()));
         }
 
-        public Step(string prefix, string message, Action body, Action dispose, bool inIsolation, string skipReason)
-            : this(prefix, message, inIsolation, skipReason)
+        public Step(string stepType, string text, Action body, Action dispose, bool inIsolation, string skipReason)
+            : this(stepType, text, inIsolation, skipReason)
         {
             Require.NotNull(body, "body");
 
@@ -54,12 +54,12 @@ namespace Xbehave.Sdk
             });
         }
 
-        private Step(string prefix, string message, bool inIsolation, string skipReason)
+        private Step(string stepType, string text, bool inIsolation, string skipReason)
         {
-            Require.NotNull(prefix, "prefix");
-            Require.NotNull(message, "message");
+            Require.NotNull(stepType, "stepType");
+            Require.NotNull(text, "text");
 
-            this.name = message.ToSentenceStartingWith(prefix);
+            this.name = text.StartingWith(stepType + " ");
             this.InIsolation = inIsolation;
             this.SkipReason = skipReason;
         }
