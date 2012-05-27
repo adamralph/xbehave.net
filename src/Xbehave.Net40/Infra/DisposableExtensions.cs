@@ -14,24 +14,25 @@ namespace Xbehave.Infra
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Emulating nested using blocks.")]
         public static void DisposeAll(this IEnumerable<IDisposable> source)
         {
-            Require.NotNull(source, "source");
-
-            Exception lastEx = null;
-            foreach (var disposable in source.Where(disposable => disposable != null))
+            if (source != null)
             {
-                try
+                Exception lastEx = null;
+                foreach (var disposable in source.Where(disposable => disposable != null))
                 {
-                    disposable.Dispose();
+                    try
+                    {
+                        disposable.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        lastEx = ex;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    lastEx = ex;
-                }
-            }
 
-            if (lastEx != null)
-            {
-                Xunit.Sdk.ExceptionUtility.RethrowWithNoStackTraceLoss(lastEx);
+                if (lastEx != null)
+                {
+                    Xunit.Sdk.ExceptionUtility.RethrowWithNoStackTraceLoss(lastEx);
+                }
             }
         }
     }
