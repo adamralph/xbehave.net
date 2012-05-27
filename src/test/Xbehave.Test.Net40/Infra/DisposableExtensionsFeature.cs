@@ -5,9 +5,6 @@
 namespace Xbehave.Test.Infra
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using FakeItEasy;
     using FluentAssertions;
     using Xbehave.Infra;
@@ -59,7 +56,7 @@ namespace Xbehave.Test.Infra
             "And another exception"
                 .And(() => secondException = new Exception("Exception 2"));
 
-            "And another disposable which throws the exception"
+            "And another disposable which throws the second exception"
                 .And(() =>
                 {
                     secondDisposable = A.Fake<IDisposable>();
