@@ -75,6 +75,15 @@
     <Compile Include="..\Xbehave.Test.Net40\ExpressionNaming\ExpressionExtensionsStory.cs">
       <Link>ExpressionNaming\ExpressionExtensionsStory.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Infra\DisposableExtensionsFeature.cs">
+      <Link>Infra\DisposableExtensionsFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Infra\DisposableFeature.cs">
+      <Link>Infra\DisposableFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Infra\EnumerableExtensionsFeature.cs">
+      <Link>Infra\EnumerableExtensionsFeature.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Test.Net40\Legacy\ContextSetupTeardownBehavior.cs">
       <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
     </Compile>
