@@ -44,7 +44,7 @@ namespace Xbehave.Sdk
                 }
 
                 var contexts = new ContextFactory().CreateContexts(definition, Steps).ToArray();
-                return contexts.SelectMany((context, index) => context.CreateTestCommands(contexts.Length > 1 ? (int?)(index + 1) : null));
+                return contexts.SelectMany((context, index) => context.CreateTestCommands(index + 1));
             }
             finally
             {

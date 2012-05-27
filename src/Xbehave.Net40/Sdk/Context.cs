@@ -24,7 +24,7 @@ namespace Xbehave.Sdk
             this.steps = steps;
         }
 
-        public IEnumerable<ITestCommand> CreateTestCommands(int? contextOrdinal)
+        public IEnumerable<ITestCommand> CreateTestCommands(int contextOrdinal)
         {
             var stepOrdinal = 1;
             var disposables = new List<IDisposable>();
