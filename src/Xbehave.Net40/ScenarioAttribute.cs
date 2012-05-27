@@ -39,8 +39,9 @@ namespace Xbehave
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
             Require.NotNull(method, "method");
+            Require.NotNull(method.MethodInfo, "method", "MethodInfo");
 
-            var scenarioCommands = method.MethodInfo != null && method.MethodInfo.GetParameters().Any()
+            var scenarioCommands = method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method).Cast<TheoryCommand>()
                 : new[] { new TheoryCommand(method, new object[0]) };
 

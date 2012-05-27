@@ -6,6 +6,7 @@ namespace Xbehave.Sdk.Infra
 {
     using System;
     using System.Diagnostics;
+    using System.Globalization;
 
     internal static class Require
     {
@@ -15,6 +16,15 @@ namespace Xbehave.Sdk.Infra
             if (arg == null)
             {
                 throw new ArgumentNullException(parameterName);
+            }
+        }
+
+        [DebuggerStepThrough]
+        public static void NotNull<T>([ValidatedNotNull]T argumentProperty, string parameterName, string propertyName) where T : class
+        {
+            if (argumentProperty == null)
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "{0}.{1} is null.", parameterName));
             }
         }
 
