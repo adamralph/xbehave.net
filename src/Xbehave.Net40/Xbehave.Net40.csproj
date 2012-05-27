@@ -86,12 +86,12 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Sdk\ExceptionCommand.cs" />
-    <Compile Include="Sdk\Infra\EnumerableExtensions.cs" />
-    <Compile Include="Sdk\Infra\DisposableExtensions.cs" />
+    <Compile Include="Infra\EnumerableExtensions.cs" />
+    <Compile Include="Infra\DisposableExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Deprecated\IStepDefinition.Expressions.cs" />
     <Compile Include="Deprecated\StepDefinition.Expressions.cs" />
-    <Compile Include="Sdk\Infra\StringExtensions.cs" />
+    <Compile Include="Infra\StringExtensions.cs" />
     <Compile Include="_.cs" />
     <Compile Include="Fluent\StepDefinition.Expressions.cs">
       <DependentUpon>StepDefinition.cs</DependentUpon>
@@ -99,7 +99,7 @@
     <Compile Include="Fluent\IStepDefinition.Expressions.cs">
       <DependentUpon>IStepDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sdk\Infra\Disposable.cs" />
+    <Compile Include="Infra\Disposable.cs" />
     <None Include="Sandbox\DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\_.cs" />
     <Compile Include="Fluent\IStepDefinition.cs" />
@@ -107,7 +107,7 @@
     <Compile Include="Sdk\CommandBase.cs" />
     <Compile Include="Sdk\DisposalCommand.cs" />
     <Compile Include="Sdk\ScenarioDefinition.cs" />
-    <Compile Include="Sdk\Infra\Require.cs" />
+    <Compile Include="Infra\Require.cs" />
     <Compile Include="Sdk\ContextFactory.cs" />
     <None Include="Sandbox\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />

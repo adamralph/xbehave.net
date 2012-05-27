@@ -6,7 +6,7 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Collections.Generic;
-    using Xbehave.Sdk.Infra;
+    using Xbehave.Infra;
     using Xunit.Sdk;
 
     internal class DisposalCommand : CommandBase

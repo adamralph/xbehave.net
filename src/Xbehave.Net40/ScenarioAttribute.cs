@@ -8,8 +8,8 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using Xbehave.Infra;
     using Xbehave.Sdk;
-    using Xbehave.Sdk.Infra;
     using Xunit.Extensions;
     using Xunit.Sdk;
 

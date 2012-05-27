@@ -9,8 +9,8 @@ namespace Xbehave
     using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
     using Xbehave.Fluent;
+    using Xbehave.Infra;
     using Xbehave.Sdk.ExpressionNaming;
-    using Xbehave.Sdk.Infra;
 
     /// <summary>
     /// Provides a scenario step syntax an auto-generated step name.

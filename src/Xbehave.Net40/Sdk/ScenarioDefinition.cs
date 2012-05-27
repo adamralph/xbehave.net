@@ -8,7 +8,7 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Xbehave.Sdk.Infra;
+    using Xbehave.Infra;
     using Xunit.Sdk;
 
     internal partial class ScenarioDefinition

@@ -137,6 +137,21 @@
     <Compile Include="..\Xbehave.Net40\Helper.cs">
       <Link>Helper.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
+      <Link>Infra\Disposable.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\DisposableExtensions.cs">
+      <Link>Infra\DisposableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\EnumerableExtensions.cs">
+      <Link>Infra\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\Require.cs">
+      <Link>Infra\Require.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\StringExtensions.cs">
+      <Link>Infra\StringExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>
@@ -144,7 +159,7 @@
       <Link>Sdk\CommandBase.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\Context.cs">
-      <Link>Sdk\Infra\Context.cs</Link>
+      <Link>Sdk\Context.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ContextFactory.cs">
       <Link>Sdk\ContextFactory.cs</Link>
@@ -193,21 +208,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\UnaryExpressionExtensions.cs">
       <Link>Sdk\ExpressionNaming\UnaryExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\Disposable.cs">
-      <Link>Sdk\Infra\Disposable.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\DisposableExtensions.cs">
-      <Link>Sdk\Infra\DisposableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\EnumerableExtensions.cs">
-      <Link>Sdk\Infra\EnumerableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\Require.cs">
-      <Link>Sdk\Infra\Require.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infra\StringExtensions.cs">
-      <Link>Sdk\Infra\StringExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ScenarioDefinition.cs">
       <Link>Sdk\ScenarioDefinition.cs</Link>
