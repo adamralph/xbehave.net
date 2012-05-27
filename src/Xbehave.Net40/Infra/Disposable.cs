@@ -13,21 +13,23 @@ namespace Xbehave.Infra
 
         public Disposable(Action disposal)
         {
-            Require.NotNull(disposal, "disposal");
-
             this.disposal = disposal;
         }
 
         public Disposable(IEnumerable<IDisposable> disposables)
         {
-            Require.NotNull(disposables, "disposables");
-
-            this.disposal = () => disposables.DisposeAll();
+            if (disposables != null)
+            {
+                this.disposal = () => disposables.DisposeAll();
+            }
         }
 
         public void Dispose()
         {
-            this.disposal.Invoke();
+            if (this.disposal != null)
+            {
+                this.disposal.Invoke();
+            }
         }
     }
 }
