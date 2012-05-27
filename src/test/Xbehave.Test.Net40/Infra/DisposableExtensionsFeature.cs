@@ -24,7 +24,7 @@ namespace Xbehave.Test.Infra
             "And another disposable"
                 .And(() => secondDisposable = A.Fake<IDisposable>());
 
-            "When disposing the disposables"
+            "When disposing all the disposables"
                 .When(() => new[] { firstDisposable, secondDisposable }.DisposeAll());
 
             "Then the first disposable is disposed"
@@ -63,10 +63,10 @@ namespace Xbehave.Test.Infra
                     A.CallTo(() => secondDisposable.Dispose()).Throws(secondException);
                 });
 
-            "When disposing the disposables"
+            "When disposing all the disposables"
                 .When(() => thrownException = Record.Exception(() => new[] { firstDisposable, secondDisposable }.DisposeAll()));
 
-            "Then the result should be the second exception"
+            "Then the thrown exception should be the second exception"
                 .Then(() => thrownException.Should().Be(secondException));
         }
     }
