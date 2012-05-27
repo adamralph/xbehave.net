@@ -59,7 +59,7 @@ namespace Xbehave.Sdk
             Require.NotNull(stepType, "stepType");
             Require.NotNull(text, "text");
 
-            this.name = text.StartingWith(stepType + " ");
+            this.name = text.StartingWithOrdinalIgnoreCase(stepType + " ");
             this.InIsolation = inIsolation;
             this.SkipReason = skipReason;
         }

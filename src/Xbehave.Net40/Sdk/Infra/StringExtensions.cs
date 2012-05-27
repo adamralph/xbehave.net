@@ -10,7 +10,7 @@ namespace Xbehave.Sdk.Infra
 
     internal static class StringExtensions
     {
-        public static string StartingWith(this string source, string text)
+        public static string StartingWithOrdinalIgnoreCase(this string source, string text)
         {
             if (text == null)
             {
@@ -34,7 +34,7 @@ namespace Xbehave.Sdk.Infra
             return string.Concat(text, source);
         }
 
-        public static string AttemptFormat(this string format, params object[] args)
+        public static string AttemptFormatInvariantCulture(this string format, params object[] args)
         {
             try
             {
