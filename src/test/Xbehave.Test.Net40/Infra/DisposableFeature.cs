@@ -39,7 +39,7 @@ namespace Xbehave.Test.Infra
             "Given a disposable implementer"
                 .Given(() => disposableImplementer1 = A.Fake<IDisposable>());
 
-            "and another disposable implementer"
+            "And another disposable implementer"
                 .And(() => disposableImplementer2 = A.Fake<IDisposable>());
 
             "And a disposable constructing using the disposable implementers"
@@ -51,7 +51,7 @@ namespace Xbehave.Test.Infra
             "Then the first disposable implementer is disposed"
                 .Then(() => A.CallTo(() => disposableImplementer1.Dispose()).MustHaveHappened(Repeated.Exactly.Once));
 
-            "and the second disposable implementer is disposed"
+            "And the second disposable implementer is disposed"
                 .And(() => A.CallTo(() => disposableImplementer2.Dispose()).MustHaveHappened(Repeated.Exactly.Once));
         }
     }
