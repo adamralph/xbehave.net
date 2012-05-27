@@ -65,6 +65,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Infra\DisposableExtensionsFeature.cs" />
     <Compile Include="Infra\DisposableFeature.cs" />
     <Compile Include="Legacy\ContextSetupTeardownBehavior.cs" />
     <Compile Include="Deprecated\ThesisAttributeFacts.cs" />
