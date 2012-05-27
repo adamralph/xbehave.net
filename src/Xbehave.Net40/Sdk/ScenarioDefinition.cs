@@ -8,7 +8,6 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Reflection;
     using Xbehave.Sdk.Infra;
     using Xunit.Sdk;
 
@@ -50,25 +49,26 @@ namespace Xbehave.Sdk
         {
             if (this.text == null)
             {
-                var paramList = string.Join(", ", ToStrings(this.method.MethodInfo.GetParameters(), this.args).ToArray());
-                var paramSuffix = paramList.Length == 0 ? null : string.Concat("(", paramList, ")");
-                this.text = string.Format(CultureInfo.InvariantCulture, "{0}.{1}{2}", this.method.TypeName, this.method.Name, paramSuffix);
+                string parameterSuffix = null;
+
+                var parameters = this.method.MethodInfo.GetParameters();
+                if (parameters.Length > 0 || this.args.Length > 0)
+                {
+                    var tokens = new List<string>();
+                    for (var i = 0; i < Math.Max(parameters.Length, this.args.Length); ++i)
+                    {
+                        var parameter = parameters.ElementAtOrDefault(i);
+                        var arg = this.args.ElementAtOrDefault(i);
+                        tokens.Add(string.Concat(parameter == null ? "???" : parameter.Name, ": ", (arg ?? "null").ToString()));
+                    }
+
+                    parameterSuffix = string.Concat("(", string.Join(", ", tokens.ToArray()), ")");
+                }
+
+                this.text = string.Format(CultureInfo.InvariantCulture, "{0}.{1}{2}", this.method.TypeName, this.method.Name, parameterSuffix);
             }
 
             return this.text;
-        }
-
-        private static IEnumerable<string> ToStrings(IEnumerable<ParameterInfo> parameters, IEnumerable<object> args)
-        {
-            for (var i = 0; i < Math.Max(parameters.Count(), args.Count()); ++i)
-            {
-                yield return ToString(parameters.ElementAtOrDefault(i), args.ElementAtOrDefault(i));
-            }
-        }
-
-        private static string ToString(ParameterInfo parameter, object arg)
-        {
-            return string.Concat(parameter == null ? "???" : parameter.Name, ": ", (arg ?? "null").ToString());
         }
     }
 }
