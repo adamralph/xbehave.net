@@ -11,9 +11,9 @@ namespace Xbehave.Sdk.Infra
     internal static class Require
     {
         [DebuggerStepThrough]
-        public static void NotNull<T>([ValidatedNotNull]T arg, string parameterName) where T : class
+        public static void NotNull<T>([ValidatedNotNull]T argument, string parameterName) where T : class
         {
-            if (arg == null)
+            if (argument == null)
             {
                 throw new ArgumentNullException(parameterName);
             }
@@ -24,7 +24,7 @@ namespace Xbehave.Sdk.Infra
         {
             if (argumentProperty == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "{0}.{1} is null.", parameterName));
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "{0}.{1} is null.", parameterName, propertyName));
             }
         }
 
