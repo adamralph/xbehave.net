@@ -137,9 +137,6 @@
     <Compile Include="..\Xbehave.Net40\Helper.cs">
       <Link>Helper.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\Avoid.cs">
-      <Link>Infra\Avoid.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
       <Link>Infra\Disposable.cs</Link>
     </Compile>
@@ -148,6 +145,9 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Infra\EnumerableExtensions.cs">
       <Link>Infra\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Infra\Guard.cs">
+      <Link>Infra\Guard.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Infra\StringExtensions.cs">
       <Link>Infra\StringExtensions.cs</Link>

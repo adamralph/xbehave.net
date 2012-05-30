@@ -10,7 +10,7 @@ namespace Xbehave.Infra
     {
         public static IEnumerable<T> Concat<T>(this IEnumerable<T> source, T item)
         {
-            Avoid.NullReferenceExceptionForArgument(source, "source");
+            Guard.AgainstNullArgument("source", source);
 
             foreach (var t in source)
             {

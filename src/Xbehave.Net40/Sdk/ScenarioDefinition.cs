@@ -8,9 +8,8 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Xbehave.Infra;
     using Xunit.Sdk;
-    using Guard = Xbehave.Infra.Avoid;
+    using Guard = Xbehave.Infra.Guard;
 
     internal partial class ScenarioDefinition
     {
@@ -22,9 +21,9 @@ namespace Xbehave.Sdk
 
         public ScenarioDefinition(IMethodInfo method, IEnumerable<object> args, Action body)
         {
-            Guard.NullReferenceExceptionForArgument(body, "body");
-            Guard.NullReferenceExceptionForArgument(method, "method");
-            Guard.NullReferenceExceptionForArgument(args, "args");
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgument("method", method);
+            Guard.AgainstNullArgument("args", args);
 
             this.body = body;
             this.method = method;

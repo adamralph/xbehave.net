@@ -11,7 +11,7 @@ namespace Xbehave
     using Xbehave.Sdk;
     using Xunit.Extensions;
     using Xunit.Sdk;
-    using Guard = Xbehave.Infra.Avoid;
+    using Guard = Xbehave.Infra.Guard;
 
     /// <summary>
     /// Applied to a method to indicate a scenario that should be run by the test runner.
@@ -38,8 +38,8 @@ namespace Xbehave
         /// <returns>The test commands which will execute the test runs for the given method.</returns>
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            Guard.NullReferenceExceptionForArgument(method, "method");
-            Guard.NullReferenceExceptionForArgumentProperty(method.MethodInfo, "method", "MethodInfo");
+            Guard.AgainstNullArgument("method", method);
+            Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
 
             var scenarioCommands = method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method).Cast<TheoryCommand>()

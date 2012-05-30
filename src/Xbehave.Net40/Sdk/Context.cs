@@ -7,9 +7,8 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xbehave.Infra;
     using Xunit.Sdk;
-    using Guard = Xbehave.Infra.Avoid;
+    using Guard = Xbehave.Infra.Guard;
 
     internal class Context
     {
@@ -18,8 +17,8 @@ namespace Xbehave.Sdk
 
         public Context(ScenarioDefinition definition, IEnumerable<Step> steps)
         {
-            Guard.NullReferenceExceptionForArgument(definition, "definition");
-            Guard.NullReferenceExceptionForArgument(steps, "steps");
+            Guard.AgainstNullArgument("definition", definition);
+            Guard.AgainstNullArgument("steps", steps);
 
             this.definition = definition;
             this.steps = steps;

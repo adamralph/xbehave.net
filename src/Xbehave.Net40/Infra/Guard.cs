@@ -1,4 +1,4 @@
-﻿// <copyright file="Avoid.cs" company="Adam Ralph">
+﻿// <copyright file="Guard.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -8,23 +8,23 @@ namespace Xbehave.Infra
     using System.Diagnostics;
     using System.Globalization;
 
-    internal static class Avoid
+    internal static class Guard
     {
         [DebuggerStepThrough]
-        public static void NullReferenceExceptionForArgument<T>([ValidatedNotNull]T argument, string parameterName) where T : class
+        public static void AgainstNullArgument<T>(string parameterName, [ValidatedNotNull]T argument) where T : class
         {
             if (argument == null)
             {
-                throw new ArgumentNullException(parameterName);
+                throw new ArgumentNullException(parameterName, string.Format(CultureInfo.InvariantCulture, "{0} is null.", parameterName));
             }
         }
 
         [DebuggerStepThrough]
-        public static void NullReferenceExceptionForArgumentProperty<T>([ValidatedNotNull]T argumentProperty, string parameterName, string propertyName) where T : class
+        public static void AgainstNullArgumentProperty<T>(string parameterName, string propertyName, [ValidatedNotNull]T argumentProperty) where T : class
         {
             if (argumentProperty == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "{0}.{1} is null.", parameterName, propertyName));
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "{0}.{1} is null.", parameterName, propertyName), parameterName);
             }
         }
 
