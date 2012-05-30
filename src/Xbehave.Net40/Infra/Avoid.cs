@@ -1,4 +1,4 @@
-﻿// <copyright file="Require.cs" company="Adam Ralph">
+﻿// <copyright file="Avoid.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -8,10 +8,10 @@ namespace Xbehave.Infra
     using System.Diagnostics;
     using System.Globalization;
 
-    internal static class Require
+    internal static class Avoid
     {
         [DebuggerStepThrough]
-        public static void NotNull<T>([ValidatedNotNull]T argument, string parameterName) where T : class
+        public static void NullReferenceExceptionForArgument<T>([ValidatedNotNull]T argument, string parameterName) where T : class
         {
             if (argument == null)
             {
@@ -20,7 +20,7 @@ namespace Xbehave.Infra
         }
 
         [DebuggerStepThrough]
-        public static void NotNull<T>([ValidatedNotNull]T argumentProperty, string parameterName, string propertyName) where T : class
+        public static void NullReferenceExceptionForArgumentProperty<T>([ValidatedNotNull]T argumentProperty, string parameterName, string propertyName) where T : class
         {
             if (argumentProperty == null)
             {

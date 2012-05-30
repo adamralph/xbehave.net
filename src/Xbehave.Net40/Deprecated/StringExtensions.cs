@@ -22,7 +22,7 @@ namespace Xbehave
         [Obsolete("Use Given(Func<IDisposable>) instead.")]
         public static IStepDefinition GivenDisposable(this string text, ContextDelegate body)
         {
-            Require.NotNull(body, "arrange");
+            Avoid.NullReferenceExceptionForArgument(body, "arrange");
             return text.Given(() => body());
         }
 

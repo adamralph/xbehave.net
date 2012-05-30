@@ -17,7 +17,7 @@ namespace Xbehave.Sdk
         public Step(string stepType, string text, Func<IDisposable> body, bool inIsolation, string skipReason)
             : this(stepType, text, inIsolation, skipReason)
         {
-            Require.NotNull(body, "body");
+            Avoid.NullReferenceExceptionForArgument(body, "body");
 
             this.body = body;
         }
@@ -25,7 +25,7 @@ namespace Xbehave.Sdk
         public Step(string stepType, string text, Action body, bool inIsolation, string skipReason)
             : this(stepType, text, inIsolation, skipReason)
         {
-            Require.NotNull(body, "body");
+            Avoid.NullReferenceExceptionForArgument(body, "body");
 
             this.body = new Func<IDisposable>(() =>
             {
@@ -37,7 +37,7 @@ namespace Xbehave.Sdk
         public Step(string stepType, string text, Func<IEnumerable<IDisposable>> body, bool inIsolation, string skipReason)
             : this(stepType, text, inIsolation, skipReason)
         {
-            Require.NotNull(body, "body");
+            Avoid.NullReferenceExceptionForArgument(body, "body");
 
             this.body = new Func<IDisposable>(() => new Disposable(body().Reverse()));
         }
@@ -45,7 +45,7 @@ namespace Xbehave.Sdk
         public Step(string stepType, string text, Action body, Action dispose, bool inIsolation, string skipReason)
             : this(stepType, text, inIsolation, skipReason)
         {
-            Require.NotNull(body, "body");
+            Avoid.NullReferenceExceptionForArgument(body, "body");
 
             this.body = new Func<IDisposable>(() =>
             {
@@ -56,8 +56,8 @@ namespace Xbehave.Sdk
 
         private Step(string stepType, string text, bool inIsolation, string skipReason)
         {
-            Require.NotNull(stepType, "stepType");
-            Require.NotNull(text, "text");
+            Avoid.NullReferenceExceptionForArgument(stepType, "stepType");
+            Avoid.NullReferenceExceptionForArgument(text, "text");
 
             this.name = text.StartingWithOrdinalIgnoreCase(stepType + " ");
             this.InIsolation = inIsolation;
