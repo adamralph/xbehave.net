@@ -10,7 +10,8 @@
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/5b719723bcfe/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A BDD/TDD framework based on xUnit.net inspired by the Gherkin behaviour language. Dispenses with the need to map Gherkin feature files to code implementations by allowing the developer to bake the behaviours/specifications directly into code. Designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
-    <releaseNotes>Simplified test names to always include context and test ordinals in the format [{context ordinal}.{test ordinal}].</releaseNotes>
+    <releaseNotes>Simplified test names to always include context number and test number in the format [{context}.{test}].
+Added copmression of whitespace in step text.</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>

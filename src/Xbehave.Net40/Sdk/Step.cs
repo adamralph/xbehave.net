@@ -59,7 +59,7 @@ namespace Xbehave.Sdk
             Guard.AgainstNullArgument("stepType", stepType);
             Guard.AgainstNullArgument("text", text);
 
-            this.name = text.StartingWithOrdinalIgnoreCase(stepType + " ");
+            this.name = (stepType.CompressWhitespace() + " ").MergeOrdinalIgnoreCase(text.CompressWhitespace());
             this.InIsolation = inIsolation;
             this.SkipReason = skipReason;
         }

@@ -87,6 +87,9 @@
     <Compile Include="..\Xbehave.Test.Net40\Infra\GuardFeature.cs">
       <Link>Infra\GuardFeature.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Infra\StringExtensionsFeature.cs">
+      <Link>Infra\StringExtensionsFeature.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Test.Net40\Legacy\ContextSetupTeardownBehavior.cs">
       <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
     </Compile>

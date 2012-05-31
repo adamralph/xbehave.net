@@ -10,7 +10,14 @@ namespace Xbehave.Infra
 
     internal static class StringExtensions
     {
-        public static string StartingWithOrdinalIgnoreCase(this string source, string text)
+        public static string CompressWhitespace(this string source)
+        {
+            var spacesOnly = new string(source.Select(x => char.IsWhiteSpace(x) ? ' ' : x).ToArray());
+            var words = spacesOnly.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return string.Join(" ", words);
+        }
+
+        public static string MergeOrdinalIgnoreCase(this string source, string text)
         {
             if (text == null)
             {
@@ -22,16 +29,12 @@ namespace Xbehave.Infra
                 return text;
             }
 
-            for (var i = text.Length; i > 0; --i)
+            if (text.StartsWith(source, StringComparison.OrdinalIgnoreCase))
             {
-                var result = string.Concat(text, new string(source.Skip(i).ToArray()));
-                if (result.EndsWith(source, StringComparison.OrdinalIgnoreCase))
-                {
-                    return result;
-                }
+                return text;
             }
 
-            return string.Concat(text, source);
+            return string.Concat(source, text);
         }
 
         public static string AttemptFormatInvariantCulture(this string format, params object[] args)
