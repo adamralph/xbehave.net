@@ -15,7 +15,7 @@ $projectXml = [xml](Get-Content $project.FullName)
 $namespace = 'http://schemas.microsoft.com/developer/msbuild/2003'
 
 # remove current import nodes
-$nodes = @(Select-Xml "//msb:Project/msb:Import[contains(@Project,'\packages\StyleCop.MSBuild.')]" $projectXml -Namespace @{msb = $namespace} | Foreach {$_.Node})
+$nodes = @(Select-Xml "//msb:Project/msb:Import[contains(@Project,'\StyleCop.MSBuild.')]" $projectXml -Namespace @{msb = $namespace} | Foreach {$_.Node})
 if ($nodes)
 {
     foreach ($node in $nodes)
