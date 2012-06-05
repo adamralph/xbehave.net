@@ -4,7 +4,6 @@
 
 namespace Xbehave.Sdk
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Xunit.Sdk;
@@ -36,8 +35,7 @@ namespace Xbehave.Sdk
             var disposables = CurrentScenario.GetDisposables();
             if (disposables.Any())
             {
-                disposables.Reverse();
-                yield return new DisposalCommand(this.definition, contextOrdinal, stepOrdinal++, disposables);
+                yield return new DisposalCommand(this.definition, contextOrdinal, stepOrdinal++, disposables.Reverse());
             }
         }
     }

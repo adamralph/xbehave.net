@@ -6,6 +6,7 @@ namespace Xbehave.Fluent
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Xbehave.Infra;
 
     internal partial class StepDefinition : IStepDefinition
@@ -21,7 +22,7 @@ namespace Xbehave.Fluent
         {
             Guard.AgainstNullArgument("body", body);
             IEnumerable<IDisposable> disposables = null;
-            return message.When(() => disposables = body(), () => new Disposable(disposables).Dispose());
+            return message.When(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
         }
 
         public IStepDefinition And(string message, Func<IDisposable> body)
@@ -35,7 +36,7 @@ namespace Xbehave.Fluent
         {
             Guard.AgainstNullArgument("body", body);
             IEnumerable<IDisposable> disposables = null;
-            return message.And(() => disposables = body(), () => new Disposable(disposables).Dispose());
+            return message.And(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
         }
     }
 }

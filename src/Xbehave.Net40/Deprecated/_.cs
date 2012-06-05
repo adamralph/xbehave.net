@@ -7,6 +7,7 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Linq.Expressions;
     using Xbehave.Fluent;
     using Xbehave.Infra;
@@ -43,7 +44,7 @@ namespace Xbehave
         public static IStepDefinition Given(string text, Func<IEnumerable<IDisposable>> body)
         {
             IEnumerable<IDisposable> disposables = null;
-            return text.Given(() => disposables = body(), () => new Disposable(disposables).Dispose());
+            return text.Given(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace Xbehave
         public static IStepDefinition When(string text, Func<IEnumerable<IDisposable>> body)
         {
             IEnumerable<IDisposable> disposables = null;
-            return text.When(() => disposables = body(), () => new Disposable(disposables).Dispose());
+            return text.When(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace Xbehave
         public static IStepDefinition And(string text, Func<IEnumerable<IDisposable>> body)
         {
             IEnumerable<IDisposable> disposables = null;
-            return text.And(() => disposables = body(), () => new Disposable(disposables).Dispose());
+            return text.And(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
         }
     }
 }

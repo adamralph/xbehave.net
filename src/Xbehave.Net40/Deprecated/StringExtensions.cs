@@ -7,6 +7,7 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Xbehave.Fluent;
     using Xbehave.Infra;
 
@@ -83,7 +84,7 @@ namespace Xbehave
         {
             Guard.AgainstNullArgument("body", body);
             IEnumerable<IDisposable> disposables = null;
-            return text.Given(() => disposables = body(), () => new Disposable(disposables).Dispose());
+            return text.Given(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
         }
 
         /// <summary>
@@ -116,7 +117,7 @@ namespace Xbehave
         {
             Guard.AgainstNullArgument("body", body);
             IEnumerable<IDisposable> disposables = null;
-            return text.When(() => disposables = body(), () => new Disposable(disposables).Dispose());
+            return text.When(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
         }
 
         /// <summary>
@@ -149,7 +150,7 @@ namespace Xbehave
         {
             Guard.AgainstNullArgument("body", body);
             IEnumerable<IDisposable> disposables = null;
-            return text.And(() => disposables = body(), () => new Disposable(disposables).Dispose());
+            return text.And(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
         }
     }
 }
