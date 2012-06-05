@@ -35,24 +35,9 @@ namespace Xbehave.Fluent
             return this;
         }
 
-        public IStepDefinition When(string message, Func<IDisposable> body)
-        {
-            return message.When(body);
-        }
-
         public IStepDefinition When(string message, Action body)
         {
             return message.When(body);
-        }
-
-        public IStepDefinition When(string message, Func<IEnumerable<IDisposable>> body)
-        {
-            return message.When(body);
-        }
-
-        public IStepDefinition When(string message, Action body, Action dispose)
-        {
-            return message.When(body, dispose);
         }
 
         public IStepDefinition Then(string message, Action body)
@@ -60,24 +45,9 @@ namespace Xbehave.Fluent
             return message.Then(body);
         }
 
-        public IStepDefinition And(string message, Func<IDisposable> body)
-        {
-            return message.And(body);
-        }
-
         public IStepDefinition And(string message, Action body)
         {
             return message.And(body);
-        }
-
-        public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> body)
-        {
-            return message.And(body);
-        }
-
-        public IStepDefinition And(string message, Action body, Action dispose)
-        {
-            return message.And(body, dispose);
         }
 
         public IStepDefinition But(string message, Action body)

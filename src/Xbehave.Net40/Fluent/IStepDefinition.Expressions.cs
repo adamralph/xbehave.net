@@ -27,39 +27,6 @@ namespace Xbehave.Fluent
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition When(Expression<Func<IDisposable>> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition When(Expression<Func<IEnumerable<IDisposable>>> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <param name="dispose">The dispose.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        IStepDefinition When(Expression<Action> body, Action dispose);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
         /// <param name="body">The action which will perform the assertion.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
@@ -76,39 +43,6 @@ namespace Xbehave.Fluent
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
         IStepDefinition And(Expression<Action> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition And(Expression<Func<IDisposable>> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        IStepDefinition And(Expression<Func<IEnumerable<IDisposable>>> body);
-
-        /// <summary>
-        /// This is an experimental feature.
-        /// </summary>
-        /// <param name="body">The body of the step.</param>
-        /// <param name="dispose">The dispose.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        IStepDefinition And(Expression<Action> body, Action dispose);
 
         /// <summary>
         /// This is an experimental feature.

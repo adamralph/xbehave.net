@@ -16,14 +16,10 @@ namespace Xbehave.Issues
             var disposable1 = default(Disposable);
 
             "Given a disposable,"
-                .Given(
-                    () => disposable0 = new Disposable(),
-                    () => disposable0.Dispose());
+                .Given(() => disposable0 = new Disposable().WithTeardown(() => disposable0.Dispose()));
 
             "and another disposable"
-                .And(
-                    () => disposable1 = new Disposable(),
-                    () => disposable1.Dispose());
+                .And(() => disposable1 = new Disposable().WithTeardown(() => disposable1.Dispose()));
 
             "when using the first disposable"
                 .When(() => disposable0.Use());

@@ -45,6 +45,7 @@ namespace Xbehave.Sdk
             }
 
             // NOTE: this relies on the test runner executing each above command as soon as it is recieved, which TD.NET, R# and xunit.console all seem to do
+            disposables.InsertRange(0, CurrentScenario.GetDisposables());
             if (disposables.Any())
             {
                 disposables.Reverse();

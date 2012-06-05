@@ -51,7 +51,6 @@
     <Compile Include="StackExampleSpecs.cs" />
     <Compile Include="FluentStackSpecs.cs" />
     <Compile Include="SkippedStackSpecs.cs" />
-    <Compile Include="Covariance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StackSpecs.cs" />
   </ItemGroup>

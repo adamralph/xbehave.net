@@ -28,11 +28,7 @@ namespace Xbehave.Samples.Net35
             var disposable = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given(() =>
-                {
-                    disposable = new ImplicitDisposable();
-                    return disposable;
-                })
+                .Given(() => disposable = new ImplicitDisposable().WithDisposal())
                 .When(() => disposable.ToString())
                 .ThenInIsolation(() => true.Should().Be(false));
         }

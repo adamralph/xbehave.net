@@ -69,13 +69,8 @@ namespace Xbehave.Issues.Old
                 .Given(
                     () =>
                     {
-                        disposable0 = new ImplicitDisposable();
-                        disposable1 = new ImplicitDisposable();
-                    },
-                    () =>
-                    {
-                        disposable1.Dispose();
-                        disposable0.Dispose();                        
+                        disposable0 = new ImplicitDisposable().WithTeardown(() => disposable0.Dispose());
+                        disposable1 = new ImplicitDisposable().WithTeardown(() => disposable1.Dispose());
                     })
                 .When(() => disposable0.Use());
 
@@ -91,16 +86,10 @@ namespace Xbehave.Issues.Old
             var disposable1 = default(ImplicitDisposable);
 
             "Given disposables,"
-                .Given(
-                    () =>
+                .Given(() =>
                     {
-                        disposable0 = new ImplicitDisposable();
-                        disposable1 = new ImplicitDisposable();
-                    },
-                    () =>
-                    {
-                        disposable0.Dispose();
-                        disposable1.Dispose();
+                        disposable0 = new ImplicitDisposable().WithTeardown(() => disposable0.Dispose());
+                        disposable1 = new ImplicitDisposable().WithTeardown(() => disposable1.Dispose());
                     })
                 .When(() => disposable0.Use());
 
@@ -116,16 +105,10 @@ namespace Xbehave.Issues.Old
             var disposable1 = default(ImplicitDisposable);
 
             "Given disposables,"
-                .Given(
-                    () =>
+                .Given(() =>
                     {
-                        disposable0 = new ImplicitDisposable();
-                        disposable1 = new ImplicitDisposable();
-                    },
-                    () =>
-                    {
-                        disposable0.Dispose();
-                        disposable1.Dispose();
+                        disposable0 = new ImplicitDisposable().WithTeardown(() => disposable0.Dispose());
+                        disposable1 = new ImplicitDisposable().WithTeardown(() => disposable1.Dispose());
                     })
                 .When(() => disposable0.Use());
 
@@ -142,11 +125,7 @@ namespace Xbehave.Issues.Old
             var disposable = default(ExplicitDisposable);
 
             "Given a disposable,"
-                .Given(() =>
-                {
-                    disposable = new ExplicitDisposable();
-                    return disposable;
-                })
+                .Given(() => disposable = new ExplicitDisposable().WithDisposal())
                 .When(() => disposable.Use());
 
             _.Then(() => true.Should().Be(false));
