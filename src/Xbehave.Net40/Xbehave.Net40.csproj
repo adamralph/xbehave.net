@@ -82,7 +82,6 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />

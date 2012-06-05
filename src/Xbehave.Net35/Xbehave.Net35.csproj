@@ -117,9 +117,6 @@
     <None Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
       <Link>Sandbox\Scenario.cs</Link>
     </None>
-    <Compile Include="..\Xbehave.Net40\DisposableExtensions.cs">
-      <Link>DisposableExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\ExampleAttribute.cs">
       <Link>ExampleAttribute.cs</Link>
     </Compile>

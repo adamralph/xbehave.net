@@ -22,12 +22,13 @@ namespace Xbehave.Issues.Old
             var disposable2 = default(ImplicitDisposable);
 
             "Given some disposables"
-                .Given(() =>
-                {
-                    disposable0 = new ImplicitDisposable().WithDisposal();
-                    disposable1 = new ImplicitDisposable().WithDisposal();
-                    disposable2 = new ImplicitDisposable().WithDisposal();
-                });
+                .Given(
+                () => new[]
+                    {
+                        disposable0 = new ImplicitDisposable(),
+                        disposable1 = new ImplicitDisposable(),
+                        disposable2 = new ImplicitDisposable(),
+                    });
 
             "when the disposables are used"
                 .When(() =>

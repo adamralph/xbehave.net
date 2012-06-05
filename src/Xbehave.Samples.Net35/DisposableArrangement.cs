@@ -56,16 +56,66 @@ namespace Xbehave.Issues.Old
 
         // 2 failures with 1 x 2 disposals
         [Scenario]
+        public static void MultipleWithEnumerableDisposables()
+        {
+            var disposable0 = default(IDisposable);
+            var disposable1 = default(IDisposable);
+
+            "Given disposables,"
+                .Given(() => new[] { disposable0 = new ImplicitDisposable(), disposable1 = new ImplicitDisposable() })
+                .When(() => disposable0.ToString())
+                .Then(() => true.Should().Be(false))
+                .Then(() => true.Should().Be(false));
+        }
+
+        // 2 failures with 2 x 2 disposals
+        [Scenario]
+        public static void MultipleEnumerableDisposablesInIsolation()
+        {
+            var disposable0 = default(IDisposable);
+            var disposable1 = default(IDisposable);
+
+            "Given disposables,"
+                .Given(() => new[] { disposable0 = new ImplicitDisposable(), disposable1 = new ImplicitDisposable() })
+                .When(() => disposable0.ToString())
+                .ThenInIsolation(() => true.Should().Be(false))
+                .ThenInIsolation(() => true.Should().Be(false));
+        }
+
+        // 4 failures with 3 x 2 disposals
+        [Scenario]
+        public static void MultipleEnumerableDisposablesMixed()
+        {
+            var disposable0 = default(IDisposable);
+            var disposable1 = default(IDisposable);
+
+            "Given disposables,"
+                .Given(() => new[] { disposable0 = new ImplicitDisposable(), disposable1 = new ImplicitDisposable() })
+                .When(() => disposable0.ToString())
+                .ThenInIsolation(() => true.Should().Be(false))
+                .ThenInIsolation(() => true.Should().Be(false))
+                .Then(() => true.Should().Be(false))
+                .Then(() => true.Should().Be(false));
+        }
+
+        // 2 failures with 1 x 2 disposals
+        [Scenario]
         public static void MultipleActionDisposables()
         {
             var disposable0 = default(IDisposable);
             var disposable1 = default(IDisposable);
 
             "Given disposables,"
-                .Given(() =>
+                .Given(
+                    () =>
                     {
-                        disposable0 = new ImplicitDisposable().WithTeardown(() => disposable0.Dispose());
-                        disposable1 = new ImplicitDisposable().WithTeardown(() => disposable1.Dispose());
+                        disposable0 = new ImplicitDisposable();
+                        disposable1 = new ImplicitDisposable();
+                    },
+                    () =>
+                    {
+                        disposable0.Dispose();
+                        disposable1.Dispose();
                     })
                 .When(() => disposable0.ToString())
                 .Then(() => true.Should().Be(false))
@@ -80,10 +130,16 @@ namespace Xbehave.Issues.Old
             var disposable1 = default(IDisposable);
 
             "Given disposables,"
-                .Given(() =>
+                .Given(
+                    () =>
                     {
-                        disposable0 = new ImplicitDisposable().WithTeardown(() => disposable0.Dispose());
-                        disposable1 = new ImplicitDisposable().WithTeardown(() => disposable1.Dispose());
+                        disposable0 = new ImplicitDisposable();
+                        disposable1 = new ImplicitDisposable();
+                    },
+                    () =>
+                    {
+                        disposable0.Dispose();
+                        disposable1.Dispose();
                     })
                 .When(() => disposable0.ToString())
                 .ThenInIsolation(() => true.Should().Be(false))
@@ -98,10 +154,16 @@ namespace Xbehave.Issues.Old
             var disposable1 = default(IDisposable);
 
             "Given disposables,"
-                .Given(() =>
+                .Given(
+                    () =>
                     {
-                        disposable0 = new ImplicitDisposable().WithTeardown(() => disposable0.Dispose());
-                        disposable1 = new ImplicitDisposable().WithTeardown(() => disposable1.Dispose());
+                        disposable0 = new ImplicitDisposable();
+                        disposable1 = new ImplicitDisposable();
+                    },
+                    () =>
+                    {
+                        disposable0.Dispose();
+                        disposable1.Dispose();
                     })
                 .When(() => disposable0.ToString())
                 .ThenInIsolation(() => true.Should().Be(false))

@@ -41,11 +41,101 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition Given(Expression<Func<IDisposable>> body)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().Given(body.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition Given(Expression<Func<IEnumerable<IDisposable>>> body)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().Given(body.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <param name="dispose">The dispose.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition Given(Expression<Action> body, Action dispose)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().Given(body.Compile(), dispose);
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
         public static IStepDefinition When(Expression<Action> body)
         {
             Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
             return body.Body.ToSentence().When(body.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition When(Expression<Func<IDisposable>> body)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().When(body.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition When(Expression<Func<IEnumerable<IDisposable>>> body)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().When(body.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <param name="dispose">The dispose.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition When(Expression<Action> body, Action dispose)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().When(body.Compile(), dispose);
         }
         
         /// <summary>
@@ -74,6 +164,51 @@ namespace Xbehave
             Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
             return body.Body.ToSentence().And(body.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition And(Expression<Func<IDisposable>> body)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().And(body.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        public static IStepDefinition And(Expression<Func<IEnumerable<IDisposable>>> body)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().And(body.Compile());
+        }
+
+        /// <summary>
+        /// This is an experimental feature.
+        /// </summary>
+        /// <param name="body">The body of the step.</param>
+        /// <param name="dispose">The dispose.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        public static IStepDefinition And(Expression<Action> body, Action dispose)
+        {
+            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
+            return body.Body.ToSentence().And(body.Compile(), dispose);
         }
 
         /// <summary>

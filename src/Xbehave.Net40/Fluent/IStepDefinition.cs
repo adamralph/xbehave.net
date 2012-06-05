@@ -34,6 +34,17 @@ namespace Xbehave.Fluent
         IStepDefinition Skip(string reason);
 
         /// <summary>
+        /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
+        IStepDefinition When(string text, Func<IDisposable> body);
+
+        /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="text">The step text.</param>
@@ -43,6 +54,30 @@ namespace Xbehave.Fluent
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
         IStepDefinition When(string text, Action body);
+
+        /// <summary>
+        /// Defines a step in the current scenario which returns a collection of resources which will be disposed after all remaining steps have been executed.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resources.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        IStepDefinition When(string text, Func<IEnumerable<IDisposable>> body);
+
+        /// <summary>
+        /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="dispose">The action that will dispose the resource.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
+        IStepDefinition When(string text, Action body, Action dispose);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -56,6 +91,17 @@ namespace Xbehave.Fluent
         IStepDefinition Then(string text, Action body);
 
         /// <summary>
+        /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
+        IStepDefinition And(string text, Func<IDisposable> body);
+
+        /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="text">The step text.</param>
@@ -65,6 +111,30 @@ namespace Xbehave.Fluent
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
         IStepDefinition And(string text, Action body);
+
+        /// <summary>
+        /// Defines a step in the current scenario which returns a collection of resources which will be disposed after all remaining steps have been executed.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resources.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
+        IStepDefinition And(string text, Func<IEnumerable<IDisposable>> body);
+
+        /// <summary>
+        /// Defines a step in the current scenario which returns a resource which will be disposed after all remaining steps have been executed.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="dispose">The action that will dispose the resource.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
+        IStepDefinition And(string text, Action body, Action dispose);
 
         /// <summary>
         /// Defines a step in the current scenario.

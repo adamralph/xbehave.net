@@ -77,6 +77,9 @@
     <Compile Include="..\Xbehave.Issues.Net40\Old\Issue4.cs">
       <Link>Old\Issue4.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Old\Issue6.cs">
+      <Link>Old\Issue6.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Issues.Net40\Old\Issue9.cs">
       <Link>Old\Issue9.cs</Link>
     </Compile>

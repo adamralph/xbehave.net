@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Samples.Net35
+namespace Xbehave.Samples
 {
     using System;
 
@@ -11,13 +11,13 @@ namespace Xbehave.Samples.Net35
     public class Covariance
     {
         [Scenario]
-        public static void WorkaroundLackOfCovariance()
+        public static void UseCovariance()
         {
             var disposable = default(ImplicitDisposable);
             Func<ImplicitDisposable> func = () => disposable = new ImplicitDisposable();
 
             "Given a disposable,"
-                .Given(() => func())
+                .Given(func)
                 .When(() => disposable.ToString())
                 .ThenInIsolation(() => true.Should().Be(false));
         }

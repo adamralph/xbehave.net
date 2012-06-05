@@ -49,7 +49,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <None Include="ProvidedContext.cs" />
-    <Compile Include="Issue10.cs" />
     <Compile Include="Issue9.cs" />
     <Compile Include="Issue6.cs" />
     <Compile Include="ExplicitDisposable.cs" />
@@ -60,6 +59,7 @@
     <Compile Include="Old\Issue2.cs" />
     <Compile Include="Old\Issue3.cs" />
     <Compile Include="Old\Issue4.cs" />
+    <Compile Include="Old\Issue6.cs" />
     <Compile Include="Old\Issue9.cs" />
     <Compile Include="Old\ObjectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
