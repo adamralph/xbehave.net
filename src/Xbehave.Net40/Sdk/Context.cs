@@ -27,24 +27,13 @@ namespace Xbehave.Sdk
         public IEnumerable<ITestCommand> CreateTestCommands(int contextOrdinal)
         {
             var stepOrdinal = 1;
-            var disposables = new List<IDisposable>();
             foreach (var step in this.steps)
             {
-                yield return new StepCommand(
-                    this.definition,
-                    contextOrdinal,
-                    stepOrdinal++,
-                    step,
-                    disposable =>
-                    {
-                        if (disposable != null)
-                        {
-                            disposables.Add(disposable);
-                        }
-                    });
+                yield return new StepCommand(this.definition, contextOrdinal, stepOrdinal++, step);
             }
 
             // NOTE: this relies on the test runner executing each above command as soon as it is recieved, which TD.NET, R# and xunit.console all seem to do
+            var disposables = CurrentScenario.GetDisposables();
             if (disposables.Any())
             {
                 disposables.Reverse();

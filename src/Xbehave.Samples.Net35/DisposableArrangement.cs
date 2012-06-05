@@ -35,8 +35,8 @@ namespace Xbehave.Issues.Old
             "Given a disposable,"
                 .Given(() => disposable = new ImplicitDisposable())
                 .When(() => disposable.ToString())
-                .ThenInIsolation(() => true.Should().Be(false))
-                .ThenInIsolation(() => true.Should().Be(false));
+                .Then(() => true.Should().Be(false)).InIsolation()
+                .Then(() => true.Should().Be(false)).InIsolation();
         }
 
         // 4 failures with 3 x 1 disposal
@@ -48,8 +48,8 @@ namespace Xbehave.Issues.Old
             "Given a disposable,"
                 .Given(() => disposable = new ImplicitDisposable())
                 .When(() => disposable.ToString())
-                .ThenInIsolation(() => true.Should().Be(false))
-                .ThenInIsolation(() => true.Should().Be(false))
+                .Then(() => true.Should().Be(false)).InIsolation()
+                .Then(() => true.Should().Be(false)).InIsolation()
                 .Then(() => true.Should().Be(false))
                 .Then(() => true.Should().Be(false));
         }
@@ -78,8 +78,8 @@ namespace Xbehave.Issues.Old
             "Given disposables,"
                 .Given(() => new[] { disposable0 = new ImplicitDisposable(), disposable1 = new ImplicitDisposable() })
                 .When(() => disposable0.ToString())
-                .ThenInIsolation(() => true.Should().Be(false))
-                .ThenInIsolation(() => true.Should().Be(false));
+                .Then(() => true.Should().Be(false)).InIsolation()
+                .Then(() => true.Should().Be(false)).InIsolation();
         }
 
         // 4 failures with 3 x 2 disposals
@@ -92,8 +92,8 @@ namespace Xbehave.Issues.Old
             "Given disposables,"
                 .Given(() => new[] { disposable0 = new ImplicitDisposable(), disposable1 = new ImplicitDisposable() })
                 .When(() => disposable0.ToString())
-                .ThenInIsolation(() => true.Should().Be(false))
-                .ThenInIsolation(() => true.Should().Be(false))
+                .Then(() => true.Should().Be(false)).InIsolation()
+                .Then(() => true.Should().Be(false)).InIsolation()
                 .Then(() => true.Should().Be(false))
                 .Then(() => true.Should().Be(false));
         }
@@ -142,8 +142,8 @@ namespace Xbehave.Issues.Old
                         disposable1.Dispose();
                     })
                 .When(() => disposable0.ToString())
-                .ThenInIsolation(() => true.Should().Be(false))
-                .ThenInIsolation(() => true.Should().Be(false));
+                .Then(() => true.Should().Be(false)).InIsolation()
+                .Then(() => true.Should().Be(false)).InIsolation();
         }
 
         // 4 failures with 3 x 2 disposals
@@ -166,8 +166,8 @@ namespace Xbehave.Issues.Old
                         disposable1.Dispose();
                     })
                 .When(() => disposable0.ToString())
-                .ThenInIsolation(() => true.Should().Be(false))
-                .ThenInIsolation(() => true.Should().Be(false))
+                .Then(() => true.Should().Be(false)).InIsolation()
+                .Then(() => true.Should().Be(false)).InIsolation()
                 .Then(() => true.Should().Be(false))
                 .Then(() => true.Should().Be(false));
         }

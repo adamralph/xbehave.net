@@ -1,4 +1,4 @@
-﻿// <copyright file="MultipleGivensAndWhens.cs" company="Adam Ralph">
+﻿// <copyright file="Issue10.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -6,24 +6,24 @@ namespace Xbehave.Issues
 {
     using System;
     using FluentAssertions;
+    using Xbehave;
 
-    public class MultipleGivensAndWhens
+    /// <summary>
+    /// https://bitbucket.org/adamralph/xbehave.net/issue/10/intra-step-disposable-registration
+    /// </summary>
+    public class Issue10
     {
         [Scenario]
-        public static void MultipleWithActionDisposables()
+        public static void MultipleDisposables()
         {
             var disposable0 = default(ImplicitDisposable);
             var disposable1 = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given(
-                    () => disposable0 = new ImplicitDisposable(),
-                    () => disposable0.Dispose());
+                .Given((Action)(() => disposable0 = new ImplicitDisposable().Using()));
 
             "and another disposable"
-                .And(
-                    () => disposable1 = new ImplicitDisposable(),
-                    () => disposable1.Dispose());
+                .And((Action)(() => disposable1 = new ImplicitDisposable().Using()));
 
             "when using the first disposable"
                 .When(() => disposable0.Use());
@@ -31,8 +31,8 @@ namespace Xbehave.Issues
             "and using the second disposable"
                 .And(() => disposable1.Use());
 
-            _.ThenInIsolation(() => true.Should().Be(false));
-            _.ThenInIsolation(() => true.Should().Be(false));
+            _.Then(() => true.Should().Be(false)).InIsolation();
+            _.Then(() => true.Should().Be(false)).InIsolation();
         }
     }
 }

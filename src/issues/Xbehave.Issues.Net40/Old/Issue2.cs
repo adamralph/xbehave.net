@@ -53,11 +53,11 @@ namespace Xbehave.Issues.Old
             _
             .Given(() => ObjectRepository.Add(1))
             .When(() => ObjectRepository.Clear())
-            .ThenInIsolation(() => ObjectRepository.Count.Should().Be(0))
+            .Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation()
             .Then(() => ObjectRepository.Count.Should().Be(0))
-            .ThenSkip(() => ObjectRepository.Count.Should().Be(0))
+            .Then(() => ObjectRepository.Count.Should().Be(0)).Skip("because it's my party")
             .Then(() => ObjectRepository.Count.Should().Be(0))
-            .ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
+            .Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation();
         }
     }
 }

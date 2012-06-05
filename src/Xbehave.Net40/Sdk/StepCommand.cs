@@ -4,20 +4,17 @@
 
 namespace Xbehave.Sdk
 {
-    using System;
     using Xbehave.Infra;
     using Xunit.Sdk;
 
     internal class StepCommand : CommandBase
     {
         private readonly Step step;
-        private readonly Action<IDisposable> handleResult;
 
-        public StepCommand(ScenarioDefinition definition, int contextOrdinal, int ordinal, Step step, Action<IDisposable> handleResult)
+        public StepCommand(ScenarioDefinition definition, int contextOrdinal, int ordinal, Step step)
             : base(definition, contextOrdinal, ordinal, step.Name.AttemptFormatInvariantCulture(definition.Args))
         {
             this.step = step;
-            this.handleResult = handleResult;
         }
 
         public override MethodResult Execute(object testClass)
@@ -27,7 +24,7 @@ namespace Xbehave.Sdk
                 return new SkipResult(this.testMethod, this.DisplayName, this.step.SkipReason);
             }
 
-            this.handleResult(this.step.Execute());
+            this.step.Execute();
             return new PassedResult(this.testMethod, this.DisplayName);
         }
     }

@@ -82,23 +82,24 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Deprecated\IStepDefinition.cs" />
+    <Compile Include="Deprecated\StepDefinition.cs" />
+    <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
+    <Compile Include="Fluent\IStepDefinition.Expressions.cs">
+      <DependentUpon>IStepDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fluent\StepDefinition.Expressions.cs">
+      <DependentUpon>StepDefinition.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Sdk\ExceptionCommand.cs" />
     <Compile Include="Infra\EnumerableExtensions.cs" />
     <Compile Include="Infra\DisposableExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="Deprecated\IStepDefinition.Expressions.cs" />
-    <Compile Include="Deprecated\StepDefinition.Expressions.cs" />
     <Compile Include="Infra\StringExtensions.cs" />
     <Compile Include="_.cs" />
-    <Compile Include="Fluent\StepDefinition.Expressions.cs">
-      <DependentUpon>StepDefinition.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Fluent\IStepDefinition.Expressions.cs">
-      <DependentUpon>IStepDefinition.cs</DependentUpon>
-    </Compile>
     <Compile Include="Infra\Disposable.cs" />
     <None Include="Sandbox\DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\_.cs" />

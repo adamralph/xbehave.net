@@ -53,6 +53,9 @@
     <Compile Include="..\Xbehave.Issues.Net40\ImplicitDisposable.cs">
       <Link>ImplicitDisposable.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Issues.Net40\Issue10.cs">
+      <Link>Issue10.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Issues.Net40\Issue6.cs">
       <Link>Issue6.cs</Link>
     </Compile>

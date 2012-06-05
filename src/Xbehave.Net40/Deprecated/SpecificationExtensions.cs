@@ -9,13 +9,13 @@ namespace Xbehave
     using Xbehave.Fluent;
 
     /// <summary>
-    /// Provides extensions for a fluent specification syntax
+    /// This member is deprecated.
     /// </summary>
     [Obsolete("Use StringExtensions instead.")]
     public static class SpecificationExtensions
     {
         /// <summary>
-        /// Records a context setup for this specification.
+        /// This member is deprecated.
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="body">The action that will establish the context.</param>
@@ -27,7 +27,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Trap for using contexts implementing IDisposable with the wrong overload.
+        /// This member is deprecated.
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="body">The action that will establish and return the context for this test.</param>
@@ -40,7 +40,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records a disposable context for this specification. The context lifecycle will be managed by Xbehave.
+        /// This member is deprecated.
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="body">The action that will establish and return the context for this test.</param>
@@ -52,7 +52,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records an action to be performed on the context for this specification.
+        /// This member is deprecated.
         /// </summary>
         /// <param name="message">A message describing the action.</param>
         /// <param name="body">The action to perform.</param>
@@ -64,8 +64,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records an assertion for this specification.
-        /// Each assertion is executed on an isolated context.
+        /// This member is deprecated.
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="body">The action that will verify the expectation.</param>
@@ -77,8 +76,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records an observation for this specification.
-        /// All observations are executed on the same context.
+        /// This member is deprecated.
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="body">The action that will verify the expectation.</param>
@@ -90,7 +88,7 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Records a skipped assertion for this specification.
+        /// This member is deprecated.
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="body">The action that will verify the expectation.</param>

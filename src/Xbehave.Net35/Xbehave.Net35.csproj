@@ -87,8 +87,8 @@
     <Compile Include="..\Xbehave.Net40\Deprecated\DisposableAction.cs">
       <Link>Deprecated\DisposableAction.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\IStepDefinition.Expressions.cs">
-      <Link>Deprecated\IStepDefinition.Expressions.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Deprecated\IStepDefinition.cs">
+      <Link>Deprecated\IStepDefinition.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Deprecated\ScenarioDataAttribute.cs">
       <Link>Deprecated\ScenarioDataAttribute.cs</Link>
@@ -99,8 +99,8 @@
     <Compile Include="..\Xbehave.Net40\Deprecated\SpecificationExtensions.cs">
       <Link>Deprecated\SpecificationExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\StepDefinition.Expressions.cs">
-      <Link>Deprecated\StepDefinition.Expressions.cs</Link>
+    <Compile Include="..\Xbehave.Net40\Deprecated\StepDefinition.cs">
+      <Link>Deprecated\StepDefinition.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Deprecated\StringExtensions.cs">
       <Link>Deprecated\StringExtensions.cs</Link>
@@ -117,6 +117,9 @@
     <None Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
       <Link>Sandbox\Scenario.cs</Link>
     </None>
+    <Compile Include="..\Xbehave.Net40\DisposableExtensions.cs">
+      <Link>DisposableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\ExampleAttribute.cs">
       <Link>ExampleAttribute.cs</Link>
     </Compile>

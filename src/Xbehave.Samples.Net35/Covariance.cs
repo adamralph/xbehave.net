@@ -19,7 +19,7 @@ namespace Xbehave.Samples.Net35
             "Given a disposable,"
                 .Given(() => func())
                 .When(() => disposable.ToString())
-                .ThenInIsolation(() => true.Should().Be(false));
+                .Then(() => true.Should().Be(false)).InIsolation();
         }
 
         [Scenario]
@@ -34,7 +34,7 @@ namespace Xbehave.Samples.Net35
                     return disposable;
                 })
                 .When(() => disposable.ToString())
-                .ThenInIsolation(() => true.Should().Be(false));
+                .Then(() => true.Should().Be(false)).InIsolation();
         }
 
         public sealed class ImplicitDisposable : IDisposable

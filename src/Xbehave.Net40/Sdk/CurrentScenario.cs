@@ -15,15 +15,40 @@ namespace Xbehave.Sdk
         [ThreadStatic]
         private static List<Step> steps;
 
+        [ThreadStatic]
+        private static List<IDisposable> disposables;
+
         private static List<Step> Steps
         {
             get { return steps ?? (steps = new List<Step>()); }
+        }
+
+        private static List<IDisposable> Disposables
+        {
+            get { return disposables ?? (disposables = new List<IDisposable>()); }
         }
 
         public static Step AddStep(Step step)
         {
             Steps.Add(step);
             return step;
+        }
+
+        public static void AddDisposable(IDisposable disposable)
+        {
+            Disposables.Add(disposable);
+        }
+
+        public static IEnumerable<IDisposable> GetDisposables()
+        {
+            try
+            {
+                return Disposables;
+            }
+            finally
+            {
+                disposables = null;
+            }
         }
 
         [SuppressMessage(

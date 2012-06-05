@@ -5,61 +5,23 @@
 namespace Xbehave.Sdk
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Xbehave.Infra;
 
     internal class Step
     {
         private readonly string name;
-        private readonly Func<IDisposable> body;
+        private readonly Action body;
+        private readonly Action teardown;
 
-        public Step(string stepType, string text, Func<IDisposable> body, bool inIsolation, string skipReason)
-            : this(stepType, text, inIsolation, skipReason)
-        {
-            Guard.AgainstNullArgument("body", body);
-
-            this.body = body;
-        }
-
-        public Step(string stepType, string text, Action body, bool inIsolation, string skipReason)
-            : this(stepType, text, inIsolation, skipReason)
-        {
-            Guard.AgainstNullArgument("body", body);
-
-            this.body = new Func<IDisposable>(() =>
-            {
-                body();
-                return default(IDisposable);
-            });
-        }
-
-        public Step(string stepType, string text, Func<IEnumerable<IDisposable>> body, bool inIsolation, string skipReason)
-            : this(stepType, text, inIsolation, skipReason)
-        {
-            Guard.AgainstNullArgument("body", body);
-
-            this.body = new Func<IDisposable>(() => new Disposable(body().Reverse()));
-        }
-
-        public Step(string stepType, string text, Action body, Action dispose, bool inIsolation, string skipReason)
-            : this(stepType, text, inIsolation, skipReason)
-        {
-            Guard.AgainstNullArgument("body", body);
-
-            this.body = new Func<IDisposable>(() =>
-            {
-                body();
-                return new Disposable(dispose);
-            });
-        }
-
-        private Step(string stepType, string text, bool inIsolation, string skipReason)
+        public Step(string stepType, string text, Action body, Action teardown, bool inIsolation, string skipReason)
         {
             Guard.AgainstNullArgument("stepType", stepType);
             Guard.AgainstNullArgument("text", text);
+            Guard.AgainstNullArgument("body", body);
 
             this.name = (stepType.CompressWhitespace() + " ").MergeOrdinalIgnoreCase(text.CompressWhitespace());
+            this.body = body;
+            this.teardown = teardown;
             this.InIsolation = inIsolation;
             this.SkipReason = skipReason;
         }
@@ -75,22 +37,32 @@ namespace Xbehave.Sdk
 
         public int MillisecondsTimeout { get; set; }
 
-        public IDisposable Execute()
+        public void Execute()
         {
-            if (this.MillisecondsTimeout > 0)
+            try
             {
-                var result = this.body.BeginInvoke(null, null);
-
-                // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
+                if (this.MillisecondsTimeout > 0)
                 {
-                    throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
+                    var result = this.body.BeginInvoke(null, null);
+
+                    // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
+                    if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
+                    {
+                        throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
+                    }
+
+                    this.body.EndInvoke(result);
                 }
 
-                return this.body.EndInvoke(result);
+                this.body();
             }
-
-            return this.body();
+            finally
+            {
+                if (this.teardown != null)
+                {
+                    CurrentScenario.AddDisposable(new Disposable(this.teardown));
+                }
+            }
         }
     }
 }

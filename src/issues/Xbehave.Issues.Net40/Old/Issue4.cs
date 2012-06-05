@@ -18,7 +18,7 @@ namespace Xbehave.Issues.Old
         {
             _.Given(() => ObjectRepository.Add(1))
             .When(() => ObjectRepository.Clear())
-            .ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
+            .Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation();
         }
 
         [Scenario]
@@ -28,7 +28,7 @@ namespace Xbehave.Issues.Old
         {
             _.Given(() => ObjectRepository.Add(integer))
             .When(() => ObjectRepository.Clear())
-            .ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
+            .Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation();
         }
 
         [Scenario]
@@ -43,7 +43,7 @@ namespace Xbehave.Issues.Old
                     ObjectRepository.Add(integer2);
                 })
                 .When(() => ObjectRepository.Clear())
-                .ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
+                .Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation();
         }
 
         [Scenario]
@@ -58,7 +58,7 @@ namespace Xbehave.Issues.Old
                     ObjectRepository.Add(t2);
                 })
                 .When(() => ObjectRepository.Clear())
-                .ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
+                .Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation();
         }
     }
 }

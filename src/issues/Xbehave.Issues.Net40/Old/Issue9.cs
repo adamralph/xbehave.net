@@ -37,7 +37,7 @@ namespace Xbehave.Issues.Old
                         disposable1.Use();
                         disposable2.Use();
                     })
-                .ThenInIsolation(() => true.Should().Be(false));
+                .Then(() => true.Should().Be(false)).InIsolation();
         }
     }
 }

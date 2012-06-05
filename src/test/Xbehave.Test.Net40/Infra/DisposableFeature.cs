@@ -20,7 +20,7 @@ namespace Xbehave.Test.Infra
                 .Given(() => action = A.Fake<Action>());
 
             "And a disposable constructing using the action"
-                .And(() => disposable = new Disposable(action));
+                .And((Action)(() => disposable = new Disposable(action)));
 
             "When disposing the disposable"
                 .When(() => disposable.Dispose());
@@ -37,13 +37,13 @@ namespace Xbehave.Test.Infra
             var disposable = default(Disposable);
 
             "Given a disposable implementer"
-                .Given(() => disposableImplementer1 = A.Fake<IDisposable>());
+                .Given((Action)(() => disposableImplementer1 = A.Fake<IDisposable>()));
 
             "And another disposable implementer"
-                .And(() => disposableImplementer2 = A.Fake<IDisposable>());
+                .And((Action)(() => disposableImplementer2 = A.Fake<IDisposable>()));
 
             "And a disposable constructing using the disposable implementers"
-                .And(() => disposable = new Disposable(new[] { disposableImplementer1, disposableImplementer2 }));
+                .And((Action)(() => disposable = new Disposable(new[] { disposableImplementer1, disposableImplementer2 })));
 
             "When disposing the disposable"
                 .When(() => disposable.Dispose());

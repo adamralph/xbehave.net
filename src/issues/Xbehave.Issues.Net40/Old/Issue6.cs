@@ -22,7 +22,7 @@ namespace Xbehave.Issues.Old
                 () => SomeUglyResourceHungryStaticThirdPartyDependency.CreateResourceConsumingObject(),
                 () => SomeUglyResourceHungryStaticThirdPartyDependency.DestroyResourceConsumingObject())
             .When(() => SomeUglyResourceHungryStaticThirdPartyDependency.DoSomethingEarthShatteringlyImportant())
-            .ThenInIsolation(() => true.Should().Be(false));
+            .Then(() => true.Should().Be(false)).InIsolation();
         }
 
         private static class SomeUglyResourceHungryStaticThirdPartyDependency

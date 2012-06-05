@@ -5,7 +5,6 @@
 namespace Xbehave.Fluent
 {
     using System;
-    using System.Collections.Generic;
     using Xbehave.Sdk;
 
     internal partial class StepDefinition : IStepDefinition
@@ -35,54 +34,24 @@ namespace Xbehave.Fluent
             return this;
         }
 
-        public IStepDefinition When(string message, Func<IDisposable> body)
+        public IStepDefinition When(string message, Action body, Action teardown = null)
         {
-            return message.When(body);
+            return message.When(body, teardown);
         }
 
-        public IStepDefinition When(string message, Action body)
+        public IStepDefinition Then(string message, Action body, Action teardown = null)
         {
-            return message.When(body);
+            return message.Then(body, teardown);
         }
 
-        public IStepDefinition When(string message, Func<IEnumerable<IDisposable>> body)
+        public IStepDefinition And(string message, Action body, Action teardown = null)
         {
-            return message.When(body);
+            return message.And(body, teardown);
         }
 
-        public IStepDefinition When(string message, Action body, Action dispose)
+        public IStepDefinition But(string message, Action body, Action teardown = null)
         {
-            return message.When(body, dispose);
-        }
-
-        public IStepDefinition Then(string message, Action body)
-        {
-            return message.Then(body);
-        }
-
-        public IStepDefinition And(string message, Func<IDisposable> body)
-        {
-            return message.And(body);
-        }
-
-        public IStepDefinition And(string message, Action body)
-        {
-            return message.And(body);
-        }
-
-        public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> body)
-        {
-            return message.And(body);
-        }
-
-        public IStepDefinition And(string message, Action body, Action dispose)
-        {
-            return message.And(body, dispose);
-        }
-
-        public IStepDefinition But(string message, Action body)
-        {
-            return message.But(body);
+            return message.But(body, teardown);
         }
     }
 }
