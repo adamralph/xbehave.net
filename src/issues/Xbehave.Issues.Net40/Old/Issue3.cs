@@ -38,8 +38,8 @@ namespace Xbehave.Issues.Old
                 .Given(() => disposable = new ImplicitDisposable())
                 .When(() => disposable.Use());
 
-            _.ThenInIsolation(() => true.Should().Be(false));
-            _.ThenInIsolation(() => true.Should().Be(false));
+            _.Then(() => true.Should().Be(false)).InIsolation();
+            _.Then(() => true.Should().Be(false)).InIsolation();
         }
 
         // 4 failures with 3 x 1 disposal
@@ -52,8 +52,8 @@ namespace Xbehave.Issues.Old
                 .Given(() => disposable = new ImplicitDisposable())
                 .When(() => disposable.Use());
 
-            _.ThenInIsolation(() => true.Should().Be(false));
-            _.ThenInIsolation(() => true.Should().Be(false));
+            _.Then(() => true.Should().Be(false)).InIsolation();
+            _.Then(() => true.Should().Be(false)).InIsolation();
             _.Then(() => true.Should().Be(false));
             _.Then(() => true.Should().Be(false));
         }
@@ -104,8 +104,8 @@ namespace Xbehave.Issues.Old
                     })
                 .When(() => disposable0.Use());
 
-            _.ThenInIsolation(() => true.Should().Be(false));
-            _.ThenInIsolation(() => true.Should().Be(false));
+            _.Then(() => true.Should().Be(false)).InIsolation();
+            _.Then(() => true.Should().Be(false)).InIsolation();
         }
 
         // 4 failures with 3 x 2 disposals
@@ -129,8 +129,8 @@ namespace Xbehave.Issues.Old
                     })
                 .When(() => disposable0.Use());
 
-            _.ThenInIsolation(() => true.Should().Be(false));
-            _.ThenInIsolation(() => true.Should().Be(false));
+            _.Then(() => true.Should().Be(false)).InIsolation();
+            _.Then(() => true.Should().Be(false)).InIsolation();
             _.Then(() => true.Should().Be(false));
             _.Then(() => true.Should().Be(false));
         }

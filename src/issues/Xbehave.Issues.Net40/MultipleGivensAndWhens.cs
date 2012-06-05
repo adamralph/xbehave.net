@@ -31,8 +31,8 @@ namespace Xbehave.Issues
             "and using the second disposable"
                 .And(() => disposable1.Use());
 
-            _.ThenInIsolation(() => true.Should().Be(false));
-            _.ThenInIsolation(() => true.Should().Be(false));
+            _.Then(() => true.Should().Be(false)).InIsolation();
+            _.Then(() => true.Should().Be(false)).InIsolation();
         }
     }
 }

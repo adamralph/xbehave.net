@@ -23,7 +23,7 @@ namespace Xbehave.Issues.Old
             "when clearing"
                 .When(() => ObjectRepository.Clear());
 
-            _.ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
+            _.Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation();
         }
 
         // 'Given the object repository is filled, when clear, then the count should be 0.'
@@ -34,7 +34,7 @@ namespace Xbehave.Issues.Old
                 .Given(() => ObjectRepository.Add(1));
 
             _.When(() => ObjectRepository.Clear());
-            _.ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
+            _.Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation();
         }
 
         // 'Given fill, when clear, then the count should be 0.'
@@ -43,7 +43,7 @@ namespace Xbehave.Issues.Old
         {
             _.Given(() => ObjectRepository.Add(1));
             _.When(() => ObjectRepository.Clear());
-            _.ThenInIsolation(() => ObjectRepository.Count.Should().Be(0));
+            _.Then(() => ObjectRepository.Count.Should().Be(0)).InIsolation();
         }
 
         // 'Given fill, when clear, then the count should be 0.'
