@@ -70,5 +70,5 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\..\packages\StyleCop.MSBuild.4.7.28.0\tools\StyleCop.targets" />
+  <Import Project="..\..\packages\StyleCop.MSBuild.4.7.30.0\tools\StyleCop.targets" />
 </Project>
