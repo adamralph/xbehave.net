@@ -38,17 +38,38 @@ namespace Xbehave
         /// <returns>The test commands which will execute the test runs for the given method.</returns>
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            Guard.AgainstNullArgument("method", method);
-            Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
+            IEnumerable<ITestCommand> scenarioCommands;
+            object feature;
 
-            var scenarioCommands = method.MethodInfo.GetParameters().Any()
-                ? base.EnumerateTestCommands(method).Cast<TheoryCommand>()
-                : new[] { new TheoryCommand(method, new object[0]) };
+            // NOTE: any exception must be wrapped in a command, otherwise the test runner will simply retry this method infinitely
+            try
+            {
+                if (method == null)
+                {
+                    throw new ArgumentNullException("method");
+                }
 
-            var feature = method.IsStatic ? null : method.CreateInstance();
+                if (method.MethodInfo == null)
+                {
+                    throw new ArgumentException("method.MethodInfo is null.", "method");
+                }
 
-            return scenarioCommands.SelectMany(scenarioCommand =>
-                CurrentScenario.CreateCommands(new ScenarioDefinition(method, scenarioCommand.Parameters, () => scenarioCommand.Execute(feature))));
+                scenarioCommands = method.MethodInfo.GetParameters().Any()
+                    ? base.EnumerateTestCommands(method).ToArray() // NOTE: current impl does not yield but we enumerate now to be future proof
+                    : new[] { new TheoryCommand(method, new object[0]) };
+
+                feature = method.IsStatic ? null : method.CreateInstance();
+            }
+            catch (Exception ex)
+            {
+                return new[] { new ExceptionCommand(method, ex) };
+            }
+
+            // NOTE: this is not in the try catch since we are yielding internally
+            // TODO: address this - see http://stackoverflow.com/a/346772/49241
+            return scenarioCommands.Where(scenarioCommand => !(scenarioCommand is TheoryCommand)).Concat(
+                scenarioCommands.OfType<TheoryCommand>().SelectMany(scenarioCommand =>
+                 CurrentScenario.CreateCommands(new ScenarioDefinition(method, scenarioCommand.Parameters, () => scenarioCommand.Execute(feature)))));
         }
     }
 }

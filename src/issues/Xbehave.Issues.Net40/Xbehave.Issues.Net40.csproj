@@ -49,6 +49,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <None Include="ProvidedContext.cs" />
+    <Compile Include="Issue12.cs" />
     <Compile Include="Issue10.cs" />
     <Compile Include="Issue9.cs" />
     <Compile Include="Issue6.cs" />
