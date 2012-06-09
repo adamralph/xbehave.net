@@ -40,7 +40,7 @@ namespace Xbehave.Test.Legacy
                 () => Assert.Equal(element, sut.Pop()));
         }
 
-        [Specification]
+        [Specification(Skip = "Not relevant for CI.")]
         public static void FluentTimeouts()
         {
             // You can have individual timeouts per specification primitive
