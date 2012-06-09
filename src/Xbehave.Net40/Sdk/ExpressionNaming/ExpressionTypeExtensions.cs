@@ -9,7 +9,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     internal static class ExpressionTypeExtensions
     {
-        private static readonly Dictionary<ExpressionType, string> tokens = new Dictionary<ExpressionType, string>
+        private static readonly Dictionary<ExpressionType, string> Tokens = new Dictionary<ExpressionType, string>
         {
             // binary
             { ExpressionType.Add, "plus" },
@@ -52,7 +52,7 @@ namespace Xbehave.Sdk.ExpressionNaming
         public static string ToToken(this ExpressionType type)
         {
             string token;
-            if (tokens.TryGetValue(type, out token))
+            if (Tokens.TryGetValue(type, out token))
             {
                 return token;
             }

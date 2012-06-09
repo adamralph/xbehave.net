@@ -9,14 +9,14 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     internal static class Optimizations
     {
-        private static readonly HashSet<string> ignoredTypes = new HashSet<string>
+        private static readonly HashSet<string> IgnoredTypes = new HashSet<string>
         { 
             "FakeItEasy.Repeated",
         };
 
         public static bool IsIgnored(this Type type)
         {
-            return type.FullName != null && ignoredTypes.Contains(type.FullName);
+            return type.FullName != null && IgnoredTypes.Contains(type.FullName);
         }
     }
 }
