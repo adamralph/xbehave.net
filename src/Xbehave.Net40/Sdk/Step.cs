@@ -5,6 +5,7 @@
 namespace Xbehave.Sdk
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Xbehave.Infra;
 
     internal class Step
@@ -37,6 +38,7 @@ namespace Xbehave.Sdk
 
         public int MillisecondsTimeout { get; set; }
 
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Object is disposed after step execution.")]
         public void Execute()
         {
             try

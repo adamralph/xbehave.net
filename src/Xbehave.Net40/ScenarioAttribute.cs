@@ -36,6 +36,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="method">The test method</param>
         /// <returns>The test commands which will execute the test runs for the given method.</returns>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
             IEnumerable<ITestCommand> scenarioCommands;

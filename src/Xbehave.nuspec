@@ -15,7 +15,7 @@ Deprecated (Func&lt;IDisposable&gt;) and (Func&lt;IEnumerable&lt;IDisposable&gt;
 Replaced (Action body, Action dispose) step definition overloads with optional teardown parameter and guaranteed teardown execution when exceptions are thrown from step body.
 Simplified test names to always include context number and test number in the format [{context}.{test}].
 Added compression of whitespace in step text.
-BUG FIX: infinite loops in test runner when scenario method has params but no data provided.</releaseNotes>
+(Bug) infinite loops in test runner when scenario method has params but no data provided (https://bitbucket.org/adamralph/xbehave.net/issue/12/infinite-loops-in-test-runner-when).</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
