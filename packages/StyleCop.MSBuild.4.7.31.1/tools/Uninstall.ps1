@@ -6,7 +6,8 @@ param($installPath, $toolsPath, $package, $project)
 $project.Save()
 
 # read in project XML
-$projectXml = [xml](Get-Content $project.FullName)
+$projectXml = New-Object System.Xml.XmlDocument
+$projectXml.Load($project.FullName)
 $namespace = 'http://schemas.microsoft.com/developer/msbuild/2003'
 
 # remove import nodes
