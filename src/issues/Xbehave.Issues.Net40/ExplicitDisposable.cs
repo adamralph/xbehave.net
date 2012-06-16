@@ -22,7 +22,7 @@ namespace Xbehave.Issues
         [SuppressMessage("Microsoft.Design", "CA1063:ImplementIDisposableCorrectly", Justification = "Required to be an explicit implementation.")]
         void IDisposable.Dispose()
         {
-            Console.WriteLine("DISPOSED: {0}");
+            Console.WriteLine("DISPOSED: {0}", this.GetHashCode());
         }
     }
 }

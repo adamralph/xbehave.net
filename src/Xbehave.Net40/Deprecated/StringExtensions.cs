@@ -22,7 +22,7 @@ namespace Xbehave
         /// <param name="text">A text describing the arrangment.</param>
         /// <param name="body">The function that will perform and return the arrangement.</param>
         /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use Given(Action body, Action teardown) instead.")]
         public static IStepDefinition GivenDisposable(this string text, ContextDelegate body)
         {
             Guard.AgainstNullArgument("body", body);
@@ -62,7 +62,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use Given(Action body, Action teardown) instead.")]
         public static IStepDefinition Given(this string text, Func<IDisposable> body)
         {
             Guard.AgainstNullArgument("body", body);
@@ -78,7 +78,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use Given(Action body, Action teardown) instead.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition Given(this string text, Func<IEnumerable<IDisposable>> body)
         {
@@ -95,7 +95,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use When(Action body, Action teardown) instead.")]
         public static IStepDefinition When(this string text, Func<IDisposable> body)
         {
             Guard.AgainstNullArgument("body", body);
@@ -111,7 +111,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use When(Action body, Action teardown) instead.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition When(this string text, Func<IEnumerable<IDisposable>> body)
         {
@@ -128,7 +128,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use And(Action body, Action teardown) instead.")]
         public static IStepDefinition And(this string text, Func<IDisposable> body)
         {
             Guard.AgainstNullArgument("body", body);
@@ -144,7 +144,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use And(Action body, Action teardown) instead.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         public static IStepDefinition And(this string text, Func<IEnumerable<IDisposable>> body)
         {

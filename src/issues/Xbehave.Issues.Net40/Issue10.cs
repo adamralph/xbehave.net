@@ -20,10 +20,32 @@ namespace Xbehave.Issues
             var disposable1 = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given((Action)(() => disposable0 = new ImplicitDisposable().Using()));
+                .Given(() => disposable0 = new ImplicitDisposable(), () => disposable0.Dispose());
 
             "and another disposable"
-                .And((Action)(() => disposable1 = new ImplicitDisposable().Using()));
+                .And(() => disposable1 = new ImplicitDisposable(), () => disposable1.Dispose());
+
+            "when using the first disposable"
+                .When(() => disposable0.Use());
+
+            "and using the second disposable"
+                .And(() => disposable1.Use());
+
+            _.Then(() => true.Should().Be(false)).InIsolation();
+            _.Then(() => true.Should().Be(false)).InIsolation();
+        }
+        
+        [Scenario]
+        public static void RegisteringDisposableInTeardown()
+        {
+            var disposable0 = default(ImplicitDisposable);
+            var disposable1 = default(ImplicitDisposable);
+
+            "Given a disposable,"
+                .Given(() => disposable0 = new ImplicitDisposable(), () => disposable0.Using());
+
+            "and another disposable"
+                .And(() => disposable1 = new ImplicitDisposable(), () => disposable1.Using());
 
             "when using the first disposable"
                 .When(() => disposable0.Use());

@@ -21,7 +21,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use When(Action body, Action teardown) instead.")]
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
         IStepDefinition When(string text, Func<IDisposable> body);
 
@@ -33,7 +33,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use When(Action body, Action teardown) instead.")]
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         IStepDefinition When(string text, Func<IEnumerable<IDisposable>> body);
@@ -46,7 +46,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use And(Action body, Action teardown) instead.")]
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
         IStepDefinition And(string text, Func<IDisposable> body);
 
@@ -58,7 +58,7 @@ namespace Xbehave.Fluent
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use IDisposable.Using() instead.")]
+        [Obsolete("Use And(Action body, Action teardown) instead.")]
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
         [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
         IStepDefinition And(string text, Func<IEnumerable<IDisposable>> body);

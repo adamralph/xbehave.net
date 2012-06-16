@@ -19,10 +19,10 @@ namespace Xbehave.Test.Infra
             var secondDisposable = default(IDisposable);
 
             "Given a disposable"
-                .Given((Action)(() => firstDisposable = A.Fake<IDisposable>()));
+                .Given(() => firstDisposable = A.Fake<IDisposable>(), () => { });
 
             "And another disposable"
-                .And((Action)(() => secondDisposable = A.Fake<IDisposable>()));
+                .And(() => secondDisposable = A.Fake<IDisposable>(), () => { });
 
             "When disposing all the disposables"
                 .When(() => new[] { firstDisposable, secondDisposable }.DisposeAll());

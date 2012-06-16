@@ -31,11 +31,21 @@ namespace Xbehave.Sdk
                 yield return new StepCommand(this.definition, contextOrdinal, stepOrdinal++, step);
             }
 
-            // NOTE: this relies on the test runner executing each above command as soon as it is recieved, which TD.NET, R# and xunit.console all seem to do
-            var disposables = CurrentScenario.GetDisposables();
-            if (disposables.Any())
+            // NOTE: this relies on the test runner executing each above yielded step command and below yielded disposal command as soon as it is recieved
+            // TD.NET, R# and xunit.console all seem to do this
+            var index = 0;
+            while (true)
             {
-                yield return new DisposalCommand(this.definition, contextOrdinal, stepOrdinal++, disposables.Reverse());
+                var disposables = CurrentScenario.GetDisposables();
+                if (!disposables.Any())
+                {
+                    break;
+                }
+
+                // don't reverse odd disposables since their creation order has already been reversed by the previous command
+                yield return new DisposalCommand(this.definition, contextOrdinal, stepOrdinal++, index % 2 == 0 ? disposables.Reverse() : disposables);
+
+                ++index;
             }
         }
     }
