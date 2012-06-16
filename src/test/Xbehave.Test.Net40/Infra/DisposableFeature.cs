@@ -11,7 +11,7 @@ namespace Xbehave.Test.Infra
     public static class DisposableFeature
     {
         [Scenario]
-        public static void UsingAnAction()
+        public static void Disposing()
         {
             var action = default(Action);
             var disposable = default(Disposable);
@@ -27,32 +27,6 @@ namespace Xbehave.Test.Infra
 
             "Then the action is invoked"
                 .Then(() => A.CallTo(() => action.Invoke()).MustHaveHappened(Repeated.Exactly.Once));
-        }
-
-        [Scenario]
-        public static void UsingManyDisposableImplementers()
-        {
-            var disposableImplementer1 = default(IDisposable);
-            var disposableImplementer2 = default(IDisposable);
-            var disposable = default(Disposable);
-
-            "Given a disposable implementer"
-                .Given(() => disposableImplementer1 = A.Fake<IDisposable>(), null);
-
-            "And another disposable implementer"
-                .And(() => disposableImplementer2 = A.Fake<IDisposable>(), null);
-
-            "And a disposable constructing using the disposable implementers"
-                .And(() => disposable = new Disposable(new[] { disposableImplementer1, disposableImplementer2 }), null);
-
-            "When disposing the disposable"
-                .When(() => disposable.Dispose());
-
-            "Then the first disposable implementer is disposed"
-                .Then(() => A.CallTo(() => disposableImplementer1.Dispose()).MustHaveHappened(Repeated.Exactly.Once));
-
-            "And the second disposable implementer is disposed"
-                .And(() => A.CallTo(() => disposableImplementer2.Dispose()).MustHaveHappened(Repeated.Exactly.Once));
         }
     }
 }

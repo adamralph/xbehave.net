@@ -16,14 +16,6 @@ namespace Xbehave.Infra
             this.disposal = disposal;
         }
 
-        public Disposable(IEnumerable<IDisposable> disposables)
-        {
-            if (disposables != null)
-            {
-                this.disposal = () => disposables.DisposeAll();
-            }
-        }
-
         public void Dispose()
         {
             if (this.disposal != null)

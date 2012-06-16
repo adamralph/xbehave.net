@@ -27,7 +27,7 @@ namespace Xbehave
         public static IStepDefinition Given(string text, Func<IDisposable> body)
         {
             IDisposable disposable = null;
-            return text.Given(() => disposable = body(), () => new Disposable(new[] { disposable }).Dispose());
+            return text.Given(() => disposable = body(), () => new[] { disposable }.DisposeAll());
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Xbehave
         public static IStepDefinition Given(string text, Func<IEnumerable<IDisposable>> body)
         {
             IEnumerable<IDisposable> disposables = null;
-            return text.Given(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
+            return text.Given(() => disposables = body(), () => (disposables ?? new IDisposable[0]).Reverse().DisposeAll());
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Xbehave
         public static IStepDefinition When(string text, Func<IDisposable> body)
         {
             IDisposable disposable = null;
-            return text.When(() => disposable = body(), () => new Disposable(new[] { disposable }).Dispose());
+            return text.When(() => disposable = body(), () => new[] { disposable }.DisposeAll());
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Xbehave
         public static IStepDefinition When(string text, Func<IEnumerable<IDisposable>> body)
         {
             IEnumerable<IDisposable> disposables = null;
-            return text.When(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
+            return text.When(() => disposables = body(), () => (disposables ?? new IDisposable[0]).Reverse().DisposeAll());
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Xbehave
         public static IStepDefinition And(string text, Func<IDisposable> body)
         {
             IDisposable disposable = null;
-            return text.And(() => disposable = body(), () => new Disposable(new[] { disposable }).Dispose());
+            return text.And(() => disposable = body(), () => new[] { disposable }.DisposeAll());
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Xbehave
         public static IStepDefinition And(string text, Func<IEnumerable<IDisposable>> body)
         {
             IEnumerable<IDisposable> disposables = null;
-            return text.And(() => disposables = body(), () => new Disposable((disposables ?? new IDisposable[0]).Reverse()).Dispose());
+            return text.And(() => disposables = body(), () => (disposables ?? new IDisposable[0]).Reverse().DisposeAll());
         }
     }
 }
