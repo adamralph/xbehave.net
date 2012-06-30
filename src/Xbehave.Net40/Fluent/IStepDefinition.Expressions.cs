@@ -17,43 +17,39 @@ namespace Xbehave.Fluent
         /// This is an experimental feature.
         /// </summary>
         /// <param name="body">The body of the step.</param>
-        /// <param name="teardown">The teardown.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        IStepDefinition When(Expression<Action> body, Action teardown = null);
+        IStepDefinition When(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
         /// <param name="body">The body of the step.</param>
-        /// <param name="teardown">The teardown.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Then", Justification = "By design.")]
-        IStepDefinition Then(Expression<Action> body, Action teardown = null);
+        IStepDefinition Then(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
         /// <param name="body">The body of the step.</param>
-        /// <param name="teardown">The teardown.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        IStepDefinition And(Expression<Action> body, Action teardown = null);
+        IStepDefinition And(Expression<Action> body);
 
         /// <summary>
         /// This is an experimental feature.
         /// </summary>
         /// <param name="body">The body of the step.</param>
-        /// <param name="teardown">The teardown.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        IStepDefinition But(Expression<Action> body, Action teardown = null);
+        IStepDefinition But(Expression<Action> body);
     }
 }

@@ -19,8 +19,8 @@ namespace Xbehave.Issues.Old
         public static void AutonamingWithExplicitDisposalAction()
         {
             _.Given(
-                () => SomeUglyResourceHungryStaticThirdPartyDependency.CreateResourceConsumingObject(),
-                () => SomeUglyResourceHungryStaticThirdPartyDependency.DestroyResourceConsumingObject())
+                () => SomeUglyResourceHungryStaticThirdPartyDependency.CreateResourceConsumingObject())
+                .Teardown(() => SomeUglyResourceHungryStaticThirdPartyDependency.DestroyResourceConsumingObject())
             .When(() => SomeUglyResourceHungryStaticThirdPartyDependency.DoSomethingEarthShatteringlyImportant())
             .Then(() => true.Should().Be(false)).InIsolation();
         }

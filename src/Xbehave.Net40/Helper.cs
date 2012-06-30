@@ -10,9 +10,9 @@ namespace Xbehave
 
     internal static class Helper
     {
-        public static IStepDefinition AddStep(string stepType, string text, Action body, Action teardown, bool inIsolation, string skipReason)
+        public static IStepDefinition AddStep(string stepType, string text, Action body)
         {
-            return new StepDefinition(CurrentScenario.AddStep(new Step(stepType, text, body, teardown, inIsolation, skipReason)));
+            return new StepDefinition(CurrentScenario.AddStep(new Step(stepType, text, body)));
         }
     }
 }

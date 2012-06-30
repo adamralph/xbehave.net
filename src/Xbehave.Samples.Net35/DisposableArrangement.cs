@@ -62,7 +62,11 @@ namespace Xbehave.Issues.Old
             var disposable1 = default(IDisposable);
 
             "Given disposables,"
-                .Given(() => new[] { disposable0 = new ImplicitDisposable(), disposable1 = new ImplicitDisposable() })
+                .Given(() =>
+                {
+                    disposable0 = new ImplicitDisposable();
+                    disposable1 = new ImplicitDisposable();
+                })
                 .When(() => disposable0.ToString())
                 .Then(() => true.Should().Be(false))
                 .Then(() => true.Should().Be(false));
@@ -76,7 +80,11 @@ namespace Xbehave.Issues.Old
             var disposable1 = default(IDisposable);
 
             "Given disposables,"
-                .Given(() => new[] { disposable0 = new ImplicitDisposable(), disposable1 = new ImplicitDisposable() })
+                .Given(() =>
+                {
+                    disposable0 = new ImplicitDisposable();
+                    disposable1 = new ImplicitDisposable();
+                })
                 .When(() => disposable0.ToString())
                 .Then(() => true.Should().Be(false)).InIsolation()
                 .Then(() => true.Should().Be(false)).InIsolation();
@@ -90,7 +98,11 @@ namespace Xbehave.Issues.Old
             var disposable1 = default(IDisposable);
 
             "Given disposables,"
-                .Given(() => new[] { disposable0 = new ImplicitDisposable(), disposable1 = new ImplicitDisposable() })
+                .Given(() =>
+                {
+                    disposable0 = new ImplicitDisposable();
+                    disposable1 = new ImplicitDisposable();
+                })
                 .When(() => disposable0.ToString())
                 .Then(() => true.Should().Be(false)).InIsolation()
                 .Then(() => true.Should().Be(false)).InIsolation()

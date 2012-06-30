@@ -5,6 +5,7 @@
 namespace Xbehave.Sdk
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using Xbehave.Infra;
 
@@ -12,9 +13,9 @@ namespace Xbehave.Sdk
     {
         private readonly string name;
         private readonly Action body;
-        private readonly Action teardown;
+        private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string stepType, string text, Action body, Action teardown, bool inIsolation, string skipReason)
+        public Step(string stepType, string text, Action body)
         {
             Guard.AgainstNullArgument("stepType", stepType);
             Guard.AgainstNullArgument("text", text);
@@ -22,9 +23,6 @@ namespace Xbehave.Sdk
 
             this.name = (stepType.CompressWhitespace() + " ").MergeOrdinalIgnoreCase(text.CompressWhitespace());
             this.body = body;
-            this.teardown = teardown;
-            this.InIsolation = inIsolation;
-            this.SkipReason = skipReason;
         }
 
         public string Name
@@ -37,6 +35,11 @@ namespace Xbehave.Sdk
         public bool InIsolation { get; set; }
 
         public int MillisecondsTimeout { get; set; }
+
+        public void AddTeardown(Action teardown)
+        {
+            this.teardowns.Add(teardown);
+        }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Object is disposed after step execution.")]
         public void Execute()
@@ -60,9 +63,9 @@ namespace Xbehave.Sdk
             }
             finally
             {
-                if (this.teardown != null)
+                foreach (var teardown in this.teardowns)
                 {
-                    CurrentScenario.AddDisposable(new Disposable(this.teardown));
+                    CurrentScenario.AddDisposable(new Disposable(teardown));
                 }
             }
         }

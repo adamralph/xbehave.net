@@ -22,21 +22,6 @@ namespace Xbehave.Samples.Net35
                 .Then(() => true.Should().Be(false)).InIsolation();
         }
 
-        [Scenario]
-        public static void Inline()
-        {
-            var disposable = default(ImplicitDisposable);
-
-            "Given a disposable,"
-                .Given(() =>
-                {
-                    disposable = new ImplicitDisposable();
-                    return disposable;
-                })
-                .When(() => disposable.ToString())
-                .Then(() => true.Should().Be(false)).InIsolation();
-        }
-
         public sealed class ImplicitDisposable : IDisposable
         {
             public void Dispose()

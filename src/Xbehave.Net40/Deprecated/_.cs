@@ -20,92 +20,75 @@ namespace Xbehave
         /// Deprecated in version 0.11.0.
         /// </summary>
         /// <param name="text">The step text.</param>
-        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="body">The action that will perform the step.</param>
+        /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition Given(string text, Func<IDisposable> body)
+        [Obsolete("Use Given().Teardown() instead.")]
+        public static IStepDefinition Given(string text, Action body, Action dispose)
         {
-            IDisposable disposable = null;
-            return text.Given(() => disposable = body(), () => new[] { disposable }.DisposeAll());
+            return Helper.AddStep("Given", text, body).Teardown(dispose);
         }
 
         /// <summary>
         /// Deprecated in version 0.11.0.
         /// </summary>
         /// <param name="text">The step text.</param>
-        /// <param name="body">The function that will perform the step and return the disposable resources.</param>
+        /// <param name="body">The action that will perform the step.</param>
+        /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use Given(Action body, Action teardown) instead.")]
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IStepDefinition Given(string text, Func<IEnumerable<IDisposable>> body)
+        [Obsolete("Use When().Teardown() instead.")]
+        public static IStepDefinition When(string text, Action body, Action dispose)
         {
-            IEnumerable<IDisposable> disposables = null;
-            return text.Given(() => disposables = body(), () => (disposables ?? new IDisposable[0]).Reverse().DisposeAll());
+            return Helper.AddStep("When", text, body).Teardown(dispose);
         }
 
         /// <summary>
         /// Deprecated in version 0.11.0.
         /// </summary>
         /// <param name="text">The step text.</param>
-        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="body">The action that will perform the step.</param>
+        /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use When(Action body, Action teardown) instead.")]
-        public static IStepDefinition When(string text, Func<IDisposable> body)
+        [Obsolete("Use Then().Teardown() instead.")]
+        public static IStepDefinition Then(string text, Action body, Action dispose)
         {
-            IDisposable disposable = null;
-            return text.When(() => disposable = body(), () => new[] { disposable }.DisposeAll());
+            return Helper.AddStep("Then", text, body).Teardown(dispose);
         }
 
         /// <summary>
         /// Deprecated in version 0.11.0.
         /// </summary>
         /// <param name="text">The step text.</param>
-        /// <param name="body">The function that will perform the step and return the disposable resources.</param>
+        /// <param name="body">The action that will perform the step.</param>
+        /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use When(Action body, Action teardown) instead.")]
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IStepDefinition When(string text, Func<IEnumerable<IDisposable>> body)
+        [Obsolete("Use And().Teardown() instead.")]
+        public static IStepDefinition And(string text, Action body, Action dispose)
         {
-            IEnumerable<IDisposable> disposables = null;
-            return text.When(() => disposables = body(), () => (disposables ?? new IDisposable[0]).Reverse().DisposeAll());
+            return Helper.AddStep("And", text, body).Teardown(dispose);
         }
 
         /// <summary>
         /// Deprecated in version 0.11.0.
         /// </summary>
         /// <param name="text">The step text.</param>
-        /// <param name="body">The function that will perform the step and return the disposable resource.</param>
+        /// <param name="body">The action that will perform the step.</param>
+        /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        [Obsolete("Use And(Action body, Action teardown) instead.")]
-        public static IStepDefinition And(string text, Func<IDisposable> body)
+        [Obsolete("Use But().Teardown() instead.")]
+        public static IStepDefinition But(string text, Action body, Action dispose)
         {
-            IDisposable disposable = null;
-            return text.And(() => disposable = body(), () => new[] { disposable }.DisposeAll());
-        }
-
-        /// <summary>
-        /// Deprecated in version 0.11.0.
-        /// </summary>
-        /// <param name="text">The step text.</param>
-        /// <param name="body">The function that will perform the step and return the disposable resources.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [Obsolete("Use And(Action body, Action teardown) instead.")]
-        [SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "By design.")]
-        public static IStepDefinition And(string text, Func<IEnumerable<IDisposable>> body)
-        {
-            IEnumerable<IDisposable> disposables = null;
-            return text.And(() => disposables = body(), () => (disposables ?? new IDisposable[0]).Reverse().DisposeAll());
+            return Helper.AddStep("But", text, body).Teardown(dispose);
         }
     }
 }

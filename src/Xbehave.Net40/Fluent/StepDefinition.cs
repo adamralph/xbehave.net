@@ -5,6 +5,9 @@
 namespace Xbehave.Fluent
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Xbehave.Infra;
     using Xbehave.Sdk;
 
     internal partial class StepDefinition : IStepDefinition
@@ -14,6 +17,11 @@ namespace Xbehave.Fluent
         public StepDefinition(Step createdStep)
         {
             this.createdStep = createdStep;
+        }
+
+        public IStepDefinition And()
+        {
+            return this;
         }
 
         public IStepDefinition WithTimeout(int millisecondsTimeout)
@@ -34,24 +42,30 @@ namespace Xbehave.Fluent
             return this;
         }
 
-        public IStepDefinition When(string message, Action body, Action teardown = null)
+        public IStepDefinition When(string message, Action body)
         {
-            return message.When(body, teardown);
+            return message.When(body);
         }
 
-        public IStepDefinition Then(string message, Action body, Action teardown = null)
+        public IStepDefinition Then(string message, Action body)
         {
-            return message.Then(body, teardown);
+            return message.Then(body);
         }
 
-        public IStepDefinition And(string message, Action body, Action teardown = null)
+        public IStepDefinition And(string message, Action body)
         {
-            return message.And(body, teardown);
+            return message.And(body);
         }
 
-        public IStepDefinition But(string message, Action body, Action teardown = null)
+        public IStepDefinition But(string message, Action body)
         {
-            return message.But(body, teardown);
+            return message.But(body);
+        }
+
+        public IStepDefinition Teardown(Action teardown)
+        {
+            this.createdStep.AddTeardown(teardown);
+            return this;
         }
     }
 }

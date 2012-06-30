@@ -21,7 +21,7 @@ namespace Xbehave.Issues.Old
             var disposable = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given(() => disposable = new ImplicitDisposable())
+                .Given(() => disposable = new ImplicitDisposable().Using())
                 .When(() => disposable.Use());
 
             _.Then(() => true.Should().Be(false));
@@ -35,7 +35,7 @@ namespace Xbehave.Issues.Old
             var disposable = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given(() => disposable = new ImplicitDisposable())
+                .Given(() => disposable = new ImplicitDisposable().Using())
                 .When(() => disposable.Use());
 
             _.Then(() => true.Should().Be(false)).InIsolation();
@@ -49,7 +49,7 @@ namespace Xbehave.Issues.Old
             var disposable = default(ImplicitDisposable);
 
             "Given a disposable,"
-                .Given(() => disposable = new ImplicitDisposable())
+                .Given(() => disposable = new ImplicitDisposable().Using())
                 .When(() => disposable.Use());
 
             _.Then(() => true.Should().Be(false)).InIsolation();
@@ -142,11 +142,7 @@ namespace Xbehave.Issues.Old
             var disposable = default(ExplicitDisposable);
 
             "Given a disposable,"
-                .Given(() =>
-                {
-                    disposable = new ExplicitDisposable();
-                    return disposable;
-                })
+                .Given(() => disposable = new ExplicitDisposable().Using())
                 .When(() => disposable.Use());
 
             _.Then(() => true.Should().Be(false));

@@ -12,11 +12,13 @@
     <description>A BDD/TDD framework based on xUnit.net inspired by the Gherkin behaviour language. Dispenses with the need to map Gherkin feature files to code implementations by allowing the developer to bake the behaviours/specifications directly into code. Designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
     <releaseNotes>(Enhancement) Allow registration of objects for disposal within the body of a step (https://bitbucket.org/adamralph/xbehave.net/issue/10).
 
-  - Added IDisposable.Using() extension method.
+  - *** BREAKING CHANGE *** Removed (Func&lt;IDisposable&gt;) and (Func&lt;IEnumerable&lt;IDisposable&gt;&gt;) step definition overloads. It is important to note that an IDisposable object returned from a step body declared as an expression will no longer be disposed. Instead, register the object for disposal using the Using() extension method. E.g. "Given some disposable".Given(() => someDisposable = new SomeDisposable().Using());
 
-  - Deprecated (Func&lt;IDisposable&gt;) and (Func&lt;IEnumerable&lt;IDisposable&gt;&gt;) step definition overloads.
+  - Added IDisposable.Using() extension method for immediate registration of objects for disposal after all steps in the scenario have been executed.
 
-  - Replaced (Action body, Action dispose) step definition overloads with optional teardown parameter and guaranteed teardown execution when exceptions are thrown from step body.
+  - Added IStepDefinition.Teardown(Action teardown) method for declaring a teardown action which will be executed after all steps in the current scenario have been executed.
+
+  - Deprecated (Action body, Action dispose) step definition overloads and guaranteed disposal when exceptions are thrown from step body.
 
 (Bug) Infinite loops in test runner when scenario method has params but no data provided (https://bitbucket.org/adamralph/xbehave.net/issue/12).
 

@@ -11,32 +11,24 @@ namespace Xbehave.Fluent
 
     internal partial class StepDefinition : IStepDefinition
     {
-        public IStepDefinition When(string message, Func<IDisposable> body)
+        public IStepDefinition When(string message, Action body, Action dispose)
         {
-            Guard.AgainstNullArgument("body", body);
-            IDisposable disposable = null;
-            return message.When(() => disposable = body(), () => new[] { disposable }.DisposeAll());
+            return message.When(body).Teardown(dispose);
         }
 
-        public IStepDefinition When(string message, Func<IEnumerable<IDisposable>> body)
+        public IStepDefinition Then(string message, Action body, Action dispose)
         {
-            Guard.AgainstNullArgument("body", body);
-            IEnumerable<IDisposable> disposables = null;
-            return message.When(() => disposables = body(), () => (disposables ?? new IDisposable[0]).Reverse().DisposeAll());
+            return message.Then(body).Teardown(dispose);
         }
 
-        public IStepDefinition And(string message, Func<IDisposable> body)
+        public IStepDefinition And(string message, Action body, Action dispose)
         {
-            Guard.AgainstNullArgument("body", body);
-            IDisposable disposable = null;
-            return message.And(() => disposable = body(), () => new[] { disposable }.DisposeAll());
+            return message.And(body).Teardown(dispose);
         }
 
-        public IStepDefinition And(string message, Func<IEnumerable<IDisposable>> body)
+        public IStepDefinition But(string message, Action body, Action dispose)
         {
-            Guard.AgainstNullArgument("body", body);
-            IEnumerable<IDisposable> disposables = null;
-            return message.And(() => disposables = body(), () => (disposables ?? new IDisposable[0]).Reverse().DisposeAll());
+            return message.But(body).Teardown(dispose);
         }
     }
 }

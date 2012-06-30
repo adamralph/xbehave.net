@@ -9,24 +9,24 @@ namespace Xbehave.Fluent
 
     internal partial class StepDefinition : IStepDefinition
     {
-        public IStepDefinition When(Expression<Action> body, Action teardown = null)
+        public IStepDefinition When(Expression<Action> body)
         {
-            return _.When(body, teardown);
+            return _.When(body);
         }
 
-        public IStepDefinition Then(Expression<Action> body, Action teardown = null)
+        public IStepDefinition Then(Expression<Action> body)
         {
-            return _.Then(body, teardown);
+            return _.Then(body);
         }
 
-        public IStepDefinition And(Expression<Action> body, Action teardown = null)
+        public IStepDefinition And(Expression<Action> body)
         {
-            return _.And(body, teardown);
+            return _.And(body);
         }
 
-        public IStepDefinition But(Expression<Action> body, Action teardown = null)
+        public IStepDefinition But(Expression<Action> body)
         {
-            return _.But(body, teardown);
+            return _.But(body);
         }
     }
 }

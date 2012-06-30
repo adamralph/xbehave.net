@@ -20,13 +20,12 @@ namespace Xbehave
         /// </summary>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
-        /// <param name="teardown">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition Given(string text, Action body, Action teardown = null)
+        public static IStepDefinition Given(string text, Action body)
         {
-            return Helper.AddStep("Given", text, body, teardown, false, null);
+            return Helper.AddStep("Given", text, body);
         }
 
         /// <summary>
@@ -34,13 +33,12 @@ namespace Xbehave
         /// </summary>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
-        /// <param name="teardown">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition When(string text, Action body, Action teardown = null)
+        public static IStepDefinition When(string text, Action body)
         {
-            return Helper.AddStep("When", text, body, teardown, false, null);
+            return Helper.AddStep("When", text, body);
         }
 
         /// <summary>
@@ -48,13 +46,12 @@ namespace Xbehave
         /// </summary>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
-        /// <param name="teardown">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition Then(string text, Action body, Action teardown = null)
+        public static IStepDefinition Then(string text, Action body)
         {
-            return Helper.AddStep("Then", text, body, teardown, false, null);
+            return Helper.AddStep("Then", text, body);
         }
 
         /// <summary>
@@ -62,13 +59,12 @@ namespace Xbehave
         /// </summary>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
-        /// <param name="teardown">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition And(string text, Action body, Action teardown = null)
+        public static IStepDefinition And(string text, Action body)
         {
-            return Helper.AddStep("And", text, body, teardown, false, null);
+            return Helper.AddStep("And", text, body);
         }
 
         /// <summary>
@@ -76,13 +72,12 @@ namespace Xbehave
         /// </summary>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
-        /// <param name="teardown">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition But(string text, Action body, Action teardown = null)
+        public static IStepDefinition But(string text, Action body)
         {
-            return Helper.AddStep("But", text, body, teardown, false, null);
+            return Helper.AddStep("But", text, body);
         }
     }
 }
