@@ -4,12 +4,11 @@
 
 namespace Xbehave.Issues
 {
-    using System;
     using FluentAssertions;
     using Xbehave;
 
     /// <summary>
-    /// https://bitbucket.org/adamralph/xbehave.net/issue/10/intra-step-disposable-registration
+    /// https://bitbucket.org/adamralph/xbehave.net/issue/10
     /// </summary>
     public class Issue10
     {
@@ -34,7 +33,7 @@ namespace Xbehave.Issues
             _.Then(() => true.Should().Be(false)).InIsolation();
             _.Then(() => true.Should().Be(false)).InIsolation();
         }
-        
+
         [Scenario]
         public static void RegisteringDisposableInTeardown()
         {
