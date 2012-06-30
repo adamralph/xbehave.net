@@ -1,4 +1,4 @@
-#  Copyright (c) Adam Ralph. All rights reserved.
+# Copyright (c) Adam Ralph. All rights reserved.
 
 param($installPath, $toolsPath, $package, $project)
 

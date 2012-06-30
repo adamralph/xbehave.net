@@ -1,6 +1,7 @@
-#  Copyright (c) Adam Ralph. All rights reserved.
+# Copyright (c) Adam Ralph. All rights reserved.
 
-function Remove-Changes {
+function Remove-Changes
+{
     param(
         [parameter(Position = 0, Mandatory = $true)]
         [System.Xml.XmlDocument]$doc,
@@ -20,8 +21,8 @@ function Remove-Changes {
         $doc.Project.RemoveAttribute('InitialTargets')
     }
 
-    # remove from properties (targets were added to BuildDependsOn in beta releases)
-    $properties = Select-Xml "//msb:Project/msb:PropertyGroup/msb:PrepareForBuildDependsOn[contains(.,'StyleCopMSBuild')] | //msb:Project/msb:PropertyGroup/msb:BuildDependsOn[contains(.,'StyleCopMSBuild')]" $doc -Namespace @{msb = $namespace}
+    # remove properties (targets were added to BuildDependsOn in beta releases)
+    $properties = Select-Xml "//msb:Project/msb:PropertyGroup/msb:PrepareForBuildDependsOn[contains(.,'StyleCopMSBuild')] | //msb:Project/msb:PropertyGroup/msb:BuildDependsOn[contains(.,'StyleCopMSBuild')] | //msb:Project/msb:PropertyGroup/msb:StyleCopMSBuildMessageMissing | //msb:Project/msb:PropertyGroup/msb:StyleCopMSBuildMessagePresent | //msb:Project/msb:PropertyGroup/msb:StyleCopMSBuildMessageRestore | //msb:Project/msb:PropertyGroup/msb:StyleCopMSBuildMessageRestored | //msb:Project/msb:PropertyGroup/msb:StyleCopMSBuildTargetsFile" $doc -Namespace @{msb = $namespace}
     if ($properties)
     {
         foreach ($property in $properties)
@@ -46,7 +47,7 @@ function Remove-Changes {
     }
 
     # remove imports
-    $imports = Select-Xml "//msb:Project/msb:Import[contains(@Project,'\StyleCop.MSBuild.')]" $doc -Namespace @{msb = $namespace}
+    $imports = Select-Xml "//msb:Project/msb:Import[contains(@Project,'\StyleCop.MSBuild.')] | //msb:Project/msb:Import[contains(@Project,'StyleCopMSBuild')]" $doc -Namespace @{msb = $namespace}
     if ($imports)
     {
         foreach ($import in $imports)
