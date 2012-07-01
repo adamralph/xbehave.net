@@ -8,3 +8,4 @@ src/_ReSharper.*
 src/**/*.user
 src/bin/
 src/*.nupkg
+src/TestResults/
