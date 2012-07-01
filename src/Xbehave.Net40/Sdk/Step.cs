@@ -38,6 +38,11 @@ namespace Xbehave.Sdk
 
         public void AddTeardown(Action teardown)
         {
+            if (teardown == null)
+            {
+                return;
+            }
+
             this.teardowns.Add(teardown);
         }
 

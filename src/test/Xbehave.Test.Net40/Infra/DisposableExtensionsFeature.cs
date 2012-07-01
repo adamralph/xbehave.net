@@ -19,10 +19,10 @@ namespace Xbehave.Test.Infra
             var secondDisposable = default(IDisposable);
 
             "Given a disposable"
-                .Given(() => firstDisposable = A.Fake<IDisposable>(), null);
+                .Given(() => firstDisposable = A.Fake<IDisposable>());
 
             "And another disposable"
-                .And(() => secondDisposable = A.Fake<IDisposable>(), null);
+                .And(() => secondDisposable = A.Fake<IDisposable>());
 
             "When disposing all the disposables"
                 .When(() => new[] { firstDisposable, secondDisposable }.DisposeAll());
@@ -53,10 +53,10 @@ namespace Xbehave.Test.Infra
                     A.CallTo(() => firstDisposable.Dispose()).Throws(firstException);
                 });
 
-            "And another exception"
+            "And a second exception"
                 .And(() => secondException = new Exception("Exception 2"));
 
-            "And another disposable which throws the second exception"
+            "And a second disposable which throws the second exception"
                 .And(() =>
                 {
                     secondDisposable = A.Fake<IDisposable>();

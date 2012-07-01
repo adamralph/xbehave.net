@@ -20,7 +20,7 @@ namespace Xbehave.Test.Infra
                 .Given(() => action = A.Fake<Action>());
 
             "And a disposable constructing using the action"
-                .And(() => disposable = new Disposable(action), null);
+                .And(() => disposable = new Disposable(action));
 
             "When disposing the disposable"
                 .When(() => disposable.Dispose());

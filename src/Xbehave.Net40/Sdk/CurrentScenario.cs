@@ -36,6 +36,11 @@ namespace Xbehave.Sdk
 
         public static void AddDisposable(IDisposable disposable)
         {
+            if (disposable == null)
+            {
+                return;
+            }
+
             Disposables.Add(disposable);
         }
 
