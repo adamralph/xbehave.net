@@ -28,8 +28,8 @@ namespace Xbehave.Sdk
 
             if (Context.FailedStepCommandName != null)
             {
-                var reason = string.Format(CultureInfo.InvariantCulture, "Skipped due to failure of previous step \"{0}\".", Context.FailedStepCommandName);
-                return new SkipResult(this.testMethod, this.DisplayName, reason);
+                var message = string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepCommandName);
+                throw new InvalidOperationException(message);
             }
 
             try
