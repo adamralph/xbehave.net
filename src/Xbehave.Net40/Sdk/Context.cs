@@ -13,7 +13,7 @@ namespace Xbehave.Sdk
     internal class Context
     {
         [ThreadStatic]
-        private static string failedStepCommandName;
+        private static string failedStepName;
 
         private readonly ScenarioDefinition definition;
         private readonly IEnumerable<Step> steps;
@@ -27,15 +27,15 @@ namespace Xbehave.Sdk
             this.steps = steps;
         }
 
-        public static string FailedStepCommandName
+        public static string FailedStepName
         {
-            get { return failedStepCommandName; }
-            set { failedStepCommandName = value; }
+            get { return failedStepName; }
+            set { failedStepName = value; }
         }
 
         public IEnumerable<ITestCommand> CreateTestCommands(int contextOrdinal)
         {
-            FailedStepCommandName = null;
+            FailedStepName = null;
             var stepOrdinal = 1;
             foreach (var step in this.steps)
             {

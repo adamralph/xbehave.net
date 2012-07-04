@@ -26,9 +26,9 @@ namespace Xbehave.Sdk
                 return new SkipResult(this.testMethod, this.DisplayName, this.step.SkipReason);
             }
 
-            if (Context.FailedStepCommandName != null)
+            if (Context.FailedStepName != null)
             {
-                var message = string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepCommandName);
+                var message = string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepName);
                 throw new InvalidOperationException(message);
             }
 
@@ -38,7 +38,7 @@ namespace Xbehave.Sdk
             }
             catch (Exception)
             {
-                Context.FailedStepCommandName = this.LocalName;
+                Context.FailedStepName = this.Name;
                 throw;
             }
 
