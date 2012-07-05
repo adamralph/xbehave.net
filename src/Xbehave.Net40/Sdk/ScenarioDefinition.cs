@@ -13,21 +13,26 @@ namespace Xbehave.Sdk
 
     internal partial class ScenarioDefinition
     {
-        private readonly Action body;
         private readonly IMethodInfo method;
         private readonly object[] args;
+        private readonly ITestCommand backgroundCommand;
+        private readonly ITestCommand scenarioCommand;
+        private readonly object feature;
 
         private string text;
 
-        public ScenarioDefinition(IMethodInfo method, IEnumerable<object> args, Action body)
+        public ScenarioDefinition(
+            IMethodInfo method, IEnumerable<object> args, ITestCommand backgroundCommand, ITestCommand scenarioCommand, object feature)
         {
-            Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgument("args", args);
+            Guard.AgainstNullArgument("scenarioCommand", scenarioCommand);
 
-            this.body = body;
             this.method = method;
             this.args = args.ToArray();
+            this.backgroundCommand = backgroundCommand;
+            this.scenarioCommand = scenarioCommand;
+            this.feature = feature;
         }
 
         public IMethodInfo Method
@@ -42,7 +47,14 @@ namespace Xbehave.Sdk
 
         public void Execute()
         {
-            this.body.Invoke();
+            if (this.backgroundCommand != null)
+            { 
+                CurrentScenario.AddingBackgroundSteps = true;
+                this.backgroundCommand.Execute(this.feature);
+            }
+
+            CurrentScenario.AddingBackgroundSteps = false;
+            this.scenarioCommand.Execute(this.feature);
         }
 
         public override string ToString()

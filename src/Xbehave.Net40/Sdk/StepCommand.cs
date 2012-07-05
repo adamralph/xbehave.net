@@ -14,7 +14,7 @@ namespace Xbehave.Sdk
         private readonly Step step;
 
         public StepCommand(ScenarioDefinition definition, int contextOrdinal, int ordinal, Step step)
-            : base(definition, contextOrdinal, ordinal, step.Name.AttemptFormatInvariantCulture(definition.Args))
+            : base(definition, contextOrdinal, ordinal, (step.IsBackground ? "(Background) " : null) + step.Name.AttemptFormatInvariantCulture(definition.Args))
         {
             this.step = step;
         }
