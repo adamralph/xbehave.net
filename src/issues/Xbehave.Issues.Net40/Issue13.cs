@@ -23,7 +23,7 @@ namespace Xbehave.Issues
         }
 
         [Scenario]
-        public static void FirstStepFails()
+        public static void Scenario()
         {
             var secondDisposable = default(ImplicitDisposable);
 

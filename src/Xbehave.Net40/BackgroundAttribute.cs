@@ -24,7 +24,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="method">The test method</param>
         /// <returns>The test commands which will register the background steps defined by the given method.</returns>
-        public IEnumerable<ITestCommand> CreateBackgroundCommands(IMethodInfo method)
+        public virtual IEnumerable<ITestCommand> CreateBackgroundCommands(IMethodInfo method)
         {
             return base.EnumerateTestCommands(method);
         }
