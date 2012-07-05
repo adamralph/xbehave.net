@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Xbehave</id>
-    <version>0.11.0-beta04</version>
+    <version>0.11.0-beta05</version>
     <title>xBehave.net</title>
     <authors>Adam Ralph</authors>
     <owners>Adam Ralph</owners>
@@ -19,6 +19,8 @@
   - Added IStepDefinition.Teardown(Action teardown) method for declaring a teardown action which will be executed after all steps in the current scenario have been executed.
 
   - Deprecated (Action body, Action dispose) step definition overloads and guaranteed disposal when exceptions are thrown from step body.
+
+(Bug) The body of a step with a timeout is executed twice (https://bitbucket.org/adamralph/xbehave.net/issue/15)
 
 (Bug) Infinite loops in test runner when scenario method has params but no data provided (https://bitbucket.org/adamralph/xbehave.net/issue/12).
 
