@@ -70,8 +70,10 @@ namespace Xbehave.Sdk
 
                     this.body.EndInvoke(result);
                 }
-
-                this.body();
+                else
+                {
+                    this.body();
+                }
             }
             finally
             {
