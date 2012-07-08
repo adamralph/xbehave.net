@@ -12,13 +12,11 @@
     <description>A BDD/TDD framework based on xUnit.net inspired by the Gherkin behaviour language. Dispenses with the need to map Gherkin feature files to code implementations by allowing the developer to bake the behaviours/specifications directly into code. Designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
     <releaseNotes>(Enhancement) Support disposal of objects created within a failing step (https://bitbucket.org/adamralph/xbehave.net/issue/10).
 
-  - *** BREAKING CHANGE *** Removed (Func&lt;IDisposable&gt;) and (Func&lt;IEnumerable&lt;IDisposable&gt;&gt;) step definition overloads. It is important to note that an IDisposable object returned from a step body declared as an expression will no longer be disposed. Instead, register the object for disposal using the Using() extension method. E.g. "Given some disposable".Given(() => someDisposable = new SomeDisposable().Using());
+  - *** BREAKING CHANGES *** Removed (Func&lt;IDisposable&gt; body), (Func&lt;IEnumerable&lt;IDisposable&gt;&gt; body) and (Action body, Action dispose) step definition overloads. It is important to note that an IDisposable object returned from a step body declared as an expression will no longer be disposed. Instead, register the object for disposal with the Using() extension method. E.g. "Given some disposable".Given(() => someDisposable = new SomeDisposable().Using()); See http://adamralph.blogspot.com for more details.
 
-  - Added IDisposable.Using() extension method for immediate registration of objects for disposal after all steps in the scenario have been executed.
+  - Added IDisposable.Using() extension method for registration of IDisposable objects.
 
-  - Added IStepDefinition.Teardown(Action teardown) method for declaring a teardown action which will be executed after all steps in the current scenario have been executed.
-
-  - Deprecated (Action body, Action dispose) step definition overloads and guaranteed disposal when exceptions are thrown from step body.
+  - Added IStepDefinition.Teardown(Action teardown) for declaring a teardown action associated with objects created within a step.
 
 (Bug) The body of a step with a timeout is executed twice (https://bitbucket.org/adamralph/xbehave.net/issue/15)
 
@@ -32,8 +30,8 @@ Other
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
-      <dependency id="xunit" version="1.9.0.1566" />
-      <dependency id="xunit.extensions" version="1.9.0.1566" />
+      <dependency id="xunit" version="[1.9.1]" />
+      <dependency id="xunit.extensions" version="[1.9.1]" />
     </dependencies>
   </metadata>
 </package>
