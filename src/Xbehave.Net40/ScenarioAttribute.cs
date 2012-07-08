@@ -8,10 +8,10 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using Xbehave.Infra;
     using Xbehave.Sdk;
     using Xunit.Extensions;
     using Xunit.Sdk;
-    using Guard = Xbehave.Infra.Guard;
 
     /// <summary>
     /// Applied to a method to indicate a scenario that should be run by the test runner.
@@ -39,6 +39,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
+            ITestCommand backgroundCommand = null;
             IEnumerable<ITestCommand> scenarioCommands;
             object feature;
 
@@ -55,6 +56,28 @@ namespace Xbehave
                     throw new ArgumentException("method.MethodInfo is null.", "method");
                 }
 
+                foreach (var peerMethod in method.Class.GetMethods())
+                {
+                    var backgroundAttribute = peerMethod.GetCustomAttributes(typeof(BackgroundAttribute))
+                        .Select(x => x.GetInstance<BackgroundAttribute>()).FirstOrDefault();
+
+                    if (backgroundAttribute == null)
+                    {
+                        continue;
+                    }
+
+                    var backgroundCommands = backgroundAttribute.CreateBackgroundCommands(peerMethod).ToArray();
+                    if (backgroundCommands.Length > 1 || backgroundCommand != null)
+                    {
+                        throw new InvalidOperationException("More than one background command was generated.");
+                    }
+
+                    if (backgroundCommands.Length > 0)
+                    {
+                        backgroundCommand = backgroundCommands[0];
+                    }
+                }
+
                 scenarioCommands = method.MethodInfo.GetParameters().Any()
                     ? base.EnumerateTestCommands(method).ToArray() // NOTE: current impl does not yield but we enumerate now to be future proof
                     : new[] { new TheoryCommand(method, new object[0]) };
@@ -68,9 +91,8 @@ namespace Xbehave
 
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
-            return scenarioCommands.Where(scenarioCommand => !(scenarioCommand is TheoryCommand)).Concat(
-                scenarioCommands.OfType<TheoryCommand>().SelectMany(scenarioCommand =>
-                 CurrentScenario.CreateCommands(new ScenarioDefinition(method, scenarioCommand.Parameters, () => scenarioCommand.Execute(feature)))));
+            return scenarioCommands.SelectMany(scenarioCommand =>
+                 CurrentScenario.CreateCommands(new ScenarioDefinition(method, scenarioCommand.GetParameters(), backgroundCommand, scenarioCommand, feature)));
         }
     }
 }

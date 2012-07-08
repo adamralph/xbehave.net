@@ -12,7 +12,7 @@ namespace Xbehave
     {
         public static IStepDefinition AddStep(string stepType, string text, Action body)
         {
-            return new StepDefinition(CurrentScenario.AddStep(new Step(stepType, text, body)));
+            return new StepDefinition(CurrentScenario.AddStep(stepType, text, body));
         }
     }
 }

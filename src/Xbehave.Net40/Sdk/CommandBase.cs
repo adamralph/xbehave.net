@@ -9,18 +9,26 @@ namespace Xbehave.Sdk
 
     internal abstract class CommandBase : TestCommand
     {
+        private readonly string name;
+
         protected CommandBase(ScenarioDefinition definition, int contextOrdinal, int commandOrdinal, string commandName)
             : base(definition.Method, commandName, MethodUtility.GetTimeoutParameter(definition.Method))
         {
             var provider = CultureInfo.InvariantCulture;
 
-            this.DisplayName = string.Format(
+            this.name = string.Format(
                 provider,
-                "{0} [{1}.{2}] {3}",
-                definition.ToString(),
+                "[{0}.{1}] {2}",
                 contextOrdinal.ToString("D2", provider),
                 commandOrdinal.ToString("D2", provider),
                 commandName);
+            
+            this.DisplayName = string.Concat(definition.ToString(), " ", this.name);
+        }
+
+        protected string Name
+        {
+            get { return this.name; }
         }
     }
 }

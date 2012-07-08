@@ -13,10 +13,19 @@ namespace Xbehave.Sdk
     internal static class CurrentScenario
     {
         [ThreadStatic]
+        private static bool addingBackgroundSteps;
+
+        [ThreadStatic]
         private static List<Step> steps;
 
         [ThreadStatic]
         private static List<IDisposable> disposables;
+
+        public static bool AddingBackgroundSteps
+        {
+            get { return addingBackgroundSteps; }
+            set { addingBackgroundSteps = value; }
+        }
 
         private static List<Step> Steps
         {
@@ -28,8 +37,9 @@ namespace Xbehave.Sdk
             get { return disposables ?? (disposables = new List<IDisposable>()); }
         }
 
-        public static Step AddStep(Step step)
+        public static Step AddStep(string stepType, string text, Action body)
         {
+            var step = new Step(stepType, text, addingBackgroundSteps, body);
             Steps.Add(step);
             return step;
         }

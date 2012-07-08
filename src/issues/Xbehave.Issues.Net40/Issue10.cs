@@ -97,7 +97,7 @@ namespace Xbehave.Issues
                 .And()
                 .Teardown(() => disposable3.Using())
                 .And()
-                .WithTimeout(100);
+                .WithTimeout(100000);
 
             "when using the first disposable"
                 .When(() => disposable0.Use());

@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Xbehave</id>
-    <version>0.11.0-beta05</version>
+    <version>0.12.0-beta01</version>
     <title>xBehave.net</title>
     <authors>Adam Ralph</authors>
     <owners>Adam Ralph</owners>
@@ -10,23 +10,7 @@
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/5b719723bcfe/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A BDD/TDD framework based on xUnit.net inspired by the Gherkin behaviour language. Dispenses with the need to map Gherkin feature files to code implementations by allowing the developer to bake the behaviours/specifications directly into code. Designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
-    <releaseNotes>(Enhancement) Support disposal of objects created within a failing step (https://bitbucket.org/adamralph/xbehave.net/issue/10).
-
-  - *** BREAKING CHANGES *** Removed (Func&lt;IDisposable&gt; body), (Func&lt;IEnumerable&lt;IDisposable&gt;&gt; body) and (Action body, Action dispose) step definition overloads. It is important to note that an IDisposable object returned from a step body declared as an expression will no longer be disposed. Instead, register the object for disposal with the Using() extension method. E.g. "Given some disposable".Given(() => someDisposable = new SomeDisposable().Using()); See http://adamralph.blogspot.com for more details.
-
-  - Added IDisposable.Using() extension method for registration of IDisposable objects.
-
-  - Added IStepDefinition.Teardown(Action teardown) for declaring a teardown action associated with objects created within a step.
-
-(Bug) The body of a step with a timeout is executed twice (https://bitbucket.org/adamralph/xbehave.net/issue/15)
-
-(Bug) Infinite loops in test runner when scenario method has params but no data provided (https://bitbucket.org/adamralph/xbehave.net/issue/12).
-
-Other
-
-  - Simplified test names to always include context number and test number in the format [{context}.{test}].
-
-  - Added compression of whitespace in step text.</releaseNotes>
+    <releaseNotes>TBD</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>

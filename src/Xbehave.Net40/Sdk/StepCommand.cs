@@ -4,6 +4,8 @@
 
 namespace Xbehave.Sdk
 {
+    using System;
+    using System.Globalization;
     using Xbehave.Infra;
     using Xunit.Sdk;
 
@@ -12,7 +14,7 @@ namespace Xbehave.Sdk
         private readonly Step step;
 
         public StepCommand(ScenarioDefinition definition, int contextOrdinal, int ordinal, Step step)
-            : base(definition, contextOrdinal, ordinal, step.Name.AttemptFormatInvariantCulture(definition.Args))
+            : base(definition, contextOrdinal, ordinal, (step.IsBackground ? "(Background) " : null) + step.Name.AttemptFormatInvariantCulture(definition.Args))
         {
             this.step = step;
         }
@@ -24,7 +26,22 @@ namespace Xbehave.Sdk
                 return new SkipResult(this.testMethod, this.DisplayName, this.step.SkipReason);
             }
 
-            this.step.Execute();
+            if (Context.FailedStepName != null)
+            {
+                var message = string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepName);
+                throw new InvalidOperationException(message);
+            }
+
+            try
+            {
+                this.step.Execute();
+            }
+            catch (Exception)
+            {
+                Context.FailedStepName = this.Name;
+                throw;
+            }
+
             return new PassedResult(this.testMethod, this.DisplayName);
         }
     }
