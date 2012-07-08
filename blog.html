@@ -1,6 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Breaking changes in xBehave.net 0.11.0</title>
 <style type="text/css">
+h3
+{
+    margin-top: 4.0em;
+	margin-bottom: 2.0em;
+}
+
 .csharpcode, .csharpcode pre
 {
     /*font-size: small;*/
@@ -145,7 +151,9 @@ Given(() =&gt;           <span class="rem">// 1</span>
         foo = <span class="kwrd">new</span> SomeDisposable().Using();
         foo.Bar();    <span class="rem">// which, of course, may throw an exception</span>
     });
-Given(() =&gt;           <span class="rem">// 3</span>
+</pre>
+<pre class="csharpcode">
+Given(() =&gt;           <span class="rem">// 1</span>
     {
         foo = <span class="kwrd">new</span> SomeDisposable().Using();
         foo.Bar();    <span class="rem">// which, of course, may throw an exception</span>
