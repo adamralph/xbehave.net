@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>Breaking changes in xBehave.net 0.11.0</title>
+<style type="text/css">
+.csharpcode, .csharpcode pre
+{
+    /*font-size: small;*/
+    color: #000066;
+    font-family: Consolas, "Courier New", Courier, Monospace;
+    background-color: #eeeeee;
+    /*white-space: pre;*/
+    padding: 1pt;
+}
+
+.csharpcode pre { margin: 0em; }
+
+.csharpcode .rem { color: #008000; }
+
+.csharpcode .kwrd { color: #0000ff; }
+
+.csharpcode .str { color: #a31515; }
+
+.csharpcode .op { color: #0000c0; }
+
+.csharpcode .preproc { color: #cc6633; }
+
+.csharpcode .asp { background-color: #ffff00; }
+
+.csharpcode .html { color: #800000; }
+
+.csharpcode .attr { color: #ff0000; }
+
+.csharpcode .alt 
+{
+    background-color: #f4f4f4;
+    width: 100%;
+    margin: 0em;
+}
+
+.csharpcode .lnum { color: #606060; }
+
+.note
+{
+    font-size: xx-small;
+}
+
+.reference
+{
+    font-size: smaller;
+}
+
+.reference-index
+{
+    font-size: xx-small;
+    vertical-align: super;
+}
+
+.reference-title
+{
+    font-style: italic;
+}
+
+.highlight
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+</style>
+</head><body>
+<p>
+Today sees the release of <a href="https://bitbucket.org/adamralph/xbehave.net" target="_blank">xBehave.net</a> version <a href="https://nuget.org/packages/Xbehave/0.11.0" target="_blank">0.11.0</a>.
+</p>
+<p>
+Unfortunately, 0.11.0 contains breaking changes to the API.
+It was a difficult decision but, after a week or two of agonizing, I decided to jump over the cliff to avoid the tiger<span class="reference-index">1</span>.
+</p>
+<h3>
+Teh Original Codez
+</h3>
+<p>
+In 0.10.0, a step definition method had 4 overloads...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(Action body)                            <span class="rem">// 1</span>
+Given(Func&lt;IDisposable&gt; body)                 <span class="rem">// 2</span>
+Given(Func&lt;IEnumerable&lt;IDisposable&gt;&gt; body)    <span class="rem">// 3</span>
+Given(Action body, Action dispose)            <span class="rem">// 4</span></pre>
+<p class="note">
+The same overloads were also available for <span class="csharpcode">When()</span>, <span class="csharpcode">Then()</span>, <span class="csharpcode">And()</span> and <span class="csharpcode">But()</span>. The use of methods <span class="csharpcode">When()</span>, <span class="csharpcode">Then()</span> and <span class="csharpcode">But()</span> rarely required anything other than overload 1.
+</p>
+<p>
+Overload 1 is the most straightforward and, when working with non-<span class="csharpcode">IDisposable</span> objects and in a context requiring no explicit teardown, it is all that is needed.
+</p>
+<p>
+Overloads 2 and 3 were added in order to ensure disposal of <span class="csharpcode">IDisposable</span> objects...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt; foo = <span class="kwrd">new</span> SomeDisposable())       <span class="rem">// 2</span>
+Given(() =&gt; <span class="kwrd">new</span>[]                             <span class="rem">// 3</span>
+    {
+        foo = <span class="kwrd">new</span> SomeDisposable(),
+        bar = <span class="kwrd">new</span> SomeDisposable(),
+    })</pre>
+<p>
+Upon execution of a step defined using either of these overloads, the returned <span class="csharpcode">IDisposable</span> objects are registered for disposal. The disposals are executed in a seperate test command which is guaranteed to execute at the end of the scenario, even if exceptions are thrown during execution of the scenario. The intention was to achieve a similar effect as a <span class="csharpcode">using</span> block. (I'll come to overload 4 shortly.)
+</p>
+<h3>
+The API Design Fail
+</h3>
+<p>
+Unfortunately, overloads 2 and 3 were a mistake. Here's why...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt;           <span class="rem">// 2</span>
+    {
+        foo = <span class="kwrd">new</span> SomeDisposable();
+        foo.Bar();    <span class="rem">// which, of course, may throw an exception</span>
+        <span class="kwrd">return</span> foo;
+    });</pre>
+<p>
+As you've already spotted, this <em>does not</em> ensure disposal of <span class="csharpcode">foo</span>. If <span class="csharpcode">foo.Bar()</span> throws an exception, <span class="csharpcode">foo</span> will not be returned from the method and will not be registered for disposal and, therefore, will not be disposed. The same applies to overload 3...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt;           <span class="rem">// 3</span>
+    {
+        foo = <span class="kwrd">new</span> SomeDisposable();
+        foo.Bar();    <span class="rem">// which, of course, may throw an exception</span>
+        baz = <span class="kwrd">new</span> SomeDisposable();
+        baz.Bar();    <span class="rem">// which, of course, may throw an exception</span>
+        <span class="kwrd">return</span> <span class="kwrd">new</span>[] { foo, baz };
+    });</pre>
+<h3>
+Shiny New Things
+</h3>
+<p>
+To solve this problem, we need to register <span class="csharpcode">IDisposable</span> objects immediately after they are created. In 0.11.0, the new <span class="csharpcode">Using()</span> extension method for <span class="csharpcode">IDisposable</span> provides this. Here's how you use it...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt;           <span class="rem">// 1</span>
+    {
+        foo = <span class="kwrd">new</span> SomeDisposable().Using();
+        foo.Bar();    <span class="rem">// which, of course, may throw an exception</span>
+    });
+Given(() =&gt;           <span class="rem">// 3</span>
+    {
+        foo = <span class="kwrd">new</span> SomeDisposable().Using();
+        foo.Bar();    <span class="rem">// which, of course, may throw an exception</span>
+        baz = <span class="kwrd">new</span> SomeDisposable().Using();
+        baz.Bar();    <span class="rem">// which, of course, may throw an exception</span>
+    });</pre>
+<p>
+Now, it doesn't matter what happens after the call to <span class="csharpcode">Using()</span>. The object <em>will</em> be disposed at the end of the scenario. This is much closer to the effect achieved with a <span class="csharpcode">using</span> block. Of course, if <span class="csharpcode">Using()</span> throws an exception then we still have the same problem, but this would have to be something like <span class="csharpcode">OutOfMemoryException</span> so non-disposal of <span class="csharpcode">foo</span> or <span class="csharpcode">baz</span> will probably be the least of your worries!
+</p>
+<h3>
+The Really Tricky Part
+</h3>
+<p>
+OK, this is going to get a little ugly. I can't just deprecate overloads 2 and 3 with <span class="csharpcode">[Obsolete]</span> because arguments to these methods can be defined as lambda expressions like so...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt; foo = <span class="kwrd">new</span> SomeDisposable())                      <span class="rem">// 2</span></pre>
+<p>
+Here, the compiler will pick overload 2 since <span class="csharpcode">SomeDisposable</span> implements <span class="csharpcode">IDisposable</span> (or overload 3 if <span class="csharpcode">SomeDisposable</span> is some bizarre animal that implements <span class="csharpcode">IEnumerable&lt;IDisposable&gt;</span>). If I deprecate overload 2 using <span class="csharpcode">[Obsolete]</span>, the compiler will generate a warning for the above line of code. In that case, how do I change it to use overloads 1 or 4? Like so...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given((Action)(() =&gt; foo = <span class="kwrd">new</span> SomeDisposable().Using()))    <span class="rem">// 1</span></pre>
+<p>
+or
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(                                                       <span class="rem">// 4</span>
+    () =&gt; foo = <span class="kwrd">new</span> SomeDisposable(),
+    () =&gt;
+    {
+        <span class="kwrd">if</span> (foo != <span class="kwrd">null</span>)
+        {
+            foo.Dispose();
+        }
+    })</pre>
+<p>
+This is ridiculous. No-one wants to write this code. For this reason I have removed, rather than deprecated, overloads 2 and 3. With overloads 2 and 3 removed, I'm now using overload 1 without having made any code change...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt; foo = <span class="kwrd">new</span> SomeDisposable())                      <span class="rem">// 1</span></pre>
+<p>
+Even though the expression returns an object, the compiler knows it can ignore this and chooses overload 1. The big problem now is, because there is no registration of the object, it will not be disposed. <em>This was the source of all my agonizing.</em> If the change caused compilation errors, developers would be forced to revisit, and fix, the call sites. However, in this case, the code will still compile and execute but the returned object will no longer be disposed. In order to fix this, we need to add a call to <span class="csharpcode">Using()</span>...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt; foo = <span class="kwrd">new</span> SomeDisposable().Using())              <span class="rem">// 1</span></pre>
+<p>
+This is a very simple change but it could mean revisiting a lot of code. <span class="highlight">When upgrading from 0.10.0 to 0.11.0, all step definitions using overloads 2 or 3 need to be revisited and a call to <span class="csharpcode">Using()</span> needs to be added</span>. Please accept my sincerest apologies. I'm just glad that I caught this during initial development rather than in the post 1.0.0 era...
+</p>
+<h3>
+And Whilst We're At It...
+</h3>
+<p>
+Overload 4 was introduced to allow execution of teardown which is not encapsulated in an <span class="csharpcode">IDisposable</span> object...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt;    <span class="rem">// 4</span>
+    {
+        foo = <span class="kwrd">new</span> SomeContext();
+        foo.Setup();
+    },
+    () =&gt; foo.Teardown())</pre>
+<p>
+Similarly to disposal, the teardown is guaranteed to execute at the end of the scenario. This overload was actually OK but, whilst scrutinizing this part of the API, I realised that the intent could be more clearly communicated with a fluent method...
+</p>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Given(() =&gt;    <span class="rem">// 1</span>
+    {
+        foo = <span class="kwrd">new</span> SomeContext();
+        foo.Setup();
+    }).Teardown(() =&gt; foo.Teardown())</pre>
+<p>
+In this example, the name of <span class="csharpcode">foo.Teardown()</span> already clearly communicates the intent but imagine using some exotic API where the name is <span class="csharpcode">foo.Wibble()</span>.
+</p>
+<p>
+Again I decided to remove, rather than deprecate, overload 4 because the simplification it allowed on the implementation side was too compelling to pass over and, since I was breaking this part of the API anyway, it seemed like a minor crime to add this extra bit of breakage.
+</p>
+<p class="reference">
+<span class="reference-index">1</span>Michael Feathers (2004). <span class="reference-title">Working Effectively with Legacy Code.</span> USA: Prentice Hall PTR. p5.
+</p>
+</body></html>
