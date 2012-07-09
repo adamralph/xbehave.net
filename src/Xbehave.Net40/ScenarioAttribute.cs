@@ -66,7 +66,7 @@ namespace Xbehave
                         continue;
                     }
 
-                    var backgroundCommands = backgroundAttribute.CreateBackgroundCommands(peerMethod).ToArray();
+                    var backgroundCommands = backgroundAttribute.CreateTestCommands(peerMethod).ToArray();
                     if (backgroundCommands.Length > 1 || backgroundCommand != null)
                     {
                         throw new InvalidOperationException("More than one background command was generated.");

@@ -7,7 +7,6 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Xunit;
     using Xunit.Sdk;
 
     /// <summary>
@@ -15,7 +14,7 @@ namespace Xbehave
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
-    public class BackgroundAttribute : FactAttribute
+    public class BackgroundAttribute : Attribute
     {
         /// <summary>
         /// Enumerates the test commands represented by this background method which will register the background steps defined by the method.
@@ -24,19 +23,20 @@ namespace Xbehave
         /// </summary>
         /// <param name="method">The test method</param>
         /// <returns>The test commands which will register the background steps defined by the given method.</returns>
-        public virtual IEnumerable<ITestCommand> CreateBackgroundCommands(IMethodInfo method)
+        public IEnumerable<ITestCommand> CreateTestCommands(IMethodInfo method)
         {
-            return base.EnumerateTestCommands(method);
+            return this.EnumerateTestCommands(method);
         }
 
         /// <summary>
-        /// Overrides the behaviour of the base class to return no test commands.
-        /// Derived classes should not override this method.
+        /// Enumerates the test commands represented by this test method.
+        /// Derived classes should override this method to return instances of <see cref="T:Xunit.Sdk.ITestCommand"/>, one per execution of a test method.
         /// </summary>
         /// <param name="method">The test method</param>
-        /// <returns>No instances of <see cref="T:Xunit.Sdk.ITestCommand"/>.</returns>
-        protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
+        /// <returns>The test commands which will execute the test runs for the given method.</returns>
+        protected virtual IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
+            yield return new FactCommand(method);
             yield break;
         }
     }

@@ -21,8 +21,7 @@ namespace Xbehave.Sdk
 
         private string text;
 
-        public ScenarioDefinition(
-            IMethodInfo method, IEnumerable<object> args, ITestCommand backgroundCommand, ITestCommand scenarioCommand, object feature)
+        public ScenarioDefinition(IMethodInfo method, IEnumerable<object> args, ITestCommand backgroundCommand, ITestCommand scenarioCommand, object feature)
         {
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgument("args", args);
@@ -48,7 +47,7 @@ namespace Xbehave.Sdk
         public void Execute()
         {
             if (this.backgroundCommand != null)
-            { 
+            {
                 CurrentScenario.AddingBackgroundSteps = true;
                 this.backgroundCommand.Execute(this.feature);
             }
