@@ -44,15 +44,16 @@ namespace Xbehave.Sdk
             get { return this.args; }
         }
 
-        public void Execute()
+        public void ExecuteBackground()
         {
             if (this.backgroundCommand != null)
             {
-                CurrentScenario.AddingBackgroundSteps = true;
                 this.backgroundCommand.Execute(this.feature);
             }
+        }
 
-            CurrentScenario.AddingBackgroundSteps = false;
+        public void ExecuteScenario()
+        {
             this.scenarioCommand.Execute(this.feature);
         }
 

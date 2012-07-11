@@ -8,7 +8,6 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Xbehave.Infra;
     using Xbehave.Sdk;
     using Xunit.Extensions;
     using Xunit.Sdk;
@@ -31,15 +30,15 @@ namespace Xbehave
     public class ScenarioAttribute : TheoryAttribute
     {
         /// <summary>
-        /// Enumerates the test commands represented by this test method.
-        /// Derived classes should override this method to return instances of <see cref="T:Xunit.Sdk.ITestCommand"/>, one per execution of a test method.
+        /// Enumerates the test commands represented by this scenario method.
+        /// Derived classes should override this method to return instances of <see cref="T:Xunit.Sdk.ITestCommand"/>, one per execution of a scenario method.
         /// </summary>
-        /// <param name="method">The test method</param>
-        /// <returns>The test commands which will execute the test runs for the given method.</returns>
+        /// <param name="method">The scenario method</param>
+        /// <returns>The test commands which will define the steps for the given scenario method.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            ITestCommand backgroundCommand = null;
+            ITestCommand backgroundCommand;
             IEnumerable<ITestCommand> scenarioCommands;
             object feature;
 
@@ -56,27 +55,7 @@ namespace Xbehave
                     throw new ArgumentException("method.MethodInfo is null.", "method");
                 }
 
-                foreach (var peerMethod in method.Class.GetMethods())
-                {
-                    var backgroundAttribute = peerMethod.GetCustomAttributes(typeof(BackgroundAttribute))
-                        .Select(x => x.GetInstance<BackgroundAttribute>()).FirstOrDefault();
-
-                    if (backgroundAttribute == null)
-                    {
-                        continue;
-                    }
-
-                    var backgroundCommands = backgroundAttribute.CreateTestCommands(peerMethod).ToArray();
-                    if (backgroundCommands.Length > 1 || backgroundCommand != null)
-                    {
-                        throw new InvalidOperationException("More than one background command was generated.");
-                    }
-
-                    if (backgroundCommands.Length > 0)
-                    {
-                        backgroundCommand = backgroundCommands[0];
-                    }
-                }
+                backgroundCommand = this.GetBackgroundCommand(method);
 
                 scenarioCommands = method.MethodInfo.GetParameters().Any()
                     ? base.EnumerateTestCommands(method).ToArray() // NOTE: current impl does not yield but we enumerate now to be future proof
@@ -93,6 +72,42 @@ namespace Xbehave
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
                  CurrentScenario.CreateCommands(new ScenarioDefinition(method, scenarioCommand.GetParameters(), backgroundCommand, scenarioCommand, feature)));
+        }
+
+        /// <summary>
+        /// Get the background command associated with this scenario method.
+        /// Derived classes should override this method to return an instance of <see cref="T:Xunit.Sdk.ITestCommand"/>.
+        /// </summary>
+        /// <param name="scenarioMethod">The scenario method.</param>
+        /// <returns>
+        /// The test command which will define the background steps associated with the given scenario method.
+        /// </returns>
+        protected virtual ITestCommand GetBackgroundCommand(IMethodInfo scenarioMethod)
+        {
+            ITestCommand backgroundCommand = null;
+            foreach (var peerMethod in scenarioMethod.Class.GetMethods())
+            {
+                var backgroundAttribute = peerMethod.GetCustomAttributes(typeof(BackgroundAttribute))
+                    .Select(x => x.GetInstance<BackgroundAttribute>()).FirstOrDefault();
+
+                if (backgroundAttribute == null)
+                {
+                    continue;
+                }
+
+                var backgroundCommands = backgroundAttribute.CreateTestCommands(peerMethod).ToArray();
+                if (backgroundCommands.Length > 1 || backgroundCommand != null)
+                {
+                    throw new InvalidOperationException("More than one background command was generated.");
+                }
+
+                if (backgroundCommands.Length > 0)
+                {
+                    backgroundCommand = backgroundCommands[0];
+                }
+            }
+
+            return backgroundCommand;
         }
     }
 }

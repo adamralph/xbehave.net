@@ -12,29 +12,22 @@ namespace Xbehave.Sdk
     internal class Step
     {
         private readonly string name;
-        private readonly bool isBackground;
         private readonly Action body;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string stepType, string text, bool isBackground, Action body)
+        public Step(string stepType, string text, Action body)
         {
             Guard.AgainstNullArgument("stepType", stepType);
             Guard.AgainstNullArgument("text", text);
             Guard.AgainstNullArgument("body", body);
 
             this.name = (stepType.CompressWhitespace() + " ").MergeOrdinalIgnoreCase(text.CompressWhitespace());
-            this.isBackground = isBackground;
             this.body = body;
         }
 
-        public string Name
+        public virtual string Name
         {
             get { return this.name; }
-        }
-
-        public bool IsBackground
-        {
-            get { return this.isBackground; }
         }
 
         public string SkipReason { get; set; }

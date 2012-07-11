@@ -21,12 +21,6 @@ namespace Xbehave.Sdk
         [ThreadStatic]
         private static List<IDisposable> disposables;
 
-        public static bool AddingBackgroundSteps
-        {
-            get { return addingBackgroundSteps; }
-            set { addingBackgroundSteps = value; }
-        }
-
         private static List<Step> Steps
         {
             get { return steps ?? (steps = new List<Step>()); }
@@ -39,7 +33,7 @@ namespace Xbehave.Sdk
 
         public static Step AddStep(string stepType, string text, Action body)
         {
-            var step = new Step(stepType, text, addingBackgroundSteps, body);
+            var step = addingBackgroundSteps ? new BackgroundStep(stepType, text, body) : new Step(stepType, text, body);
             Steps.Add(step);
             return step;
         }
@@ -76,7 +70,10 @@ namespace Xbehave.Sdk
             {
                 try
                 {
-                    definition.Execute();
+                    addingBackgroundSteps = true;
+                    definition.ExecuteBackground();
+                    addingBackgroundSteps = false;
+                    definition.ExecuteScenario();
                 }
                 catch (Exception ex)
                 {

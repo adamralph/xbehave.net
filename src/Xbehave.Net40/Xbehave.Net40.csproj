@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
+    <Compile Include="Sdk\BackgroundStep.cs" />
     <Compile Include="Sdk\ExceptionCommand.cs" />
     <Compile Include="Infra\EnumerableExtensions.cs" />
     <Compile Include="Infra\DisposableExtensions.cs" />
