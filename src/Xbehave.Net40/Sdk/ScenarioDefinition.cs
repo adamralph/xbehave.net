@@ -15,21 +15,23 @@ namespace Xbehave.Sdk
     {
         private readonly IMethodInfo method;
         private readonly object[] args;
-        private readonly ITestCommand backgroundCommand;
+        private readonly ITestCommand[] backgroundCommands;
         private readonly ITestCommand scenarioCommand;
         private readonly object feature;
 
         private string text;
 
-        public ScenarioDefinition(IMethodInfo method, IEnumerable<object> args, ITestCommand backgroundCommand, ITestCommand scenarioCommand, object feature)
+        public ScenarioDefinition(
+            IMethodInfo method, IEnumerable<object> args, IEnumerable<ITestCommand> backgroundCommands, ITestCommand scenarioCommand, object feature)
         {
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgument("args", args);
+            Guard.AgainstNullArgument("backgroundCommands", backgroundCommands);
             Guard.AgainstNullArgument("scenarioCommand", scenarioCommand);
 
             this.method = method;
             this.args = args.ToArray();
-            this.backgroundCommand = backgroundCommand;
+            this.backgroundCommands = backgroundCommands.ToArray();
             this.scenarioCommand = scenarioCommand;
             this.feature = feature;
         }
@@ -46,9 +48,9 @@ namespace Xbehave.Sdk
 
         public void ExecuteBackground()
         {
-            if (this.backgroundCommand != null)
+            foreach (var command in this.backgroundCommands)
             {
-                this.backgroundCommand.Execute(this.feature);
+                command.Execute(this.feature);
             }
         }
 

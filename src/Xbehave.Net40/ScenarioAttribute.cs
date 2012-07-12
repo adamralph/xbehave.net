@@ -11,9 +11,10 @@ namespace Xbehave
     using Xbehave.Sdk;
     using Xunit.Extensions;
     using Xunit.Sdk;
+    using Guard = Xbehave.Infra.Guard;
 
     /// <summary>
-    /// Applied to a method to indicate a scenario that should be run by the test runner.
+    /// Applied to a method to indicate the definition of a scenario.
     /// A scenario can also be fed examples from a data source, mapping to parameters on the scenario method.
     /// If the data source contains multiple rows, then the scenario method is executed multiple times (once with each data row).
     /// Examples can be fed to the scenario by applying one or more instances of <see cref="ExampleAttribute"/>
@@ -30,37 +31,23 @@ namespace Xbehave
     public class ScenarioAttribute : TheoryAttribute
     {
         /// <summary>
-        /// Enumerates the test commands represented by this scenario method.
-        /// Derived classes should override this method to return instances of <see cref="T:Xunit.Sdk.ITestCommand"/>, one per execution of a scenario method.
+        /// Enumerates the test commands representing the background and scenario steps for each isolated context.
         /// </summary>
         /// <param name="method">The scenario method</param>
-        /// <returns>The test commands which will define the steps for the given scenario method.</returns>
+        /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the background and scenario steps for each isolated context.</returns>
+        /// <remarks>This method may not be overridden. Instead, override the <see cref="EnumerateScenarioCommands"/> method.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
-        protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
+        protected sealed override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            ITestCommand backgroundCommand;
+            IEnumerable<ITestCommand> backgroundCommands;
             IEnumerable<ITestCommand> scenarioCommands;
             object feature;
 
-            // NOTE: any exception must be wrapped in a command, otherwise the test runner will simply retry this method infinitely
+            // NOTE: any exception must be wrapped in a command, otherwise the test runner will retry this method infinitely
             try
             {
-                if (method == null)
-                {
-                    throw new ArgumentNullException("method");
-                }
-
-                if (method.MethodInfo == null)
-                {
-                    throw new ArgumentException("method.MethodInfo is null.", "method");
-                }
-
-                backgroundCommand = this.GetBackgroundCommand(method);
-
-                scenarioCommands = method.MethodInfo.GetParameters().Any()
-                    ? base.EnumerateTestCommands(method).ToArray() // NOTE: current impl does not yield but we enumerate now to be future proof
-                    : new[] { new TheoryCommand(method, new object[0]) };
-
+                backgroundCommands = this.EnumerateBackgroundCommands(method).ToArray();
+                scenarioCommands = this.EnumerateScenarioCommands(method).ToArray();
                 feature = method.IsStatic ? null : method.CreateInstance();
             }
             catch (Exception ex)
@@ -71,43 +58,40 @@ namespace Xbehave
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
-                 CurrentScenario.CreateCommands(new ScenarioDefinition(method, scenarioCommand.GetParameters(), backgroundCommand, scenarioCommand, feature)));
+                 CurrentScenario.CreateCommands(new ScenarioDefinition(method, scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature)));
         }
 
         /// <summary>
-        /// Get the background command associated with this scenario method.
-        /// Derived classes should override this method to return an instance of <see cref="T:Xunit.Sdk.ITestCommand"/>.
+        /// Enumerates the commands representing the backgrounds associated with the <paramref name="method"/>.
         /// </summary>
-        /// <param name="scenarioMethod">The scenario method.</param>
-        /// <returns>
-        /// The test command which will define the background steps associated with the given scenario method.
-        /// </returns>
-        protected virtual ITestCommand GetBackgroundCommand(IMethodInfo scenarioMethod)
+        /// <param name="method">The scenario method</param>
+        /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds associated with the <paramref name="method"/>.</returns>
+        /// <remarks>This method may be overridden.</remarks>
+        protected virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
         {
-            ITestCommand backgroundCommand = null;
-            foreach (var peerMethod in scenarioMethod.Class.GetMethods())
-            {
-                var backgroundAttribute = peerMethod.GetCustomAttributes(typeof(BackgroundAttribute))
-                    .Select(x => x.GetInstance<BackgroundAttribute>()).FirstOrDefault();
+            Guard.AgainstNullArgument("method", method);
+            Guard.AgainstNullArgumentProperty("method", "Class", method.Class);
 
-                if (backgroundAttribute == null)
-                {
-                    continue;
-                }
+            return method.Class.GetMethods().SelectMany(
+                candidateMethod => candidateMethod.GetCustomAttributes(typeof(BackgroundAttribute))
+                    .Select(attribute => attribute.GetInstance<BackgroundAttribute>())
+                    .SelectMany(backgroundAttribute => backgroundAttribute.EnumerateBackgroundCommands(candidateMethod))).ToArray();
+        }
 
-                var backgroundCommands = backgroundAttribute.CreateTestCommands(peerMethod).ToArray();
-                if (backgroundCommands.Length > 1 || backgroundCommand != null)
-                {
-                    throw new InvalidOperationException("More than one background command was generated.");
-                }
+        /// <summary>
+        /// Enumerates the commands representing the scenarios defined by the <paramref name="method"/>.
+        /// </summary>
+        /// <param name="method">The scenario method</param>
+        /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the scenarios defined by the <paramref name="method"/>.</returns>
+        /// <remarks>This method may be overridden.</remarks>
+        protected virtual IEnumerable<ITestCommand> EnumerateScenarioCommands(IMethodInfo method)
+        {
+            Guard.AgainstNullArgument("method", method);
+            Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
 
-                if (backgroundCommands.Length > 0)
-                {
-                    backgroundCommand = backgroundCommands[0];
-                }
-            }
-
-            return backgroundCommand;
+            return method.MethodInfo.GetParameters().Any()
+                ? base.EnumerateTestCommands(method)
+                : new[] { new TheoryCommand(method, new object[0]) };
         }
     }
 }
