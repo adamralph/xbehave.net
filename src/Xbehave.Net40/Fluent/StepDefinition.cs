@@ -19,6 +19,11 @@ namespace Xbehave.Fluent
             this.createdStep = createdStep;
         }
 
+        public static IStepDefinition Create(string stepType, string text, Action body)
+        {
+            return new StepDefinition(CurrentScenario.AddStep(stepType, text, body));
+        }
+
         public IStepDefinition And()
         {
             return this;

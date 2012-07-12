@@ -93,7 +93,6 @@
     <Compile Include="Fluent\StepDefinition.Expressions.cs">
       <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helper.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Sdk\BackgroundStep.cs" />
     <Compile Include="Sdk\ExceptionCommand.cs" />

@@ -27,7 +27,7 @@ namespace Xbehave
         {
             Guard.AgainstNullArgument("body", body);
             IDisposable disposable = null;
-            return text.Given(() => disposable = body(), () => new[] { disposable }.DisposeAll());
+            return text.Given(() => disposable = body()).Teardown(() => new[] { disposable }.DisposeAll());
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Xbehave
         [Obsolete("Use Given().Teardown() instead.")]
         public static IStepDefinition Given(this string text, Action body, Action dispose)
         {
-            return Helper.AddStep("Given", text, body).Teardown(dispose);
+            return StepDefinition.Create("Given", text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Xbehave
         [Obsolete("Use When().Teardown() instead.")]
         public static IStepDefinition When(this string text, Action body, Action dispose)
         {
-            return Helper.AddStep("When", text, body).Teardown(dispose);
+            return StepDefinition.Create("When", text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Xbehave
         [Obsolete("Use Then().Teardown() instead.")]
         public static IStepDefinition Then(this string text, Action body, Action dispose)
         {
-            return Helper.AddStep("Then", text, body).Teardown(dispose);
+            return StepDefinition.Create("Then", text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Xbehave
         [Obsolete("Use And().Teardown() instead.")]
         public static IStepDefinition And(this string text, Action body, Action dispose)
         {
-            return Helper.AddStep("And", text, body).Teardown(dispose);
+            return StepDefinition.Create("And", text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Xbehave
         [Obsolete("Use But().Teardown() instead.")]
         public static IStepDefinition But(this string text, Action body, Action dispose)
         {
-            return Helper.AddStep("But", text, body).Teardown(dispose);
+            return StepDefinition.Create("But", text, body).Teardown(dispose);
         }
     }
 }

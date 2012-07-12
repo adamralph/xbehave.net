@@ -140,9 +140,6 @@
       <Link>Fluent\StepDefinition.Expressions.cs</Link>
       <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Helper.cs">
-      <Link>Helper.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
       <Link>Infra\Disposable.cs</Link>
     </Compile>
