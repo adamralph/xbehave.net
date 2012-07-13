@@ -40,6 +40,15 @@ namespace Xbehave.Fluent
         IStepDefinition Skip(string reason);
 
         /// <summary>
+        /// Declares a teardown action (related to this step and/or previous steps) which will be executed after all steps in the current scenario have been executed.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        IStepDefinition Teardown(Action action);
+
+        /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
         /// <param name="text">The step text.</param>
@@ -81,14 +90,5 @@ namespace Xbehave.Fluent
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         IStepDefinition But(string text, Action body);
-
-        /// <summary>
-        /// Declares a teardown action (related to this step and/or previous steps) which will be executed after all steps in the current scenario have been executed.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition Teardown(Action action);
     }
 }

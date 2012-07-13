@@ -8,8 +8,6 @@ namespace Xbehave
     using System.Diagnostics.CodeAnalysis;
     using System.Linq.Expressions;
     using Xbehave.Fluent;
-    using Xbehave.Infra;
-    using Xbehave.Sdk.ExpressionNaming;
 
     /// <summary>
     /// Provides a scenario step syntax an auto-generated step name.
@@ -28,9 +26,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Given(Expression<Action> body)
         {
-            Guard.AgainstNullArgument("body", body);
-            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
-            return body.Body.ToSentence().Given(body.Compile());
+            return StepDefinition.Create("Given", body);
         }
 
         /// <summary>
@@ -42,9 +38,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition When(Expression<Action> body)
         {
-            Guard.AgainstNullArgument("body", body);
-            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
-            return body.Body.ToSentence().When(body.Compile());
+            return StepDefinition.Create("When", body);
         }
 
         /// <summary>
@@ -56,9 +50,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition Then(Expression<Action> body)
         {
-            Guard.AgainstNullArgument("body", body);
-            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
-            return body.Body.ToSentence().Then(body.Compile());
+            return StepDefinition.Create("Then", body);
         }
 
         /// <summary>
@@ -70,9 +62,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition And(Expression<Action> body)
         {
-            Guard.AgainstNullArgument("body", body);
-            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
-            return body.Body.ToSentence().And(body.Compile());
+            return StepDefinition.Create("And", body);
         }
 
         /// <summary>
@@ -84,9 +74,7 @@ namespace Xbehave
         /// </returns>
         public static IStepDefinition But(Expression<Action> body)
         {
-            Guard.AgainstNullArgument("body", body);
-            Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
-            return body.Body.ToSentence().But(body.Compile());
+            return StepDefinition.Create("But", body);
         }
     }
 }

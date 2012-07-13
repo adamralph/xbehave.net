@@ -5,9 +5,6 @@
 namespace Xbehave.Fluent
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Xbehave.Infra;
     using Xbehave.Sdk;
 
     internal partial class StepDefinition : IStepDefinition
@@ -47,30 +44,30 @@ namespace Xbehave.Fluent
             return this;
         }
 
-        public IStepDefinition When(string message, Action body)
-        {
-            return message.When(body);
-        }
-
-        public IStepDefinition Then(string message, Action body)
-        {
-            return message.Then(body);
-        }
-
-        public IStepDefinition And(string message, Action body)
-        {
-            return message.And(body);
-        }
-
-        public IStepDefinition But(string message, Action body)
-        {
-            return message.But(body);
-        }
-
         public IStepDefinition Teardown(Action teardown)
         {
             this.createdStep.AddTeardown(teardown);
             return this;
+        }
+
+        public IStepDefinition When(string text, Action body)
+        {
+            return Create("When", text, body);
+        }
+
+        public IStepDefinition Then(string text, Action body)
+        {
+            return Create("Then", text, body);
+        }
+
+        public IStepDefinition And(string text, Action body)
+        {
+            return Create("And", text, body);
+        }
+
+        public IStepDefinition But(string text, Action body)
+        {
+            return Create("But", text, body);
         }
     }
 }
