@@ -35,9 +35,8 @@ namespace Xbehave
         /// </summary>
         /// <param name="method">The scenario method</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the background and scenario steps for each isolated context.</returns>
-        /// <remarks>This method may not be overridden. Instead, override the <see cref="EnumerateScenarioCommands"/> method.</remarks>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
-        protected sealed override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
+        protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
             IEnumerable<ITestCommand> backgroundCommands;
             IEnumerable<ITestCommand> scenarioCommands;
@@ -66,7 +65,6 @@ namespace Xbehave
         /// </summary>
         /// <param name="method">The scenario method</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds associated with the <paramref name="method"/>.</returns>
-        /// <remarks>This method may be overridden.</remarks>
         protected virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
         {
             Guard.AgainstNullArgument("method", method);
@@ -75,7 +73,7 @@ namespace Xbehave
             return method.Class.GetMethods().SelectMany(
                 candidateMethod => candidateMethod.GetCustomAttributes(typeof(BackgroundAttribute))
                     .Select(attribute => attribute.GetInstance<BackgroundAttribute>())
-                    .SelectMany(backgroundAttribute => backgroundAttribute.EnumerateBackgroundCommands(candidateMethod))).ToArray();
+                    .SelectMany(backgroundAttribute => backgroundAttribute.CreateBackgroundCommands(candidateMethod))).ToArray();
         }
 
         /// <summary>

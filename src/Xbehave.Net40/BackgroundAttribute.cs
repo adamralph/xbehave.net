@@ -17,12 +17,21 @@ namespace Xbehave
     public class BackgroundAttribute : Attribute
     {
         /// <summary>
+        /// Creates the commands representing the backgrounds defined by the <paramref name="method"/>.
+        /// </summary>
+        /// <param name="method">The test method</param>
+        /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds defined by the <paramref name="method"/>.</returns>
+        public IEnumerable<ITestCommand> CreateBackgroundCommands(IMethodInfo method)
+        {
+            return this.EnumerateBackgroundCommands(method);
+        }
+
+        /// <summary>
         /// Enumerates the commands representing the backgrounds defined by the <paramref name="method"/>.
         /// </summary>
         /// <param name="method">The test method</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds defined by the <paramref name="method"/>.</returns>
-        /// <remarks>This method may be overridden.</remarks>
-        protected internal virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
+        protected virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
         {
             yield return new FactCommand(method);
         }
