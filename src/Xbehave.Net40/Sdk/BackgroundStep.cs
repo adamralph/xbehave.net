@@ -5,9 +5,6 @@
 namespace Xbehave.Sdk
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using Xbehave.Infra;
 
     internal class BackgroundStep : Step
     {

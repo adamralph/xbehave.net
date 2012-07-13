@@ -5,9 +5,6 @@
 namespace Xbehave.Fluent
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Xbehave.Infra;
 
     internal partial class StepDefinition : IStepDefinition
     {

@@ -5,11 +5,7 @@
 namespace Xbehave
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using Xbehave.Fluent;
-    using Xbehave.Infra;
 
     /// <summary>
     /// Extensions for declaring Given, When, Then scenario steps.

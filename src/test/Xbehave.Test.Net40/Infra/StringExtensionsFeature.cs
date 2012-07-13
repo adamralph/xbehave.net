@@ -4,11 +4,8 @@
 
 namespace Xbehave.Test.Infra
 {
-    using System;
-    using FakeItEasy;
     using FluentAssertions;
     using Xbehave.Infra;
-    using Xunit;
 
     public static class StringExtensionsFeature
     {
