@@ -48,7 +48,7 @@ namespace Xbehave.Sdk
             Disposables.Add(disposable);
         }
 
-        public static IEnumerable<IDisposable> GetDisposables()
+        public static IEnumerable<IDisposable> ExtractDisposables()
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Xbehave.Sdk
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
-        public static IEnumerable<ITestCommand> CreateCommands(ScenarioDefinition definition)
+        public static IEnumerable<ITestCommand> ExtractCommands(ScenarioDefinition definition)
         {
             try
             {

@@ -47,7 +47,7 @@ namespace Xbehave.Sdk
             var index = 0;
             while (true)
             {
-                var disposables = CurrentScenario.GetDisposables();
+                var disposables = CurrentScenario.ExtractDisposables();
                 if (!disposables.Any())
                 {
                     break;
