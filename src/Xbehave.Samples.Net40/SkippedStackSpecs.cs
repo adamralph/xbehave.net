@@ -29,10 +29,10 @@ namespace Xbehave.Samples
                 .When(() => target.Push(element));
 
             "then the target should not be empty"
-                .ThenSkip(() => target.Should().NotBeEmpty());
+                .Then(() => target.Should().NotBeEmpty()).Skip("Just for fun.");
 
             "then the target peek should be the element"
-                .ThenSkip(() => target.Peek().Should().Be(element));
+                .Then(() => target.Peek().Should().Be(element)).Skip("Just for fun.");
         }
     }
 }

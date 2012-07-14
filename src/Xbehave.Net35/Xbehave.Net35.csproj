@@ -12,21 +12,18 @@
     <AssemblyName>Xbehave</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,7 +46,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CI|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\CI\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
@@ -68,13 +65,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
     <Reference Include="xunit, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
     </Reference>
     <Reference Include="xunit.extensions, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\xunit.extensions.1.9.1\lib\net20\xunit.extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -143,90 +137,6 @@
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\BackgroundStep.cs">
-      <Link>Sdk\BackgroundStep.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\CommandBase.cs">
-      <Link>Sdk\CommandBase.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Context.cs">
-      <Link>Sdk\Context.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ContextFactory.cs">
-      <Link>Sdk\ContextFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\CurrentScenario.cs">
-      <Link>Sdk\CurrentScenario.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\DisposalCommand.cs">
-      <Link>Sdk\DisposalCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExceptionCommand.cs">
-      <Link>Sdk\ExceptionCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\BinaryExpressionExtensions.cs">
-      <Link>Sdk\ExpressionNaming\BinaryExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\ConstantExpressionExtensions.cs">
-      <Link>Sdk\ExpressionNaming\ConstantExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\ExpressionExtensions.cs">
-      <Link>Sdk\ExpressionNaming\ExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\ExpressionTypeExtensions.cs">
-      <Link>Sdk\ExpressionNaming\ExpressionTypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\LambdaExpressionExtensions.cs">
-      <Link>Sdk\ExpressionNaming\LambdaExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\MemberExpressionExtensions.cs">
-      <Link>Sdk\ExpressionNaming\MemberExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\MethodCallExpressionExtensions.cs">
-      <Link>Sdk\ExpressionNaming\MethodCallExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\MethodInfoExtensions.cs">
-      <Link>Sdk\ExpressionNaming\MethodInfoExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\Optimizations.cs">
-      <Link>Sdk\ExpressionNaming\Optimizations.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\StringExtensions.cs">
-      <Link>Sdk\ExpressionNaming\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\TypeExtensions.cs">
-      <Link>Sdk\ExpressionNaming\TypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\UnaryExpressionExtensions.cs">
-      <Link>Sdk\ExpressionNaming\UnaryExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\Disposable.cs">
-      <Link>Sdk\Infrastructure\Disposable.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\DisposableExtensions.cs">
-      <Link>Sdk\Infrastructure\DisposableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\EnumerableExtensions.cs">
-      <Link>Sdk\Infrastructure\EnumerableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\Guard.cs">
-      <Link>Sdk\Infrastructure\Guard.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\StringExtensions.cs">
-      <Link>Sdk\Infrastructure\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\ScenarioDefinition.cs">
-      <Link>Sdk\ScenarioDefinition.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\Step.cs">
-      <Link>Sdk\Step.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\StepCommand.cs">
-      <Link>Sdk\StepCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Sdk\TestCommandExtensions.cs">
-      <Link>Sdk\TestCommandExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\StepDefinitionExtensions.cs">
       <Link>StepDefinitionExtensions.cs</Link>
     </Compile>
@@ -255,14 +165,16 @@
       <Link>Properties\Xbehave.CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xbehave.Sdk.Net35\Xbehave.Sdk.Net35.csproj">
+      <Project>{D39D0F1E-191A-4FF5-BA7F-73A8029ED45A}</Project>
+      <Name>Xbehave.Sdk.Net35</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
   <Target Name="AfterBuild">
+    <Exec Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " Command="&quot;$(SolutionDir)\..\tools\ILMerge\ILmerge.exe&quot; /keyfile:$(SolutionDir)\Xbehave.snk /lib:$(OutputPath) /targetplatform:v2 /internalize /out:@(MainAssembly) &quot;@(IntermediateAssembly)&quot; &quot;$(OutputPath)XBehave.Sdk.dll&quot;" />
   </Target>
-  -->
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.34.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>

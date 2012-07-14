@@ -10,5 +10,3 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Xbehave.Samples")]
 
 [assembly: ComVisible(false)]
-
-[assembly: Guid("6933de78-076f-4963-9317-d0eee7c58435")]
