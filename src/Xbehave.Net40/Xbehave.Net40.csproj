@@ -87,9 +87,6 @@
     <Compile Include="Deprecated\StepDefinition.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
-    <Compile Include="Fluent\IStepDefinition.Expressions.cs">
-      <DependentUpon>IStepDefinition.cs</DependentUpon>
-    </Compile>
     <Compile Include="Fluent\StepDefinition.Expressions.cs">
       <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
@@ -99,6 +96,10 @@
     <Compile Include="Sdk\Infrastructure\EnumerableExtensions.cs" />
     <Compile Include="Sdk\Infrastructure\DisposableExtensions.cs" />
     <Compile Include="Sdk\TestCommandExtensions.cs" />
+    <Compile Include="StepDefinitionExtensions.cs" />
+    <Compile Include="StepDefinitionExtensions.Expressions.cs">
+      <DependentUpon>StepDefinitionExtensions.cs</DependentUpon>
+    </Compile>
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Sdk\Infrastructure\StringExtensions.cs" />
     <Compile Include="_.cs" />

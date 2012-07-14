@@ -47,48 +47,5 @@ namespace Xbehave.Fluent
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         IStepDefinition Teardown(Action action);
-
-        /// <summary>
-        /// Defines a step in the current scenario.
-        /// </summary>
-        /// <param name="text">The step text.</param>
-        /// <param name="body">The action that will perform the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
-        IStepDefinition When(string text, Action body);
-
-        /// <summary>
-        /// Defines a step in the current scenario.
-        /// </summary>
-        /// <param name="text">The step text.</param>
-        /// <param name="body">The action that will perform the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Then", Justification = "By design.")]
-        IStepDefinition Then(string text, Action body);
-
-        /// <summary>
-        /// Defines a step in the current scenario.
-        /// </summary>
-        /// <param name="text">The step text.</param>
-        /// <param name="body">The action that will perform the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
-        IStepDefinition And(string text, Action body);
-
-        /// <summary>
-        /// Defines a step in the current scenario.
-        /// </summary>
-        /// <param name="text">The step text.</param>
-        /// <param name="body">The action that will perform the step.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        IStepDefinition But(string text, Action body);
     }
 }

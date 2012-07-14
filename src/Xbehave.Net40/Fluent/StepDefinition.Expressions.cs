@@ -18,25 +18,5 @@ namespace Xbehave.Fluent
 
             return StepDefinition.Create(stepType, body.Body.ToSentence(), body.Compile());
         }
-
-        public IStepDefinition When(Expression<Action> body)
-        {
-            return Create("When", body);
-        }
-
-        public IStepDefinition Then(Expression<Action> body)
-        {
-            return Create("Then", body);
-        }
-
-        public IStepDefinition And(Expression<Action> body)
-        {
-            return Create("And", body);
-        }
-
-        public IStepDefinition But(Expression<Action> body)
-        {
-            return Create("But", body);
-        }
     }
 }

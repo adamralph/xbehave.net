@@ -129,10 +129,6 @@
     <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.cs">
       <Link>Fluent\IStepDefinition.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IStepDefinition.Expressions.cs">
-      <Link>Fluent\IStepDefinition.Expressions.cs</Link>
-      <DependentUpon>IStepDefinition.cs</DependentUpon>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Fluent\StepDefinition.cs">
       <Link>Fluent\StepDefinition.cs</Link>
     </Compile>
@@ -226,6 +222,12 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\TestCommandExtensions.cs">
       <Link>Sdk\TestCommandExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StepDefinitionExtensions.cs">
+      <Link>StepDefinitionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StepDefinitionExtensions.Expressions.cs">
+      <Link>StepDefinitionExtensions.Expressions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\StringExtensions.cs">
       <Link>StringExtensions.cs</Link>

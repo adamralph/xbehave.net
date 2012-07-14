@@ -49,25 +49,5 @@ namespace Xbehave.Fluent
             this.createdStep.AddTeardown(teardown);
             return this;
         }
-
-        public IStepDefinition When(string text, Action body)
-        {
-            return Create("When", text, body);
-        }
-
-        public IStepDefinition Then(string text, Action body)
-        {
-            return Create("Then", text, body);
-        }
-
-        public IStepDefinition And(string text, Action body)
-        {
-            return Create("And", text, body);
-        }
-
-        public IStepDefinition But(string text, Action body)
-        {
-            return Create("But", text, body);
-        }
     }
 }
