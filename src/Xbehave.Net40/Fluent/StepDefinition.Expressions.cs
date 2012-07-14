@@ -6,8 +6,8 @@ namespace Xbehave.Fluent
 {
     using System;
     using System.Linq.Expressions;
-    using Xbehave.Infra;
     using Xbehave.Sdk.ExpressionNaming;
+    using Xbehave.Sdk.Infrastructure;
 
     internal partial class StepDefinition : IStepDefinition
     {

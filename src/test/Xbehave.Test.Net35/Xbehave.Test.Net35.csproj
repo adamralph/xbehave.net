@@ -74,24 +74,6 @@
     <Compile Include="..\Xbehave.Test.Net40\Deprecated\ThesisAttributeFacts.cs">
       <Link>Deprecated\ThesisAttributeFacts.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Net40\ExpressionNaming\ExpressionExtensionsStory.cs">
-      <Link>ExpressionNaming\ExpressionExtensionsStory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Net40\Infra\DisposableExtensionsFeature.cs">
-      <Link>Infra\DisposableExtensionsFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Net40\Infra\DisposableFeature.cs">
-      <Link>Infra\DisposableFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Net40\Infra\EnumerableExtensionsFeature.cs">
-      <Link>Infra\EnumerableExtensionsFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Net40\Infra\GuardFeature.cs">
-      <Link>Infra\GuardFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Net40\Infra\StringExtensionsFeature.cs">
-      <Link>Infra\StringExtensionsFeature.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Net40\Legacy\ContextSetupTeardownBehavior.cs">
       <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
     </Compile>
@@ -106,6 +88,24 @@
     </Compile>
     <Compile Include="..\Xbehave.Test.Net40\Legacy\ThreadIsolationFacts.cs">
       <Link>Legacy\ThreadIsolationFacts.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Sdk\ExpressionNaming\ExpressionExtensionsStory.cs">
+      <Link>Sdk\ExpressionNaming\ExpressionExtensionsStory.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Sdk\Infrastructure\DisposableExtensionsFeature.cs">
+      <Link>Sdk\Infrastructure\DisposableExtensionsFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Sdk\Infrastructure\DisposableFeature.cs">
+      <Link>Sdk\Infrastructure\DisposableFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Sdk\Infrastructure\EnumerableExtensionsFeature.cs">
+      <Link>Sdk\Infrastructure\EnumerableExtensionsFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Sdk\Infrastructure\GuardFeature.cs">
+      <Link>Sdk\Infrastructure\GuardFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Net40\Sdk\Infrastructure\StringExtensionsFeature.cs">
+      <Link>Sdk\Infrastructure\StringExtensionsFeature.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

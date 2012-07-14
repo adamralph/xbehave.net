@@ -140,21 +140,6 @@
       <Link>Fluent\StepDefinition.Expressions.cs</Link>
       <DependentUpon>StepDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\Disposable.cs">
-      <Link>Infra\Disposable.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\DisposableExtensions.cs">
-      <Link>Infra\DisposableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\EnumerableExtensions.cs">
-      <Link>Infra\EnumerableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\Guard.cs">
-      <Link>Infra\Guard.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Infra\StringExtensions.cs">
-      <Link>Infra\StringExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>
@@ -214,6 +199,21 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ExpressionNaming\UnaryExpressionExtensions.cs">
       <Link>Sdk\ExpressionNaming\UnaryExpressionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\Disposable.cs">
+      <Link>Sdk\Infrastructure\Disposable.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\DisposableExtensions.cs">
+      <Link>Sdk\Infrastructure\DisposableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\EnumerableExtensions.cs">
+      <Link>Sdk\Infrastructure\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\Guard.cs">
+      <Link>Sdk\Infrastructure\Guard.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sdk\Infrastructure\StringExtensions.cs">
+      <Link>Sdk\Infrastructure\StringExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Sdk\ScenarioDefinition.cs">
       <Link>Sdk\ScenarioDefinition.cs</Link>

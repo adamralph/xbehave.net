@@ -96,13 +96,13 @@
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Sdk\BackgroundStep.cs" />
     <Compile Include="Sdk\ExceptionCommand.cs" />
-    <Compile Include="Infra\EnumerableExtensions.cs" />
-    <Compile Include="Infra\DisposableExtensions.cs" />
+    <Compile Include="Sdk\Infrastructure\EnumerableExtensions.cs" />
+    <Compile Include="Sdk\Infrastructure\DisposableExtensions.cs" />
     <Compile Include="Sdk\TestCommandExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="Infra\StringExtensions.cs" />
+    <Compile Include="Sdk\Infrastructure\StringExtensions.cs" />
     <Compile Include="_.cs" />
-    <Compile Include="Infra\Disposable.cs" />
+    <Compile Include="Sdk\Infrastructure\Disposable.cs" />
     <None Include="Sandbox\DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\_.cs" />
     <Compile Include="Fluent\IStepDefinition.cs" />
@@ -110,7 +110,7 @@
     <Compile Include="Sdk\CommandBase.cs" />
     <Compile Include="Sdk\DisposalCommand.cs" />
     <Compile Include="Sdk\ScenarioDefinition.cs" />
-    <Compile Include="Infra\Guard.cs" />
+    <Compile Include="Sdk\Infrastructure\Guard.cs" />
     <Compile Include="Sdk\ContextFactory.cs" />
     <None Include="Sandbox\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />

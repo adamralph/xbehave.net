@@ -6,7 +6,7 @@ namespace Xbehave.Sdk
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Xbehave.Infra;
+    using Xbehave.Sdk.Infrastructure;
 
     internal partial class ContextFactory
     {

@@ -9,7 +9,7 @@ namespace Xbehave.Sdk
     using System.Globalization;
     using System.Linq;
     using Xunit.Sdk;
-    using Guard = Xbehave.Infra.Guard;
+    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     internal partial class ScenarioDefinition
     {

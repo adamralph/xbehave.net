@@ -67,16 +67,16 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Infra\StringExtensionsFeature.cs" />
-    <Compile Include="Infra\GuardFeature.cs" />
-    <Compile Include="Infra\EnumerableExtensionsFeature.cs" />
-    <Compile Include="Infra\DisposableExtensionsFeature.cs" />
-    <Compile Include="Infra\DisposableFeature.cs" />
+    <Compile Include="Sdk\Infrastructure\StringExtensionsFeature.cs" />
+    <Compile Include="Sdk\Infrastructure\GuardFeature.cs" />
+    <Compile Include="Sdk\Infrastructure\EnumerableExtensionsFeature.cs" />
+    <Compile Include="Sdk\Infrastructure\DisposableExtensionsFeature.cs" />
+    <Compile Include="Sdk\Infrastructure\DisposableFeature.cs" />
     <Compile Include="Legacy\ContextSetupTeardownBehavior.cs" />
     <Compile Include="Deprecated\ThesisAttributeFacts.cs" />
     <Compile Include="Deprecated\DisposableActionFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ExpressionNaming\ExpressionExtensionsStory.cs" />
+    <Compile Include="Sdk\ExpressionNaming\ExpressionExtensionsStory.cs" />
     <Compile Include="Legacy\SpecificationPrimitiveFacts.cs" />
     <Compile Include="Legacy\SubSpecDemo.cs" />
     <Compile Include="Legacy\ThreadIsolationFacts.cs" />

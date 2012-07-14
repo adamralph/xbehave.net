@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test.Naming
+namespace Xbehave.Test.Sdk.ExpressionNaming
 {
     using System;
     using System.Linq.Expressions;

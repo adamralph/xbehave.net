@@ -7,7 +7,7 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Xbehave.Infra;
+    using Xbehave.Sdk.Infrastructure;
 
     internal class Step
     {

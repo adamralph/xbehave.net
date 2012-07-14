@@ -2,10 +2,10 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test.Infra
+namespace Xbehave.Test.Sdk.Infrastructure
 {
     using FluentAssertions;
-    using Xbehave.Infra;
+    using Xbehave.Sdk.Infrastructure;
 
     public static class StringExtensionsFeature
     {
