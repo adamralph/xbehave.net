@@ -1,22 +1,22 @@
-﻿// <copyright file="StepDefinition.Expressions.cs" company="Adam Ralph">
+﻿// <copyright file="Helper.Expressions.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Fluent
+namespace Xbehave
 {
     using System;
     using System.Linq.Expressions;
     using Xbehave.Sdk.ExpressionNaming;
     using Xbehave.Sdk.Infrastructure;
 
-    internal partial class StepDefinition : IStepDefinition
+    internal static partial class Helper
     {
-        public static IStepDefinition Create(string stepType, Expression<Action> body)
+        public static Fluent.IStep AddStep(string stepType, Expression<Action> body)
         {
             Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
 
-            return StepDefinition.Create(stepType, body.Body.ToSentence(), body.Compile());
+            return AddStep(stepType, body.Body.ToSentence(), body.Compile());
         }
     }
 }

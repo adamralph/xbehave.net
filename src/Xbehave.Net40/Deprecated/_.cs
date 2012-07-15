@@ -19,12 +19,12 @@ namespace Xbehave
         /// <param name="body">The action that will perform the step.</param>
         /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
         [Obsolete("Use Given().Teardown() instead.")]
-        public static IStepDefinition Given(string text, Action body, Action dispose)
+        public static IStep Given(string text, Action body, Action dispose)
         {
-            return StepDefinition.Create("Given", text, body).Teardown(dispose);
+            return Helper.AddStep("Given", text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -34,12 +34,12 @@ namespace Xbehave
         /// <param name="body">The action that will perform the step.</param>
         /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
         [Obsolete("Use When().Teardown() instead.")]
-        public static IStepDefinition When(string text, Action body, Action dispose)
+        public static IStep When(string text, Action body, Action dispose)
         {
-            return StepDefinition.Create("When", text, body).Teardown(dispose);
+            return Helper.AddStep("When", text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -49,12 +49,12 @@ namespace Xbehave
         /// <param name="body">The action that will perform the step.</param>
         /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
         [Obsolete("Use Then().Teardown() instead.")]
-        public static IStepDefinition Then(string text, Action body, Action dispose)
+        public static IStep Then(string text, Action body, Action dispose)
         {
-            return StepDefinition.Create("Then", text, body).Teardown(dispose);
+            return Helper.AddStep("Then", text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -64,12 +64,12 @@ namespace Xbehave
         /// <param name="body">The action that will perform the step.</param>
         /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
         [Obsolete("Use And().Teardown() instead.")]
-        public static IStepDefinition And(string text, Action body, Action dispose)
+        public static IStep And(string text, Action body, Action dispose)
         {
-            return StepDefinition.Create("And", text, body).Teardown(dispose);
+            return Helper.AddStep("And", text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -79,12 +79,12 @@ namespace Xbehave
         /// <param name="body">The action that will perform the step.</param>
         /// <param name="dispose">An optional action which will perform teardown after execution of the scenario.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
         [Obsolete("Use But().Teardown() instead.")]
-        public static IStepDefinition But(string text, Action body, Action dispose)
+        public static IStep But(string text, Action body, Action dispose)
         {
-            return StepDefinition.Create("But", text, body).Teardown(dispose);
+            return Helper.AddStep("But", text, body).Teardown(dispose);
         }
     }
 }

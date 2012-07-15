@@ -19,9 +19,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="body">The action that will establish the context.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
         [Obsolete("Use Given() instead.")]
-        public static IStepDefinition Context(this string message, Action body)
+        public static IStep Context(this string message, Action body)
         {
             return message.Given(body);
         }
@@ -44,9 +44,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the established context.</param>
         /// <param name="body">The action that will establish and return the context for this test.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
         [Obsolete("Use Given() instead.")]
-        public static IStepDefinition ContextFixture(this string message, ContextDelegate body)
+        public static IStep ContextFixture(this string message, ContextDelegate body)
         {
             return message.GivenDisposable(body);
         }
@@ -56,9 +56,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the action.</param>
         /// <param name="body">The action to perform.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
         [Obsolete("Use When() instead.")]
-        public static IStepDefinition Do(this string message, Action body)
+        public static IStep Do(this string message, Action body)
         {
             return message.When(body);
         }
@@ -68,9 +68,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="body">The action that will verify the expectation.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
         [Obsolete("Use Then().InIsolation() instead.")]
-        public static IStepDefinition Assert(this string message, Action body)
+        public static IStep Assert(this string message, Action body)
         {
             return message.ThenInIsolation(body);
         }
@@ -80,9 +80,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="body">The action that will verify the expectation.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
         [Obsolete("Use Then() instead.")]
-        public static IStepDefinition Observation(this string message, Action body)
+        public static IStep Observation(this string message, Action body)
         {
             return message.Then(body);
         }
@@ -92,9 +92,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="message">A message describing the expected result.</param>
         /// <param name="body">The action that will verify the expectation.</param>
-        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <returns>An instance of <see cref="IStep"/>.</returns>
         [Obsolete("Use Then().Skip() instead.")]
-        public static IStepDefinition Todo(this string message, Action body)
+        public static IStep Todo(this string message, Action body)
         {
             return message.ThenSkip(body);
         }

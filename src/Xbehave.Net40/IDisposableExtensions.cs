@@ -1,4 +1,4 @@
-﻿// <copyright file="DisposableExtensions.cs" company="Adam Ralph">
+﻿// <copyright file="IDisposableExtensions.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -8,9 +8,9 @@ namespace Xbehave
     using Xbehave.Sdk;
 
     /// <summary>
-    /// Provides methods for adding disposal of objects after scenario execution.
+    /// <see cref="IDisposable"/> extensions.
     /// </summary>
-    public static class DisposableExtensions
+    public static class IDisposableExtensions
     {
         /// <summary>
         /// Immediately registers the <see cref="IDisposable"/> object for disposal after all steps in the current scenario have been executed.

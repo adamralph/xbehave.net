@@ -77,23 +77,24 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BackgroundAttribute.cs" />
-    <Compile Include="Deprecated\IStepDefinition.cs" />
-    <Compile Include="Deprecated\StepDefinition.cs" />
-    <Compile Include="DisposableExtensions.cs" />
+    <Compile Include="Deprecated\IStep.cs" />
+    <Compile Include="Deprecated\Step.cs" />
+    <Compile Include="IDisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
-    <Compile Include="Fluent\StepDefinition.Expressions.cs">
-      <DependentUpon>StepDefinition.cs</DependentUpon>
-    </Compile>
     <Compile Include="Deprecated\StringExtensions.cs" />
-    <Compile Include="StepDefinitionExtensions.cs" />
-    <Compile Include="StepDefinitionExtensions.Expressions.cs">
-      <DependentUpon>StepDefinitionExtensions.cs</DependentUpon>
+    <Compile Include="Helper.cs" />
+    <Compile Include="Helper.Expressions.cs">
+      <DependentUpon>Helper.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IStepExtensions.cs" />
+    <Compile Include="IStepExtensions.Expressions.cs">
+      <DependentUpon>IStepExtensions.cs</DependentUpon>
     </Compile>
     <Compile Include="StringExtensions.cs" />
     <Compile Include="_.cs" />
     <None Include="Sandbox\DynamicStringExtensions.cs" />
     <Compile Include="Deprecated\_.cs" />
-    <Compile Include="Fluent\IStepDefinition.cs" />
+    <Compile Include="Fluent\IStep.cs" />
     <None Include="Sandbox\Scenario.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="Deprecated\ScenarioDataAttribute.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="Deprecated\SpecificationExtensions.cs" />
     <Compile Include="Deprecated\ContextDelegate.cs" />
     <Compile Include="Deprecated\ThesisAttribute.cs" />
-    <Compile Include="Fluent\StepDefinition.cs" />
+    <Compile Include="Fluent\Step.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_.Expressions.cs">
       <DependentUpon>_.cs</DependentUpon>

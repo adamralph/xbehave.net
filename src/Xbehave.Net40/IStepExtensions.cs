@@ -1,4 +1,4 @@
-﻿// <copyright file="StepDefinitionExtensions.cs" company="Adam Ralph">
+﻿// <copyright file="IStepExtensions.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -8,9 +8,9 @@ namespace Xbehave
     using Xbehave.Fluent;
 
     /// <summary>
-    /// Extensions for the definition of a scenario step.
+    /// <see cref="IStep"/> extensions.
     /// </summary>
-    public static partial class StepDefinitionExtensions
+    public static partial class IStepExtensions
     {
         /// <summary>
         /// Defines a step in the current scenario.
@@ -19,11 +19,11 @@ namespace Xbehave
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
-        public static IStepDefinition When(this IStepDefinition stepDefinition, string text, Action body)
+        public static IStep When(this IStep stepDefinition, string text, Action body)
         {
-            return StepDefinition.Create("When", text, body);
+            return Helper.AddStep("When", text, body);
         }
 
         /// <summary>
@@ -33,11 +33,11 @@ namespace Xbehave
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
-        public static IStepDefinition Then(this IStepDefinition stepDefinition, string text, Action body)
+        public static IStep Then(this IStep stepDefinition, string text, Action body)
         {
-            return StepDefinition.Create("Then", text, body);
+            return Helper.AddStep("Then", text, body);
         }
 
         /// <summary>
@@ -47,11 +47,11 @@ namespace Xbehave
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
-        public static IStepDefinition And(this IStepDefinition stepDefinition, string text, Action body)
+        public static IStep And(this IStep stepDefinition, string text, Action body)
         {
-            return StepDefinition.Create("And", text, body);
+            return Helper.AddStep("And", text, body);
         }
 
         /// <summary>
@@ -61,11 +61,11 @@ namespace Xbehave
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
+        /// An instance of <see cref="IStep"/>.
         /// </returns>
-        public static IStepDefinition But(this IStepDefinition stepDefinition, string text, Action body)
+        public static IStep But(this IStep stepDefinition, string text, Action body)
         {
-            return StepDefinition.Create("But", text, body);
+            return Helper.AddStep("But", text, body);
         }
     }
 }
