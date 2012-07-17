@@ -79,16 +79,16 @@
     <Compile Include="BackgroundAttribute.cs" />
     <Compile Include="Deprecated\IStep.cs" />
     <Compile Include="Deprecated\Step.cs" />
-    <Compile Include="IDisposableExtensions.cs" />
+    <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
     <Compile Include="Deprecated\StringExtensions.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Helper.Expressions.cs">
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
-    <Compile Include="IStepExtensions.cs" />
-    <Compile Include="IStepExtensions.Expressions.cs">
-      <DependentUpon>IStepExtensions.cs</DependentUpon>
+    <Compile Include="StepExtensions.cs" />
+    <Compile Include="StepExtensions.Expressions.cs">
+      <DependentUpon>StepExtensions.cs</DependentUpon>
     </Compile>
     <Compile Include="StringExtensions.cs" />
     <Compile Include="_.cs" />

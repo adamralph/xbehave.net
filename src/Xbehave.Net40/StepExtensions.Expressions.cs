@@ -12,7 +12,7 @@ namespace Xbehave
     /// <summary>
     /// <see cref="IStep"/> extensions.
     /// </summary>
-    public static partial class IStepExtensions
+    public static partial class StepExtensions
     {
         /// <summary>
         /// This is an experimental feature.

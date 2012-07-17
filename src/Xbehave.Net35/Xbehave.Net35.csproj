@@ -115,6 +115,9 @@
     <None Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
       <Link>Sandbox\Scenario.cs</Link>
     </None>
+    <Compile Include="..\Xbehave.Net40\DisposableExtensions.cs">
+      <Link>DisposableExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\ExampleAttribute.cs">
       <Link>ExampleAttribute.cs</Link>
     </Compile>
@@ -131,21 +134,18 @@
       <Link>Helper.Expressions.cs</Link>
       <DependentUpon>Helper.cs</DependentUpon>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\IDisposableExtensions.cs">
-      <Link>IDisposableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\IStepExtensions.cs">
-      <Link>IStepExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\IStepExtensions.Expressions.cs">
-      <Link>IStepExtensions.Expressions.cs</Link>
-      <DependentUpon>IStepExtensions.cs</DependentUpon>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StepExtensions.cs">
+      <Link>StepExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StepExtensions.Expressions.cs">
+      <Link>StepExtensions.Expressions.cs</Link>
+      <DependentUpon>StepExtensions.cs</DependentUpon>
     </Compile>
     <Compile Include="..\Xbehave.Net40\StringExtensions.cs">
       <Link>StringExtensions.cs</Link>

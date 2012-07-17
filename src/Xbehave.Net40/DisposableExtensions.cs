@@ -10,7 +10,7 @@ namespace Xbehave
     /// <summary>
     /// <see cref="IDisposable"/> extensions.
     /// </summary>
-    public static class IDisposableExtensions
+    public static class DisposableExtensions
     {
         /// <summary>
         /// Immediately registers the <see cref="IDisposable"/> object for disposal after all steps in the current scenario have been executed.
