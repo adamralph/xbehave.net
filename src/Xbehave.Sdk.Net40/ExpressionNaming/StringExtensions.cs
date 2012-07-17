@@ -16,7 +16,7 @@ namespace Xbehave.Sdk.ExpressionNaming
             return Regex.Replace(text, "([A-Z])", " $1", RegexOptions.Compiled).Trim().ToLowerInvariant();
         }
 
-        public static IEnumerable<string> AddListSeperators(this IEnumerable<string> items)
+        public static IEnumerable<string> AddListSeparators(this IEnumerable<string> items)
         {
             var list = new List<string>(items);
             for (var index = 0; index < list.Count; ++index)

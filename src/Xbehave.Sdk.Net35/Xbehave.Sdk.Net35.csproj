@@ -115,11 +115,11 @@
     <Compile Include="..\Xbehave.Sdk.Net40\ExpressionNaming\MemberExpressionExtensions.cs">
       <Link>ExpressionNaming\MemberExpressionExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\ExpressionNaming\MemberInfoExtensions.cs">
+      <Link>ExpressionNaming\MemberInfoExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ExpressionNaming\MethodCallExpressionExtensions.cs">
       <Link>ExpressionNaming\MethodCallExpressionExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ExpressionNaming\MethodInfoExtensions.cs">
-      <Link>ExpressionNaming\MethodInfoExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ExpressionNaming\Optimizations.cs">
       <Link>ExpressionNaming\Optimizations.cs</Link>

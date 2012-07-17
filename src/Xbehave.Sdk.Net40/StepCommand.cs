@@ -13,6 +13,7 @@ namespace Xbehave.Sdk
     {
         private readonly Step step;
 
+        // TODO: change - step and definition are not null validated
         public StepCommand(ScenarioDefinition definition, int contextOrdinal, int ordinal, Step step)
             : base(definition, contextOrdinal, ordinal, step.Name.AttemptFormatInvariantCulture(definition.Args))
         {

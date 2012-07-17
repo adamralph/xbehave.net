@@ -6,7 +6,7 @@ namespace Xbehave.Sdk.Infrastructure
 {
     using System;
 
-    public class Disposable : IDisposable
+    public sealed class Disposable : IDisposable
     {
         private readonly Action disposal;
 

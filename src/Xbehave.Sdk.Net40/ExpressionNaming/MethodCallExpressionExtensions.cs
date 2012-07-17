@@ -23,7 +23,7 @@ namespace Xbehave.Sdk.ExpressionNaming
                 .Skip(isExtensionMethod ? 1 : 0).Select(x => x.ToTokens())
                 .Select(tokens => string.Join(" ", tokens.Reverse().ToArray()));
 
-            foreach (var token in argTokens.AddListSeperators().Reverse())
+            foreach (var token in argTokens.AddListSeparators().Reverse())
             {
                 yield return token;
             }
@@ -46,7 +46,7 @@ namespace Xbehave.Sdk.ExpressionNaming
                 yield return "with";
             }
 
-            foreach (var token in genericArgTokens.AddListSeperators().Reverse())
+            foreach (var token in genericArgTokens.AddListSeparators().Reverse())
             {
                 yield return token;
             }

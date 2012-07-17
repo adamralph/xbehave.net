@@ -9,6 +9,7 @@ namespace Xbehave.Sdk
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Xunit.Sdk;
+    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public static class CurrentScenario
     {
@@ -66,6 +67,8 @@ namespace Xbehave.Sdk
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
         public static IEnumerable<ITestCommand> ExtractCommands(ScenarioDefinition definition)
         {
+            Guard.AgainstNullArgument("definition", definition);
+
             try
             {
                 try

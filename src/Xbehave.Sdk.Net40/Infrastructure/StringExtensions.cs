@@ -10,7 +10,7 @@ namespace Xbehave.Sdk.Infrastructure
 
     public static class StringExtensions
     {
-        public static string CompressWhitespace(this string source)
+        public static string CompressWhiteSpace(this string source)
         {
             var spacesOnly = new string(source.Select(x => char.IsWhiteSpace(x) ? ' ' : x).ToArray());
             var words = spacesOnly.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

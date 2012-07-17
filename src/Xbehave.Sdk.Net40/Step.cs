@@ -9,6 +9,7 @@ namespace Xbehave.Sdk
     using System.Diagnostics.CodeAnalysis;
     using Xbehave.Sdk.Infrastructure;
 
+    [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     public class Step
     {
         private readonly string name;
@@ -21,7 +22,7 @@ namespace Xbehave.Sdk
             Guard.AgainstNullArgument("text", text);
             Guard.AgainstNullArgument("body", body);
 
-            this.name = (stepType.CompressWhitespace() + " ").MergeOrdinalIgnoreCase(text.CompressWhitespace());
+            this.name = (stepType.CompressWhiteSpace() + " ").MergeOrdinalIgnoreCase(text.CompressWhiteSpace());
             this.body = body;
         }
 

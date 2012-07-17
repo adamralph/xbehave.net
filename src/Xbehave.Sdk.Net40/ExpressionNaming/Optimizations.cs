@@ -6,6 +6,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 {
     using System;
     using System.Collections.Generic;
+    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public static class Optimizations
     {
@@ -16,6 +17,8 @@ namespace Xbehave.Sdk.ExpressionNaming
 
         public static bool IsIgnored(this Type type)
         {
+            Guard.AgainstNullArgument("type", type);
+
             return type.FullName != null && IgnoredTypes.Contains(type.FullName);
         }
     }

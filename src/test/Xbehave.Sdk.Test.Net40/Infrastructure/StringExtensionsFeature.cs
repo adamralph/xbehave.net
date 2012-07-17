@@ -20,7 +20,7 @@ namespace Xbehave.Test.Sdk.Infrastructure
                 .Given(() => { });
 
             "When compressing white space"
-                .When(() => result = text.CompressWhitespace());
+                .When(() => result = text.CompressWhiteSpace());
 
             "Then the result should be \"{1}\""
                 .Then(() => result.Should().Be(expectedResult));

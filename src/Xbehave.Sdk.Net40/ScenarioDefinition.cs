@@ -41,9 +41,9 @@ namespace Xbehave.Sdk
             get { return this.method; }
         }
 
-        public object[] Args
+        public IEnumerable<object> Args
         {
-            get { return this.args; }
+            get { return this.args.Select(x => x); }
         }
 
         public void ExecuteBackground()

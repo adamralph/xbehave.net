@@ -91,7 +91,7 @@
     <Compile Include="ExpressionNaming\LambdaExpressionExtensions.cs" />
     <Compile Include="ExpressionNaming\MemberExpressionExtensions.cs" />
     <Compile Include="ExpressionNaming\MethodCallExpressionExtensions.cs" />
-    <Compile Include="ExpressionNaming\MethodInfoExtensions.cs" />
+    <Compile Include="ExpressionNaming\MemberInfoExtensions.cs" />
     <Compile Include="ExpressionNaming\Optimizations.cs" />
     <Compile Include="ExpressionNaming\StringExtensions.cs" />
     <Compile Include="ExpressionNaming\TypeExtensions.cs" />

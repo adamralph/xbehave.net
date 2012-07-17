@@ -7,19 +7,18 @@ namespace Xbehave.Sdk.ExpressionNaming
     using System;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public static class TypeExtensions
     {
         public static bool AllowsInferenceOf(this Type type, Type genericType)
         {
+            Guard.AgainstNullArgument("type", type);
+            Guard.AgainstNullArgument("genericType", genericType);
+
             return type.Name == genericType.Name ||
                 (type.IsGenericType &&
                     type.GetGenericArguments().Aggregate(false, (current, genericArg) => current || genericArg.AllowsInferenceOf(genericType)));
-        }
-
-        public static bool IsCompilerGenerated(this Type type)
-        {
-            return type.IsDefined(typeof(CompilerGeneratedAttribute), false);
         }
     }
 }

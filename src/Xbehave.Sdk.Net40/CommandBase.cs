@@ -11,6 +11,7 @@ namespace Xbehave.Sdk
     {
         private readonly string name;
 
+        // TODO: change - definition is not null validated
         protected CommandBase(ScenarioDefinition definition, int contextOrdinal, int commandOrdinal, string commandName)
             : base(definition.Method, commandName, MethodUtility.GetTimeoutParameter(definition.Method))
         {
