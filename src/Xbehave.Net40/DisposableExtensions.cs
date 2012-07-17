@@ -1,4 +1,4 @@
-﻿// <copyright file="IDisposableExtensions.cs" company="Adam Ralph">
+﻿// <copyright file="DisposableExtensions.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 

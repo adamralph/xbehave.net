@@ -1,4 +1,4 @@
-﻿// <copyright file="IStepExtensions.Expressions.cs" company="Adam Ralph">
+﻿// <copyright file="StepExtensions.Expressions.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
