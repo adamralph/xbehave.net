@@ -45,6 +45,7 @@ namespace Xbehave.Sdk
 
             // NOTE: this relies on the test runner executing each above yielded step command and below yielded disposal command as soon as it is recieved
             // TD.NET, R# and xunit.console all seem to do this
+            FailedStepName = null;
             var index = 0;
             while (true)
             {
