@@ -5,18 +5,22 @@
 namespace Xbehave.Sdk
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using Xbehave.Sdk.Infrastructure;
     using Xunit.Sdk;
+    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public class StepCommand : CommandBase
     {
         private readonly Step step;
 
         // TODO: change - step and definition are not null validated
-        public StepCommand(ScenarioDefinition definition, int contextOrdinal, int ordinal, Step step)
-            : base(definition, contextOrdinal, ordinal, step.Name.AttemptFormatInvariantCulture(definition.Args))
+        public StepCommand(IMethodInfo method, ScenarioDefinition definition, int contextOrdinal, int ordinal, Step step, string commandName)
+            : base(method, definition, contextOrdinal, ordinal, commandName)
         {
+            Guard.AgainstNullArgument("step", step);
+
             this.step = step;
         }
 

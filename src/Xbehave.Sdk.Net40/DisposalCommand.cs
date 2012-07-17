@@ -8,14 +8,17 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using Xbehave.Sdk.Infrastructure;
     using Xunit.Sdk;
+    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public class DisposalCommand : CommandBase
     {
         private readonly IEnumerable<IDisposable> disposables;
 
-        public DisposalCommand(ScenarioDefinition call, int contextOrdinal, int ordinal, IEnumerable<IDisposable> disposables)
-            : base(call, contextOrdinal, ordinal, "Disposal")
+        public DisposalCommand(IMethodInfo method, ScenarioDefinition definition, int contextOrdinal, int ordinal, IEnumerable<IDisposable> disposables)
+            : base(method, definition, contextOrdinal, ordinal, "Disposal")
         {
+            Guard.AgainstNullArgument("disposables", disposables);
+
             this.disposables = disposables;
         }
 

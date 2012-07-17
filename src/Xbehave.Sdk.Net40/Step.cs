@@ -22,6 +22,16 @@ namespace Xbehave.Sdk
             Guard.AgainstNullArgument("text", text);
             Guard.AgainstNullArgument("body", body);
 
+            if (stepType.Length == 0)
+            {
+                throw new ArgumentException("stepType is empty.", "stepType");
+            }
+
+            if (text.Length == 0)
+            {
+                throw new ArgumentException("text is empty.", "text");
+            }
+
             this.name = (stepType.CompressWhiteSpace() + " ").MergeOrdinalIgnoreCase(text.CompressWhiteSpace());
             this.body = body;
         }
