@@ -23,6 +23,7 @@ namespace Xbehave
         /// An instance of <see cref="IStep"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "When", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
         public static IStep When(this IStep stepDefinition, Expression<Action> body)
         {
             return Helper.AddStep("When", body);
@@ -37,6 +38,7 @@ namespace Xbehave
         /// An instance of <see cref="IStep"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Then", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
         public static IStep Then(this IStep stepDefinition, Expression<Action> body)
         {
             return Helper.AddStep("Then", body);
@@ -51,6 +53,7 @@ namespace Xbehave
         /// An instance of <see cref="IStep"/>.
         /// </returns>
         [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "And", Justification = "By design.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
         public static IStep And(this IStep stepDefinition, Expression<Action> body)
         {
             return Helper.AddStep("And", body);
@@ -64,6 +67,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
         public static IStep But(this IStep stepDefinition, Expression<Action> body)
         {
             return Helper.AddStep("But", body);
