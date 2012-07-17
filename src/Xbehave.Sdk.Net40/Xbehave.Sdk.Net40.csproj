@@ -76,14 +76,13 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DisposalStep.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BackgroundStep.cs" />
-    <Compile Include="CommandBase.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="ContextFactory.cs" />
     <Compile Include="CurrentScenario.cs" />
-    <Compile Include="DisposalCommand.cs" />
     <Compile Include="ExceptionCommand.cs" />
     <Compile Include="ExpressionNaming\BinaryExpressionExtensions.cs" />
     <Compile Include="ExpressionNaming\ConstantExpressionExtensions.cs" />

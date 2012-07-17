@@ -55,8 +55,8 @@ namespace Xbehave.Sdk
                 }
 
                 // don't reverse odd disposables since their creation order has already been reversed by the previous command
-                yield return new DisposalCommand(
-                    this.definition.Method, this.definition.ToString(), contextOrdinal, stepOrdinal++, index % 2 == 0 ? disposables.Reverse() : disposables);
+                var disposalStep = new DisposalStep(index % 2 == 0 ? disposables.Reverse() : disposables);
+                yield return new StepCommand(this.definition.Method, this.definition.ToString(), contextOrdinal, stepOrdinal++, disposalStep.Name, disposalStep);
 
                 ++index;
             }

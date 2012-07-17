@@ -79,9 +79,6 @@
     <Compile Include="..\Xbehave.Sdk.Net40\BackgroundStep.cs">
       <Link>BackgroundStep.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\CommandBase.cs">
-      <Link>CommandBase.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Context.cs">
       <Link>Context.cs</Link>
     </Compile>
@@ -91,8 +88,8 @@
     <Compile Include="..\Xbehave.Sdk.Net40\CurrentScenario.cs">
       <Link>CurrentScenario.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\DisposalCommand.cs">
-      <Link>DisposalCommand.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Net40\DisposalStep.cs">
+      <Link>DisposalStep.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ExceptionCommand.cs">
       <Link>ExceptionCommand.cs</Link>

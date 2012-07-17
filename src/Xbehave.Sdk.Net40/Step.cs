@@ -16,10 +16,10 @@ namespace Xbehave.Sdk
         private readonly Action body;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string stepType, string text, Action body)
+        public Step(string stepType, string description, Action body)
         {
             Guard.AgainstNullArgument("stepType", stepType);
-            Guard.AgainstNullArgument("text", text);
+            Guard.AgainstNullArgument("description", description);
             Guard.AgainstNullArgument("body", body);
 
             if (stepType.Length == 0)
@@ -27,12 +27,12 @@ namespace Xbehave.Sdk
                 throw new ArgumentException("stepType is empty.", "stepType");
             }
 
-            if (text.Length == 0)
+            if (description.Length == 0)
             {
-                throw new ArgumentException("text is empty.", "text");
+                throw new ArgumentException("description is empty.", "description");
             }
 
-            this.name = (stepType.CompressWhiteSpace() + " ").MergeOrdinalIgnoreCase(text.CompressWhiteSpace());
+            this.name = (stepType.CompressWhiteSpace() + " ").MergeOrdinalIgnoreCase(description.CompressWhiteSpace());
             this.body = body;
         }
 
