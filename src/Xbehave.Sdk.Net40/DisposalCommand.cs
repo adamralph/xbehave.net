@@ -14,8 +14,8 @@ namespace Xbehave.Sdk
     {
         private readonly IEnumerable<IDisposable> disposables;
 
-        public DisposalCommand(IMethodInfo method, ScenarioDefinition definition, int contextOrdinal, int ordinal, IEnumerable<IDisposable> disposables)
-            : base(method, definition, contextOrdinal, ordinal, "Disposal")
+        public DisposalCommand(IMethodInfo method, string scenarioName, int contextOrdinal, int stepOrdinal, IEnumerable<IDisposable> disposables)
+            : base(method, scenarioName, contextOrdinal, stepOrdinal, "Disposal")
         {
             Guard.AgainstNullArgument("disposables", disposables);
 
