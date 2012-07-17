@@ -235,7 +235,7 @@ Given(() =&gt;    <span class="rem">// 1</span>
 In this example, the name of <span class="csharpcode">foo.Teardown()</span> already clearly communicates the intent but imagine using some exotic API where the name is <span class="csharpcode">foo.Wibble()</span>.
 </p>
 <p>
-Again I decided to remove, rather than deprecate, overload 4 because the simplification it allowed on the implementation side was too compelling to pass over and, since I was breaking this part of the API anyway, it seemed like a minor crime to add this extra bit of breakage.
+Fortunately it was possible to deprecate, rather than remove, overload 4 since it is differentiated from the other overloads by an extra parameter and, therefore, does not suffer from the same problems as overloads 2 and 3 described in The Really Tricky Part.
 </p>
 <p class="reference">
 <span class="reference-index">1</span>Michael Feathers (2004). <span class="reference-title">Working Effectively with Legacy Code.</span> USA: Prentice Hall PTR. p5.
