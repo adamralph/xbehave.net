@@ -57,7 +57,7 @@ namespace Xbehave
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
-                 CurrentScenario.ExtractCommands(new ScenarioDefinition(method, scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature)));
+                 CurrentScenario.ExtractCommands(method, scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature));
         }
 
         /// <summary>

@@ -7,10 +7,11 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Linq;
     using Xbehave.Sdk.Infrastructure;
+    using Xunit.Sdk;
 
     public partial class ContextFactory
     {
-        public IEnumerable<Context> CreateContexts(ScenarioDefinition definition, IEnumerable<Step> steps)
+        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<object> args, IEnumerable<Step> steps)
         {
             var sharedContext = new List<Step>();
             var pendingYield = false;
@@ -18,7 +19,7 @@ namespace Xbehave.Sdk
             {
                 if (step.InIsolation)
                 {
-                    yield return new Context(definition, sharedContext.ToList().Concat(step));
+                    yield return new Context(method, args, sharedContext.ToList().Concat(step));
                     pendingYield = false;
                 }
                 else
@@ -30,7 +31,7 @@ namespace Xbehave.Sdk
 
             if (pendingYield)
             {
-                yield return new Context(definition, sharedContext);
+                yield return new Context(method, args, sharedContext);
             }
         }
     }

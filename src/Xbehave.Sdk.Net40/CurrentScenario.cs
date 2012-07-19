@@ -65,29 +65,31 @@ namespace Xbehave.Sdk
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
-        public static IEnumerable<ITestCommand> ExtractCommands(ScenarioDefinition definition)
+        public static IEnumerable<ITestCommand> ExtractCommands(
+            IMethodInfo method, IEnumerable<object> args, IEnumerable<ITestCommand> backgroundCommands, ITestCommand scenarioCommand, object feature)
         {
-            Guard.AgainstNullArgument("definition", definition);
+            Guard.AgainstNullArgument("backgroundCommands", backgroundCommands);
+            Guard.AgainstNullArgument("scenarioCommand", scenarioCommand);
 
             try
             {
                 try
                 {
                     addingBackgroundSteps = true;
-                    foreach (var command in definition.BackgroundCommands)
+                    foreach (var command in backgroundCommands)
                     {
-                        command.Execute(definition.Feature);
+                        command.Execute(feature);
                     }
 
                     addingBackgroundSteps = false;
-                    definition.ScenarioCommand.Execute(definition.Feature);
+                    scenarioCommand.Execute(feature);
                 }
                 catch (Exception ex)
                 {
-                    return new ITestCommand[] { new ExceptionCommand(definition.Method, ex) };
+                    return new ITestCommand[] { new ExceptionCommand(method, ex) };
                 }
 
-                var contexts = new ContextFactory().CreateContexts(definition, Steps).ToArray();
+                var contexts = new ContextFactory().CreateContexts(method, args, Steps).ToArray();
                 return contexts.SelectMany((context, index) => context.CreateTestCommands(index + 1));
             }
             finally

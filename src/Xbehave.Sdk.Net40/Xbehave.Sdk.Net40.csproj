@@ -101,7 +101,6 @@
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
     <Compile Include="Infrastructure\Guard.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />
-    <Compile Include="ScenarioDefinition.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepCommand.cs" />
     <Compile Include="TestCommandExtensions.cs" />
