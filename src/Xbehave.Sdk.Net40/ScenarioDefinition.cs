@@ -19,8 +19,6 @@ namespace Xbehave.Sdk
         private readonly ITestCommand scenarioCommand;
         private readonly object feature;
 
-        private string text;
-
         public ScenarioDefinition(
             IMethodInfo method, IEnumerable<object> args, IEnumerable<ITestCommand> backgroundCommands, ITestCommand scenarioCommand, object feature)
         {
@@ -57,32 +55,6 @@ namespace Xbehave.Sdk
         public void ExecuteScenario()
         {
             this.scenarioCommand.Execute(this.feature);
-        }
-
-        public override string ToString()
-        {
-            if (this.text == null)
-            {
-                string parameterSuffix = null;
-
-                var parameters = this.method.MethodInfo.GetParameters();
-                if (parameters.Length > 0 || this.args.Length > 0)
-                {
-                    var tokens = new List<string>();
-                    for (var i = 0; i < Math.Max(parameters.Length, this.args.Length); ++i)
-                    {
-                        var parameter = parameters.ElementAtOrDefault(i);
-                        var arg = this.args.ElementAtOrDefault(i);
-                        tokens.Add(string.Concat(parameter == null ? "???" : parameter.Name, ": ", (arg ?? "null").ToString()));
-                    }
-
-                    parameterSuffix = string.Concat("(", string.Join(", ", tokens.ToArray()), ")");
-                }
-
-                this.text = string.Format(CultureInfo.InvariantCulture, "{0}.{1}{2}", this.method.TypeName, this.method.Name, parameterSuffix);
-            }
-
-            return this.text;
         }
     }
 }

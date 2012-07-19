@@ -40,7 +40,7 @@ namespace Xbehave.Sdk
             var stepOrdinal = 1;
             foreach (var step in this.steps)
             {
-                yield return new StepCommand(this.definition.Method, this.definition.Args, this.definition.ToString(), contextOrdinal, stepOrdinal++, step);
+                yield return new StepCommand(this.definition.Method, this.definition.Args, contextOrdinal, stepOrdinal++, step);
             }
 
             // NOTE: this relies on the test runner executing each above yielded step command and below yielded disposal command as soon as it is recieved
@@ -57,7 +57,7 @@ namespace Xbehave.Sdk
 
                 // don't reverse odd disposables since their creation order has already been reversed by the previous command
                 var disposalStep = new DisposalStep(index % 2 == 0 ? disposables.Reverse() : disposables);
-                yield return new StepCommand(this.definition.Method, this.definition.Args, this.definition.ToString(), contextOrdinal, stepOrdinal++, disposalStep);
+                yield return new StepCommand(this.definition.Method, this.definition.Args, contextOrdinal, stepOrdinal++, disposalStep);
 
                 ++index;
             }

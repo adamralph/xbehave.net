@@ -17,17 +17,36 @@ namespace Xbehave.Sdk
         private readonly string name;
         private readonly Step step;
 
-        public StepCommand(IMethodInfo method, IEnumerable<object> args, string scenarioName, int contextOrdinal, int stepOrdinal, Step step)
+        public StepCommand(IMethodInfo method, IEnumerable<object> args, int contextOrdinal, int stepOrdinal, Step step)
             : base(method, string.Empty, method.GetTimeoutParameter())
         {
+            Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgument("args", args);
             Guard.AgainstNullArgument("step", step);
+
+            this.step = step;
 
             var provider = CultureInfo.InvariantCulture;
             var stepName = step.Name.AttemptFormatInvariantCulture(args.ToArray());
             this.name = string.Format(provider, "[{0}.{1}] {2}", contextOrdinal.ToString("D2", provider), stepOrdinal.ToString("D2", provider), stepName);
-            this.DisplayName = string.Concat(scenarioName, " ", this.name);
-            this.step = step;
+
+            string parameterSuffix = null;
+            var argsArray = args.ToArray();
+            var parameters = method.MethodInfo.GetParameters();
+            if (parameters.Length > 0 || argsArray.Length > 0)
+            {
+                var tokens = new List<string>();
+                for (var i = 0; i < Math.Max(parameters.Length, argsArray.Length); ++i)
+                {
+                    var parameter = parameters.ElementAtOrDefault(i);
+                    var arg = argsArray.ElementAtOrDefault(i);
+                    tokens.Add(string.Concat(parameter == null ? "???" : parameter.Name, ": ", (arg ?? "null").ToString()));
+                }
+
+                parameterSuffix = string.Concat("(", string.Join(", ", tokens.ToArray()), ")");
+            }
+
+            this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0}.{1}{2} {3}", method.TypeName, method.Name, parameterSuffix, this.name);
         }
 
         public override MethodResult Execute(object testClass)
