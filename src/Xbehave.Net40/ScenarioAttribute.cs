@@ -9,8 +9,8 @@ namespace Xbehave
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Xbehave.Sdk;
+    using Xbehave.Sdk.Xunit;
     using Xunit.Extensions;
-    using Xunit.Sdk;
     using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     /// <summary>
@@ -36,28 +36,28 @@ namespace Xbehave
         /// <param name="method">The scenario method</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the background and scenario steps for each isolated context.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
-        protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
+        protected override IEnumerable<Xunit.Sdk.ITestCommand> EnumerateTestCommands(Xunit.Sdk.IMethodInfo method)
         {
             IEnumerable<ITestCommand> backgroundCommands;
-            IEnumerable<ITestCommand> scenarioCommands;
+            IEnumerable<Xunit.Sdk.ITestCommand> scenarioCommands;
             object feature;
 
             // NOTE: any exception must be wrapped in a command, otherwise the test runner will retry this method infinitely
             try
             {
-                backgroundCommands = this.EnumerateBackgroundCommands(method).ToArray();
+                backgroundCommands = this.EnumerateBackgroundCommands(method).Select(x => new TestCommandWrapper(x)).ToArray();
                 scenarioCommands = this.EnumerateScenarioCommands(method).ToArray();
                 feature = method.IsStatic ? null : method.CreateInstance();
             }
             catch (Exception ex)
             {
-                return new[] { new ExceptionCommand(method, ex) };
+                return new[] { new Sdk.Xunit.ExceptionCommand(method, ex) };
             }
 
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
-                 CurrentScenario.ExtractCommands(method, scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature));
+                 CurrentScenario.ExtractCommands(new MethodInfoWrapper(method), scenarioCommand.GetParameters(), backgroundCommands,new TestCommandWrapper(scenarioCommand), feature));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Xbehave
         /// </summary>
         /// <param name="method">The scenario method</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds associated with the <paramref name="method"/>.</returns>
-        protected virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
+        protected virtual IEnumerable<Xunit.Sdk.ITestCommand> EnumerateBackgroundCommands(Xunit.Sdk.IMethodInfo method)
         {
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgumentProperty("method", "Class", method.Class);
@@ -82,14 +82,14 @@ namespace Xbehave
         /// <param name="method">The scenario method</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the scenarios defined by the <paramref name="method"/>.</returns>
         /// <remarks>This method may be overridden.</remarks>
-        protected virtual IEnumerable<ITestCommand> EnumerateScenarioCommands(IMethodInfo method)
+        protected virtual IEnumerable<Xunit.Sdk.ITestCommand> EnumerateScenarioCommands(Xunit.Sdk.IMethodInfo method)
         {
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
 
             return method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method)
-                : new[] { new TheoryCommand(method, new object[0]) };
+                : new[] { new Xunit.Extensions.TheoryCommand(method, new object[0]) };
         }
     }
 }

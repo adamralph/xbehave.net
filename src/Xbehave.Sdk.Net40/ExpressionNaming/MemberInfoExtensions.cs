@@ -6,7 +6,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 {
     using System.Reflection;
     using System.Runtime.CompilerServices;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
+    using Xbehave.Sdk.Infrastructure;
 
     public static class MemberInfoExtensions
     {

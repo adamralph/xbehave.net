@@ -9,16 +9,15 @@ namespace Xbehave.Sdk
     using System.Globalization;
     using System.Linq;
     using Xbehave.Sdk.Infrastructure;
-    using Xunit.Sdk;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public class StepCommand : TestCommand
     {
         private readonly string name;
         private readonly Step step;
+        private readonly string displayName;
 
         public StepCommand(IMethodInfo method, IEnumerable<object> args, int contextOrdinal, int stepOrdinal, Step step)
-            : base(method, string.Empty, method.GetTimeoutParameter())
+            : base(method)
         {
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgument("args", args);
@@ -46,14 +45,14 @@ namespace Xbehave.Sdk
                 parameterSuffix = string.Concat("(", string.Join(", ", tokens.ToArray()), ")");
             }
 
-            this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0}.{1}{2} {3}", method.TypeName, method.Name, parameterSuffix, this.name);
+            this.displayName = string.Format(CultureInfo.InvariantCulture, "{0}.{1}{2} {3}", method.TypeName, method.Name, parameterSuffix, this.name);
         }
 
         public override MethodResult Execute(object testClass)
         {
             if (this.step.SkipReason != null)
             {
-                return new SkipResult(this.testMethod, this.DisplayName, this.step.SkipReason);
+                return new SkipResult(this.Method, this.displayName, this.step.SkipReason);
             }
 
             if (Context.FailedStepName != null)
@@ -72,7 +71,7 @@ namespace Xbehave.Sdk
                 throw;
             }
 
-            return new PassedResult(this.testMethod, this.DisplayName);
+            return new PassedResult(this.Method, this.displayName);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using Xbehave.Sdk.Infrastructure;
 
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
@@ -69,7 +70,8 @@ namespace Xbehave.Sdk
                     // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
                     if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
                     {
-                        throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
+                        var provider = CultureInfo.InvariantCulture;
+                        throw new TimeoutException(string.Format(provider, "Step execution time exceeded: {0}ms", this.MillisecondsTimeout.ToString(provider)));
                     }
 
                     this.body.EndInvoke(result);

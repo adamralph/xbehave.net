@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}</ProjectGuid>
+    <ProjectGuid>{E0DD2A33-EB9C-4B6B-94A8-181BD83B2E2E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave</RootNamespace>
-    <AssemblyName>Xbehave</AssemblyName>
+    <RootNamespace>Xbehave.Sdk.Xunit</RootNamespace>
+    <AssemblyName>Xbehave.Sdk.Xunit</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -35,7 +35,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
-    <DocumentationFile>bin\Release\Xbehave.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -65,6 +64,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core" />
     <Reference Include="xunit, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
     </Reference>
@@ -76,44 +76,12 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BackgroundAttribute.cs" />
-    <Compile Include="Deprecated\IStep.cs" />
-    <Compile Include="Deprecated\Step.cs" />
-    <Compile Include="DisposableExtensions.cs" />
-    <Compile Include="ExampleAttribute.cs" />
-    <Compile Include="Deprecated\StringExtensions.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="Helper.Expressions.cs">
-      <DependentUpon>Helper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StepExtensions.cs" />
-    <Compile Include="StepExtensions.Expressions.cs">
-      <DependentUpon>StepExtensions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StringExtensions.cs" />
-    <Compile Include="_.cs" />
-    <None Include="Sandbox\DynamicStringExtensions.cs" />
-    <Compile Include="Deprecated\_.cs" />
-    <Compile Include="Fluent\IStep.cs" />
-    <None Include="Sandbox\Scenario.cs" />
-    <Compile Include="ScenarioAttribute.cs" />
-    <Compile Include="Deprecated\ScenarioDataAttribute.cs" />
-    <Compile Include="Deprecated\DisposableAction.cs" />
-    <Compile Include="Deprecated\SpecificationAttribute.cs" />
-    <Compile Include="Deprecated\SpecificationExtensions.cs" />
-    <Compile Include="Deprecated\ContextDelegate.cs" />
-    <Compile Include="Deprecated\ThesisAttribute.cs" />
-    <Compile Include="Fluent\Step.cs" />
+    <Compile Include="MethodResultWrapper.cs" />
+    <Compile Include="TestCommandExtensions.cs" />
+    <Compile Include="TestCommandWrapper.cs" />
+    <Compile Include="ExceptionCommand.cs" />
+    <Compile Include="MethodInfoWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_.Expressions.cs">
-      <DependentUpon>_.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Xbehave.snk">
-      <Link>Properties\Xbehave.snk</Link>
-    </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">
@@ -121,19 +89,19 @@
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Xbehave.snk">
+      <Link>Properties\Xbehave.snk</Link>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Settings.StyleCop" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Xbehave.Sdk.Net40\Xbehave.Sdk.Net40.csproj">
       <Project>{69370680-9671-466C-B7BC-1C9BB5474F31}</Project>
       <Name>Xbehave.Sdk.Net40</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Xbehave.Sdk.Xunit.Net40\Xbehave.Sdk.Xunit.Net40.csproj">
-      <Project>{E0DD2A33-EB9C-4B6B-94A8-181BD83B2E2E}</Project>
-      <Name>Xbehave.Sdk.Xunit.Net40</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="AfterBuild">
-    <Exec Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " Command="&quot;$(SolutionDir)\..\tools\ILMerge\ILmerge.exe&quot; /keyfile:$(SolutionDir)\Xbehave.snk /lib:$(OutputPath) /targetplatform:v4 /internalize /out:@(MainAssembly) &quot;@(IntermediateAssembly)&quot; &quot;$(OutputPath)XBehave.Sdk.dll&quot;" />
-  </Target>
   <PropertyGroup>
     <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.34.0\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>

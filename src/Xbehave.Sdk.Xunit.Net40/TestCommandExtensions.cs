@@ -2,10 +2,10 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Sdk
+namespace Xbehave.Sdk.Xunit
 {
-    using Xunit.Extensions;
-    using Xunit.Sdk;
+    using global::Xunit.Extensions;
+    using global::Xunit.Sdk;
 
     public static class TestCommandExtensions
     {

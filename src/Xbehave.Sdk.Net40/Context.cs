@@ -7,8 +7,7 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xunit.Sdk;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
+    using Xbehave.Sdk.Infrastructure;
 
     public class Context
     {

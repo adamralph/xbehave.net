@@ -65,19 +65,21 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="xunit, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
-    </Reference>
-    <Reference Include="xunit.extensions, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensions.1.9.1\lib\net20\xunit.extensions.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="PassedResult.cs" />
+    <Compile Include="SkipResult.cs" />
+    <Compile Include="ExceptionExtensions.cs" />
+    <Compile Include="TheoryCommand.cs" />
+    <Compile Include="MethodUtility.cs" />
+    <Compile Include="TestCommand.cs" />
+    <Compile Include="MethodResult.cs" />
+    <Compile Include="ITestCommand.cs" />
+    <Compile Include="IMethodInfo.cs" />
     <Compile Include="DisposalStep.cs" />
-    <Compile Include="MethodInfoExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BackgroundStep.cs" />
     <Compile Include="Context.cs" />
@@ -103,7 +105,6 @@
     <Compile Include="Infrastructure\StringExtensions.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepCommand.cs" />
-    <Compile Include="TestCommandExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">

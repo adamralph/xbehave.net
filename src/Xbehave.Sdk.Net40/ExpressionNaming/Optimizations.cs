@@ -6,7 +6,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 {
     using System;
     using System.Collections.Generic;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
+    using Xbehave.Sdk.Infrastructure;
 
     public static class Optimizations
     {

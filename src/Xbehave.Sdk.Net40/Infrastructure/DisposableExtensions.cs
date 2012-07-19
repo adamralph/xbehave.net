@@ -31,7 +31,7 @@ namespace Xbehave.Sdk.Infrastructure
 
                 if (lastEx != null)
                 {
-                    Xunit.Sdk.ExceptionUtility.RethrowWithNoStackTraceLoss(lastEx);
+                    lastEx.RethrowWithNoStackTraceLoss();
                 }
             }
         }
