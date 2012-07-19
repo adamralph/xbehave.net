@@ -74,9 +74,13 @@ namespace Xbehave.Sdk
                 try
                 {
                     addingBackgroundSteps = true;
-                    definition.ExecuteBackground();
+                    foreach (var command in definition.BackgroundCommands)
+                    {
+                        command.Execute(definition.Feature);
+                    }
+
                     addingBackgroundSteps = false;
-                    definition.ExecuteScenario();
+                    definition.ScenarioCommand.Execute(definition.Feature);
                 }
                 catch (Exception ex)
                 {

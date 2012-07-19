@@ -6,11 +6,11 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using Xunit.Sdk;
     using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
+    // TODO: get rid of this?
     public partial class ScenarioDefinition
     {
         private readonly IMethodInfo method;
@@ -22,10 +22,18 @@ namespace Xbehave.Sdk
         public ScenarioDefinition(
             IMethodInfo method, IEnumerable<object> args, IEnumerable<ITestCommand> backgroundCommands, ITestCommand scenarioCommand, object feature)
         {
-            Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgument("args", args);
             Guard.AgainstNullArgument("backgroundCommands", backgroundCommands);
-            Guard.AgainstNullArgument("scenarioCommand", scenarioCommand);
+
+            if (method == null)
+            {
+                throw new ArgumentNullException("method");
+            }
+
+            if (scenarioCommand == null)
+            {
+                throw new ArgumentNullException("scenarioCommand");
+            }
 
             this.method = method;
             this.args = args.ToArray();
@@ -44,17 +52,19 @@ namespace Xbehave.Sdk
             get { return this.args.Select(x => x); }
         }
 
-        public void ExecuteBackground()
+        public IEnumerable<ITestCommand> BackgroundCommands
         {
-            foreach (var command in this.backgroundCommands)
-            {
-                command.Execute(this.feature);
-            }
+            get { return this.backgroundCommands.Select(x => x); }
         }
 
-        public void ExecuteScenario()
+        public ITestCommand ScenarioCommand
         {
-            this.scenarioCommand.Execute(this.feature);
+            get { return this.scenarioCommand; }
+        }
+
+        public object Feature
+        {
+            get { return this.feature; }
         }
     }
 }
