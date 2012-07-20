@@ -8,8 +8,8 @@
     <ProjectGuid>{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Sdk.Test</RootNamespace>
-    <AssemblyName>Xbehave.Sdk.Test</AssemblyName>
+    <RootNamespace>Xbehave.Sdk.Test.Unit</RootNamespace>
+    <AssemblyName>Xbehave.Sdk.Test.Unit</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -56,25 +56,25 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Net40\ExpressionNaming\ExpressionExtensionsStory.cs">
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\ExpressionNaming\ExpressionExtensionsStory.cs">
       <Link>ExpressionNaming\ExpressionExtensionsStory.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Net40\Infrastructure\DisposableExtensionsFeature.cs">
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\DisposableExtensionsFeature.cs">
       <Link>Infrastructure\DisposableExtensionsFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Net40\Infrastructure\DisposableFeature.cs">
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\DisposableFeature.cs">
       <Link>Infrastructure\DisposableFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Net40\Infrastructure\EnumerableExtensionsFeature.cs">
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\EnumerableExtensionsFeature.cs">
       <Link>Infrastructure\EnumerableExtensionsFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Net40\Infrastructure\GuardFeature.cs">
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\GuardFeature.cs">
       <Link>Infrastructure\GuardFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Net40\Infrastructure\StringExtensionsFeature.cs">
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\StringExtensionsFeature.cs">
       <Link>Infrastructure\StringExtensionsFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Net40\Properties\AssemblyInfo.cs">
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
   </ItemGroup>

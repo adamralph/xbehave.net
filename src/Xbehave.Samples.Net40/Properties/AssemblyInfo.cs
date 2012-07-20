@@ -7,6 +7,5 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Xbehave.Samples")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyProduct("Xbehave.Samples")]
 
 [assembly: ComVisible(false)]

@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test.Legacy
+namespace Xbehave.Test.Unit.Legacy
 {
     using System;
     using Xbehave;

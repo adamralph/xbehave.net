@@ -7,6 +7,5 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Xbehave.Issues")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyProduct("Xbehave.Issues")]
 
 [assembly: ComVisible(false)]

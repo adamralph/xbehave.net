@@ -9,7 +9,6 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("xBehave.net")]
 [assembly: AssemblyDescription("A fluent and concise BDD/TDD library based on xUnit.net designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.")]
-[assembly: AssemblyProduct("xBehave.net")]
 
 [assembly: ComVisible(false)]
 

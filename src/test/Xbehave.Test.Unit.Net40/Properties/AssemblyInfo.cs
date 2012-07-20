@@ -5,8 +5,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Xbehave.Test")]
+[assembly: AssemblyTitle("Xbehave.Test.Unit")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyProduct("Xbehave.Test")]
 
 [assembly: ComVisible(false)]

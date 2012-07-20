@@ -34,10 +34,10 @@ Task Package -depends Test {
 }
 
 Task Test -depends Build {
-    Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Sdk.Test.Net35\bin\Debug\Xbehave.Sdk.Test.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Net35\bin\Debug\XBehave.Sdk.Test.Results.xml" /html "$ThisDir\test\Xbehave.Test.Net35\bin\Debug\XBehave.Sdk.Test.Results.html" }
-    Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Sdk.Test.Net40\bin\Debug\Xbehave.Sdk.Test.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Net40\bin\Debug\XBehave.Sdk.Test.Results.xml" /html "$ThisDir\test\Xbehave.Test.Net40\bin\Debug\XBehave.Sdk.Test.Results.html" }
-    Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Test.Net35\bin\Debug\Xbehave.Test.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Net35\bin\Debug\XBehave.Test.Results.xml" /html "$ThisDir\test\Xbehave.Test.Net35\bin\Debug\XBehave.Test.Results.html" }
-    Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Test.Net40\bin\Debug\Xbehave.Test.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Net40\bin\Debug\XBehave.Test.Results.xml" /html "$ThisDir\test\Xbehave.Test.Net40\bin\Debug\XBehave.Test.Results.html" }
+    Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net35\bin\Debug\Xbehave.Sdk.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net35\bin\Debug\XBehave.Sdk.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\XBehave.Sdk.Test.Unit.Results.html" }
+    Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net40\bin\Debug\Xbehave.Sdk.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net40\bin\Debug\XBehave.Sdk.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\XBehave.Sdk.Test.Unit.Results.html" }
+    Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\Xbehave.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\XBehave.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\XBehave.Test.Unit.Results.html" }
+    Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\Xbehave.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\XBehave.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\XBehave.Test.Unit.Results.html" }
 }
 
 Task Build -depends Clean {

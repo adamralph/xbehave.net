@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test.Sdk.Infrastructure
+namespace Xbehave.Test.Unit.Sdk.Infrastructure
 {
     using FluentAssertions;
     using Xbehave.Sdk.Infrastructure;
