@@ -36,16 +36,25 @@ namespace Xbehave.Test.Unit.Sdk.Infrastructure
             "Then the number of exceptions should be 2"
                 .Then(() => exceptions.Should().HaveCount(2));
 
-            "And one exception message should contain 1 and 2 and the other exception message should contain 3 and 4"
+            "And one exception message should contain 1 and 2 but not 3 and 4, and the other exception message should contain 3 and 4 but not 1 and 2"
                 .And(() =>
-                    ((exceptions[0].Message.Contains("1") &&
+                    ((
+                        exceptions[0].Message.Contains("1") &&
                         exceptions[0].Message.Contains("2") &&
+                        !exceptions[0].Message.Contains("3") &&
+                        !exceptions[0].Message.Contains("4") &&
+                        !exceptions[1].Message.Contains("1") &&
+                        !exceptions[1].Message.Contains("2") &&
                         exceptions[1].Message.Contains("3") &&
-                        exceptions[1].Message.Contains("4")) ^
-                    (exceptions[1].Message.Contains("1") &&
-                        exceptions[1].Message.Contains("2") &&
+                        exceptions[1].Message.Contains("4")) ^ (
+                        !exceptions[0].Message.Contains("1") &&
+                        !exceptions[0].Message.Contains("2") &&
                         exceptions[0].Message.Contains("3") &&
-                        exceptions[0].Message.Contains("4"))).Should().BeTrue());
+                        exceptions[0].Message.Contains("4") &&
+                        exceptions[1].Message.Contains("1") &&
+                        exceptions[1].Message.Contains("2") &&
+                        !exceptions[1].Message.Contains("3") &&
+                        !exceptions[1].Message.Contains("4"))).Should().BeTrue());
         }
 
         [Example(1, 2)]
