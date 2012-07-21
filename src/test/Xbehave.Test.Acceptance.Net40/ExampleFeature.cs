@@ -16,7 +16,7 @@ namespace Xbehave.Test.Acceptance
     public static class ExampleFeature
     {
         [Scenario]
-        public static void IntegerExamplesWith3Values()
+        public static void IntegerExamples()
         {
             var method = default(IMethodInfo);
             var commands = default(ITestCommand[]);
@@ -24,7 +24,7 @@ namespace Xbehave.Test.Acceptance
             var theoryCommands = default(TheoryCommand[]);
 
             "Given a method with a single step using integer examples with 3 values"
-                .Given(() => method = Reflector.Wrap(((Action<int, int, int>)ExampleFeature.SingleStepUsingIntegerExamplesWith3Values).Method));
+                .Given(() => method = Reflector.Wrap(((Action<int, int, int>)ExampleFeature.SingleStepUsingIntegerExamples).Method));
 
             "When a test runner creates test commands using the method"
                 .When(() => commands = new ScenarioAttribute().CreateTestCommands(method).ToArray());
@@ -42,8 +42,8 @@ namespace Xbehave.Test.Acceptance
             "And the ordered command arguments and example values should match"
                 .And(() =>
                 {
-                    var args = theoryCommands.Select(command => command.Parameters.Cast<int>().ToArray()).OrderBy(x => x, new ArrayComparer<int>()).ToArray();
-                    var values = examples.Select(example => example.DataValues.Cast<int>().ToArray()).OrderBy(x => x, new ArrayComparer<int>()).ToArray();
+                    var args = theoryCommands.Select(command => command.Parameters.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>()).ToArray();
+                    var values = examples.Select(example => example.DataValues.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>()).ToArray();
                     for (var index = 0; index < args.Length; ++index)
                     {
                         args[index].Should().Equal(values[index]);
@@ -54,7 +54,7 @@ namespace Xbehave.Test.Acceptance
         [Example(1, 2, 3)]
         [Example(3, 4, 5)]
         [Example(5, 6, 7)]
-        public static void SingleStepUsingIntegerExamplesWith3Values(int x, int y, int z)
+        public static void SingleStepUsingIntegerExamples(int x, int y, int z)
         {
             "Given"
                 .Given(() => { });
