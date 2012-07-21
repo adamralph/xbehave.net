@@ -23,7 +23,7 @@ namespace Xbehave.Test.Acceptance
             var examples = default(ExampleAttribute[]);
             var theoryCommands = default(TheoryCommand[]);
 
-            "Given a method with a single step using integer examples with 3 values"
+            "Given a method with a single step using integer examples"
                 .Given(() => method = Reflector.Wrap(((Action<int, int, int>)ExampleFeature.SingleStepUsingIntegerExamples).Method));
 
             "When a test runner creates test commands using the method"
