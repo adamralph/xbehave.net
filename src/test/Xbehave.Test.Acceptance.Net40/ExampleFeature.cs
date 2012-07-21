@@ -37,7 +37,11 @@ namespace Xbehave.Test.Acceptance
                 });
 
             "And the commands should be theory commands"
-                .And(() => theoryCommands = commands.Cast<TheoryCommand>().ToArray());
+                .And(() =>
+                {
+                    commands.Should().NotContainNulls();
+                    theoryCommands = commands.Cast<TheoryCommand>().ToArray();
+                });
 
             "And the ordered command arguments and example values should match"
                 .And(() =>
