@@ -16,45 +16,45 @@ namespace Xbehave.Test.Acceptance
     public static class ExampleFeature
     {
         [Scenario]
-        public static void DifferingIntegerExamples()
+        public static void IntegerExamplesWith3Values()
         {
             var method = default(IMethodInfo);
             var commands = default(ITestCommand[]);
+            var examples = default(ExampleAttribute[]);
             var theoryCommands = default(TheoryCommand[]);
 
-            "Given a scenario with a single step using example values 1 and 2 and example values 3 and 4"
-                .Given(() => method = Reflector.Wrap(((Action<int, int>)ExampleFeature.AScenarioWithASingleStepUsingExampleValues1And2AndExampleValues3And4).Method));
+            "Given a method with a single step using integer examples with 3 values"
+                .Given(() => method = Reflector.Wrap(((Action<int, int, int>)ExampleFeature.SingleStepUsingIntegerExamplesWith3Values).Method));
 
-            "When a test runner creates test commands from the method"
+            "When a test runner creates test commands using the method"
                 .When(() => commands = new ScenarioAttribute().CreateTestCommands(method).ToArray());
 
-            "Then the number of commands should be 2"
-                .Then(() => commands.Should().HaveCount(2));
-
-            "And the commands should be theory commands"
-                .And(() =>
+            "Then the number of commands should be match the number of examples"
+                .Then(() =>
                 {
-                    commands.Should().ContainItemsAssignableTo<TheoryCommand>();
-                    theoryCommands = commands.Cast<TheoryCommand>().ToArray();
+                    examples = method.GetCustomAttributes(typeof(ExampleAttribute)).Select(x => x.GetInstance<ExampleAttribute>()).ToArray();
+                    commands.Should().HaveCount(examples.Length);
                 });
 
-            "And each command should have 2 integer arguments"
-                .And(() => theoryCommands.Should().OnlyContain(command => command.Parameters.Count() == 2 && command.Parameters.All(parameter => parameter is int)));
+            "And the commands should be theory commands"
+                .And(() => theoryCommands = commands.Cast<TheoryCommand>().ToArray());
 
-            "And one command should have arguments 1 and 2 and the other command should have arguments 3 and 4"
+            "And the ordered command arguments and example values should match"
                 .And(() =>
                 {
-                    var orderedCommands = theoryCommands.OrderBy(command => (int)command.Parameters.ElementAt(0)).ToArray();
-                    orderedCommands[0].Parameters.ElementAt(0).Should().Be(1);
-                    orderedCommands[0].Parameters.ElementAt(1).Should().Be(2);
-                    orderedCommands[1].Parameters.ElementAt(0).Should().Be(3);
-                    orderedCommands[1].Parameters.ElementAt(1).Should().Be(4);
+                    var args = theoryCommands.Select(command => command.Parameters.Cast<int>().ToArray()).OrderBy(x => x, new ArrayComparer<int>()).ToArray();
+                    var values = examples.Select(example => example.DataValues.Cast<int>().ToArray()).OrderBy(x => x, new ArrayComparer<int>()).ToArray();
+                    for (var index = 0; index < args.Length; ++index)
+                    {
+                        args[index].Should().Equal(values[index]);
+                    }
                 });
         }
 
-        [Example(1, 2)]
-        [Example(3, 4)]
-        public static void AScenarioWithASingleStepUsingExampleValues1And2AndExampleValues3And4(int x, int y)
+        [Example(1, 2, 3)]
+        [Example(3, 4, 5)]
+        [Example(5, 6, 7)]
+        public static void SingleStepUsingIntegerExamplesWith3Values(int x, int y, int z)
         {
             "Given"
                 .Given(() => { });
