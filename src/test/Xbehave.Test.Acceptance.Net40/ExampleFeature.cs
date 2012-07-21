@@ -5,11 +5,9 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using FluentAssertions;
-    using Xunit;
+    using Xunit.Extensions;
     using Xunit.Sdk;
 
     // In order to save time
@@ -21,48 +19,45 @@ namespace Xbehave.Test.Acceptance
         public static void DifferingIntegerExamples()
         {
             var method = default(IMethodInfo);
-            var commands = default(IEnumerable<ITestCommand>);
-            var exceptions = default(Exception[]);
+            var commands = default(ITestCommand[]);
+            var theoryCommands = default(TheoryCommand[]);
 
-            "Given a scenario using examples to assert the equality of 1 and 2 and the equality of 3 and 4"
-                .Given(() => method = Reflector.Wrap(typeof(ExampleFeature).GetMethod("AScenarioUsingExamplesToAssertTheEqualityOf1And2AndTheEqualityOf3And4")));
+            "Given a scenario with a single step using example values 1 and 2 and example values 3 and 4"
+                .Given(() => method = Reflector.Wrap(((Action<int, int>)ExampleFeature.AScenarioWithASingleStepUsingExampleValues1And2AndExampleValues3And4).Method));
 
-            "When creating test commands from the method"
-                .When(() => commands = new ScenarioAttribute().CreateTestCommands(method));
+            "When a test runner creates test commands from the method"
+                .When(() => commands = new ScenarioAttribute().CreateTestCommands(method).ToArray());
 
-            "And recording the exception thrown when executing each command"
-                .And(() => exceptions = Task.Factory.StartNew(() => commands.Select(command => Record.Exception(() => command.Execute(null))).ToArray()).Result);
+            "Then the number of commands should be 2"
+                .Then(() => commands.Should().HaveCount(2));
 
-            "Then the number of exceptions should be 2"
-                .Then(() => exceptions.Should().HaveCount(2));
-
-            "And one exception message should contain 1 and 2 but not 3 and 4, and the other exception message should contain 3 and 4 but not 1 and 2"
+            "And the commands should be theory commands"
                 .And(() =>
-                    ((
-                        exceptions[0].Message.Contains("1") &&
-                        exceptions[0].Message.Contains("2") &&
-                        !exceptions[0].Message.Contains("3") &&
-                        !exceptions[0].Message.Contains("4") &&
-                        !exceptions[1].Message.Contains("1") &&
-                        !exceptions[1].Message.Contains("2") &&
-                        exceptions[1].Message.Contains("3") &&
-                        exceptions[1].Message.Contains("4")) ^ (
-                        !exceptions[0].Message.Contains("1") &&
-                        !exceptions[0].Message.Contains("2") &&
-                        exceptions[0].Message.Contains("3") &&
-                        exceptions[0].Message.Contains("4") &&
-                        exceptions[1].Message.Contains("1") &&
-                        exceptions[1].Message.Contains("2") &&
-                        !exceptions[1].Message.Contains("3") &&
-                        !exceptions[1].Message.Contains("4"))).Should().BeTrue());
+                {
+                    commands.Should().ContainItemsAssignableTo<TheoryCommand>();
+                    theoryCommands = commands.Cast<TheoryCommand>().ToArray();
+                });
+
+            "And each command should have 2 integer arguments"
+                .And(() => theoryCommands.Should().OnlyContain(command => command.Parameters.Count() == 2 && command.Parameters.All(parameter => parameter is int)));
+
+            "And one command should have arguments 1 and 2 and the other command should have arguments 3 and 4"
+                .And(() =>
+                {
+                    var orderedCommands = theoryCommands.OrderBy(command => (int)command.Parameters.ElementAt(0)).ToArray();
+                    orderedCommands[0].Parameters.ElementAt(0).Should().Be(1);
+                    orderedCommands[0].Parameters.ElementAt(1).Should().Be(2);
+                    orderedCommands[1].Parameters.ElementAt(0).Should().Be(3);
+                    orderedCommands[1].Parameters.ElementAt(1).Should().Be(4);
+                });
         }
 
         [Example(1, 2)]
         [Example(3, 4)]
-        public static void AScenarioUsingExamplesToAssertTheEqualityOf1And2AndTheEqualityOf3And4(int x, int y)
+        public static void AScenarioWithASingleStepUsingExampleValues1And2AndExampleValues3And4(int x, int y)
         {
-            "Then"
-                .Then(() => x.Should().Be(y));
+            "Given"
+                .Given(() => { });
         }
     }
 }
