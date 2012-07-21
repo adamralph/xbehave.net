@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test.Unit.Sdk.Infrastructure
+namespace Xbehave.Test.Acceptance
 {
     using System;
     using System.Collections.Generic;

@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test.Unit.Sdk.Infrastructure
+namespace Xbehave.Sdk.Test.Unit.Infrastructure
 {
     using System.Collections.Generic;
     using System.Linq;
