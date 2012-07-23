@@ -8,9 +8,9 @@ namespace Xbehave.Issues
     using Xbehave;
 
     /// <summary>
-    /// https://bitbucket.org/adamralph/xbehave.net/issue/17
+    /// https://bitbucket.org/adamralph/xbehave.net/issue/19
     /// </summary>
-    public class Issue17
+    public class Issue19
     {
         protected int Foo { get; set; }
 
@@ -26,7 +26,7 @@ namespace Xbehave.Issues
             _.Then(() => this.Foo.Should().BeGreaterThan(0));
         }
 
-        public class FooIsTwo : Issue17
+        public class FooIsTwo : Issue19
         {
             ////[Background]
             public override void Background()
