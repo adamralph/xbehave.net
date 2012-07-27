@@ -8,6 +8,7 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Reflection;
     using Xbehave.Sdk;
     using Xunit.Extensions;
     using Xunit.Sdk;
@@ -57,7 +58,8 @@ namespace Xbehave
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
-                 CurrentScenario.ExtractCommands(method, scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature));
+                 CurrentScenario.ExtractCommands(
+                    method, ResolveGenericTypes(method, scenarioCommand.GetParameters()), scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature));
         }
 
         /// <summary>
@@ -90,6 +92,57 @@ namespace Xbehave
             return method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method)
                 : new[] { new TheoryCommand(method, new object[0]) };
+        }
+
+        // NOTE: based on implementation in Xunit.Extensions.TheoryAttribute
+        private static IEnumerable<Type> ResolveGenericTypes(IMethodInfo method, object[] args)
+        {
+            var parameters = method.MethodInfo.GetParameters();
+            return method.MethodInfo.GetGenericArguments().Select(genericArg => ResolveGenericType(genericArg, args, parameters));
+        }
+
+        // NOTE: lifted from Xunit.Extensions.TheoryAttribute
+        private static Type ResolveGenericType(Type genericType, object[] args, ParameterInfo[] parameters)
+        {
+            var flag = false;
+            Type type = null;
+            for (var index = 0; index < parameters.Length; ++index)
+            {
+                if (parameters[index].ParameterType == genericType)
+                {
+                    var obj = args[index];
+                    if (obj == null)
+                    {
+                        flag = true;
+                    }
+                    else
+                    {
+                        if (type == null)
+                        {
+                            type = obj.GetType();
+                        }
+                        else
+                        {
+                            if (type != obj.GetType())
+                            {
+                                return typeof(object);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (type == null)
+            {
+                return typeof(object);
+            }
+            
+            if (!flag || !type.IsValueType)
+            {
+                return type;
+            }
+            
+            return typeof(object);
         }
     }
 }

@@ -16,15 +16,15 @@ namespace Xbehave.Test.Acceptance
     public static class ExampleFeature
     {
         [Scenario]
-        public static void IntegerExamples()
+        public static void Int32Examples()
         {
             var method = default(IMethodInfo);
             var commands = default(ITestCommand[]);
             var examples = default(ExampleAttribute[]);
             var theoryCommands = default(TheoryCommand[]);
 
-            "Given a method with a single step using integer examples"
-                .Given(() => method = Reflector.Wrap(((Action<int, int, int>)ExampleFeature.SingleStepUsingIntegerExamples).Method));
+            "Given a method with a single step using Int32 examples"
+                .Given(() => method = Reflector.Wrap(((Action<int, int, int>)SingleStepUsingInt32Examples).Method));
 
             "When a test runner creates test commands using the method"
                 .When(() => commands = new ScenarioAttribute().CreateTestCommands(method).ToArray());
@@ -58,7 +58,7 @@ namespace Xbehave.Test.Acceptance
         [Example(1, 2, 3)]
         [Example(3, 4, 5)]
         [Example(5, 6, 7)]
-        public static void SingleStepUsingIntegerExamples(int x, int y, int z)
+        public static void SingleStepUsingInt32Examples(int x, int y, int z)
         {
             "Given"
                 .Given(() => { });

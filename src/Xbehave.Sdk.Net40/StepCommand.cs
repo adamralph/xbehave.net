@@ -19,8 +19,8 @@ namespace Xbehave.Sdk
         private readonly string name;
         private readonly Step step;
 
-        public StepCommand(IMethodInfo method, IEnumerable<object> args, int contextOrdinal, int stepOrdinal, Step step)
-            : base(method, args == null ? new object[0] : args.ToArray(), null)
+        public StepCommand(IMethodInfo method, IEnumerable<Type> genericTypes, IEnumerable<object> args, int contextOrdinal, int stepOrdinal, Step step)
+            : base(method, args == null ? new object[0] : args.ToArray(), genericTypes == null ? new Type[0] : genericTypes.ToArray())
         {
             Guard.AgainstNullArgument("args", args);
             Guard.AgainstNullArgument("step", step);
