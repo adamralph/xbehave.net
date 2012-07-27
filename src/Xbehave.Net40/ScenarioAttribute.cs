@@ -59,7 +59,7 @@ namespace Xbehave
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
                  CurrentScenario.ExtractCommands(
-                    method, ResolveGenericTypes(method, scenarioCommand.GetParameters()), scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature));
+                    method, ResolveTypeArguments(method, scenarioCommand.GetParameters()), scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature));
         }
 
         /// <summary>
@@ -94,55 +94,39 @@ namespace Xbehave
                 : new[] { new TheoryCommand(method, new object[0]) };
         }
 
-        // NOTE: based on implementation in Xunit.Extensions.TheoryAttribute
-        private static IEnumerable<Type> ResolveGenericTypes(IMethodInfo method, object[] args)
+        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo genericMethodDefinition, object[] arguments)
         {
-            var parameters = method.MethodInfo.GetParameters();
-            return method.MethodInfo.GetGenericArguments().Select(genericArg => ResolveGenericType(genericArg, args, parameters));
+            var genericParameters = genericMethodDefinition.MethodInfo.GetParameters();
+            return genericMethodDefinition.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, genericParameters, arguments));
         }
 
-        // NOTE: lifted from Xunit.Extensions.TheoryAttribute
-        private static Type ResolveGenericType(Type genericType, object[] args, ParameterInfo[] parameters)
+        private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] genericParameters, object[] arguments)
         {
-            var flag = false;
-            Type type = null;
-            for (var index = 0; index < parameters.Length; ++index)
+            Type typeArgument = null;
+            for (var index = 0; index < genericParameters.Length; ++index)
             {
-                if (parameters[index].ParameterType == genericType)
+                if (genericParameters[index].ParameterType != typeParameter)
                 {
-                    var obj = args[index];
-                    if (obj == null)
-                    {
-                        flag = true;
-                    }
-                    else
-                    {
-                        if (type == null)
-                        {
-                            type = obj.GetType();
-                        }
-                        else
-                        {
-                            if (type != obj.GetType())
-                            {
-                                return typeof(object);
-                            }
-                        }
-                    }
+                    continue;
+                }
+
+                var argument = arguments[index];
+                if (argument == null)
+                {
+                    continue;
+                }
+
+                if (typeArgument == null)
+                {
+                    typeArgument = argument.GetType();
+                }
+                else if (typeArgument != argument.GetType())
+                {
+                    return typeof(object);
                 }
             }
 
-            if (type == null)
-            {
-                return typeof(object);
-            }
-            
-            if (!flag || !type.IsValueType)
-            {
-                return type;
-            }
-            
-            return typeof(object);
+            return typeArgument ?? typeof(object);
         }
     }
 }
