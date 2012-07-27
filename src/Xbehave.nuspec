@@ -10,7 +10,7 @@
     <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/5b719723bcfe/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A BDD/TDD framework based on xUnit.net inspired by the Gherkin behaviour language. Dispenses with the need to map Gherkin feature files to code implementations by allowing the developer to bake the behaviours/specifications directly into code. Designed for use either from day one or as a seamless addition to an existing xUnit.net based workflow.</description>
-    <releaseNotes>TBD</releaseNotes>
+    <releaseNotes>(Enhancement) Add generic type parameters to display names in test output (https://bitbucket.org/adamralph/xbehave.net/issue/18).</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
