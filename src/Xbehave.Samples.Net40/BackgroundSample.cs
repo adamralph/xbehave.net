@@ -35,7 +35,7 @@ namespace Xbehave.Samples
         public static void DoctorBillPostsToHisOwnBlog()
         {
             "Given I am logged in as Dr. Bill"
-                .Given(() => Site.Login("Dr. Bill", "oranges"));
+                .Given(() => Site.Login(doctorBill.Name, doctorBill.Password));
 
             "When I try to post to \"Expensive Therapy\""
                 .When(() => expensiveTherapy.Post(new Article { Body = "This is a great blog!" }));
@@ -48,7 +48,7 @@ namespace Xbehave.Samples
         public static void DoctorBillTriesToPostToSomebodyElsesBlogAndFails()
         {
             "Given I am logged in as Dr. Bill"
-                .Given(() => Site.Login("Dr. Bill", "oranges"));
+                .Given(() => Site.Login(doctorBill.Name, doctorBill.Password));
 
             "When I try to post to \"Greg's anti-tax rants\""
                 .When(() => gregsAntiTaxRants.Post(new Article { Body = "This is a great blog!" }));
@@ -61,7 +61,7 @@ namespace Xbehave.Samples
         public static void GregPostsToAClientBlog()
         {
             "Given I am logged in as Greg"
-                .Given(() => Site.Login("Greg", "apples"));
+                .Given(() => Site.Login(greg.Name, greg.Password));
 
             "When I try to post to \"Expensive Therapy\""
                 .When(() => expensiveTherapy.Post(new Article { Body = "This is a great blog!" }));
