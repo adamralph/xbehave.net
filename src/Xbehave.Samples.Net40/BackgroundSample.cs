@@ -5,40 +5,39 @@
 namespace Xbehave.Samples
 {
     // Feature: Multiple site support
+    //// In order to make gigantic piles of money
     //// As a Mephisto site owner
     //// I want to host blogs for different people
-    //// In order to make gigantic piles of money
     public static class BackgroundSample
     {
-        private static GlobalAdministrator greg;
-        private static User doctorBill;
-        private static Blog gregsAntiTaxRants;
-        private static Blog expensiveTherapy;
-
         [Background]
         public static void Background()
         {
             "Given a global administrator named \"Greg\""
-                .Given(() => greg = new GlobalAdministrator { Name = "Greg", Password = "apples" });
+                .Given(() => Users.Save(new GlobalAdministrator { Name = "Greg", Password = "apples" }))
+                .Teardown(() => Users.Delete("Greg"));
 
             "And a user named \"Dr. Bill\""
-                .And(() => doctorBill = new User { Name = "Dr. Bill", Password = "oranges" });
+                .And(() => Users.Save(new User { Name = "Dr. Bill", Password = "oranges" }))
+                .Teardown(() => Users.Delete("Dr. Bill"));
 
             "And a blog named \"Greg's anti-tax rants\" owned by \"Greg\""
-                .And(() => gregsAntiTaxRants = new Blog { Name = "Greg's anti-tax rants", Owner = greg });
+                .And(() => Blogs.Save(new Blog { Name = "Greg's anti-tax rants", Owner = Users.Get("Greg") }))
+                .Teardown(() => Blogs.Delete("Greg's anti-tax rants"));
 
             "And a blog named \"Expensive Therapy\" owned by \"Dr. Bill\""
-                .And(() => expensiveTherapy = new Blog { Name = "Expensive Therapy", Owner = doctorBill });
+                .And(() => Blogs.Save(new Blog { Name = "Expensive Therapy", Owner = Users.Get("Dr. Bill") }))
+                .Teardown(() => Blogs.Delete("Expensive Therapy"));
         }
 
         [Scenario]
         public static void DoctorBillPostsToHisOwnBlog()
         {
             "Given I am logged in as Dr. Bill"
-                .Given(() => Site.Login(doctorBill.Name, doctorBill.Password));
+                .Given(() => Site.Login("Dr. Bill", "oranges"));
 
             "When I try to post to \"Expensive Therapy\""
-                .When(() => expensiveTherapy.Post(new Article { Body = "This is a great blog!" }));
+                .When(() => Blogs.Get("Expensive Therapy").Post(new Article { Body = "This is a great blog!" }));
 
             "Then I should see \"Your article was published.\""
                 .Then(() => Site.CurrentPage.Body.Contains("Your article was published."));
@@ -48,10 +47,10 @@ namespace Xbehave.Samples
         public static void DoctorBillTriesToPostToSomebodyElsesBlogAndFails()
         {
             "Given I am logged in as Dr. Bill"
-                .Given(() => Site.Login(doctorBill.Name, doctorBill.Password));
+                .Given(() => Site.Login("Dr. Bill", "oranges"));
 
             "When I try to post to \"Greg's anti-tax rants\""
-                .When(() => gregsAntiTaxRants.Post(new Article { Body = "This is a great blog!" }));
+                .When(() => Blogs.Get("Greg's anti-tax rants").Post(new Article { Body = "This is a great blog!" }));
 
             "Then I should see \"Hey! That's not your blog!\""
                 .Then(() => Site.CurrentPage.Body.Contains("Hey! That's not your blog!"));
@@ -61,10 +60,10 @@ namespace Xbehave.Samples
         public static void GregPostsToAClientBlog()
         {
             "Given I am logged in as Greg"
-                .Given(() => Site.Login(greg.Name, greg.Password));
+                .Given(() => Site.Login("Greg", "apples"));
 
             "When I try to post to \"Expensive Therapy\""
-                .When(() => expensiveTherapy.Post(new Article { Body = "This is a great blog!" }));
+                .When(() => Blogs.Get("Expensive Therapy").Post(new Article { Body = "This is a great blog!" }));
 
             "Then I should see \"Your article was published.\""
                 .Then(() => Site.CurrentPage.Body.Contains("Your article was published."));
@@ -78,19 +77,55 @@ namespace Xbehave.Samples
 
             public static void Login(string username, string password)
             {
-                if (username == greg.Name && password == greg.Password)
+                var user = Users.Get(username);
+                if (password == user.Password)
                 {
-                    CurrentUser = greg;
-                    return;
+                    CurrentUser = user;
                 }
-
-                if (username == doctorBill.Name && password == doctorBill.Password)
+                else
                 {
-                    CurrentUser = greg;
-                    return;
+                    throw new System.InvalidOperationException("Invalid credentials.");
                 }
+            }
+        }
 
-                throw new System.InvalidOperationException("Invalid credentials.");
+        private static class Users
+        {
+            private static readonly System.Collections.Generic.Dictionary<string, User> Datastore = new System.Collections.Generic.Dictionary<string, User>();
+
+            public static void Save(User user)
+            {
+                Datastore[user.Name] = user;
+            }
+
+            public static User Get(string name)
+            {
+                return Datastore[name];
+            }
+
+            public static void Delete(string name)
+            {
+                Datastore.Remove(name);
+            }
+        }
+
+        private static class Blogs
+        {
+            private static readonly System.Collections.Generic.Dictionary<string, Blog> Datastore = new System.Collections.Generic.Dictionary<string, Blog>();
+
+            public static void Save(Blog blog)
+            {
+                Datastore[blog.Name] = blog;
+            }
+
+            public static Blog Get(string name)
+            {
+                return Datastore[name];
+            }
+
+            public static void Delete(string name)
+            {
+                Datastore.Remove(name);
             }
         }
 
