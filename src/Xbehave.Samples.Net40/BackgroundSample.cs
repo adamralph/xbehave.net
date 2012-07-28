@@ -17,13 +17,13 @@ namespace Xbehave.Samples
                 .Given(() => Users.Save(new GlobalAdministrator { Name = "Greg", Password = "apples" }))
                 .Teardown(() => Users.Remove("Greg"));
 
-            "And a user named \"Dr. Bill\""
-                .And(() => Users.Save(new User { Name = "Dr. Bill", Password = "oranges" }))
-                .Teardown(() => Users.Remove("Dr. Bill"));
-
             "And a blog named \"Greg's anti-tax rants\" owned by \"Greg\""
                 .And(() => Blogs.Save(new Blog { Name = "Greg's anti-tax rants", Owner = Users.Get("Greg") }))
                 .Teardown(() => Blogs.Remove("Greg's anti-tax rants"));
+
+            "And a customer named \"Dr. Bill\""
+                .And(() => Users.Save(new Customer { Name = "Dr. Bill", Password = "oranges" }))
+                .Teardown(() => Users.Remove("Dr. Bill"));
 
             "And a blog named \"Expensive Therapy\" owned by \"Dr. Bill\""
                 .And(() => Blogs.Save(new Blog { Name = "Expensive Therapy", Owner = Users.Get("Dr. Bill") }))
@@ -134,7 +134,7 @@ namespace Xbehave.Samples
             public string Body { get; set; }
         }
 
-        private class User
+        private abstract class User
         {
             public string Name { get; set; }
 
@@ -142,6 +142,10 @@ namespace Xbehave.Samples
         }
 
         private class GlobalAdministrator : User
+        {
+        }
+
+        private class Customer : User
         {
         }
 
