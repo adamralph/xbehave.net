@@ -15,19 +15,19 @@ namespace Xbehave.Samples
         {
             "Given a global administrator named \"Greg\""
                 .Given(() => Users.Save(new GlobalAdministrator { Name = "Greg", Password = "apples" }))
-                .Teardown(() => Users.Delete("Greg"));
+                .Teardown(() => Users.Remove("Greg"));
 
             "And a user named \"Dr. Bill\""
                 .And(() => Users.Save(new User { Name = "Dr. Bill", Password = "oranges" }))
-                .Teardown(() => Users.Delete("Dr. Bill"));
+                .Teardown(() => Users.Remove("Dr. Bill"));
 
             "And a blog named \"Greg's anti-tax rants\" owned by \"Greg\""
                 .And(() => Blogs.Save(new Blog { Name = "Greg's anti-tax rants", Owner = Users.Get("Greg") }))
-                .Teardown(() => Blogs.Delete("Greg's anti-tax rants"));
+                .Teardown(() => Blogs.Remove("Greg's anti-tax rants"));
 
             "And a blog named \"Expensive Therapy\" owned by \"Dr. Bill\""
                 .And(() => Blogs.Save(new Blog { Name = "Expensive Therapy", Owner = Users.Get("Dr. Bill") }))
-                .Teardown(() => Blogs.Delete("Expensive Therapy"));
+                .Teardown(() => Blogs.Remove("Expensive Therapy"));
         }
 
         [Scenario]
@@ -103,7 +103,7 @@ namespace Xbehave.Samples
                 return Datastore[name];
             }
 
-            public static void Delete(string name)
+            public static void Remove(string name)
             {
                 Datastore.Remove(name);
             }
@@ -123,7 +123,7 @@ namespace Xbehave.Samples
                 return Datastore[name];
             }
 
-            public static void Delete(string name)
+            public static void Remove(string name)
             {
                 Datastore.Remove(name);
             }
