@@ -4,6 +4,8 @@
 
 namespace Xbehave.Samples
 {
+    using FluentAssertions;
+
     // Feature: Multiple site support
     //// In order to make gigantic piles of money
     //// As a Mephisto site owner
@@ -40,7 +42,7 @@ namespace Xbehave.Samples
                 .When(() => Blogs.Get("Expensive Therapy").Post(new Article { Body = "This is a great blog!" }));
 
             "Then I should see \"Your article was published.\""
-                .Then(() => Site.CurrentPage.Body.Contains("Your article was published."));
+                .Then(() => Site.CurrentPage.Body.Should().Contain("Your article was published."));
         }
 
         [Scenario]
@@ -53,7 +55,7 @@ namespace Xbehave.Samples
                 .When(() => Blogs.Get("Greg's anti-tax rants").Post(new Article { Body = "This is a great blog!" }));
 
             "Then I should see \"Hey! That's not your blog!\""
-                .Then(() => Site.CurrentPage.Body.Contains("Hey! That's not your blog!"));
+                .Then(() => Site.CurrentPage.Body.Should().Contain("Hey! That's not your blog!"));
         }
 
         [Scenario]
@@ -66,7 +68,7 @@ namespace Xbehave.Samples
                 .When(() => Blogs.Get("Expensive Therapy").Post(new Article { Body = "This is a great blog!" }));
 
             "Then I should see \"Your article was published.\""
-                .Then(() => Site.CurrentPage.Body.Contains("Your article was published."));
+                .Then(() => Site.CurrentPage.Body.Should().Contain("Your article was published."));
         }
 
         private static class Site
