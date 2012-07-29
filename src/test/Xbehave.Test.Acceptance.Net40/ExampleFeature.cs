@@ -27,7 +27,7 @@ namespace Xbehave.Test.Acceptance
             "When the test runner executes the scenario"
                 .When(() => TestRunner.Execute(scenario));
 
-            "Then the values from each example should be passed as arguments to each step in the scenario"
+            "Then the scenario should be executed once for each example and the values from that example should be passed as arguments"
                 .Then(() =>
                 {
                     ArgumentLists.Select(arguments => arguments.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>())

@@ -8,62 +8,31 @@ namespace Xbehave.Test.Acceptance
     using FluentAssertions;
     using Xunit.Sdk;
 
-    // In order to distinguish failing scenario examples
-    // As a developer
-    // I want type parameters to be shown in the display name of each step in the test runner output
+    // In order to check which types of values are being used in scenario examples
+    // As a product owner
+    // I want the display name of each step to contain the types of the values used
     public static class TypeParametersInDisplayNamesFeature
     {
         [Scenario]
-        public static void CreatingStepsFromAScenarioWithInt32Examples()
+        public static void CreatingStepsFromAGenericScenario()
         {
             var scenario = default(IMethodInfo);
             var steps = default(ITestCommand[]);
 
-            "Given a generic scenario with examples containing 3 Int32 values"
-                .Given(() => scenario = TestRunner.CreateScenario<int, int, int>(GenericScenarioWithInt32Examples));
+            "Given a generic scenario with examples containing an Int32 value, an Int64 value and a String value"
+                .Given(() => scenario = TestRunner.CreateScenario<int, long, string>(GenericScenario));
 
             "When the test runner creates steps from the scenario"
                 .When(() => steps = TestRunner.CreateSteps(scenario).ToArray());
 
-            "Then the display name of each step should contain the scenario name followed by \"<Int32, Int32, Int32>\""
-                .Then(() => steps.Should().OnlyContain(step => step.DisplayName.Contains(scenario.Name + "<Int32, Int32, Int32>")));
+            "Then the display name of each step should contain \"<Int32, Int64, String>\""
+                .Then(() => steps.Should().OnlyContain(step => step.DisplayName.Contains("<Int32, Int64, String>")));
         }
 
-        [Example(1, 2, 3)]
-        [Example(3, 4, 5)]
-        [Example(5, 6, 7)]
-        public static void GenericScenarioWithInt32Examples<T1, T2, T3>(T1 x, T2 y, T3 z)
-        {
-            "Given"
-                .Given(() => { });
-
-            "When"
-                .When(() => { });
-
-            "Then"
-                .Then(() => { });
-        }
-
-        [Scenario]
-        public static void CreatingStepsFromAScenarioWithInt64Examples()
-        {
-            var scenario = default(IMethodInfo);
-            var steps = default(ITestCommand[]);
-
-            "Given a generic scenario with examples containing 3 Int64 values"
-                .Given(() => scenario = TestRunner.CreateScenario<long, long, long>(GenericScenarioWithInt64Examples));
-
-            "When the test runner creates steps from the scenario"
-                .When(() => steps = TestRunner.CreateSteps(scenario).ToArray());
-
-            "Then the display name of each step should contain the scenario name followed by \"<Int64, Int64, Int64>\""
-                .Then(() => steps.Should().OnlyContain(step => step.DisplayName.Contains(scenario.Name + "<Int64, Int64, Int64>")));
-        }
-
-        [Example(1L, 2L, 3L)]
-        [Example(3L, 4L, 5L)]
-        [Example(5L, 6L, 7L)]
-        public static void GenericScenarioWithInt64Examples<T1, T2, T3>(T1 x, T2 y, T3 z)
+        [Example(1, 2L, "a")]
+        [Example(3, 4L, "a")]
+        [Example(5, 6L, "a")]
+        public static void GenericScenario<T1, T2, T3>(T1 x, T2 y, T3 z)
         {
             "Given"
                 .Given(() => { });
