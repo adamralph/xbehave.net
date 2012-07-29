@@ -57,6 +57,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="SkipReasonFeature.cs" />
     <Compile Include="SkipFeature.cs" />
     <Compile Include="TestRunner.cs" />
     <Compile Include="EnumerableEqualityComparer.cs" />

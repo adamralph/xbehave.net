@@ -4,7 +4,6 @@
 
 namespace Xbehave.Test.Acceptance
 {
-    using System.Collections.Concurrent;
     using System.Linq;
     using FluentAssertions;
     using Xunit.Sdk;
@@ -14,15 +13,13 @@ namespace Xbehave.Test.Acceptance
     // I want to temporarily skip specific steps
     public static class SkipFeature
     {
-        private static readonly ConcurrentBag<object[]> ArgumentLists = new ConcurrentBag<object[]>();
-
         [Scenario]
         public static void UnfinishedFeature()
         {
             var scenario = default(IMethodInfo);
             var results = default(MethodResult[]);
 
-            "Given a scenario with skipped steps relating to unfinished feature aspects which throw exceptions"
+            "Given a scenario with skipped steps which would throw exceptions if executed"
                 .Given(() => scenario = TestRunner.CreateScenario(ScenarioWithSkippedStepsRelatingToUnfinishedFeatureAspects));
 
             "When the test runner executes the scenario"
