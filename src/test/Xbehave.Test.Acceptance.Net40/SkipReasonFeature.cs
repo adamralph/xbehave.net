@@ -6,6 +6,7 @@ namespace Xbehave.Test.Acceptance
 {
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
 
     // In order to avoid analysing skipped steps

@@ -6,6 +6,7 @@ namespace Xbehave.Test.Acceptance
 {
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
 
     // In order to check which types of values are being used in scenario examples

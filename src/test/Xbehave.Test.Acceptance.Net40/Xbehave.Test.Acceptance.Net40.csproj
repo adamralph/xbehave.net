@@ -60,10 +60,10 @@
     <Compile Include="InIsolationFeature.cs" />
     <Compile Include="SkipReasonFeature.cs" />
     <Compile Include="SkipFeature.cs" />
-    <Compile Include="TestRunner.cs" />
-    <Compile Include="EnumerableEqualityComparer.cs" />
+    <Compile Include="Infrastructure\TestRunner.cs" />
+    <Compile Include="Infrastructure\EnumerableEqualityComparer.cs" />
     <Compile Include="TypeParametersInDisplayNamesFeature.cs" />
-    <Compile Include="EnumerableComparer.cs" />
+    <Compile Include="Infrastructure\EnumerableComparer.cs" />
     <Compile Include="ExampleFeature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

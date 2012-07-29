@@ -7,6 +7,7 @@ namespace Xbehave.Test.Acceptance
     using System.Collections.Concurrent;
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
 
     // In order to save time
