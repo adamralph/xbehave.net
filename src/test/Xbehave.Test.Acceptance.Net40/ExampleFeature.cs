@@ -4,7 +4,6 @@
 
 namespace Xbehave.Test.Acceptance
 {
-    using System;
     using System.Collections.Concurrent;
     using System.Linq;
     using FluentAssertions;
@@ -18,12 +17,12 @@ namespace Xbehave.Test.Acceptance
         private static readonly ConcurrentBag<object[]> ArgumentLists = new ConcurrentBag<object[]>();
 
         [Scenario]
-        public static void Int32Examples()
-       { 
+        public static void ExecutionOfScenariosWithExamples()
+        {
             var scenario = default(IMethodInfo);
 
-            "Given a scenario with a single step and Int32 examples"
-                .Given(() => scenario = Reflector.Wrap(((Action<int, int, int>)SingleStepUsingInt32Examples).Method));
+            "Given a scenario with a single step and examples"
+                .Given(() => scenario = TestRunner.CreateScenario<int, int, int>(ScenarioWithASingleStepAndExamples));
 
             "When the test runner executes the scenario"
                 .When(() => TestRunner.Execute(scenario));
@@ -42,7 +41,7 @@ namespace Xbehave.Test.Acceptance
         [Example(1, 2, 3)]
         [Example(3, 4, 5)]
         [Example(5, 6, 7)]
-        public static void SingleStepUsingInt32Examples(int x, int y, int z)
+        public static void ScenarioWithASingleStepAndExamples(int x, int y, int z)
         {
             "Given {0}, {1} and {2}"
                 .Given(() => ArgumentLists.Add(new object[] { x, y, z }));
