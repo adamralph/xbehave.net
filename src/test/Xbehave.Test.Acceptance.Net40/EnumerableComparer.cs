@@ -8,7 +8,7 @@ namespace Xbehave.Test.Acceptance
     using System.Collections.Generic;
     using System.Linq;
 
-    internal class EnumerableComparer<T> : IComparer<IEnumerable<T>> where T : IComparable
+    internal class EnumerableComparer<T> : IComparer<IEnumerable<T>>
     {
         public int Compare(IEnumerable<T> x, IEnumerable<T> y)
         {
