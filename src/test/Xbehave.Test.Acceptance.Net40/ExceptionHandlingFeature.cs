@@ -13,7 +13,7 @@ namespace Xbehave.Test.Acceptance
 
     // In order to prevent infinite loops in test runners
     // As a developer
-    // I want an exception thrown during step definition to be handled as a test failure
+    // I want an exception thrown when creating steps from a scenario to be handled as a test failure
     public static class ExceptionHandlingFeature
     {
         [Scenario]
@@ -23,7 +23,7 @@ namespace Xbehave.Test.Acceptance
             var exception = default(Exception);
             var results = default(MethodResult[]);
 
-            "Given a scenario which throws an exception during step definition"
+            "Given a scenario with invalid examples"
                 .Given(() => scenario = TestRunner.CreateScenario<int>(ScenarioWithInvalidExamples));
 
             "When the test runner executes the scenario"
@@ -42,14 +42,14 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void ExecutingAScenarioWhichThrowsAnExceptionDuringStepDefinition()
+        public static void ExecutingAScenarioDefinitionWhichThrowsAnException()
         {
             var scenario = default(IMethodInfo);
             var exception = default(Exception);
             var results = default(MethodResult[]);
 
-            "Given a scenario which throws an exception during step definition"
-                .Given(() => scenario = TestRunner.CreateScenario(ScenarioWhichThrowsAnExceptionDuringStepDefinition));
+            "Given a scenario definition which throws an exception"
+                .Given(() => scenario = TestRunner.CreateScenario(ScenarioDefinitionWhichThrowsAnException));
 
             "When the test runner executes the scenario"
                 .When(() => exception = Record.Exception(() => results = TestRunner.Execute(scenario).ToArray()));
@@ -61,7 +61,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
         }
 
-        public static void ScenarioWhichThrowsAnExceptionDuringStepDefinition()
+        public static void ScenarioDefinitionWhichThrowsAnException()
         {
             throw new InvalidOperationException();
         }
