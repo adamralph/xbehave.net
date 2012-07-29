@@ -21,13 +21,13 @@ namespace Xbehave.Test.Acceptance
         {
             var scenario = default(IMethodInfo);
 
-            "Given a scenario with a single step and examples"
+            "Given a scenario with examples"
                 .Given(() => scenario = TestRunner.CreateScenario<int, int, int>(ScenarioWithASingleStepAndExamples));
 
             "When the test runner executes the scenario"
                 .When(() => TestRunner.Execute(scenario));
 
-            "Then the ordered argument lists and example value lists should match"
+            "Then the values from each example should be passed as arguments to each step in the scenario"
                 .Then(() =>
                 {
                     ArgumentLists.Select(arguments => arguments.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>())

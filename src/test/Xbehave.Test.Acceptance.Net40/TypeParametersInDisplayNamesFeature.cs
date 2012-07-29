@@ -4,7 +4,6 @@
 
 namespace Xbehave.Test.Acceptance
 {
-    using System;
     using System.Linq;
     using FluentAssertions;
     using Xunit.Sdk;
@@ -20,13 +19,13 @@ namespace Xbehave.Test.Acceptance
             var scenario = default(IMethodInfo);
             var steps = default(ITestCommand[]);
 
-            "Given a generic scenario with Int32 examples"
+            "Given a generic scenario with examples containing 3 Int32 values"
                 .Given(() => scenario = TestRunner.CreateScenario<int, int, int>(GenericScenarioWithInt32Examples));
 
-            "When the test runner creates steps using the scenario"
+            "When the test runner creates steps from the scenario"
                 .When(() => steps = TestRunner.CreateSteps(scenario).ToArray());
 
-            "Then the display name of each command should contain <Int32, Int32, Int32>"
+            "Then the display name of each step should contain the scenario name followed by \"<Int32, Int32, Int32>\""
                 .Then(() => steps.Should().OnlyContain(step => step.DisplayName.Contains(scenario.Name + "<Int32, Int32, Int32>")));
         }
 
@@ -37,7 +36,7 @@ namespace Xbehave.Test.Acceptance
         {
             "Given"
                 .Given(() => { });
-            
+
             "When"
                 .When(() => { });
 
@@ -51,13 +50,13 @@ namespace Xbehave.Test.Acceptance
             var scenario = default(IMethodInfo);
             var steps = default(ITestCommand[]);
 
-            "Given a generic scenario with Int64 examples"
+            "Given a generic scenario with examples containing 3 Int64 values"
                 .Given(() => scenario = TestRunner.CreateScenario<long, long, long>(GenericScenarioWithInt64Examples));
 
-            "When the test runner creates steps using the scenario"
+            "When the test runner creates steps from the scenario"
                 .When(() => steps = TestRunner.CreateSteps(scenario).ToArray());
 
-            "Then the display name of each command should contain <Int64, Int64, Int64>"
+            "Then the display name of each step should contain the scenario name followed by \"<Int64, Int64, Int64>\""
                 .Then(() => steps.Should().OnlyContain(step => step.DisplayName.Contains(scenario.Name + "<Int64, Int64, Int64>")));
         }
 
