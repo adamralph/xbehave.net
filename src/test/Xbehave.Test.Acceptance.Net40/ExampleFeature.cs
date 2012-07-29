@@ -5,9 +5,9 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Linq;
     using FluentAssertions;
-    using Xunit.Extensions;
     using Xunit.Sdk;
 
     // In order to save time
@@ -15,43 +15,27 @@ namespace Xbehave.Test.Acceptance
     // I want to write a single scenario using many examples
     public static class ExampleFeature
     {
+        private static readonly ConcurrentBag<object[]> ArgumentLists = new ConcurrentBag<object[]>();
+
         [Scenario]
         public static void Int32Examples()
-        {
-            var method = default(IMethodInfo);
-            var commands = default(ITestCommand[]);
-            var examples = default(ExampleAttribute[]);
-            var theoryCommands = default(TheoryCommand[]);
+       { 
+            var scenario = default(IMethodInfo);
 
-            "Given a method with a single step using Int32 examples"
-                .Given(() => method = Reflector.Wrap(((Action<int, int, int>)SingleStepUsingInt32Examples).Method));
+            "Given a scenario with a single step and Int32 examples"
+                .Given(() => scenario = Reflector.Wrap(((Action<int, int, int>)SingleStepUsingInt32Examples).Method));
 
-            "When a test runner creates test commands using the method"
-                .When(() => commands = new ScenarioAttribute().CreateTestCommands(method).ToArray());
+            "When the test runner executes the scenario"
+                .When(() => TestRunner.Execute(scenario));
 
-            "Then the number of commands should be match the number of examples"
+            "Then the ordered argument lists and example value lists should match"
                 .Then(() =>
                 {
-                    examples = method.GetCustomAttributes(typeof(ExampleAttribute)).Select(x => x.GetInstance<ExampleAttribute>()).ToArray();
-                    commands.Should().HaveCount(examples.Length);
-                });
-
-            "And the commands should be theory commands"
-                .And(() =>
-                {
-                    commands.Should().NotContainNulls();
-                    theoryCommands = commands.Cast<TheoryCommand>().ToArray();
-                });
-
-            "And the ordered command arguments and example values should match"
-                .And(() =>
-                {
-                    var args = theoryCommands.Select(command => command.Parameters.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>()).ToArray();
-                    var values = examples.Select(example => example.DataValues.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>()).ToArray();
-                    for (var index = 0; index < args.Length; ++index)
-                    {
-                        args[index].Should().Equal(values[index]);
-                    }
+                    ArgumentLists.Select(arguments => arguments.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>())
+                        .SequenceEqual(
+                            scenario.GetCustomAttributes(typeof(ExampleAttribute)).Select(x => x.GetInstance<ExampleAttribute>())
+                                .Select(example => example.DataValues.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>()),
+                            new EnumerableEqualityComparer<int>()).Should().BeTrue();
                 });
         }
 
@@ -60,8 +44,8 @@ namespace Xbehave.Test.Acceptance
         [Example(5, 6, 7)]
         public static void SingleStepUsingInt32Examples(int x, int y, int z)
         {
-            "Given"
-                .Given(() => { });
+            "Given {0}, {1} and {2}"
+                .Given(() => ArgumentLists.Add(new object[] { x, y, z }));
         }
     }
 }

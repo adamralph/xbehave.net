@@ -24,7 +24,6 @@ namespace Xbehave.Test.Acceptance
 
             var left = x.ToArray();
             var right = y.ToArray();
-
             for (int index = 0; index < Math.Max(left.Length, right.Length); ++index)
             {
                 if (index >= left.Length)
@@ -37,7 +36,7 @@ namespace Xbehave.Test.Acceptance
                     return 1;
                 }
 
-                var comparison = left[index].CompareTo(right[index]);
+                var comparison = Comparer<T>.Default.Compare(left[index], right[index]);
                 if (comparison != 0)
                 {
                     return comparison;
