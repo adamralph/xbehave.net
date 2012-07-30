@@ -16,7 +16,7 @@ namespace Xbehave.Test.Acceptance
     public static class SkipReasonFeature
     {
         [Scenario]
-        public static void SkippingAStep()
+        public static void RunningSkippedSteps()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
@@ -24,7 +24,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with scenarios with skipped steps because \"the feature is unfinished\""
                 .Given(() => feature = typeof(FeatureWithScenariosWithSkippedStepsBecauseTheFeatureIsUnfinished));
 
-            "When the test runner executes the feature"
+            "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
             "Then the steps should be skipped because \"the feature is unfinished\""

@@ -4,6 +4,7 @@
 
 namespace Xbehave.Test.Acceptance
 {
+    using System;
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
@@ -15,34 +16,38 @@ namespace Xbehave.Test.Acceptance
     public static class TypeParametersInDisplayNamesFeature
     {
         [Scenario]
-        public static void CreatingStepsFromAGenericScenario()
+        public static void RunningAGenericScenario()
         {
-            var scenario = default(IMethodInfo);
-            var steps = default(ITestCommand[]);
+            var feature = default(Type);
+            var results = default(MethodResult[]);
 
             "Given a generic scenario with examples containing an Int32 value, an Int64 value and a String value"
-                .Given(() => scenario = TestRunner.CreateScenario<int, long, string>(GenericScenario));
+                .Given(() => feature = typeof(FeatureWithGenericScenario));
 
-            "When the test runner creates steps from the scenario"
-                .When(() => steps = TestRunner.CreateSteps(scenario).ToArray());
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then the display name of each step should contain \"<Int32, Int64, String>\""
-                .Then(() => steps.Should().OnlyContain(step => step.DisplayName.Contains("<Int32, Int64, String>")));
+            "Then the display name of each result should contain \"<Int32, Int64, String>\""
+                .Then(() => results.Should().OnlyContain(step => step.DisplayName.Contains("<Int32, Int64, String>")));
         }
 
-        [Example(1, 2L, "a")]
-        [Example(3, 4L, "a")]
-        [Example(5, 6L, "a")]
-        public static void GenericScenario<T1, T2, T3>(T1 x, T2 y, T3 z)
+        private static class FeatureWithGenericScenario
         {
-            "Given"
-                .Given(() => { });
+            [Scenario]
+            [Example(1, 2L, "a")]
+            [Example(3, 4L, "a")]
+            [Example(5, 6L, "a")]
+            public static void Scenario<T1, T2, T3>(T1 x, T2 y, T3 z)
+            {
+                "Given"
+                    .Given(() => { });
 
-            "When"
-                .When(() => { });
+                "When"
+                    .When(() => { });
 
-            "Then"
-                .Then(() => { });
+                "Then"
+                    .Then(() => { });
+            }
         }
     }
 }
