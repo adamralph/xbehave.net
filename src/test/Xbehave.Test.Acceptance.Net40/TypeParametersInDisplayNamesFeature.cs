@@ -21,7 +21,7 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(MethodResult[]);
 
-            "Given a generic scenario with examples containing an Int32 value, an Int64 value and a String value"
+            "Given a feature with a generic scenario with examples containing an Int32 value, an Int64 value and a String value"
                 .Given(() => feature = typeof(FeatureWithGenericScenario));
 
             "When the test runner runs the feature"
