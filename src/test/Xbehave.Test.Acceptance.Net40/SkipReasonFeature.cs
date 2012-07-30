@@ -4,6 +4,7 @@
 
 namespace Xbehave.Test.Acceptance
 {
+    using System;
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
@@ -17,14 +18,14 @@ namespace Xbehave.Test.Acceptance
         [Scenario]
         public static void SkippingAStep()
         {
-            var scenario = default(IMethodInfo);
+            var feature = default(Type);
             var results = default(MethodResult[]);
 
-            "Given a scenario with skipped steps because \"the feature is unfinished\""
-                .Given(() => scenario = TestRunner.CreateScenario(ScenarioWithASkippedStepBecauseTheFeatureIsUnfinished));
+            "Given a feature with scenarios with skipped steps because \"the feature is unfinished\""
+                .Given(() => feature = typeof(FeatureWithScenariosWithSkippedStepsBecauseTheFeatureIsUnfinished));
 
-            "When the test runner executes the scenario"
-                .When(() => results = TestRunner.Execute(scenario).ToArray());
+            "When the test runner executes the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
 
             "Then the steps should be skipped because \"the feature is unfinished\""
                 .Then(() =>
@@ -34,13 +35,17 @@ namespace Xbehave.Test.Acceptance
                     });
         }
 
-        public static void ScenarioWithASkippedStepBecauseTheFeatureIsUnfinished()
+        private static class FeatureWithScenariosWithSkippedStepsBecauseTheFeatureIsUnfinished
         {
-            "Then there is an outcome"
-                .Then(() => { throw new System.NotImplementedException(); }).Skip("the feature is unfinished");
+            [Scenario]
+            public static void Scenario()
+            {
+                "Then there is an outcome"
+                    .Then(() => { throw new System.NotImplementedException(); }).Skip("the feature is unfinished");
 
-            "And there is another outcome"
-                .And(() => { throw new System.NotImplementedException(); }).Skip("the feature is unfinished");
+                "And there is another outcome"
+                    .And(() => { throw new System.NotImplementedException(); }).Skip("the feature is unfinished");
+            }
         }
     }
 }

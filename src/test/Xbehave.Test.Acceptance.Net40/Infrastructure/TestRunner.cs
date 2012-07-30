@@ -11,6 +11,13 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
     internal static class TestRunner
     {
+        public static IEnumerable<MethodResult> Run(Type featureDefinition)
+        {
+            var feature = new TestClassCommand(featureDefinition);
+            return TestClassCommandRunner.Execute(feature, feature.EnumerateTestMethods().ToList(), startCallback: null, resultCallback: null).Results
+                .OfType<MethodResult>();
+        }
+
         public static IEnumerable<MethodResult> Execute(IMethodInfo scenario)
         {
             object feature = scenario.IsStatic ? null : scenario.CreateInstance();
@@ -26,12 +33,12 @@ namespace Xbehave.Test.Acceptance.Infrastructure
         {
             return Reflector.Wrap(action.Method);
         }
-        
+
         public static IMethodInfo CreateScenario<T1>(Action<T1> action)
         {
             return Reflector.Wrap(action.Method);
         }
-        
+
         public static IMethodInfo CreateScenario<T1, T2>(Action<T1, T2> action)
         {
             return Reflector.Wrap(action.Method);
