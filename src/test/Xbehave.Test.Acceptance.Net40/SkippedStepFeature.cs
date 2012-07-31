@@ -36,7 +36,7 @@ namespace Xbehave.Test.Acceptance
             "And some steps should have been skipped"
                 .And(() => results.Any(result => result is SkipResult).Should().BeTrue());
 
-            "And the skipped steps should be skipped because \"the feature is unfinished\""
+            "And each skipped step should be skipped because \"the feature is unfinished\""
                 .And(() => results.OfType<SkipResult>().Should().OnlyContain(result => result.Reason == "the feature is unfinished"));
         }
 

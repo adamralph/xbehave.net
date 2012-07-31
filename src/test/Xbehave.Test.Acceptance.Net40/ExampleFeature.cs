@@ -19,7 +19,7 @@ namespace Xbehave.Test.Acceptance
         private static readonly ConcurrentStack<object[]> ArgumentLists = new ConcurrentStack<object[]>();
 
         [Scenario]
-        public static void RunningScenariosWithExamples()
+        public static void RunningAFeatureWithScenariosWithExamples()
         {
             var feature = default(Type);
 
@@ -27,8 +27,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamples));
 
             "When the test runner runs the feature"
-                .When(() => TestRunner.Run(feature))
-                .Teardown(() => ArgumentLists.Clear());
+                .When(() => TestRunner.Run(feature));
 
             "Then the scenario should be executed once for each example with the values from that example passed as arguments"
                 .Then(() =>
@@ -48,17 +47,32 @@ namespace Xbehave.Test.Acceptance
             var results = default(MethodResult[]);
 
             "Given a feature with a generic scenario with examples containing an Int32 value, an Int64 value and a String value"
-                .Given(() => feature = typeof(FeatureWithGenericScenarioWithExamplesContainingAnInt32ValueAnInt64ValueAndAStringValue));
+                .Given(() => feature = typeof(FeatureWithAGenericScenarioWithExamplesContainingAnInt32ValueAnInt64ValueAndAStringValue));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => ArgumentLists.Clear());
+                .When(() => results = TestRunner.Run(feature).ToArray());
 
             "Then the results should not be empty"
                 .Then(() => results.Should().NotBeEmpty());
 
             "And the display name of each result should contain \"<Int32, Int64, String>\""
-                .And(() => results.Should().OnlyContain(step => step.DisplayName.Contains("<Int32, Int64, String>")));
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String>")));
+        }
+
+        [Scenario]
+        public static void RunningAFeatureWithScenariosWithExamplesWithStepNamesFormattedUsingTheExamples()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
+                .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesOneTwoAndThreeAndAFormattedStep));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
+
+            "Then the display name of each result should contain \"Given 1, 2 and 3\""
+                .Then(() => results.Should().OnlyContain(result => result.DisplayName.Contains("Given 1, 2 and 3")));
         }
 
         private static class FeatureWithAScenarioWithASingleStepAndExamples
@@ -74,7 +88,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithGenericScenarioWithExamplesContainingAnInt32ValueAnInt64ValueAndAStringValue
+        private static class FeatureWithAGenericScenarioWithExamplesContainingAnInt32ValueAnInt64ValueAndAStringValue
         {
             [Scenario]
             [Example(1, 2L, "a")]
@@ -90,6 +104,17 @@ namespace Xbehave.Test.Acceptance
 
                 "Then"
                     .Then(() => { });
+            }
+        }
+
+        private static class FeatureWithAScenarioWithExampleValuesOneTwoAndThreeAndAFormattedStep
+        {
+            [Scenario]
+            [Example(1, 2, 3)]
+            public static void Scenario(int x, int y, int z)
+            {
+                "Given {0}, {1} and {2}"
+                    .Given(() => { });
             }
         }
     }
