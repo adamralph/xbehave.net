@@ -57,13 +57,11 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ExceptionHandlingFeature.cs" />
-    <Compile Include="InIsolationFeature.cs" />
-    <Compile Include="SkipReasonFeature.cs" />
-    <Compile Include="SkipFeature.cs" />
+    <Compile Include="FeatureFeature.cs" />
+    <Compile Include="IsolatedStepFeature.cs" />
+    <Compile Include="SkippedStepFeature.cs" />
     <Compile Include="Infrastructure\TestRunner.cs" />
     <Compile Include="Infrastructure\EnumerableEqualityComparer.cs" />
-    <Compile Include="TypeParametersInDisplayNamesFeature.cs" />
     <Compile Include="Infrastructure\EnumerableComparer.cs" />
     <Compile Include="ExampleFeature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,4 @@
-﻿// <copyright file="SkipFeature.cs" company="Adam Ralph">
+﻿// <copyright file="SkippedStepFeature.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -13,16 +13,16 @@ namespace Xbehave.Test.Acceptance
     // In order to commit unfinished features
     // As a developer
     // I want to temporarily skip specific steps
-    public static class SkipFeature
+    public static class SkippedStepFeature
     {
         [Scenario]
-        public static void UnfinishedFeature()
+        public static void RunningAnUnfinishedFeature()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
 
-            "Given feature with a scenario with skipped steps which would throw exceptions if executed"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithSkippedStepsRelatingToUnfinishedFeatureAspects));
+            "Given a feature with a scenario with skipped steps because \"the feature is unfinished\" which would throw exceptions if executed"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithSkippedStepsBecauseTheFeatureIsUnfinishedWhichWouldThrowExceptionsIfExecuted));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
@@ -32,9 +32,15 @@ namespace Xbehave.Test.Acceptance
 
             "And there should be no failures"
                 .And(() => results.Should().NotContain(result => result is FailedResult));
+
+            "And some steps should have been skipped"
+                .And(() => results.Any(result => result is SkipResult).Should().BeTrue());
+
+            "And the skipped steps should be skipped because \"the feature is unfinished\""
+                .And(() => results.OfType<SkipResult>().Should().OnlyContain(result => result.Reason == "the feature is unfinished"));
         }
 
-        private static class FeatureWithAScenarioWithSkippedStepsRelatingToUnfinishedFeatureAspects
+        private static class FeatureWithAScenarioWithSkippedStepsBecauseTheFeatureIsUnfinishedWhichWouldThrowExceptionsIfExecuted
         {
             [Scenario]
             public static void Scenario()

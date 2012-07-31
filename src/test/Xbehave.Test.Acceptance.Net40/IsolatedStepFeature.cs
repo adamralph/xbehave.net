@@ -1,4 +1,4 @@
-﻿// <copyright file="InIsolationFeature.cs" company="Adam Ralph">
+﻿// <copyright file="IsolatedStepFeature.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -13,10 +13,10 @@ namespace Xbehave.Test.Acceptance
     // In order to define steps which would cause following steps to fail
     // As a developer
     // I want to execute steps in isolation from following steps
-    public static class InIsolationFeature
+    public static class IsolatedStepFeature
     {
         [Scenario]
-        public static void UnfinishedFeature()
+        public static void RunningAFeatureWithAScenarioWithIsolatedSteps()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);

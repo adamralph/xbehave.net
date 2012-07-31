@@ -1,4 +1,4 @@
-﻿// <copyright file="ExceptionHandlingFeature.cs" company="Adam Ralph">
+﻿// <copyright file="FeatureFeature.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -11,13 +11,13 @@ namespace Xbehave.Test.Acceptance
     using Xunit;
     using Xunit.Sdk;
 
-    // In order to prevent infinite loops in test runners
+    // In order to prevent bugs due to incorrect code
     // As a developer
-    // I want an exception thrown when creating steps from a scenario to be handled as a test failure
-    public static class ExceptionHandlingFeature
+    // I want to run automated acceptance tests describing each feature of my product
+    public static class FeatureFeature
     {
         [Scenario]
-        public static void ExecutingAScenarioWithInvalidExamples()
+        public static void RunningAFeatureWithAScenarioWithInvalidExamples()
         {
             var feature = default(Type);
             var exception = default(Exception);
@@ -40,7 +40,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void ExecutingAScenarioDefinitionWhichThrowsAnException()
+        public static void RunningAFeatureWithAScenarioDefinitionWhichThrowsAnException()
         {
             var feature = default(Type);
             var exception = default(Exception);
