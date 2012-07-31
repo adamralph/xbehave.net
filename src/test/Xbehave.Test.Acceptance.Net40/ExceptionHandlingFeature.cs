@@ -19,51 +19,65 @@ namespace Xbehave.Test.Acceptance
         [Scenario]
         public static void ExecutingAScenarioWithInvalidExamples()
         {
-            var scenario = default(IMethodInfo);
+            var feature = default(Type);
             var exception = default(Exception);
             var results = default(MethodResult[]);
 
-            "Given a scenario with invalid examples"
-                .Given(() => scenario = TestRunner.CreateScenario<int>(ScenarioWithInvalidExamples));
+            "Given a feature with a scenario with invalid examples"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithInvalidExamples));
 
-            "When the test runner executes the scenario"
-                .When(() => exception = Record.Exception(() => results = TestRunner.Execute(scenario).ToArray()));
+            "When the test runner runs the feature"
+                .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
 
             "Then no exception should be thrown"
                 .Then(() => exception.Should().BeNull());
 
+            "And the results should not be empty"
+                .And(() => results.Should().NotBeEmpty());
+
             "And the results should be failures"
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
-        }
-
-        [Example("a")]
-        public static void ScenarioWithInvalidExamples(int i)
-        {
         }
 
         [Scenario]
         public static void ExecutingAScenarioDefinitionWhichThrowsAnException()
         {
-            var scenario = default(IMethodInfo);
+            var feature = default(Type);
             var exception = default(Exception);
             var results = default(MethodResult[]);
 
-            "Given a scenario definition which throws an exception"
-                .Given(() => scenario = TestRunner.CreateScenario(ScenarioDefinitionWhichThrowsAnException));
+            "Given a feature with a scenario definition which throws an exception"
+                .Given(() => feature = typeof(FeatureWithAScenarioDefinitionWhichThrowsAnException));
 
-            "When the test runner executes the scenario"
-                .When(() => exception = Record.Exception(() => results = TestRunner.Execute(scenario).ToArray()));
+            "When the test runner runs the feature"
+                .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
 
             "Then no exception should be thrown"
                 .Then(() => exception.Should().BeNull());
+
+            "And the results should not be empty"
+                .And(() => results.Should().NotBeEmpty());
 
             "And the results should be failures"
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
         }
 
-        public static void ScenarioDefinitionWhichThrowsAnException()
+        private static class FeatureWithAScenarioWithInvalidExamples
         {
-            throw new InvalidOperationException();
+            [Scenario]
+            [Example("a")]
+            public static void Scenario(int i)
+            {
+            }
+        }
+
+        private static class FeatureWithAScenarioDefinitionWhichThrowsAnException
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                throw new InvalidOperationException();
+            }
         }
     }
 }
