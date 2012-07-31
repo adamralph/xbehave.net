@@ -60,19 +60,38 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void RunningAFeatureWithScenariosWithExamplesWithStepNamesFormattedUsingTheExamples()
+        public static void RunningAFeatureWithScenariosWithExamplesWithStepsFormattedUsingTheExamples()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
 
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
-                .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesOneTwoAndThreeAndAFormattedStep));
+                .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndAFormattedStep));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
             "Then the display name of each result should contain \"Given 1, 2 and 3\""
                 .Then(() => results.Should().OnlyContain(result => result.DisplayName.Contains("Given 1, 2 and 3")));
+        }
+
+        [Scenario]
+        public static void RunningAFeatureWithScenariosWithExamplesWithBadlyFormattedSteps()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{3}}, {{4}} and {{5}}\""
+                .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
+
+            "Then there should be no failures"
+                .Then(() => results.Should().NotContain(result => result is FailedResult));
+
+            "And the display name of each result should contain \"Given {{3}}, {{4}} and {{5}}\""
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("Given {3}, {4} and {5}")));
         }
 
         private static class FeatureWithAScenarioWithASingleStepAndExamples
@@ -107,13 +126,24 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAScenarioWithExampleValuesOneTwoAndThreeAndAFormattedStep
+        private static class FeatureWithAScenarioWithExampleValuesAndAFormattedStep
         {
             [Scenario]
             [Example(1, 2, 3)]
             public static void Scenario(int x, int y, int z)
             {
                 "Given {0}, {1} and {2}"
+                    .Given(() => { });
+            }
+        }
+
+        private static class FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep
+        {
+            [Scenario]
+            [Example(1, 2, 3)]
+            public static void Scenario(int x, int y, int z)
+            {
+                "Given {3}, {4} and {5}"
                     .Given(() => { });
             }
         }
