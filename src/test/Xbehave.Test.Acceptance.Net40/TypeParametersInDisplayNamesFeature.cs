@@ -27,8 +27,11 @@ namespace Xbehave.Test.Acceptance
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then the display name of each result should contain \"<Int32, Int64, String>\""
-                .Then(() => results.Should().OnlyContain(step => step.DisplayName.Contains("<Int32, Int64, String>")));
+            "Then the results should not be empty"
+                .Then(() => results.Should().NotBeEmpty());
+
+            "And the display name of each result should contain \"<Int32, Int64, String>\""
+                .And(() => results.Should().OnlyContain(step => step.DisplayName.Contains("<Int32, Int64, String>")));
         }
 
         private static class FeatureWithGenericScenario

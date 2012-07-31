@@ -27,12 +27,16 @@ namespace Xbehave.Test.Acceptance
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+            "Then the results should not be empty"
+                .Then(() => results.Should().NotBeEmpty());
+
+            "And there should be no failures"
+                .And(() => results.Should().NotContain(result => result is FailedResult));
         }
 
         private static class FeatureWithAScenarioWithIsolatedStepsWhichWouldCauseFollowingStepsToFailIfExecutedInTheSameContext
         {
+            [Scenario]
             public static void Scenario()
             {
                 var stack = default(System.Collections.Generic.Stack<int>);

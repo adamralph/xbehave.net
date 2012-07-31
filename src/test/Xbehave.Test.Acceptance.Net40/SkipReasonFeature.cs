@@ -27,8 +27,11 @@ namespace Xbehave.Test.Acceptance
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then the steps should be skipped because \"the feature is unfinished\""
-                .Then(() =>
+            "Then the results should not be empty"
+                .Then(() => results.Should().NotBeEmpty());
+
+            "And the steps should be skipped because \"the feature is unfinished\""
+                .And(() =>
                     {
                         results.Should().ContainItemsAssignableTo<SkipResult>();
                         results.Cast<SkipResult>().Should().OnlyContain(result => result.Reason == "the feature is unfinished");
