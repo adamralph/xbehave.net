@@ -23,8 +23,8 @@ namespace Xbehave.Test.Acceptance
             var exception = default(Exception);
             var results = default(MethodResult[]);
 
-            "Given a feature with a scenario with invalid examples"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithInvalidExamples));
+            "Given a feature with scenarios with invalid examples"
+                .Given(() => feature = typeof(FeatureWithScenariosWithInvalidExamples));
 
             "When the test runner runs the feature"
                 .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
@@ -62,11 +62,28 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
         }
 
-        private static class FeatureWithAScenarioWithInvalidExamples
+        private static class FeatureWithScenariosWithInvalidExamples
         {
             [Scenario]
+            public static void Scenario1(int i)
+            {
+            }
+
+            [Scenario]
             [Example("a")]
-            public static void Scenario(int i)
+            public static void Scenario2(int i)
+            {
+            }
+
+            [Scenario]
+            [Example(1, 2)]
+            public static void Scenario3(int i)
+            {
+            }
+            
+            [Scenario]
+            [Example(1)]
+            public static void Scenario4(int i, int j)
             {
             }
         }
