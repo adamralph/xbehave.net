@@ -19,7 +19,7 @@ namespace Xbehave.Test.Acceptance
         private static readonly ConcurrentStack<object[]> ArgumentLists = new ConcurrentStack<object[]>();
 
         [Scenario]
-        public static void RunningAFeatureWithScenariosWithExamples()
+        public static void Examples()
         {
             var feature = default(Type);
 
@@ -41,7 +41,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void RunningAGenericScenario()
+        public static void GenericScenario()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
@@ -60,7 +60,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void RunningAFeatureWithScenariosWithExamplesWithStepsFormattedUsingTheExamples()
+        public static void FormattedSteps()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
@@ -71,12 +71,15 @@ namespace Xbehave.Test.Acceptance
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then the display name of each result should contain \"Given 1, 2 and 3\""
-                .Then(() => results.Should().OnlyContain(result => result.DisplayName.Contains("Given 1, 2 and 3")));
+            "Then the results should not be empty"
+                .Then(() => results.Should().NotBeEmpty());
+
+            "And the display name of each result should contain \"Given 1, 2 and 3\""
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("Given 1, 2 and 3")));
         }
 
         [Scenario]
-        public static void RunningAFeatureWithScenariosWithExamplesWithBadlyFormattedSteps()
+        public static void BadlyFormattedSteps()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
@@ -87,11 +90,14 @@ namespace Xbehave.Test.Acceptance
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+            "Then the results should not be empty"
+                .Then(() => results.Should().NotBeEmpty());
 
-            "And the display name of each result should contain \"Given {{3}}, {{4}} and {{5}}\""
-                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("Given {3}, {4} and {5}")));
+            "And there should be no failures"
+                .And(() => results.Should().NotContain(result => result is FailedResult));
+
+            "And the display name of each result should end with \"Given {{3}}, {{4}} and {{5}}\""
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.EndsWith("Given {3}, {4} and {5}")));
         }
 
         private static class FeatureWithAScenarioWithASingleStepAndExamples

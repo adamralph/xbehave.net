@@ -17,7 +17,7 @@ namespace Xbehave.Test.Acceptance
     public static class FeatureFeature
     {
         [Scenario]
-        public static void RunningAFeatureWithAScenarioWithInvalidExamples()
+        public static void InvalidExamples()
         {
             var feature = default(Type);
             var exception = default(Exception);
@@ -35,19 +35,19 @@ namespace Xbehave.Test.Acceptance
             "And the results should not be empty"
                 .And(() => results.Should().NotBeEmpty());
 
-            "And the results should be failures"
+            "And each result should be a failure"
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
         }
 
         [Scenario]
-        public static void RunningAFeatureWithAScenarioDefinitionWhichThrowsAnException()
+        public static void ScenarioBodyThrowsAnException()
         {
             var feature = default(Type);
             var exception = default(Exception);
             var results = default(MethodResult[]);
 
-            "Given a feature with a scenario definition which throws an exception"
-                .Given(() => feature = typeof(FeatureWithAScenarioDefinitionWhichThrowsAnException));
+            "Given a feature with a scenario body which throws an exception"
+                .Given(() => feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException));
 
             "When the test runner runs the feature"
                 .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
@@ -58,7 +58,7 @@ namespace Xbehave.Test.Acceptance
             "And the results should not be empty"
                 .And(() => results.Should().NotBeEmpty());
 
-            "And the results should be failures"
+            "And each result should be a failure"
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
         }
 
@@ -80,7 +80,7 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario3(int i)
             {
             }
-            
+
             [Scenario]
             [Example(1)]
             public static void Scenario4(int i, int j)
@@ -88,7 +88,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAScenarioDefinitionWhichThrowsAnException
+        private static class FeatureWithAScenarioBodyWhichThrowsAnException
         {
             [Scenario]
             public static void Scenario()

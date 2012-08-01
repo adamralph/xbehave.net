@@ -16,7 +16,7 @@ namespace Xbehave.Test.Acceptance
     public static class SkippedStepFeature
     {
         [Scenario]
-        public static void RunningAnUnfinishedFeature()
+        public static void UnfinishedFeature()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);

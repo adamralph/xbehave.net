@@ -16,7 +16,7 @@ namespace Xbehave.Test.Acceptance
     public static class IsolatedStepFeature
     {
         [Scenario]
-        public static void RunningAFeatureWithAScenarioWithIsolatedSteps()
+        public static void IsolatedSteps()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
