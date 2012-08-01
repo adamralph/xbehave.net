@@ -107,6 +107,52 @@ namespace Xbehave.Test.Acceptance
                 });
         }
 
+        [Scenario]
+        public static void FailingSteps()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a scenario with steps which register disposable objects followed by a failing step"
+                .Given(() => feature = typeof(StepsFollowedByAFailingStep));
+
+            "When running the scenario"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(() => Disposable.ClearRecordedEvents());
+
+            "Then there should be one failure"
+                .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
+
+            "And some disposable objects should have been created"
+                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+
+            "And the disposable objects should each have been disposed once in reverse order"
+                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
+        }
+
+        [Scenario]
+        public static void FailureToCompleteAStep()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a scenario with a step which registers disposable objects but fails to complete"
+                .Given(() => feature = typeof(StepFailsToComplete));
+
+            "When running the scenario"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(() => Disposable.ClearRecordedEvents());
+
+            "Then there should be one failure"
+                .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
+
+            "And some disposable objects should have been created"
+                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+
+            "And the disposable objects should each have been disposed once in reverse order"
+                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
+        }
+
         private static AndConstraint<FluentAssertions.Assertions.GenericCollectionAssertions<LifetimeEvent>> SomeDisposableObjectsShouldHaveBeenCreated()
         {
             return Disposable.RecordedEvents.Where(@event => @event.EventType == LifeTimeEventType.Constructed).Should().NotBeEmpty();
@@ -196,6 +242,57 @@ namespace Xbehave.Test.Acceptance
 
                 "And something"
                     .Then(() => { });
+            }
+        }
+
+        private static class StepsFollowedByAFailingStep
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                var disposable0 = default(Disposable);
+                var disposable1 = default(Disposable);
+                var disposable2 = default(Disposable);
+
+                "Given a disposable"
+                    .Given(() => disposable0 = new Disposable().Using());
+
+                "And another disposable"
+                    .Given(() => disposable1 = new Disposable().Using());
+
+                "And another disposable"
+                    .Given(() => disposable2 = new Disposable().Using());
+
+                "When using the disposables"
+                    .When(() =>
+                    {
+                        disposable0.Use();
+                        disposable1.Use();
+                        disposable2.Use();
+                    });
+
+                "Then something happens"
+                    .Then(() => 1.Should().Be(0));
+            }
+        }
+
+        private static class StepFailsToComplete
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                var disposable0 = default(Disposable);
+                var disposable1 = default(Disposable);
+                var disposable2 = default(Disposable);
+
+                "Given some disposables"
+                    .Given(() =>
+                    {
+                        disposable0 = new Disposable().Using();
+                        disposable1 = new Disposable().Using();
+                        disposable2 = new Disposable().Using();
+                        throw new InvalidOperationException();
+                    });
             }
         }
 
