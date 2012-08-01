@@ -60,7 +60,7 @@ namespace Xbehave.Issues.Old
 
         // 2 failures with 1 x 2 disposals
         [Specification]
-        public static void MultipleWithActionDisposables()
+        public static void MultipleDisposables()
         {
             var disposable0 = default(ImplicitDisposable);
             var disposable1 = default(ImplicitDisposable);
@@ -69,13 +69,8 @@ namespace Xbehave.Issues.Old
                 .Given(
                     () =>
                     {
-                        disposable0 = new ImplicitDisposable();
-                        disposable1 = new ImplicitDisposable();
-                    },
-                    () =>
-                    {
-                        disposable1.Dispose();
-                        disposable0.Dispose();
+                        disposable0 = new ImplicitDisposable().Using();
+                        disposable1 = new ImplicitDisposable().Using();
                     })
                 .When(() => disposable0.Use());
 
@@ -85,7 +80,7 @@ namespace Xbehave.Issues.Old
 
         // 2 failures with 2 x 2 disposals
         [Specification]
-        public static void MultipleDisposablesWithActionInIsolation()
+        public static void MultipleDisposablesInIsolation()
         {
             var disposable0 = default(ImplicitDisposable);
             var disposable1 = default(ImplicitDisposable);
@@ -94,13 +89,8 @@ namespace Xbehave.Issues.Old
                 .Given(
                     () =>
                     {
-                        disposable0 = new ImplicitDisposable();
-                        disposable1 = new ImplicitDisposable();
-                    },
-                    () =>
-                    {
-                        disposable1.Dispose();
-                        disposable0.Dispose();
+                        disposable0 = new ImplicitDisposable().Using();
+                        disposable1 = new ImplicitDisposable().Using();
                     })
                 .When(() => disposable0.Use());
 
@@ -110,7 +100,7 @@ namespace Xbehave.Issues.Old
 
         // 4 failures with 3 x 2 disposals
         [Specification]
-        public static void MultipleDisposablesWithActionMixed()
+        public static void MultipleDisposablesMixed()
         {
             var disposable0 = default(ImplicitDisposable);
             var disposable1 = default(ImplicitDisposable);
@@ -119,13 +109,8 @@ namespace Xbehave.Issues.Old
                 .Given(
                     () =>
                     {
-                        disposable0 = new ImplicitDisposable();
-                        disposable1 = new ImplicitDisposable();
-                    },
-                    () =>
-                    {
-                        disposable1.Dispose();
-                        disposable0.Dispose();
+                        disposable0 = new ImplicitDisposable().Using();
+                        disposable1 = new ImplicitDisposable().Using();
                     })
                 .When(() => disposable0.Use());
 
