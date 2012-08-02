@@ -46,8 +46,8 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(MethodResult[]);
 
-            "Given a feature with a generic scenario with four type parameters and examples containing an Int32 value, an Int64 value and a String value"
-                .Given(() => feature = typeof(FeatureWithAGenericScenarioWithExamplesContainingAnInt32ValueAnInt64ValueAndAStringValue));
+            "Given a feature with a generic scenario with five type parameters and examples containing an Int32 value, an Int64 value, a String value and a null value"
+                .Given(() => feature = typeof(GenericScenarioFeature));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
@@ -56,7 +56,7 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And the display name of each result should contain \"<Int32, Int64, String, Object>\""
-                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object>")));
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")));
         }
 
         [Scenario]
@@ -113,13 +113,13 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAGenericScenarioWithExamplesContainingAnInt32ValueAnInt64ValueAndAStringValue
+        private static class GenericScenarioFeature
         {
             [Scenario]
-            [Example(1, 2L, "a")]
-            [Example(3, 4L, "a")]
-            [Example(5, 6L, "a")]
-            public static void Scenario<T1, T2, T3, T4>(T1 x, T2 y, T3 z)
+            [Example(1, 2L, "a", null)]
+            [Example(3, 4L, "a", null)]
+            [Example(5, 6L, "a", null)]
+            public static void Scenario<T1, T2, T3, T4, T5>(T1 w, T2 x, T3 y, T4 z)
             {
                 "Given"
                     .Given(() => { });
