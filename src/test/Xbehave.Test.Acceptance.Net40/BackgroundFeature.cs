@@ -28,13 +28,13 @@ namespace Xbehave.Test.Acceptance
         public static void FeatureWithBackgroundSteps()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Queue<MethodResult>);
 
             "Given a feature with three background steps and two scenarios with two steps each"
                 .Given(() => feature = typeof(Feature));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray());
+                .When(() => results = TestRunner.Run(feature).ToQueue());
 
             "Then the first three executed steps are background steps"
                 .Then(() => ExecutedStepTypes.Dequeue(3).Should().OnlyContain(stepType => stepType == StepType.Background));
@@ -47,6 +47,18 @@ namespace Xbehave.Test.Acceptance
 
             "And the next two executed steps are scenario steps"
                 .And(() => ExecutedStepTypes.Dequeue(2).Should().OnlyContain(stepType => stepType == StepType.Scenario));
+
+            "And the first three results contain \"(Background)\""
+                .And(() => results.Dequeue(3).Should().OnlyContain(result => result.DisplayName.Contains("(Background)")));
+
+            "And the next two results do not contain \"(Background)\""
+                .And(() => results.Dequeue(2).Should().NotContain(result => result.DisplayName.Contains("(Background)")));
+
+            "And the next three results contain \"(Background)\""
+                .And(() => results.Dequeue(3).Should().OnlyContain(result => result.DisplayName.Contains("(Background)")));
+
+            "And the next two results do not contain \"(Background)\""
+                .And(() => results.Dequeue(2).Should().NotContain(result => result.DisplayName.Contains("(Background)")));
         }
 
         private static class Feature
