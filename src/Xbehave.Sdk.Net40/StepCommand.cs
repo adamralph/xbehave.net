@@ -42,6 +42,7 @@ namespace Xbehave.Sdk
 
             if (Context.FailedStepName != null)
             {
+                // TODO: cover with acceptance test
                 var message = string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepName);
                 throw new InvalidOperationException(message);
             }
