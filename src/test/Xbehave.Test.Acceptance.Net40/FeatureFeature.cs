@@ -62,6 +62,29 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
         }
 
+        [Scenario]
+        public static void FeatureCannotBeConstructed()
+        {
+            var feature = default(Type);
+            var exception = default(Exception);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a non-static scenario but no a default constructor"
+                .Given(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
+
+            "When the test runner runs the feature"
+                .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
+
+            "Then no exception should be thrown"
+                .Then(() => exception.Should().BeNull());
+
+            "And the results should not be empty"
+                .And(() => results.Should().NotBeEmpty());
+
+            "And each result should be a failure"
+                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+        }
+
         private static class FeatureWithScenariosWithInvalidExamples
         {
             [Scenario]
@@ -94,6 +117,20 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 throw new InvalidOperationException();
+            }
+        }
+
+        private class FeatureWithANonStaticScenarioButNoDefaultConstructor
+        {
+            public FeatureWithANonStaticScenarioButNoDefaultConstructor(int ignored)
+            {
+            }
+
+            [Scenario]
+            public void Scenario()
+            {
+                "Given something"
+                    .Given(() => { });
             }
         }
     }
