@@ -41,12 +41,10 @@ namespace Xbehave.Sdk
 
         public static void AddDisposable(IDisposable disposable)
         {
-            if (disposable == null)
+            if (disposable != null)
             {
-                return;
+                Disposables.Add(disposable);
             }
-
-            Disposables.Add(disposable);
         }
 
         public static IEnumerable<IDisposable> ExtractDisposables()

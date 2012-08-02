@@ -49,12 +49,10 @@ namespace Xbehave.Sdk
 
         public void AddTeardown(Action teardown)
         {
-            if (teardown == null)
+            if (teardown != null)
             {
-                return;
+                this.teardowns.Add(teardown);
             }
-
-            this.teardowns.Add(teardown);
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Object is disposed after step execution.")]
