@@ -6,7 +6,7 @@ namespace Xbehave.Fluent
 {
     using System;
 
-    internal partial class Step : IStep
+    internal partial class Step
     {
         [Obsolete("Use When().Teardown() instead.")]
         public IStep When(string message, Action body, Action dispose)

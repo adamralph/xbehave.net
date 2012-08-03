@@ -9,8 +9,8 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
     internal class CustomEqualityComparer<T> : IEqualityComparer<T>
     {
-        private Func<T, T, bool> equals;
-        private Func<T, int> getHashCode;
+        private readonly Func<T, T, bool> equals;
+        private readonly Func<T, int> getHashCode;
 
         public CustomEqualityComparer(Func<T, T, bool> equals, Func<T, int> getHashCode)
         {

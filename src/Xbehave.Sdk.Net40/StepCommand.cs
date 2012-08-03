@@ -19,8 +19,8 @@ namespace Xbehave.Sdk
         private readonly string name;
         private readonly Step step;
 
-        public StepCommand(IMethodInfo method, IEnumerable<Type> genericTypes, IEnumerable<object> args, int contextOrdinal, int stepOrdinal, Step step)
-            : base(method, args == null ? new object[0] : args.ToArray(), genericTypes == null ? new Type[0] : genericTypes.ToArray())
+        public StepCommand(IMethodInfo method, IEnumerable<Type> genericTypes, object[] args, int contextOrdinal, int stepOrdinal, Step step)
+            : base(method, args ?? new object[0], genericTypes == null ? new Type[0] : genericTypes.ToArray())
         {
             Guard.AgainstNullArgument("args", args);
             Guard.AgainstNullArgument("step", step);
@@ -28,7 +28,7 @@ namespace Xbehave.Sdk
             this.step = step;
 
             var provider = CultureInfo.InvariantCulture;
-            var stepName = step.Name.AttemptFormatInvariantCulture(args.ToArray());
+            var stepName = step.Name.AttemptFormatInvariantCulture(args);
             this.name = string.Format(provider, "[{0}.{1}] {2}", contextOrdinal.ToString("D2", provider), stepOrdinal.ToString("D2", provider), stepName);
             this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, this.name);
         }

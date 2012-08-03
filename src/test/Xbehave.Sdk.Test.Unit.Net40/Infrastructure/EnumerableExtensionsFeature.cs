@@ -14,7 +14,7 @@ namespace Xbehave.Sdk.Test.Unit.Infrastructure
         [Scenario]
         public static void Concatenation()
         {
-            var items = default(IEnumerable<int>);
+            var items = default(int[]);
             var newItem = default(int);
             var result = default(IEnumerable<int>);
 

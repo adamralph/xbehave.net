@@ -94,10 +94,10 @@ namespace Xbehave
                 : new[] { new TheoryCommand(method, new object[0]) };
         }
 
-        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo genericMethodDefinition, object[] arguments)
+        private static Type[] ResolveTypeArguments(IMethodInfo genericMethodDefinition, object[] arguments)
         {
             var genericParameters = genericMethodDefinition.MethodInfo.GetParameters();
-            return genericMethodDefinition.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, genericParameters, arguments));
+            return genericMethodDefinition.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, genericParameters, arguments)).ToArray();
         }
 
         private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] genericParameters, object[] arguments)

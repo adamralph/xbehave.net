@@ -56,7 +56,7 @@ namespace Xbehave.Test.Acceptance
                     .InIsolation();
 
                 "And the stack should contain some items"
-                    .And(() => stack.Any());
+                    .And(() => stack.Should().NotBeEmpty());
 
                 "But the stack should not contain more than one item"
                     .But(() => stack.Count.Should().BeLessOrEqualTo(1));

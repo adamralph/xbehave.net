@@ -10,9 +10,9 @@ namespace Xbehave.Sdk
     using Xbehave.Sdk.Infrastructure;
     using Xunit.Sdk;
 
-    public partial class ContextFactory
+    public class ContextFactory
     {
-        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<Type> genericTypes, IEnumerable<object> args, IEnumerable<Step> steps)
+        public IEnumerable<Context> CreateContexts(IMethodInfo method, Type[] genericTypes, object[] args, IEnumerable<Step> steps)
         {
             var sharedContext = new List<Step>();
             var pendingYield = false;

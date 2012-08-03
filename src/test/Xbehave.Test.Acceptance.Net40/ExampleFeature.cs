@@ -30,14 +30,11 @@ namespace Xbehave.Test.Acceptance
                 .When(() => TestRunner.Run(feature));
 
             "Then the scenario should be executed once for each example with the values from that example passed as arguments"
-                .Then(() =>
-                {
-                    ArgumentLists.Select(arguments => arguments.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>())
-                        .SequenceEqual(
-                            Reflector.Wrap(feature.GetMethod("Scenario")).GetCustomAttributes(typeof(ExampleAttribute)).Select(x => x.GetInstance<ExampleAttribute>())
-                                .Select(example => example.DataValues.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>()),
-                            new EnumerableEqualityComparer<int>()).Should().BeTrue();
-                });
+                .Then(() => ArgumentLists.Select(arguments => arguments.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>())
+                    .SequenceEqual(
+                        Reflector.Wrap(feature.GetMethod("Scenario")).GetCustomAttributes(typeof(ExampleAttribute)).Select(x => x.GetInstance<ExampleAttribute>())
+                    .Select(example => example.DataValues.Cast<int>()).OrderBy(x => x, new EnumerableComparer<int>()),
+                        new EnumerableEqualityComparer<int>()).Should().BeTrue());
         }
 
         [Scenario]

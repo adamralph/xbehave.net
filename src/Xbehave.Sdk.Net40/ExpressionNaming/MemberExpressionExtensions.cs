@@ -26,7 +26,9 @@ namespace Xbehave.Sdk.ExpressionNaming
 
             if (expression.NodeType == ExpressionType.MemberAccess)
             {
-                if (expression.Expression == null &&
+                if (
+                    expression.Expression == null &&
+                    expression.Member.DeclaringType != null &&
                     !expression.Member.DeclaringType.IsCompilerGenerated() &&
                     !expression.Member.DeclaringType.IsIgnored())
                 {

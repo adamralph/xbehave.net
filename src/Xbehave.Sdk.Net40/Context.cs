@@ -20,7 +20,7 @@ namespace Xbehave.Sdk
         private readonly object[] args;
         private readonly IEnumerable<Step> steps;
 
-        public Context(IMethodInfo method, IEnumerable<Type> genericTypes, IEnumerable<object> args, IEnumerable<Step> steps)
+        public Context(IMethodInfo method, Type[] genericTypes, object[] args, IEnumerable<Step> steps)
         {
             Guard.AgainstNullArgument("genericTypes", genericTypes);
             Guard.AgainstNullArgument("args", args);
@@ -53,7 +53,7 @@ namespace Xbehave.Sdk
             var index = 0;
             while (true)
             {
-                var disposables = CurrentScenario.ExtractDisposables();
+                var disposables = CurrentScenario.ExtractDisposables().ToArray();
                 if (!disposables.Any())
                 {
                     break;

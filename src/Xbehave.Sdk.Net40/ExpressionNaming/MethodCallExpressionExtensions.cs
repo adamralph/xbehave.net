@@ -21,7 +21,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 
             var argTokens = expression.Arguments
                 .Skip(isExtensionMethod ? 1 : 0).Select(x => x.ToTokens())
-                .Select(tokens => string.Join(" ", tokens.Reverse().ToArray()));
+                .Select(tokens => string.Join(" ", tokens.Reverse().ToArray())).ToArray();
 
             foreach (var token in argTokens.AddListSeparators().Reverse())
             {
@@ -68,7 +68,9 @@ namespace Xbehave.Sdk.ExpressionNaming
                     yield return token;
                 }
             }
-            else if (!isExtensionMethod &&
+            else if (
+                !isExtensionMethod &&
+                expression.Method.DeclaringType != null &&
                 !expression.Method.DeclaringType.IsCompilerGenerated() &&
                 !expression.Method.DeclaringType.IsIgnored())
             {

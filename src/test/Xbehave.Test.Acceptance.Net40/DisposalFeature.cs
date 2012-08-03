@@ -34,7 +34,7 @@ namespace Xbehave.Test.Acceptance
 
             "When running the scenario"
                 .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => Disposable.ClearRecordedEvents());
+                .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
                 .Then(() => results.Should().NotContain(result => result is FailedResult));
@@ -57,7 +57,7 @@ namespace Xbehave.Test.Acceptance
 
             "When running the scenario"
                 .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => Disposable.ClearRecordedEvents());
+                .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
                 .Then(() => results.Should().NotContain(result => result is FailedResult));
@@ -80,7 +80,7 @@ namespace Xbehave.Test.Acceptance
 
             "When running the scenario"
                 .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => Disposable.ClearRecordedEvents());
+                .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
                 .Then(() => results.Should().NotContain(result => result is FailedResult));
@@ -102,7 +102,7 @@ namespace Xbehave.Test.Acceptance
                         event0.EventType.Should().Be(LifeTimeEventType.Constructed);
                         event1.EventType.Should().Be(LifeTimeEventType.Disposed);
 
-                        @events.Where(@event => @event.ObjectId == event0.ObjectId).Count().Should().Be(2);
+                        @events.Count(@event => @event.ObjectId == event0.ObjectId).Should().Be(2);
                     }
                 });
         }
@@ -118,7 +118,7 @@ namespace Xbehave.Test.Acceptance
 
             "When running the scenario"
                 .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => Disposable.ClearRecordedEvents());
+                .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be one failure"
                 .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
@@ -141,7 +141,7 @@ namespace Xbehave.Test.Acceptance
 
             "When running the scenario"
                 .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => Disposable.ClearRecordedEvents());
+                .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be one failure"
                 .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
@@ -281,16 +281,12 @@ namespace Xbehave.Test.Acceptance
             [Scenario]
             public static void Scenario()
             {
-                var disposable0 = default(Disposable);
-                var disposable1 = default(Disposable);
-                var disposable2 = default(Disposable);
-
                 "Given some disposables"
                     .Given(() =>
                     {
-                        disposable0 = new Disposable().Using();
-                        disposable1 = new Disposable().Using();
-                        disposable2 = new Disposable().Using();
+                        new Disposable().Using();
+                        new Disposable().Using();
+                        new Disposable().Using();
                         throw new InvalidOperationException();
                     });
             }
