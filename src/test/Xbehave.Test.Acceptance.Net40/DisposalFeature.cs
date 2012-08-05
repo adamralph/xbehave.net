@@ -47,6 +47,65 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
+        public static void RegisteringDisposableObjectWhichThrowExceptionsWhenDisposed()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a step which registers disposable objects which throw exceptions when disposed followed by a step which uses the objects"
+                .Given(() => feature = typeof(SingleStepWithBadDisposables));
+
+            "When running the scenario"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(Disposable.ClearRecordedEvents);
+
+            "Then the results should not be empty"
+                .Then(() => results.Should().NotBeEmpty());
+
+            "And the first n-1 results should not be failures"
+                .And(() => results.Reverse().Skip(1).Should().NotContain(result => result is FailedResult));
+
+            "And the last result should be a failure"
+                .And(() => results.Reverse().First().Should().BeOfType<FailedResult>());
+
+            "And some disposable objects should have been created"
+                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+
+            "And the disposable objects should each have been disposed once in reverse order"
+                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
+        }
+
+        [Scenario]
+        public static void RegisteringDisposableObjectsWhichRegisterAFurtherDisposableWhenDisposed()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            ("Given a step which registers disposable objects which, when disposed," +
+                "throw an exception and register a further disposable objects which throw an exception when disposed")
+                .Given(() => feature = typeof(SingleStepWithSingleRecursionBadDisposables));
+
+            "When running the scenario"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(Disposable.ClearRecordedEvents);
+
+            "Then the results should not be empty"
+                .Then(() => results.Should().NotBeEmpty());
+
+            "And the first n-2 results should not be failures"
+                .And(() => results.Reverse().Skip(2).Should().NotContain(result => result is FailedResult));
+
+            "And the last 2 results should be failures"
+                .And(() => results.Reverse().Take(2).Should().ContainItemsAssignableTo<FailedResult>());
+
+            "And some disposable objects should have been created"
+                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+
+            "And the disposable objects should each have been disposed once in reverse order"
+                .And(() => EachDisposableObjectShouldHaveBeenDisposed());
+        }
+
+        [Scenario]
         public static void RegisteringManyDisposableObjectsInSeperateSteps()
         {
             var feature = default(Type);
@@ -168,6 +227,14 @@ namespace Xbehave.Test.Acceptance
                 .Should().BeTrue();
         }
 
+        private static void EachDisposableObjectShouldHaveBeenDisposed()
+        {
+            foreach (var x in Disposable.RecordedEvents.Where(@event => @event.EventType == LifeTimeEventType.Constructed).Select(@event => @event.ObjectId))
+            {
+                Disposable.RecordedEvents.Count(@event => @event.ObjectId == x && @event.EventType == LifeTimeEventType.Disposed).Should().Be(1);
+            }
+        }
+
         private static class SingleStep
         {
             [Scenario]
@@ -183,6 +250,60 @@ namespace Xbehave.Test.Acceptance
                         disposable0 = new Disposable().Using();
                         disposable1 = new Disposable().Using();
                         disposable2 = new Disposable().Using();
+                    });
+
+                "When using the disposables"
+                    .When(() =>
+                    {
+                        disposable0.Use();
+                        disposable1.Use();
+                        disposable2.Use();
+                    });
+            }
+        }
+
+        private static class SingleStepWithBadDisposables
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                var disposable0 = default(BadDisposable);
+                var disposable1 = default(BadDisposable);
+                var disposable2 = default(BadDisposable);
+
+                "Given some disposables"
+                    .Given(() =>
+                    {
+                        disposable0 = new BadDisposable().Using();
+                        disposable1 = new BadDisposable().Using();
+                        disposable2 = new BadDisposable().Using();
+                    });
+
+                "When using the disposables"
+                    .When(() =>
+                    {
+                        disposable0.Use();
+                        disposable1.Use();
+                        disposable2.Use();
+                    });
+            }
+        }
+
+        private static class SingleStepWithSingleRecursionBadDisposables
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                var disposable0 = default(SingleRecursionBadDisposable);
+                var disposable1 = default(SingleRecursionBadDisposable);
+                var disposable2 = default(SingleRecursionBadDisposable);
+
+                "Given some disposables"
+                    .Given(() =>
+                    {
+                        disposable0 = new SingleRecursionBadDisposable().Using();
+                        disposable1 = new SingleRecursionBadDisposable().Using();
+                        disposable2 = new SingleRecursionBadDisposable().Using();
                     });
 
                 "When using the disposables"
@@ -292,7 +413,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private sealed class Disposable : IDisposable
+        private class Disposable : IDisposable
         {
             private static readonly ConcurrentQueue<LifetimeEvent> Events = new ConcurrentQueue<LifetimeEvent>();
 
@@ -301,6 +422,11 @@ namespace Xbehave.Test.Acceptance
             public Disposable()
             {
                 Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Constructed, ObjectId = this.GetHashCode() });
+            }
+
+            ~Disposable()
+            {
+                this.Dispose(false);
             }
 
             public static IEnumerable<LifetimeEvent> RecordedEvents
@@ -326,8 +452,42 @@ namespace Xbehave.Test.Acceptance
 
             public void Dispose()
             {
-                Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Disposed, ObjectId = this.GetHashCode() });
-                this.isDisposed = true;
+                this.Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Disposed, ObjectId = this.GetHashCode() });
+                    this.isDisposed = true;
+                }
+            }
+        }
+
+        private sealed class BadDisposable : Disposable
+        {
+            protected override void Dispose(bool disposing)
+            {
+                base.Dispose(disposing);
+                if (disposing)
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
+        private sealed class SingleRecursionBadDisposable : Disposable
+        {
+            protected override void Dispose(bool disposing)
+            {
+                base.Dispose(disposing);
+                if (disposing)
+                {
+                    new BadDisposable().Using();
+                    throw new NotImplementedException();
+                }
             }
         }
 
