@@ -16,6 +16,8 @@ namespace Xbehave.Test.Acceptance
     // I want to run automated acceptance tests describing each feature of my product
     public static class FeatureFeature
     {
+        private static int executedStepCount;
+
         [Scenario]
         public static void InvalidExamples()
         {
@@ -85,6 +87,30 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
         }
 
+        [Scenario]
+        public static void FailingStep()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a failing step followed by two passing steps"
+                .Given(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(() => executedStepCount = 0);
+
+            "Then the results should all be failures"
+                .Then(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+
+            "And only the first step should have been executed"
+                .And(() => executedStepCount.Should().Be(1));
+
+            "And the subsequent result messages should indicate that the steps failed because of failure to execute the first step"
+                .And(() => results.Cast<FailedResult>().Skip(1).Should()
+                    .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01] Given something\"")));
+        }
+
         private static class FeatureWithScenariosWithInvalidExamples
         {
             [Scenario]
@@ -117,6 +143,26 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 throw new InvalidOperationException();
+            }
+        }
+
+        private static class FeatureWithAFailingStepFollowedByTwoPassingSteps
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "Given something"
+                    .Given(() =>
+                    {
+                        ++executedStepCount;
+                        throw new NotImplementedException();
+                    });
+
+                "When something happens"
+                    .When(() => ++executedStepCount);
+
+                "Then there is an outcome"
+                    .Then(() => ++executedStepCount);
             }
         }
 
