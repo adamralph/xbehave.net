@@ -39,6 +39,8 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
+            Guard.AgainstNullArgument("method", method);
+
             IEnumerable<ITestCommand> backgroundCommands;
             IEnumerable<ITestCommand> scenarioCommands;
             object feature;
@@ -59,7 +61,12 @@ namespace Xbehave
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
                  CurrentScenario.ExtractCommands(
-                    method, ResolveTypeArguments(method, scenarioCommand.GetParameters()), scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature));
+                    method,
+                    ResolveTypeArguments(method, scenarioCommand.GetParameters()).ToArray(),
+                    scenarioCommand.GetParameters(),
+                    backgroundCommands,
+                    scenarioCommand,
+                    feature));
         }
 
         /// <summary>
@@ -94,10 +101,10 @@ namespace Xbehave
                 : new[] { new TheoryCommand(method, new object[0]) };
         }
 
-        private static Type[] ResolveTypeArguments(IMethodInfo genericMethodDefinition, object[] arguments)
+        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo genericMethodDefinition, object[] arguments)
         {
             var genericParameters = genericMethodDefinition.MethodInfo.GetParameters();
-            return genericMethodDefinition.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, genericParameters, arguments)).ToArray();
+            return genericMethodDefinition.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, genericParameters, arguments));
         }
 
         private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] genericParameters, object[] arguments)

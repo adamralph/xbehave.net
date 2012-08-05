@@ -18,9 +18,9 @@ namespace Xbehave.Sdk
         private readonly IMethodInfo method;
         private readonly Type[] genericTypes;
         private readonly object[] args;
-        private readonly IEnumerable<Step> steps;
+        private readonly Step[] steps;
 
-        public Context(IMethodInfo method, Type[] genericTypes, object[] args, IEnumerable<Step> steps)
+        public Context(IMethodInfo method, IEnumerable<Type> genericTypes, IEnumerable<object> args, IEnumerable<Step> steps)
         {
             Guard.AgainstNullArgument("genericTypes", genericTypes);
             Guard.AgainstNullArgument("args", args);
@@ -29,7 +29,7 @@ namespace Xbehave.Sdk
             this.method = method;
             this.genericTypes = genericTypes.ToArray();
             this.args = args.ToArray();
-            this.steps = steps;
+            this.steps = steps.ToArray();
         }
 
         public static string FailedStepName

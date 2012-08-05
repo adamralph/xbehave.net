@@ -9,11 +9,19 @@ namespace Xbehave.Sdk
     using System.Linq;
     using Xbehave.Sdk.Infrastructure;
     using Xunit.Sdk;
+    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public class ContextFactory
     {
-        public IEnumerable<Context> CreateContexts(IMethodInfo method, Type[] genericTypes, object[] args, IEnumerable<Step> steps)
+        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<Type> genericTypes, IEnumerable<object> args, IEnumerable<Step> steps)
         {
+            Guard.AgainstNullArgument("genericTypes", genericTypes);
+            Guard.AgainstNullArgument("args", args);
+            Guard.AgainstNullArgument("steps", steps);
+
+            genericTypes = genericTypes.ToArray();
+            args = args.ToArray();
+
             var sharedContext = new List<Step>();
             var pendingYield = false;
             foreach (var step in steps)
