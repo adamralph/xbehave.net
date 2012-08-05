@@ -5,9 +5,7 @@
 namespace Xbehave.Sdk
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
-    using System.Linq;
     using Xbehave.Sdk.Infrastructure;
     using Xunit.Extensions;
     using Xunit.Sdk;
@@ -42,7 +40,6 @@ namespace Xbehave.Sdk
 
             if (Context.FailedStepName != null)
             {
-                // TODO: cover with acceptance test
                 var message = string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepName);
                 throw new InvalidOperationException(message);
             }
