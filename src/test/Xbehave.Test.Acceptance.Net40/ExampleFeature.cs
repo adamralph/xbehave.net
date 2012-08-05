@@ -48,7 +48,13 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(MethodResult[]);
 
-            "Given a feature with a generic scenario with five type parameters and examples containing an Int32 value, an Int64 value, a String value and a null value"
+@"Given a feature with a generic scenario with five type parameters and examples containing
+    an Int32 value for the first type parameter,
+    an Int64 value for the second type parameter,
+    an String value for the third type parameter,
+    an Int32 value for the fourth type parameter,
+    an Int64 value for the fourth type parameter and
+    an null value for the fifth type parameter"
                 .Given(() => feature = typeof(GenericScenarioFeature));
 
             "When the test runner runs the feature"
@@ -57,7 +63,7 @@ namespace Xbehave.Test.Acceptance
             "Then the results should not be empty"
                 .Then(() => results.Should().NotBeEmpty());
 
-            "And the display name of each result should contain \"<Int32, Int64, String, Object>\""
+            "And the display name of each result should contain \"<Int32, Int64, String, Object, Object>\""
                 .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")));
         }
 
@@ -118,10 +124,10 @@ namespace Xbehave.Test.Acceptance
         private static class GenericScenarioFeature
         {
             [Scenario]
-            [Example(1, 2L, "a", null)]
-            [Example(3, 4L, "a", null)]
-            [Example(5, 6L, "a", null)]
-            public static void Scenario<T1, T2, T3, T4, T5>(T1 w, T2 x, T3 y, T4 z)
+            [Example(1, 2L, "a", 7, 7L, null)]
+            [Example(3, 4L, "a", 8, 8L, null)]
+            [Example(5, 6L, "a", 9, 8L, null)]
+            public static void Scenario<T1, T2, T3, T4, T5>(T1 a, T2 b, T3 c, T4 d, T4 e, T5 f)
             {
                 "Given"
                     .Given(() => { });

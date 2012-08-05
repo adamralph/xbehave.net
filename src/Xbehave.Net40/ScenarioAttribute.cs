@@ -129,7 +129,6 @@ namespace Xbehave
                 }
                 else if (typeArgument != argument.GetType())
                 {
-                    // TODO: cover with acceptance test
                     return typeof(object);
                 }
             }
