@@ -64,7 +64,6 @@ namespace Xbehave.Sdk
             {
                 if (this.MillisecondsTimeout > 0)
                 {
-                    // TODO: cover with acceptance test
                     var result = this.body.BeginInvoke(null, null);
 
                     // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
