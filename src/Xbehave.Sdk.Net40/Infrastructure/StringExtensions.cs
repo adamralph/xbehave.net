@@ -12,6 +12,11 @@ namespace Xbehave.Sdk.Infrastructure
     {
         public static string CompressWhiteSpace(this string source)
         {
+            if (source == null)
+            {
+                return source;
+            }
+
             var spacesOnly = new string(source.Select(x => char.IsWhiteSpace(x) ? ' ' : x).ToArray());
             var words = spacesOnly.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return string.Join(" ", words);

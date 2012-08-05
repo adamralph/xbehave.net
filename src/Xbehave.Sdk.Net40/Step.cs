@@ -18,23 +18,12 @@ namespace Xbehave.Sdk
 
         public Step(string stepType, string description, Action body)
         {
-            Guard.AgainstNullArgument("stepType", stepType);
-            Guard.AgainstNullArgument("description", description);
             Guard.AgainstNullArgument("body", body);
 
-            if (stepType.Length == 0)
-            {
-                // TODO: cover with acceptance test
-                throw new ArgumentException("stepType is empty.", "stepType");
-            }
+            var compressedStepType = stepType.CompressWhiteSpace();
+            var prefix = string.IsNullOrEmpty(compressedStepType) ? compressedStepType : compressedStepType + " ";
+            this.name = prefix.MergeOrdinalIgnoreCase(description.CompressWhiteSpace());
 
-            if (description.Length == 0)
-            {
-                // TODO: cover with acceptance test
-                throw new ArgumentException("description is empty.", "description");
-            }
-
-            this.name = (stepType.CompressWhiteSpace() + " ").MergeOrdinalIgnoreCase(description.CompressWhiteSpace());
             this.body = body;
         }
 
