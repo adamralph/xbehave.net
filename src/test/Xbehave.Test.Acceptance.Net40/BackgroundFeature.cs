@@ -6,7 +6,6 @@ namespace Xbehave.Test.Acceptance
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
