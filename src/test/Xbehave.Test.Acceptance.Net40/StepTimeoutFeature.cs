@@ -51,8 +51,8 @@ namespace Xbehave.Test.Acceptance
                 {
                     @Event.Reset();
                     results = TestRunner.Run(feature).ToArray();
-                    @Event.Set();
-                });
+                })
+                .Teardown(() => @Event.Set());
 
             "Then there should be one result"
                 .Then(() => results.Count().Should().Be(1));
