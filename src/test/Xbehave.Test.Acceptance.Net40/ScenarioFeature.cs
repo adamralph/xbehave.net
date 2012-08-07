@@ -1,4 +1,4 @@
-﻿// <copyright file="FeatureFeature.cs" company="Adam Ralph">
+﻿// <copyright file="ScenarioFeature.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -13,8 +13,8 @@ namespace Xbehave.Test.Acceptance
 
     // In order to prevent bugs due to incorrect code
     // As a developer
-    // I want to run automated acceptance tests describing each feature of my product
-    public static class FeatureFeature
+    // I want to run automated acceptance tests describing each feature of my product using scenarios
+    public static class ScenarioFeature
     {
         private static int executedStepCount;
 

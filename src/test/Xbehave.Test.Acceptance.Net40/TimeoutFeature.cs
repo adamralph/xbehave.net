@@ -1,4 +1,4 @@
-﻿// <copyright file="StepTimeoutFeature.cs" company="Adam Ralph">
+﻿// <copyright file="TimeoutFeature.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -14,7 +14,7 @@ namespace Xbehave.Test.Acceptance
     // In order to prevent very long running tests <-- improve!
     // As a developer
     // I want a feature to fail if a given step takes to long to run
-    public static class StepTimeoutFeature
+    public static class TimeoutFeature
     {
         private static readonly ManualResetEventSlim @Event = new ManualResetEventSlim();
 
