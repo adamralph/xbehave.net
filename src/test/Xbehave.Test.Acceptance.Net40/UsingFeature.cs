@@ -144,8 +144,8 @@ namespace Xbehave.Test.Acceptance
             "Then there should be no failures"
                 .Then(() => results.Should().NotContain(result => result is FailedResult));
 
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+            "And two disposable objects should have been created"
+                .And(() => Disposable.RecordedEvents.Count(@event => @event.EventType == LifeTimeEventType.Constructed).Should().Be(2));
 
             "And the disposable objects should each have been created and disposed one before the other"
                 .And(() =>

@@ -58,6 +58,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BackgroundFeature.cs" />
+    <Compile Include="TeardownFeature.cs" />
     <Compile Include="TimeoutFeature.cs" />
     <Compile Include="UsingFeature.cs" />
     <Compile Include="ScenarioFeature.cs" />
