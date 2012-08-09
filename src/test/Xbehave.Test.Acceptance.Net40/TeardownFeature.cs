@@ -14,7 +14,6 @@ namespace Xbehave.Test.Acceptance
     // In order to release allocated resources
     // As a developer
     // I want to execute teardown actions after a scenario has run
-    // TODO: add scenarios describing the ordering of disposals and teardowns
     public static class TeardownFeature
     {
         private static readonly ConcurrentQueue<int> ActionIds = new ConcurrentQueue<int>();
@@ -152,6 +151,29 @@ namespace Xbehave.Test.Acceptance
 
             "Then there should be one failure"
                 .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
+
+            "And some teardowns should have been executed"
+                .And(() => ActionIds.Count.Should().NotBe(0));
+
+            "And the teardown actions should have been executed once in reverse order"
+                .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
+        }
+
+        [Scenario]
+        public static void RegisteringDisposableObjectsAndTeardownActions()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given steps which each register disposable objects and teardown actions"
+                .Given(() => feature = typeof(TeardownsAndDisposables));
+
+            "When running the scenario"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(TeardownFeature.ClearActionIds);
+
+            "Then there should be no failures"
+                .Then(() => results.Should().NotContain(result => result is FailedResult));
 
             "And some teardowns should have been executed"
                 .And(() => ActionIds.Count.Should().NotBe(0));
@@ -305,6 +327,54 @@ namespace Xbehave.Test.Acceptance
                     .Teardown(() => ActionIds.Enqueue(2))
                     .And()
                     .Teardown(() => ActionIds.Enqueue(3));
+            }
+        }
+
+        private static class TeardownsAndDisposables
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "Given something"
+                    .Given(() =>
+                    {
+                        new Disposable(1).Using();
+                        new Disposable(2).Using();
+                        new Disposable(3).Using();
+                    })
+                    .Teardown(() => ActionIds.Enqueue(4))
+                    .And()
+                    .Teardown(() => ActionIds.Enqueue(5))
+                    .And()
+                    .Teardown(() => ActionIds.Enqueue(6));
+
+                "And something else"
+                    .And(() =>
+                    {
+                        new Disposable(7).Using();
+                        new Disposable(8).Using();
+                        new Disposable(9).Using();
+                    })
+                    .Teardown(() => ActionIds.Enqueue(10))
+                    .And()
+                    .Teardown(() => ActionIds.Enqueue(11))
+                    .And()
+                    .Teardown(() => ActionIds.Enqueue(12));
+            }
+        }
+
+        private class Disposable : IDisposable
+        {
+            private readonly int id;
+
+            public Disposable(int id)
+            {
+                this.id = id;
+            }
+
+            public void Dispose()
+            {
+                ActionIds.Enqueue(this.id);
             }
         }
     }
