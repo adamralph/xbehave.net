@@ -45,6 +45,9 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Samples.Net40\Disposable.cs">
+      <Link>Disposable.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Samples.Net40\FluentStackSpecs.cs">
       <Link>FluentStackSpecs.cs</Link>
     </Compile>
@@ -59,6 +62,9 @@
     </Compile>
     <Compile Include="..\Xbehave.Samples.Net40\StackSpecs.cs">
       <Link>StackSpecs.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Samples.Net40\TheLot.cs">
+      <Link>TheLot.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
