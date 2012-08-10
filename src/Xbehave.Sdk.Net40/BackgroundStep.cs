@@ -9,13 +9,8 @@ namespace Xbehave.Sdk
     public class BackgroundStep : Step
     {
         public BackgroundStep(string name, Action body)
-            : base(name, body)
+            : base("(Background) " + name, body)
         {
-        }
-
-        public override string Name
-        {
-            get { return "(Background) " + base.Name; }
         }
     }
 }
