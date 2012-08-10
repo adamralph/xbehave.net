@@ -8,8 +8,8 @@ namespace Xbehave.Sdk
 
     public class BackgroundStep : Step
     {
-        public BackgroundStep(string stepType, string description, Action body)
-            : base(stepType, description, body)
+        public BackgroundStep(string name, Action body)
+            : base(name, body)
         {
         }
 

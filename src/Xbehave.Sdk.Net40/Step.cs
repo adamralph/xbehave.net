@@ -16,14 +16,11 @@ namespace Xbehave.Sdk
         private readonly Action body;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string stepType, string description, Action body)
+        public Step(string name, Action body)
         {
             Guard.AgainstNullArgument("body", body);
 
-            var compressedStepType = stepType.CompressWhiteSpace();
-            var prefix = string.IsNullOrEmpty(compressedStepType) ? compressedStepType : compressedStepType + " ";
-            this.name = prefix.MergeOrdinalIgnoreCase(description.CompressWhiteSpace());
-
+            this.name = name;
             this.body = body;
         }
 

@@ -16,7 +16,7 @@ namespace Xbehave.Sdk
             MessageId = "Xbehave.Sdk.Step.#ctor(System.String,System.String,System.Action)",
             Justification = "Localization not required.")]
         public DisposalStep(IEnumerable<IDisposable> disposables)
-            : base("Disposal", "Disposal and/or teardown", disposables.DisposeAll)
+            : base("Disposal and/or teardown", disposables.DisposeAll)
         {
         }
     }

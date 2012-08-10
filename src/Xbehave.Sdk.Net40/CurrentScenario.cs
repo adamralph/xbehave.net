@@ -32,9 +32,9 @@ namespace Xbehave.Sdk
             get { return disposables ?? (disposables = new List<IDisposable>()); }
         }
 
-        public static Step AddStep(string stepType, string description, Action body)
+        public static Step AddStep(string name, Action body)
         {
-            var step = addingBackgroundSteps ? new BackgroundStep(stepType, description, body) : new Step(stepType, description, body);
+            var step = addingBackgroundSteps ? new BackgroundStep(name, body) : new Step(name, body);
             Steps.Add(step);
             return step;
         }
