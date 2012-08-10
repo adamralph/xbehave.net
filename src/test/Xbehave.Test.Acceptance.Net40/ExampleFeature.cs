@@ -5,7 +5,9 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
+#if NET40
     using System.Collections.Concurrent;
+#endif
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
@@ -16,7 +18,10 @@ namespace Xbehave.Test.Acceptance
     // I want to write a single scenario using many examples
     public static class ExampleFeature
     {
+#if NET40
         private static readonly ConcurrentStack<object[]> ArgumentLists = new ConcurrentStack<object[]>();
+#endif
+#if NET40
 
         [Scenario]
         public static void Examples()
@@ -41,6 +46,7 @@ namespace Xbehave.Test.Acceptance
                         new EnumerableEqualityComparer<int>())
                     .Should().BeTrue());
         }
+#endif
 
         [Scenario]
         public static void GenericScenario()
@@ -48,7 +54,7 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(MethodResult[]);
 
-@"Given a feature with a generic scenario with five type parameters and examples containing
+            @"Given a feature with a generic scenario with five type parameters and examples containing
     an Int32 value for the first type parameter,
     an Int64 value for the second type parameter,
     an String value for the third type parameter,
@@ -108,6 +114,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().OnlyContain(result => result.DisplayName.EndsWith("Given {3}, {4} and {5}")));
         }
 
+#if NET40
         private static class FeatureWithAScenarioWithASingleStepAndExamples
         {
             [Scenario]
@@ -120,6 +127,7 @@ namespace Xbehave.Test.Acceptance
                     .Given(() => ArgumentLists.Push(new object[] { x, y, z }));
             }
         }
+#endif
 
         private static class GenericScenarioFeature
         {

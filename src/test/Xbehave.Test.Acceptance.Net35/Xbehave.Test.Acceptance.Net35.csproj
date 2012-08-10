@@ -57,8 +57,50 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\BackgroundFeature.cs">
+      <Link>BackgroundFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\ExampleFeature.cs">
+      <Link>ExampleFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\CustomEqualityComparer.cs">
+      <Link>Infrastructure\CustomEqualityComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\EnumerableComparer.cs">
+      <Link>Infrastructure\EnumerableComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\EnumerableEqualityComparer.cs">
+      <Link>Infrastructure\EnumerableEqualityComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\EnumerableExtensions.cs">
+      <Link>Infrastructure\EnumerableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\QueueExtensions.cs">
+      <Link>Infrastructure\QueueExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\TestRunner.cs">
+      <Link>Infrastructure\TestRunner.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\InIsolationFeature.cs">
+      <Link>InIsolationFeature.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\ScenarioFeature.cs">
+      <Link>ScenarioFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\SkipFeature.cs">
+      <Link>SkipFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\TeardownFeature.cs">
+      <Link>TeardownFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\TimeoutFeature.cs">
+      <Link>TimeoutFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\UsingFeature.cs">
+      <Link>UsingFeature.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

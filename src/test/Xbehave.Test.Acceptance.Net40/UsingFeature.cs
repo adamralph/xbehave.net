@@ -2,6 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
+#if NET40
 namespace Xbehave.Test.Acceptance
 {
     using System;
@@ -499,3 +500,4 @@ namespace Xbehave.Test.Acceptance
         }
     }
 }
+#endif
