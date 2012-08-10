@@ -24,8 +24,7 @@ namespace Xbehave.Sdk
 
         public override MethodResult Execute(object testClass)
         {
-            ExceptionUtility.RethrowWithNoStackTraceLoss(this.exception);
-            return null;
+            return new FailedResult(this.testMethod, this.exception, this.DisplayName);
         }
     }
 }
