@@ -46,6 +46,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BackgroundSample.cs" />
+    <Compile Include="InIsolation.cs" />
     <Compile Include="Disposable.cs" />
     <Compile Include="TheLot.cs" />
     <Compile Include="StackExampleSpecs.cs" />
