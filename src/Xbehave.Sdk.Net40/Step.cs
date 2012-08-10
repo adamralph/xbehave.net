@@ -7,6 +7,7 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Xbehave.Sdk.Infrastructure;
 
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
@@ -37,10 +38,7 @@ namespace Xbehave.Sdk
 
         public void AddTeardown(Action teardown)
         {
-            if (teardown != null)
-            {
-                this.teardowns.Add(teardown);
-            }
+            this.teardowns.Add(teardown);
         }
 
         [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Object is disposed after step execution.")]
@@ -67,7 +65,7 @@ namespace Xbehave.Sdk
             }
             finally
             {
-                foreach (var teardown in this.teardowns)
+                foreach (var teardown in this.teardowns.Where(teardown => teardown != null))
                 {
                     CurrentScenario.AddDisposable(new Disposable(teardown));
                 }
