@@ -70,9 +70,6 @@
     <Compile Include="..\Xbehave.Sdk.Net40\CurrentScenario.cs">
       <Link>CurrentScenario.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\DisposalStep.cs">
-      <Link>DisposalStep.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ExceptionCommand.cs">
       <Link>ExceptionCommand.cs</Link>
     </Compile>
@@ -135,6 +132,9 @@
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\StepCommand.cs">
       <Link>StepCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\TeardownStep.cs">
+      <Link>TeardownStep.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\TestCommandExtensions.cs">
       <Link>TestCommandExtensions.cs</Link>
