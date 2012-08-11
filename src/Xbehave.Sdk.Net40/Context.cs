@@ -53,14 +53,14 @@ namespace Xbehave.Sdk
             var index = 0;
             while (true)
             {
-                var disposables = CurrentScenario.ExtractDisposables().ToArray();
-                if (!disposables.Any())
+                var teardowns = CurrentScenario.ExtractTeardowns().ToArray();
+                if (!teardowns.Any())
                 {
                     break;
                 }
 
                 // don't reverse odd disposables since their creation order has already been reversed by the previous command
-                var teardownStep = new TeardownStep(index % 2 == 0 ? disposables.Reverse() : disposables);
+                var teardownStep = new TeardownStep(index % 2 == 0 ? teardowns.Reverse() : teardowns);
                 yield return new StepCommand(this.method, this.genericTypes, this.args, contextOrdinal, stepOrdinal++, teardownStep);
                 FailedStepName = null;
 

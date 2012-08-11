@@ -109,11 +109,8 @@
     <Compile Include="..\Xbehave.Sdk.Net40\ExpressionNaming\UnaryExpressionExtensions.cs">
       <Link>ExpressionNaming\UnaryExpressionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\Disposable.cs">
-      <Link>Infrastructure\Disposable.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\DisposableExtensions.cs">
-      <Link>Infrastructure\DisposableExtensions.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\ActionExtensions.cs">
+      <Link>Infrastructure\ActionExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\EnumerableExtensions.cs">
       <Link>Infrastructure\EnumerableExtensions.cs</Link>

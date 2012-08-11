@@ -77,8 +77,7 @@
     <Compile Include="ExpressionNaming\StringExtensions.cs" />
     <Compile Include="ExpressionNaming\TypeExtensions.cs" />
     <Compile Include="ExpressionNaming\UnaryExpressionExtensions.cs" />
-    <Compile Include="Infrastructure\Disposable.cs" />
-    <Compile Include="Infrastructure\DisposableExtensions.cs" />
+    <Compile Include="Infrastructure\ActionExtensions.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
     <Compile Include="Infrastructure\Guard.cs" />
     <Compile Include="Infrastructure\StringExtensions.cs" />

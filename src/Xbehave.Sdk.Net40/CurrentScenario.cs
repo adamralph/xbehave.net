@@ -20,16 +20,16 @@ namespace Xbehave.Sdk
         private static List<Step> steps;
 
         [ThreadStatic]
-        private static List<IDisposable> disposables;
+        private static List<Action> teardowns;
 
         private static List<Step> Steps
         {
             get { return steps ?? (steps = new List<Step>()); }
         }
 
-        private static List<IDisposable> Disposables
+        private static List<Action> Teardowns
         {
-            get { return disposables ?? (disposables = new List<IDisposable>()); }
+            get { return teardowns ?? (teardowns = new List<Action>()); }
         }
 
         public static Step AddStep(string name, Action body)
@@ -39,23 +39,23 @@ namespace Xbehave.Sdk
             return step;
         }
 
-        public static void AddDisposable(IDisposable disposable)
+        public static void AddTeardown(Action teardown)
         {
-            if (disposable != null)
+            if (teardown != null)
             {
-                Disposables.Add(disposable);
+                Teardowns.Add(teardown);
             }
         }
 
-        public static IEnumerable<IDisposable> ExtractDisposables()
+        public static IEnumerable<Action> ExtractTeardowns()
         {
             try
             {
-                return Disposables;
+                return Teardowns;
             }
             finally
             {
-                disposables = null;
+                teardowns = null;
             }
         }
 

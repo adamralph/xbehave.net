@@ -22,9 +22,7 @@ namespace Xbehave
         [Obsolete("Use Given().Teardown() instead.")]
         public static IStep GivenDisposable(this string text, ContextDelegate body)
         {
-            Guard.AgainstNullArgument("body", body);
-            IDisposable disposable = null;
-            return text.Given(() => disposable = body()).Teardown(() => new[] { disposable }.DisposeAll());
+            return text.Given(() => body().Using());
         }
 
         /// <summary>

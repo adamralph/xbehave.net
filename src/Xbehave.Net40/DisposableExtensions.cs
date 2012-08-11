@@ -20,7 +20,11 @@ namespace Xbehave
         /// <returns>The object.</returns>
         public static T Using<T>(this T obj) where T : IDisposable
         {
-            CurrentScenario.AddDisposable(obj);
+            if (obj != null)
+            {
+                CurrentScenario.AddTeardown(() => obj.Dispose());
+            }
+
             return obj;
         }
     }
