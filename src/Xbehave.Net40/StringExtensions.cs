@@ -25,7 +25,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Given(this string text, Action body)
         {
-            return Helper.AddStep("Given", text, body);
+            return Helper.AddStep(text, body);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Xbehave
         /// </returns>
         public static IStep When(this string text, Action body)
         {
-            return Helper.AddStep("When", text, body);
+            return Helper.AddStep(text, body);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Then(this string text, Action body)
         {
-            return Helper.AddStep("Then", text, body);
+            return Helper.AddStep(text, body);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace Xbehave
         /// </returns>
         public static IStep And(this string text, Action body)
         {
-            return Helper.AddStep("And", text, body);
+            return Helper.AddStep(text, body);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Xbehave
         /// </returns>
         public static IStep But(this string text, Action body)
         {
-            return Helper.AddStep("But", text, body);
+            return Helper.AddStep(text, body);
         }
     }
 }

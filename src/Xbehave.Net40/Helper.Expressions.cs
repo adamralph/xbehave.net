@@ -11,12 +11,12 @@ namespace Xbehave
 
     internal static partial class Helper
     {
-        public static Fluent.IStep AddStep(string stepType, Expression<Action> body)
+        public static Fluent.IStep AddStep(string prefix, Expression<Action> body)
         {
             Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
 
-            return AddStep(stepType, body.Body.ToSentence(), body.Compile());
+            return AddStep(string.Concat(prefix, body.Body.ToSentence()), body.Compile());
         }
     }
 }

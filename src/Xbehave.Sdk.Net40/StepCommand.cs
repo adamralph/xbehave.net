@@ -26,7 +26,16 @@ namespace Xbehave.Sdk
             this.step = step;
 
             var provider = CultureInfo.InvariantCulture;
-            var stepName = step.Name.AttemptFormatInvariantCulture(args);
+            string stepName;
+            try
+            {
+                stepName = string.Format(provider, step.Name, args);
+            }
+            catch (FormatException)
+            {
+                stepName = step.Name;
+            }
+
             this.name = string.Format(provider, "[{0}.{1}] {2}", contextOrdinal.ToString("D2", provider), stepOrdinal.ToString("D2", provider), stepName);
             this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, this.name);
         }

@@ -118,9 +118,6 @@
     <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\Guard.cs">
       <Link>Infrastructure\Guard.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\StringExtensions.cs">
-      <Link>Infrastructure\StringExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

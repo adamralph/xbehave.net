@@ -26,7 +26,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
         public static IStep When(this IStep stepDefinition, Expression<Action> body)
         {
-            return Helper.AddStep("When", body);
+            return Helper.AddStep("When ", body);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
         public static IStep Then(this IStep stepDefinition, Expression<Action> body)
         {
-            return Helper.AddStep("Then", body);
+            return Helper.AddStep("Then ", body);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
         public static IStep And(this IStep stepDefinition, Expression<Action> body)
         {
-            return Helper.AddStep("And", body);
+            return Helper.AddStep("And ", body);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
         public static IStep But(this IStep stepDefinition, Expression<Action> body)
         {
-            return Helper.AddStep("But", body);
+            return Helper.AddStep("But ", body);
         }
     }
 }

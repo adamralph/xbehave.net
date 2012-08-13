@@ -24,7 +24,7 @@ namespace Xbehave
         [Obsolete("Use Given().Teardown() instead.")]
         public static IStep Given(string text, Action body, Action dispose)
         {
-            return Helper.AddStep("Given", text, body).Teardown(dispose);
+            return Helper.AddStep("Given " + text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Xbehave
         [Obsolete("Use When().Teardown() instead.")]
         public static IStep When(string text, Action body, Action dispose)
         {
-            return Helper.AddStep("When", text, body).Teardown(dispose);
+            return Helper.AddStep("When " + text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Xbehave
         [Obsolete("Use Then().Teardown() instead.")]
         public static IStep Then(string text, Action body, Action dispose)
         {
-            return Helper.AddStep("Then", text, body).Teardown(dispose);
+            return Helper.AddStep("Then " + text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Xbehave
         [Obsolete("Use And().Teardown() instead.")]
         public static IStep And(string text, Action body, Action dispose)
         {
-            return Helper.AddStep("And", text, body).Teardown(dispose);
+            return Helper.AddStep("And " + text, body).Teardown(dispose);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Xbehave
         [Obsolete("Use But().Teardown() instead.")]
         public static IStep But(string text, Action body, Action dispose)
         {
-            return Helper.AddStep("But", text, body).Teardown(dispose);
+            return Helper.AddStep("But " + text, body).Teardown(dispose);
         }
     }
 }

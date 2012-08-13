@@ -56,7 +56,6 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Infrastructure\StringExtensionsFeature.cs" />
     <Compile Include="Infrastructure\GuardFeature.cs" />
     <Compile Include="Infrastructure\EnumerableExtensionsFeature.cs" />
     <Compile Include="Infrastructure\ActionExtensionsFeature.cs" />

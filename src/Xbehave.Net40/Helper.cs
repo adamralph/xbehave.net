@@ -10,11 +10,9 @@ namespace Xbehave
 
     internal static partial class Helper
     {
-        public static Fluent.IStep AddStep(string stepType, string text, Action body)
+        public static Fluent.IStep AddStep(string text, Action body)
         {
-            var compressedStepType = stepType.CompressWhiteSpace();
-            var prefix = string.IsNullOrEmpty(compressedStepType) ? compressedStepType : compressedStepType + " ";
-            return new Fluent.Step(CurrentScenario.AddStep(prefix.MergeOrdinalIgnoreCase(text.CompressWhiteSpace()), body));
+            return new Fluent.Step(CurrentScenario.AddStep(text, body));
         }
     }
 }

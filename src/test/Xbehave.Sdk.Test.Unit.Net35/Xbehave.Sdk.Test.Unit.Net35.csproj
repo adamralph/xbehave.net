@@ -68,9 +68,6 @@
     <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\GuardFeature.cs">
       <Link>Infrastructure\GuardFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\StringExtensionsFeature.cs">
-      <Link>Infrastructure\StringExtensionsFeature.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
