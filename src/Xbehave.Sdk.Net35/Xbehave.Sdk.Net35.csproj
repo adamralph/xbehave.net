@@ -112,9 +112,6 @@
     <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\ActionExtensions.cs">
       <Link>Infrastructure\ActionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\EnumerableExtensions.cs">
-      <Link>Infrastructure\EnumerableExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\Guard.cs">
       <Link>Infrastructure\Guard.cs</Link>
     </Compile>

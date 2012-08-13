@@ -28,7 +28,7 @@ namespace Xbehave.Sdk
             {
                 if (step.InIsolation)
                 {
-                    yield return new Context(method, genericTypes, args, sharedContext.ToList().Concat(step));
+                    yield return new Context(method, genericTypes, args, sharedContext.Concat(new[] { step }));
                     pendingYield = false;
                 }
                 else

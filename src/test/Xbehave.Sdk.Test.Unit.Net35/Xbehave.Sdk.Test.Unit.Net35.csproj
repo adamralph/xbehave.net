@@ -62,9 +62,6 @@
     <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\ActionExtensionsFeature.cs">
       <Link>Infrastructure\ActionExtensionsFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\EnumerableExtensionsFeature.cs">
-      <Link>Infrastructure\EnumerableExtensionsFeature.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\GuardFeature.cs">
       <Link>Infrastructure\GuardFeature.cs</Link>
     </Compile>
