@@ -6,7 +6,8 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Globalization;
-    using Xbehave.Sdk.Infrastructure;
+    using System.Linq;
+    using System.Reflection;
     using Xunit.Extensions;
     using Xunit.Sdk;
     using Guard = Xbehave.Sdk.Infrastructure.Guard;
@@ -17,8 +18,8 @@ namespace Xbehave.Sdk
         private readonly string name;
         private readonly Step step;
 
-        public StepCommand(IMethodInfo method, Type[] genericTypes, object[] args, int contextOrdinal, int stepOrdinal, Step step)
-            : base(method, args, genericTypes)
+        public StepCommand(IMethodInfo method, object[] args, int contextOrdinal, int stepOrdinal, Step step)
+            : base(method, args, ResolveTypeArguments(method, args))
         {
             Guard.AgainstNullArgument("step", step);
             Guard.AgainstNullArgumentProperty("step", "Name", step.Name);
@@ -64,6 +65,47 @@ namespace Xbehave.Sdk
             }
 
             return new PassedResult(this.testMethod, this.DisplayName);
+        }
+
+        private static Type[] ResolveTypeArguments(IMethodInfo genericMethodDefinition, object[] arguments)
+        {
+            if (genericMethodDefinition == null || genericMethodDefinition.MethodInfo == null)
+            {
+                return null;
+            }
+
+            var genericParameters = genericMethodDefinition.MethodInfo.GetParameters();
+            return genericMethodDefinition.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, genericParameters, arguments))
+                .ToArray();
+        }
+
+        private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] genericParameters, object[] arguments)
+        {
+            Type typeArgument = null;
+            for (var index = 0; index < genericParameters.Length; ++index)
+            {
+                if (genericParameters[index].ParameterType != typeParameter)
+                {
+                    continue;
+                }
+
+                var argument = arguments[index];
+                if (argument == null)
+                {
+                    continue;
+                }
+
+                if (typeArgument == null)
+                {
+                    typeArgument = argument.GetType();
+                }
+                else if (typeArgument != argument.GetType())
+                {
+                    return typeof(object);
+                }
+            }
+
+            return typeArgument ?? typeof(object);
         }
     }
 }

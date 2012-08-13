@@ -4,22 +4,18 @@
 
 namespace Xbehave.Sdk
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Xbehave.Sdk.Infrastructure;
     using Xunit.Sdk;
     using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public class ContextFactory
     {
-        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<Type> genericTypes, IEnumerable<object> args, IEnumerable<Step> steps)
+        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<object> args, IEnumerable<Step> steps)
         {
-            Guard.AgainstNullArgument("genericTypes", genericTypes);
             Guard.AgainstNullArgument("args", args);
             Guard.AgainstNullArgument("steps", steps);
 
-            genericTypes = genericTypes.ToArray();
             args = args.ToArray();
 
             var sharedContext = new List<Step>();
@@ -28,7 +24,7 @@ namespace Xbehave.Sdk
             {
                 if (step.InIsolation)
                 {
-                    yield return new Context(method, genericTypes, args, sharedContext.Concat(new[] { step }));
+                    yield return new Context(method, args, sharedContext.Concat(new[] { step }));
                     pendingYield = false;
                 }
                 else
@@ -40,7 +36,7 @@ namespace Xbehave.Sdk
 
             if (pendingYield)
             {
-                yield return new Context(method, genericTypes, args, sharedContext);
+                yield return new Context(method, args, sharedContext);
             }
         }
     }

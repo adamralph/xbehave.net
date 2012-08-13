@@ -16,18 +16,15 @@ namespace Xbehave.Sdk
         private static string failedStepName;
 
         private readonly IMethodInfo method;
-        private readonly Type[] genericTypes;
         private readonly object[] args;
         private readonly Step[] steps;
 
-        public Context(IMethodInfo method, IEnumerable<Type> genericTypes, IEnumerable<object> args, IEnumerable<Step> steps)
+        public Context(IMethodInfo method, IEnumerable<object> args, IEnumerable<Step> steps)
         {
-            Guard.AgainstNullArgument("genericTypes", genericTypes);
             Guard.AgainstNullArgument("args", args);
             Guard.AgainstNullArgument("steps", steps);
 
             this.method = method;
-            this.genericTypes = genericTypes.ToArray();
             this.args = args.ToArray();
             this.steps = steps.ToArray();
         }
@@ -44,7 +41,7 @@ namespace Xbehave.Sdk
             var stepOrdinal = 1;
             foreach (var step in this.steps)
             {
-                yield return new StepCommand(this.method, this.genericTypes, this.args, contextOrdinal, stepOrdinal++, step);
+                yield return new StepCommand(this.method, this.args, contextOrdinal, stepOrdinal++, step);
             }
 
             // NOTE: this relies on the test runner executing each above yielded step command and below yielded disposal command as soon as it is recieved
@@ -61,7 +58,7 @@ namespace Xbehave.Sdk
 
                 // don't reverse odd disposables since their creation order has already been reversed by the previous command
                 var teardownStep = new TeardownStep(index % 2 == 0 ? teardowns.Reverse() : teardowns);
-                yield return new StepCommand(this.method, this.genericTypes, this.args, contextOrdinal, stepOrdinal++, teardownStep);
+                yield return new StepCommand(this.method, this.args, contextOrdinal, stepOrdinal++, teardownStep);
                 FailedStepName = null;
 
                 ++index;

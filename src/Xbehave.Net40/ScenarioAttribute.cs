@@ -8,7 +8,6 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Reflection;
     using Xbehave.Sdk;
     using Xunit.Extensions;
     using Xunit.Sdk;
@@ -60,13 +59,7 @@ namespace Xbehave
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
-                 CurrentScenario.ExtractCommands(
-                    method,
-                    ResolveTypeArguments(method, scenarioCommand.GetParameters()).ToArray(),
-                    scenarioCommand.GetParameters(),
-                    backgroundCommands,
-                    scenarioCommand,
-                    feature));
+                CurrentScenario.ExtractCommands(method, scenarioCommand.GetParameters(), backgroundCommands, scenarioCommand, feature));
         }
 
         /// <summary>
@@ -99,41 +92,6 @@ namespace Xbehave
             return method.MethodInfo.GetParameters().Any()
                 ? base.EnumerateTestCommands(method)
                 : new[] { new TheoryCommand(method, new object[0]) };
-        }
-
-        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo genericMethodDefinition, object[] arguments)
-        {
-            var genericParameters = genericMethodDefinition.MethodInfo.GetParameters();
-            return genericMethodDefinition.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, genericParameters, arguments));
-        }
-
-        private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] genericParameters, object[] arguments)
-        {
-            Type typeArgument = null;
-            for (var index = 0; index < genericParameters.Length; ++index)
-            {
-                if (genericParameters[index].ParameterType != typeParameter)
-                {
-                    continue;
-                }
-
-                var argument = arguments[index];
-                if (argument == null)
-                {
-                    continue;
-                }
-
-                if (typeArgument == null)
-                {
-                    typeArgument = argument.GetType();
-                }
-                else if (typeArgument != argument.GetType())
-                {
-                    return typeof(object);
-                }
-            }
-
-            return typeArgument ?? typeof(object);
         }
     }
 }
