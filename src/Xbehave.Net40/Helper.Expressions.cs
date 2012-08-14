@@ -6,8 +6,8 @@ namespace Xbehave
 {
     using System;
     using System.Linq.Expressions;
+    using Xbehave.Sdk;
     using Xbehave.Sdk.ExpressionNaming;
-    using Xbehave.Sdk.Infrastructure;
 
     internal static partial class Helper
     {

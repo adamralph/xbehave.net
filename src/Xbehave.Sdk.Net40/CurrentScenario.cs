@@ -9,7 +9,6 @@ namespace Xbehave.Sdk
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Xunit.Sdk;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public static class CurrentScenario
     {

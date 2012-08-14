@@ -59,8 +59,8 @@
     <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\ExpressionNaming\ExpressionExtensionsStory.cs">
       <Link>ExpressionNaming\ExpressionExtensionsStory.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Infrastructure\GuardFeature.cs">
-      <Link>Infrastructure\GuardFeature.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\GuardFeature.cs">
+      <Link>GuardFeature.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

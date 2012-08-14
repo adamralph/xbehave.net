@@ -9,7 +9,6 @@ namespace Xbehave.Sdk
     using System.Globalization;
     using System.Linq;
     using Xunit.Sdk;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     [CLSCompliant(false)]
     public class TeardownCommand : Command

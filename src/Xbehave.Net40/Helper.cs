@@ -6,7 +6,6 @@ namespace Xbehave
 {
     using System;
     using Xbehave.Sdk;
-    using Xbehave.Sdk.Infrastructure;
 
     internal static partial class Helper
     {

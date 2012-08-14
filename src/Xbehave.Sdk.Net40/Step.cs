@@ -7,7 +7,6 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Xbehave.Sdk.Infrastructure;
 
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     public class Step

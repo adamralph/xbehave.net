@@ -2,12 +2,12 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Sdk.Test.Unit.Infrastructure
+namespace Xbehave.Sdk.Test.Unit
 {
     using System;
     using FakeItEasy;
     using FluentAssertions;
-    using Xbehave.Sdk.Infrastructure;
+    using Xbehave.Sdk;
     using Xunit;
 
     public static class GuardFeature

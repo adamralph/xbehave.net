@@ -112,8 +112,8 @@
     <Compile Include="..\Xbehave.Sdk.Net40\ExpressionNaming\UnaryExpressionExtensions.cs">
       <Link>ExpressionNaming\UnaryExpressionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\Guard.cs">
-      <Link>Infrastructure\Guard.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Net40\Guard.cs">
+      <Link>Guard.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

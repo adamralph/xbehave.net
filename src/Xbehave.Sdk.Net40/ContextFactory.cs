@@ -7,7 +7,6 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Linq;
     using Xunit.Sdk;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     public class ContextFactory
     {

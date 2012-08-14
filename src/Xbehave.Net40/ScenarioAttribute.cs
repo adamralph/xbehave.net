@@ -11,7 +11,7 @@ namespace Xbehave
     using Xbehave.Sdk;
     using Xunit.Extensions;
     using Xunit.Sdk;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
+    using Guard = Xbehave.Sdk.Guard;
 
     /// <summary>
     /// Applied to a method to indicate the definition of a scenario.

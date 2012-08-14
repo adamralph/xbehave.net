@@ -6,7 +6,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 {
     using System;
     using System.Linq;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
+    using Guard = Xbehave.Sdk.Guard;
 
     public static class TypeExtensions
     {

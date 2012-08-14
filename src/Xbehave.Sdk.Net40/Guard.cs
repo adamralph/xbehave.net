@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Sdk.Infrastructure
+namespace Xbehave.Sdk
 {
     using System;
     using System.Diagnostics;

@@ -7,7 +7,6 @@ namespace Xbehave.Sdk
     using System;
     using System.Globalization;
     using Xunit.Sdk;
-    using Guard = Xbehave.Sdk.Infrastructure.Guard;
 
     [CLSCompliant(false)]
     public class StepCommand : Command

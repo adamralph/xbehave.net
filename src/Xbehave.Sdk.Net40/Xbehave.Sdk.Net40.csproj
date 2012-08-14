@@ -78,7 +78,7 @@
     <Compile Include="ExpressionNaming\StringExtensions.cs" />
     <Compile Include="ExpressionNaming\TypeExtensions.cs" />
     <Compile Include="ExpressionNaming\UnaryExpressionExtensions.cs" />
-    <Compile Include="Infrastructure\Guard.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepCommand.cs" />
     <Compile Include="TestCommandExtensions.cs" />
