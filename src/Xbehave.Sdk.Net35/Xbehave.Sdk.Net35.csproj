@@ -127,9 +127,6 @@
     <Compile Include="..\Xbehave.Sdk.Net40\TeardownCommand.cs">
       <Link>TeardownCommand.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\TestCommandExtensions.cs">
-      <Link>TestCommandExtensions.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">

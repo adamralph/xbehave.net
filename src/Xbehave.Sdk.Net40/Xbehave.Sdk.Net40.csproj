@@ -81,7 +81,6 @@
     <Compile Include="Guard.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepCommand.cs" />
-    <Compile Include="TestCommandExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">
