@@ -44,10 +44,11 @@ namespace Xbehave.Sdk
                 yield return new StepCommand(this.method, this.args, contextOrdinal, stepOrdinal++, step);
             }
 
+            FailedStepName = null;
+
             // NOTE: this relies on the test runner executing each above yielded step command and below yielded disposal command as soon as it is recieved
             // TD.NET, R# and xunit.console all seem to do this
-            FailedStepName = null;
-            var index = 0;
+            var odd = true;
             while (true)
             {
                 var teardowns = CurrentScenario.ExtractTeardowns().ToArray();
@@ -56,12 +57,9 @@ namespace Xbehave.Sdk
                     break;
                 }
 
-                // don't reverse odd disposables since their creation order has already been reversed by the previous command
-                var teardownStep = new TeardownStep(index % 2 == 0 ? teardowns.Reverse() : teardowns);
-                yield return new StepCommand(this.method, this.args, contextOrdinal, stepOrdinal++, teardownStep);
-                FailedStepName = null;
-
-                ++index;
+                // don't reverse even disposables since their creation order has already been reversed by the previous command
+                yield return new TeardownCommand(this.method, this.args, contextOrdinal, stepOrdinal++, odd ? teardowns.Reverse() : teardowns);
+                odd = !odd;
             }
         }
     }

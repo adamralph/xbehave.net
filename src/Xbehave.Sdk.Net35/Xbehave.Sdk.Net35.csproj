@@ -61,6 +61,9 @@
     <Compile Include="..\Xbehave.Sdk.Net40\BackgroundStep.cs">
       <Link>BackgroundStep.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\Command.cs">
+      <Link>Command.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Context.cs">
       <Link>Context.cs</Link>
     </Compile>
@@ -109,9 +112,6 @@
     <Compile Include="..\Xbehave.Sdk.Net40\ExpressionNaming\UnaryExpressionExtensions.cs">
       <Link>ExpressionNaming\UnaryExpressionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\ActionExtensions.cs">
-      <Link>Infrastructure\ActionExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Infrastructure\Guard.cs">
       <Link>Infrastructure\Guard.cs</Link>
     </Compile>
@@ -124,8 +124,8 @@
     <Compile Include="..\Xbehave.Sdk.Net40\StepCommand.cs">
       <Link>StepCommand.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\TeardownStep.cs">
-      <Link>TeardownStep.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Net40\TeardownCommand.cs">
+      <Link>TeardownCommand.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\TestCommandExtensions.cs">
       <Link>TestCommandExtensions.cs</Link>
