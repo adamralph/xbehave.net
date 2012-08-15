@@ -6,6 +6,7 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using Xunit.Sdk;
@@ -25,6 +26,7 @@ namespace Xbehave.Sdk
             this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, "(Teardown)");
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Simulating behaviour of nested using blocks.")]
         public override MethodResult Execute(object testClass)
         {
             Exception exception = null;

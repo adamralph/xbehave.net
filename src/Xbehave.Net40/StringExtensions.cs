@@ -11,8 +11,6 @@ namespace Xbehave
     /// <summary>
     /// Provides access to step definition methods.
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "_", Justification = "By design.")]
-    [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores", Justification = "By design.")]
     public static partial class StringExtensions
     {
         /// <summary>

@@ -42,7 +42,6 @@ namespace Xbehave.Sdk
             }
         }
 
-        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Object is disposed after step execution.")]
         public void Execute()
         {
             try
