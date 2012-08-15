@@ -42,14 +42,12 @@ namespace Xbehave
 
             IEnumerable<ITestCommand> backgroundCommands;
             IEnumerable<ITestCommand> scenarioCommands;
-            object feature;
 
             // NOTE: any exception must be wrapped in a command, otherwise the test runner will retry this method infinitely
             try
             {
                 backgroundCommands = this.EnumerateBackgroundCommands(method).ToArray();
                 scenarioCommands = this.EnumerateScenarioCommands(method).ToArray();
-                feature = method.IsStatic ? null : method.CreateInstance();
             }
             catch (Exception ex)
             {
@@ -58,8 +56,7 @@ namespace Xbehave
 
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
-            return scenarioCommands.SelectMany(scenarioCommand =>
-                CurrentScenario.ExtractCommands(method, backgroundCommands, scenarioCommand, feature));
+            return scenarioCommands.SelectMany(scenarioCommand => CurrentScenario.ExtractCommands(method, backgroundCommands, scenarioCommand));
         }
 
         /// <summary>

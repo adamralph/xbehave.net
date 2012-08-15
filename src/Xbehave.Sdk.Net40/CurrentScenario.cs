@@ -66,8 +66,7 @@ namespace Xbehave.Sdk
         public static IEnumerable<ITestCommand> ExtractCommands(
             IMethodInfo method,
             IEnumerable<ITestCommand> backgroundCommands,
-            ITestCommand scenarioCommand,
-            object feature)
+            ITestCommand scenarioCommand)
         {
             Guard.AgainstNullArgument("backgroundCommands", backgroundCommands);
             Guard.AgainstNullArgument("scenarioCommand", scenarioCommand);
@@ -76,6 +75,8 @@ namespace Xbehave.Sdk
             {
                 try
                 {
+                    var feature = method.IsAbstract ? null : method.CreateInstance();
+
                     addingBackgroundSteps = true;
                     foreach (var command in backgroundCommands)
                     {
