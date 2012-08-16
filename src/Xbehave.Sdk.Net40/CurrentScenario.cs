@@ -72,7 +72,7 @@ namespace Xbehave.Sdk
             {
                 try
                 {
-                    var feature = method.IsAbstract ? null : method.CreateInstance();
+                    var feature = method.IsStatic ? null : method.CreateInstance();
 
                     addingBackgroundSteps = true;
                     foreach (var command in backgroundCommands)
