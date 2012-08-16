@@ -58,8 +58,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\BackgroundStep.cs">
-      <Link>BackgroundStep.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Net40\BackgroundCommand.cs">
+      <Link>BackgroundCommand.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Command.cs">
       <Link>Command.cs</Link>

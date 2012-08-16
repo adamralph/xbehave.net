@@ -8,7 +8,6 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Xunit.Extensions;
     using Xunit.Sdk;
 
     public static class CurrentScenario
@@ -22,6 +21,12 @@ namespace Xbehave.Sdk
         [ThreadStatic]
         private static List<Action> teardowns;
 
+        public static bool AddingBackgroundSteps
+        {
+            get { return CurrentScenario.addingBackgroundSteps; }
+            set { CurrentScenario.addingBackgroundSteps = value; }
+        }
+
         private static List<Step> Steps
         {
             get { return steps ?? (steps = new List<Step>()); }
@@ -34,7 +39,7 @@ namespace Xbehave.Sdk
 
         public static Step AddStep(string name, Action body)
         {
-            var step = addingBackgroundSteps ? new BackgroundStep(name, body) : new Step(name, body);
+            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body);
             Steps.Add(step);
             return step;
         }
@@ -63,33 +68,25 @@ namespace Xbehave.Sdk
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
-        public static IEnumerable<ITestCommand> ExtractCommands(IMethodInfo method, IEnumerable<ITestCommand> backgroundCommands, ITestCommand scenarioCommand)
+        public static IEnumerable<ITestCommand> ExtractCommands(IMethodInfo method, IEnumerable<object> args, IEnumerable<ITestCommand> commands)
         {
-            Guard.AgainstNullArgument("backgroundCommands", backgroundCommands);
-            Guard.AgainstNullArgument("scenarioCommand", scenarioCommand);
+            Guard.AgainstNullArgument("commands", commands);
 
             try
             {
                 try
                 {
                     var feature = method.IsStatic ? null : method.CreateInstance();
-
-                    addingBackgroundSteps = true;
-                    foreach (var command in backgroundCommands)
+                    foreach (var command in commands)
                     {
                         command.Execute(feature);
                     }
-
-                    addingBackgroundSteps = false;
-                    scenarioCommand.Execute(feature);
                 }
                 catch (Exception ex)
                 {
                     return new ITestCommand[] { new ExceptionCommand(method, ex) };
                 }
 
-                var theoryCommand = scenarioCommand as TheoryCommand;
-                var args = theoryCommand == null ? new object[0] : theoryCommand.Parameters;
                 var contexts = new ContextFactory().CreateContexts(method, args, Steps).ToArray();
                 return contexts.SelectMany((context, index) => context.CreateCommands(index + 1));
             }

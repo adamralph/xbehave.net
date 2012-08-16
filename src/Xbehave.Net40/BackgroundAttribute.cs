@@ -7,6 +7,7 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using Xbehave.Sdk;
     using Xunit.Sdk;
 
     /// <summary>
@@ -33,7 +34,7 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds defined by the <paramref name="method"/>.</returns>
         protected virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
         {
-            yield return new FactCommand(method);
+            yield return new BackgroundCommand(method);
         }
     }
 }
