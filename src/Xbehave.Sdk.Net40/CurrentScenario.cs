@@ -63,10 +63,7 @@ namespace Xbehave.Sdk
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
-        public static IEnumerable<ITestCommand> ExtractCommands(
-            IMethodInfo method,
-            IEnumerable<ITestCommand> backgroundCommands,
-            ITestCommand scenarioCommand)
+        public static IEnumerable<ITestCommand> ExtractCommands(IMethodInfo method, IEnumerable<ITestCommand> backgroundCommands, ITestCommand scenarioCommand)
         {
             Guard.AgainstNullArgument("backgroundCommands", backgroundCommands);
             Guard.AgainstNullArgument("scenarioCommand", scenarioCommand);
@@ -94,7 +91,7 @@ namespace Xbehave.Sdk
                 var theoryCommand = scenarioCommand as TheoryCommand;
                 var args = theoryCommand == null ? new object[0] : theoryCommand.Parameters;
                 var contexts = new ContextFactory().CreateContexts(method, args, Steps).ToArray();
-                return contexts.SelectMany((context, index) => context.CreateTestCommands(index + 1));
+                return contexts.SelectMany((context, index) => context.CreateCommands(index + 1));
             }
             finally
             {

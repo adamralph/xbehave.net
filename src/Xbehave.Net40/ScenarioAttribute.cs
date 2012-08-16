@@ -86,9 +86,7 @@ namespace Xbehave
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
 
-            return method.MethodInfo.GetParameters().Any()
-                ? base.EnumerateTestCommands(method)
-                : new[] { new TheoryCommand(method, new object[0]) };
+            return method.MethodInfo.GetParameters().Any() ? base.EnumerateTestCommands(method) : new[] { new TheoryCommand(method, new object[0]) };
         }
     }
 }

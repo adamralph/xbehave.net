@@ -34,7 +34,7 @@ namespace Xbehave.Sdk
             set { failedStepName = value; }
         }
 
-        public IEnumerable<ITestCommand> CreateTestCommands(int contextOrdinal)
+        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal)
         {
             FailedStepName = null;
             var stepOrdinal = 1;
