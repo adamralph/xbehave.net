@@ -19,7 +19,7 @@ namespace Xbehave
     /// <see cref="Xunit.Extensions.ExcelDataAttribute"/> or
     /// <see cref="Xunit.Extensions.PropertyDataAttribute"/>.
     /// </summary>
-    /// <remarks>Deprecated in favour of ExampleAttribute in version 0.10.0.</remarks>
+    /// <remarks>Deprecated in favor of ExampleAttribute in version 0.10.0.</remarks>
     [CLSCompliant(false)]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]

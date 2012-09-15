@@ -15,7 +15,7 @@ namespace Xbehave
         /// <summary>
         /// Deprecated in version 0.4.0.
         /// </summary>
-        /// <param name="text">A text describing the arrangment.</param>
+        /// <param name="text">A text describing the arrangement.</param>
         /// <param name="body">The function that will perform and return the arrangement.</param>
         /// <returns>An instance of <see cref="IStep"/>.</returns>
         [Obsolete("Use Given().Teardown() instead.")]
