@@ -10,7 +10,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     public static class ConstantExpressionExtensions
     {
-        public static IEnumerable<string> ToTokens(this ConstantExpression expression)
+        public static IEnumerable<string> SelectNaturalLanguageTokens(this ConstantExpression expression)
         {
             if (expression == null)
             {

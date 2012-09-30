@@ -9,14 +9,14 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     public static class LambdaExpressionExtensions
     {
-        public static IEnumerable<string> ToTokens(this LambdaExpression expression)
+        public static IEnumerable<string> SelectNaturalLanguageTokens(this LambdaExpression expression)
         {
             if (expression == null)
             {
                 yield break;
             }
 
-            foreach (var token in expression.Body.ToTokens())
+            foreach (var token in expression.Body.SelectNaturalLanguageTokens())
             {
                 yield return token;
             }

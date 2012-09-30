@@ -9,7 +9,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     public static class MemberExpressionExtensions
     {
-        public static IEnumerable<string> ToTokens(this MemberExpression expression)
+        public static IEnumerable<string> SelectNaturalLanguageTokens(this MemberExpression expression)
         {
             if (expression == null)
             {
@@ -37,7 +37,7 @@ namespace Xbehave.Sdk.ExpressionNaming
                 else if ((expression.Expression as MemberExpression) != null ||
                     (expression.Expression as MethodCallExpression) != null)
                 {
-                    foreach (var token in expression.Expression.ToTokens())
+                    foreach (var token in expression.Expression.SelectNaturalLanguageTokens())
                     {
                         yield return token;
                     }

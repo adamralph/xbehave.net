@@ -16,7 +16,7 @@ namespace Xbehave
             Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgumentProperty("body", "Body", body.Body);
 
-            return AddStep(string.Concat(prefix, body.Body.ToSentence()), body.Compile());
+            return AddStep(string.Concat(prefix, body.Body.ToNaturalLanguage()), body.Compile());
         }
     }
 }

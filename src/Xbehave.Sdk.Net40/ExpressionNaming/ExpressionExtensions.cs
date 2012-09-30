@@ -10,17 +10,18 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     public static class ExpressionExtensions
     {
-        public static string ToSentence(this Expression expression)
+        public static string ToNaturalLanguage(this Expression expression)
         {
-            return expression.ToSentence(" ");
+            return expression.ToNaturalLanguage(" ");
         }
 
-        public static string ToSentence(this Expression expression, string delimiter)
+        // NOTE: for ad hoc testing in order to distinguish delimiters from spaces within tokens
+        public static string ToNaturalLanguage(this Expression expression, string delimiter)
         {
-            return string.Join(delimiter, expression.ToTokens().Reverse().ToArray());
+            return string.Join(delimiter, expression.SelectNaturalLanguageTokens().Reverse().ToArray());
         }
 
-        public static IEnumerable<string> ToTokens(this Expression expression)
+        public static IEnumerable<string> SelectNaturalLanguageTokens(this Expression expression)
         {
             if (expression == null)
             {
@@ -35,12 +36,12 @@ namespace Xbehave.Sdk.ExpressionNaming
             var unary = expression as UnaryExpression;
             var lambda = expression as LambdaExpression;
             foreach (var token in
-                methodCall.ToTokens()
-                .Concat(member.ToTokens())
-                .Concat(binary.ToTokens())
-                .Concat(constant.ToTokens())
-                .Concat(unary.ToTokens())
-                .Concat(lambda.ToTokens()))
+                methodCall.SelectNaturalLanguageTokens()
+                .Concat(member.SelectNaturalLanguageTokens())
+                .Concat(binary.SelectNaturalLanguageTokens())
+                .Concat(constant.SelectNaturalLanguageTokens())
+                .Concat(unary.SelectNaturalLanguageTokens())
+                .Concat(lambda.SelectNaturalLanguageTokens()))
             {
                 knownType = true;
                 yield return token;

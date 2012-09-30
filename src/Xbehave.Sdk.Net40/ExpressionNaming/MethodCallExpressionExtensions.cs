@@ -10,7 +10,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     public static class MethodCallExpressionExtensions
     {
-        public static IEnumerable<string> ToTokens(this MethodCallExpression expression)
+        public static IEnumerable<string> SelectNaturalLanguageTokens(this MethodCallExpression expression)
         {
             if (expression == null)
             {
@@ -20,7 +20,7 @@ namespace Xbehave.Sdk.ExpressionNaming
             var isExtensionMethod = expression.Method.IsExtension();
 
             var argTokens = expression.Arguments
-                .Skip(isExtensionMethod ? 1 : 0).Select(x => x.ToTokens())
+                .Skip(isExtensionMethod ? 1 : 0).Select(x => x.SelectNaturalLanguageTokens())
                 .Select(tokens => string.Join(" ", tokens.Reverse().ToArray())).ToArray();
 
             foreach (var token in argTokens.AddListSeparators().Reverse())
@@ -55,7 +55,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 
             if (isExtensionMethod)
             {
-                foreach (var token in expression.Arguments[0].ToTokens())
+                foreach (var token in expression.Arguments[0].SelectNaturalLanguageTokens())
                 {
                     yield return token;
                 }
@@ -63,7 +63,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 
             if (expression.Object != null)
             {
-                foreach (var token in expression.Object.ToTokens())
+                foreach (var token in expression.Object.SelectNaturalLanguageTokens())
                 {
                     yield return token;
                 }

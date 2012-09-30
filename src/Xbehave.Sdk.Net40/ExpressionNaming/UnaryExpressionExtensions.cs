@@ -10,7 +10,7 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     public static class UnaryExpressionExtensions
     {
-        public static IEnumerable<string> ToTokens(this UnaryExpression expression)
+        public static IEnumerable<string> SelectNaturalLanguageTokens(this UnaryExpression expression)
         {
             if (expression == null)
             {
@@ -22,7 +22,7 @@ namespace Xbehave.Sdk.ExpressionNaming
                 expression.NodeType == ExpressionType.ConvertChecked)
             {
                 yield return string.Concat(
-                    string.Join(" ", expression.Operand.ToTokens().Reverse().ToArray()),
+                    string.Join(" ", expression.Operand.SelectNaturalLanguageTokens().Reverse().ToArray()),
                     " ",
                     expression.NodeType.ToToken(),
                     " ",
@@ -32,12 +32,12 @@ namespace Xbehave.Sdk.ExpressionNaming
             {
                 yield return string.Concat(
                     "(",
-                    string.Join(" ", expression.Operand.ToTokens().Reverse().ToArray()),
+                    string.Join(" ", expression.Operand.SelectNaturalLanguageTokens().Reverse().ToArray()),
                     ")");
             }
             else
             {
-                foreach (var token in expression.Operand.ToTokens())
+                foreach (var token in expression.Operand.SelectNaturalLanguageTokens())
                 {
                     yield return token;
                 }

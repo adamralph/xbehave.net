@@ -9,21 +9,21 @@ namespace Xbehave.Sdk.ExpressionNaming
 
     public static class BinaryExpressionExtensions
     {
-        public static IEnumerable<string> ToTokens(this BinaryExpression expression)
+        public static IEnumerable<string> SelectNaturalLanguageTokens(this BinaryExpression expression)
         {
             if (expression == null)
             {
                 yield break;
             }
 
-            foreach (var token in expression.Right.ToTokens())
+            foreach (var token in expression.Right.SelectNaturalLanguageTokens())
             {
                 yield return token;
             }
 
             yield return expression.NodeType.ToToken();
 
-            foreach (var token in expression.Left.ToTokens())
+            foreach (var token in expression.Left.SelectNaturalLanguageTokens())
             {
                 yield return token;
             }
