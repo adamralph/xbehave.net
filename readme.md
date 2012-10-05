@@ -1,10 +1,10 @@
-What is it?
-----------
+# xBehave.net #
+
+## What is it? ##
 
 A [BDD](http://dannorth.net/introducing-bdd/)/[TDD](https://en.wikipedia.org/wiki/Test-driven_development) framework based on [xUnit.net](http://xunit.codeplex.com/) and inspired by [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin). Allows features and scenarios to be written directly in code rather than mapping to external feature files. Works seamlessly with xUnit.net tooling.
 
-How do I use it?
-----------
+## How do I use it? ##
 
 	[Scenario]
 	public void Push()
@@ -46,20 +46,17 @@ E.g. [FakeItEasy](http://code.google.com/p/fakeiteasy/) verification
 
 It's your choice. You can use any method of assertion or verification you like. Any framework which works with xUnit.net should work seamlessly with xBehave.net. E.g. Moq, RhinoMocks, Shouldly, etc.
 
-How do I run it?
-----------
+## How do I run it? ##
 
 xBehave.net scenarios can be executed using any xUnit.net test runner. E.g. TestDriven.Net, Resharper, xUnit.net console/GUI, Visual Studio 11 Test Runner, etc. If you have questions about using xBehave.net, either send a message to the project owners, raise an issue or come and chat to fellow users in the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
 
-Where can I get it?
-----------
+## Where can I get it? ##
 
 xBehave.net is available as a [NuGet package](https://nuget.org/packages/xBehave). For update notifications, follow [@adamralph](https://twitter.com/#!/adamralph).
 
 Continuous integration builds are available at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview). To build manually, clone or fork this repository and execute Invoke-ReleaseBuild.ps1 from PowerShell.
 
-What else does it do?
-----------
+## What else does it do? ##
 
 ### Basic ###
 
@@ -95,8 +92,7 @@ When added after a step definition, xBehave.net creates an isolated context cont
 
 When added after a step definition, xBehave.net skips the defined step (similar to xUnit.net [Fact(Skip="...")]). This is useful for temporarily skipping assertions while the target is a work in progress.
 
-Can I help to improve it and/or fix bugs?
-----------
+## Can I help to improve it and/or fix bugs? ##
 
 Absolutely! Please feel free to raise issues, fork the source code, send pull requests, etc.
 
@@ -108,13 +104,11 @@ CI builds are hosted at [teamcity.codebetter.com](http://teamcity.codebetter.com
 
 Come and chat to fellow users and developers at the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
 
-What do the version numbers mean?
-----------
+## What do the version numbers mean? ##
 
 xBehave.net uses [Semantic Versioning](http://semver.org/). The current release is 0.x which means 'initial development'. Breaking changes are being kept to a minimum, since the library is already being piloted by a number of projects, so you are encouraged to start using xBehave.net right away. Certain parts of the API may be deprecated during initial development but, wherever practical, will not be removed before version 1.0 is released.
 
-On which giant's shoulders does it stand?
-----------
+## On which giant's shoulders does it stand? ##
 
 * [xUnit.net](http://xunit.codeplex.com/)
 * [Dan North](http://dannorth.net/introducing-bdd/)
