@@ -2,15 +2,15 @@
 <package>
   <metadata>
     <id>Xbehave</id>
-    <version>0.13.0</version>
+    <version>0.14.0-beta01</version>
     <title>xBehave.net</title>
     <authors>Adam Ralph</authors>
     <owners>Adam Ralph</owners>
-    <projectUrl>https://bitbucket.org/adamralph/xbehave.net</projectUrl>
-    <licenseUrl>https://bitbucket.org/adamralph/xbehave.net/src/5b719723bcfe/license.txt</licenseUrl>
+    <projectUrl>https://github.com/xbehave/xbehave.net</projectUrl>
+    <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A BDD/TDD framework based on xUnit.net and inspired by Gherkin. Allows features and scenarios to be written directly in code rather than mapping to external feature files. Works seamlessly with xUnit.net tooling.</description>
-    <releaseNotes>(Enhancement) Add generic type parameters to display names in test output (https://bitbucket.org/adamralph/xbehave.net/issue/18).</releaseNotes>
+    <releaseNotes>TBD</releaseNotes>
     <copyright>Copyright (c) 2011 - 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
