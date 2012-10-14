@@ -213,12 +213,12 @@ namespace Xbehave.Test.Acceptance
                 .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
         }
 
-        private static AndConstraint<FluentAssertions.Assertions.GenericCollectionAssertions<LifetimeEvent>> SomeDisposableObjectsShouldHaveBeenCreated()
+        private static AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<LifetimeEvent>> SomeDisposableObjectsShouldHaveBeenCreated()
         {
             return Disposable.RecordedEvents.Where(@event => @event.EventType == LifeTimeEventType.Constructed).Should().NotBeEmpty();
         }
 
-        private static AndConstraint<FluentAssertions.Assertions.BooleanAssertions> DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder()
+        private static AndConstraint<FluentAssertions.Primitives.BooleanAssertions> DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder()
         {
             return Disposable.RecordedEvents.SkipWhile(@event => @event.EventType != LifeTimeEventType.Disposed)
                 .Reverse()
