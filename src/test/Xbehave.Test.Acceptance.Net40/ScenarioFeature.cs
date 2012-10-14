@@ -6,6 +6,7 @@ namespace Xbehave.Test.Acceptance
 {
     using System;
     using System.Linq;
+    using System.Threading;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
@@ -17,29 +18,6 @@ namespace Xbehave.Test.Acceptance
     public static class ScenarioFeature
     {
         private static int executedStepCount;
-
-        [Scenario]
-        public static void InvalidExamples()
-        {
-            var feature = default(Type);
-            var exception = default(Exception);
-            var results = default(MethodResult[]);
-
-            "Given a feature with scenarios with invalid examples"
-                .Given(() => feature = typeof(FeatureWithScenariosWithInvalidExamples));
-
-            "When the test runner runs the feature"
-                .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
-
-            "Then no exception should be thrown"
-                .Then(() => exception.Should().BeNull());
-
-            "And the results should not be empty"
-                .And(() => results.Should().NotBeEmpty());
-
-            "And each result should be a failure"
-                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
-        }
 
         [Scenario]
         public static void ScenarioBodyThrowsAnException()
@@ -111,29 +89,77 @@ namespace Xbehave.Test.Acceptance
                     .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01] Given something\"")));
         }
 
-        private static class FeatureWithScenariosWithInvalidExamples
+        [Scenario]
+        public static void SkippedScenario()
         {
-            [Scenario]
-            public static void Scenario1(int i)
-            {
-            }
+            var feature = default(Type);
+            var results = default(MethodResult[]);
 
-            [Scenario]
-            [Example("a")]
-            public static void Scenario2(int i)
-            {
-            }
+            "Given a feature with a skipped scenario"
+                .Given(() => feature = typeof(FeatureWithASkippedScenario));
 
-            [Scenario]
-            [Example(1, 2)]
-            public static void Scenario3(int i)
-            {
-            }
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(() => executedStepCount = 0);
 
-            [Scenario]
-            [Example(1)]
-            public static void Scenario4(int i, int j)
+            "Then no steps should have been executed"
+                .Then(() => executedStepCount.Should().Be(0));
+
+            "And there should be one result"
+                .And(() => results.Count().Should().Be(1));
+
+            "And the result should be a skip result"
+                .And(() => results[0].Should().BeOfType<SkipResult>());
+        }
+
+        [Scenario]
+        public static void FailingScenario()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a failing scenario"
+                .Given(() => feature = typeof(FeatureWithAFailingScenario));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(() => executedStepCount = 0);
+
+            "Then no steps should have been executed"
+                .Then(() => executedStepCount.Should().Be(0));
+
+            "And there should be one result"
+                .And(() => results.Count().Should().Be(1));
+
+            "And the result should be a failed result"
+                .And(() => results[0].Should().BeOfType<FailedResult>());
+        }
+
+        private static class FeatureWithASkippedScenario
+        {
+            [Scenario(Skip = "Test")]
+            public static void Scenario1()
             {
+                "Given"
+                    .Given(() => ++executedStepCount);
+
+                "When"
+                    .When(() => ++executedStepCount);
+            }
+        }
+
+        private static class FeatureWithAFailingScenario
+        {
+            [Scenario(Timeout = 100)]
+            public static void Scenario2()
+            {
+                "Given"
+                    .Given(() => ++executedStepCount);
+
+                "When"
+                    .When(() => ++executedStepCount);
+
+                Thread.Sleep(200);
             }
         }
 
