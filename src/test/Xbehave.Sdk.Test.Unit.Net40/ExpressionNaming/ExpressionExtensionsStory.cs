@@ -13,34 +13,35 @@ namespace Xbehave.Sdk.Test.Unit.ExpressionNaming
 
     using Xbehave;
     using Xbehave.Sdk.ExpressionNaming;
+    using Xunit;
 
     public static class ExpressionExtensionsStory
     {
-        [Scenario]
-        public static void Expression1()
-        {
-            Scenario(
-                ((Expression<Action>)(() => 123.Should().Be(123))).Body,
-                "123 should be 123");
-        }
+        ////[Scenario]
+        ////public static void Expression1()
+        ////{
+        ////    Scenario(
+        ////        ((Expression<Action>)(() => 123.Should().Be(123))).Body,
+        ////        "123 should be 123");
+        ////}
 
-        [Scenario]
-        public static void Expression2()
-        {
-            var integer = default(int);
-            Scenario(
-                ((Expression<Action>)(() => integer.Should().Be(123))).Body,
-                "the integer should be 123");
-        }
+        ////[Scenario]
+        ////public static void Expression2()
+        ////{
+        ////    var integer = default(int);
+        ////    Scenario(
+        ////        ((Expression<Action>)(() => integer.Should().Be(123))).Body,
+        ////        "the integer should be 123");
+        ////}
 
-        [Scenario]
-        public static void Expression3()
-        {
-            var action = default(Action);
-            Scenario(
-                ((Expression<Action>)(() => action.ShouldThrow<InvalidOperationException>())).Body,
-                "the action should throw invalid operation exception");
-        }
+        ////[Scenario]
+        ////public static void Expression3()
+        ////{
+        ////    var action = default(Action);
+        ////    Scenario(
+        ////        ((Expression<Action>)(() => action.ShouldThrow<InvalidOperationException>())).Body,
+        ////        "the action should throw invalid operation exception");
+        ////}
 
         [Scenario]
         public static void Expression4()
@@ -107,14 +108,14 @@ namespace Xbehave.Sdk.Test.Unit.ExpressionNaming
         {
         }
 
-        [Scenario]
-        public static void Expression9()
-        {
-            var action = default(Action);
-            Scenario(
-                ((Expression<Action>)(() => action.ShouldThrow<ArgumentException>().And.ParamName.Should().Be("foo"))).Body,
-                "the action should throw argument exception and param name should be \"foo\"");
-        }
+        ////[Scenario]
+        ////public static void Expression9()
+        ////{
+        ////    var action = default(Action);
+        ////    Scenario(
+        ////        ((Expression<Action>)(() => action.ShouldThrow<ArgumentException>().And.ParamName.Should().Be("foo"))).Body,
+        ////        "the action should throw argument exception and param name should be \"foo\"");
+        ////}
 
         [Scenario]
         public static void Expression10()
@@ -125,32 +126,32 @@ namespace Xbehave.Sdk.Test.Unit.ExpressionNaming
                 "a call to (the foo to string) must have happened exactly once");
         }
 
-        [Scenario]
-        public static void Expression11()
-        {
-            var foo = new object();
-            Scenario(
-                ((Expression<Action>)(() => foo.Should().Be(null).And.Be((object)-1))).Body,
-                "the foo should be null and be -1 converted to object");
-        }
+        ////[Scenario]
+        ////public static void Expression11()
+        ////{
+        ////    var foo = new object();
+        ////    Scenario(
+        ////        ((Expression<Action>)(() => foo.Should().Be(null).And.Be((object)-1))).Body,
+        ////        "the foo should be null and be -1 converted to object");
+        ////}
 
-        [Scenario]
-        public static void Expression12()
-        {
-            var foo = new object();
-            Scenario(
-                ((Expression<Action>)(() => foo.Should().Be(null).And.Be(-1 as object))).Body,
-                "the foo should be null and be -1 as object");
-        }
+        ////[Scenario]
+        ////public static void Expression12()
+        ////{
+        ////    var foo = new object();
+        ////    Scenario(
+        ////        ((Expression<Action>)(() => foo.Should().Be(null).And.Be(-1 as object))).Body,
+        ////        "the foo should be null and be -1 as object");
+        ////}
 
-        [Scenario]
-        public static void Expression13()
-        {
-            var foo = new object();
-            Scenario(
-                ((Expression<Action>)(() => foo.GetType().Should().Be(typeof(int)))).Body,
-                "the foo get type should be int32");
-        }
+        ////[Scenario]
+        ////public static void Expression13()
+        ////{
+        ////    var foo = new object();
+        ////    Scenario(
+        ////        ((Expression<Action>)(() => foo.GetType().Should().Be(typeof(int)))).Body,
+        ////        "the foo get type should be int32");
+        ////}
 
         [Scenario(Skip = "WIP")]
         public static void Expression14()
@@ -194,7 +195,7 @@ namespace Xbehave.Sdk.Test.Unit.ExpressionNaming
 
             "when converting the expression to a step name"
                 .When(() => result = expression.ToNaturalLanguage(delimiter))
-                .Then(() => result.Should().Be(expectedStepName));
+                .Then(() => Assert.Equal(expectedStepName, result));
         }
     }
 }
