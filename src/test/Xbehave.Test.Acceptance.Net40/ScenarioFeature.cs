@@ -150,16 +150,14 @@ namespace Xbehave.Test.Acceptance
 
         private static class FeatureWithAFailingScenario
         {
-            [Scenario(Timeout = 100)]
-            public static void Scenario2()
+            [Scenario]
+            public static void Scenario2(int i)
             {
                 "Given"
                     .Given(() => ++executedStepCount);
 
                 "When"
                     .When(() => ++executedStepCount);
-
-                Thread.Sleep(200);
             }
         }
 
