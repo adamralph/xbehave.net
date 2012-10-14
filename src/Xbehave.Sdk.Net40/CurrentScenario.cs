@@ -79,8 +79,11 @@ namespace Xbehave.Sdk
                     var feature = method.IsStatic ? null : method.CreateInstance();
                     foreach (var command in commands)
                     {
-                        // TODO: decide what to do if a failed result is returned
-                        command.Execute(feature);
+                        var result = command.Execute(feature);
+                        if ((result as PassedResult) == null)
+                        {
+                            return new ITestCommand[] { new ReplayCommand(method, result) };
+                        }
                     }
                 }
                 catch (Exception ex)
