@@ -11,6 +11,7 @@ namespace Xbehave.Test.Acceptance
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit;
     using Xunit.Sdk;
 
     // In order to save time
@@ -114,6 +115,29 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().OnlyContain(result => result.DisplayName.EndsWith("Given {3}, {4} and {5}")));
         }
 
+        [Scenario]
+        public static void InvalidExamples()
+        {
+            var feature = default(Type);
+            var exception = default(Exception);
+            var results = default(MethodResult[]);
+
+            "Given a feature with scenarios with invalid examples"
+                .Given(() => feature = typeof(FeatureWithFourScenariosWithInvalidExamples));
+
+            "When the test runner runs the feature"
+                .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
+
+            "Then no exception should be thrown"
+                .Then(() => exception.Should().BeNull());
+
+            "And there should be 4 results"
+                .And(() => results.Count().Should().Be(4));
+
+            "And each result should be a failure"
+                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+        }
+
 #if NET40
         private static class FeatureWithAScenarioWithASingleStepAndExamples
         {
@@ -167,6 +191,32 @@ namespace Xbehave.Test.Acceptance
             {
                 "Given {3}, {4} and {5}"
                     .Given(() => { });
+            }
+        }
+
+        private static class FeatureWithFourScenariosWithInvalidExamples
+        {
+            [Scenario]
+            public static void Scenario1(int i)
+            {
+            }
+
+            [Scenario]
+            [Example("a")]
+            public static void Scenario2(int i)
+            {
+            }
+
+            [Scenario]
+            [Example(1, 2)]
+            public static void Scenario3(int i)
+            {
+            }
+
+            [Scenario]
+            [Example(1)]
+            public static void Scenario4(int i, int j)
+            {
             }
         }
     }
