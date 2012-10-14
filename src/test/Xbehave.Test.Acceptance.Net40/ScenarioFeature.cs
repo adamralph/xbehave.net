@@ -142,7 +142,7 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(MethodResult[]);
 
-            "Given a feature with a scenario with a single step and examples with one argument missing"
+            "Given a feature with a scenario with a single step and parameters"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndParameters));
 
             "When the test runner runs the feature"

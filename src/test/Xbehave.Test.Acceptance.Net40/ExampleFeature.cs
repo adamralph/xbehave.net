@@ -24,14 +24,6 @@ namespace Xbehave.Test.Acceptance
 #endif
 #if NET40
 
-        [Xunit.Extensions.Theory]
-        [Xunit.Extensions.InlineData(1)]
-        public static void Test(int a, string b)
-        {
-            Console.WriteLine("a: {0}", a);
-            Console.WriteLine("b: {0}", b);
-        }
-
         [Scenario]
         public static void Examples()
         {
@@ -56,7 +48,7 @@ namespace Xbehave.Test.Acceptance
                         new EnumerableEqualityComparer<int>())
                     .Should().BeTrue());
         }
-        
+
         [Scenario]
         public static void ExamplesWithTwoMissingArguments()
         {
