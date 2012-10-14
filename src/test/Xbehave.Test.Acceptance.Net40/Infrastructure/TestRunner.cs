@@ -7,6 +7,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using Xunit.Sdk;
 
     internal static class TestRunner
@@ -14,8 +15,13 @@ namespace Xbehave.Test.Acceptance.Infrastructure
         public static IEnumerable<MethodResult> Run(Type featureDefinition)
         {
             var feature = new TestClassCommand(featureDefinition);
-            return TestClassCommandRunner.Execute(feature, feature.EnumerateTestMethods().ToList(), startCallback: null, resultCallback: null).Results
-                .OfType<MethodResult>();
+            MethodResult[] results = null;
+            var thread = new Thread(() => results =
+                TestClassCommandRunner.Execute(feature, feature.EnumerateTestMethods().ToList(), startCallback: null, resultCallback: null).Results
+                .OfType<MethodResult>().ToArray());
+            thread.Start();
+            thread.Join();
+            return results;
         }
     }
 }

@@ -24,13 +24,22 @@ namespace Xbehave.Test.Acceptance
 #endif
 #if NET40
 
+        [Xunit.Extensions.Theory]
+        [Xunit.Extensions.InlineData(1)]
+        public static void Test(int a, string b)
+        {
+            Console.WriteLine("a: {0}", a);
+            Console.WriteLine("b: {0}", b);
+        }
+
         [Scenario]
         public static void Examples()
         {
             var feature = default(Type);
 
-            "Given a feature with a scenario with examples"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamples));
+            "Given a feature with a scenario with a single step and examples"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamples))
+                .Teardown(() => ArgumentLists.Clear());
 
             "When the test runner runs the feature"
                 .When(() => TestRunner.Run(feature));
@@ -43,6 +52,42 @@ namespace Xbehave.Test.Acceptance
                         Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
                             .Select(x => x.GetInstance<ExampleAttribute>())
                             .Select(example => example.DataValues.Cast<int>())
+                            .OrderBy(x => x, new EnumerableComparer<int>()),
+                        new EnumerableEqualityComparer<int>())
+                    .Should().BeTrue());
+        }
+        
+        [Scenario]
+        public static void ExamplesWithTwoMissingArguments()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario with a single step and examples with one argument missing"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingArguments))
+                .Teardown(() => ArgumentLists.Clear());
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
+
+            "Then each result should be a success"
+                .Then(() => results.Should().ContainItemsAssignableTo<PassedResult>());
+
+            ("Then the scenario should be executed once for each example with" +
+                "the values from that example passed as the first two arguments and " +
+                "default values passed as the remaining two arguments")
+                .Then(() => ArgumentLists
+                    .Select(arguments => arguments.Cast<int>())
+                    .OrderBy(x => x, new EnumerableComparer<int>())
+                    .SequenceEqual(
+                        Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
+                            .Select(x => x.GetInstance<ExampleAttribute>())
+                            .Select(example => example.DataValues.Cast<int>()
+                                .Concat(new[]
+                                    {
+                                        default(int),
+                                        default(int),
+                                    }))
                             .OrderBy(x => x, new EnumerableComparer<int>()),
                         new EnumerableEqualityComparer<int>())
                     .Should().BeTrue());
@@ -149,6 +194,19 @@ namespace Xbehave.Test.Acceptance
             {
                 "Given {0}, {1} and {2}"
                     .Given(() => ArgumentLists.Push(new object[] { x, y, z }));
+            }
+        }
+
+        private static class FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingArguments
+        {
+            [Scenario]
+            [Example(1, 2)]
+            [Example(3, 4)]
+            [Example(5, 6)]
+            public static void Scenario(int w, int x, int y, int z)
+            {
+                "Given {0}, {1}, {2} and {3}"
+                    .Given(() => ArgumentLists.Push(new object[] { w, x, y, z }));
             }
         }
 #endif
