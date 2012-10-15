@@ -8,7 +8,9 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Reflection;
     using Xbehave.Sdk;
+    using Xunit;
     using Xunit.Extensions;
     using Xunit.Sdk;
     using Guard = Xbehave.Sdk.Guard;
@@ -28,7 +30,7 @@ namespace Xbehave
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
-    public class ScenarioAttribute : TheoryAttribute
+    public class ScenarioAttribute : FactAttribute
     {
         /// <summary>
         /// Enumerates the test commands representing the background and scenario steps for each isolated context.
@@ -91,7 +93,155 @@ namespace Xbehave
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
 
-            return method.MethodInfo.GetParameters().Any() ? base.EnumerateTestCommands(method) : new[] { new TheoryCommand(method, new object[0]) };
+            if (!method.MethodInfo.GetParameters().Any())
+            {
+                return new[] { new TheoryCommand(method, new object[0]) };
+            }
+
+            List<ITestCommand> results = new List<ITestCommand>();
+
+            try
+            {
+                foreach (object[] dataItems in GetData(method.MethodInfo))
+                {
+                    IMethodInfo testMethod = method;
+                    Type[] resolvedTypes = null;
+
+                    if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
+                    {
+                        resolvedTypes = ResolveGenericTypes(method, dataItems);
+                        testMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(resolvedTypes));
+                    }
+
+                    results.Add(new TheoryCommand(testMethod, dataItems, resolvedTypes));
+                }
+
+                if (results.Count == 0)
+                {
+                    var command = new LambdaTestCommand(
+                        method,
+                        () =>
+                        {
+                            throw new InvalidOperationException(string.Format("No data found for {0}.{1}", method.TypeName, method.Name));
+                        });
+                    results.Add(command);
+                }
+            }
+            catch (Exception ex)
+            {
+                results.Clear();
+                var command = new LambdaTestCommand(
+                    method,
+                    () =>
+                    {
+                        throw new InvalidOperationException(
+                            string.Format("An exception was thrown while getting data for theory {0}.{1}:\r\n{2}", method.TypeName, method.Name, ex));
+                    });
+                results.Add(command);
+            }
+
+            return results;
+        }
+
+        private static IEnumerable<object[]> GetData(MethodInfo method)
+        {
+            foreach (DataAttribute attr in method.GetCustomAttributes(typeof(DataAttribute), false))
+            {
+                ParameterInfo[] parameterInfos = method.GetParameters();
+                Type[] parameterTypes = new Type[parameterInfos.Length];
+
+                for (int idx = 0; idx < parameterInfos.Length; idx++)
+                {
+                    parameterTypes[idx] = parameterInfos[idx].ParameterType;
+                }
+
+                IEnumerable<object[]> attrData = attr.GetData(method, parameterTypes);
+
+                if (attrData != null)
+                {
+                    foreach (object[] dataItems in attrData)
+                    {
+                        yield return dataItems;
+                    }
+                }
+            }
+        }
+
+        private static Type ResolveGenericType(Type genericType, object[] parameters, ParameterInfo[] parameterInfos)
+        {
+            bool sawNullValue = false;
+            Type matchedType = null;
+
+            for (int idx = 0; idx < parameterInfos.Length; ++idx)
+            {
+                if (parameterInfos[idx].ParameterType == genericType)
+                {
+                    object parameterValue = parameters[idx];
+
+                    if (parameterValue == null)
+                    {
+                        sawNullValue = true;
+                    }
+                    else if (matchedType == null)
+                    {
+                        matchedType = parameterValue.GetType();
+                    }
+                    else if (matchedType != parameterValue.GetType())
+                    {
+                        return typeof(object);
+                    }
+                }
+            }
+
+            if (matchedType == null)
+            {
+                return typeof(object);
+            }
+
+            return sawNullValue && matchedType.IsValueType ? typeof(object) : matchedType;
+        }
+
+        private static Type[] ResolveGenericTypes(IMethodInfo method, object[] parameters)
+        {
+            Type[] genericTypes = method.MethodInfo.GetGenericArguments();
+            Type[] resolvedTypes = new Type[genericTypes.Length];
+            ParameterInfo[] parameterInfos = method.MethodInfo.GetParameters();
+
+            for (int idx = 0; idx < genericTypes.Length; ++idx)
+            {
+                resolvedTypes[idx] = ResolveGenericType(genericTypes[idx], parameters, parameterInfos);
+            }
+
+            return resolvedTypes;
+        }
+
+        private class LambdaTestCommand : TestCommand
+        {
+            private readonly Assert.ThrowsDelegate lambda;
+
+            public LambdaTestCommand(IMethodInfo method, Assert.ThrowsDelegate lambda)
+                : base(method, null, 0)
+            {
+                this.lambda = lambda;
+            }
+
+            public override bool ShouldCreateInstance
+            {
+                get { return false; }
+            }
+
+            public override MethodResult Execute(object testClass)
+            {
+                try
+                {
+                    this.lambda();
+                    return new PassedResult(testMethod, DisplayName);
+                }
+                catch (Exception ex)
+                {
+                    return new FailedResult(testMethod, ex, DisplayName);
+                }
+            }
         }
     }
 }
