@@ -8,7 +8,6 @@ namespace Xbehave
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Reflection;
     using Xbehave.Sdk;
     using Xunit.Extensions;
     using Xunit.Sdk;
@@ -92,131 +91,7 @@ namespace Xbehave
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
 
-            return method.MethodInfo.GetParameters().Any() ? EnumerateTestCommands2(method) : new[] { new TheoryCommand(method, new object[0]) };
-        }
-
-        private static IEnumerable<object[]> GetData(MethodInfo method)
-        {
-            foreach (DataAttribute attr in method.GetCustomAttributes(typeof(DataAttribute), false))
-            {
-                var parameterInfos = method.GetParameters();
-                var parameterTypes = new Type[parameterInfos.Length];
-                for (int idx = 0; idx < parameterInfos.Length; idx++)
-                {
-                    parameterTypes[idx] = parameterInfos[idx].ParameterType;
-                }
-
-                var attrData = attr.GetData(method, parameterTypes);
-                if (attrData != null)
-                {
-                    foreach (object[] dataItems in attrData)
-                    {
-                        yield return dataItems;
-                    }
-                }
-            }
-        }
-
-        private static Type ResolveGenericType(Type genericType, object[] parameters, ParameterInfo[] parameterInfos)
-        {
-            bool sawNullValue = false;
-            Type matchedType = null;
-
-            for (int idx = 0; idx < parameterInfos.Length; ++idx)
-            {
-                if (parameterInfos[idx].ParameterType == genericType)
-                {
-                    object parameterValue = parameters[idx];
-
-                    if (parameterValue == null)
-                    {
-                        sawNullValue = true;
-                    }
-                    else if (matchedType == null)
-                    {
-                        matchedType = parameterValue.GetType();
-                    }
-                    else if (matchedType != parameterValue.GetType())
-                    {
-                        return typeof(object);
-                    }
-                }
-            }
-
-            if (matchedType == null)
-            {
-                return typeof(object);
-            }
-
-            return sawNullValue && matchedType.IsValueType ? typeof(object) : matchedType;
-        }
-
-        private static Type[] ResolveGenericTypes(IMethodInfo method, object[] parameters)
-        {
-            var genericTypes = method.MethodInfo.GetGenericArguments();
-            var resolvedTypes = new Type[genericTypes.Length];
-            var parameterInfos = method.MethodInfo.GetParameters();
-            for (int idx = 0; idx < genericTypes.Length; ++idx)
-            {
-                resolvedTypes[idx] = ResolveGenericType(genericTypes[idx], parameters, parameterInfos);
-            }
-
-            return resolvedTypes;
-        }
-
-        private static IEnumerable<ITestCommand> EnumerateTestCommands2(IMethodInfo method)
-        {
-            var results = new List<ITestCommand>();
-            try
-            {
-                foreach (var exampleArgs in GetData(method.MethodInfo))
-                {
-                    var testMethod = method;
-                    Type[] resolvedTypes = null;
-
-                    if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
-                    {
-                        resolvedTypes = ResolveGenericTypes(method, exampleArgs);
-                        testMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(resolvedTypes));
-                    }
-
-                    var parameterTypes = method.MethodInfo.GetParameters().Select(info => info.ParameterType);
-                    var defaultArgs = new List<object>();
-                    foreach (var type in parameterTypes.Skip(exampleArgs.Length))
-                    {
-                        defaultArgs.Add(IsNullableType(type) ? null : Activator.CreateInstance(type));
-                    }
-
-                    results.Add(new TheoryCommand(testMethod, exampleArgs.Concat(defaultArgs).ToArray(), resolvedTypes));
-                }
-
-                if (results.Count == 0)
-                {
-                    var command = new ExceptionCommand(
-                        method,
-                        new InvalidOperationException(string.Format("No data found for {0}.{1}", method.TypeName, method.Name)));
-                    results.Add(command);
-                }
-            }
-            catch (Exception ex)
-            {
-                results.Clear();
-                var message = string.Format(
-                    "An exception was thrown while getting data for theory {0}.{1}:\r\n{2}", method.TypeName, method.Name, ex);
-                results.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
-            }
-
-            return results;
-        }
-
-        private static bool IsNullableType(Type type)
-        {
-            return !type.IsValueType || IsNullableValueType(type);
-        }
-
-        private static bool IsNullableValueType(Type type)
-        {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+            return method.MethodInfo.GetParameters().Any() ? base.EnumerateTestCommands(method) : new[] { new TheoryCommand(method, new object[0]) };
         }
     }
 }
