@@ -94,7 +94,8 @@ namespace Xbehave
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
 
-            if (!method.MethodInfo.GetParameters().Any())
+            var parameters = method.MethodInfo.GetParameters();
+            if (!parameters.Any())
             {
                 return new[] { new TheoryCommand(method, new object[0]) };
             }
@@ -112,7 +113,44 @@ namespace Xbehave
                         closedTypeMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(typeArguments));
                     }
 
-                    commands.Add(new TheoryCommand(closedTypeMethod, argumentList, typeArguments));
+                    var generatedArguments = new List<object>();
+                    for (var missingArgumentIndex = argumentList.Length; missingArgumentIndex < parameters.Length; ++missingArgumentIndex)
+                    {
+                        var parameterType = parameters[missingArgumentIndex].ParameterType;
+                        if (parameterType.IsGenericParameter)
+                        {
+                            Type concreteType = null;
+                            var genericTypes = method.MethodInfo.GetGenericArguments();
+                            for (var genericTypeIndex = 0; genericTypeIndex < genericTypes.Length; ++genericTypeIndex)
+                            {
+                                if (genericTypes[genericTypeIndex] == parameterType)
+                                {
+                                    concreteType = typeArguments[genericTypeIndex];
+                                    break;
+                                }
+                            }
+
+                            if (concreteType == null)
+                            {
+                                var message = string.Format(
+                                    CultureInfo.CurrentCulture, "The type of parameter \"{0}\" cannot be resolved.", parameters[missingArgumentIndex].Name);
+                                throw new InvalidOperationException(message);
+                            }
+
+                            parameterType = concreteType;
+                        }
+
+                        if (parameterType.IsValueType)
+                        {
+                            generatedArguments.Add(Activator.CreateInstance(parameterType));
+                        }
+                        else
+                        {
+                            generatedArguments.Add(null);
+                        }
+                    }
+
+                    commands.Add(new TheoryCommand(closedTypeMethod, argumentList.Concat(generatedArguments).ToArray(), typeArguments));
                 }
 
                 if (commands.Count == 0)
@@ -158,7 +196,7 @@ namespace Xbehave
         {
             var sawNullValue = false;
             Type type = null;
-            for (var index = 0; index < parameters.Length; ++index)
+            for (var index = 0; index < Math.Min(parameters.Length, arguments.Length); ++index)
             {
                 if (parameters[index].ParameterType == genericType)
                 {

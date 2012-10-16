@@ -84,6 +84,42 @@ namespace Xbehave.Test.Acceptance
                         new EnumerableEqualityComparer<int>())
                     .Should().BeTrue());
         }
+        
+        [Scenario]
+        public static void ExamplesWithTwoMissingResolvableGenericArguments()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario with a single step and examples with one argument missing"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingResolvableGenericArguments))
+                .Teardown(() => ArgumentLists.Clear());
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
+
+            "Then each result should be a success"
+                .Then(() => results.Should().ContainItemsAssignableTo<PassedResult>());
+
+            ("Then the scenario should be executed once for each example with" +
+                "the values from that example passed as the first two arguments and " +
+                "default values passed as the remaining two arguments")
+                .Then(() => ArgumentLists
+                    .Select(arguments => arguments.Cast<int>())
+                    .OrderBy(x => x, new EnumerableComparer<int>())
+                    .SequenceEqual(
+                        Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
+                            .Select(x => x.GetInstance<ExampleAttribute>())
+                            .Select(example => example.DataValues.Cast<int>()
+                                .Concat(new[]
+                                    {
+                                        default(int),
+                                        default(int),
+                                    }))
+                            .OrderBy(x => x, new EnumerableComparer<int>()),
+                        new EnumerableEqualityComparer<int>())
+                    .Should().BeTrue());
+        }
 #endif
 
         [Scenario]
@@ -160,7 +196,7 @@ namespace Xbehave.Test.Acceptance
             var results = default(MethodResult[]);
 
             "Given a feature with scenarios with invalid examples"
-                .Given(() => feature = typeof(FeatureWithFourScenariosWithInvalidExamples));
+                .Given(() => feature = typeof(FeatureWithThreeScenariosWithInvalidExamples));
 
             "When the test runner runs the feature"
                 .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
@@ -168,8 +204,8 @@ namespace Xbehave.Test.Acceptance
             "Then no exception should be thrown"
                 .Then(() => exception.Should().BeNull());
 
-            "And there should be 4 results"
-                .And(() => results.Count().Should().Be(4));
+            "And there should be 3 results"
+                .And(() => results.Count().Should().Be(3));
 
             "And each result should be a failure"
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
@@ -196,6 +232,19 @@ namespace Xbehave.Test.Acceptance
             [Example(3, 4)]
             [Example(5, 6)]
             public static void Scenario(int w, int x, int y, int z)
+            {
+                "Given {0}, {1}, {2} and {3}"
+                    .Given(() => ArgumentLists.Push(new object[] { w, x, y, z }));
+            }
+        }
+
+        private static class FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingResolvableGenericArguments
+        {
+            [Scenario]
+            [Example(1, 2)]
+            [Example(3, 4)]
+            [Example(5, 6)]
+            public static void Scenario<T1, T2>(T1 w, T2 x, T1 y, T2 z)
             {
                 "Given {0}, {1}, {2} and {3}"
                     .Given(() => ArgumentLists.Push(new object[] { w, x, y, z }));
@@ -244,7 +293,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithFourScenariosWithInvalidExamples
+        private static class FeatureWithThreeScenariosWithInvalidExamples
         {
             [Scenario]
             public static void Scenario1(int i)
@@ -260,12 +309,6 @@ namespace Xbehave.Test.Acceptance
             [Scenario]
             [Example(1, 2)]
             public static void Scenario3(int i)
-            {
-            }
-
-            [Scenario]
-            [Example(1)]
-            public static void Scenario4(int i, int j)
             {
             }
         }
