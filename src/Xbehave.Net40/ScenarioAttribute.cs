@@ -99,42 +99,40 @@ namespace Xbehave
                 return new[] { new TheoryCommand(method, new object[0]) };
             }
 
-            List<ITestCommand> results = new List<ITestCommand>();
-
+            var commands = new List<ITestCommand>();
             try
             {
-                foreach (object[] dataItems in GetData(method.MethodInfo))
+                foreach (var argumentList in GetArgumentLists(method.MethodInfo))
                 {
-                    IMethodInfo testMethod = method;
-                    Type[] resolvedTypes = null;
-
+                    var closedTypeMethod = method;
+                    Type[] typeArguments = null;
                     if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
                     {
-                        resolvedTypes = ResolveGenericTypes(method, dataItems);
-                        testMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(resolvedTypes));
+                        typeArguments = ResolveTypeArguments(method, argumentList);
+                        closedTypeMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(typeArguments));
                     }
 
-                    results.Add(new TheoryCommand(testMethod, dataItems, resolvedTypes));
+                    commands.Add(new TheoryCommand(closedTypeMethod, argumentList, typeArguments));
                 }
 
-                if (results.Count == 0)
+                if (commands.Count == 0)
                 {
                     var message = string.Format(CultureInfo.CurrentCulture, "No data found for {0}.{1}", method.TypeName, method.Name);
-                    results.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
+                    commands.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
                 }
             }
             catch (Exception ex)
             {
-                results.Clear();
+                commands.Clear();
                 var message = string.Format(
                     CultureInfo.CurrentCulture, "An exception was thrown while getting data for scenario {0}.{1}:\r\n{2}", method.TypeName, method.Name, ex);
-                results.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
+                commands.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
             }
 
-            return results;
+            return commands;
         }
 
-        private static IEnumerable<object[]> GetData(MethodInfo method)
+        private static IEnumerable<object[]> GetArgumentLists(MethodInfo method)
         {
             foreach (DataAttribute attr in method.GetCustomAttributes(typeof(DataAttribute), false))
             {
@@ -192,7 +190,7 @@ namespace Xbehave
             return sawNullValue && matchedType.IsValueType ? typeof(object) : matchedType;
         }
 
-        private static Type[] ResolveGenericTypes(IMethodInfo method, object[] parameters)
+        private static Type[] ResolveTypeArguments(IMethodInfo method, object[] parameters)
         {
             Type[] genericTypes = method.MethodInfo.GetGenericArguments();
             Type[] resolvedTypes = new Type[genericTypes.Length];
