@@ -152,41 +152,39 @@ namespace Xbehave
         {
             var parameters = method.MethodInfo.GetParameters();
             var args = arguments.ToArray();
-            return method.MethodInfo.GetGenericArguments().Select(genericType => ResolveGenericType(genericType, args, parameters));
+            return method.MethodInfo.GetGenericArguments().Select(genericType => ResolveGenericType(genericType, parameters, args));
         }
 
-        private static Type ResolveGenericType(Type genericType, object[] parameters, ParameterInfo[] parameterInfos)
+        private static Type ResolveGenericType(Type genericType, ParameterInfo[] parameters, object[] arguments)
         {
-            bool sawNullValue = false;
-            Type matchedType = null;
-
-            for (int idx = 0; idx < parameterInfos.Length; ++idx)
+            var sawNullValue = false;
+            Type type = null;
+            for (var index = 0; index < parameters.Length; ++index)
             {
-                if (parameterInfos[idx].ParameterType == genericType)
+                if (parameters[index].ParameterType == genericType)
                 {
-                    object parameterValue = parameters[idx];
-
-                    if (parameterValue == null)
+                    var argument = arguments[index];
+                    if (argument == null)
                     {
                         sawNullValue = true;
                     }
-                    else if (matchedType == null)
+                    else if (type == null)
                     {
-                        matchedType = parameterValue.GetType();
+                        type = argument.GetType();
                     }
-                    else if (matchedType != parameterValue.GetType())
+                    else if (type != argument.GetType())
                     {
                         return typeof(object);
                     }
                 }
             }
 
-            if (matchedType == null)
+            if (type == null)
             {
                 return typeof(object);
             }
 
-            return sawNullValue && matchedType.IsValueType ? typeof(object) : matchedType;
+            return sawNullValue && type.IsValueType ? typeof(object) : type;
         }
     }
 }
