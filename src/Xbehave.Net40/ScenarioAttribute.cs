@@ -108,7 +108,7 @@ namespace Xbehave
                     Type[] typeArguments = null;
                     if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
                     {
-                        typeArguments = ResolveTypeArguments(method, argumentList);
+                        typeArguments = ResolveTypeArguments(method, argumentList).ToArray();
                         closedTypeMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(typeArguments));
                     }
 
@@ -148,6 +148,13 @@ namespace Xbehave
             }
         }
 
+        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo method, IEnumerable<object> arguments)
+        {
+            var parameters = method.MethodInfo.GetParameters();
+            var args = arguments.ToArray();
+            return method.MethodInfo.GetGenericArguments().Select(genericType => ResolveGenericType(genericType, args, parameters));
+        }
+
         private static Type ResolveGenericType(Type genericType, object[] parameters, ParameterInfo[] parameterInfos)
         {
             bool sawNullValue = false;
@@ -180,20 +187,6 @@ namespace Xbehave
             }
 
             return sawNullValue && matchedType.IsValueType ? typeof(object) : matchedType;
-        }
-
-        private static Type[] ResolveTypeArguments(IMethodInfo method, object[] parameters)
-        {
-            Type[] genericTypes = method.MethodInfo.GetGenericArguments();
-            Type[] resolvedTypes = new Type[genericTypes.Length];
-            ParameterInfo[] parameterInfos = method.MethodInfo.GetParameters();
-
-            for (int idx = 0; idx < genericTypes.Length; ++idx)
-            {
-                resolvedTypes[idx] = ResolveGenericType(genericTypes[idx], parameters, parameterInfos);
-            }
-
-            return resolvedTypes;
         }
     }
 }
