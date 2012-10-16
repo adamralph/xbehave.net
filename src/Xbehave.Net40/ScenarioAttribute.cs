@@ -7,6 +7,7 @@ namespace Xbehave
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using Xbehave.Sdk;
@@ -118,26 +119,16 @@ namespace Xbehave
 
                 if (results.Count == 0)
                 {
-                    var command = new LambdaTestCommand(
-                        method,
-                        () =>
-                        {
-                            throw new InvalidOperationException(string.Format("No data found for {0}.{1}", method.TypeName, method.Name));
-                        });
-                    results.Add(command);
+                    var message = string.Format(CultureInfo.CurrentCulture, "No data found for {0}.{1}", method.TypeName, method.Name);
+                    results.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
                 }
             }
             catch (Exception ex)
             {
                 results.Clear();
-                var command = new LambdaTestCommand(
-                    method,
-                    () =>
-                    {
-                        throw new InvalidOperationException(
-                            string.Format("An exception was thrown while getting data for theory {0}.{1}:\r\n{2}", method.TypeName, method.Name, ex));
-                    });
-                results.Add(command);
+                var message = string.Format(
+                    CultureInfo.CurrentCulture, "An exception was thrown while getting data for scenario {0}.{1}:\r\n{2}", method.TypeName, method.Name, ex);
+                results.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
             }
 
             return results;
@@ -213,35 +204,6 @@ namespace Xbehave
             }
 
             return resolvedTypes;
-        }
-
-        private class LambdaTestCommand : TestCommand
-        {
-            private readonly Assert.ThrowsDelegate lambda;
-
-            public LambdaTestCommand(IMethodInfo method, Assert.ThrowsDelegate lambda)
-                : base(method, null, 0)
-            {
-                this.lambda = lambda;
-            }
-
-            public override bool ShouldCreateInstance
-            {
-                get { return false; }
-            }
-
-            public override MethodResult Execute(object testClass)
-            {
-                try
-                {
-                    this.lambda();
-                    return new PassedResult(testMethod, DisplayName);
-                }
-                catch (Exception ex)
-                {
-                    return new FailedResult(testMethod, ex, DisplayName);
-                }
-            }
         }
     }
 }
