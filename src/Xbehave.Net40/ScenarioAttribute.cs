@@ -148,11 +148,10 @@ namespace Xbehave
             }
         }
 
-        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo method, IEnumerable<object> arguments)
+        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo method, object[] arguments)
         {
             var parameters = method.MethodInfo.GetParameters();
-            var args = arguments.ToArray();
-            return method.MethodInfo.GetGenericArguments().Select(genericType => ResolveGenericType(genericType, parameters, args));
+            return method.MethodInfo.GetGenericArguments().Select(genericType => ResolveGenericType(genericType, parameters, arguments));
         }
 
         private static Type ResolveGenericType(Type genericType, ParameterInfo[] parameters, object[] arguments)
