@@ -134,23 +134,15 @@ namespace Xbehave
 
         private static IEnumerable<object[]> GetArgumentLists(MethodInfo method)
         {
-            foreach (DataAttribute attr in method.GetCustomAttributes(typeof(DataAttribute), false))
+            var parameterTypes = method.GetParameters().Select(parameter => parameter.ParameterType).ToArray();
+            foreach (var dataAttribute in method.GetCustomAttributes(typeof(DataAttribute), false).Cast<DataAttribute>())
             {
-                ParameterInfo[] parameterInfos = method.GetParameters();
-                Type[] parameterTypes = new Type[parameterInfos.Length];
-
-                for (int idx = 0; idx < parameterInfos.Length; idx++)
+                var argumentLists = dataAttribute.GetData(method, parameterTypes);
+                if (argumentLists != null)
                 {
-                    parameterTypes[idx] = parameterInfos[idx].ParameterType;
-                }
-
-                IEnumerable<object[]> attrData = attr.GetData(method, parameterTypes);
-
-                if (attrData != null)
-                {
-                    foreach (object[] dataItems in attrData)
+                    foreach (var argumentList in argumentLists)
                     {
-                        yield return dataItems;
+                        yield return argumentList;
                     }
                 }
             }
