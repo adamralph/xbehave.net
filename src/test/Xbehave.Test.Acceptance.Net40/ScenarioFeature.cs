@@ -182,6 +182,7 @@ namespace Xbehave.Test.Acceptance
         private static class FeatureWithAFailingScenario
         {
             [Scenario]
+            [Example("a")]
             public static void Scenario2(int i)
             {
                 "Given"

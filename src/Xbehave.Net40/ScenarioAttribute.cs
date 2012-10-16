@@ -173,7 +173,8 @@ namespace Xbehave
         private static IEnumerable<object[]> GetArgumentLists(MethodInfo method)
         {
             var parameterTypes = method.GetParameters().Select(parameter => parameter.ParameterType).ToArray();
-            foreach (var dataAttribute in method.GetCustomAttributes(typeof(DataAttribute), false).Cast<DataAttribute>())
+            var dataAttributes = method.GetCustomAttributes(typeof(DataAttribute), false).Cast<DataAttribute>().ToArray();
+            foreach (var dataAttribute in dataAttributes)
             {
                 var argumentLists = dataAttribute.GetData(method, parameterTypes);
                 if (argumentLists != null)
@@ -183,6 +184,11 @@ namespace Xbehave
                         yield return argumentList;
                     }
                 }
+            }
+
+            if (dataAttributes.Length == 0)
+            {
+                yield return parameterTypes.Select(type => type.IsValueType ? Activator.CreateInstance(type) : null).ToArray();
             }
         }
 

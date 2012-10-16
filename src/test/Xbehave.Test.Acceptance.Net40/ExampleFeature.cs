@@ -196,7 +196,7 @@ namespace Xbehave.Test.Acceptance
             var results = default(MethodResult[]);
 
             "Given a feature with scenarios with invalid examples"
-                .Given(() => feature = typeof(FeatureWithThreeScenariosWithInvalidExamples));
+                .Given(() => feature = typeof(FeatureWithTwoScenariosWithInvalidExamples));
 
             "When the test runner runs the feature"
                 .When(() => exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray()));
@@ -204,8 +204,8 @@ namespace Xbehave.Test.Acceptance
             "Then no exception should be thrown"
                 .Then(() => exception.Should().BeNull());
 
-            "And there should be 3 results"
-                .And(() => results.Count().Should().Be(3));
+            "And there should be 2 results"
+                .And(() => results.Count().Should().Be(2));
 
             "And each result should be a failure"
                 .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
@@ -293,13 +293,8 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithThreeScenariosWithInvalidExamples
+        private static class FeatureWithTwoScenariosWithInvalidExamples
         {
-            [Scenario]
-            public static void Scenario1(int i)
-            {
-            }
-
             [Scenario]
             [Example("a")]
             public static void Scenario2(int i)
