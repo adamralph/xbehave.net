@@ -11,11 +11,8 @@ namespace Xbehave.Samples
     public class InIsolation
     {
         [Scenario]
-        public void Push()
+        public void Push(int element, Stack<int> stack)
         {
-            var stack = default(Stack<int>);
-            var element = default(int);
-
             "Given an element"
                 .Given(() => element = 11);
 

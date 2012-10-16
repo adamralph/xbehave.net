@@ -13,10 +13,8 @@ namespace Xbehave.Samples
         [Scenario]
         [Example(123)]
         [Example(234)]
-        public void Push(int element)
+        public void Push(int element, Stack<int> stack)
         {
-            var stack = default(Stack<int>);
-
             "Given {0}"
                 .Given(() => { });
 

@@ -11,18 +11,16 @@ namespace Xbehave.Samples
     public class FluentStackSpecs
     {
         [Scenario]
-        public void Push()
+        public void Push(int element, Stack<int> stack)
         {
-            var target = default(Stack<int>);
-            var element = default(int);
             _
             .Given("an element", () => element = 11)
-            .And("a stack", () => target = new Stack<int>())
-            .When("pushing the element", () => target.Push(element))
-            .Then("the target should not be empty", () => target.Should().NotBeEmpty())
-            .And("the target peek should be the element", () => target.Peek().Should().Be(element))
-            .And("the target peek should be the element", () => target.Peek().Should().Be(element)).InIsolation()
-            .And("the target peek should be the element", () => target.Peek().Should().Be(element)).Skip("because I can");
+            .And("a stack", () => stack = new Stack<int>())
+            .When("pushing the element", () => stack.Push(element))
+            .Then("the stack should not be empty", () => stack.Should().NotBeEmpty())
+            .And("the stack peek should be the element", () => stack.Peek().Should().Be(element))
+            .And("the stack peek should be the element", () => stack.Peek().Should().Be(element)).InIsolation()
+            .And("the stack peek should be the element", () => stack.Peek().Should().Be(element)).Skip("because I can");
         }
     }
 }

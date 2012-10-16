@@ -13,26 +13,22 @@ namespace Xbehave.Samples
     public class SkippedStackSpecs
     {
         [Scenario]
-        public void Push()
+        public void Push(int element, Stack<int> stack)
         {
-            var target = default(Stack<int>);
-            var element = default(int);
-
             "Given an element"
-                .Given(() =>
-                {
-                    element = 11;
-                    target = new Stack<int>();
-                });
+                .Given(() => element = 11);
+
+            "And a stack"
+                .And(() => stack = new Stack<int>());
 
             "when pushing the element"
-                .When(() => target.Push(element));
+                .When(() => stack.Push(element));
 
-            "then the target should not be empty"
-                .Then(() => target.Should().NotBeEmpty()).Skip("Just for fun.");
+            "then the stack should not be empty"
+                .Then(() => stack.Should().NotBeEmpty()).Skip("Just for fun.");
 
-            "then the target peek should be the element"
-                .Then(() => target.Peek().Should().Be(element)).Skip("Just for fun.");
+            "then the stack peek should be the element"
+                .Then(() => stack.Peek().Should().Be(element)).Skip("Just for fun.");
         }
     }
 }
