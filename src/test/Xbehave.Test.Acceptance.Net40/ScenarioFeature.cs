@@ -17,6 +17,7 @@ namespace Xbehave.Test.Acceptance
     // I want to run automated acceptance tests describing each feature of my product using scenarios
     public static class ScenarioFeature
     {
+        private static object[] arguments;
         private static int executedStepCount;
 
         [Scenario]
@@ -78,7 +79,7 @@ namespace Xbehave.Test.Acceptance
                 .When(() => results = TestRunner.Run(feature).ToArray())
                 .Teardown(() => executedStepCount = 0);
 
-            "Then each result should a be a failure"
+            "Then each result should be a failure"
                 .Then(() => results.Should().ContainItemsAssignableTo<FailedResult>());
 
             "And only the first step should have been executed"
@@ -135,6 +136,36 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results[0].Should().BeOfType<FailedResult>());
         }
 
+        [Scenario]
+        public static void ScenarioWithParameters()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario with a single step and parameters"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndParameters));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
+
+            "Then each result should be a success"
+                .Then(() => results.Should().ContainItemsAssignableTo<PassedResult>());
+
+            "Then the scenario should be executed with default values passed as arguments"
+                .Then(() => arguments.Should().OnlyContain(obj => (int)obj == default(int)))
+                .Teardown(() => arguments = null);
+        }
+
+        private static class FeatureWithAScenarioWithASingleStepAndParameters
+        {
+            [Scenario]
+            public static void Scenario(int w, int x, int y, int z)
+            {
+                "Given {0}, {1}, {2} and {3}"
+                    .Given(() => arguments = new object[] { w, x, y, z });
+            }
+        }
+
         private static class FeatureWithASkippedScenario
         {
             [Scenario(Skip = "Test")]
@@ -151,6 +182,7 @@ namespace Xbehave.Test.Acceptance
         private static class FeatureWithAFailingScenario
         {
             [Scenario]
+            [Example("a")]
             public static void Scenario2(int i)
             {
                 "Given"
