@@ -61,8 +61,8 @@ namespace Xbehave
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(scenarioCommand =>
             {
-                var theoryCommand = scenarioCommand as TheoryCommand;
-                var args = theoryCommand == null ? new object[0] : theoryCommand.Parameters;
+                var commandWithArguments = scenarioCommand as ScenarioCommand;
+                var args = commandWithArguments == null ? new object[0] : commandWithArguments.Parameters;
                 return CurrentScenario.ExtractCommands(method, args, backgroundCommands.Concat(new[] { scenarioCommand }));
             });
         }
@@ -97,7 +97,7 @@ namespace Xbehave
             var parameters = method.MethodInfo.GetParameters();
             if (!parameters.Any())
             {
-                return new[] { new TheoryCommand(method, new object[0]) };
+                return new[] { new ScenarioCommand(method, new object[0]) };
             }
 
             var commands = new List<ITestCommand>();
@@ -150,7 +150,7 @@ namespace Xbehave
                         }
                     }
 
-                    commands.Add(new TheoryCommand(closedTypeMethod, argumentList.Concat(generatedArguments).ToArray(), typeArguments));
+                    commands.Add(new ScenarioCommand(closedTypeMethod, argumentList.Concat(generatedArguments).ToArray(), typeArguments));
                 }
 
                 if (commands.Count == 0)
