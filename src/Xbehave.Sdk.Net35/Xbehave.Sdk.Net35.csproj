@@ -23,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
-    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -120,6 +120,9 @@
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ReplayCommand.cs">
       <Link>ReplayCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\ScenarioCommand.cs">
+      <Link>ScenarioCommand.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Step.cs">
       <Link>Step.cs</Link>
