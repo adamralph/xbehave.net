@@ -7,6 +7,7 @@ namespace Xbehave.Sdk
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Linq;
     using System.Reflection;
     using Xunit.Sdk;
 
@@ -17,55 +18,26 @@ namespace Xbehave.Sdk
         {
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "An immediate NullReferenceException is fine.")]
-        public ScenarioCommand(IMethodInfo testMethod, object[] parameters, Type[] genericTypes)
-            : base(testMethod, MethodUtility.GetDisplayName(testMethod), MethodUtility.GetTimeoutParameter(testMethod))
+        public ScenarioCommand(IMethodInfo testMethod, object[] arguments, Type[] genericTypes)
+            : base(testMethod, null, MethodUtility.GetTimeoutParameter(testMethod))
         {
-            int idx;
-
-            this.Parameters = parameters ?? new object[0];
-
-            if (genericTypes != null && genericTypes.Length > 0)
-            {
-                string[] typeNames = new string[genericTypes.Length];
-                for (idx = 0; idx < genericTypes.Length; idx++)
-                {
-                    typeNames[idx] = ConvertToSimpleTypeName(genericTypes[idx]);
-                }
-
-                this.DisplayName = string.Format("{0}<{1}>", this.DisplayName, string.Join(", ", typeNames));
-            }
-
-            ParameterInfo[] parameterInfos = testMethod.MethodInfo.GetParameters();
-            string[] displayValues = new string[Math.Max(this.Parameters.Length, parameterInfos.Length)];
-
-            for (idx = 0; idx < this.Parameters.Length; idx++)
-            {
-                displayValues[idx] = ParameterToDisplayValue(GetParameterName(parameterInfos, idx), this.Parameters[idx]);
-            }
-
-            // NOTE: fill-in any missing parameters with "???"
-            for (; idx < parameterInfos.Length; idx++)
-            {
-                displayValues[idx] = parameterInfos[idx].Name + ": ???";
-            }
-
-            this.DisplayName = string.Format("{0}({1})", this.DisplayName, string.Join(", ", displayValues));
+            this.Arguments = arguments ?? new object[0];
+            this.DisplayName = GetDisplayName(testMethod, this.Arguments, genericTypes);
         }
 
-        public object[] Parameters { get; protected set; }
+        public object[] Arguments { get; protected set; }
 
         public override MethodResult Execute(object testClass)
         {
             try
             {
                 ParameterInfo[] parameterInfos = testMethod.MethodInfo.GetParameters();
-                if (parameterInfos.Length != this.Parameters.Length)
+                if (parameterInfos.Length != this.Arguments.Length)
                 {
-                    throw new InvalidOperationException(string.Format("Expected {0} parameters, got {1} parameters", parameterInfos.Length, this.Parameters.Length));
+                    throw new InvalidOperationException(string.Format("Expected {0} parameters, got {1} parameters", parameterInfos.Length, this.Arguments.Length));
                 }
 
-                testMethod.Invoke(testClass, this.Parameters);
+                testMethod.Invoke(testClass, this.Arguments);
             }
             catch (TargetInvocationException ex)
             {
@@ -73,6 +45,34 @@ namespace Xbehave.Sdk
             }
 
             return new PassedResult(testMethod, DisplayName);
+        }
+
+        private static string GetDisplayName(IMethodInfo testMethod, object[] arguments, Type[] genericTypes)
+        {
+            var displayName = MethodUtility.GetDisplayName(testMethod);
+            if (genericTypes != null && genericTypes.Length > 0)
+            {
+                displayName = string.Format(
+                    "{0}<{1}>",
+                    displayName,
+                    string.Join(", ", genericTypes.Select(genericType => ConvertToSimpleTypeName(genericType)).ToArray()));
+            }
+
+            var parameters = testMethod.MethodInfo.GetParameters();
+            var parameterTokens = new string[Math.Max(arguments.Length, parameters.Length)];
+            int parameterIndex;
+            for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+            {
+                parameterTokens[parameterIndex] =
+                    ParameterToDisplayValue(GetParameterName(parameters, parameterIndex), arguments[parameterIndex]);
+            }
+
+            for (; parameterIndex < parameters.Length; parameterIndex++)
+            {
+                parameterTokens[parameterIndex] = parameters[parameterIndex].Name + ": ???";
+            }
+
+            return string.Format("{0}({1})", displayName, string.Join(", ", parameterTokens));
         }
 
         private static string ConvertToSimpleTypeName(Type type)

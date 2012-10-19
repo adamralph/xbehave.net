@@ -62,7 +62,7 @@ namespace Xbehave
             return scenarioCommands.SelectMany(scenarioCommand =>
             {
                 var commandWithArguments = scenarioCommand as ScenarioCommand;
-                var args = commandWithArguments == null ? new object[0] : commandWithArguments.Parameters;
+                var args = commandWithArguments == null ? new object[0] : commandWithArguments.Arguments;
                 return CurrentScenario.ExtractCommands(method, args, backgroundCommands.Concat(new[] { scenarioCommand }));
             });
         }
