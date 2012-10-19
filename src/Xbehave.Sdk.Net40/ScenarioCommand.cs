@@ -63,8 +63,10 @@ namespace Xbehave.Sdk
             int parameterIndex;
             for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
             {
-                parameterTokens[parameterIndex] = ParameterToDisplayValue(
-                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name, arguments[parameterIndex]);
+                parameterTokens[parameterIndex] = string.Concat(
+                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
+                    ": ",
+                    arguments[parameterIndex]);
             }
 
             for (; parameterIndex < parameters.Length; parameterIndex++)
@@ -110,11 +112,6 @@ namespace Xbehave.Sdk
             }
 
             return Convert.ToString(parameterValue, CultureInfo.InvariantCulture);
-        }
-
-        private static string ParameterToDisplayValue(string parameterName, object parameterValue)
-        {
-            return parameterName + ": " + ParameterToDisplayValue(parameterValue);
         }
     }
 }
