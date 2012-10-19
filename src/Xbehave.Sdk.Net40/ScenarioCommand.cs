@@ -2,7 +2,7 @@
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
-namespace Xunit.Extensions
+namespace Xbehave.Sdk
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
