@@ -55,7 +55,7 @@ namespace Xbehave.Sdk
                 displayName = string.Format(
                     "{0}<{1}>",
                     displayName,
-                    string.Join(", ", genericTypes.Select(genericType => ConvertToSimpleTypeName(genericType)).ToArray()));
+                    string.Join(", ", genericTypes.Select(genericType => GetCSharpName(genericType)).ToArray()));
             }
 
             var parameters = testMethod.MethodInfo.GetParameters();
@@ -75,25 +75,15 @@ namespace Xbehave.Sdk
             return string.Format("{0}({1})", displayName, string.Join(", ", parameterTokens));
         }
 
-        private static string ConvertToSimpleTypeName(Type type)
+        private static string GetCSharpName(Type type)
         {
             if (!type.IsGenericType)
             {
                 return type.Name;
             }
 
-            Type[] genericTypes = type.GetGenericArguments();
-            string[] simpleNames = new string[genericTypes.Length];
-
-            for (int idx = 0; idx < genericTypes.Length; idx++)
-            {
-                simpleNames[idx] = ConvertToSimpleTypeName(genericTypes[idx]);
-            }
-
-            string baseTypeName = type.Name;
-            int backTickIdx = type.Name.IndexOf('`');
-
-            return baseTypeName.Substring(0, backTickIdx) + "<" + string.Join(", ", simpleNames) + ">";
+            var genericArgumentCSharpNames = type.GetGenericArguments().Select(genericType => GetCSharpName(genericType)).ToArray();
+            return string.Concat(type.Name.Substring(0, type.Name.IndexOf('`')), "<", string.Join(", ", genericArgumentCSharpNames), ">");
         }
 
         private static string GetParameterName(ParameterInfo[] parameters, int index)
