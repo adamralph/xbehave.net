@@ -63,8 +63,8 @@ namespace Xbehave.Sdk
             int parameterIndex;
             for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
             {
-                parameterTokens[parameterIndex] =
-                    ParameterToDisplayValue(GetParameterName(parameters, parameterIndex), arguments[parameterIndex]);
+                parameterTokens[parameterIndex] = ParameterToDisplayValue(
+                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name, arguments[parameterIndex]);
             }
 
             for (; parameterIndex < parameters.Length; parameterIndex++)
@@ -84,16 +84,6 @@ namespace Xbehave.Sdk
 
             var genericArgumentCSharpNames = type.GetGenericArguments().Select(genericType => GetCSharpName(genericType)).ToArray();
             return string.Concat(type.Name.Substring(0, type.Name.IndexOf('`')), "<", string.Join(", ", genericArgumentCSharpNames), ">");
-        }
-
-        private static string GetParameterName(ParameterInfo[] parameters, int index)
-        {
-            if (index >= parameters.Length)
-            {
-                return "???";
-            }
-
-            return parameters[index].Name;
         }
 
         private static string ParameterToDisplayValue(object parameterValue)
