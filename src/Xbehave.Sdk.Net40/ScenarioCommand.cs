@@ -6,25 +6,11 @@ using Xunit.Sdk;
 
 namespace Xunit.Extensions
 {
-    /// <summary>
-    /// Represents a single invocation of a data theory test method.
-    /// </summary>
     public class ScenarioCommand : TestCommand
     {
-        /// <summary>
-        /// Creates a new instance of <see cref="ScenarioCommand"/>.
-        /// </summary>
-        /// <param name="testMethod">The method under test</param>
-        /// <param name="parameters">The parameters to be passed to the test method</param>
         public ScenarioCommand(IMethodInfo testMethod, object[] parameters)
             : this(testMethod, parameters, null) { }
 
-        /// <summary>
-        /// Creates a new instance of <see cref="ScenarioCommand"/> based on a generic theory.
-        /// </summary>
-        /// <param name="testMethod">The method under test</param>
-        /// <param name="parameters">The parameters to be passed to the test method</param>
-        /// <param name="genericTypes">The generic types that were used to resolved the generic method.</param>
         [SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0", Justification = "An immediate NullReferenceException is fine.")]
         public ScenarioCommand(IMethodInfo testMethod, object[] parameters, Type[] genericTypes)
             : base(testMethod, MethodUtility.GetDisplayName(testMethod), MethodUtility.GetTimeoutParameter(testMethod))
@@ -54,9 +40,6 @@ namespace Xunit.Extensions
             DisplayName = String.Format("{0}({1})", DisplayName, string.Join(", ", displayValues));
         }
 
-        /// <summary>
-        /// Gets the parameter values that are passed to the test method.
-        /// </summary>
         public object[] Parameters { get; protected set; }
 
         static string ConvertToSimpleTypeName(Type type)
@@ -76,7 +59,6 @@ namespace Xunit.Extensions
             return baseTypeName.Substring(0, backTickIdx) + "<" + String.Join(", ", simpleNames) + ">";
         }
 
-        /// <inheritdoc/>
         public override MethodResult Execute(object testClass)
         {
             try
