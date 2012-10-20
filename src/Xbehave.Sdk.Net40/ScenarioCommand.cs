@@ -67,7 +67,7 @@ namespace Xbehave.Sdk
                 parameterTokens[parameterIndex] = string.Concat(
                     parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
                     ": ",
-                    arguments[parameterIndex]);
+                    GetCSharpLiteral(arguments[parameterIndex]));
             }
 
             for (; parameterIndex < parameters.Length; parameterIndex++)
