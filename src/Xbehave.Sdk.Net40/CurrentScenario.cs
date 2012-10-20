@@ -70,6 +70,7 @@ namespace Xbehave.Sdk
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
         public static IEnumerable<ITestCommand> ExtractCommands(IMethodInfo method, IEnumerable<object> args, IEnumerable<ITestCommand> commands)
         {
+            Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgument("commands", commands);
 
             try

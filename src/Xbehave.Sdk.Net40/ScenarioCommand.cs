@@ -53,6 +53,7 @@ namespace Xbehave.Sdk
             if (genericTypes != null && genericTypes.Length > 0)
             {
                 csharp = string.Format(
+                    CultureInfo.InvariantCulture,
                     "{0}<{1}>",
                     csharp,
                     string.Join(", ", genericTypes.Select(genericType => GetCSharpName(genericType)).ToArray()));
@@ -74,7 +75,7 @@ namespace Xbehave.Sdk
                 parameterTokens[parameterIndex] = parameters[parameterIndex].Name + ": ???";
             }
 
-            return string.Format("{0}({1})", csharp, string.Join(", ", parameterTokens));
+            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", csharp, string.Join(", ", parameterTokens));
         }
 
         private static string GetCSharpName(Type type)
