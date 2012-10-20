@@ -22,7 +22,7 @@ namespace Xbehave.Sdk
             : base(testMethod, null, MethodUtility.GetTimeoutParameter(testMethod))
         {
             this.Arguments = arguments ?? new object[0];
-            this.DisplayName = GetDisplayName(testMethod, this.Arguments, genericTypes);
+            this.DisplayName = GetCSharpCall(testMethod, this.Arguments, genericTypes);
         }
 
         public object[] Arguments { get; protected set; }
@@ -47,7 +47,7 @@ namespace Xbehave.Sdk
             return new PassedResult(testMethod, DisplayName);
         }
 
-        private static string GetDisplayName(IMethodInfo testMethod, object[] arguments, Type[] genericTypes)
+        private static string GetCSharpCall(IMethodInfo testMethod, object[] arguments, Type[] genericTypes)
         {
             var displayName = MethodUtility.GetDisplayName(testMethod);
             if (genericTypes != null && genericTypes.Length > 0)
@@ -88,30 +88,30 @@ namespace Xbehave.Sdk
             return string.Concat(type.Name.Substring(0, type.Name.IndexOf('`')), "<", string.Join(", ", genericArgumentCSharpNames), ">");
         }
 
-        private static string ParameterToDisplayValue(object parameterValue)
+        private static string GetCSharpLiteral(object argument)
         {
-            if (parameterValue == null)
+            if (argument == null)
             {
                 return "null";
             }
 
-            if (parameterValue is char)
+            if (argument is char)
             {
-                return "'" + parameterValue + "'";
+                return "'" + argument + "'";
             }
 
-            string stringParameter = parameterValue as string;
-            if (stringParameter != null)
+            var stringArgument = argument as string;
+            if (stringArgument != null)
             {
-                if (stringParameter.Length > 50)
+                if (stringArgument.Length > 50)
                 {
-                    return "\"" + stringParameter.Substring(0, 50) + "\"...";
+                    return string.Concat("\"", stringArgument.Substring(0, 50), "\"...");
                 }
 
-                return "\"" + stringParameter + "\"";
+                return string.Concat("\"", stringArgument, "\"");
             }
 
-            return Convert.ToString(parameterValue, CultureInfo.InvariantCulture);
+            return Convert.ToString(argument, CultureInfo.InvariantCulture);
         }
     }
 }
