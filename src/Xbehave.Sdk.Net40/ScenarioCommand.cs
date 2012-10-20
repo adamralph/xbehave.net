@@ -5,6 +5,7 @@
 namespace Xbehave.Sdk
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -12,6 +13,8 @@ namespace Xbehave.Sdk
 
     public class ScenarioCommand : TestCommand
     {
+        private readonly object[] arguments;
+
         public ScenarioCommand(IMethodInfo scenarioMethod, object[] arguments)
             : this(scenarioMethod, arguments, null)
         {
@@ -20,24 +23,35 @@ namespace Xbehave.Sdk
         public ScenarioCommand(IMethodInfo scenarioMethod, object[] arguments, Type[] genericTypes)
             : base(scenarioMethod, null, MethodUtility.GetTimeoutParameter(scenarioMethod))
         {
-            this.Arguments = arguments ?? new object[0];
-            this.DisplayName = GetCSharpMethodCall(scenarioMethod, this.Arguments, genericTypes);
+            if (arguments != null)
+            {
+                this.arguments = arguments.ToArray();
+            }
+            else
+            {
+                this.arguments = new object[0];
+            }
+
+            this.DisplayName = GetCSharpMethodCall(scenarioMethod, this.arguments, genericTypes);
         }
 
-        public object[] Arguments { get; protected set; }
+        public IEnumerable<object> Arguments
+        {
+            get { return this.arguments.Select(argument => argument); }
+        }
 
         public override MethodResult Execute(object testClass)
         {
             var parameters = testMethod.MethodInfo.GetParameters();
-            if (parameters.Length != this.Arguments.Length)
+            if (parameters.Length != this.arguments.Length)
             {
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture, "Expected {0} parameters, got {1} parameters", parameters.Length, this.Arguments.Length));
+                    string.Format(CultureInfo.CurrentCulture, "Expected {0} parameters, got {1} parameters", parameters.Length, this.arguments.Length));
             }
 
             try
             {
-                testMethod.Invoke(testClass, this.Arguments);
+                testMethod.Invoke(testClass, this.arguments);
             }
             catch (TargetInvocationException ex)
             {
