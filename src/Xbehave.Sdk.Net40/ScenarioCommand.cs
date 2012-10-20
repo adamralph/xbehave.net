@@ -29,14 +29,15 @@ namespace Xbehave.Sdk
 
         public override MethodResult Execute(object testClass)
         {
+            var parameters = testMethod.MethodInfo.GetParameters();
+            if (parameters.Length != this.Arguments.Length)
+            {
+                throw new InvalidOperationException(
+                    string.Format(CultureInfo.CurrentCulture, "Expected {0} parameters, got {1} parameters", parameters.Length, this.Arguments.Length));
+            }
+
             try
             {
-                ParameterInfo[] parameterInfos = testMethod.MethodInfo.GetParameters();
-                if (parameterInfos.Length != this.Arguments.Length)
-                {
-                    throw new InvalidOperationException(string.Format("Expected {0} parameters, got {1} parameters", parameterInfos.Length, this.Arguments.Length));
-                }
-
                 testMethod.Invoke(testClass, this.Arguments);
             }
             catch (TargetInvocationException ex)
@@ -44,7 +45,7 @@ namespace Xbehave.Sdk
                 ExceptionUtility.RethrowWithNoStackTraceLoss(ex.InnerException);
             }
 
-            return new PassedResult(testMethod, DisplayName);
+            return new PassedResult(testMethod, this.DisplayName);
         }
 
         private static string GetCSharpCall(IMethodInfo testMethod, object[] arguments, Type[] genericTypes)
