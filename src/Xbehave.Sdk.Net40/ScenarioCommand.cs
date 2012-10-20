@@ -5,7 +5,6 @@
 namespace Xbehave.Sdk
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -13,16 +12,16 @@ namespace Xbehave.Sdk
 
     public class ScenarioCommand : TestCommand
     {
-        public ScenarioCommand(IMethodInfo testMethod, object[] parameters)
-            : this(testMethod, parameters, null)
+        public ScenarioCommand(IMethodInfo scenarioMethod, object[] arguments)
+            : this(scenarioMethod, arguments, null)
         {
         }
 
-        public ScenarioCommand(IMethodInfo testMethod, object[] arguments, Type[] genericTypes)
-            : base(testMethod, null, MethodUtility.GetTimeoutParameter(testMethod))
+        public ScenarioCommand(IMethodInfo scenarioMethod, object[] arguments, Type[] genericTypes)
+            : base(scenarioMethod, null, MethodUtility.GetTimeoutParameter(scenarioMethod))
         {
             this.Arguments = arguments ?? new object[0];
-            this.DisplayName = GetCSharpCall(testMethod, this.Arguments, genericTypes);
+            this.DisplayName = GetCSharpMethodCall(scenarioMethod, this.Arguments, genericTypes);
         }
 
         public object[] Arguments { get; protected set; }
@@ -48,18 +47,18 @@ namespace Xbehave.Sdk
             return new PassedResult(testMethod, this.DisplayName);
         }
 
-        private static string GetCSharpCall(IMethodInfo testMethod, object[] arguments, Type[] genericTypes)
+        private static string GetCSharpMethodCall(IMethodInfo method, object[] arguments, Type[] genericTypes)
         {
-            var displayName = MethodUtility.GetDisplayName(testMethod);
+            var csharp = MethodUtility.GetDisplayName(method);
             if (genericTypes != null && genericTypes.Length > 0)
             {
-                displayName = string.Format(
+                csharp = string.Format(
                     "{0}<{1}>",
-                    displayName,
+                    csharp,
                     string.Join(", ", genericTypes.Select(genericType => GetCSharpName(genericType)).ToArray()));
             }
 
-            var parameters = testMethod.MethodInfo.GetParameters();
+            var parameters = method.MethodInfo.GetParameters();
             var parameterTokens = new string[Math.Max(arguments.Length, parameters.Length)];
             int parameterIndex;
             for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
@@ -75,7 +74,7 @@ namespace Xbehave.Sdk
                 parameterTokens[parameterIndex] = parameters[parameterIndex].Name + ": ???";
             }
 
-            return string.Format("{0}({1})", displayName, string.Join(", ", parameterTokens));
+            return string.Format("{0}({1})", csharp, string.Join(", ", parameterTokens));
         }
 
         private static string GetCSharpName(Type type)
