@@ -21,7 +21,7 @@ namespace Xbehave.Sdk
         {
         }
 
-        public ParameterizedCommand(IMethodInfo scenarioMethod, object[] arguments, Type[] genericTypes)
+        public ParameterizedCommand(IMethodInfo scenarioMethod, object[] arguments, Type[] typeArguments)
             : base(scenarioMethod, null, MethodUtility.GetTimeoutParameter(scenarioMethod))
         {
             if (arguments != null)
@@ -33,9 +33,9 @@ namespace Xbehave.Sdk
                 this.arguments = new object[0];
             }
 
-            if (genericTypes != null)
+            if (typeArguments != null)
             {
-                this.typeArguments = genericTypes.ToArray();
+                this.typeArguments = typeArguments.ToArray();
             }
             else
             {
@@ -114,7 +114,7 @@ namespace Xbehave.Sdk
                 return type.Name;
             }
 
-            var genericArgumentCSharpNames = type.GetGenericArguments().Select(genericType => GetCSharpName(genericType)).ToArray();
+            var genericArgumentCSharpNames = type.GetGenericArguments().Select(typeArgument => GetCSharpName(typeArgument)).ToArray();
             return string.Concat(type.Name.Substring(0, type.Name.IndexOf('`')), "<", string.Join(", ", genericArgumentCSharpNames), ">");
         }
 

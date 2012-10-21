@@ -121,12 +121,12 @@ namespace Xbehave
                         if (parameterType.IsGenericParameter)
                         {
                             Type concreteType = null;
-                            var genericTypes = method.MethodInfo.GetGenericArguments();
-                            for (var genericTypeIndex = 0; genericTypeIndex < genericTypes.Length; ++genericTypeIndex)
+                            var typeParameters = method.MethodInfo.GetGenericArguments();
+                            for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
                             {
-                                if (genericTypes[genericTypeIndex] == parameterType)
+                                if (typeParameters[typeParameterIndex] == parameterType)
                                 {
-                                    concreteType = typeArguments[genericTypeIndex];
+                                    concreteType = typeArguments[typeParameterIndex];
                                     break;
                                 }
                             }
@@ -196,16 +196,16 @@ namespace Xbehave
         private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo method, object[] arguments)
         {
             var parameters = method.MethodInfo.GetParameters();
-            return method.MethodInfo.GetGenericArguments().Select(genericType => ResolveGenericType(genericType, parameters, arguments));
+            return method.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, parameters, arguments));
         }
 
-        private static Type ResolveGenericType(Type genericType, ParameterInfo[] parameters, object[] arguments)
+        private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] parameters, object[] arguments)
         {
             var sawNullValue = false;
             Type type = null;
             for (var index = 0; index < Math.Min(parameters.Length, arguments.Length); ++index)
             {
-                if (parameters[index].ParameterType == genericType)
+                if (parameters[index].ParameterType == typeParameter)
                 {
                     var argument = arguments[index];
                     if (argument == null)
