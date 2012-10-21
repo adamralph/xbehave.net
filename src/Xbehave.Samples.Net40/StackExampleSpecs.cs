@@ -12,14 +12,14 @@ namespace Xbehave.Samples
     {
         [Scenario]
         [Example(123)]
-        [Example(234)]
-        public void Push(int element, Stack<int> stack)
+        [Example(234L)]
+        public void Push<TElement>(TElement element, Stack<TElement> stack)
         {
             "Given {0}"
                 .Given(() => { });
 
             "And a stack"
-                .And(() => stack = new Stack<int>());
+                .And(() => stack = new Stack<TElement>());
 
             "When pushing {0} onto the stack"
                 .When(() => stack.Push(element));
