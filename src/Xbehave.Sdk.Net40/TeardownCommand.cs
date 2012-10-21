@@ -12,7 +12,7 @@ namespace Xbehave.Sdk
     using Xunit.Sdk;
 
     [CLSCompliant(false)]
-    public class TeardownCommand : Command
+    public class TeardownCommand : ContextCommand
     {
         private readonly Action[] teardowns;
 

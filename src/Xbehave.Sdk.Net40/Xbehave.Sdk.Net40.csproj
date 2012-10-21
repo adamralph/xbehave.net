@@ -59,7 +59,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Command.cs" />
+    <Compile Include="ContextCommand.cs" />
     <Compile Include="BackgroundCommand.cs" />
     <Compile Include="IParameterizedCommand.cs" />
     <Compile Include="ReplayCommand.cs" />
@@ -95,6 +95,7 @@
     <None Include="..\Xbehave.snk">
       <Link>Properties\Xbehave.snk</Link>
     </None>
+    <None Include="Main.cd" />
     <None Include="packages.config" />
     <None Include="Settings.StyleCop" />
   </ItemGroup>

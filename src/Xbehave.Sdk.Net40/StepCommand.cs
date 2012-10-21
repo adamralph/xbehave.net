@@ -9,7 +9,7 @@ namespace Xbehave.Sdk
     using Xunit.Sdk;
 
     [CLSCompliant(false)]
-    public class StepCommand : Command
+    public class StepCommand : ContextCommand
     {
         private readonly Step step;
 

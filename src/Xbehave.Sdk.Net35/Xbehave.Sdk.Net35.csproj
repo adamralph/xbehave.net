@@ -62,11 +62,11 @@
     <Compile Include="..\Xbehave.Sdk.Net40\BackgroundCommand.cs">
       <Link>BackgroundCommand.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Command.cs">
-      <Link>Command.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Context.cs">
       <Link>Context.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\ContextCommand.cs">
+      <Link>ContextCommand.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ContextFactory.cs">
       <Link>ContextFactory.cs</Link>
