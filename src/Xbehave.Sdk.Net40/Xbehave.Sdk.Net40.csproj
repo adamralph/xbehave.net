@@ -47,6 +47,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
     <Reference Include="xunit, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
     </Reference>
@@ -60,6 +61,7 @@
     </Compile>
     <Compile Include="Command.cs" />
     <Compile Include="BackgroundCommand.cs" />
+    <Compile Include="IParameterizedCommand.cs" />
     <Compile Include="ReplayCommand.cs" />
     <Compile Include="TeardownCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,7 +84,7 @@
     <Compile Include="Guard.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepCommand.cs" />
-    <Compile Include="ScenarioCommand.cs" />
+    <Compile Include="ParameterizedCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">

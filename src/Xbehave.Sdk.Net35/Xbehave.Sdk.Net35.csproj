@@ -47,6 +47,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
     <Reference Include="xunit, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
     </Reference>
@@ -115,14 +116,17 @@
     <Compile Include="..\Xbehave.Sdk.Net40\Guard.cs">
       <Link>Guard.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\IParameterizedCommand.cs">
+      <Link>IParameterizedCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\ParameterizedCommand.cs">
+      <Link>ParameterizedCommand.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ReplayCommand.cs">
       <Link>ReplayCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ScenarioCommand.cs">
-      <Link>ScenarioCommand.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Step.cs">
       <Link>Step.cs</Link>

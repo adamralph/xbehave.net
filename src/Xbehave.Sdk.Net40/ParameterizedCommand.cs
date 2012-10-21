@@ -1,4 +1,4 @@
-// <copyright file="ScenarioCommand.cs" company="Adam Ralph">
+// <copyright file="ParameterizedCommand.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -11,17 +11,17 @@ namespace Xbehave.Sdk
     using System.Reflection;
     using Xunit.Sdk;
 
-    public class ScenarioCommand : TestCommand
+    public class ParameterizedCommand : TestCommand, IParameterizedCommand
     {
         private readonly object[] arguments;
         private readonly Type[] typeArguments;
 
-        public ScenarioCommand(IMethodInfo scenarioMethod, object[] arguments)
-            : this(scenarioMethod, arguments, null)
+        public ParameterizedCommand(IMethodInfo scenarioMethod)
+            : this(scenarioMethod, null, null)
         {
         }
 
-        public ScenarioCommand(IMethodInfo scenarioMethod, object[] arguments, Type[] genericTypes)
+        public ParameterizedCommand(IMethodInfo scenarioMethod, object[] arguments, Type[] genericTypes)
             : base(scenarioMethod, null, MethodUtility.GetTimeoutParameter(scenarioMethod))
         {
             if (arguments != null)
