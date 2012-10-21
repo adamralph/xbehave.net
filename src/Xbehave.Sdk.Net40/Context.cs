@@ -15,16 +15,19 @@ namespace Xbehave.Sdk
         private static string failedStepName;
 
         private readonly IMethodInfo method;
-        private readonly object[] args;
+        private readonly object[] arguments;
+        private readonly Type[] typeArguments;
         private readonly Step[] steps;
 
-        public Context(IMethodInfo method, IEnumerable<object> args, IEnumerable<Step> steps)
+        public Context(IMethodInfo method, IEnumerable<object> arguments, IEnumerable<Type> typeArguments, IEnumerable<Step> steps)
         {
-            Guard.AgainstNullArgument("args", args);
+            Guard.AgainstNullArgument("arguments", arguments);
+            Guard.AgainstNullArgument("typeArguments", typeArguments);
             Guard.AgainstNullArgument("steps", steps);
 
             this.method = method;
-            this.args = args.ToArray();
+            this.arguments = arguments.ToArray();
+            this.typeArguments = typeArguments.ToArray();
             this.steps = steps.ToArray();
         }
 
@@ -40,7 +43,7 @@ namespace Xbehave.Sdk
             var stepOrdinal = 1;
             foreach (var step in this.steps)
             {
-                yield return new StepCommand(this.method, this.args, contextOrdinal, stepOrdinal++, step);
+                yield return new StepCommand(this.method, this.arguments, this.typeArguments, contextOrdinal, stepOrdinal++, step);
             }
 
             FailedStepName = null;
@@ -57,7 +60,7 @@ namespace Xbehave.Sdk
                 }
 
                 // don't reverse even disposables since their creation order has already been reversed by the previous command
-                yield return new TeardownCommand(this.method, this.args, contextOrdinal, stepOrdinal++, odd ? teardowns.Reverse() : teardowns);
+                yield return new TeardownCommand(this.method, this.arguments, this.typeArguments, contextOrdinal, stepOrdinal++, odd ? teardowns.Reverse() : teardowns);
                 odd = !odd;
             }
         }

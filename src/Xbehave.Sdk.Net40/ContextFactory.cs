@@ -4,18 +4,21 @@
 
 namespace Xbehave.Sdk
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Xunit.Sdk;
 
     public class ContextFactory
     {
-        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<object> args, IEnumerable<Step> steps)
+        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<object> arguments, IEnumerable<Type> typeArguments, IEnumerable<Step> steps)
         {
-            Guard.AgainstNullArgument("args", args);
+            Guard.AgainstNullArgument("arguments", arguments);
+            Guard.AgainstNullArgument("typeArguments", typeArguments);
             Guard.AgainstNullArgument("steps", steps);
 
-            args = args.ToArray();
+            arguments = arguments.ToArray();
+            typeArguments = typeArguments.ToArray();
 
             var sharedContext = new List<Step>();
             var pendingYield = false;
@@ -23,7 +26,7 @@ namespace Xbehave.Sdk
             {
                 if (step.InIsolation)
                 {
-                    yield return new Context(method, args, sharedContext.Concat(new[] { step }));
+                    yield return new Context(method, arguments, typeArguments, sharedContext.Concat(new[] { step }));
                     pendingYield = false;
                 }
                 else
@@ -35,7 +38,7 @@ namespace Xbehave.Sdk
 
             if (pendingYield)
             {
-                yield return new Context(method, args, sharedContext);
+                yield return new Context(method, arguments, typeArguments, sharedContext);
             }
         }
     }

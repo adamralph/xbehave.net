@@ -14,6 +14,7 @@ namespace Xbehave.Sdk
     public class ScenarioCommand : TestCommand
     {
         private readonly object[] arguments;
+        private readonly Type[] typeArguments;
 
         public ScenarioCommand(IMethodInfo scenarioMethod, object[] arguments)
             : this(scenarioMethod, arguments, null)
@@ -32,12 +33,26 @@ namespace Xbehave.Sdk
                 this.arguments = new object[0];
             }
 
+            if (genericTypes != null)
+            {
+                this.typeArguments = genericTypes.ToArray();
+            }
+            else
+            {
+                this.typeArguments = new Type[0];
+            }
+
             this.DisplayName = GetCSharpMethodCall(scenarioMethod, this.arguments, genericTypes);
         }
 
         public IEnumerable<object> Arguments
         {
             get { return this.arguments.Select(argument => argument); }
+        }
+
+        public IEnumerable<Type> TypeArguments
+        {
+            get { return this.typeArguments.Select(typeArgument => typeArgument); }
         }
 
         public override MethodResult Execute(object testClass)

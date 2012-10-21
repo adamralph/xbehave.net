@@ -14,8 +14,8 @@ namespace Xbehave.Sdk
     [CLSCompliant(false)]
     public abstract class Command : TheoryCommand
     {
-        protected Command(IMethodInfo method, object[] args, int contextOrdinal, int stepOrdinal)
-            : base(method, args, ResolveTypeArguments(method, args))
+        protected Command(IMethodInfo method, object[] arguments, Type[] typeArguments, int contextOrdinal, int stepOrdinal)
+            : base(method, arguments, typeArguments)
         {
             var provider = CultureInfo.InvariantCulture;
             this.Name = string.Format(provider, "[{0}.{1}]", contextOrdinal.ToString("D2", provider), stepOrdinal.ToString("D2", provider));
@@ -23,46 +23,5 @@ namespace Xbehave.Sdk
         }
 
         public string Name { get; protected set; }
-
-        private static Type[] ResolveTypeArguments(IMethodInfo genericMethodDefinition, object[] arguments)
-        {
-            if (genericMethodDefinition == null || genericMethodDefinition.MethodInfo == null || arguments == null)
-            {
-                return null;
-            }
-
-            var genericParameters = genericMethodDefinition.MethodInfo.GetParameters();
-            return genericMethodDefinition.MethodInfo.GetGenericArguments()
-                .Select(typeParameter => ResolveTypeArgument(typeParameter, genericParameters, arguments)).ToArray();
-        }
-
-        private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] genericParameters, object[] arguments)
-        {
-            Type typeArgument = null;
-            for (var index = 0; index < genericParameters.Length; ++index)
-            {
-                if (genericParameters[index].ParameterType != typeParameter)
-                {
-                    continue;
-                }
-
-                var argument = arguments[index];
-                if (argument == null)
-                {
-                    continue;
-                }
-
-                if (typeArgument == null)
-                {
-                    typeArgument = argument.GetType();
-                }
-                else if (typeArgument != argument.GetType())
-                {
-                    return typeof(object);
-                }
-            }
-
-            return typeArgument ?? typeof(object);
-        }
     }
 }
