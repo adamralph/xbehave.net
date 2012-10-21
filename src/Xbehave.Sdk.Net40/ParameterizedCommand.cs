@@ -42,7 +42,7 @@ namespace Xbehave.Sdk
                 this.typeArguments = new Type[0];
             }
 
-            this.DisplayName = GetCSharpMethodCall(scenarioMethod, this.arguments, genericTypes);
+            this.DisplayName = GetCSharpMethodCall(scenarioMethod, this.arguments, this.typeArguments);
         }
 
         public IEnumerable<object> Arguments
@@ -76,16 +76,16 @@ namespace Xbehave.Sdk
             return new PassedResult(testMethod, this.DisplayName);
         }
 
-        private static string GetCSharpMethodCall(IMethodInfo method, object[] arguments, Type[] genericTypes)
+        private static string GetCSharpMethodCall(IMethodInfo method, object[] arguments, Type[] typeArguments)
         {
-            var csharp = MethodUtility.GetDisplayName(method);
-            if (genericTypes != null && genericTypes.Length > 0)
+            var csharp = string.Concat(method.TypeName, ".", method.Name);
+            if (typeArguments.Length > 0)
             {
                 csharp = string.Format(
                     CultureInfo.InvariantCulture,
                     "{0}<{1}>",
                     csharp,
-                    string.Join(", ", genericTypes.Select(genericType => GetCSharpName(genericType)).ToArray()));
+                    string.Join(", ", typeArguments.Select(typeArgument => GetCSharpName(typeArgument)).ToArray()));
             }
 
             var parameters = method.MethodInfo.GetParameters();

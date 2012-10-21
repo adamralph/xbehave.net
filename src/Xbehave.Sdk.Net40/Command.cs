@@ -12,7 +12,7 @@ namespace Xbehave.Sdk
     using Xunit.Sdk;
 
     [CLSCompliant(false)]
-    public abstract class Command : TheoryCommand
+    public abstract class Command : ParameterizedCommand
     {
         protected Command(IMethodInfo method, object[] arguments, Type[] typeArguments, int contextOrdinal, int stepOrdinal)
             : base(method, arguments, typeArguments)
