@@ -65,6 +65,9 @@
     <Compile Include="..\Xbehave.Sdk.Net40\BackgroundCommand.cs">
       <Link>BackgroundCommand.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\Command.cs">
+      <Link>Command.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Context.cs">
       <Link>Context.cs</Link>
     </Compile>
@@ -119,11 +122,11 @@
     <Compile Include="..\Xbehave.Sdk.Net40\Guard.cs">
       <Link>Guard.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\IParameterizedCommand.cs">
-      <Link>IParameterizedCommand.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Net40\ICommand.cs">
+      <Link>ICommand.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ParameterizedCommand.cs">
-      <Link>ParameterizedCommand.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Net40\MethodCall.cs">
+      <Link>MethodCall.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>

@@ -14,12 +14,16 @@ namespace Xbehave.Sdk
     {
         private readonly Step step;
 
-        public StepCommand(IMethodInfo method, Argument[] arguments, Type[] typeArguments, int contextOrdinal, int stepOrdinal, Step step)
-            : base(method, arguments, typeArguments, contextOrdinal, stepOrdinal)
+        public StepCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step)
+            : base(methodCall, contextOrdinal, stepOrdinal)
         {
-            Guard.AgainstNullArgument("arguments", arguments);
+            Guard.AgainstNullArgument("methodCall", methodCall);
             Guard.AgainstNullArgument("step", step);
-            Guard.AgainstNullArgumentProperty("step", "Name", step.Name);
+
+            if (step.Name == null)
+            {
+                throw new ArgumentException("The step name is null.", "step");
+            }
 
             this.step = step;
 
@@ -27,7 +31,7 @@ namespace Xbehave.Sdk
             string stepName;
             try
             {
-                stepName = string.Format(provider, step.Name, arguments.Select(argument => argument.Value).ToArray());
+                stepName = string.Format(provider, step.Name, methodCall.Arguments.Select(argument => argument.Value).ToArray());
             }
             catch (FormatException)
             {

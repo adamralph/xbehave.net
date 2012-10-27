@@ -1,4 +1,4 @@
-// <copyright file="ParameterizedCommand.cs" company="Adam Ralph">
+// <copyright file="Command.cs" company="Adam Ralph">
 //  Copyright (c) Adam Ralph. All rights reserved.
 // </copyright>
 
@@ -11,32 +11,29 @@ namespace Xbehave.Sdk
     using System.Reflection;
     using Xunit.Sdk;
 
-    public class ParameterizedCommand : TestCommand, IParameterizedCommand
+    public class Command : TestCommand, ICommand
     {
+        private readonly MethodCall methodCall;
         private readonly Argument[] arguments;
         private readonly Type[] typeArguments;
 
-        public ParameterizedCommand(IMethodInfo scenarioMethod)
-            : this(scenarioMethod, null, null)
+        public Command(IMethodInfo method)
+            : this(new MethodCall(method, null, null))
         {
         }
 
-        public ParameterizedCommand(IMethodInfo scenarioMethod, Argument[] arguments, Type[] typeArguments)
-            : base(scenarioMethod, null, MethodUtility.GetTimeoutParameter(scenarioMethod))
+        public Command(MethodCall methodCall)
+            : base(methodCall.Method, null, MethodUtility.GetTimeoutParameter(methodCall.Method))
         {
-            this.arguments = arguments != null ? arguments.ToArray() : new Argument[0];
-            this.typeArguments = typeArguments != null ? typeArguments.ToArray() : new Type[0];
-            this.DisplayName = GetString(scenarioMethod, this.arguments, this.typeArguments);
+            this.methodCall = methodCall;
+            this.arguments = methodCall.Arguments.ToArray();
+            this.typeArguments = methodCall.TypeArguments.ToArray();
+            this.DisplayName = GetString(methodCall.Method, this.arguments, this.typeArguments);
         }
 
-        public IEnumerable<Argument> Arguments
+        public MethodCall MethodCall
         {
-            get { return this.arguments.Select(argument => argument); }
-        }
-
-        public IEnumerable<Type> TypeArguments
-        {
-            get { return this.typeArguments.Select(typeArgument => typeArgument); }
+            get { return this.methodCall; }
         }
 
         public override MethodResult Execute(object testClass)

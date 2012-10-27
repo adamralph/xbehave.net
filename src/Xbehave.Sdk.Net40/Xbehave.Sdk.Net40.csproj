@@ -62,7 +62,8 @@
     <Compile Include="Argument.cs" />
     <Compile Include="ContextCommand.cs" />
     <Compile Include="BackgroundCommand.cs" />
-    <Compile Include="IParameterizedCommand.cs" />
+    <Compile Include="MethodCall.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="ReplayCommand.cs" />
     <Compile Include="TeardownCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Guard.cs" />
     <Compile Include="Step.cs" />
     <Compile Include="StepCommand.cs" />
-    <Compile Include="ParameterizedCommand.cs" />
+    <Compile Include="Command.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">

@@ -41,10 +41,13 @@ namespace Xbehave
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
         {
-            Guard.AgainstNullArgument("method", method);
+            if (method == null)
+            {
+                return new[] { new ExceptionCommand(method, new ArgumentNullException("The method is null.")) };
+            }
 
             IEnumerable<ITestCommand> backgroundCommands;
-            IEnumerable<ITestCommand> scenarioCommands;
+            IEnumerable<ICommand> scenarioCommands;
 
             // NOTE: any exception must be wrapped in a command, otherwise the test runner will retry this method infinitely
             try
@@ -59,13 +62,8 @@ namespace Xbehave
 
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
-            return scenarioCommands.SelectMany(scenarioCommand =>
-            {
-                var parameterizedCommand = scenarioCommand as IParameterizedCommand;
-                var arguments = parameterizedCommand == null ? new Argument[0] : parameterizedCommand.Arguments;
-                var typeArguments = parameterizedCommand == null ? new Type[0] : parameterizedCommand.TypeArguments;
-                return CurrentScenario.ExtractCommands(method, arguments, typeArguments, backgroundCommands.Concat(new[] { scenarioCommand }));
-            });
+            return scenarioCommands.SelectMany(
+                scenarioCommand => CurrentScenario.ExtractCommands(scenarioCommand.MethodCall, backgroundCommands.Concat(new[] { scenarioCommand })));
         }
 
         /// <summary>
@@ -90,7 +88,7 @@ namespace Xbehave
         /// <param name="method">The scenario method</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the scenarios defined by the <paramref name="method"/>.</returns>
         /// <remarks>This method may be overridden.</remarks>
-        protected virtual IEnumerable<ITestCommand> EnumerateScenarioCommands(IMethodInfo method)
+        protected virtual IEnumerable<ICommand> EnumerateScenarioCommands(IMethodInfo method)
         {
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
@@ -98,10 +96,10 @@ namespace Xbehave
             var parameters = method.MethodInfo.GetParameters();
             if (!parameters.Any())
             {
-                return new[] { new ParameterizedCommand(method) };
+                return new[] { new Command(method) };
             }
 
-            var commands = new List<ITestCommand>();
+            var commands = new List<ICommand>();
             try
             {
                 foreach (var arguments in GetArgumentCollections(method.MethodInfo))
@@ -144,7 +142,7 @@ namespace Xbehave
                         generatedArguments.Add(new Argument(parameterType));
                     }
 
-                    commands.Add(new ParameterizedCommand(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments));
+                    commands.Add(new Command(new MethodCall(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments)));
                 }
 
                 if (commands.Count == 0)

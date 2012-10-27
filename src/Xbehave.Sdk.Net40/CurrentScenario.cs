@@ -68,32 +68,31 @@ namespace Xbehave.Sdk
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
-        public static IEnumerable<ITestCommand> ExtractCommands(
-            IMethodInfo method, IEnumerable<Argument> arguments, IEnumerable<Type> typeArguments, IEnumerable<ITestCommand> commands)
+        public static IEnumerable<ITestCommand> ExtractCommands(MethodCall methodCall, IEnumerable<ITestCommand> commands)
         {
-            Guard.AgainstNullArgument("method", method);
+            Guard.AgainstNullArgument("methodCall", methodCall);
             Guard.AgainstNullArgument("commands", commands);
 
             try
             {
                 try
                 {
-                    var feature = method.IsStatic ? null : method.CreateInstance();
+                    var feature = methodCall.Method.IsStatic ? null : methodCall.Method.CreateInstance();
                     foreach (var command in commands)
                     {
                         var result = command.Execute(feature);
                         if ((result as PassedResult) == null)
                         {
-                            return new ITestCommand[] { new ReplayCommand(method, result) };
+                            return new ITestCommand[] { new ReplayCommand(methodCall.Method, result) };
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    return new ITestCommand[] { new ExceptionCommand(method, ex) };
+                    return new ITestCommand[] { new ExceptionCommand(methodCall.Method, ex) };
                 }
 
-                var contexts = new ContextFactory().CreateContexts(method, arguments, typeArguments, Steps).ToArray();
+                var contexts = new ContextFactory().CreateContexts(methodCall, Steps).ToArray();
                 return contexts.SelectMany((context, index) => context.CreateCommands(index + 1));
             }
             finally

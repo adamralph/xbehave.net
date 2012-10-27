@@ -7,12 +7,12 @@ namespace Xbehave.Sdk
     using System;
     using Xunit.Sdk;
 
-    public class ExceptionCommand : TestCommand
+    public class ExceptionCommand : Command
     {
         private readonly Exception exception;
 
         public ExceptionCommand(IMethodInfo method, Exception exception)
-            : base(method, null, 0)
+            : base(method)
         {
             this.exception = exception;
         }

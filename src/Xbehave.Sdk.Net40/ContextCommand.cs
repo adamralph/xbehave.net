@@ -12,10 +12,10 @@ namespace Xbehave.Sdk
     using Xunit.Sdk;
 
     [CLSCompliant(false)]
-    public abstract class ContextCommand : ParameterizedCommand
+    public abstract class ContextCommand : Command
     {
-        protected ContextCommand(IMethodInfo method, Argument[] arguments, Type[] typeArguments, int contextOrdinal, int commandOrdinal)
-            : base(method, arguments, typeArguments)
+        protected ContextCommand(MethodCall methodCall, int contextOrdinal, int commandOrdinal)
+            : base(methodCall)
         {
             var provider = CultureInfo.InvariantCulture;
             this.Name = string.Format(provider, "[{0}.{1}]", contextOrdinal.ToString("D2", provider), commandOrdinal.ToString("D2", provider));
