@@ -26,7 +26,7 @@ namespace Xbehave.Sdk
         {
             this.arguments = arguments != null ? arguments.ToArray() : new Argument[0];
             this.typeArguments = typeArguments != null ? typeArguments.ToArray() : new Type[0];
-            this.DisplayName = GetCSharpMethodCall(scenarioMethod, this.arguments, this.typeArguments);
+            this.DisplayName = GetString(scenarioMethod, this.arguments, this.typeArguments);
         }
 
         public IEnumerable<Argument> Arguments
@@ -60,7 +60,7 @@ namespace Xbehave.Sdk
             return new PassedResult(testMethod, this.DisplayName);
         }
 
-        private static string GetCSharpMethodCall(IMethodInfo method, Argument[] arguments, Type[] typeArguments)
+        private static string GetString(IMethodInfo method, Argument[] arguments, Type[] typeArguments)
         {
             var csharp = string.Concat(method.TypeName, ".", method.Name);
             if (typeArguments.Length > 0)
@@ -69,40 +69,45 @@ namespace Xbehave.Sdk
                     CultureInfo.InvariantCulture,
                     "{0}<{1}>",
                     csharp,
-                    string.Join(", ", typeArguments.Select(typeArgument => GetCSharpName(typeArgument)).ToArray()));
+                    string.Join(", ", typeArguments.Select(typeArgument => GetString(typeArgument)).ToArray()));
             }
 
             var parameters = method.MethodInfo.GetParameters();
-            var parameterTokens = new string[Math.Max(arguments.Length, parameters.Length)];
+            var parameterTokens = new List<string>();
             int parameterIndex;
             for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
             {
-                parameterTokens[parameterIndex] = string.Concat(
+                if (arguments[parameterIndex].IsGeneratedDefault)
+                {
+                    continue;
+                }
+
+                parameterTokens.Add(string.Concat(
                     parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
                     ": ",
-                    GetCSharpLiteral(arguments[parameterIndex]));
+                    GetString(arguments[parameterIndex])));
             }
 
             for (; parameterIndex < parameters.Length; parameterIndex++)
             {
-                parameterTokens[parameterIndex] = parameters[parameterIndex].Name + ": ???";
+                parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
             }
 
-            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", csharp, string.Join(", ", parameterTokens));
+            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", csharp, string.Join(", ", parameterTokens.ToArray()));
         }
 
-        private static string GetCSharpName(Type type)
+        private static string GetString(Type type)
         {
             if (!type.IsGenericType)
             {
                 return type.Name;
             }
 
-            var genericArgumentCSharpNames = type.GetGenericArguments().Select(typeArgument => GetCSharpName(typeArgument)).ToArray();
+            var genericArgumentCSharpNames = type.GetGenericArguments().Select(typeArgument => GetString(typeArgument)).ToArray();
             return string.Concat(type.Name.Substring(0, type.Name.IndexOf('`')), "<", string.Join(", ", genericArgumentCSharpNames), ">");
         }
 
-        private static string GetCSharpLiteral(Argument argument)
+        private static string GetString(Argument argument)
         {
             if (argument.Value == null)
             {
