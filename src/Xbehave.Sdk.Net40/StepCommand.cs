@@ -6,6 +6,7 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using Xunit.Sdk;
 
     [CLSCompliant(false)]
@@ -13,9 +14,10 @@ namespace Xbehave.Sdk
     {
         private readonly Step step;
 
-        public StepCommand(IMethodInfo method, object[] arguments, Type[] typeArguments, int contextOrdinal, int stepOrdinal, Step step)
+        public StepCommand(IMethodInfo method, Argument[] arguments, Type[] typeArguments, int contextOrdinal, int stepOrdinal, Step step)
             : base(method, arguments, typeArguments, contextOrdinal, stepOrdinal)
         {
+            Guard.AgainstNullArgument("arguments", arguments);
             Guard.AgainstNullArgument("step", step);
             Guard.AgainstNullArgumentProperty("step", "Name", step.Name);
 
@@ -25,7 +27,7 @@ namespace Xbehave.Sdk
             string stepName;
             try
             {
-                stepName = string.Format(provider, step.Name, arguments);
+                stepName = string.Format(provider, step.Name, arguments.Select(argument => argument.Value).ToArray());
             }
             catch (FormatException)
             {

@@ -10,7 +10,7 @@ namespace Xbehave.Sdk
 
     public interface IParameterizedCommand : ITestCommand
     {
-        IEnumerable<object> Arguments { get; }
+        IEnumerable<Argument> Arguments { get; }
 
         IEnumerable<Type> TypeArguments { get; }
     }

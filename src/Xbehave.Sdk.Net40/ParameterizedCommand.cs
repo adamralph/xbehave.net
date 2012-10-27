@@ -13,7 +13,7 @@ namespace Xbehave.Sdk
 
     public class ParameterizedCommand : TestCommand, IParameterizedCommand
     {
-        private readonly object[] arguments;
+        private readonly Argument[] arguments;
         private readonly Type[] typeArguments;
 
         public ParameterizedCommand(IMethodInfo scenarioMethod)
@@ -21,31 +21,15 @@ namespace Xbehave.Sdk
         {
         }
 
-        public ParameterizedCommand(IMethodInfo scenarioMethod, object[] arguments, Type[] typeArguments)
+        public ParameterizedCommand(IMethodInfo scenarioMethod, Argument[] arguments, Type[] typeArguments)
             : base(scenarioMethod, null, MethodUtility.GetTimeoutParameter(scenarioMethod))
         {
-            if (arguments != null)
-            {
-                this.arguments = arguments.ToArray();
-            }
-            else
-            {
-                this.arguments = new object[0];
-            }
-
-            if (typeArguments != null)
-            {
-                this.typeArguments = typeArguments.ToArray();
-            }
-            else
-            {
-                this.typeArguments = new Type[0];
-            }
-
+            this.arguments = arguments != null ? arguments.ToArray() : new Argument[0];
+            this.typeArguments = typeArguments != null ? typeArguments.ToArray() : new Type[0];
             this.DisplayName = GetCSharpMethodCall(scenarioMethod, this.arguments, this.typeArguments);
         }
 
-        public IEnumerable<object> Arguments
+        public IEnumerable<Argument> Arguments
         {
             get { return this.arguments.Select(argument => argument); }
         }
@@ -61,12 +45,12 @@ namespace Xbehave.Sdk
             if (parameters.Length != this.arguments.Length)
             {
                 throw new InvalidOperationException(
-                    string.Format(CultureInfo.CurrentCulture, "Expected {0} parameters, got {1} parameters", parameters.Length, this.arguments.Length));
+                    string.Format(CultureInfo.CurrentCulture, "Expected {0} arguments, got {1} arguments", parameters.Length, this.arguments.Length));
             }
 
             try
             {
-                testMethod.Invoke(testClass, this.arguments);
+                testMethod.Invoke(testClass, this.arguments.Select(argument => argument.Value).ToArray());
             }
             catch (TargetInvocationException ex)
             {
@@ -76,7 +60,7 @@ namespace Xbehave.Sdk
             return new PassedResult(testMethod, this.DisplayName);
         }
 
-        private static string GetCSharpMethodCall(IMethodInfo method, object[] arguments, Type[] typeArguments)
+        private static string GetCSharpMethodCall(IMethodInfo method, Argument[] arguments, Type[] typeArguments)
         {
             var csharp = string.Concat(method.TypeName, ".", method.Name);
             if (typeArguments.Length > 0)
@@ -118,19 +102,19 @@ namespace Xbehave.Sdk
             return string.Concat(type.Name.Substring(0, type.Name.IndexOf('`')), "<", string.Join(", ", genericArgumentCSharpNames), ">");
         }
 
-        private static string GetCSharpLiteral(object argument)
+        private static string GetCSharpLiteral(Argument argument)
         {
-            if (argument == null)
+            if (argument.Value == null)
             {
                 return "null";
             }
 
-            if (argument is char)
+            if (argument.Value is char)
             {
-                return "'" + argument + "'";
+                return "'" + argument.Value + "'";
             }
 
-            var stringArgument = argument as string;
+            var stringArgument = argument.Value as string;
             if (stringArgument != null)
             {
                 if (stringArgument.Length > 50)
@@ -141,7 +125,7 @@ namespace Xbehave.Sdk
                 return string.Concat("\"", stringArgument, "\"");
             }
 
-            return Convert.ToString(argument, CultureInfo.InvariantCulture);
+            return Convert.ToString(argument.Value, CultureInfo.InvariantCulture);
         }
     }
 }

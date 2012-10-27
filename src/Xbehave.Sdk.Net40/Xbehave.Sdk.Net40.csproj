@@ -59,6 +59,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Argument.cs" />
     <Compile Include="ContextCommand.cs" />
     <Compile Include="BackgroundCommand.cs" />
     <Compile Include="IParameterizedCommand.cs" />

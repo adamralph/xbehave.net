@@ -11,7 +11,7 @@ namespace Xbehave.Sdk
 
     public class ContextFactory
     {
-        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<object> arguments, IEnumerable<Type> typeArguments, IEnumerable<Step> steps)
+        public IEnumerable<Context> CreateContexts(IMethodInfo method, IEnumerable<Argument> arguments, IEnumerable<Type> typeArguments, IEnumerable<Step> steps)
         {
             Guard.AgainstNullArgument("arguments", arguments);
             Guard.AgainstNullArgument("typeArguments", typeArguments);

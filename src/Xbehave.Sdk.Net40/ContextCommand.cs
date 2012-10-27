@@ -14,7 +14,7 @@ namespace Xbehave.Sdk
     [CLSCompliant(false)]
     public abstract class ContextCommand : ParameterizedCommand
     {
-        protected ContextCommand(IMethodInfo method, object[] arguments, Type[] typeArguments, int contextOrdinal, int commandOrdinal)
+        protected ContextCommand(IMethodInfo method, Argument[] arguments, Type[] typeArguments, int contextOrdinal, int commandOrdinal)
             : base(method, arguments, typeArguments)
         {
             var provider = CultureInfo.InvariantCulture;

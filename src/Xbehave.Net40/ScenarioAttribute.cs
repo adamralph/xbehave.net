@@ -62,7 +62,7 @@ namespace Xbehave
             return scenarioCommands.SelectMany(scenarioCommand =>
             {
                 var parameterizedCommand = scenarioCommand as IParameterizedCommand;
-                var arguments = parameterizedCommand == null ? new object[0] : parameterizedCommand.Arguments;
+                var arguments = parameterizedCommand == null ? new Argument[0] : parameterizedCommand.Arguments;
                 var typeArguments = parameterizedCommand == null ? new Type[0] : parameterizedCommand.TypeArguments;
                 return CurrentScenario.ExtractCommands(method, arguments, typeArguments, backgroundCommands.Concat(new[] { scenarioCommand }));
             });
@@ -104,18 +104,18 @@ namespace Xbehave
             var commands = new List<ITestCommand>();
             try
             {
-                foreach (var argumentList in GetArgumentLists(method.MethodInfo))
+                foreach (var arguments in GetArgumentCollections(method.MethodInfo))
                 {
                     var closedTypeMethod = method;
                     Type[] typeArguments = null;
                     if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
                     {
-                        typeArguments = ResolveTypeArguments(method, argumentList).ToArray();
+                        typeArguments = ResolveTypeArguments(method, arguments).ToArray();
                         closedTypeMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(typeArguments));
                     }
 
-                    var generatedArguments = new List<object>();
-                    for (var missingArgumentIndex = argumentList.Length; missingArgumentIndex < parameters.Length; ++missingArgumentIndex)
+                    var generatedArguments = new List<Argument>();
+                    for (var missingArgumentIndex = arguments.Length; missingArgumentIndex < parameters.Length; ++missingArgumentIndex)
                     {
                         var parameterType = parameters[missingArgumentIndex].ParameterType;
                         if (parameterType.IsGenericParameter)
@@ -141,17 +141,10 @@ namespace Xbehave
                             parameterType = concreteType;
                         }
 
-                        if (parameterType.IsValueType)
-                        {
-                            generatedArguments.Add(Activator.CreateInstance(parameterType));
-                        }
-                        else
-                        {
-                            generatedArguments.Add(null);
-                        }
+                        generatedArguments.Add(new Argument(parameterType));
                     }
 
-                    commands.Add(new ParameterizedCommand(closedTypeMethod, argumentList.Concat(generatedArguments).ToArray(), typeArguments));
+                    commands.Add(new ParameterizedCommand(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments));
                 }
 
                 if (commands.Count == 0)
@@ -171,35 +164,35 @@ namespace Xbehave
             return commands;
         }
 
-        private static IEnumerable<object[]> GetArgumentLists(MethodInfo method)
+        private static IEnumerable<Argument[]> GetArgumentCollections(MethodInfo method)
         {
             var parameterTypes = method.GetParameters().Select(parameter => parameter.ParameterType).ToArray();
             var dataAttributes = method.GetCustomAttributes(typeof(DataAttribute), false).Cast<DataAttribute>().ToArray();
             foreach (var dataAttribute in dataAttributes)
             {
-                var argumentLists = dataAttribute.GetData(method, parameterTypes);
-                if (argumentLists != null)
+                var datasets = dataAttribute.GetData(method, parameterTypes);
+                if (datasets != null)
                 {
-                    foreach (var argumentList in argumentLists)
+                    foreach (var dataset in datasets)
                     {
-                        yield return argumentList;
+                        yield return dataset.Select(datum => new Argument(datum)).ToArray();
                     }
                 }
             }
 
             if (dataAttributes.Length == 0)
             {
-                yield return parameterTypes.Select(type => type.IsValueType ? Activator.CreateInstance(type) : null).ToArray();
+                yield return parameterTypes.Select(type => new Argument(type)).ToArray();
             }
         }
 
-        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo method, object[] arguments)
+        private static IEnumerable<Type> ResolveTypeArguments(IMethodInfo method, Argument[] arguments)
         {
             var parameters = method.MethodInfo.GetParameters();
             return method.MethodInfo.GetGenericArguments().Select(typeParameter => ResolveTypeArgument(typeParameter, parameters, arguments));
         }
 
-        private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] parameters, object[] arguments)
+        private static Type ResolveTypeArgument(Type typeParameter, ParameterInfo[] parameters, Argument[] arguments)
         {
             var sawNullValue = false;
             Type type = null;
@@ -207,7 +200,7 @@ namespace Xbehave
             {
                 if (parameters[index].ParameterType == typeParameter)
                 {
-                    var argument = arguments[index];
+                    var argument = arguments[index].Value;
                     if (argument == null)
                     {
                         sawNullValue = true;

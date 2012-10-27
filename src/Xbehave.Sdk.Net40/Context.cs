@@ -15,11 +15,11 @@ namespace Xbehave.Sdk
         private static string failedStepName;
 
         private readonly IMethodInfo method;
-        private readonly object[] arguments;
+        private readonly Argument[] arguments;
         private readonly Type[] typeArguments;
         private readonly Step[] steps;
 
-        public Context(IMethodInfo method, IEnumerable<object> arguments, IEnumerable<Type> typeArguments, IEnumerable<Step> steps)
+        public Context(IMethodInfo method, IEnumerable<Argument> arguments, IEnumerable<Type> typeArguments, IEnumerable<Step> steps)
         {
             Guard.AgainstNullArgument("arguments", arguments);
             Guard.AgainstNullArgument("typeArguments", typeArguments);
