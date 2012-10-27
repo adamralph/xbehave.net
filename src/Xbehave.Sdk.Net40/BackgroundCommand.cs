@@ -16,6 +16,7 @@ namespace Xbehave.Sdk
 
         public override MethodResult Execute(object testClass)
         {
+            // TODO: unify the responsibility for background step processing in CurrentScenario and remove this type
             CurrentScenario.AddingBackgroundSteps = true;
             try
             {
