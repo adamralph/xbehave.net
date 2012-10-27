@@ -310,10 +310,29 @@
             current <see cref="T:System.Type"/>.
             </summary>
         </member>
+        <member name="M:FluentAssertions.AssertionExtensions.Should(FluentAssertions.Types.TypeSelector)">
+            <summary>
+            Returns a <see cref="T:FluentAssertions.Types.TypeAssertions"/> object that can be used to assert the
+            current <see cref="T:System.Type"/>.
+            </summary>
+        </member>
+        <member name="M:FluentAssertions.AssertionExtensions.Should(System.Reflection.MethodInfo)">
+            <summary>
+            Returns a <see cref="T:FluentAssertions.Types.MethodInfoAssertions"/> object that can be used to assert the current <see cref="T:System.Reflection.MethodInfo"/>.
+            </summary>
+            <seealso cref="T:FluentAssertions.Types.TypeAssertions"/>
+        </member>
         <member name="M:FluentAssertions.AssertionExtensions.Should(FluentAssertions.Types.MethodInfoSelector)">
             <summary>
             Returns a <see cref="T:FluentAssertions.Types.MethodInfoAssertions"/> object that can be used to assert the methods returned by the
             current <see cref="T:FluentAssertions.Types.MethodInfoSelector"/>.
+            </summary>
+            <seealso cref="T:FluentAssertions.Types.TypeAssertions"/>
+        </member>
+        <member name="M:FluentAssertions.AssertionExtensions.Should(System.Reflection.PropertyInfo)">
+            <summary>
+            Returns a <see cref="T:FluentAssertions.Types.PropertyInfoAssertions"/> object that can be used to assert the
+            current <see cref="T:FluentAssertions.Types.PropertyInfoSelector"/>.
             </summary>
             <seealso cref="T:FluentAssertions.Types.TypeAssertions"/>
         </member>
@@ -4972,6 +4991,12 @@
             Contains assertions for the <see cref="T:System.Reflection.MethodInfo"/> objects returned by the parent <see cref="T:FluentAssertions.Types.MethodInfoSelector"/>.
             </summary>
         </member>
+        <member name="M:FluentAssertions.Types.MethodInfoAssertions.#ctor(System.Reflection.MethodInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentAssertions.Types.MethodInfoAssertions"/> class.
+            </summary>
+            <param name="methodInfo">The method to assert.</param>
+        </member>
         <member name="M:FluentAssertions.Types.MethodInfoAssertions.#ctor(System.Collections.Generic.IEnumerable{System.Reflection.MethodInfo})">
             <summary>
             Initializes a new instance of the <see cref="T:FluentAssertions.Types.MethodInfoAssertions"/> class.
@@ -5076,6 +5101,12 @@
             <summary>
             Contains assertions for the <see cref="T:System.Reflection.PropertyInfo"/> objects returned by the parent <see cref="T:FluentAssertions.Types.PropertyInfoSelector"/>.
             </summary>
+        </member>
+        <member name="M:FluentAssertions.Types.PropertyInfoAssertions.#ctor(System.Reflection.PropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FluentAssertions.Types.PropertyInfoAssertions"/> class, for a single <see cref="T:System.Reflection.PropertyInfo"/>.
+            </summary>
+            <param name="property">The property to assert.</param>
         </member>
         <member name="M:FluentAssertions.Types.PropertyInfoAssertions.#ctor(System.Collections.Generic.IEnumerable{System.Reflection.PropertyInfo})">
             <summary>
@@ -5275,6 +5306,11 @@
             Allows for fluent filtering a list of types.
             </summary>
         </member>
+        <member name="M:FluentAssertions.Types.TypeSelector.ToArray">
+            <summary>
+            The resulting <see cref="T:System.Type"/> objects.
+            </summary>
+        </member>
         <member name="M:FluentAssertions.Types.TypeSelector.ThatDeriveFrom``1">
             <summary>
             Determines whether a type is a subclass of another type, but NOT the same type.
@@ -5317,6 +5353,50 @@
             An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
             </returns>
             <filterpriority>2</filterpriority>
+        </member>
+        <member name="T:FluentAssertions.Types.TypeSelectorAssertions">
+            <summary>
+            Contains a number of methods to assert that all <see cref="T:System.Type"/>s in a <see cref="T:FluentAssertions.Types.TypeSelector"/>
+            meet certain expectations.
+            </summary>
+        </member>
+        <member name="M:FluentAssertions.Types.TypeSelectorAssertions.#ctor(System.Collections.Generic.IEnumerable{System.Type})">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Object" /> class.
+            </summary>
+        </member>
+        <member name="M:FluentAssertions.Types.TypeSelectorAssertions.BeDecoratedWith``1(System.String,System.Object[])">
+            <summary>
+            Asserts that the current <see cref="T:System.Type"/> is decorated with the specified <typeparamref name="TAttribute"/>.
+            </summary>
+            <param name="reason">
+            A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion 
+            is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+            </param>
+            <param name="reasonArgs">
+            Zero or more objects to format using the placeholders in <see cref="!:reason"/>.
+            </param>
+        </member>
+        <member name="M:FluentAssertions.Types.TypeSelectorAssertions.BeDecoratedWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.String,System.Object[])">
+            <summary>
+            Asserts that the current <see cref="T:System.Type"/> is decorated with an attribute of type <typeparamref name="TAttribute"/>
+            that matches the specified <paramref name="isMatchingAttributePredicate"/>.
+            </summary>
+            <param name="isMatchingAttributePredicate">
+            The predicate that the attribute must match.
+            </param>
+            <param name="reason">
+            A formatted phrase as is supported by <see cref="M:System.String.Format(System.String,System.Object[])"/> explaining why the assertion 
+            is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+            </param>
+            <param name="reasonArgs">
+            Zero or more objects to format using the placeholders in <see cref="!:reason"/>.
+            </param>
+        </member>
+        <member name="P:FluentAssertions.Types.TypeSelectorAssertions.Subject">
+            <summary>
+            Gets the object which value is being asserted.
+            </summary>
         </member>
         <member name="T:FluentAssertions.Xml.XAttributeAssertions">
             <summary>
