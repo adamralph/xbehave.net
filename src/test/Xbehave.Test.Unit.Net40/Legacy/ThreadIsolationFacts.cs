@@ -18,25 +18,25 @@ namespace Xbehave.Test.Unit.Legacy
         [Fact]
         public static void DoEnsuresThreadStatic()
         {
-            VerifyConcurrentExecution(() => "foo".Do(() => { }));
+            VerifyConcurrentExecution(() => "foo".When(() => { }));
         }
 
         [Fact]
         public static void AssertEnsuresThreadStatic()
         {
-            VerifyConcurrentExecution(() => "foo".Assert(() => { }));
+            VerifyConcurrentExecution(() => "foo".Then(() => { }).InIsolation());
         }
 
         [Fact]
         public static void ObservationEnsuresThreadStatic()
         {
-            VerifyConcurrentExecution(() => "foo".Observation(() => { }));
+            VerifyConcurrentExecution(() => "foo".Then(() => { }));
         }
 
         [Fact]
         public static void TodoEnsuresThreadStatic()
         {
-            VerifyConcurrentExecution(() => "foo".Todo(() => { }));
+            VerifyConcurrentExecution(() => "foo".Then(() => { }).Skip("for some reason"));
         }
 
         private static void VerifyConcurrentExecution(ThreadStart action)
@@ -57,9 +57,9 @@ namespace Xbehave.Test.Unit.Legacy
 
         private static void SetUpSpecification()
         {
-            "foo".Context(() => { });
-            "foo".Do(() => { });
-            "foo".Assert(() => { });
+            "foo".Given(() => { });
+            "foo".When(() => { });
+            "foo".Then(() => { }).InIsolation();
         }
     }
 }

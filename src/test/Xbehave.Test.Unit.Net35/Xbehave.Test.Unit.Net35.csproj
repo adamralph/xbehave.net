@@ -59,15 +59,6 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Deprecated\DisposableActionFacts.cs">
-      <Link>Deprecated\DisposableActionFacts.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Deprecated\SpecificationExtensionsFacts.cs">
-      <Link>Deprecated\SpecificationExtensionsFacts.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Deprecated\ThesisAttributeFacts.cs">
-      <Link>Deprecated\ThesisAttributeFacts.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\ContextSetupTeardownBehavior.cs">
       <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
     </Compile>

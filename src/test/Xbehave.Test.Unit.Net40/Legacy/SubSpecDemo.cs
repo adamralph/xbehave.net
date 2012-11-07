@@ -10,46 +10,57 @@ namespace Xbehave.Test.Unit.Legacy
 
     public static class SubSpecDemo
     {
-        [Specification]
+        [Scenario]
         public static void SpecificationSyntax()
         {
             var sut = default(Stack<int>);
             "Given a new stack"
-                .Context(
-                () => sut = new Stack<int>());
+                .Given(() => sut = new Stack<int>());
 
             var element = 11;
             "with an element pushed onto it"
-                .Do(
-                () => sut.Push(element));
+                .When(() => sut.Push(element));
 
             "expect the stack is not empty"
-                .Observation(
-                () => Assert.NotEmpty(sut));
+                .Then(() => Assert.NotEmpty(sut));
 
             "expect peek gives us the top element"
-                .Observation(
-                () => Assert.Equal(element, sut.Peek()));
+                .Then(() => Assert.Equal(element, sut.Peek()));
 
             "expect pop gives us the top element"
-                .Assert(
-                () => Assert.Equal(element, sut.Pop()));
+                .Then(() => Assert.Equal(element, sut.Pop()))
+                .InIsolation();
 
             "expect pop in another Assertions still gives us the top element"
-                .Assert(
-                () => Assert.Equal(element, sut.Pop()));
+                .Then(() => Assert.Equal(element, sut.Pop()))
+                .InIsolation();
         }
 
-        [Specification(Skip = "Not relevant for CI.")]
+        [Scenario(Skip = "Not relevant for CI.")]
         public static void FluentTimeouts()
         {
             // You can have individual timeouts per specification primitive
             // Change the sleep time or timeouts to see them fail
-            "Given a context that should not take longer than 1000ms  to establish".Context(() => Thread.Sleep(10)).WithTimeout(1000);
-            "When we do something that should not take longer than 1000ms ".Do(() => Thread.Sleep(10)).WithTimeout(1000);
-            "Assert something within 1000ms ".Assert(() => Thread.Sleep(10)).WithTimeout(1000);
-            "Observe something within 1000ms ".Observation(() => Thread.Sleep(10)).WithTimeout(1000);
-            "Observe something within 1001ms".Observation(() => Thread.Sleep(11)).WithTimeout(10001);
+            "Given a context that should not take longer than 1000ms  to establish"
+                .Given(() => Thread.Sleep(10))
+                .WithTimeout(1000);
+            
+            "When we do something that should not take longer than 1000ms "
+                .When(() => Thread.Sleep(10))
+                .WithTimeout(1000);
+            
+            "Assert something within 1000ms "
+                .Then(() => Thread.Sleep(10))
+                .WithTimeout(1000)
+                .InIsolation();
+            
+            "Observe something within 1000ms "
+                .Then(() => Thread.Sleep(10))
+                .WithTimeout(1000);
+            
+            "Observe something within 1001ms"
+                .Then(() => Thread.Sleep(11))
+                .WithTimeout(10001);
         }
 
         ////[Specification]

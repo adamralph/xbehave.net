@@ -61,36 +61,6 @@
     <Compile Include="..\Xbehave.Net40\BackgroundAttribute.cs">
       <Link>BackgroundAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\ContextDelegate.cs">
-      <Link>Deprecated\ContextDelegate.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\DisposableAction.cs">
-      <Link>Deprecated\DisposableAction.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\IStep.cs">
-      <Link>Deprecated\IStep.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\ScenarioDataAttribute.cs">
-      <Link>Deprecated\ScenarioDataAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\SpecificationAttribute.cs">
-      <Link>Deprecated\SpecificationAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\SpecificationExtensions.cs">
-      <Link>Deprecated\SpecificationExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\Step.cs">
-      <Link>Deprecated\Step.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\StringExtensions.cs">
-      <Link>Deprecated\StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\ThesisAttribute.cs">
-      <Link>Deprecated\ThesisAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Deprecated\_.cs">
-      <Link>Deprecated\_.cs</Link>
-    </Compile>
     <None Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
       <Link>Sandbox\DynamicStringExtensions.cs</Link>
     </None>
