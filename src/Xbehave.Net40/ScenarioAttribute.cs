@@ -36,7 +36,7 @@ namespace Xbehave
         /// <summary>
         /// Enumerates the test commands representing the background and scenario steps for each isolated context.
         /// </summary>
-        /// <param name="method">The scenario method</param>
+        /// <param name="method">The scenario method.</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the background and scenario steps for each isolated context.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Required to avoid infinite loop in test runner.")]
         protected override IEnumerable<ITestCommand> EnumerateTestCommands(IMethodInfo method)
@@ -69,7 +69,7 @@ namespace Xbehave
         /// <summary>
         /// Enumerates the commands representing the backgrounds associated with the <paramref name="method"/>.
         /// </summary>
-        /// <param name="method">The scenario method</param>
+        /// <param name="method">The scenario method.</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds associated with the <paramref name="method"/>.</returns>
         protected virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
         {
@@ -85,7 +85,7 @@ namespace Xbehave
         /// <summary>
         /// Enumerates the commands representing the scenarios defined by the <paramref name="method"/>.
         /// </summary>
-        /// <param name="method">The scenario method</param>
+        /// <param name="method">The scenario method.</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the scenarios defined by the <paramref name="method"/>.</returns>
         /// <remarks>This method may be overridden.</remarks>
         protected virtual IEnumerable<ICommand> EnumerateScenarioCommands(IMethodInfo method)

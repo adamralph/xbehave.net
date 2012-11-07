@@ -20,7 +20,7 @@ namespace Xbehave
         /// <summary>
         /// Creates the commands representing the backgrounds defined by the <paramref name="method"/>.
         /// </summary>
-        /// <param name="method">The test method</param>
+        /// <param name="method">The test method.</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds defined by the <paramref name="method"/>.</returns>
         public IEnumerable<ITestCommand> CreateBackgroundCommands(IMethodInfo method)
         {
@@ -30,7 +30,7 @@ namespace Xbehave
         /// <summary>
         /// Enumerates the commands representing the backgrounds defined by the <paramref name="method"/>.
         /// </summary>
-        /// <param name="method">The test method</param>
+        /// <param name="method">The test method.</param>
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds defined by the <paramref name="method"/>.</returns>
         protected virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
         {
