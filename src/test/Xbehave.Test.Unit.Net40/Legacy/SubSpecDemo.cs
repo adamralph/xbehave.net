@@ -86,11 +86,11 @@ namespace Xbehave.Test.Unit.Legacy
         ////}
 
         ////[Specification]
-        ////public void ExpressionSyntax()
+        ////public void LinqSyntax()
         ////{
         ////    const int element = 11;
 
-        ////    var spec = from sut in SpecificationExpression.Begin( () => new Stack<int>() )
+        ////    var spec = from sut in LinqSpecification.Begin( () => new Stack<int>() )
         ////               where sut.Push( element )
         ////               select new Observations() 
         ////    {

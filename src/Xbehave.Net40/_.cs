@@ -13,6 +13,7 @@ namespace Xbehave
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "_", Justification = "By design.")]
     [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores", Justification = "By design.")]
+    [CLSCompliant(false)]
     public static partial class _
     {
         /// <summary>

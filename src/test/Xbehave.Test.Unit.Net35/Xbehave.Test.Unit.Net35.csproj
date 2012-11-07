@@ -62,9 +62,6 @@
     <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\ContextSetupTeardownBehavior.cs">
       <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\StaticReflection.cs">
-      <Link>Legacy\StaticReflection.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\SubSpecDemo.cs">
       <Link>Legacy\SubSpecDemo.cs</Link>
     </Compile>

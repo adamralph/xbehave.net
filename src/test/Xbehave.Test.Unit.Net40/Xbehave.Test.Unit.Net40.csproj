@@ -63,7 +63,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Legacy\SubSpecDemo.cs" />
     <Compile Include="Legacy\ThreadIsolationFacts.cs" />
-    <Compile Include="Legacy\StaticReflection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">
