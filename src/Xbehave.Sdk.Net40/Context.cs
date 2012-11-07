@@ -1,5 +1,5 @@
-﻿// <copyright file="Context.cs" company="Adam Ralph">
-//  Copyright (c) Adam Ralph. All rights reserved.
+﻿// <copyright file="Context.cs" company="xBehave.net contributors">
+//  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
 namespace Xbehave.Sdk

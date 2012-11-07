@@ -1,13 +1,13 @@
-﻿// <copyright file="CommonAssemblyInfo.cs" company="Adam Ralph">
-//  Copyright (c) Adam Ralph. All rights reserved.
+﻿// <copyright file="CommonAssemblyInfo.cs" company="xBehave.net contributors">
+//  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Adam Ralph")]
-[assembly: AssemblyCopyright("Copyright © Adam Ralph. All rights reserved.")]
+[assembly: AssemblyCompany("xBehave.net contributors")]
+[assembly: AssemblyCopyright("Copyright © xBehave.net contributors. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyProduct("xBehave.net")]
