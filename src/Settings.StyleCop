@@ -35,4 +35,13 @@
       <AnalyzerSettings />
     </Analyzer>
   </Analyzers>
+<Parsers>
+    <Parser ParserId="StyleCop.CSharp.CsParser">
+      <ParserSettings>
+        <CollectionProperty Name="GeneratedFileFilters">
+          <Value>TemporaryGeneratedFile_.*\.cs$</Value>
+        </CollectionProperty>
+      </ParserSettings>
+    </Parser>
+  </Parsers>
 </StyleCopSettings>
