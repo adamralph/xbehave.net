@@ -29,28 +29,34 @@ Task Package -depends Test {
         copy "$ThisDir\Xbehave.Net40\bin\$MSBuildConfiguration\Xbehave.xml" "$ThisDir\bin\lib\net40"
     }
     
-    mkdir "$ThisDir\bin\lib\net45"
-    copy "$ThisDir\Xbehave.Net45\bin\$MSBuildConfiguration\Xbehave.dll" "$ThisDir\bin\lib\net45"
-    if (Test-Path "$ThisDir\Xbehave.Net45\bin\$MSBuildConfiguration\Xbehave.xml")
-    {    
-        copy "$ThisDir\Xbehave.Net45\bin\$MSBuildConfiguration\Xbehave.xml" "$ThisDir\bin\lib\net45"
+    if ($MSBuildConfiguration -ne "Release")
+    {
+        mkdir "$ThisDir\bin\lib\net45"
+        copy "$ThisDir\Xbehave.Net45\bin\$MSBuildConfiguration\Xbehave.dll" "$ThisDir\bin\lib\net45"
+        if (Test-Path "$ThisDir\Xbehave.Net45\bin\$MSBuildConfiguration\Xbehave.xml")
+        {    
+            copy "$ThisDir\Xbehave.Net45\bin\$MSBuildConfiguration\Xbehave.xml" "$ThisDir\bin\lib\net45"
+        }
     }
 
     Exec { .$NuGetConsole pack "Xbehave.nuspec" -BasePath "$ThisDir\bin" -OutputDirectory "$ThisDir\bin" }
 }
 
 Task Test -depends Build {
-    Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net35\bin\Debug\Xbehave.Sdk.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net35\bin\Debug\Xbehave.Sdk.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net35\bin\Debug\Xbehave.Sdk.Test.Unit.Results.html" }
-    Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net40\bin\Debug\Xbehave.Sdk.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net40\bin\Debug\Xbehave.Sdk.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net40\bin\Debug\Xbehave.Sdk.Test.Unit.Results.html" }
-    Exec { .$XunitConsole45 "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net45\bin\Debug\Xbehave.Sdk.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net45\bin\Debug\Xbehave.Sdk.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net45\bin\Debug\Xbehave.Sdk.Test.Unit.Results.html" }
-    
-    Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\Xbehave.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\Xbehave.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\Xbehave.Test.Unit.Results.html" }
-    Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\Xbehave.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\Xbehave.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\Xbehave.Test.Unit.Results.html" }
-    Exec { .$XunitConsole45 "$ThisDir\test\Xbehave.Test.Unit.Net45\bin\Debug\Xbehave.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Unit.Net45\bin\Debug\Xbehave.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net45\bin\Debug\Xbehave.Test.Unit.Results.html" }
-    
+    Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net35\bin\Debug\Xbehave.Sdk.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net35\bin\Debug\Xbehave.Sdk.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net35\bin\Debug\Xbehave.Sdk.Test.Unit.Results.html" }    
+    Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\Xbehave.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\Xbehave.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net35\bin\Debug\Xbehave.Test.Unit.Results.html" }    
     Exec { .$XunitConsole35 "$ThisDir\test\Xbehave.Test.Acceptance.Net35\bin\Debug\Xbehave.Test.Acceptance.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Acceptance.Net35\bin\Debug\Xbehave.Test.Acceptance.Results.xml" /html "$ThisDir\test\Xbehave.Test.Acceptance.Net35\bin\Debug\Xbehave.Test.Acceptance.Results.html" }
+
+    Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net40\bin\Debug\Xbehave.Sdk.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net40\bin\Debug\Xbehave.Sdk.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net40\bin\Debug\Xbehave.Sdk.Test.Unit.Results.html" }
+    Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\Xbehave.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\Xbehave.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net40\bin\Debug\Xbehave.Test.Unit.Results.html" }
     Exec { .$XunitConsole40 "$ThisDir\test\Xbehave.Test.Acceptance.Net40\bin\Debug\Xbehave.Test.Acceptance.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Acceptance.Net40\bin\Debug\Xbehave.Test.Acceptance.Results.xml" /html "$ThisDir\test\Xbehave.Test.Acceptance.Net40\bin\Debug\Xbehave.Test.Acceptance.Results.html" }
-    Exec { .$XunitConsole45 "$ThisDir\test\Xbehave.Test.Acceptance.Net45\bin\Debug\Xbehave.Test.Acceptance.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Acceptance.Net45\bin\Debug\Xbehave.Test.Acceptance.Results.xml" /html "$ThisDir\test\Xbehave.Test.Acceptance.Net45\bin\Debug\Xbehave.Test.Acceptance.Results.html" }
+
+    if ($MSBuildConfiguration -ne "Release")
+    {
+        Exec { .$XunitConsole45 "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net45\bin\Debug\Xbehave.Sdk.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net45\bin\Debug\Xbehave.Sdk.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Sdk.Test.Unit.Net45\bin\Debug\Xbehave.Sdk.Test.Unit.Results.html" }
+        Exec { .$XunitConsole45 "$ThisDir\test\Xbehave.Test.Unit.Net45\bin\Debug\Xbehave.Test.Unit.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Unit.Net45\bin\Debug\Xbehave.Test.Unit.Results.xml" /html "$ThisDir\test\Xbehave.Test.Unit.Net45\bin\Debug\Xbehave.Test.Unit.Results.html" }
+        Exec { .$XunitConsole45 "$ThisDir\test\Xbehave.Test.Acceptance.Net45\bin\Debug\Xbehave.Test.Acceptance.dll" /noshadow /nunit "$ThisDir\test\Xbehave.Test.Acceptance.Net45\bin\Debug\Xbehave.Test.Acceptance.Results.xml" /html "$ThisDir\test\Xbehave.Test.Acceptance.Net45\bin\Debug\Xbehave.Test.Acceptance.Results.html" }
+    }
 }
 
 Task Build -depends Clean {
