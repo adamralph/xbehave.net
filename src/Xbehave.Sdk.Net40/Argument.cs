@@ -13,6 +13,8 @@ namespace Xbehave.Sdk
 
         public Argument(Type type)
         {
+            Guard.AgainstNullArgument("type", type);
+
             this.value = type.IsValueType ? Activator.CreateInstance(type) : null;
             this.isGeneratedDefault = true;
         }

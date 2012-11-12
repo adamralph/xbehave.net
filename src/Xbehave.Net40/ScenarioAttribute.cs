@@ -43,7 +43,7 @@ namespace Xbehave
         {
             if (method == null)
             {
-                return new[] { new ExceptionCommand(method, new ArgumentNullException("The method is null.")) };
+                return new[] { new ExceptionCommand(method, new ArgumentNullException("method")) };
             }
 
             IEnumerable<ITestCommand> backgroundCommands;
@@ -100,63 +100,47 @@ namespace Xbehave
             }
 
             var commands = new List<ICommand>();
-            try
+            foreach (var arguments in GetArgumentCollections(method.MethodInfo))
             {
-                foreach (var arguments in GetArgumentCollections(method.MethodInfo))
+                var closedTypeMethod = method;
+                Type[] typeArguments = null;
+                if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
                 {
-                    var closedTypeMethod = method;
-                    Type[] typeArguments = null;
-                    if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
-                    {
-                        typeArguments = ResolveTypeArguments(method, arguments).ToArray();
-                        closedTypeMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(typeArguments));
-                    }
+                    typeArguments = ResolveTypeArguments(method, arguments).ToArray();
+                    closedTypeMethod = Reflector.Wrap(method.MethodInfo.MakeGenericMethod(typeArguments));
+                }
 
-                    var generatedArguments = new List<Argument>();
-                    for (var missingArgumentIndex = arguments.Length; missingArgumentIndex < parameters.Length; ++missingArgumentIndex)
+                var generatedArguments = new List<Argument>();
+                for (var missingArgumentIndex = arguments.Length; missingArgumentIndex < parameters.Length; ++missingArgumentIndex)
+                {
+                    var parameterType = parameters[missingArgumentIndex].ParameterType;
+                    if (parameterType.IsGenericParameter)
                     {
-                        var parameterType = parameters[missingArgumentIndex].ParameterType;
-                        if (parameterType.IsGenericParameter)
+                        Type concreteType = null;
+                        var typeParameters = method.MethodInfo.GetGenericArguments();
+                        for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
                         {
-                            Type concreteType = null;
-                            var typeParameters = method.MethodInfo.GetGenericArguments();
-                            for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
+                            if (typeParameters[typeParameterIndex] == parameterType)
                             {
-                                if (typeParameters[typeParameterIndex] == parameterType)
-                                {
-                                    concreteType = typeArguments[typeParameterIndex];
-                                    break;
-                                }
+                                concreteType = typeArguments[typeParameterIndex];
+                                break;
                             }
-
-                            if (concreteType == null)
-                            {
-                                var message = string.Format(
-                                    CultureInfo.CurrentCulture, "The type of parameter \"{0}\" cannot be resolved.", parameters[missingArgumentIndex].Name);
-                                throw new InvalidOperationException(message);
-                            }
-
-                            parameterType = concreteType;
                         }
 
-                        generatedArguments.Add(new Argument(parameterType));
+                        if (concreteType == null)
+                        {
+                            var message = string.Format(
+                                CultureInfo.CurrentCulture, "The type of parameter \"{0}\" cannot be resolved.", parameters[missingArgumentIndex].Name);
+                            throw new InvalidOperationException(message);
+                        }
+
+                        parameterType = concreteType;
                     }
 
-                    commands.Add(new Command(new MethodCall(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments)));
+                    generatedArguments.Add(new Argument(parameterType));
                 }
 
-                if (commands.Count == 0)
-                {
-                    var message = string.Format(CultureInfo.CurrentCulture, "No data found for {0}.{1}", method.TypeName, method.Name);
-                    commands.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
-                }
-            }
-            catch (Exception ex)
-            {
-                commands.Clear();
-                var message = string.Format(
-                    CultureInfo.CurrentCulture, "An exception was thrown while getting data for scenario {0}.{1}:\r\n{2}", method.TypeName, method.Name, ex);
-                commands.Add(new ExceptionCommand(method, new InvalidOperationException(message)));
+                commands.Add(new Command(new MethodCall(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments)));
             }
 
             return commands;

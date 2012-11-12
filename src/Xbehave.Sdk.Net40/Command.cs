@@ -9,6 +9,7 @@ namespace Xbehave.Sdk
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Threading;
     using Xunit.Sdk;
 
     public class Command : TestCommand, ICommand
@@ -23,8 +24,10 @@ namespace Xbehave.Sdk
         }
 
         public Command(MethodCall methodCall)
-            : base(methodCall.Method, null, MethodUtility.GetTimeoutParameter(methodCall.Method))
+            : base(methodCall == null ? null : methodCall.Method, null, methodCall == null ? 0 : MethodUtility.GetTimeoutParameter(methodCall.Method))
         {
+            Guard.AgainstNullArgument("methodCall", methodCall);
+
             this.methodCall = methodCall;
             this.arguments = methodCall.Arguments.ToArray();
             this.typeArguments = methodCall.TypeArguments.ToArray();
