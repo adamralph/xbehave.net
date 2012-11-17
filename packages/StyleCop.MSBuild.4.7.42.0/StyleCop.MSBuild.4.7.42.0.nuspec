@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>StyleCop.MSBuild</id>
-    <version>4.7.41.0</version>
+    <version>4.7.42.0</version>
     <authors>Andy Reeves,  Adam Ralph</authors>
     <owners>Andy Reeves,  Adam Ralph</owners>
     <licenseUrl>https://bitbucket.org/adamralph/stylecop-msbuild/src/f067e2091562/license.txt</licenseUrl>
@@ -10,9 +10,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Adds official StyleCop MSBuild targets to your project for running StyleCop analysis with every build. Includes official StyleCop binaries. Works both on a developer workstation (with or without Visual Studio) and on a build server. Does not require installation of StyleCop on any machine. Compatible with NuGet package restore. For update notifications follow https://twitter.com/#!/adamralph and/or subscribe to http://adamralph.blogspot.com/. Come and chat to fellow developers about StyleCop and StyleCop.MSBuild at https://jabbr.net/#/rooms/stylecop/.
 
-NOTE: There is a known issue with NuGet Package Manager 1.8 or later. If you have problems installing this version of StyleCop.MSBuild, see http://nuget.codeplex.com/workitem/2253 for a workaround.
+NOTE: There is a known issue with NuGet Package Manager versions 1.8 to 2.0. See http://nuget.codeplex.com/workitem/2253 for details. If you are using NuGet Package Manager versions 1.8 to 2.0, you are advised to upgrade to version 2.1 or later before installing or updating StyleCop.MSBuild. If you are unable to upgrade to NuGet Package Manager version 2.1 or later and you have problems installing or updating StyleCop.MSBuild, see http://nuget.codeplex.com/workitem/2253 for a workaround. This issue was resolved in NuGet Package Manager version 2.1.
 
-NOTE: If your solution is currently using StyleCop.MSBuild.4.7.17.0 or earlier, updating to this version will NOT work. Instead, uninstall your current version and then install this version. See http://adamralph.blogspot.ch/2012/04/introducing-stylecopmsbuild.html for an explanation.</description>
+NOTE: If your solution is currently using StyleCop.MSBuild.4.7.17.0 or earlier, updating to a later version will NOT work. Instead of updating, uninstall your current version and then install a later version. See http://adamralph.blogspot.ch/2012/04/introducing-stylecopmsbuild.html for an explanation.</description>
     <releaseNotes>For StyleCop release notes see http://stylecop.codeplex.com/.
 
 StyleCop.MSBuild release notes:-
@@ -29,9 +29,9 @@ StyleCop.MSBuild release notes:-
 
 4.7.17.1 (Enchancement) Update .csproj Import during Nuget package install (https://stylecop.codeplex.com/workitem/7206).
 
-NOTE: There is a known issue with NuGet Package Manager 1.8 or later. If you have problems installing this version of StyleCop.MSBuild, see http://nuget.codeplex.com/workitem/2253 for a workaround.
+NOTE: There is a known issue with NuGet Package Manager versions 1.8 to 2.0. See http://nuget.codeplex.com/workitem/2253 for details. If you are using NuGet Package Manager versions 1.8 to 2.0, you are advised to upgrade to version 2.1 or later before installing or updating StyleCop.MSBuild. If you are unable to upgrade to NuGet Package Manager version 2.1 or later and you have problems installing or updating StyleCop.MSBuild, see http://nuget.codeplex.com/workitem/2253 for a workaround. This issue was resolved in NuGet Package Manager version 2.1.
 
-NOTE: If your solution is currently using StyleCop.MSBuild.4.7.17.0 or earlier, updating to this version will NOT work. Instead, uninstall your current version and then install this version. See http://adamralph.blogspot.ch/2012/04/introducing-stylecopmsbuild.html for an explanation.</releaseNotes>
+NOTE: If your solution is currently using StyleCop.MSBuild.4.7.17.0 or earlier, updating to a later version will NOT work. Instead of updating, uninstall your current version and then install a later version. See http://adamralph.blogspot.ch/2012/04/introducing-stylecopmsbuild.html for an explanation.</releaseNotes>
     <copyright>Copyright (c) 2012 Adam Ralph (adam@adamralph.com)</copyright>
     <language>en-US</language>
   </metadata>
