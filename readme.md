@@ -48,7 +48,7 @@ It's your choice. You can use any method of assertion or verification you like. 
 
 ## How do I run it? ##
 
-xBehave.net scenarios can be executed using any xUnit.net test runner. E.g. TestDriven.Net, Resharper, xUnit.net console/GUI, Visual Studio 11 Test Runner, etc. If you have questions about using xBehave.net, either send a message to the project owners, raise an issue or come and chat to fellow users in the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
+xBehave.net scenarios can be executed using any xUnit.net test runner. E.g. TestDriven.Net, Resharper, xUnit.net console/GUI, Visual Studio 2012 Test Runner, etc. If you have questions about using xBehave.net, either send a message to the project owners, raise an issue or come and chat to fellow users in the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
 
 ## Where can I get it? ##
 
@@ -117,7 +117,7 @@ xBehave.net uses [Semantic Versioning](http://semver.org/). The current release 
 * [StyleCop](http://stylecop.codeplex.com/)
 * [StyleCop.MSBuild](https://bitbucket.org/adamralph/stylecop-msbuild)
 * [psake](https://github.com/psake/psake)
-* [FakeItEasy](http://code.google.com/p/fakeiteasy/)
+* [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)
 * [FluentAssertions](http://fluentassertions.codeplex.com/)
 * [Semantic Versioning](http://semver.org/)
 * [teamcity.codebetter.com](http://teamcity.codebetter.com)
