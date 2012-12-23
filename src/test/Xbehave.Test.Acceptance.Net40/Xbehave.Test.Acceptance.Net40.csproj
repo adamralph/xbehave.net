@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xbehave.Test.Acceptance</RootNamespace>
-    <AssemblyName>Xbehave.Test.Acceptance</AssemblyName>
+    <AssemblyName>Xbehave.Test.Acceptance.Net40</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

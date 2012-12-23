@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xbehave.Sdk.Test.Unit</RootNamespace>
-    <AssemblyName>Xbehave.Sdk.Test.Unit</AssemblyName>
+    <AssemblyName>Xbehave.Sdk.Test.Unit.Net35</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
