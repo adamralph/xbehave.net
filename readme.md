@@ -54,7 +54,7 @@ xBehave.net scenarios can be executed using any xUnit.net test runner. E.g. Test
 
 xBehave.net is available as a [NuGet package](https://nuget.org/packages/xBehave). For update notifications, follow [@adamralph](https://twitter.com/#!/adamralph).
 
-Continuous integration builds are available at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview).
+Continuous integration builds are available at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview). To build manually, clone or fork this repository and see ['How to build'](https://github.com/xbehave/xbehave.net/blob/master/how_to_build.txt).
 
 ## What else does it do? ##
 
@@ -96,9 +96,7 @@ When added after a step definition, xBehave.net skips the defined step (similar 
 
 Absolutely! Please feel free to raise issues, fork the source code, send pull requests, etc.
 
-No pull request is too small. Even whitespace fixes are appreciated. Before you contribute anything make sure you set autoclrf to true.
-
-    git config --local core.autocrlf true
+No pull request is too small. Even whitespace fixes are appreciated. Before you contribute anything make sure you read [CONTRIBUTING.md](https://github.com/xbehave/xbehave.net/blob/master/CONTRIBUTING.md).
 
 CI builds are hosted at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview) and are triggered after each commit to the default branch (including merging of pull requests).
 
