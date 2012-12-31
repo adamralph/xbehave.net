@@ -4,7 +4,7 @@ require File.expand_path('rakehelper/rakehelper', File.dirname(__FILE__))
 
 ENV["XunitConsole_net20"] = "../packages/xunit.runners.1.9.1/tools/xunit.console.exe"
 ENV["XunitConsole_net40"] = "../packages/xunit.runners.1.9.1/tools/xunit.console.clr4.exe"
-ENV["NuGetConsole"] = "../packages/NuGet.CommandLine.2.1.2/tools/NuGet.exe"
+ENV["NuGetConsole"] = "../packages/NuGet.CommandLine.2.2.0/tools/NuGet.exe"
 
 Albacore.configure do |config|
   config.log_level = :verbose
