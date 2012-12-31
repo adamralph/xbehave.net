@@ -8,8 +8,8 @@
     <ProjectGuid>{318A83C1-F734-4612-A04F-9BE0D26657BF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Samples</RootNamespace>
-    <AssemblyName>Xbehave.Samples</AssemblyName>
+    <RootNamespace>Xbehave.Samples.Net40</RootNamespace>
+    <AssemblyName>Xbehave.Samples.Net40</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

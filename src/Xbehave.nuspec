@@ -21,10 +21,12 @@
         <dependency id="xunit" version="[1.9.1]" />
         <dependency id="xunit.extensions" version="[1.9.1]" />
       </group>
-      <group targetFramework="net45">
-        <dependency id="xunit" version="[2.0.0-alpha-build1611]" />
-        <dependency id="xunit.extensions" version="[2.0.0-alpha-build1611]" />
-      </group>
     </dependencies>
   </metadata>
+  <files>
+    <file src="Xbehave.Net35/bin/Release/Xbehave.dll" target="lib/net35" />
+    <file src="Xbehave.Net35/bin/Release/Xbehave.xml" target="lib/net35" />
+    <file src="Xbehave.Net40/bin/Release/Xbehave.dll" target="lib/net40" />
+    <file src="Xbehave.Net40/bin/Release/Xbehave.xml" target="lib/net40" />
+  </files>
 </package>

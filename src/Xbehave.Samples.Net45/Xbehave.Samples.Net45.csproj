@@ -8,8 +8,8 @@
     <ProjectGuid>{DB1052C5-B4A6-43E6-B0A6-0DE4FBCF0A33}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Samples.Net35</RootNamespace>
-    <AssemblyName>Xbehave.Samples.Net35</AssemblyName>
+    <RootNamespace>Xbehave.Samples.Net45</RootNamespace>
+    <AssemblyName>Xbehave.Samples.Net45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
