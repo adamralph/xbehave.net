@@ -1,1 +1,1 @@
-mono --runtime=v2.0 "%XunitConsole_net20%" %*
+mono --runtime=v2.0.50727 "%XunitConsole_net20%" %*

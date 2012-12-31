@@ -1,2 +1,2 @@
 #!/bin/sh
-mono --runtime=v4.0 "${XunitConsole_net40}" $*
+mono --runtime=v4.0.30319 "${XunitConsole_net40}" $*
