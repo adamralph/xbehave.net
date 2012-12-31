@@ -54,7 +54,7 @@ xBehave.net scenarios can be executed using any xUnit.net test runner. E.g. Test
 
 xBehave.net is available as a [NuGet package](https://nuget.org/packages/xBehave). For update notifications, follow [@adamralph](https://twitter.com/#!/adamralph).
 
-Continuous integration builds are available at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview). To build manually, clone or fork this repository and execute Invoke-ReleaseBuild.ps1 from PowerShell.
+Continuous integration builds are available at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview).
 
 ## What else does it do? ##
 
