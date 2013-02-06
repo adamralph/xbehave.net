@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{41BB5C25-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C43DA667-DF59-4438-B3DC-F707DF861043}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Unit.Net40", "test\Xbehave.Test.Unit.Net40\Xbehave.Test.Unit.Net40.csproj", "{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Specifications.Net40", "test\Xbehave.Specifications.Net40\Xbehave.Specifications.Net40.csproj", "{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Samples.Net35", "Xbehave.Samples.Net35\Xbehave.Samples.Net35.csproj", "{2A64CA3C-EE54-481A-BED0-536690918289}"
 EndProject
@@ -36,23 +36,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBC588
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net35", "Xbehave.Net35\Xbehave.Net35.csproj", "{425C1030-10E5-4CCF-80C2-A4A8966EA48A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Unit.Net35", "test\Xbehave.Test.Unit.Net35\Xbehave.Test.Unit.Net35.csproj", "{5CC1C3CC-67FC-4691-83BF-E14B367E06C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Specifications.Net35", "test\Xbehave.Specifications.Net35\Xbehave.Specifications.Net35.csproj", "{5CC1C3CC-67FC-4691-83BF-E14B367E06C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net40", "Xbehave.Sdk.Net40\Xbehave.Sdk.Net40.csproj", "{69370680-9671-466C-B7BC-1C9BB5474F31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net35", "Xbehave.Sdk.Net35\Xbehave.Sdk.Net35.csproj", "{D39D0F1E-191A-4FF5-BA7F-73A8029ED45A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Unit.Net40", "test\Xbehave.Sdk.Test.Unit.Net40\Xbehave.Sdk.Test.Unit.Net40.csproj", "{4AFB913B-3798-4857-8E9D-28285F4FE21C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Specifications.Net40", "test\Xbehave.Sdk.Specifications.Net40\Xbehave.Sdk.Specifications.Net40.csproj", "{4AFB913B-3798-4857-8E9D-28285F4FE21C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Unit.Net35", "test\Xbehave.Sdk.Test.Unit.Net35\Xbehave.Sdk.Test.Unit.Net35.csproj", "{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Specifications.Net35", "test\Xbehave.Sdk.Specifications.Net35\Xbehave.Sdk.Specifications.Net35.csproj", "{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{3CE881F9-3E00-4C16-8A90-9C5F57FA9565}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Features", "Features", "{A763D3CE-3C9C-456D-A758-46C18B31DBD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net40", "test\Xbehave.Test.Acceptance.Net40\Xbehave.Test.Acceptance.Net40.csproj", "{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.Net40", "test\Xbehave.Features.Net40\Xbehave.Features.Net40.csproj", "{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net35", "test\Xbehave.Test.Acceptance.Net35\Xbehave.Test.Acceptance.Net35.csproj", "{F64FAC93-8534-4A00-83C6-031C51923BA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.Net35", "test\Xbehave.Features.Net35\Xbehave.Features.Net35.csproj", "{F64FAC93-8534-4A00-83C6-031C51923BA3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net45", "Xbehave.Sdk.Net45\Xbehave.Sdk.Net45.csproj", "{A2B5D4FC-2D64-491C-A724-606F3EB759F6}"
 EndProject
@@ -60,11 +60,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net45", "Xbehave.Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Samples.Net45", "Xbehave.Samples.Net45\Xbehave.Samples.Net45.csproj", "{DB1052C5-B4A6-43E6-B0A6-0DE4FBCF0A33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Unit.Net45", "test\Xbehave.Test.Unit.Net45\Xbehave.Test.Unit.Net45.csproj", "{58B5B537-982B-48EE-A88B-7F9917892866}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Specifications.Net45", "test\Xbehave.Specifications.Net45\Xbehave.Specifications.Net45.csproj", "{58B5B537-982B-48EE-A88B-7F9917892866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Unit.Net45", "test\Xbehave.Sdk.Test.Unit.Net45\Xbehave.Sdk.Test.Unit.Net45.csproj", "{C8359813-AECC-47A1-8642-9D2A061C8CCD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Specifications.Net45", "test\Xbehave.Sdk.Specifications.Net45\Xbehave.Sdk.Specifications.Net45.csproj", "{C8359813-AECC-47A1-8642-9D2A061C8CCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net45", "test\Xbehave.Test.Acceptance.Net45\Xbehave.Test.Acceptance.Net45.csproj", "{0FE92BA5-9D62-4DE8-8ADD-9F37F6370D9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.Net45", "test\Xbehave.Features.Net45\Xbehave.Features.Net45.csproj", "{0FE92BA5-9D62-4DE8-8ADD-9F37F6370D9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

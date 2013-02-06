@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{5CC1C3CC-67FC-4691-83BF-E14B367E06C3}</ProjectGuid>
+    <ProjectGuid>{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Test.Unit</RootNamespace>
-    <AssemblyName>Xbehave.Test.Unit.Net35</AssemblyName>
+    <RootNamespace>Xbehave.Sdk.Specifications</RootNamespace>
+    <AssemblyName>Xbehave.Sdk.Specifications.Net35</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,7 +44,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\FluentAssertions.2.0.0.1\lib\net35\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
@@ -56,14 +55,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\ContextSetupTeardownBehavior.cs">
-      <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\SubSpecDemo.cs">
-      <Link>Legacy\SubSpecDemo.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\ThreadIsolationFacts.cs">
-      <Link>Legacy\ThreadIsolationFacts.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Specifications.Net40\GuardFeature.cs">
+      <Link>GuardFeature.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +66,10 @@
     <ProjectReference Include="..\..\Xbehave.Net35\Xbehave.Net35.csproj">
       <Project>{425C1030-10E5-4CCF-80C2-A4A8966EA48A}</Project>
       <Name>Xbehave.Net35</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Xbehave.Sdk.Net35\Xbehave.Sdk.Net35.csproj">
+      <Project>{D39D0F1E-191A-4FF5-BA7F-73A8029ED45A}</Project>
+      <Name>Xbehave.Sdk.Net35</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

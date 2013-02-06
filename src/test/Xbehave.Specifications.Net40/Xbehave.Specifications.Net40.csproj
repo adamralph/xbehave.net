@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA}</ProjectGuid>
+    <ProjectGuid>{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Test.Acceptance</RootNamespace>
-    <AssemblyName>Xbehave.Test.Acceptance.Net40</AssemblyName>
+    <RootNamespace>Xbehave.Specifications</RootNamespace>
+    <AssemblyName>Xbehave.Specifications.Net40</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,6 +32,14 @@
     <AssemblyOriginatorKeyFile>..\..\Xbehave.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Castle.Core.3.1.0\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FakeItEasy, Version=1.7.4626.65, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\FakeItEasy.1.7.4626.65\lib\NET40\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\packages\FluentAssertions.2.0.0.1\lib\net40\FluentAssertions.dll</HintPath>
@@ -48,20 +56,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundFeature.cs" />
-    <Compile Include="TeardownFeature.cs" />
-    <Compile Include="TimeoutFeature.cs" />
-    <Compile Include="UsingFeature.cs" />
-    <Compile Include="ScenarioFeature.cs" />
-    <Compile Include="Infrastructure\EnumerableExtensions.cs" />
-    <Compile Include="Infrastructure\QueueExtensions.cs" />
-    <Compile Include="Infrastructure\CustomEqualityComparer.cs" />
-    <Compile Include="InIsolationFeature.cs" />
-    <Compile Include="SkipFeature.cs" />
-    <Compile Include="Infrastructure\TestRunner.cs" />
-    <Compile Include="Infrastructure\EnumerableEqualityComparer.cs" />
-    <Compile Include="Infrastructure\EnumerableComparer.cs" />
-    <Compile Include="ExampleFeature.cs" />
+    <Compile Include="Legacy\ContextSetupTeardownBehavior.cs" />
+    <Compile Include="Legacy\SubSpecDemo.cs" />
+    <Compile Include="Legacy\ThreadIsolationFacts.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">

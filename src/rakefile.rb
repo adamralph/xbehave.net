@@ -36,10 +36,10 @@ end
 desc "Execute specs"
 task :spec do
   specs = [
-    { :version => :net20, :path => "test/Xbehave.Sdk.Test.Unit.Net35/bin/Debug/Xbehave.Sdk.Test.Unit.Net35.dll" },
-    { :version => :net20, :path => "test/Xbehave.Test.Unit.Net35/bin/Debug/Xbehave.Test.Unit.Net35.dll" },
-    { :version => :net40, :path => "test/Xbehave.Sdk.Test.Unit.Net40/bin/Debug/Xbehave.Sdk.Test.Unit.Net40.dll" },
-    { :version => :net40, :path => "test/Xbehave.Test.Unit.Net40/bin/Debug/Xbehave.Test.Unit.Net40.dll" }
+    { :version => :net20, :path => "test/Xbehave.Sdk.Specifications.Net35/bin/Debug/Xbehave.Sdk.Specifications.Net35.dll" },
+    { :version => :net20, :path => "test/Xbehave.Specifications.Net35/bin/Debug/Xbehave.Specifications.Net35.dll" },
+    { :version => :net40, :path => "test/Xbehave.Sdk.Specifications.Net40/bin/Debug/Xbehave.Sdk.Specifications.Net40.dll" },
+    { :version => :net40, :path => "test/Xbehave.Specifications.Net40/bin/Debug/Xbehave.Specifications.Net40.dll" }
   ]
   execute specs
 end
@@ -47,8 +47,8 @@ end
 desc "Execute features"
 task :feature do
   features = [
-    { :version => :net20, :path => "test/Xbehave.Test.Acceptance.Net35/bin/Debug/Xbehave.Test.Acceptance.Net35.dll" },
-    { :version => :net40, :path => "test/Xbehave.Test.Acceptance.Net40/bin/Debug/Xbehave.Test.Acceptance.Net40.dll" }
+    { :version => :net20, :path => "test/Xbehave.Features.Net35/bin/Debug/Xbehave.Features.Net35.dll" },
+    { :version => :net40, :path => "test/Xbehave.Features.Net40/bin/Debug/Xbehave.Features.Net40.dll" }
   ]
   execute features
 end
