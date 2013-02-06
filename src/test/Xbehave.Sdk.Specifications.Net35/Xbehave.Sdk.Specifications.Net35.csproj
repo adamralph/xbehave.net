@@ -55,11 +55,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Xbehave.Sdk.Specifications.Net40\GuardFeature.cs">
-      <Link>GuardFeature.cs</Link>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
