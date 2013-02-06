@@ -46,9 +46,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Unit.Net40
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Unit.Net35", "test\Xbehave.Sdk.Test.Unit.Net35\Xbehave.Sdk.Test.Unit.Net35.csproj", "{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{3CE881F9-3E00-4C16-8A90-9C5F57FA9565}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Specifications", "Specifications", "{3CE881F9-3E00-4C16-8A90-9C5F57FA9565}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Acceptance", "Acceptance", "{A763D3CE-3C9C-456D-A758-46C18B31DBD9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Features", "Features", "{A763D3CE-3C9C-456D-A758-46C18B31DBD9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net40", "test\Xbehave.Test.Acceptance.Net40\Xbehave.Test.Acceptance.Net40.csproj", "{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA}"
 EndProject
