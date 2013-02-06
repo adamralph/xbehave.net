@@ -94,7 +94,7 @@
     <Exec Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " Command="&quot;$(SolutionDir)\..\tools\ILMerge\ILmerge.exe&quot; /keyfile:$(SolutionDir)\Xbehave.snk /lib:$(OutputPath) /targetplatform:&quot;v4,$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0&quot; /internalize /out:@(MainAssembly) &quot;@(IntermediateAssembly)&quot; &quot;$(OutputPath)XBehave.Sdk.dll&quot;" />
   </Target>
   <PropertyGroup>
-    <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.42.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
+    <StyleCopMSBuildTargetsFile>..\..\packages\StyleCop.MSBuild.4.7.44.1\tools\StyleCop.targets</StyleCopMSBuildTargetsFile>
   </PropertyGroup>
   <Import Condition="Exists('$(StyleCopMSBuildTargetsFile)')" Project="$(StyleCopMSBuildTargetsFile)" />
   <PropertyGroup>
