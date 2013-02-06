@@ -26,7 +26,7 @@
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\Xbehave.snk</AssemblyOriginatorKeyFile>
@@ -56,9 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\ContextSetupTeardownBehavior.cs">
       <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
     </Compile>
@@ -68,14 +65,8 @@
     <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\ThreadIsolationFacts.cs">
       <Link>Legacy\ThreadIsolationFacts.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Xbehave.snk">
-      <Link>Properties\Xbehave.snk</Link>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +74,9 @@
       <Project>{425C1030-10E5-4CCF-80C2-A4A8966EA48A}</Project>
       <Name>Xbehave.Net35</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

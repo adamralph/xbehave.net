@@ -28,7 +28,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\Xbehave.snk</AssemblyOriginatorKeyFile>
@@ -52,9 +52,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\BackgroundFeature.cs">
       <Link>BackgroundFeature.cs</Link>
     </Compile>
@@ -82,9 +79,6 @@
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\InIsolationFeature.cs">
       <Link>InIsolationFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\ScenarioFeature.cs">
       <Link>ScenarioFeature.cs</Link>
     </Compile>
@@ -102,9 +96,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Xbehave.snk">
-      <Link>Properties\Xbehave.snk</Link>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +103,9 @@
       <Project>{b58d103d-7f95-4f80-9fec-ee5d749cd554}</Project>
       <Name>Xbehave.Net45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

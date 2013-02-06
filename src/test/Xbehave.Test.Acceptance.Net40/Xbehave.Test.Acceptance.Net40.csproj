@@ -26,7 +26,7 @@
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\Xbehave.snk</AssemblyOriginatorKeyFile>
@@ -48,9 +48,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
     <Compile Include="BackgroundFeature.cs" />
     <Compile Include="TeardownFeature.cs" />
     <Compile Include="TimeoutFeature.cs" />
@@ -65,7 +62,6 @@
     <Compile Include="Infrastructure\EnumerableEqualityComparer.cs" />
     <Compile Include="Infrastructure\EnumerableComparer.cs" />
     <Compile Include="ExampleFeature.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">
@@ -74,10 +70,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Xbehave.snk">
-      <Link>Properties\Xbehave.snk</Link>
-    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
