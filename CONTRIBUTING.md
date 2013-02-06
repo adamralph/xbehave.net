@@ -5,7 +5,7 @@ First of all, thank you for wanting to contribute to Xbehave.net! We really appr
 ## Making Changes
 
 1. [Fork](http://help.github.com/forking/) on GitHub
-1. Make sure your line-endings are [configured correctly](https://github.com/xbehave/xbehave.net/wiki/Make-sure-line-endings-doesn%27t-bite-you)
+1. Make sure your you set autoclrf to false. `git config --local core.autocrlf false`
 1. Clone your fork locally
 1. Configure the upstream repo (`git remote add upstream git://github.com/xbehave/xbehave.net.git`)
 1. Create a local branch (`git checkout -b myBranch`)
