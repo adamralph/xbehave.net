@@ -17,7 +17,7 @@ namespace Xbehave.Sdk
 
         public Step(string name, Action body)
         {
-            Guard.AgainstNullArgument("body", body);
+            LiteGuard.Guard.AgainstNullArgument("body", body);
 
             this.name = name;
             this.body = body;

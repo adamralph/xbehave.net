@@ -14,10 +14,12 @@
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
       <group targetFramework="net35">
+        <dependency id="LiteGuard" />
         <dependency id="xunit" version="[1.9.1]" />
         <dependency id="xunit.extensions" version="[1.9.1]" />
       </group>
       <group targetFramework="net40">
+        <dependency id="LiteGuard" />
         <dependency id="xunit" version="[1.9.1]" />
         <dependency id="xunit.extensions" version="[1.9.1]" />
       </group>

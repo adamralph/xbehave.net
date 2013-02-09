@@ -13,7 +13,7 @@ namespace Xbehave.Sdk
     {
         public IEnumerable<Context> CreateContexts(MethodCall methodCall, IEnumerable<Step> steps)
         {
-            Guard.AgainstNullArgument("steps", steps);
+            LiteGuard.Guard.AgainstNullArgument("steps", steps);
 
             var sharedContext = new List<Step>();
             var pendingYield = false;

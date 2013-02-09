@@ -62,9 +62,6 @@
     <Compile Include="..\Xbehave.Sdk.Specifications.Net40\ArgumentSpecifications.cs">
       <Link>ArgumentSpecifications.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Specifications.Net40\GuardFeature.cs">
-      <Link>GuardFeature.cs</Link>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

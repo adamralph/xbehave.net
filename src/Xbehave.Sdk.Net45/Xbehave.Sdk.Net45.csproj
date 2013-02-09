@@ -48,6 +48,9 @@
     <AssemblyOriginatorKeyFile>..\Xbehave.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiteGuard">
+      <HintPath>..\..\packages\LiteGuard.0.4.0\lib\net35\LiteGuard.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.XML" />
@@ -87,9 +90,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ExceptionCommand.cs">
       <Link>ExceptionCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Guard.cs">
-      <Link>Guard.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ICommand.cs">
       <Link>ICommand.cs</Link>

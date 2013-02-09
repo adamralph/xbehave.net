@@ -14,7 +14,6 @@ namespace Xbehave
     using Xunit;
     using Xunit.Extensions;
     using Xunit.Sdk;
-    using Guard = Xbehave.Sdk.Guard;
 
     /// <summary>
     /// Applied to a method to indicate the definition of a scenario.
@@ -73,8 +72,8 @@ namespace Xbehave
         /// <returns>An instance of <see cref="IEnumerable{ITestCommand}"/> representing the backgrounds associated with the <paramref name="method"/>.</returns>
         protected virtual IEnumerable<ITestCommand> EnumerateBackgroundCommands(IMethodInfo method)
         {
-            Guard.AgainstNullArgument("method", method);
-            Guard.AgainstNullArgumentProperty("method", "Class", method.Class);
+            LiteGuard.Guard.AgainstNullArgument("method", method);
+            LiteGuard.Guard.AgainstNullArgumentProperty("method", "Class", method.Class);
 
             return method.Class.GetMethods().SelectMany(
                 candidateMethod => candidateMethod.GetCustomAttributes(typeof(BackgroundAttribute))
@@ -90,8 +89,8 @@ namespace Xbehave
         /// <remarks>This method may be overridden.</remarks>
         protected virtual IEnumerable<ICommand> EnumerateScenarioCommands(IMethodInfo method)
         {
-            Guard.AgainstNullArgument("method", method);
-            Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
+            LiteGuard.Guard.AgainstNullArgument("method", method);
+            LiteGuard.Guard.AgainstNullArgumentProperty("method", "MethodInfo", method.MethodInfo);
 
             var parameters = method.MethodInfo.GetParameters();
             if (!parameters.Any())

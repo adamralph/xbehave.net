@@ -19,7 +19,7 @@ namespace Xbehave.Sdk
         public TeardownCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, IEnumerable<Action> teardowns)
             : base(methodCall, contextOrdinal, stepOrdinal)
         {
-            Guard.AgainstNullArgument("teardowns", teardowns);
+            LiteGuard.Guard.AgainstNullArgument("teardowns", teardowns);
 
             this.teardowns = teardowns.ToArray();
             this.Name = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.Name, "(Teardown)");
