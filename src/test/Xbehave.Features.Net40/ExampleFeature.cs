@@ -163,7 +163,26 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And the display name of each result should contain \"Given 1, 2 and 3\""
-                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("Given 1, 2 and 3")));
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.EndsWith("Given 1, 2 and 3")));
+        }
+
+        [Scenario]
+        public static void FormattedStepsWithNullValues()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
+                .Given(() => feature = typeof(FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
+
+            "Then the results should not be empty"
+                .Then(() => results.Should().NotBeEmpty());
+
+            "And the display name of each result should contain \"Given null, null and null\""
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.EndsWith("Given null, null and null")));
         }
 
         [Scenario]
@@ -276,6 +295,17 @@ namespace Xbehave.Test.Acceptance
             [Scenario]
             [Example(1, 2, 3)]
             public static void Scenario(int x, int y, int z)
+            {
+                "Given {0}, {1} and {2}"
+                    .Given(() => { });
+            }
+        }
+
+        private static class FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep
+        {
+            [Scenario]
+            [Example(null, null, null)]
+            public static void Scenario(object x, object y, object z)
             {
                 "Given {0}, {1} and {2}"
                     .Given(() => { });
