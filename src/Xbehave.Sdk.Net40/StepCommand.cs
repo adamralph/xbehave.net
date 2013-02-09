@@ -31,7 +31,7 @@ namespace Xbehave.Sdk
             string stepName;
             try
             {
-                stepName = string.Format(provider, step.Name, methodCall.Arguments.Select(argument => argument.Value).ToArray());
+                stepName = string.Format(provider, step.Name, methodCall.Arguments.Select(argument => argument.Value ?? "null").ToArray());
             }
             catch (FormatException)
             {
