@@ -2,6 +2,10 @@
 
 First of all, thank you for wanting to contribute to Xbehave.net! We really appreciate all the awesome support we get from our community. We want to keep it as easy as possible to contribute changes that get things working in your environment. There are a few guidelines that we need contributors to follow so that we can have a chance of keeping on top of things.
 
+## Spaces not Tabs
+
+Pull requests containing tabs will not be accepted. Make sure you set your editor to replace tabs with spaces.
+
 ## Making Changes
 
 1. [Fork](http://help.github.com/forking/) on GitHub
