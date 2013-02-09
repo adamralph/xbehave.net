@@ -28,10 +28,10 @@ namespace Xbehave.Sdk.Specifications
 
         [Scenario]
         [Example(typeof(int), 0)]
-        [Example(typeof(string), (string)null)]
+        [Example(typeof(object), null)]
         public static void GeneratedDefaultValue<TValue>(Type type, TValue expectedValue, Argument argument)
         {
-            "Given the type '{0}'"
+            "Given the type {0}"
                 .Given(() => { });
 
             "When constructing an argument using the type"
