@@ -33,7 +33,7 @@ E.g. [xUnit.net](http://xunit.codeplex.com/) assertion
 
 You can also use fake/mock/test-double verification.
 
-E.g. [FakeItEasy](http://code.google.com/p/fakeiteasy/) verification
+E.g. [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy/) verification
 
     "Then a call to foo bar must have happened."
         .Then(() => A.CallTo(() => foo.Bar()).MustHaveHappened());
