@@ -22,6 +22,8 @@ A [BDD](http://dannorth.net/introducing-bdd/)/[TDD](https://en.wikipedia.org/wik
 	        .And(() => stack.Peek().Should().Be(element));
 	}
 
+xBehave.net passes default values for the parameters of the scenario method.
+
 The above example uses [FluentAssertions](http://fluentassertions.codeplex.com/) to ensure outcomes but you don't have to use a fluent assertion library to use xBehave.net. Any other method of assertion will also work just fine.
 
 E.g. [xUnit.net](http://xunit.codeplex.com/) assertion
@@ -38,9 +40,13 @@ E.g. [FakeItEasy](http://code.google.com/p/fakeiteasy/) verification
 
 It's your choice. You can use any method of assertion or verification you like. Any framework which works with xUnit.net should work seamlessly with xBehave.net. E.g. Moq, RhinoMocks, Shouldly, etc.
 
-## How do I run it? ##
+## How does it work? ##
 
-xBehave.net scenarios can be executed using any xUnit.net test runner. E.g. TestDriven.Net, Resharper, xUnit.net console/GUI, Visual Studio 2012 Test Runner, etc. If you have questions about using xBehave.net, either send a message to the project owners, raise an issue or come and chat to fellow users in the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
+xBehave.net generates xUnit.net test commands. You can execute xBehave.net scenarios using any xUnit.net test runner. E.g. TestDriven.Net, Resharper, xUnit.net console/GUI, Visual Studio 2012 Test Runner, etc.
+
+When you execute a scenario, xBehave.net passes default values for the parameters of the scenario. You can also provide example values for each of the parameters (see below).
+
+If you have questions about using xBehave.net, either send a message to the project owners, raise an issue or come and chat to fellow users in the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
 
 ## Where can I get it? ##
 
