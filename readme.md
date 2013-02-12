@@ -22,8 +22,6 @@ A [BDD](http://dannorth.net/introducing-bdd/)/[TDD](https://en.wikipedia.org/wik
 	        .And(() => stack.Peek().Should().Be(element));
 	}
 
-xBehave.net passes default values for the parameters of the scenario method.
-
 The above example uses [FluentAssertions](http://fluentassertions.codeplex.com/) to ensure outcomes but you don't have to use a fluent assertion library to use xBehave.net. Any other method of assertion will also work just fine.
 
 E.g. [xUnit.net](http://xunit.codeplex.com/) assertion
