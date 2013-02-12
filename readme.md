@@ -36,7 +36,7 @@ E.g. [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy/) verification
     "Then a call to foo bar must have happened."
         .Then(() => A.CallTo(() => foo.Bar()).MustHaveHappened());
 
-It's your choice. You can use any method of assertion or verification you like. Any framework which works with xUnit.net should work seamlessly with xBehave.net. E.g. Moq, RhinoMocks, Shouldly, etc.
+It's your choice. You can use any method of assertion, mocking and/or verification you like. Any framework which works with xUnit.net should work seamlessly with xBehave.net. E.g. Moq, RhinoMocks, Shouldly, etc.
 
 ## How does it work? ##
 
