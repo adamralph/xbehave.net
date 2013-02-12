@@ -7,41 +7,33 @@ A [BDD](http://dannorth.net/introducing-bdd/)/[TDD](https://en.wikipedia.org/wik
 ## How do I use it? ##
 
 	[Scenario]
-	public void Push()
+	public void PushingAnElementOntoAStack(int element, Stack<int> stack)
 	{
-	    var stack = default(Stack);
-	    var element = default(int);
-	
 	    "Given an element"
 	        .Given(() => element = 11);
 	
 	    "And a stack"
-	        .And(() => stack = new Stack());
+	        .And(() => stack = new Stack<int>());
 	
 	    "When pushing the element onto the stack"
 	        .When(() => stack.Push(element));
 	
-	    "Then the stack should not be empty"
-	        .Then(() => stack.Should().NotBeEmpty());
-	
-	    "And the stack peek should be the element"
+	    "Then the element should be at the top of the stack"
 	        .And(() => stack.Peek().Should().Be(element));
 	}
 
-The above example uses [FluentAssertions](http://fluentassertions.codeplex.com/) to ensure outcomes (see how the natural language of the Then and And phrases maps beautifully to the line of code below it).
-
-However, you don't have to use a fluent assertion library to use xBehave.net. Any other method of assertion will also work just fine.
+The above example uses [FluentAssertions](http://fluentassertions.codeplex.com/) to ensure outcomes but you don't have to use a fluent assertion library to use xBehave.net. Any other method of assertion will also work just fine.
 
 E.g. [xUnit.net](http://xunit.codeplex.com/) assertion
 
-    "then the element should be equal to the target peek."
+    "Then the element should be at the top of the stack"
         .Then(() => Assert.Equal(element, target.Peek()));
 
 You can also use fake/mock/test-double verification.
 
 E.g. [FakeItEasy](http://code.google.com/p/fakeiteasy/) verification
 
-    "then a call to foo bar must have happened."
+    "Then a call to foo bar must have happened."
         .Then(() => A.CallTo(() => foo.Bar()).MustHaveHappened());
 
 It's your choice. You can use any method of assertion or verification you like. Any framework which works with xUnit.net should work seamlessly with xBehave.net. E.g. Moq, RhinoMocks, Shouldly, etc.
