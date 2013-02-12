@@ -44,6 +44,8 @@ It's your choice. You can use any method of assertion or verification you like. 
 
 xBehave.net generates xUnit.net test commands. You can execute xBehave.net scenarios using any xUnit.net test runner. E.g. TestDriven.Net, Resharper, xUnit.net console/GUI, Visual Studio 2012 Test Runner, etc.
 
+Each Given/When/Then/And/But step generates a separate xUnit.net test command. This makes it very easy to identify the exact point of failure in your test output. As soon as a step fails in a given scenario, all subsequent steps are not executed and are also marked as failures.
+
 When you execute a scenario, xBehave.net passes default values for the parameters of the scenario. You can also provide example values for each of the parameters (see below).
 
 If you have questions about using xBehave.net, either send a message to the project owners, raise an issue or come and chat to fellow users in the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
