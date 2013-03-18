@@ -144,7 +144,8 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And the display name of each result should contain \"<Int32, Int64, String, Object, Object>\""
-                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")));
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")))
+                .Skip("No longer displaying example values");
         }
 
         [Scenario]

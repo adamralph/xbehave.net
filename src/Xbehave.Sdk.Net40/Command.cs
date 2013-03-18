@@ -93,7 +93,17 @@ namespace Xbehave.Sdk
                 parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
             }
 
-            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", csharp, string.Join(", ", parameterTokens.ToArray()));
+            var format = string.Empty;
+            if (CurrentScenario.ShowMethod)
+            {
+                format = "{0}";
+            }
+            if (CurrentScenario.ShowExample)
+            {
+                format += "({1})";
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, format, csharp, string.Join(", ", parameterTokens.ToArray()));
         }
 
         private static string GetString(Type type)

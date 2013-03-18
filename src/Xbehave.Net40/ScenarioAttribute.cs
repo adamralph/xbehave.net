@@ -99,6 +99,7 @@ namespace Xbehave
             }
 
             var commands = new List<ICommand>();
+            var exampleIndex = 0;
             foreach (var arguments in GetArgumentCollections(method.MethodInfo))
             {
                 var closedTypeMethod = method;
@@ -139,7 +140,8 @@ namespace Xbehave
                     generatedArguments.Add(new Argument(parameterType));
                 }
 
-                commands.Add(new Command(new MethodCall(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments)));
+                var methodCall = new MethodCall(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments, ++exampleIndex);
+                commands.Add(new Command(methodCall));
             }
 
             return commands;

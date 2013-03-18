@@ -18,8 +18,26 @@ namespace Xbehave.Sdk
             : base(methodCall)
         {
             var provider = CultureInfo.InvariantCulture;
-            this.Name = string.Format(provider, "[{0}.{1}]", contextOrdinal.ToString("D2", provider), commandOrdinal.ToString("D2", provider));
-            this.DisplayName = string.Format(provider, "{0} {1}", this.DisplayName, this.Name);
+
+            if (methodCall.Index != null && !CurrentScenario.ShowExample)
+            {
+                this.Name = string.Format(
+                    provider,
+                    "[{0}.{1}.{2}]",
+                    methodCall.Index.Value.ToString("D2", provider),
+                    contextOrdinal.ToString("D2", provider),
+                    commandOrdinal.ToString("D2", provider));
+            }
+            else
+            {
+                this.Name = string.Format(
+                    provider,
+                    "[{0}.{1}]",
+                    contextOrdinal.ToString("D2", provider),
+                    commandOrdinal.ToString("D2", provider));
+            }
+
+            this.DisplayName = string.Format(provider, "{0} {1}", this.DisplayName, this.Name).Trim();
         }
 
         public string Name { get; protected set; }

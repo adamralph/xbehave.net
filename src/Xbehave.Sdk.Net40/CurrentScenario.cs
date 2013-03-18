@@ -37,6 +37,12 @@ namespace Xbehave.Sdk
             get { return teardowns ?? (teardowns = new List<Action>()); }
         }
 
+        // Todo: make these configurable
+
+        public static bool ShowMethod { get { return false; } }
+
+        public static bool ShowExample { get { return false; } }
+
         public static Step AddStep(string name, Action body)
         {
             var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body);
