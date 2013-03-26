@@ -64,6 +64,7 @@
     <Compile Include="BackgroundAttribute.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
+    <Compile Include="ExampleUsingPropertyDataAttribute.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="StepExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
