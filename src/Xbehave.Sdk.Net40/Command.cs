@@ -9,7 +9,6 @@ namespace Xbehave.Sdk
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Threading;
     using Xunit.Sdk;
 
     public class Command : TestCommand, ICommand
@@ -37,6 +36,12 @@ namespace Xbehave.Sdk
         public MethodCall MethodCall
         {
             get { return this.methodCall; }
+        }
+
+        // TODO (jamesfoster) make configurable
+        protected static bool ShowExampleValues
+        {
+            get { return false; }
         }
 
         public override MethodResult Execute(object testClass)
@@ -72,28 +77,34 @@ namespace Xbehave.Sdk
                     string.Join(", ", typeArguments.Select(typeArgument => GetString(typeArgument)).ToArray()));
             }
 
-            var parameters = method.MethodInfo.GetParameters();
+            var format = "{0}";
             var parameterTokens = new List<string>();
-            int parameterIndex;
-            for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+            if (Command.ShowExampleValues)
             {
-                if (arguments[parameterIndex].IsGeneratedDefault)
+                format += "({1})";
+
+                var parameters = method.MethodInfo.GetParameters();
+                int parameterIndex;
+                for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
                 {
-                    continue;
+                    if (arguments[parameterIndex].IsGeneratedDefault)
+                    {
+                        continue;
+                    }
+
+                    parameterTokens.Add(string.Concat(
+                        parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
+                        ": ",
+                        GetString(arguments[parameterIndex])));
                 }
 
-                parameterTokens.Add(string.Concat(
-                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
-                    ": ",
-                    GetString(arguments[parameterIndex])));
+                for (; parameterIndex < parameters.Length; parameterIndex++)
+                {
+                    parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
+                }
             }
 
-            for (; parameterIndex < parameters.Length; parameterIndex++)
-            {
-                parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
-            }
-
-            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", csharp, string.Join(", ", parameterTokens.ToArray()));
+            return string.Format(CultureInfo.InvariantCulture, format, csharp, string.Join(", ", parameterTokens.ToArray()));
         }
 
         private static string GetString(Type type)
