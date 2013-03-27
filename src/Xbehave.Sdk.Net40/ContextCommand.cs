@@ -6,10 +6,6 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Globalization;
-    using System.Linq;
-    using System.Reflection;
-    using Xunit.Extensions;
-    using Xunit.Sdk;
 
     [CLSCompliant(false)]
     public abstract class ContextCommand : Command
@@ -37,7 +33,9 @@ namespace Xbehave.Sdk
                     commandOrdinal.ToString("D2", provider));
             }
 
-            this.DisplayName = string.Format(provider, "{0} {1}", this.DisplayName, this.Name).Trim();
+            this.DisplayName = string.IsNullOrEmpty(this.DisplayName)
+                                   ? this.Name
+                                   : string.Format(provider, "{0} {1}", this.DisplayName, this.Name);
         }
 
         public string Name { get; protected set; }
