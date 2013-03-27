@@ -6,10 +6,6 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Globalization;
-    using System.Linq;
-    using System.Reflection;
-    using Xunit.Extensions;
-    using Xunit.Sdk;
 
     [CLSCompliant(false)]
     public abstract class ContextCommand : Command
@@ -18,8 +14,28 @@ namespace Xbehave.Sdk
             : base(methodCall)
         {
             var provider = CultureInfo.InvariantCulture;
-            this.Name = string.Format(provider, "[{0}.{1}]", contextOrdinal.ToString("D2", provider), commandOrdinal.ToString("D2", provider));
-            this.DisplayName = string.Format(provider, "{0} {1}", this.DisplayName, this.Name);
+
+            if (methodCall.Index != null && !Command.ShowExampleValues)
+            {
+                this.Name = string.Format(
+                    provider,
+                    "[{0}.{1}.{2}]",
+                    methodCall.Index.Value.ToString("D2", provider),
+                    contextOrdinal.ToString("D2", provider),
+                    commandOrdinal.ToString("D2", provider));
+            }
+            else
+            {
+                this.Name = string.Format(
+                    provider,
+                    "[{0}.{1}]",
+                    contextOrdinal.ToString("D2", provider),
+                    commandOrdinal.ToString("D2", provider));
+            }
+
+            this.DisplayName = string.IsNullOrEmpty(this.DisplayName)
+                                   ? this.Name
+                                   : string.Format(provider, "{0} {1}", this.DisplayName, this.Name);
         }
 
         public string Name { get; protected set; }

@@ -84,7 +84,7 @@ namespace Xbehave.Test.Acceptance
                         new EnumerableEqualityComparer<int>())
                     .Should().BeTrue());
         }
-        
+
         [Scenario]
         public static void ExamplesWithTwoMissingResolvableGenericArguments()
         {
@@ -144,7 +144,8 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And the display name of each result should contain \"<Int32, Int64, String, Object, Object>\""
-                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")));
+                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")))
+                .Skip("The displaying of example values is currently switched off and is not yet configurable.");
         }
 
         [Scenario]
