@@ -9,7 +9,6 @@ namespace Xbehave.Sdk
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Threading;
     using Xunit.Sdk;
 
     public class Command : TestCommand, ICommand
@@ -62,38 +61,55 @@ namespace Xbehave.Sdk
 
         private static string GetString(IMethodInfo method, Argument[] arguments, Type[] typeArguments)
         {
-            var csharp = string.Concat(method.TypeName, ".", method.Name);
-            if (typeArguments.Length > 0)
+            if (!CurrentScenario.ShowMethod && !CurrentScenario.ShowExample)
             {
-                csharp = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}<{1}>",
-                    csharp,
-                    string.Join(", ", typeArguments.Select(typeArgument => GetString(typeArgument)).ToArray()));
+                return string.Empty;
             }
 
-            var parameters = method.MethodInfo.GetParameters();
-            var parameterTokens = new List<string>();
-            int parameterIndex;
-            for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+            var format = string.Empty;
+            string csharp = null;
+            if (CurrentScenario.ShowMethod)
             {
-                if (arguments[parameterIndex].IsGeneratedDefault)
+                format = "{0}";
+
+                csharp = string.Concat(method.TypeName, ".", method.Name);
+                if (typeArguments.Length > 0)
                 {
-                    continue;
+                    csharp = string.Format(
+                        CultureInfo.InvariantCulture,
+                        "{0}<{1}>",
+                        csharp,
+                        string.Join(", ", typeArguments.Select(typeArgument => GetString(typeArgument)).ToArray()));
+                }
+            }
+
+            var parameterTokens = new List<string>();
+            if (CurrentScenario.ShowExample)
+            {
+                format += "({1})";
+
+                var parameters = method.MethodInfo.GetParameters();
+                int parameterIndex;
+                for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+                {
+                    if (arguments[parameterIndex].IsGeneratedDefault)
+                    {
+                        continue;
+                    }
+
+                    parameterTokens.Add(string.Concat(
+                        parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
+                        ": ",
+                        GetString(arguments[parameterIndex])));
                 }
 
-                parameterTokens.Add(string.Concat(
-                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
-                    ": ",
-                    GetString(arguments[parameterIndex])));
+                for (; parameterIndex < parameters.Length; parameterIndex++)
+                {
+                    parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
+                }
             }
 
-            for (; parameterIndex < parameters.Length; parameterIndex++)
-            {
-                parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
-            }
-
-            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", csharp, string.Join(", ", parameterTokens.ToArray()));
+            return string.Format(CultureInfo.InvariantCulture, format, csharp, string.Join(", ", parameterTokens.ToArray()));
         }
 
         private static string GetString(Type type)
