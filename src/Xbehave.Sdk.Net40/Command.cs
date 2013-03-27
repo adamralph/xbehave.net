@@ -38,6 +38,12 @@ namespace Xbehave.Sdk
             get { return this.methodCall; }
         }
 
+        // TODO (jamesfoster) make configurable
+        protected static bool ShowExampleValues
+        {
+            get { return false; }
+        }
+
         public override MethodResult Execute(object testClass)
         {
             var parameters = testMethod.MethodInfo.GetParameters();
@@ -61,30 +67,19 @@ namespace Xbehave.Sdk
 
         private static string GetString(IMethodInfo method, Argument[] arguments, Type[] typeArguments)
         {
-            if (!CurrentScenario.ShowMethod && !CurrentScenario.ShowExample)
+            var csharp = string.Concat(method.TypeName, ".", method.Name);
+            if (typeArguments.Length > 0)
             {
-                return string.Empty;
+                csharp = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}<{1}>",
+                    csharp,
+                    string.Join(", ", typeArguments.Select(typeArgument => GetString(typeArgument)).ToArray()));
             }
 
-            var format = string.Empty;
-            string csharp = null;
-            if (CurrentScenario.ShowMethod)
-            {
-                format = "{0}";
-
-                csharp = string.Concat(method.TypeName, ".", method.Name);
-                if (typeArguments.Length > 0)
-                {
-                    csharp = string.Format(
-                        CultureInfo.InvariantCulture,
-                        "{0}<{1}>",
-                        csharp,
-                        string.Join(", ", typeArguments.Select(typeArgument => GetString(typeArgument)).ToArray()));
-                }
-            }
-
+            var format = "{0}";
             var parameterTokens = new List<string>();
-            if (CurrentScenario.ShowExample)
+            if (Command.ShowExampleValues)
             {
                 format += "({1})";
 

@@ -27,17 +27,6 @@ namespace Xbehave.Sdk
             set { CurrentScenario.addingBackgroundSteps = value; }
         }
 
-        // Todo: make these configurable
-        public static bool ShowMethod
-        {
-            get { return false; }
-        }
-
-        public static bool ShowExample
-        {
-            get { return false; }
-        }
-
         private static List<Step> Steps
         {
             get { return steps ?? (steps = new List<Step>()); }

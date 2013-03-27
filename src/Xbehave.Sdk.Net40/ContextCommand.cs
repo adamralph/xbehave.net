@@ -15,7 +15,7 @@ namespace Xbehave.Sdk
         {
             var provider = CultureInfo.InvariantCulture;
 
-            if (methodCall.Index != null && !CurrentScenario.ShowExample)
+            if (methodCall.Index != null && !Command.ShowExampleValues)
             {
                 this.Name = string.Format(
                     provider,
