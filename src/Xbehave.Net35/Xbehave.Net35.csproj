@@ -46,9 +46,6 @@
     <AssemblyOriginatorKeyFile>..\Xbehave.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiteGuard">
-      <HintPath>..\..\packages\LiteGuard.0.4.0\lib\net35\LiteGuard.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="xunit, Version=1.9.1.1600, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
@@ -64,6 +61,7 @@
     <Compile Include="..\Xbehave.Net40\BackgroundAttribute.cs">
       <Link>BackgroundAttribute.cs</Link>
     </Compile>
+    <Compile Include="Guard.cs" />
     <None Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
       <Link>Sandbox\DynamicStringExtensions.cs</Link>
     </None>

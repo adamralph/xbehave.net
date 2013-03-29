@@ -45,9 +45,6 @@
     <AssemblyOriginatorKeyFile>..\Xbehave.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiteGuard">
-      <HintPath>..\..\packages\LiteGuard.0.4.0\lib\net35\LiteGuard.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.XML" />
@@ -65,6 +62,7 @@
     <Compile Include="Argument.cs" />
     <Compile Include="ContextCommand.cs" />
     <Compile Include="BackgroundCommand.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="MethodCall.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="ReplayCommand.cs" />

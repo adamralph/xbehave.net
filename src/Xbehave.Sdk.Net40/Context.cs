@@ -19,7 +19,7 @@ namespace Xbehave.Sdk
 
         public Context(MethodCall methodCall, IEnumerable<Step> steps)
         {
-            LiteGuard.Guard.AgainstNullArgument("steps", steps);
+            Guard.AgainstNullArgument("steps", steps);
 
             this.methodCall = methodCall;
             this.steps = steps.ToArray();

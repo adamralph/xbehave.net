@@ -17,8 +17,8 @@ namespace Xbehave.Sdk
         public StepCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step)
             : base(methodCall, contextOrdinal, stepOrdinal)
         {
-            LiteGuard.Guard.AgainstNullArgument("methodCall", methodCall);
-            LiteGuard.Guard.AgainstNullArgument("step", step);
+            Guard.AgainstNullArgument("methodCall", methodCall);
+            Guard.AgainstNullArgument("step", step);
 
             if (step.Name == null)
             {
