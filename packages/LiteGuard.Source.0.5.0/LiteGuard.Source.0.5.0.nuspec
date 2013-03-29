@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>LiteGuard.Source</id>
+    <version>0.5.0</version>
+    <title>LiteGuard.Source</title>
+    <authors>Adam Ralph,  LiteGuard contributors</authors>
+    <owners>Adam Ralph,  LiteGuard contributors</owners>
+    <projectUrl>https://github.com/liteguard/liteguard</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Why, it's lighter than air! The guard clause library which stands out from the crowd like the faintest passing whisper. You'll hardly know it's there!
+We all have to do our bit in working toward the ultimate number of published guard clause libraries which, at current estimates, is somewhere in the region of 6.02214129(27) × 10^23.
+The aim of LiteGuard is to be the most simple, unambiguous and lightweight guard clause library available. See the project site for details.
+This is the LiteGuard source code package. LiteGuard is also available as a binary package named 'LiteGuard'. If your project is an application or library which is not packaged and/or exported for use in other solutions then the binary package is usually the best choice. If you are writing a library which is packaged and/or exported for use in other solutions then the source code package is usually the best choice.
+After installing this package you may change the source code as required to match your coding conventions.</description>
+    <releaseNotes>Enhancement: Add source code package - https://github.com/liteguard/liteguard/issues/5/</releaseNotes>
+    <copyright>Copyright (c) LiteGuard contributors. (lightguard.ch@gmail.com)</copyright>
+    <language />
+    <tags>guard clause arguments light avogadro</tags>
+    <references />
+  </metadata>
+</package>

@@ -25,7 +25,7 @@ namespace Xbehave.Sdk
         public Command(MethodCall methodCall)
             : base(methodCall == null ? null : methodCall.Method, null, methodCall == null ? 0 : MethodUtility.GetTimeoutParameter(methodCall.Method))
         {
-            LiteGuard.Guard.AgainstNullArgument("methodCall", methodCall);
+            Guard.AgainstNullArgument("methodCall", methodCall);
 
             this.methodCall = methodCall;
             this.arguments = methodCall.Arguments.ToArray();

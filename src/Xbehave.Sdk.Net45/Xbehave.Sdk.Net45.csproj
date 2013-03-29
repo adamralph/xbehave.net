@@ -48,9 +48,6 @@
     <AssemblyOriginatorKeyFile>..\Xbehave.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiteGuard">
-      <HintPath>..\..\packages\LiteGuard.0.4.0\lib\net35\LiteGuard.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.XML" />
@@ -112,6 +109,7 @@
     <Compile Include="..\Xbehave.Sdk.Net40\TeardownCommand.cs">
       <Link>TeardownCommand.cs</Link>
     </Compile>
+    <Compile Include="Guard.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">
