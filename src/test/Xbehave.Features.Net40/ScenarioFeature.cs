@@ -87,7 +87,7 @@ namespace Xbehave.Test.Acceptance
 
             "And each subsequent result message should indicate that the step failed because of failure to execute the first step"
                 .And(() => results.Cast<FailedResult>().Skip(1).Should()
-                    .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01] Given something\"")));
+                    .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01.01] Given something\"")));
         }
 
         [Scenario]

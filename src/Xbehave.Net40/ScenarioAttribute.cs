@@ -42,7 +42,7 @@ namespace Xbehave
         {
             if (method == null)
             {
-                return new[] { new ExceptionCommand(method, new ArgumentNullException("method")) };
+                return new[] { new ExceptionCommand(new MethodCall(method), new ArgumentNullException("method")) };
             }
 
             IEnumerable<ITestCommand> backgroundCommands;
@@ -56,7 +56,7 @@ namespace Xbehave
             }
             catch (Exception ex)
             {
-                return new[] { new ExceptionCommand(method, ex) };
+                return new[] { new ExceptionCommand(new MethodCall(method), ex) };
             }
 
             // NOTE: this is not in the try catch since we are yielding internally
@@ -95,11 +95,11 @@ namespace Xbehave
             var parameters = method.MethodInfo.GetParameters();
             if (!parameters.Any())
             {
-                return new[] { new Command(method) };
+                return new[] { new Command(new MethodCall(method)) };
             }
 
             var commands = new List<ICommand>();
-            var index = 0;
+            var ordinal = 0;
             foreach (var arguments in GetArgumentCollections(method.MethodInfo))
             {
                 var closedTypeMethod = method;
@@ -140,7 +140,7 @@ namespace Xbehave
                     generatedArguments.Add(new Argument(parameterType));
                 }
 
-                var methodCall = new MethodCall(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments, ++index);
+                var methodCall = new MethodCall(closedTypeMethod, arguments.Concat(generatedArguments).ToArray(), typeArguments, ++ordinal);
                 commands.Add(new Command(methodCall));
             }
 

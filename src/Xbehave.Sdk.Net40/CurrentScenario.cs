@@ -89,7 +89,7 @@ namespace Xbehave.Sdk
                 }
                 catch (Exception ex)
                 {
-                    return new ITestCommand[] { new ExceptionCommand(methodCall.Method, ex) };
+                    return new ITestCommand[] { new ExceptionCommand(methodCall, ex) };
                 }
 
                 var contexts = new ContextFactory().CreateContexts(methodCall, Steps).ToArray();
