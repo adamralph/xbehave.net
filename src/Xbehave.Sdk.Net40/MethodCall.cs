@@ -11,12 +11,17 @@ namespace Xbehave.Sdk
 
     public class MethodCall
     {
-        private readonly int? index;
+        private readonly int ordinal;
         private readonly IMethodInfo method;
         private readonly Argument[] arguments;
         private readonly Type[] typeArguments;
 
-        public MethodCall(IMethodInfo method, IEnumerable<Argument> arguments, IEnumerable<Type> typeArguments, int? index = null)
+        public MethodCall(IMethodInfo method)
+            : this(method, null, null, 1)
+        {
+        }
+
+        public MethodCall(IMethodInfo method, IEnumerable<Argument> arguments, IEnumerable<Type> typeArguments, int ordinal)
         {
             if (method == null)
             {
@@ -32,8 +37,6 @@ namespace Xbehave.Sdk
                 {
                     throw new ArgumentException("The arguments contain at least one null value.", "arguments");
                 }
-
-                this.index = index;
             }
             else
             {
@@ -52,11 +55,13 @@ namespace Xbehave.Sdk
             {
                 this.typeArguments = new Type[0];
             }
+
+            this.ordinal = ordinal;
         }
 
-        public int? Index
+        public int Ordinal
         {
-            get { return this.index; }
+            get { return this.ordinal; }
         }
 
         public IMethodInfo Method

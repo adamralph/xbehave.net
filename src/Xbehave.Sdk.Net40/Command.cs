@@ -15,12 +15,6 @@ namespace Xbehave.Sdk
     {
         private readonly MethodCall methodCall;
         private readonly Argument[] arguments;
-        private readonly Type[] typeArguments;
-
-        public Command(IMethodInfo method)
-            : this(new MethodCall(method, null, null))
-        {
-        }
 
         public Command(MethodCall methodCall)
             : base(methodCall == null ? null : methodCall.Method, null, methodCall == null ? 0 : MethodUtility.GetTimeoutParameter(methodCall.Method))
@@ -29,8 +23,7 @@ namespace Xbehave.Sdk
 
             this.methodCall = methodCall;
             this.arguments = methodCall.Arguments.ToArray();
-            this.typeArguments = methodCall.TypeArguments.ToArray();
-            this.DisplayName = GetString(methodCall.Method, this.arguments, this.typeArguments);
+            this.DisplayName = GetString(methodCall.Method, this.arguments, methodCall.TypeArguments.ToArray());
         }
 
         public MethodCall MethodCall

@@ -77,7 +77,7 @@ def execute(tests)
     xunit = XUnitTestRunner.new
     xunit.command = RakeHelper.xunit_command(test[:version])
     xunit.assembly = test[:path]
-    xunit.options "/html " + test[:path] + ".html"
+    xunit.options "/html " + test[:path] + ".TestResults.html /xml " + test[:path] + ".TestResults.xml"
     xunit.execute  
   end
 end

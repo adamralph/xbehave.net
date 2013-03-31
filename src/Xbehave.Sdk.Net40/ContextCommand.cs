@@ -15,27 +15,14 @@ namespace Xbehave.Sdk
         {
             var provider = CultureInfo.InvariantCulture;
 
-            if (methodCall.Index != null && !Command.ShowExampleValues)
-            {
-                this.Name = string.Format(
-                    provider,
-                    "[{0}.{1}.{2}]",
-                    methodCall.Index.Value.ToString("D2", provider),
-                    contextOrdinal.ToString("D2", provider),
-                    commandOrdinal.ToString("D2", provider));
-            }
-            else
-            {
-                this.Name = string.Format(
-                    provider,
-                    "[{0}.{1}]",
-                    contextOrdinal.ToString("D2", provider),
-                    commandOrdinal.ToString("D2", provider));
-            }
+            this.Name = string.Format(
+                provider,
+                "[{0}.{1}.{2}]",
+                methodCall.Ordinal.ToString("D2", provider),
+                contextOrdinal.ToString("D2", provider),
+                commandOrdinal.ToString("D2", provider));
 
-            this.DisplayName = string.IsNullOrEmpty(this.DisplayName)
-                                   ? this.Name
-                                   : string.Format(provider, "{0} {1}", this.DisplayName, this.Name);
+            this.DisplayName = string.Format(provider, "{0} {1}", this.DisplayName, this.Name);
         }
 
         public string Name { get; protected set; }

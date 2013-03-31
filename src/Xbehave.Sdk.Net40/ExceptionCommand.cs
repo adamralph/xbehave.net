@@ -11,8 +11,8 @@ namespace Xbehave.Sdk
     {
         private readonly Exception exception;
 
-        public ExceptionCommand(IMethodInfo method, Exception exception)
-            : base(method)
+        public ExceptionCommand(MethodCall methodCall, Exception exception)
+            : base(methodCall)
         {
             this.exception = exception;
         }
