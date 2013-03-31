@@ -10,8 +10,8 @@ Albacore.configure do |config|
   config.log_level = :verbose
 end
 
-desc "Executes clean, build, spec, feature and nugetpack"
-task :default => [ :clean, :build, :spec, :feature, :nugetpack ]
+desc "Execute default tasks"
+task :default => [ :spec, :feature, :pack ]
 
 desc "Clean solution"
 task :clean do
@@ -25,7 +25,7 @@ task :clean do
 end
 
 desc "Build solution"
-task :build do
+task :build => [:clean] do
   build = RakeHelper.use_mono ? XBuild.new : MSBuild.new
   build.properties = { :configuration => :Release }
   build.targets = [ :Build ]
@@ -34,7 +34,7 @@ task :build do
 end
 
 desc "Execute specs"
-task :spec do
+task :spec => [:build] do
   specs = [
     { :version => :net20, :path => "src/test/Xbehave.Sdk.Specifications.Net35/bin/Debug/Xbehave.Sdk.Specifications.Net35.dll" },
     { :version => :net20, :path => "src/test/Xbehave.Specifications.Net35/bin/Debug/Xbehave.Specifications.Net35.dll" },
@@ -45,7 +45,7 @@ task :spec do
 end
 
 desc "Execute features"
-task :feature do
+task :feature => [:build] do
   features = [
     { :version => :net20, :path => "src/test/Xbehave.Features.Net35/bin/Debug/Xbehave.Features.Net35.dll" },
     { :version => :net40, :path => "src/test/Xbehave.Features.Net40/bin/Debug/Xbehave.Features.Net40.dll" }
@@ -54,7 +54,7 @@ task :feature do
 end
 
 desc "Create the nuget package"
-nugetpack :nugetpack do |nuget|
+nugetpack :pack => [:build] do |nuget|
   FileUtils.mkpath "bin"
   
   # NOTE (Adam): nuspec files can be consolidated after NuGet 2.3 is released - see http://nuget.codeplex.com/workitem/2767
@@ -64,7 +64,7 @@ nugetpack :nugetpack do |nuget|
 end
 
 desc "Execute samples"
-task :sample do
+task :sample => [:build] do
   samples = [
     { :version => :net20, :path => "src/Xbehave.Samples.Net35/bin/Debug/Xbehave.Samples.Net35.dll" },
     { :version => :net40, :path => "src/Xbehave.Samples.Net40/bin/Debug/Xbehave.Samples.Net40.dll" }
