@@ -24,7 +24,7 @@ If you have already installed albacore, please update to the lastest version (0.
 Building Xbehave.net
 --------------------
 
-1. At the command prompt, navigate to the Xbehave.net src folder (should contain rakefile.rb)
+1. At the command prompt, navigate to the Xbehave.net root folder (should contain rakefile.rb)
 2. To run the default build (which will compile, test and package Xbehave.net) type the following command:
 
 	rake
@@ -47,4 +47,4 @@ You can force the use of Mono in Windows by setting the 'mono' variable to a non
     rake mono=x spec
     rake mono=x spec nugetpack
     
-After the build has completed, there will be a new folder in the src folder called "bin" containing the build artifacts.
+After the build has completed, there will be a new folder called "bin" containing the build artifacts.
