@@ -38,6 +38,11 @@ E.g. [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy/) verification
 
 It's your choice. You can use any method of assertion, mocking and/or verification you like. Any framework which works with xUnit.net should work seamlessly with xBehave.net. E.g. Moq, RhinoMocks, Shouldly, etc.
 
+## Sponsors ##
+Our build server is kindly provided by [CodeBetter](http://codebetter.com/) and [JetBrains](http://www.jetbrains.com/).
+
+![YouTrack and TeamCity](http://www.jetbrains.com/img/banners/Codebetter300x250.png)
+
 ## How does it work? ##
 
 xBehave.net generates xUnit.net test commands. You can execute xBehave.net scenarios using any xUnit.net test runner. E.g. TestDriven.Net, Resharper, xUnit.net console/GUI, Visual Studio 2012 Test Runner, etc.
