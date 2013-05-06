@@ -1,4 +1,6 @@
-# xBehave.net #
+![xBehave.net](https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png)
+
+Get it at [NuGet](https://nuget.org/packages/xBehave "xBehave.net on NuGet").
 
 ## What is it? ##
 
@@ -123,3 +125,5 @@ xBehave.net uses [Semantic Versioning](http://semver.org/). The current release 
 * [Semantic Versioning](http://semver.org/)
 * [teamcity.codebetter.com](http://teamcity.codebetter.com)
 * [NuGet](https://nuget.org/)
+
+xBehave.net logo designed by Vanja Pakaski.
