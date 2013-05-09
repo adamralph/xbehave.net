@@ -8,7 +8,7 @@ namespace Xbehave.Test.Unit.Legacy
     using Xbehave;
     using Xunit;
 
-    public static class ContextSetupTeardownBehavior
+    public class ContextSetupTeardownBehavior
     {
         [Scenario]
         public static void MultipleAssertionsShouldCauseActionToBeRepeated()

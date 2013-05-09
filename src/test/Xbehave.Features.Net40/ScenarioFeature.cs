@@ -15,7 +15,7 @@ namespace Xbehave.Test.Acceptance
     // In order to prevent bugs due to incorrect code
     // As a developer
     // I want to run automated acceptance tests describing each feature of my product using scenarios
-    public static class ScenarioFeature
+    public class ScenarioFeature
     {
         private static object[] arguments;
         private static int executedStepCount;

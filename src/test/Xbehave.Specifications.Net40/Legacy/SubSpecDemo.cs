@@ -8,7 +8,7 @@ namespace Xbehave.Test.Unit.Legacy
     using System.Threading;
     using Xunit;
 
-    public static class SubSpecDemo
+    public class SubSpecDemo
     {
         [Scenario]
         public static void SpecificationSyntax()

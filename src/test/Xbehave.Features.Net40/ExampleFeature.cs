@@ -17,7 +17,7 @@ namespace Xbehave.Test.Acceptance
     // In order to save time
     // As a developer
     // I want to write a single scenario using many examples
-    public static class ExampleFeature
+    public class ExampleFeature
     {
 #if NET40
         private static readonly ConcurrentStack<object[]> ArgumentLists = new ConcurrentStack<object[]>();
