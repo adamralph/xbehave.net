@@ -37,9 +37,9 @@ namespace Xbehave.Sdk
             get { return teardowns ?? (teardowns = new List<Action>()); }
         }
 
-        public static Step AddStep(string name, Action body)
+        public static Step AddStep(string name, Action body, StepType type)
         {
-            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body);
+            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body, type);
             Steps.Add(step);
             return step;
         }

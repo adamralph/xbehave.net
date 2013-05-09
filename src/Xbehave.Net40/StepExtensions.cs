@@ -6,6 +6,9 @@ namespace Xbehave
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+
+    using Sdk;
+
     using Xbehave.Fluent;
 
     /// <summary>
@@ -30,7 +33,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep When(this IStep stepDefinition, string text, Action body)
         {
-            return Helper.AddStep("When " + text, body);
+            return Helper.AddStep("When " + text, body, StepType.When);
         }
 
         /// <summary>
@@ -50,7 +53,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep Then(this IStep stepDefinition, string text, Action body)
         {
-            return Helper.AddStep("Then " + text, body);
+            return Helper.AddStep("Then " + text, body, StepType.Then);
         }
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep And(this IStep stepDefinition, string text, Action body)
         {
-            return Helper.AddStep("And " + text, body);
+            return Helper.AddStep("And " + text, body, StepType.And);
         }
 
         /// <summary>
@@ -90,7 +93,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep But(this IStep stepDefinition, string text, Action body)
         {
-            return Helper.AddStep("But " + text, body);
+            return Helper.AddStep("But " + text, body, StepType.But);
         }
     }
 }

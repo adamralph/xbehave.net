@@ -91,6 +91,32 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
+        public static void FailingStepAfterFirstThen()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a failing step after the first Then"
+                .Given(() => feature = typeof(FeatureWithAFailingStepAfterTheFirstThen));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(() => executedStepCount = 0);
+
+            "Then the first 3 should be passes"
+                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<PassedResult>());
+
+            "And the 4th result should be a failure"
+                .And(() => results[3].Should().BeAssignableTo<FailedResult>());
+
+            "And the rest should be passes"
+                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<PassedResult>().And.NotBeEmpty());
+
+            "And it should execute all the steps"
+                .And(() => executedStepCount.Should().Be(results.Length));
+        }
+
+        [Scenario]
         public static void SkippedScenario()
         {
             var feature = default(Type);
@@ -219,6 +245,35 @@ namespace Xbehave.Test.Acceptance
 
                 "Then there is an outcome"
                     .Then(() => ++executedStepCount);
+            }
+        }
+
+        private static class FeatureWithAFailingStepAfterTheFirstThen
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "Given something"
+                    .Given(() => ++executedStepCount);
+
+                "When something happens"
+                    .When(() => ++executedStepCount);
+
+                "Then there is an outcome"
+                    .Then(() => ++executedStepCount);
+
+                "And something goes wrong"
+                    .And(() =>
+                        {
+                            ++executedStepCount;
+                            throw new InvalidOperationException("oops");
+                        });
+
+                "But this is ok"
+                    .But(() => ++executedStepCount);
+
+                "And this is ok"
+                    .And(() => ++executedStepCount);
             }
         }
 

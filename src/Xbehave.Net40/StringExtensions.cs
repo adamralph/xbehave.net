@@ -6,6 +6,9 @@ namespace Xbehave
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+
+    using Sdk;
+
     using Xbehave.Fluent;
 
     /// <summary>
@@ -23,7 +26,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Given(this string text, Action body)
         {
-            return Helper.AddStep(text, body);
+            return Helper.AddStep(text, body, StepType.Given);
         }
 
         /// <summary>
@@ -36,7 +39,7 @@ namespace Xbehave
         /// </returns>
         public static IStep When(this string text, Action body)
         {
-            return Helper.AddStep(text, body);
+            return Helper.AddStep(text, body, StepType.When);
         }
 
         /// <summary>
@@ -49,7 +52,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Then(this string text, Action body)
         {
-            return Helper.AddStep(text, body);
+            return Helper.AddStep(text, body, StepType.Then);
         }
 
         /// <summary>
@@ -62,7 +65,7 @@ namespace Xbehave
         /// </returns>
         public static IStep And(this string text, Action body)
         {
-            return Helper.AddStep(text, body);
+            return Helper.AddStep(text, body, StepType.And);
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace Xbehave
         /// </returns>
         public static IStep But(this string text, Action body)
         {
-            return Helper.AddStep(text, body);
+            return Helper.AddStep(text, body, StepType.But);
         }
     }
 }

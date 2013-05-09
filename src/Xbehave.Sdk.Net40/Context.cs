@@ -13,6 +13,8 @@ namespace Xbehave.Sdk
     {
         [ThreadStatic]
         private static string failedStepName;
+        [ThreadStatic]
+        private static bool passedFirstThen;
 
         private readonly MethodCall methodCall;
         private readonly Step[] steps;
@@ -29,6 +31,12 @@ namespace Xbehave.Sdk
         {
             get { return failedStepName; }
             set { failedStepName = value; }
+        }
+
+        public static bool PassedFirstThen
+        {
+            get { return passedFirstThen; }
+            set { passedFirstThen = value; }
         }
 
         public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal)
