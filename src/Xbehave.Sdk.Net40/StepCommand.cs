@@ -49,7 +49,7 @@ namespace Xbehave.Sdk
                 return new SkipResult(this.testMethod, this.DisplayName, this.step.SkipReason);
             }
 
-            if (!Context.PassedFirstThen && Context.FailedStepName != null)
+            if (Context.ShouldFailFast && Context.FailedStepName != null)
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepName));
             }
@@ -58,7 +58,7 @@ namespace Xbehave.Sdk
             {
                 if (this.step.Type == StepType.Then)
                 {
-                    Context.PassedFirstThen = true;
+                    Context.ShouldFailFast = false;
                 }
 
                 this.step.Execute();

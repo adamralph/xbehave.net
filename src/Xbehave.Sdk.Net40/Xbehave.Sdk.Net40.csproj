@@ -66,6 +66,7 @@
     <Compile Include="MethodCall.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="ReplayCommand.cs" />
+    <Compile Include="ShouldFailFastBeforeAttribute.cs" />
     <Compile Include="StepType.cs" />
     <Compile Include="TeardownCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

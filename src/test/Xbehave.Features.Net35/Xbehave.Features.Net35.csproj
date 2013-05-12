@@ -99,6 +99,10 @@
       <Project>{425C1030-10E5-4CCF-80C2-A4A8966EA48A}</Project>
       <Name>Xbehave.Net35</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Xbehave.Sdk.Net35\Xbehave.Sdk.Net35.csproj">
+      <Project>{d39d0f1e-191a-4ff5-ba7f-73a8029ed45a}</Project>
+      <Name>Xbehave.Sdk.Net35</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

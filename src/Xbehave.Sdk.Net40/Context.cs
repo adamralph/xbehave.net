@@ -7,14 +7,16 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Xunit.Sdk;
 
     public class Context
     {
         [ThreadStatic]
         private static string failedStepName;
+
         [ThreadStatic]
-        private static bool passedFirstThen;
+        private static bool? shouldFailFast;
 
         private readonly MethodCall methodCall;
         private readonly Step[] steps;
@@ -33,10 +35,10 @@ namespace Xbehave.Sdk
             set { failedStepName = value; }
         }
 
-        public static bool PassedFirstThen
+        public static bool ShouldFailFast
         {
-            get { return passedFirstThen; }
-            set { passedFirstThen = value; }
+            get { return shouldFailFast ?? true; }
+            set { shouldFailFast = value; }
         }
 
         public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal)

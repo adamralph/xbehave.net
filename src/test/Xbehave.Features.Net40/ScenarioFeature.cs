@@ -8,6 +8,9 @@ namespace Xbehave.Test.Acceptance
     using System.Linq;
     using System.Threading;
     using FluentAssertions;
+
+    using Sdk;
+
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
     using Xunit.Sdk;
@@ -91,13 +94,13 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void FailingStepAfterFirstThen()
+        public static void FailingStepAfterFailFastStepType()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
 
             "Given a feature with a failing step after the first Then"
-                .Given(() => feature = typeof(FeatureWithAFailingStepAfterTheFirstThen));
+                .Given(() => feature = typeof(FeatureWithAFailingStepAfterFailFastStepType));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray())
@@ -114,6 +117,37 @@ namespace Xbehave.Test.Acceptance
 
             "And it should execute all the steps"
                 .And(() => executedStepCount.Should().Be(results.Length));
+        }
+
+        [Scenario]
+        public static void FailingStepBeforeFailFastStepType()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a failing step after the first Then (but before the first But)"
+                .Given(() => feature = typeof(FeatureWithAFailingStepBeforeFailFastStepType));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(() => executedStepCount = 0);
+
+            "Then the first 3 should be passes"
+                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<PassedResult>());
+
+            "And the 4th result should be a failure"
+                .And(() => results[3].Should().BeAssignableTo<FailedResult>());
+
+            "And the rest should be failures"
+                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<FailedResult>().And.NotBeEmpty());
+
+            "And each subsequent result message should indicate that the step failed because of failure to execute the 4th step"
+                .And(() => results.Skip(4).Cast<FailedResult>()
+                                  .Should()
+                                  .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01.04] Given something\"")));
+
+            "And it should execute 4 steps"
+                .And(() => executedStepCount.Should().Be(4));
         }
 
         [Scenario]
@@ -248,9 +282,10 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAFailingStepAfterTheFirstThen
+        private static class FeatureWithAFailingStepAfterFailFastStepType
         {
             [Scenario]
+            [ShouldFailFastBefore(StepType.Then)]
             public static void Scenario()
             {
                 "Given something"
@@ -264,10 +299,40 @@ namespace Xbehave.Test.Acceptance
 
                 "And something goes wrong"
                     .And(() =>
-                        {
-                            ++executedStepCount;
-                            throw new InvalidOperationException("oops");
-                        });
+                    {
+                        ++executedStepCount;
+                        throw new InvalidOperationException("oops");
+                    });
+
+                "But this is ok"
+                    .But(() => ++executedStepCount);
+
+                "And this is ok"
+                    .And(() => ++executedStepCount);
+            }
+        }
+
+        private static class FeatureWithAFailingStepBeforeFailFastStepType
+        {
+            [Scenario]
+            [ShouldFailFastBefore(StepType.But)]
+            public static void Scenario()
+            {
+                "Given something"
+                    .Given(() => ++executedStepCount);
+
+                "When something happens"
+                    .When(() => ++executedStepCount);
+
+                "Then there is an outcome"
+                    .Then(() => ++executedStepCount);
+
+                "And something goes wrong"
+                    .And(() =>
+                    {
+                        ++executedStepCount;
+                        throw new InvalidOperationException("oops");
+                    });
 
                 "But this is ok"
                     .But(() => ++executedStepCount);

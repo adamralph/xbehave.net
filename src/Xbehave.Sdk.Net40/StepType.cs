@@ -6,6 +6,8 @@ namespace Xbehave.Sdk
 {
     public enum StepType
     {
+        All,
+        None,
         Given,
         When,
         Then,
