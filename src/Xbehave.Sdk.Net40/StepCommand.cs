@@ -13,8 +13,9 @@ namespace Xbehave.Sdk
     public class StepCommand : ContextCommand
     {
         private readonly Step step;
+        private readonly bool stepEndsFailFast;
 
-        public StepCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step)
+        public StepCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step, bool stepEndsFailFast)
             : base(methodCall, contextOrdinal, stepOrdinal)
         {
             Guard.AgainstNullArgument("methodCall", methodCall);
@@ -26,6 +27,7 @@ namespace Xbehave.Sdk
             }
 
             this.step = step;
+            this.stepEndsFailFast = stepEndsFailFast;
 
             var provider = CultureInfo.InvariantCulture;
             string stepName;
@@ -56,7 +58,7 @@ namespace Xbehave.Sdk
 
             try
             {
-                if (this.step.Type == StepType.Then)
+                if (this.stepEndsFailFast)
                 {
                     Context.ShouldFailFast = false;
                 }

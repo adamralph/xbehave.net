@@ -144,7 +144,7 @@ namespace Xbehave.Test.Acceptance
             "And each subsequent result message should indicate that the step failed because of failure to execute the 4th step"
                 .And(() => results.Skip(4).Cast<FailedResult>()
                                   .Should()
-                                  .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01.04] Given something\"")));
+                                  .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01.04] And something goes wrong\"")));
 
             "And it should execute 4 steps"
                 .And(() => executedStepCount.Should().Be(4));

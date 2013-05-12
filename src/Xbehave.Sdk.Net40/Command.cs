@@ -15,7 +15,6 @@ namespace Xbehave.Sdk
     {
         private readonly MethodCall methodCall;
         private readonly Argument[] arguments;
-        private ShouldFailFastBeforeAttribute shouldFailFastAttribute;
 
         public Command(MethodCall methodCall)
             : base(methodCall == null ? null : methodCall.Method, null, methodCall == null ? 0 : MethodUtility.GetTimeoutParameter(methodCall.Method))
@@ -25,7 +24,6 @@ namespace Xbehave.Sdk
             this.methodCall = methodCall;
             this.arguments = methodCall.Arguments.ToArray();
             this.DisplayName = GetString(methodCall.Method, this.arguments, methodCall.TypeArguments.ToArray());
-            this.shouldFailFastAttribute = GetCustomAttribute<ShouldFailFastBeforeAttribute>(methodCall.Method);
         }
 
         public MethodCall MethodCall
@@ -58,23 +56,6 @@ namespace Xbehave.Sdk
             }
 
             return new PassedResult(testMethod, this.DisplayName);
-        }
-
-        private static T GetCustomAttribute<T>(IMethodInfo method) where T : Attribute
-        {
-            var attributeInfo = method.GetCustomAttributes(typeof(T)).FirstOrDefault();
-
-            if (attributeInfo == null)
-            {
-                attributeInfo = method.Class.GetCustomAttributes(typeof(T)).FirstOrDefault();
-            }
-
-            if (attributeInfo == null)
-            {
-                return method.Class.Type.Assembly.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
-            }
-            
-            return attributeInfo.GetInstance<T>();
         }
 
         private static string GetString(IMethodInfo method, Argument[] arguments, Type[] typeArguments)

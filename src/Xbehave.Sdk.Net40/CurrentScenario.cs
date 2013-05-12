@@ -39,6 +39,11 @@ namespace Xbehave.Sdk
 
         public static Step AddStep(string name, Action body, StepType type)
         {
+            return AddStep(name, body, (object)type);
+        }
+
+        public static Step AddStep(string name, Action body, object type)
+        {
             var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body, type);
             Steps.Add(step);
             return step;
@@ -73,6 +78,8 @@ namespace Xbehave.Sdk
             Guard.AgainstNullArgument("methodCall", methodCall);
             Guard.AgainstNullArgument("commands", commands);
 
+            var failFastStepType = GetFailFastStepType(methodCall.Method);
+
             try
             {
                 try
@@ -93,12 +100,45 @@ namespace Xbehave.Sdk
                 }
 
                 var contexts = new ContextFactory().CreateContexts(methodCall, Steps).ToArray();
-                return contexts.SelectMany((context, index) => context.CreateCommands(index + 1));
+                return contexts.SelectMany((context, index) => context.CreateCommands(index + 1, failFastStepType));
             }
             finally
             {
                 steps = null;
             }
+        }
+
+        private static object GetFailFastStepType(IMethodInfo method)
+        {
+            var shouldFailFastAttribute = GetCustomAttribute<ShouldFailFastBeforeAttribute>(method);
+            var failFastStepType = (object)StepType.All;
+
+            if (shouldFailFastAttribute != null)
+            {
+                failFastStepType = shouldFailFastAttribute.StepType;
+            }
+
+            return failFastStepType;
+        }
+
+        private static T GetCustomAttribute<T>(IMethodInfo method) where T : Attribute
+        {
+            // first try to find the attribute at the method level
+            var attributeInfo = method.GetCustomAttributes(typeof(T)).FirstOrDefault();
+
+            if (attributeInfo == null)
+            {
+                // then the class level
+                attributeInfo = method.Class.GetCustomAttributes(typeof(T)).FirstOrDefault();
+            }
+
+            if (attributeInfo == null)
+            {
+                // then the assembly level
+                return method.Class.Type.Assembly.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
+            }
+
+            return attributeInfo.GetInstance<T>();
         }
     }
 }

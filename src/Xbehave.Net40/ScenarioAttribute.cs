@@ -42,7 +42,7 @@ namespace Xbehave
         {
             if (method == null)
             {
-                return new[] { new ExceptionCommand(new MethodCall(method), new ArgumentNullException("method")) };
+                return new[] { new ExceptionCommand(new MethodCall(null), new ArgumentNullException("method")) };
             }
 
             IEnumerable<ITestCommand> backgroundCommands;
@@ -61,8 +61,8 @@ namespace Xbehave
 
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
-            return scenarioCommands.SelectMany(
-                scenarioCommand => CurrentScenario.ExtractCommands(scenarioCommand.MethodCall, backgroundCommands.Concat(new[] { scenarioCommand })));
+            return scenarioCommands
+                .SelectMany(scenarioCommand => CurrentScenario.ExtractCommands(scenarioCommand.MethodCall, backgroundCommands.Concat(new[] { scenarioCommand })));
         }
 
         /// <summary>
@@ -75,10 +75,14 @@ namespace Xbehave
             Guard.AgainstNullArgument("method", method);
             Guard.AgainstNullArgumentProperty("method", "Class", method.Class);
 
-            return method.Class.GetMethods().SelectMany(
-                candidateMethod => candidateMethod.GetCustomAttributes(typeof(BackgroundAttribute))
-                    .Select(attribute => attribute.GetInstance<BackgroundAttribute>())
-                    .SelectMany(backgroundAttribute => backgroundAttribute.CreateBackgroundCommands(candidateMethod))).ToArray();
+            return method.Class
+                         .GetMethods()
+                         .SelectMany(candidateMethod =>
+                             candidateMethod
+                                .GetCustomAttributes(typeof(BackgroundAttribute))
+                                .Select(attribute => attribute.GetInstance<BackgroundAttribute>())
+                                .SelectMany(backgroundAttribute => backgroundAttribute.CreateBackgroundCommands(candidateMethod)))
+                         .ToArray();
         }
 
         /// <summary>

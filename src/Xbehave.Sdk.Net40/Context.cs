@@ -41,16 +41,20 @@ namespace Xbehave.Sdk
             set { shouldFailFast = value; }
         }
 
-        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal)
+        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal, object failFastStepType)
         {
-            FailedStepName = null;
             var stepOrdinal = 1;
+
+            var failFast = this.GetFailFastOverride(failFastStepType);
+
             foreach (var step in this.steps)
             {
-                yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step);
+                var stepEndsFailFast = failFast == false || failFastStepType.Equals(step.Type);
+                yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step, stepEndsFailFast);
             }
 
             FailedStepName = null;
+            ShouldFailFast = failFast ?? true;
 
             // NOTE: this relies on the test runner executing each above yielded step command and below yielded disposal command as soon as it is recieved
             // TD.NET, R# and xunit.console all seem to do this
@@ -67,6 +71,26 @@ namespace Xbehave.Sdk
                 yield return new TeardownCommand(this.methodCall, contextOrdinal, stepOrdinal++, odd ? teardowns.Reverse() : teardowns);
                 odd = !odd;
             }
+        }
+
+        private bool? GetFailFastOverride(object failFastStepType)
+        {
+            if (failFastStepType is StepType)
+            {
+                var stepType = (StepType)failFastStepType;
+
+                if (stepType == StepType.All)
+                {
+                    return true;
+                }
+
+                if (stepType == StepType.None)
+                {
+                    return false;
+                }
+            }
+
+            return null;
         }
     }
 }
