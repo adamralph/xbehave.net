@@ -9,8 +9,6 @@ namespace Xbehave.Test.Acceptance
     using System.Threading;
     using FluentAssertions;
 
-    using Sdk;
-
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
     using Xunit.Sdk;
@@ -94,13 +92,13 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void FailingStepAfterFailFastStepType()
+        public static void FailingStepAfterContinueOnFailureStepType()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
 
             "Given a feature with a failing step after the first Then"
-                .Given(() => feature = typeof(FeatureWithAFailingStepAfterFailFastStepType));
+                .Given(() => feature = typeof(FeatureWithAFailingStepAfterContinueOnFailureStepType));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray())
@@ -120,13 +118,13 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void FailingStepBeforeFailFastStepType()
+        public static void FailingStepBeforeContinueOnFailureStepType()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
 
             "Given a feature with a failing step after the first Then (but before the first But)"
-                .Given(() => feature = typeof(FeatureWithAFailingStepBeforeFailFastStepType));
+                .Given(() => feature = typeof(FeatureWithAFailingStepBeforeContinueOnFailureStepType));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray())
@@ -282,10 +280,10 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAFailingStepAfterFailFastStepType
+        private static class FeatureWithAFailingStepAfterContinueOnFailureStepType
         {
             [Scenario]
-            [ShouldFailFastBefore(StepType.Then)]
+            [ContinueOnFailureAfter(StepType.Then)]
             public static void Scenario()
             {
                 "Given something"
@@ -312,10 +310,10 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAFailingStepBeforeFailFastStepType
+        private static class FeatureWithAFailingStepBeforeContinueOnFailureStepType
         {
             [Scenario]
-            [ShouldFailFastBefore(StepType.But)]
+            [ContinueOnFailureAfter(StepType.But)]
             public static void Scenario()
             {
                 "Given something"

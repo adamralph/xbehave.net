@@ -16,7 +16,7 @@ namespace Xbehave.Sdk
         private static string failedStepName;
 
         [ThreadStatic]
-        private static bool? shouldFailFast;
+        private static bool? shouldContinueOnFailure;
 
         private readonly MethodCall methodCall;
         private readonly Step[] steps;
@@ -35,26 +35,26 @@ namespace Xbehave.Sdk
             set { failedStepName = value; }
         }
 
-        public static bool ShouldFailFast
+        public static bool ShouldContinueOnFailure
         {
-            get { return shouldFailFast ?? true; }
-            set { shouldFailFast = value; }
+            get { return shouldContinueOnFailure ?? false; }
+            set { shouldContinueOnFailure = value; }
         }
 
-        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal, object failFastStepType)
+        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal, object continueOnFailureStepType)
         {
             var stepOrdinal = 1;
 
-            var failFast = this.GetFailFastOverride(failFastStepType);
+            var continueOnFailure = this.GetContinueOnFailureOverride(continueOnFailureStepType);
 
             foreach (var step in this.steps)
             {
-                var stepEndsFailFast = failFast == false || failFastStepType.Equals(step.Type);
-                yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step, stepEndsFailFast);
+                var stepBeginsContinueOnFailure = continueOnFailure ?? continueOnFailureStepType.Equals(step.Type);
+                yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step, stepBeginsContinueOnFailure);
             }
 
             FailedStepName = null;
-            ShouldFailFast = failFast ?? true;
+            ShouldContinueOnFailure = continueOnFailure == true;
 
             // NOTE: this relies on the test runner executing each above yielded step command and below yielded disposal command as soon as it is recieved
             // TD.NET, R# and xunit.console all seem to do this
@@ -73,21 +73,11 @@ namespace Xbehave.Sdk
             }
         }
 
-        private bool? GetFailFastOverride(object failFastStepType)
+        private bool? GetContinueOnFailureOverride(object continueOnFailureStepType)
         {
-            if (failFastStepType is StepType)
+            if (continueOnFailureStepType is bool)
             {
-                var stepType = (StepType)failFastStepType;
-
-                if (stepType == StepType.All)
-                {
-                    return true;
-                }
-
-                if (stepType == StepType.None)
-                {
-                    return false;
-                }
+                return (bool)continueOnFailureStepType;
             }
 
             return null;

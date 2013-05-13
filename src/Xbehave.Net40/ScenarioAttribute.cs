@@ -48,6 +48,8 @@ namespace Xbehave
             IEnumerable<ITestCommand> backgroundCommands;
             IEnumerable<ICommand> scenarioCommands;
 
+            var continueOnFailureStepType = GetContinueOnFailureStepType(method);
+
             // NOTE: any exception must be wrapped in a command, otherwise the test runner will retry this method infinitely
             try
             {
@@ -61,8 +63,7 @@ namespace Xbehave
 
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
-            return scenarioCommands
-                .SelectMany(scenarioCommand => CurrentScenario.ExtractCommands(scenarioCommand.MethodCall, backgroundCommands.Concat(new[] { scenarioCommand })));
+            return scenarioCommands.SelectMany(c => CurrentScenario.ExtractCommands(c.MethodCall, backgroundCommands.Concat(new[] { c }), continueOnFailureStepType));
         }
 
         /// <summary>
@@ -209,6 +210,45 @@ namespace Xbehave
             }
 
             return sawNullValue && type.IsValueType ? typeof(object) : type;
+        }
+
+        private static object GetContinueOnFailureStepType(IMethodInfo method)
+        {
+            var continueOnFailureAttribute = GetCustomAttribute<ContinueOnFailureAfterAttribute>(method);
+            var continueOnFailureStepType = (object)false;
+
+            if (continueOnFailureAttribute != null)
+            {
+                continueOnFailureStepType = continueOnFailureAttribute.StepType;
+            }
+
+            if (continueOnFailureStepType is StepType)
+            {
+                if ((StepType)continueOnFailureStepType == StepType.None)
+                {
+                    continueOnFailureStepType = false;
+                }
+                else if ((StepType)continueOnFailureStepType == StepType.All)
+                {
+                    continueOnFailureStepType = true;
+                }
+            }
+
+            return continueOnFailureStepType;
+        }
+
+        private static T GetCustomAttribute<T>(IMethodInfo methodInfo) where T : Attribute
+        {
+            var type = methodInfo.Class.Type;
+            var method = type.GetMethod(methodInfo.Name);
+
+            var attribute = method.GetCustomAttributes(typeof(T), true).FirstOrDefault() as T;
+
+            attribute = attribute ?? type.GetCustomAttributes(typeof(T), true).FirstOrDefault() as T;
+            
+            attribute = attribute ?? type.Assembly.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
+
+            return attribute;
         }
     }
 }

@@ -63,7 +63,9 @@
     <Compile Include="ExampleAttribute.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="ContinueOnFailureAfterAttribute.cs" />
     <Compile Include="StepExtensions.cs" />
+    <Compile Include="StepType.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="_.cs" />
     <None Include="Sandbox\DynamicStringExtensions.cs" />

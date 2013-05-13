@@ -95,17 +95,11 @@
     <Compile Include="..\Xbehave.Sdk.Net40\ReplayCommand.cs">
       <Link>ReplayCommand.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ShouldFailFastBeforeAttribute.cs">
-      <Link>ShouldFailFastBeforeAttribute.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Step.cs">
       <Link>Step.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\StepCommand.cs">
       <Link>StepCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\StepType.cs">
-      <Link>StepType.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\TeardownCommand.cs">
       <Link>TeardownCommand.cs</Link>
