@@ -14,8 +14,8 @@ Pull requests containing tabs will not be accepted. Make sure you set your edito
 1. Configure the upstream repo (`git remote add upstream git://github.com/xbehave/xbehave.net.git`)
 1. Create a local branch (`git checkout -b myBranch`)
 1. Work on your feature
-1. Test the build locally by running `rake` (see ['How to build'](https://github.com/xbehave/xbehave.net/blob/master/how_to_build.md/))
 1. Rebase if required (see below)
+1. Test the build locally by running `rake` (see ['How to build'](https://github.com/xbehave/xbehave.net/blob/master/how_to_build.md/))
 1. Push the branch up to GitHub (`git push origin myBranch`)
 1. Send a Pull Request on GitHub
 
