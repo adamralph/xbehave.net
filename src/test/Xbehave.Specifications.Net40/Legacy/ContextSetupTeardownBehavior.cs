@@ -8,114 +8,81 @@ namespace Xbehave.Test.Unit.Legacy
     using Xbehave;
     using Xunit;
 
-    public static class ContextSetupTeardownBehavior
+    public class ContextSetupTeardownBehavior
     {
         [Scenario]
-        public static void MultipleAssertionsShouldCauseActionToBeRepeated()
+        public static void MultipleContextsShouldCauseActionToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
-            sut.ThrowInvalidOperationExceptionOnSecondCall();
 
-            "Given an externally managed context"
-                .Given(() => { });
+            "when we execute an action"
+                .When(sut.Call);
 
-            "when we execute an action on it that may be invoked only once"
-                .When(() => Assert.Throws<InvalidOperationException>(() => sut.ThrowInvalidOperationExceptionOnSecondCall()));
-
-            "we expect our first assertion to pass"
-                .Then(() => Assert.True(true))
+            "we expect the action to be called in the first context"
+                .Then(() => Assert.Equal(1, sut.Called))
                 .InIsolation();
 
-            "we expect the action not to be repeated for the second assertion"
-                .Then(() => Assert.True(true))
+            "we expect the action to be repeated for the second context"
+                .Then(() => Assert.Equal(2, sut.Called))
                 .InIsolation();
         }
 
         [Scenario]
-        public static void MultipleAssertionsShouldCauseContextInstantiationToBeRepeated()
+        public static void MultipleContextsShouldCauseContextInstantiationToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
-            sut.ThrowInvalidOperationExceptionOnSecondCall();
 
-            "Given a context that may not be established twice"
-                .Given(() => Assert.Throws<InvalidOperationException>(() => sut.ThrowInvalidOperationExceptionOnSecondCall()));
+            "Given a context instantiation"
+                .Given(sut.Call);
 
-            "when"
-                .When(() => { });
-
-            "we expect our first assertion to pass"
-                .Then(() => Assert.True(true))
+            "we expect the context instantiation to be called in the first context"
+                .Then(() => Assert.Equal(1, sut.Called))
                 .InIsolation();
             
-            "we expect the context instantiation not to be repeated for the second assertion"
-                .Then(() => Assert.True(true))
+            "we expect the context instantiation to be repeated for the second context"
+                .Then(() => Assert.Equal(2, sut.Called))
                 .InIsolation();
         }
 
         [Scenario]
-        public static void MultipleObservationsShouldNotCauseActionToBeRepeated()
+        public static void MultipleAssertionsShouldNotCauseActionToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
 
-            "Given an externally managed context".Given(() => { });
-            "when we execute an action on it that may be invoked only once".When(sut.ThrowInvalidOperationExceptionOnSecondCall);
+            "when we execute an action".When(sut.Call);
+            "... that may not be called twice".And(sut.ThrowIfCalledTwice);
 
-            "we expect our first assertion to pass".Then(() => Assert.True(true));
-            "we expect the action not to be repeated for the second assertion".Then(() => Assert.True(true));
+            "we expect the action to be called once".Then(() => Assert.Equal(1, sut.Called));
+            "we expect the action not to be repeated for the second assertion".Then(() => Assert.Equal(1, sut.Called));
         }
 
         [Scenario]
-        public static void MultipleObservationsShouldNotCauseContextInstantiationToBeRepeated()
+        public static void MultipleAssertionsShouldNotCauseContextInstantiationToBeRepeated()
         {
             var sut = new ContextFixtureSpy();
 
-            "Given a context that may not be established twice".Given(() => sut.ThrowInvalidOperationExceptionOnSecondCall());
+            "Given a context instantiation".Given(sut.Call);
+            "... that may not be called twice".And(sut.ThrowIfCalledTwice);
 
-            "we expect our first assertion to pass".Then(() => Assert.True(true));
-            "we expect the context instantiation not to be repeated for the second assertion".Then(() => Assert.True(true));
-        }
-
-        public static void SpecificationThatShouldDisposeItsAssertionFixture()
-        {
-            "Given a disposable Fixture".Given(() => new DisposeSpy());
-            "when we encounter an exception during test execution ".When(() => { throw new Exception(); });
-            "with Assertions, we expect the context is nonetheless disposed".Then(() => { });
-        }
-
-        public static void SpecificationThatShouldDisposeItsObservationFixture()
-        {
-            "Given a disposable Fixture".Given(() => new DisposeSpy());
-            "when we encounter an exception during test execution ".When(() => { throw new Exception(); });
-            "with Observation, we expect the context is nonetheless disposed".Then(() => { });
+            "we expect the context instantiation to be called once".Then(() => Assert.Equal(1, sut.Called));
+            "we expect the context instantiation not to be repeated for the second assertion".Then(() => Assert.Equal(1, sut.Called));
         }
 
         private class ContextFixtureSpy
         {
-            private bool called;
+            public int Called { get; private set; }
 
-            public void ThrowInvalidOperationExceptionOnSecondCall()
+            public void Call()
             {
-                if (this.called)
+                this.Called++;
+            }
+
+            public void ThrowIfCalledTwice()
+            {
+                if (this.Called > 1)
                 {
                     throw new InvalidOperationException("Called twice!");
                 }
-
-                this.called = true;
-            }
-        }
-
-        private class DisposeSpy : IDisposable
-        {
-            public static bool WasDisposed { get; private set; }
-
-            public static void Reset()
-            {
-                WasDisposed = false;
-            }
-
-            public void Dispose()
-            {
-                WasDisposed = true;
             }
         }
     }

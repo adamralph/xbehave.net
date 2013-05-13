@@ -16,7 +16,7 @@ namespace Xbehave.Test.Acceptance
     // In order to prevent very long running tests <-- improve!
     // As a developer
     // I want a feature to fail if a given step takes to long to run
-    public static class TimeoutFeature
+    public class TimeoutFeature
     {
 #if NET40
         private static readonly ManualResetEventSlim @Event = new ManualResetEventSlim();

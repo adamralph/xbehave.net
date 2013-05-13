@@ -7,12 +7,16 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
     using Xunit.Sdk;
 
     public class Context
     {
         [ThreadStatic]
         private static string failedStepName;
+
+        [ThreadStatic]
+        private static bool? shouldContinueOnFailure;
 
         private readonly MethodCall methodCall;
         private readonly Step[] steps;
@@ -31,16 +35,26 @@ namespace Xbehave.Sdk
             set { failedStepName = value; }
         }
 
-        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal)
+        public static bool ShouldContinueOnFailure
         {
-            FailedStepName = null;
+            get { return shouldContinueOnFailure ?? false; }
+            set { shouldContinueOnFailure = value; }
+        }
+
+        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal, object continueOnFailureStepType)
+        {
             var stepOrdinal = 1;
+
+            var continueOnFailure = this.GetContinueOnFailureOverride(continueOnFailureStepType);
+
             foreach (var step in this.steps)
             {
-                yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step);
+                var stepBeginsContinueOnFailure = continueOnFailure ?? continueOnFailureStepType.Equals(step.Type);
+                yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step, stepBeginsContinueOnFailure);
             }
 
             FailedStepName = null;
+            ShouldContinueOnFailure = continueOnFailure == true;
 
             // NOTE: this relies on the test runner executing each above yielded step command and below yielded disposal command as soon as it is recieved
             // TD.NET, R# and xunit.console all seem to do this
@@ -57,6 +71,16 @@ namespace Xbehave.Sdk
                 yield return new TeardownCommand(this.methodCall, contextOrdinal, stepOrdinal++, odd ? teardowns.Reverse() : teardowns);
                 odd = !odd;
             }
+        }
+
+        private bool? GetContinueOnFailureOverride(object continueOnFailureStepType)
+        {
+            if (continueOnFailureStepType is bool)
+            {
+                return (bool)continueOnFailureStepType;
+            }
+
+            return null;
         }
     }
 }

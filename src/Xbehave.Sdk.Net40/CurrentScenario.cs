@@ -37,9 +37,9 @@ namespace Xbehave.Sdk
             get { return teardowns ?? (teardowns = new List<Action>()); }
         }
 
-        public static Step AddStep(string name, Action body)
+        public static Step AddStep(string name, Action body, object type)
         {
-            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body);
+            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body, type);
             Steps.Add(step);
             return step;
         }
@@ -68,7 +68,10 @@ namespace Xbehave.Sdk
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
             Justification = "Required to prevent infinite loops in test runners (TestDrive.NET, Resharper) when they are allowed to handle exceptions.")]
-        public static IEnumerable<ITestCommand> ExtractCommands(MethodCall methodCall, IEnumerable<ITestCommand> commands)
+        public static IEnumerable<ITestCommand> ExtractCommands(
+            MethodCall methodCall,
+            IEnumerable<ITestCommand> commands,
+            object continueOnFailureStepType)
         {
             Guard.AgainstNullArgument("methodCall", methodCall);
             Guard.AgainstNullArgument("commands", commands);
@@ -93,7 +96,7 @@ namespace Xbehave.Sdk
                 }
 
                 var contexts = new ContextFactory().CreateContexts(methodCall, Steps).ToArray();
-                return contexts.SelectMany((context, index) => context.CreateCommands(index + 1));
+                return contexts.SelectMany((context, index) => context.CreateCommands(index + 1, continueOnFailureStepType));
             }
             finally
             {

@@ -7,7 +7,7 @@ namespace Xbehave.Test.Unit.Legacy
     using System.Threading;
     using Xunit;
 
-    public static class ThreadIsolationFacts
+    public class ThreadIsolationFacts
     {
         [Fact]
         public static void CanSetUpSpecificationConcurrently()

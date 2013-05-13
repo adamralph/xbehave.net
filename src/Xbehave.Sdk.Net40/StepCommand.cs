@@ -13,8 +13,9 @@ namespace Xbehave.Sdk
     public class StepCommand : ContextCommand
     {
         private readonly Step step;
+        private readonly bool stepBeginsContinueOnFailure;
 
-        public StepCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step)
+        public StepCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step, bool stepBeginsContinueOnFailure)
             : base(methodCall, contextOrdinal, stepOrdinal)
         {
             Guard.AgainstNullArgument("methodCall", methodCall);
@@ -26,6 +27,7 @@ namespace Xbehave.Sdk
             }
 
             this.step = step;
+            this.stepBeginsContinueOnFailure = stepBeginsContinueOnFailure;
 
             var provider = CultureInfo.InvariantCulture;
             string stepName;
@@ -49,13 +51,18 @@ namespace Xbehave.Sdk
                 return new SkipResult(this.testMethod, this.DisplayName, this.step.SkipReason);
             }
 
-            if (Context.FailedStepName != null)
+            if (!Context.ShouldContinueOnFailure && Context.FailedStepName != null)
             {
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepName));
             }
 
             try
             {
+                if (this.stepBeginsContinueOnFailure)
+                {
+                    Context.ShouldContinueOnFailure = true;
+                }
+
                 this.step.Execute();
             }
             catch (Exception)
