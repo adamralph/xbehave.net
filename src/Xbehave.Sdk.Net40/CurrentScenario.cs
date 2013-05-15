@@ -37,9 +37,9 @@ namespace Xbehave.Sdk
             get { return teardowns ?? (teardowns = new List<Action>()); }
         }
 
-        public static Step AddStep(string name, Action body, object type)
+        public static Step AddStep(string name, Action body, object stepType)
         {
-            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body, type);
+            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body, stepType);
             Steps.Add(step);
             return step;
         }
@@ -64,6 +64,7 @@ namespace Xbehave.Sdk
             }
         }
 
+        // TODO (adamralph): provide overload with out continueOnFailureStepType
         [SuppressMessage(
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",

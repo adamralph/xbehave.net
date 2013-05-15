@@ -5,10 +5,6 @@
 namespace Xbehave
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
-
-    using Sdk;
-
     using Xbehave.Fluent;
 
     /// <summary>
