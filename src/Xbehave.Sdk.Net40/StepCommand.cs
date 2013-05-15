@@ -15,6 +15,7 @@ namespace Xbehave.Sdk
         private readonly Step step;
         private readonly bool stepBeginsContinueOnFailure;
 
+        // TODO (adamralph): provide overload with out stepBeginsContinueOnFailure
         public StepCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step, bool stepBeginsContinueOnFailure)
             : base(methodCall, contextOrdinal, stepOrdinal)
         {
@@ -56,13 +57,13 @@ namespace Xbehave.Sdk
                 throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", Context.FailedStepName));
             }
 
+            if (this.stepBeginsContinueOnFailure)
+            {
+                Context.ShouldContinueOnFailure = true;
+            }
+
             try
             {
-                if (this.stepBeginsContinueOnFailure)
-                {
-                    Context.ShouldContinueOnFailure = true;
-                }
-
                 this.step.Execute();
             }
             catch (Exception)

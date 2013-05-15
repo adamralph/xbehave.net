@@ -48,8 +48,6 @@ namespace Xbehave
             IEnumerable<ITestCommand> backgroundCommands;
             IEnumerable<ICommand> scenarioCommands;
 
-            var continueOnFailureStepType = GetContinueOnFailureStepType(method);
-
             // NOTE: any exception must be wrapped in a command, otherwise the test runner will retry this method infinitely
             try
             {
@@ -60,6 +58,8 @@ namespace Xbehave
             {
                 return new[] { new ExceptionCommand(new MethodCall(method), ex) };
             }
+
+            var continueOnFailureStepType = GetContinueOnFailureStepType(method);
 
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
@@ -228,7 +228,7 @@ namespace Xbehave
                 {
                     continueOnFailureStepType = false;
                 }
-                else if ((StepType)continueOnFailureStepType == StepType.All)
+                else if ((StepType)continueOnFailureStepType == StepType.Any)
                 {
                     continueOnFailureStepType = true;
                 }
@@ -239,16 +239,10 @@ namespace Xbehave
 
         private static T GetCustomAttribute<T>(IMethodInfo methodInfo) where T : Attribute
         {
-            var type = methodInfo.Class.Type;
-            var method = type.GetMethod(methodInfo.Name);
-
-            var attribute = method.GetCustomAttributes(typeof(T), true).FirstOrDefault() as T;
-
-            attribute = attribute ?? type.GetCustomAttributes(typeof(T), true).FirstOrDefault() as T;
-            
-            attribute = attribute ?? type.Assembly.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
-
-            return attribute;
+            return
+                methodInfo.MethodInfo.GetCustomAttributes(typeof(T), true).FirstOrDefault() as T ??
+                methodInfo.Class.Type.GetCustomAttributes(typeof(T), true).FirstOrDefault() as T ??
+                methodInfo.Class.Type.Assembly.GetCustomAttributes(typeof(T), true).FirstOrDefault() as T;
         }
     }
 }
