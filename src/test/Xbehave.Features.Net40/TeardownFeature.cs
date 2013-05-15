@@ -15,7 +15,7 @@ namespace Xbehave.Test.Acceptance
     // In order to release allocated resources
     // As a developer
     // I want to execute teardown actions after a scenario has run
-    public static class TeardownFeature
+    public class TeardownFeature
     {
         private static readonly ConcurrentQueue<int> ActionIds = new ConcurrentQueue<int>();
 

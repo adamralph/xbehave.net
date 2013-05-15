@@ -64,6 +64,12 @@
     <Compile Include="..\Xbehave.Net40\BackgroundAttribute.cs">
       <Link>BackgroundAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\ContinueOnFailureAfterAttribute.cs">
+      <Link>ContinueOnFailureAfterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StepType.cs">
+      <Link>StepType.cs</Link>
+    </Compile>
     <Compile Include="Guard.cs" />
     <None Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
       <Link>Sandbox\DynamicStringExtensions.cs</Link>
