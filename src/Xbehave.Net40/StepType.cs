@@ -10,37 +10,37 @@ namespace Xbehave
     public enum StepType
     {
         /// <summary>
-        /// Represents all steps.
+        /// Represents any step type.
         /// </summary>
-        All,
+        Any,
 
         /// <summary>
-        /// Represents no steps.
+        /// Represents no step type.
         /// </summary>
         None,
 
         /// <summary>
-        /// Represents "Given" steps.
+        /// Represents a "Given" step.
         /// </summary>
         Given,
 
         /// <summary>
-        /// Represents "When" steps.
+        /// Represents a "When" step.
         /// </summary>
         When,
 
         /// <summary>
-        /// Represents "Then" steps.
+        /// Represents a "Then" step.
         /// </summary>
         Then,
 
         /// <summary>
-        /// Represents "And" steps.
+        /// Represents a "And" step.
         /// </summary>
         And,
 
         /// <summary>
-        /// Represents "But" steps.
+        /// Represents a "But" step.
         /// </summary>
         But
     }

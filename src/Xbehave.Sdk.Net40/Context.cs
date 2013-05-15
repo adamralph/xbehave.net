@@ -41,15 +41,19 @@ namespace Xbehave.Sdk
             set { shouldContinueOnFailure = value; }
         }
 
+        // TODO (adamralph): before the SDK goes public, remove the magic Booleans for continueOnFailureStepType and make it generic
+        // TODO (adamralph): provide overload with out continueOnFailureStepType
         public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal, object continueOnFailureStepType)
         {
-            var stepOrdinal = 1;
+            var continueOnFailure = continueOnFailureStepType as bool?;
 
-            var continueOnFailure = this.GetContinueOnFailureOverride(continueOnFailureStepType);
+            var stepOrdinal = 1;
 
             foreach (var step in this.steps)
             {
-                var stepBeginsContinueOnFailure = continueOnFailure ?? continueOnFailureStepType.Equals(step.Type);
+                var stepBeginsContinueOnFailure = continueOnFailure ??
+                    (continueOnFailureStepType != null && continueOnFailureStepType.Equals(step.StepType));
+                
                 yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step, stepBeginsContinueOnFailure);
             }
 
@@ -71,16 +75,6 @@ namespace Xbehave.Sdk
                 yield return new TeardownCommand(this.methodCall, contextOrdinal, stepOrdinal++, odd ? teardowns.Reverse() : teardowns);
                 odd = !odd;
             }
-        }
-
-        private bool? GetContinueOnFailureOverride(object continueOnFailureStepType)
-        {
-            if (continueOnFailureStepType is bool)
-            {
-                return (bool)continueOnFailureStepType;
-            }
-
-            return null;
         }
     }
 }

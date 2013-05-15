@@ -9,9 +9,9 @@ namespace Xbehave
 
     internal static partial class Helper
     {
-        public static Fluent.IStep AddStep(string text, Action body, StepType type)
+        public static Fluent.IStep AddStep(string text, Action body, StepType stepType)
         {
-            return new Fluent.Step(CurrentScenario.AddStep(text, body, type));
+            return new Fluent.Step(CurrentScenario.AddStep(text, body, stepType));
         }
     }
 }

@@ -13,6 +13,8 @@ namespace Xbehave.Sdk
         protected ContextCommand(MethodCall methodCall, int contextOrdinal, int commandOrdinal)
             : base(methodCall)
         {
+            Guard.AgainstNullArgument("methodCall", methodCall);
+
             var provider = CultureInfo.InvariantCulture;
 
             this.Name = string.Format(

@@ -7,37 +7,41 @@ namespace Xbehave
     using System;
 
     /// <summary>
-    /// This attribute is used to allow certain steps to execute regardless of a previous failure.
+    /// Allows step execution within a scenario to continue after a failed step.
     /// <example>
-    /// [ContinueOnFailureAfter(StepType.Then)]
+    /// To allow step execution to continue after any failed step:
+    /// <code>[ContinueOnFailureAfter(StepType.Any)]</code>.
     /// </example>
-    /// In the above example, if a failure occurs before the first "Then" step, no further steps will execute. However,
-    /// if a failure occurs during or after the first "Then" step, the following steps will still execute.
+    /// <example>
+    /// To allow step execution to continue after a failed step but only after the execution of the first "Then" step, use
+    /// <code>[ContinueOnFailureAfter(StepType.Then)]</code>.
+    /// </example>
+    /// The default setting is <c>StepType.None</c>.
+    /// This attribute can be applied at the level of method (scenario), class (feature) or assembly (product).
     /// </summary>
     [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class ContinueOnFailureAfterAttribute : Attribute
+    public sealed class ContinueOnFailureAfterAttribute : Attribute
     {
+        private readonly StepType stepType;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContinueOnFailureAfterAttribute" /> class with the specified <see cref="Xbehave.StepType"/>.
+        /// Initializes a new instance of the <see cref="ContinueOnFailureAfterAttribute"/> class.
         /// </summary>
-        /// <param name="stepType">The step type.</param>
+        /// <param name="stepType">Type of the step.</param>
         public ContinueOnFailureAfterAttribute(StepType stepType)
         {
-            this.StepType = stepType;
+            this.stepType = stepType;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ContinueOnFailureAfterAttribute" /> class with the specified custom step type.
+        /// Gets the type of the step.
         /// </summary>
-        /// <param name="stepType">The step type.</param>
-        public ContinueOnFailureAfterAttribute(object stepType)
+        /// <value>
+        /// The type of the step.
+        /// </value>
+        public StepType StepType
         {
-            this.StepType = stepType;
+            get { return this.stepType; }
         }
-
-        /// <summary>
-        /// Gets or sets the step type.
-        /// </summary>
-        public object StepType { get; set; }
     }
 }

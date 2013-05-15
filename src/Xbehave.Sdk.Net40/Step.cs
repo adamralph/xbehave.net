@@ -12,17 +12,17 @@ namespace Xbehave.Sdk
     public class Step
     {
         private readonly string name;
-        private readonly object type;
+        private readonly object stepType;
         private readonly Action body;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string name, Action body, object type)
+        public Step(string name, Action body, object stepType)
         {
             Guard.AgainstNullArgument("body", body);
 
             this.name = name;
             this.body = body;
-            this.type = type;
+            this.stepType = stepType;
         }
 
         public virtual string Name
@@ -30,9 +30,9 @@ namespace Xbehave.Sdk
             get { return this.name; }
         }
 
-        public object Type
+        public object StepType
         {
-            get { return this.type; }
+            get { return this.stepType; }
         }
 
         public string SkipReason { get; set; }
