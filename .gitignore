@@ -4,3 +4,4 @@ StyleCop.Cache
 *.suo
 *.user
 Thumbs.db
+*.sln.ide
