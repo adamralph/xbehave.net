@@ -12,8 +12,8 @@ using System.Reflection;
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyProduct("xBehave.net")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly: AssemblyInformationalVersion("1.0.0-beta05")]
+[assembly: AssemblyVersion("0.15.0.0")]
+[assembly: AssemblyFileVersion("0.15.0.0")]
+[assembly: AssemblyInformationalVersion("0.15.0-beta01")]
 [assembly: SuppressMessage(
     "Microsoft.Usage", "CA2243:AttributeStringLiteralsShouldParseCorrectly", Justification = "Using SemVer in AssemblyInformationalVersion.")]

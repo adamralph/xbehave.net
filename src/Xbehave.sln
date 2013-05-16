@@ -13,7 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Xbehave.nuspec = Xbehave.nuspec
 		Xbehave.ruleset = Xbehave.ruleset
 		Xbehave.snk = Xbehave.snk
-		Xbehave.Windows_NT.nuspec = Xbehave.Windows_NT.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Samples.Net40", "Xbehave.Samples.Net40\Xbehave.Samples.Net40.csproj", "{318A83C1-F734-4612-A04F-9BE0D26657BF}"
