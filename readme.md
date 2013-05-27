@@ -21,7 +21,7 @@ A [BDD](http://dannorth.net/introducing-bdd/)/[TDD](https://en.wikipedia.org/wik
 	        .When(() => stack.Push(element));
 	
 	    "Then the element should be at the top of the stack"
-	        .And(() => stack.Peek().Should().Be(element));
+	        .Then(() => stack.Peek().Should().Be(element));
 	}
 
 The above example uses [FluentAssertions](http://fluentassertions.codeplex.com/) to ensure outcomes but you don't have to use a fluent assertion library to use xBehave.net. Any other method of assertion will also work just fine.
