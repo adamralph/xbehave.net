@@ -99,6 +99,10 @@ namespace Xbehave
         public static Xbehave.StepType GetStepType(string text)
         {
             var stepType = StepType.Any;
+            if (text == null)
+            {
+                return stepType;
+            }
 
             var upperText = text.ToUpper();
 

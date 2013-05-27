@@ -19,27 +19,23 @@ namespace Xbehave.Test.Unit
         [Example("And", StepType.And)]
         public void GetStepType(string clause, StepType expected, StepType actual)
         {
-            var spec = "Given a string starts with " + Enum.GetName(typeof(StepType), expected);
-            spec
+            "Given a string starts with '{0}'"
                 .Given(() => clause = clause + " foo");
             "When GetStepType() is called"
                 .When(() => actual = StringExtensions.GetStepType(clause));
-            "Then the StepType.Give is returned"
+            "Then StepType.{1} is returned"
                 .Then(() => actual.Should().Be(expected));
         }
-        
+
         [Scenario]
         public void InvokeXMethod(IStep step, string clause)
         {
             "Given a string"
                 .Given(() => clause = "Given foo");
             "When the X extension method is invoked"
-                .When(() => step = clause.X(
-                    () =>
-                        {
-                        }));
+                .When(() => step = clause.X(() => { }));
             "Then a step is returned"
                 .Then(() => step.Should().NotBeNull());
         }
     }
-} 
+}
