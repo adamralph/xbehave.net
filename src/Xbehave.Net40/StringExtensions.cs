@@ -76,5 +76,54 @@ namespace Xbehave
         {
             return Helper.AddStep(text, body, StepType.But);
         }
+
+        /// <summary>
+        /// Defines a step in the current scenario.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <param name="body">The action that will perform the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStep"/>.
+        /// </returns>
+        public static IStep X(this string text, Action body)
+        {
+            var stepType = GetStepType(text);
+            return Helper.AddStep(text, body, stepType);
+        }
+
+        /// <summary>
+        /// Get the appropriate step type based on the the text.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <returns>The appropriate step type based on the text.</returns>
+        public static Xbehave.StepType GetStepType(string text)
+        {
+            var stepType = StepType.Any;
+
+            var upperText = text.ToUpper();
+
+            if (upperText.StartsWith("GIVEN"))
+            {
+                stepType = StepType.Given;
+            }
+            else if (upperText.StartsWith("WHEN"))
+            {
+                stepType = StepType.When;
+            }
+            else if (upperText.StartsWith("THEN"))
+            {
+                stepType = StepType.Then;
+            }
+            else if (upperText.StartsWith("AND"))
+            {
+                stepType = StepType.And;
+            }
+            else if (upperText.StartsWith("BUT"))
+            {
+                stepType = StepType.But;
+            }
+
+            return stepType;
+        }
     }
 }
