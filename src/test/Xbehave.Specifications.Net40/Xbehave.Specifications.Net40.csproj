@@ -59,6 +59,7 @@
     <Compile Include="Legacy\ContextSetupTeardownBehavior.cs" />
     <Compile Include="Legacy\SubSpecDemo.cs" />
     <Compile Include="Legacy\ThreadIsolationFacts.cs" />
+    <Compile Include="StringExtensionsSpecifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">
