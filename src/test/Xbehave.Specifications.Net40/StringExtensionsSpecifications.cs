@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Sdk.Specifications
+namespace Xbehave.Test.Unit
 {
     using System;
     using FluentAssertions;
@@ -12,6 +12,7 @@ namespace Xbehave.Sdk.Specifications
     public class StringExtensionsSpecifications
     {
         [Scenario]
+        
         public void GetStepType()
         {
             StepType stepType = StepType.Any;
