@@ -12,7 +12,6 @@ namespace Xbehave.Test.Unit
     public class StringExtensionsSpecifications
     {
         [Scenario]
-        
         public void GetStepType(StepType stepType, string clause)
         {
             "Given a string starts with 'GIVEN'" 
