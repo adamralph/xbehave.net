@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentSpecifications.cs" />
+    <Compile Include="StringExtensionsSpecifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
