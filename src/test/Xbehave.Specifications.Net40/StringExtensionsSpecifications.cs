@@ -13,11 +13,8 @@ namespace Xbehave.Test.Unit
     {
         [Scenario]
         
-        public void GetStepType()
+        public void GetStepType(StepType stepType, string clause)
         {
-            StepType stepType = StepType.Any;
-            string clause = null;
-
             "Given a string starts with 'GIVEN'" 
                 .Given(() => clause = "Given foo");
             "When GetStepType() is called"
@@ -55,11 +52,8 @@ namespace Xbehave.Test.Unit
         }
         
         [Scenario]
-        public void InvokeXMethod()
+        public void InvokeXMethod(IStep step, string clause)
         {
-            IStep step = null;
-            string clause = null;
-
             "Given a string"
                 .Given(() => clause = "Given foo");
             "When the X extension method is invoked"
