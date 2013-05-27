@@ -66,6 +66,9 @@
     <Compile Include="..\Xbehave.Specifications.Net40\Legacy\ThreadIsolationFacts.cs">
       <Link>Legacy\ThreadIsolationFacts.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Specifications.Net40\StringExtensionsSpecifications.cs">
+      <Link>StringExtensionsSpecifications.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
