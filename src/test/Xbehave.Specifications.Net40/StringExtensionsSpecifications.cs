@@ -12,42 +12,20 @@ namespace Xbehave.Test.Unit
     public class StringExtensionsSpecifications
     {
         [Scenario]
-        public void GetStepType(StepType stepType, string clause)
+        [Example("Given", StepType.Given)]
+        [Example("When", StepType.When)]
+        [Example("Then", StepType.Then)]
+        [Example("But", StepType.But)]
+        [Example("And", StepType.And)]
+        public void GetStepType(string clause, StepType expected, StepType actual)
         {
-            "Given a string starts with 'GIVEN'" 
-                .Given(() => clause = "Given foo");
+            var spec = "Given a string starts with " + Enum.GetName(typeof(StepType), expected);
+            spec
+                .Given(() => clause = clause + " foo");
             "When GetStepType() is called"
-                .When(() => stepType = StringExtensions.GetStepType(clause));
+                .When(() => actual = StringExtensions.GetStepType(clause));
             "Then the StepType.Give is returned"
-                .Then(() => stepType.Should().Be(StepType.Given));
-
-            "Given a string starts with 'WHEN'"
-                .Given(() => clause = "When foo");
-            "When GetStepType() is called"
-                .When(() => stepType = StringExtensions.GetStepType(clause));
-            "Then the StepType.When is returned"
-                .Then(() => stepType.Should().Be(StepType.When));
-
-            "Given a string starts with 'THEN'"
-                .Given(() => clause = "Then foo");
-            "When GetStepType() is called"
-                .When(() => stepType = StringExtensions.GetStepType(clause));
-            "Then the StepType.Then is returned"
-                .Then(() => stepType.Should().Be(StepType.Then));
-
-            "Given a string starts with 'AND'"
-                .Given(() => clause = "And foo");
-            "When GetStepType() is called"
-                .When(() => stepType = StringExtensions.GetStepType(clause));
-            "Then the StepType.And is returned"
-                .Then(() => stepType.Should().Be(StepType.And));
-
-            "Given a string starts with 'BUT'"
-                .Given(() => clause = "But foo");
-            "When GetStepType() is called"
-                .When(() => stepType = StringExtensions.GetStepType(clause));
-            "Then the StepType.But is returned"
-                .Then(() => stepType.Should().Be(StepType.But));
+                .Then(() => actual.Should().Be(expected));
         }
         
         [Scenario]
