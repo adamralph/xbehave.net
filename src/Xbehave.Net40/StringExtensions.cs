@@ -1,10 +1,10 @@
 ﻿// <copyright file="StringExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
-
 namespace Xbehave
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Xbehave.Fluent;
 
     /// <summary>
@@ -85,7 +85,8 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        public static IStep X(this string text, Action body)
+        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        public static IStep f(this string text, Action body)
         {
             var stepType = GetStepType(text);
             return Helper.AddStep(text, body, stepType);
