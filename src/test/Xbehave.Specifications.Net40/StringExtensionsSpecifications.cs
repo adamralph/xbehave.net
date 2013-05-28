@@ -28,12 +28,12 @@ namespace Xbehave.Test.Unit
         }
 
         [Scenario]
-        public void InvokeXMethod(IStep step, string clause)
+        public void InvokefMethod(IStep step, string clause)
         {
             "Given a string"
                 .Given(() => clause = "Given foo");
-            "When the X extension method is invoked"
-                .When(() => step = clause.X(() => { }));
+            "When the do extension method is invoked"
+                .When(() => step = clause.f(() => { }));
             "Then a step is returned"
                 .Then(() => step.Should().NotBeNull());
         }
