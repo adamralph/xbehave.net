@@ -28,7 +28,7 @@ namespace Xbehave.Test.Unit
         }
 
         [Scenario]
-        public void InvokeXMethod(IStep step, string clause)
+        public void InvokefMethod(IStep step, string clause)
         {
             "Given a string"
                 .Given(() => clause = "Given foo");
