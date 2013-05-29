@@ -37,5 +37,16 @@ namespace Xbehave.Test.Unit
             "Then a step is returned"
                 .Then(() => step.Should().NotBeNull());
         }
+
+        [Scenario]
+        public void InvokeUnderscoreMethod(IStep step, string clause)
+        {
+            "Given a string"
+                .Given(() => clause = "Given foo");
+            "When the do extension method is invoked"
+                .When(() => step = clause._(() => { }));
+            "Then a step is returned"
+                .Then(() => step.Should().NotBeNull());
+        }
     }
 }
