@@ -93,6 +93,21 @@ namespace Xbehave
         }
 
         /// <summary>
+        /// Defines a step in the current scenario.
+        /// </summary>
+        /// <param name="text">The step text.</param>
+        /// <param name="body">The action that will perform the step.</param>
+        /// <returns>
+        /// An instance of <see cref="IStep"/>.
+        /// </returns>
+        [CLSCompliant(false)]
+        public static IStep _(this string text, Action body)
+        {
+            var stepType = GetStepType(text);
+            return Helper.AddStep(text, body, stepType);
+        }
+
+        /// <summary>
         /// Get the appropriate step type based on the the text.
         /// </summary>
         /// <param name="text">The step text.</param>
