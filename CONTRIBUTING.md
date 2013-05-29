@@ -6,10 +6,13 @@ First of all, thank you for wanting to contribute to Xbehave.net! We really appr
 
 Pull requests containing tabs will not be accepted. Make sure you set your editor to replace tabs with spaces.
 
+## Line Endings
+
+The repository is configured to preserve line endings both on checkout and commit (the equivalent of `autocrlf` set to `false`). This means *you* are responsible for line endings. We recommend that you configure your diff viewer so that it does not ignore line endings. Any [wall of pink](http://www.hanselman.com/blog/YoureJustAnotherCarriageReturnLineFeedInTheWall.aspx) pull requests will not be accepted.
+
 ## Making Changes
 
 1. [Fork](http://help.github.com/forking/) on GitHub
-1. Make sure your you set autoclrf to false. `git config --local core.autocrlf false`
 1. Clone your fork locally
 1. Configure the upstream repo (`git remote add upstream git://github.com/xbehave/xbehave.net.git`)
 1. Create a local branch (`git checkout -b myBranch`)
