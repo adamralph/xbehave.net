@@ -43,7 +43,7 @@ namespace Xbehave.Sdk
 
         // TODO (adamralph): before the SDK goes public, remove the magic Booleans for continueOnFailureStepType and make it generic
         // TODO (adamralph): provide overload with out continueOnFailureStepType
-        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal, object continueOnFailureStepType)
+        public IEnumerable<ITestCommand> CreateCommands(int contextOrdinal, object continueOnFailureStepType, bool omitArgumentsFromScenarioNames)
         {
             var continueOnFailure = continueOnFailureStepType as bool?;
 
@@ -53,8 +53,8 @@ namespace Xbehave.Sdk
             {
                 var stepBeginsContinueOnFailure = continueOnFailure ??
                     (continueOnFailureStepType != null && continueOnFailureStepType.Equals(step.StepType));
-                
-                yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step, stepBeginsContinueOnFailure);
+
+                yield return new StepCommand(this.methodCall, contextOrdinal, stepOrdinal++, step, stepBeginsContinueOnFailure, omitArgumentsFromScenarioNames);
             }
 
             FailedStepName = null;
@@ -72,7 +72,9 @@ namespace Xbehave.Sdk
                 }
 
                 // don't reverse even disposables since their creation order has already been reversed by the previous command
-                yield return new TeardownCommand(this.methodCall, contextOrdinal, stepOrdinal++, odd ? teardowns.Reverse() : teardowns);
+                yield return new TeardownCommand(
+                    this.methodCall, contextOrdinal, stepOrdinal++, odd ? teardowns.Reverse() : teardowns, omitArgumentsFromScenarioNames);
+                
                 odd = !odd;
             }
         }

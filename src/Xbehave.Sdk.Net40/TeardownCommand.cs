@@ -16,8 +16,8 @@ namespace Xbehave.Sdk
     {
         private readonly Action[] teardowns;
 
-        public TeardownCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, IEnumerable<Action> teardowns)
-            : base(methodCall, contextOrdinal, stepOrdinal)
+        public TeardownCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, IEnumerable<Action> teardowns, bool omitArgumentsFromScenarioNames)
+            : base(methodCall, contextOrdinal, stepOrdinal, omitArgumentsFromScenarioNames)
         {
             Guard.AgainstNullArgument("teardowns", teardowns);
 
