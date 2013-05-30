@@ -10,8 +10,8 @@ namespace Xbehave.Sdk
     [CLSCompliant(false)]
     public abstract class ContextCommand : Command
     {
-        protected ContextCommand(MethodCall methodCall, int contextOrdinal, int commandOrdinal)
-            : base(methodCall)
+        protected ContextCommand(MethodCall methodCall, int contextOrdinal, int commandOrdinal, bool omitArgumentsFromScenarioNames)
+            : base(methodCall, omitArgumentsFromScenarioNames)
         {
             Guard.AgainstNullArgument("methodCall", methodCall);
 

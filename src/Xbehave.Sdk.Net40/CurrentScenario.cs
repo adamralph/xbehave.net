@@ -72,7 +72,8 @@ namespace Xbehave.Sdk
         public static IEnumerable<ITestCommand> ExtractCommands(
             MethodCall methodCall,
             IEnumerable<ITestCommand> commands,
-            object continueOnFailureStepType)
+            object continueOnFailureStepType,
+            bool omitArgumentsFromScenarioNames)
         {
             Guard.AgainstNullArgument("methodCall", methodCall);
             Guard.AgainstNullArgument("commands", commands);
@@ -93,11 +94,11 @@ namespace Xbehave.Sdk
                 }
                 catch (Exception ex)
                 {
-                    return new ITestCommand[] { new ExceptionCommand(methodCall, ex) };
+                    return new ITestCommand[] { new ExceptionCommand(methodCall, ex, omitArgumentsFromScenarioNames) };
                 }
 
                 var contexts = new ContextFactory().CreateContexts(methodCall, Steps).ToArray();
-                return contexts.SelectMany((context, index) => context.CreateCommands(index + 1, continueOnFailureStepType));
+                return contexts.SelectMany((context, index) => context.CreateCommands(index + 1, continueOnFailureStepType, omitArgumentsFromScenarioNames));
             }
             finally
             {

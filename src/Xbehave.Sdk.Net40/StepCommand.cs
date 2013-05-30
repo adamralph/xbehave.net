@@ -16,8 +16,9 @@ namespace Xbehave.Sdk
         private readonly bool stepBeginsContinueOnFailure;
 
         // TODO (adamralph): provide overload with out stepBeginsContinueOnFailure
-        public StepCommand(MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step, bool stepBeginsContinueOnFailure)
-            : base(methodCall, contextOrdinal, stepOrdinal)
+        public StepCommand(
+            MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step, bool stepBeginsContinueOnFailure, bool omitArgumentsFromScenarioNames)
+            : base(methodCall, contextOrdinal, stepOrdinal, omitArgumentsFromScenarioNames)
         {
             Guard.AgainstNullArgument("methodCall", methodCall);
             Guard.AgainstNullArgument("step", step);
