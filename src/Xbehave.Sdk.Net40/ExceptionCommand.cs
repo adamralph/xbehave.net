@@ -12,7 +12,12 @@ namespace Xbehave.Sdk
         private readonly Exception exception;
 
         public ExceptionCommand(MethodCall methodCall, Exception exception)
-            : base(methodCall)
+            : this(methodCall, exception, false)
+        {
+        }
+
+        public ExceptionCommand(MethodCall methodCall, Exception exception, bool omitArgumentsFromScenarioNames)
+            : base(methodCall, omitArgumentsFromScenarioNames)
         {
             this.exception = exception;
         }

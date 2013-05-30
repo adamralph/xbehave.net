@@ -17,24 +17,23 @@ namespace Xbehave.Sdk
         private readonly Argument[] arguments;
 
         public Command(MethodCall methodCall)
+            : this(methodCall, false)
+        {
+        }
+
+        public Command(MethodCall methodCall, bool omitArgumentsFromScenarioNames)
             : base(methodCall == null ? null : methodCall.Method, null, methodCall == null ? 0 : MethodUtility.GetTimeoutParameter(methodCall.Method))
         {
             Guard.AgainstNullArgument("methodCall", methodCall);
 
             this.methodCall = methodCall;
             this.arguments = methodCall.Arguments.ToArray();
-            this.DisplayName = GetString(methodCall.Method, this.arguments, methodCall.TypeArguments.ToArray());
+            this.DisplayName = GetString(methodCall.Method, this.arguments, methodCall.TypeArguments.ToArray(), omitArgumentsFromScenarioNames);
         }
 
         public MethodCall MethodCall
         {
             get { return this.methodCall; }
-        }
-
-        // TODO (jamesfoster) make configurable
-        protected static bool ShowExampleValues
-        {
-            get { return false; }
         }
 
         public override MethodResult Execute(object testClass)
@@ -58,7 +57,7 @@ namespace Xbehave.Sdk
             return new PassedResult(testMethod, this.DisplayName);
         }
 
-        private static string GetString(IMethodInfo method, Argument[] arguments, Type[] typeArguments)
+        private static string GetString(IMethodInfo method, Argument[] arguments, Type[] typeArguments, bool omitArgumentsFromScenarioNames)
         {
             var csharp = string.Concat(method.TypeName, ".", method.Name);
             if (typeArguments.Length > 0)
@@ -72,7 +71,7 @@ namespace Xbehave.Sdk
 
             var format = "{0}";
             var parameterTokens = new List<string>();
-            if (Command.ShowExampleValues)
+            if (!omitArgumentsFromScenarioNames)
             {
                 format += "({1})";
 

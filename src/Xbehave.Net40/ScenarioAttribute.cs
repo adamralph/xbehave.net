@@ -60,10 +60,12 @@ namespace Xbehave
             }
 
             var continueOnFailureStepType = GetContinueOnFailureStepType(method);
+            var omitArgumentsAttribute = GetCustomAttribute<OmitArgumentsFromScenarioNamesAttribute>(method);
+            var omitArguments = omitArgumentsAttribute == null ? false : omitArgumentsAttribute.Enabled;
 
             // NOTE: this is not in the try catch since we are yielding internally
             // TODO: address this - see http://stackoverflow.com/a/346772/49241
-            return scenarioCommands.SelectMany(c => CurrentScenario.ExtractCommands(c.MethodCall, backgroundCommands.Concat(new[] { c }), continueOnFailureStepType));
+            return scenarioCommands.SelectMany(c => CurrentScenario.ExtractCommands(c.MethodCall, backgroundCommands.Concat(new[] { c }), continueOnFailureStepType, omitArguments));
         }
 
         /// <summary>
