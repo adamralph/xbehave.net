@@ -24,6 +24,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
+    <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
