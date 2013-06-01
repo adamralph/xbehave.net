@@ -6,6 +6,7 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
 
     /// <summary>
@@ -21,6 +22,7 @@ namespace Xbehave.Sdk
         /// <param name="argument">The argument.</param>
         /// <exception cref="System.ArgumentNullException"><paramref name="argument" /> is <c>null</c>.</exception>
         /// <remarks><typeparamref name="TArgument"/> is restricted to reference types to avoid boxing of value type objects.</remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Distrbuted as a source code package.")]
         [DebuggerStepThrough]
         public static void AgainstNullArgument<TArgument>(string parameterName, [ValidatedNotNull]TArgument argument) where TArgument : class
         {
@@ -40,6 +42,7 @@ namespace Xbehave.Sdk
         /// <remarks>
         /// Performs a type check to avoid boxing of value type objects.
         /// </remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Distrbuted as a source code package.")]
         [DebuggerStepThrough]
         public static void AgainstNullArgumentIfNullable<TArgument>(string parameterName, [ValidatedNotNull]TArgument argument)
         {
@@ -58,6 +61,7 @@ namespace Xbehave.Sdk
         /// <param name="argumentProperty">The argument property.</param>
         /// <exception cref="System.ArgumentException"><paramref name="argumentProperty" /> is <c>null</c>.</exception>
         /// <remarks><typeparamref name="TProperty"/> is restricted to reference types to avoid boxing of value type objects.</remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Distrbuted as a source code package.")]
         [DebuggerStepThrough]
         public static void AgainstNullArgumentProperty<TProperty>(string parameterName, string propertyName, [ValidatedNotNull]TProperty argumentProperty)
             where TProperty : class
@@ -79,6 +83,7 @@ namespace Xbehave.Sdk
         /// <remarks>
         /// Performs a type check to avoid boxing of value type objects.
         /// </remarks>
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Distrbuted as a source code package.")]
         [DebuggerStepThrough]
         public static void AgainstNullArgumentPropertyIfNullable<TProperty>(
             string parameterName, string propertyName, [ValidatedNotNull]TProperty argumentProperty)
@@ -89,6 +94,7 @@ namespace Xbehave.Sdk
             }
         }
 
+        [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Distrbuted as a source code package.")]
         private static bool IsNullableType(this Type type)
         {
             return !type.IsValueType || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
