@@ -5,7 +5,7 @@
     <version>0.0.0</version>
     <title>xBehave.net</title>
     <authors>Adam Ralph, xBehave.net contributors</authors>
-    <projectUrl>https://github.com/xbehave/xbehave.net</projectUrl>
+    <projectUrl>http://xbehave.github.io/</projectUrl>
     <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
     <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
