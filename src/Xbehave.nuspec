@@ -10,18 +10,7 @@
     <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A BDD/TDD framework based on xUnit.net and inspired by Gherkin. Allows features and scenarios to be written directly in code rather than mapping to external feature files. Works seamlessly with xUnit.net tooling.</description>
-    <releaseNotes>Enhancement: Optional ommission of arguments from scenario names in test output - https://github.com/xbehave/xbehave.net/issues/37/
-Enhancement: Add f() extension method - https://github.com/xbehave/xbehave.net/issues/63/
-Enhancement: Add an underscore string extension method - https://github.com/xbehave/xbehave.net/issues/72/
-Enhancement: Add optional continuation on failure after the execution of specific step types - https://github.com/xbehave/xbehave.net/issues/57/
-Removal (Breaking): Remove expression overloads - https://github.com/xbehave/xbehave.net/issues/4/
-Removal (Breaking): Remove all deprecated methods - https://github.com/xbehave/xbehave.net/issues/13/
-Bug: Null values are not rendered in step text - https://github.com/xbehave/xbehave.net/issues/28/
-
-With special thanks to contributors to this release:
-James Foster - https://github.com/jamesfoster/
-Glenn Block - https://github.com/glennblock/
-robi-y - https://github.com/robi-y/</releaseNotes>
+    <releaseNotes>TBD</releaseNotes>
     <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
