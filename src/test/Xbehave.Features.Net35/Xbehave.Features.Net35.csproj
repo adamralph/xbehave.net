@@ -89,8 +89,11 @@
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\TestRunner.cs">
       <Link>Infrastructure\TestRunner.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\InIsolationFeature.cs">
-      <Link>InIsolationFeature.cs</Link>
+    <Compile Include="..\Xbehave.Features.Net40\IsolatedStepFeature.cs">
+      <Link>IsolatedStepFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Features.Net40\ObjectDisposalFeature.cs">
+      <Link>ObjectDisposalFeature.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Features.Net40\ScenarioFeature.cs">
       <Link>ScenarioFeature.cs</Link>
@@ -106,9 +109,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Features.Net40\TimeoutFeature.cs">
       <Link>TimeoutFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\UsingFeature.cs">
-      <Link>UsingFeature.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

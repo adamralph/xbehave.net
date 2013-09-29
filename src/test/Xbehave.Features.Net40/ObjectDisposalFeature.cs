@@ -1,4 +1,4 @@
-﻿// <copyright file="UsingFeature.cs" company="xBehave.net contributors">
+﻿// <copyright file="ObjectDisposalFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -16,7 +16,7 @@ namespace Xbehave.Test.Acceptance
     // In order to release allocated resources
     // As a developer
     // I want to register objects for disposal after a scenario has run
-    public class UsingFeature
+    public class ObjectDisposalFeature
     {
         private enum LifeTimeEventType
         {
