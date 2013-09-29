@@ -95,8 +95,11 @@
     <Compile Include="..\Xbehave.Features.Net40\ScenarioFeature.cs">
       <Link>ScenarioFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\SkipFeature.cs">
-      <Link>SkipFeature.cs</Link>
+    <Compile Include="..\Xbehave.Features.Net40\SkippedScenarioFeature.cs">
+      <Link>SkippedScenarioFeature.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Features.Net40\SkippedStepFeature.cs">
+      <Link>SkippedStepFeature.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Features.Net40\TeardownFeature.cs">
       <Link>TeardownFeature.cs</Link>
