@@ -1,4 +1,4 @@
-﻿// <copyright file="SkipFeature.cs" company="xBehave.net contributors">
+﻿// <copyright file="SkippedStepFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -10,10 +10,10 @@ namespace Xbehave.Test.Acceptance
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
 
-    // In order to commit unfinished features
+    // In order to commit nearly completed features
     // As a developer
     // I want to temporarily skip specific steps
-    public class SkipFeature
+    public class SkippedStepFeature
     {
         [Scenario]
         public static void UnfinishedFeature()

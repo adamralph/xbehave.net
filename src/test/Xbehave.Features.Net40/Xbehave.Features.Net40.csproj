@@ -65,15 +65,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundFeature.cs" />
+    <Compile Include="SkippedScenarioFeature.cs" />
     <Compile Include="TeardownFeature.cs" />
     <Compile Include="TimeoutFeature.cs" />
-    <Compile Include="UsingFeature.cs" />
+    <Compile Include="ObjectDisposalFeature.cs" />
     <Compile Include="ScenarioFeature.cs" />
     <Compile Include="Infrastructure\EnumerableExtensions.cs" />
     <Compile Include="Infrastructure\QueueExtensions.cs" />
     <Compile Include="Infrastructure\CustomEqualityComparer.cs" />
-    <Compile Include="InIsolationFeature.cs" />
-    <Compile Include="SkipFeature.cs" />
+    <Compile Include="IsolatedStepFeature.cs" />
+    <Compile Include="SkippedStepFeature.cs" />
     <Compile Include="Infrastructure\TestRunner.cs" />
     <Compile Include="Infrastructure\EnumerableEqualityComparer.cs" />
     <Compile Include="Infrastructure\EnumerableComparer.cs" />
