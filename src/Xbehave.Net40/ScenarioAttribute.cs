@@ -33,6 +33,13 @@ namespace Xbehave
     public class ScenarioAttribute : FactAttribute
     {
         /// <summary>
+        /// Gets or sets a timeout which, if exceeded, indicates that the scenario has failed.
+        /// </summary>
+        /// <remarks>This property is deprecated in favor of timeouts on specific steps.</remarks>
+        [Obsolete("Timeouts on scenarios have intermittent problems with xUnit.net test runners. Use the Timeout() extension method for steps instead.")]
+        public new int Timeout { get; set; }
+
+        /// <summary>
         /// Enumerates the test commands representing the background and scenario steps for each isolated context.
         /// </summary>
         /// <param name="method">The scenario method.</param>
