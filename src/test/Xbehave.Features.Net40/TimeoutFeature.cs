@@ -70,6 +70,80 @@ namespace Xbehave.Test.Acceptance
         }
 #endif
 
+        [Scenario]
+        public static void ScenarioExecutesFastEnough()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario which does not exceed it's timeout"
+                .Given(() => feature = typeof(ScenarioFastEnough));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
+
+            "Then there should be one result"
+                .Then(() => results.Count().Should().Be(1));
+
+            "And the result should be a pass"
+                .And(() => results.Should().ContainItemsAssignableTo<PassedResult>());
+        }
+
+#if NET40
+        [Scenario(Skip = "See https://github.com/xbehave/xbehave.net/issues/93/")]
+        public static void ScenarioExecutesTooSlowly()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario which exceeds it's 1ms timeout"
+                .Given(() => feature = typeof(ScenarioTooSlow));
+
+            "When the test runner runs the feature"
+                .When(() =>
+                {
+                    @Event.Reset();
+                    results = TestRunner.Run(feature).ToArray();
+                })
+                .Teardown(() => @Event.Set());
+
+            "Then there should be one result"
+                .Then(() => results.Count().Should().Be(1));
+
+            "And the result should be a failure"
+                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+
+            "And the result message should be \"Test execution time exceeded: 1ms\""
+                .And(() => results.Cast<FailedResult>().Should().OnlyContain(result => result.Message == "Test execution time exceeded: 1ms"));
+        }
+
+        [Scenario(Skip = "See https://github.com/xbehave/xbehave.net/issues/93/")]
+        public static void ScenarioExecutesTooSlowlyInOneStepAndHasASubsequentPassingStep()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario which exceeds it's 1ms timeout"
+                .Given(() => feature = typeof(ScenarioTooSlowInOneStepAndHasASubsequentPassingStep));
+
+            "When the test runner runs the feature"
+                .When(() =>
+                {
+                    @Event.Reset();
+                    results = TestRunner.Run(feature).ToArray();
+                })
+                .Teardown(() => @Event.Set());
+
+            "Then there should be two result"
+                .Then(() => results.Count().Should().Be(2));
+
+            "And the results should be failures"
+                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+
+            "And the first result message should be \"Test execution time exceeded: 1ms\""
+                .And(() => results.Cast<FailedResult>().Should().OnlyContain(result => result.Message == "Test execution time exceeded: 1ms"));
+        }
+#endif
         private static class StepFastEnough
         {
             [Scenario]
@@ -90,6 +164,41 @@ namespace Xbehave.Test.Acceptance
                 "Given something"
                     .Given(() => @Event.Wait())
                     .WithTimeout(1);
+            }
+        }
+#endif
+
+        private static class ScenarioFastEnough
+        {
+            [Scenario(Timeout = int.MaxValue)]
+            public static void Scenario()
+            {
+                "Given something"
+                    .Given(() => { });
+            }
+        }
+
+#if NET40
+        private static class ScenarioTooSlow
+        {
+            [Scenario(Timeout = 1)]
+            public static void Scenario()
+            {
+                "Given something"
+                    .Given(() => @Event.Wait());
+            }
+        }
+
+        private static class ScenarioTooSlowInOneStepAndHasASubsequentPassingStep
+        {
+            [Scenario(Timeout = 1)]
+            public static void Scenario()
+            {
+                "Given something"
+                    .Given(() => @Event.Wait());
+
+                "Then true is true"
+                    .Then(() => true.Should().BeTrue());
             }
         }
 #endif
