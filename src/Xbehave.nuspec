@@ -10,7 +10,7 @@
     <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A BDD/TDD framework based on xUnit.net and inspired by Gherkin. Allows features and scenarios to be written directly in code rather than mapping to external feature files. Works seamlessly with xUnit.net tooling.</description>
-    <releaseNotes>TBD</releaseNotes>
+    <releaseNotes>Deprecated: Scenario timeouts - https://github.com/xbehave/xbehave.net/issues/95/</releaseNotes>
     <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
