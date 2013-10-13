@@ -1,16 +1,20 @@
-﻿// <copyright file="Scenarios.fs" company="xBehave.net contributors">
+﻿// <copyright file="DirectConversion.fs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+// QuickStart sample direct conversion to F# from C#
+// based on http://fssnip.net/km by Phillip Trelford http://trelford.com/blog
 namespace Xbehave.Samples.FSharp
 
-module Scenarios =
+module DirectConversion =
     open Xbehave
     open Xunit
 
+    // SUT
     type Calculator () = member __.Add(x,y) = x + y
 
-    let [<Scenario>] addition(x:int, y:int, calculator:Calculator, answer:int) =
+    [<Scenario>]
+    let addition(x:int, y:int, calculator:Calculator, answer:int) =
         let x, y, calculator, answer = ref x, ref y, ref calculator, ref answer
 
         "Given the number 1"
