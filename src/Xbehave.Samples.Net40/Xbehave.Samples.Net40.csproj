@@ -62,15 +62,17 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BackgroundSample.cs" />
-    <Compile Include="InIsolation.cs" />
-    <Compile Include="Disposable.cs" />
+    <Compile Include="Backgrounds.cs" />
+    <Compile Include="Fixtures\Calculator.cs" />
+    <Compile Include="IsolatedSteps.cs" />
+    <Compile Include="Fixtures\Disposable.cs" />
+    <Compile Include="Synonyms.cs" />
     <Compile Include="TheLot.cs" />
-    <Compile Include="StackExampleSpecs.cs" />
-    <Compile Include="FluentStackSpecs.cs" />
-    <Compile Include="SkippedStackSpecs.cs" />
+    <Compile Include="Examples.cs" />
+    <Compile Include="FluentSyntax.cs" />
+    <Compile Include="SkippedSteps.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StackSpecs.cs" />
+    <Compile Include="Scenarios.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

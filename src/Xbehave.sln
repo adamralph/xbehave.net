@@ -26,8 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{C43D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Specifications.Net40", "test\Xbehave.Specifications.Net40\Xbehave.Specifications.Net40.csproj", "{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Samples.Net35", "Xbehave.Samples.Net35\Xbehave.Samples.Net35.csproj", "{2A64CA3C-EE54-481A-BED0-536690918289}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBC5886B-9456-470B-836F-722154863920}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
@@ -53,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.Net40", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.Net35", "test\Xbehave.Features.Net35\Xbehave.Features.Net35.csproj", "{F64FAC93-8534-4A00-83C6-031C51923BA3}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Xbehave.Samples.FSharp.Net45", "Xbehave.Samples.FSharp.Net45\Xbehave.Samples.FSharp.Net45.fsproj", "{410529E9-B417-44D0-A48E-B3009E16783E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,10 +71,6 @@ Global
 		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A64CA3C-EE54-481A-BED0-536690918289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A64CA3C-EE54-481A-BED0-536690918289}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A64CA3C-EE54-481A-BED0-536690918289}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A64CA3C-EE54-481A-BED0-536690918289}.Release|Any CPU.Build.0 = Release|Any CPU
 		{425C1030-10E5-4CCF-80C2-A4A8966EA48A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{425C1030-10E5-4CCF-80C2-A4A8966EA48A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{425C1030-10E5-4CCF-80C2-A4A8966EA48A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,13 +103,17 @@ Global
 		{F64FAC93-8534-4A00-83C6-031C51923BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F64FAC93-8534-4A00-83C6-031C51923BA3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{F64FAC93-8534-4A00-83C6-031C51923BA3}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{410529E9-B417-44D0-A48E-B3009E16783E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{410529E9-B417-44D0-A48E-B3009E16783E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{410529E9-B417-44D0-A48E-B3009E16783E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{410529E9-B417-44D0-A48E-B3009E16783E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{318A83C1-F734-4612-A04F-9BE0D26657BF} = {C43DA667-DF59-4438-B3DC-F707DF861043}
-		{2A64CA3C-EE54-481A-BED0-536690918289} = {C43DA667-DF59-4438-B3DC-F707DF861043}
+		{410529E9-B417-44D0-A48E-B3009E16783E} = {C43DA667-DF59-4438-B3DC-F707DF861043}
 		{3CE881F9-3E00-4C16-8A90-9C5F57FA9565} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
 		{A763D3CE-3C9C-456D-A758-46C18B31DBD9} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
 		{5CC1C3CC-67FC-4691-83BF-E14B367E06C3} = {3CE881F9-3E00-4C16-8A90-9C5F57FA9565}
