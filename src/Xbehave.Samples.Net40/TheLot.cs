@@ -4,55 +4,56 @@
 
 namespace Xbehave.Samples
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using FluentAssertions;
     using Xbehave;
+    using Xbehave.Samples.Fixtures;
 
-    public class TheLot
+    public static class TheLot
     {
-        private static Stack<int> stack;
+        private static Calculator calculator;
 
         [Background]
         public static void Background()
         {
             "Given a stack"
-                .Given(() => stack = new Stack<int>());
+                .Given(() => calculator = new Calculator())
+                .Teardown(() => calculator.CoolDown());
         }
 
         [Scenario]
-        [Example(123)]
-        [Example(234)]
-        public static void Push(int element)
+        [Example(1, 2, 3)]
+        [Example(2, 3, 5)]
+        public static void Addition(int x, int y, int expectedAnswer, Calculator calculator, int answer)
         {
-            "Given {0}"
-                .Given(() => new Disposable().Using());
+            "Given the number {0}"
+                .Given(() => { });
 
-            "When pushing {0} onto the stack"
-                .When(() => stack.Push(element))
-                .Teardown(() => stack.Clear())
-                .And()
+            "And the number {1}"
+                .And(() => { });
+
+            "And a calculator"
+                .And(() => calculator = new Calculator());
+
+            "And some disposable object"
+                .And(() => new Disposable().Using());
+
+            "When I add the numbers together"
+                .When(() => answer = calculator.Add(x, y))
                 .WithTimeout(1000);
 
-            "Then the stack should not be empty"
-                .Then(() => stack.Should().NotBeEmpty());
+            "Then the answer is not more than {2}"
+                .Then(() => (++answer).Should().Be(expectedAnswer + 1))
+                .InIsolation();
 
-            "And the stack pop should be {0}"
-                .And(() => stack.Pop().Should().Be(element))
-                .InIsolation()
-                .And()
-                .WithTimeout(1000);
+            "And the answer is {2}"
+                .And(() => answer.Should().Be(expectedAnswer));
 
-            "And the stack peek should be {0}"
-                .And(() => stack.Peek().Should().Be(element))
-                .WithTimeout(1000);
-
-            "And the stack count should be 3"
-                .And(() => stack.Count().Should().Be(2))
+            "And the answer is one more than {2}"
+                .And(() => answer.Should().Be(expectedAnswer + 1))
                 .Skip("because the assertion is nonsense");
 
-            "But the stack count should not be 2"
-                .But(() => stack.Count().Should().NotBe(2));
+            "But the answer is not one less than {2}"
+                .But(() => answer.Should().NotBe(expectedAnswer - 1));
         }
     }
 }
