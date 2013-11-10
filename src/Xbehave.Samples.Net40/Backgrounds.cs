@@ -1,4 +1,4 @@
-﻿// <copyright file="BackgroundSample.cs" company="xBehave.net contributors">
+﻿// <copyright file="Backgrounds.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -10,7 +10,7 @@ namespace Xbehave.Samples
     //// In order to make gigantic piles of money
     //// As a Mephisto site owner
     //// I want to host blogs for different people
-    public static class BackgroundSample
+    public static class Backgrounds
     {
         [Background]
         public static void Background()
