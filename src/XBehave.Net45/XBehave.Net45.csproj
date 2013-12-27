@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C2750CBF-E310-4819-AEAC-9303E4C36D8D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XBehave.Net45</RootNamespace>
+    <AssemblyName>XBehave.Net45</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="xunit">
+      <HintPath>..\..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\..\packages\xunit.extensions.1.9.2\lib\net20\xunit.extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\BackgroundAttribute.cs">
+      <Link>BackgroundAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ContinueOnFailureAfterAttribute.cs">
+      <Link>ContinueOnFailureAfterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\DisposableExtensions.cs">
+      <Link>DisposableExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ExampleAttribute.cs">
+      <Link>ExampleAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\IStep.cs">
+      <Link>Fluent\IStep.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Fluent\Step.cs">
+      <Link>Fluent\Step.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Guard.cs">
+      <Link>Guard.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Helper.cs">
+      <Link>Helper.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\OmitArgumentsFromScenarioNamesAttribute.cs">
+      <Link>OmitArgumentsFromScenarioNamesAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
+      <Link>Sandbox\DynamicStringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
+      <Link>Sandbox\Scenario.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
+      <Link>ScenarioAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StepExtensions.cs">
+      <Link>StepExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StepType.cs">
+      <Link>StepType.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StringExtensions.cs">
+      <Link>StringExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\_.cs">
+      <Link>_.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Xbehave.snk">
+      <Link>Properties\Xbehave.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Xbehave.Sdk.Net40\Xbehave.Sdk.Net40.csproj">
+      <Project>{69370680-9671-466c-b7bc-1c9bb5474f31}</Project>
+      <Name>Xbehave.Sdk.Net40</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Xbehave.CustomDictionary.xml">
+      <Link>Properties\Xbehave.CustomDictionary.xml</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

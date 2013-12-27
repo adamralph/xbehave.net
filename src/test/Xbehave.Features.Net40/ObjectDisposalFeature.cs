@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if NET40
+#if NET40 || NET45
 namespace Xbehave.Test.Acceptance
 {
     using System;

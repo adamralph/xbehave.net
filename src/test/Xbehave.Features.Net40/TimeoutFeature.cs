@@ -6,7 +6,7 @@ namespace Xbehave.Test.Acceptance
 {
     using System;
     using System.Linq;
-#if NET40
+#if NET40 || NET45
     using System.Threading;
 #endif
     using FluentAssertions;
@@ -18,7 +18,7 @@ namespace Xbehave.Test.Acceptance
     // I want a feature to fail if a given step takes to long to run
     public class TimeoutFeature
     {
-#if NET40
+#if NET40 || NET45
         private static readonly ManualResetEventSlim @Event = new ManualResetEventSlim();
 #endif
 
@@ -41,7 +41,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<PassedResult>());
         }
 
-#if NET40
+#if NET40 || NET45
         [Scenario]
         public static void StepExecutesTooSlowly()
         {
@@ -89,7 +89,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<PassedResult>());
         }
 
-#if NET40
+#if NET40 || NET45
         [Scenario(Skip = "See https://github.com/xbehave/xbehave.net/issues/93/")]
         public static void ScenarioExecutesTooSlowly()
         {
@@ -155,7 +155,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-#if NET40
+#if NET40 || NET45
         private static class StepTooSlow
         {
             [Scenario]
@@ -178,7 +178,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-#if NET40
+#if NET40 || NET45
         private static class ScenarioTooSlow
         {
             [Scenario(Timeout = 1)]
