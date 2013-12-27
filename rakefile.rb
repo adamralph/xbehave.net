@@ -20,11 +20,6 @@ features = [
   { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Features.Net40/bin/Debug/Xbehave.Features.Net40.dll" }
 ]
 
-samples = [
-  { :command => xunit_command_net20, :assembly => "src/Xbehave.Samples.Net35/bin/Debug/Xbehave.Samples.Net35.dll" },
-  { :command => xunit_command_net40, :assembly => "src/Xbehave.Samples.Net40/bin/Debug/Xbehave.Samples.Net40.dll" }
-]
-
 nuspec = "src/Xbehave.nuspec"
 
 Albacore.configure do |config|
@@ -64,11 +59,6 @@ exec :pack => [:build] do |cmd|
   FileUtils.mkpath output
   cmd.command = nuget_command
   cmd.parameters "pack " + nuspec + " -Version " + version + " -OutputDirectory " + output
-end
-
-desc "Execute samples"
-task :sample => [:build] do
-  execute_xunit samples
 end
 
 def execute_xunit(tests)
