@@ -27,10 +27,6 @@ CI builds are hosted at [teamcity.codebetter.com](http://teamcity.codebetter.com
 
 Come and chat to fellow users and developers at the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
 
-## What do the version numbers mean? ##
-
-xBehave.net uses [Semantic Versioning](http://semver.org/). The current release is 0.x which means 'initial development'. Breaking changes are being kept to a minimum, since the library is already being piloted by a number of projects, so you are encouraged to start using xBehave.net right away. Certain parts of the API may be deprecated during initial development but, wherever practical, will not be removed before version 1.0 is released.
-
 ## On which giant's shoulders does it stand? ##
 
 * [xUnit.net](http://xunit.codeplex.com/)
@@ -39,7 +35,7 @@ xBehave.net uses [Semantic Versioning](http://semver.org/). The current release 
 * [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
 * [StyleCop](http://stylecop.codeplex.com/)
 * [StyleCop.MSBuild](https://bitbucket.org/adamralph/stylecop-msbuild)
-* [psake](https://github.com/psake/psake)
+* [Rake](http://rake.rubyforge.org/)
 * [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)
 * [FluentAssertions](http://fluentassertions.codeplex.com/)
 * [Semantic Versioning](http://semver.org/)
