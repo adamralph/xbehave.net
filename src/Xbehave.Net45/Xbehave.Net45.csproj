@@ -7,8 +7,8 @@
     <ProjectGuid>{C2750CBF-E310-4819-AEAC-9303E4C36D8D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XBehave.Net45</RootNamespace>
-    <AssemblyName>XBehave.Net45</AssemblyName>
+    <RootNamespace>Xbehave</RootNamespace>
+    <AssemblyName>Xbehave</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,15 +20,23 @@
     <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
+    <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
     <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
+    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <DocumentationFile>bin\Release\Xbehave.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -65,9 +73,6 @@
     <Compile Include="..\Xbehave.Net40\Fluent\Step.cs">
       <Link>Fluent\Step.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Guard.cs">
-      <Link>Guard.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Helper.cs">
       <Link>Helper.cs</Link>
     </Compile>
@@ -98,6 +103,7 @@
     <Compile Include="..\Xbehave.Net40\_.cs">
       <Link>_.cs</Link>
     </Compile>
+    <Compile Include="Guard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">
@@ -117,7 +123,7 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

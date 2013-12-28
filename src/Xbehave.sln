@@ -49,9 +49,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.Net40", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.Net35", "test\Xbehave.Features.Net35\Xbehave.Features.Net35.csproj", "{F64FAC93-8534-4A00-83C6-031C51923BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XBehave.Features.Net45", "test\XBehave.Features.Net45\XBehave.Features.Net45.csproj", "{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.Net45", "test\Xbehave.Features.Net45\Xbehave.Features.Net45.csproj", "{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XBehave.Net45", "XBehave.Net45\XBehave.Net45.csproj", "{C2750CBF-E310-4819-AEAC-9303E4C36D8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net45", "Xbehave.Net45\Xbehave.Net45.csproj", "{C2750CBF-E310-4819-AEAC-9303E4C36D8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net45", "Xbehave.Sdk.Net45\Xbehave.Sdk.Net45.csproj", "{675BC957-BEE4-4BEF-B235-D1562DAC8660}"
 EndProject
