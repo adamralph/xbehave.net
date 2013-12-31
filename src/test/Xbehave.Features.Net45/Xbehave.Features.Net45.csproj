@@ -56,12 +56,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">
-      <Project>{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}</Project>
-      <Name>Xbehave.Net40</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +110,12 @@
     <Compile Include="..\Xbehave.Features.Net40\TimeoutFeature.cs">
       <Link>TimeoutFeature.cs</Link>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Xbehave.Net45\Xbehave.Net45.csproj">
+      <Project>{c2750cbf-e310-4819-aeac-9303e4c36d8d}</Project>
+      <Name>Xbehave.Net45</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
