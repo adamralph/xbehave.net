@@ -17,7 +17,8 @@ specs = [
 
 features = [
   { :command => xunit_command_net20, :assembly => "src/test/Xbehave.Features.Net35/bin/Release/Xbehave.Features.Net35.dll" },
-  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Features.Net40/bin/Release/Xbehave.Features.Net40.dll" }
+  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Features.Net40/bin/Release/Xbehave.Features.Net40.dll" },
+  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Features.Net45/bin/Release/Xbehave.Features.Net45.dll" }
 ]
 
 nuspec = "src/Xbehave.nuspec"

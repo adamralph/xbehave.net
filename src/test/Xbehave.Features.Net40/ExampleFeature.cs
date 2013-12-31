@@ -5,7 +5,7 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-#if NET40
+#if NET40 || NET45
     using System.Collections.Concurrent;
 #endif
     using System.Collections.Generic;
@@ -20,10 +20,10 @@ namespace Xbehave.Test.Acceptance
     // I want to write a single scenario using many examples
     public class ExampleFeature
     {
-#if NET40
+#if NET40 || NET45
         private static readonly ConcurrentStack<object[]> ArgumentLists = new ConcurrentStack<object[]>();
 #endif
-#if NET40
+#if NET40 || NET45
 
         [Scenario]
         public static void Examples(Type feature, IEnumerable<MethodResult> results)
@@ -257,7 +257,7 @@ an null value for the fifth type parameter"
                 .And(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
         }
 
-#if NET40
+#if NET40 || NET45
         private static class FeatureWithAScenarioWithASingleStepAndExamples
         {
             [Scenario]
