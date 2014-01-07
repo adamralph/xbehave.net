@@ -14,7 +14,7 @@ namespace Xbehave.Sdk
         private readonly string name;
         private readonly object stepType;
         private readonly Action body;
-        private readonly List<Action> teardowns = new List<Action>();
+        protected readonly List<Action> teardowns = new List<Action>();
 
         public Step(string name, Action body, object stepType)
         {
@@ -49,7 +49,7 @@ namespace Xbehave.Sdk
             }
         }
 
-        public void Execute()
+        public virtual void Execute()
         {
             try
             {

@@ -107,6 +107,7 @@
     <Compile Include="..\Xbehave.Sdk.Net40\TeardownCommand.cs">
       <Link>TeardownCommand.cs</Link>
     </Compile>
+    <Compile Include="AsyncStep.cs" />
     <Compile Include="Guard.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +121,9 @@
     <CodeAnalysisDictionary Include="..\Xbehave.CustomDictionary.xml">
       <Link>Properties\Xbehave.CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

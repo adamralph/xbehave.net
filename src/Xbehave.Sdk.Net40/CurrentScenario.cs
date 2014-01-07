@@ -10,6 +10,10 @@ namespace Xbehave.Sdk
     using System.Linq;
     using Xunit.Sdk;
 
+#if NET45
+    using System.Threading.Tasks;
+#endif
+
     public static class CurrentScenario
     {
         [ThreadStatic]
@@ -43,6 +47,15 @@ namespace Xbehave.Sdk
             Steps.Add(step);
             return step;
         }
+
+#if NET45 
+        public static Step AddStep(string name, Func<Task> body, object stepType)
+        {
+            var step = new AsyncStep(addingBackgroundSteps ? "(Background) " + name : name, body, stepType);
+            Steps.Add(step);
+            return step;
+        }
+#endif
 
         public static void AddTeardown(Action teardown)
         {
