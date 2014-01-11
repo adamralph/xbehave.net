@@ -43,7 +43,7 @@ namespace Xbehave.Sdk
 
         public static Step AddStep(string name, Action body, object stepType)
         {
-            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body, stepType);
+            var step = new SyncStep(addingBackgroundSteps ? "(Background) " + name : name, body, stepType);
             Steps.Add(step);
             return step;
         }

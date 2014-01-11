@@ -7,21 +7,24 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Reflection;
 
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-    public class Step
+    public abstract class Step
     {
         private readonly string name;
         private readonly object stepType;
-        private readonly Action body;
+        protected readonly MethodInfo methodInfo;
+        protected readonly object target;
         protected readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string name, Action body, object stepType)
+        public Step(string name, MethodInfo methodInfo, object target, object stepType)
         {
-            Guard.AgainstNullArgument("body", body);
+            Guard.AgainstNullArgument("methodInfo", methodInfo);
 
             this.name = name;
-            this.body = body;
+            this.methodInfo = methodInfo;
+            this.target = target;
             this.stepType = stepType;
         }
 
@@ -49,31 +52,11 @@ namespace Xbehave.Sdk
             }
         }
 
-        public virtual void Execute()
+        public abstract void Execute();
+
+        protected object ExecuteMethodInfo()
         {
-            try
-            {
-                if (this.MillisecondsTimeout > 0)
-                {
-                    var result = this.body.BeginInvoke(null, null);
-
-                    // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                    if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
-                    {
-                        throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
-                    }
-
-                    this.body.EndInvoke(result);
-                }
-                else
-                {
-                    this.body();
-                }
-            }
-            finally
-            {
-                this.teardowns.ForEach(CurrentScenario.AddTeardown);
-            }
+            return this.methodInfo.Invoke(this.target, null);
         }
     }
 }

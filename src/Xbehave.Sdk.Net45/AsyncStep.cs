@@ -5,21 +5,19 @@
 
     class AsyncStep : Step
     {
-        private readonly Func<Task> body;
-
         public AsyncStep(string name, Func<Task> body, object stepType)
-            : base(name, () => { }, stepType)
+            : base(name, body.Method, body.Target, stepType)
         {
-            this.body = body;
         }
 
         public override void Execute()
         {
             try
             {
+                var bodyTask = (Task)this.ExecuteMethodInfo();
+
                 if (this.MillisecondsTimeout > 0)
                 {
-                    var bodyTask = this.body();
                     var delay = Task.Delay(this.MillisecondsTimeout);
                     var firstToFinish = Task.WhenAny(delay, bodyTask).Result;
 
@@ -30,7 +28,7 @@
                 }
                 else
                 {
-                    this.body().Wait();
+                    bodyTask.Wait();
                 }
             }
             finally

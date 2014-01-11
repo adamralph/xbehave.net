@@ -103,6 +103,9 @@
     <Compile Include="..\Xbehave.Sdk.Net40\StepCommand.cs">
       <Link>StepCommand.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\SyncStep.cs">
+      <Link>SyncStep.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\TeardownCommand.cs">
       <Link>TeardownCommand.cs</Link>
     </Compile>
