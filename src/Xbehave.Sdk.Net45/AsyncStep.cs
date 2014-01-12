@@ -1,4 +1,8 @@
-﻿namespace Xbehave.Sdk
+﻿// <copyright file="AsyncStep.cs" company="xBehave.net contributors">
+//  Copyright (c) xBehave.net contributors. All rights reserved.
+// </copyright>
+
+namespace Xbehave.Sdk
 {
     using System;
     using System.Threading.Tasks;

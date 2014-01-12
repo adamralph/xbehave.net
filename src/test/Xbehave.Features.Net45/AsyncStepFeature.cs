@@ -13,6 +13,9 @@
     {
         private static readonly ManualResetEventSlim @Event = new ManualResetEventSlim();
 
+        // used for async void method group test
+        private static bool AsyncVoidSet = false;
+
         [Scenario]
         public void AsyncStepExecutesToCompletionBeforeNextStep(bool set)
         {
@@ -107,6 +110,25 @@
 
             "And the result message should be \"Test execution time exceeded: 1ms\""
                 .And(() => results.Cast<FailedResult>().Should().OnlyContain(result => result.Message == "Test execution time exceeded: 1ms"));
+        }
+
+        [Scenario]
+        public void AsyncStepExecutesToCompletionBeforeNextStepIfStepReturnsVoidNotTask(bool set)
+        {
+            "Given a boolean set to false"._(() => AsyncVoidSet = false);
+
+            "When it is set to true inside an asynchronous step"._((Action)this.AsyncVoidStep);
+
+            "Then its value is true when the next step begins"._(() =>
+            {
+                AsyncVoidSet.Should().BeTrue();
+            });
+        }
+
+        private async void AsyncVoidStep()
+        {
+            await Task.Delay(500);
+            AsyncVoidSet = true;
         }
 
         private class StepTooSlow
