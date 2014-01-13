@@ -34,6 +34,48 @@
         }
 
         [Scenario]
+        public void AsyncSupportForAllMethods(int calls)
+        {
+            calls = 0;
+
+            "Given a variable initialized to 20".Given(async () => 
+            {
+                await Task.Yield();
+                calls = 20;
+            });
+
+            "When it is increased by one".When(async () => 
+            {
+                await Task.Yield();
+                calls++;
+            });
+
+            "And increased by four".And(async () => 
+            {
+                await Task.Yield();
+                calls += 4;
+            });
+
+            "Then the resulting value should be 25".Then(async () =>
+            {
+                await Task.Yield();
+                calls.Should().Be(25);
+            });
+
+            "And obviously is greater than 10".f(async () =>
+            {
+                await Task.Yield();
+                calls.Should().BeGreaterThan(10);
+            });
+
+            "But evidently not 24".But(async () =>
+            {
+                await Task.Yield();
+                calls.Should().NotBe(24);
+            });
+        }
+
+        [Scenario]
         public void MultipleAsyncStepExecuteToCompletionBeforeNextStep(int first, int second, int third)
         {
             "Given three numbers initialized in 2"._(async () =>
