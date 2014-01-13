@@ -86,6 +86,56 @@
         }
 
         [Scenario]
+        public void AsyncStepWithTaskReturnTypeThrowsException(Exception e)
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario that throws an InvalidOperationException"._(() => feature = typeof(TaskReturningAsyncStepThrowsException));
+
+            "When the test runner runs the feature"._(() =>
+                {
+                    results = TestRunner.Run(feature).ToArray();
+                });
+
+            "Then the result should be a failure"
+                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+
+            "And the exception type should be \"System.InvalidOperationException\""
+                .And(() =>
+                {
+                    var failedResult = results.Cast<FailedResult>().Single();
+
+                    failedResult.ExceptionType.Should().Be("System.InvalidOperationException");
+                });
+        }
+
+        [Scenario]
+        public void AsyncStepWithVoidReturnTypeThrowsException(Exception e)
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a feature with a scenario that throws an InvalidOperationException"._(() => feature = typeof(VoidReturningAsyncStepThrowsException));
+
+            "When the test runner runs the feature"._(() =>
+                {
+                    results = TestRunner.Run(feature).ToArray();
+                });
+
+            "Then the result should be a failure"
+                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+
+            "And the exception type should be \"System.InvalidOperationException\""
+                .And(() =>
+                {
+                    var failedResult = results.Cast<FailedResult>().First();
+
+                    failedResult.ExceptionType.Should().Be("System.InvalidOperationException");
+                });
+        }
+
+        [Scenario]
         public static void StepExecutesTooSlowly()
         {
             var feature = default(Type);
@@ -129,6 +179,29 @@
         {
             await Task.Delay(500);
             AsyncVoidSet = true;
+        }
+
+        private class TaskReturningAsyncStepThrowsException
+        {
+            [Scenario]
+            public void Scenario()
+            {
+                "Given something"._(async () => { throw new InvalidOperationException(); });
+            }
+        }
+
+        private class VoidReturningAsyncStepThrowsException
+        {
+            [Scenario]
+            public void Scenario()
+            {
+                "Given something"._((Action)Step);
+            }
+
+            private async void Step()
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         private class StepTooSlow

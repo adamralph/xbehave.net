@@ -35,6 +35,11 @@ namespace Xbehave.Sdk
                     bodyTask.Wait();
                 }
             }
+            catch (AggregateException ae)
+            {
+                var innerException = ae.InnerException;
+                throw innerException;
+            }
             finally
             {
                 this.teardowns.ForEach(CurrentScenario.AddTeardown);

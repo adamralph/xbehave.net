@@ -16,41 +16,53 @@ namespace Xbehave.Sdk
 
         public override void Execute()
         {
-            var oldSyncContext = SynchronizationContext.Current;
-
             try
             {
-                using (var asyncSyncContext = new AsyncTestSyncContext())
+                Exception ex = null;
+
+                ManualResetEvent @event = new ManualResetEvent(false);
+
+                ThreadPool.QueueUserWorkItem(o =>
                 {
-                    SynchronizationContext.SetSynchronizationContext(asyncSyncContext);
-
-                    ManualResetEvent @event = new ManualResetEvent(false);
-
-                    if (this.MillisecondsTimeout > 0)
+                    var oldSyncContext = SynchronizationContext.Current;
+                    using (var asyncSyncContext = new AsyncTestSyncContext())
                     {
-                        ThreadPool.QueueUserWorkItem(o =>
+                        try
                         {
-                            this.ExecuteMethodInfo();
-                            @event.Set();
-                        });
+                            SynchronizationContext.SetSynchronizationContext(asyncSyncContext);
 
-                        // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                        if (!@event.WaitOne(this.MillisecondsTimeout, false))
+                            this.ExecuteMethodInfo();
+
+                            ex = asyncSyncContext.WaitForCompletion();
+                        }
+                        finally
                         {
-                            throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
+                            SynchronizationContext.SetSynchronizationContext(oldSyncContext);
+                            @event.Set();
                         }
                     }
-                    else
-                    {
-                        this.ExecuteMethodInfo();
-                    }
+                });
 
-                    var ex = asyncSyncContext.WaitForCompletion();
+                if (this.MillisecondsTimeout > 0)
+                {
+                    // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
+                    if (!@event.WaitOne(this.MillisecondsTimeout, false))
+                    {
+                        throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
+                    }
+                }
+                else
+                {
+                    @event.WaitOne();
+                }
+
+                if (ex != null)
+                {
+                    throw ex;
                 }
             }
             finally
             {
-                SynchronizationContext.SetSynchronizationContext(oldSyncContext);
                 this.teardowns.ForEach(CurrentScenario.AddTeardown);
             }
         }
