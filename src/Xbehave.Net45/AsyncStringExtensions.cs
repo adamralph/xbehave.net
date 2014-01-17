@@ -1,13 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xbehave.Fluent;
+﻿// <copyright file="AsyncStringExtensions.cs" company="xBehave.net contributors">
+//  Copyright (c) xBehave.net contributors. All rights reserved.
+// </copyright>
 
 namespace Xbehave
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Xbehave.Fluent;
+
+    /// <summary>
+    /// Provides access to step definition methods.
+    /// </summary>
     public static class AsyncStringExtensions
     {
         /// <summary>

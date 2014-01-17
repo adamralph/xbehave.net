@@ -2,36 +2,38 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-using System;
-using System.Threading;
-
 namespace Xbehave.Sdk
 {
+    using System;
+    using System.Threading;
+
     /// <summary>
-    /// Implementation from xUnit 2.0
+    /// Implementation from xUnit 2.0.
     /// </summary>
     internal class AsyncTestSyncContext : SynchronizationContext, IDisposable
     {
-        readonly ManualResetEvent @event = new ManualResetEvent(initialState: true);
-        Exception exception;
-        int operationCount;
+        private readonly ManualResetEvent @event = new ManualResetEvent(initialState: true);
+        private Exception exception;
+        private int operationCount;
 
         public void Dispose()
         {
-            ((IDisposable)@event).Dispose();
+            ((IDisposable)this.@event).Dispose();
         }
 
         public override void OperationCompleted()
         {
-            var result = Interlocked.Decrement(ref operationCount);
-            if (result == 0)
-                @event.Set();
+            var result = Interlocked.Decrement(ref this.operationCount);
+            if (result == 0) 
+            { 
+                this.@event.Set();
+            }
         }
 
         public override void OperationStarted()
         {
-            Interlocked.Increment(ref operationCount);
-            @event.Reset();
+            Interlocked.Increment(ref this.operationCount);
+            this.@event.Reset();
         }
 
         public override void Post(SendOrPostCallback d, object state)
@@ -39,17 +41,17 @@ namespace Xbehave.Sdk
             // The call to Post() may be the state machine signaling that an exception is
             // about to be thrown, so we make sure the operation count gets incremented
             // before the QUWI, and then decrement the count when the operation is done.
-            OperationStarted();
+            this.OperationStarted();
 
             ThreadPool.QueueUserWorkItem(s =>
             {
                 try
                 {
-                    Send(d, state);
+                    this.Send(d, state);
                 }
                 finally
                 {
-                    OperationCompleted();
+                    this.OperationCompleted();
                 }
             });
         }
@@ -62,14 +64,14 @@ namespace Xbehave.Sdk
             }
             catch (Exception ex)
             {
-                exception = ex;
+                this.exception = ex;
             }
         }
 
         public Exception WaitForCompletion()
         {
-            @event.WaitOne();
-            return exception;
+            this.@event.WaitOne();
+            return this.exception;
         }
     }
 }

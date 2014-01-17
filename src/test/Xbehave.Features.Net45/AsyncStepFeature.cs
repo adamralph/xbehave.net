@@ -1,10 +1,16 @@
-﻿namespace Xbehave.Features
+﻿// <copyright file="AsyncStepFeature.cs" company="xBehave.net contributors">
+//  Copyright (c) xBehave.net contributors. All rights reserved.
+// </copyright>
+
+namespace Xbehave.Features
 {
-    using FluentAssertions;
     using System;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+
+    using FluentAssertions;
+    
     using Xbehave;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
@@ -14,7 +20,7 @@
         private static readonly ManualResetEventSlim @Event = new ManualResetEventSlim();
 
         // used for async void method group test
-        private static bool AsyncVoidSet = false;
+        private static bool asyncVoidSet = false;
 
         [Scenario]
         public void AsyncStepExecutesToCompletionBeforeNextStep(bool set)
@@ -178,7 +184,7 @@
         }
 
         [Scenario]
-        public static void StepExecutesTooSlowly()
+        public void StepExecutesTooSlowly()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
@@ -207,20 +213,20 @@
         [Scenario]
         public void AsyncStepExecutesToCompletionBeforeNextStepIfStepReturnsVoidNotTask(bool set)
         {
-            "Given a boolean set to false"._(() => AsyncVoidSet = false);
+            "Given a boolean set to false"._(() => asyncVoidSet = false);
 
             "When it is set to true inside an asynchronous step"._((Action)this.AsyncVoidStep);
 
             "Then its value is true when the next step begins"._(() =>
             {
-                AsyncVoidSet.Should().BeTrue();
+                asyncVoidSet.Should().BeTrue();
             });
         }
 
         private async void AsyncVoidStep()
         {
             await Task.Delay(500);
-            AsyncVoidSet = true;
+            asyncVoidSet = true;
         }
 
         private class TaskReturningAsyncStepThrowsException
@@ -228,7 +234,13 @@
             [Scenario]
             public void Scenario()
             {
-                "Given something"._(async () => { throw new InvalidOperationException(); });
+                // disabling warning about async method not having await. it's intended
+                #pragma warning disable 1998
+                "Given something"._(async () => 
+                { 
+                    throw new InvalidOperationException(); 
+                });
+                #pragma warning restore 1998
             }
         }
 
@@ -237,11 +249,12 @@
             [Scenario]
             public void Scenario()
             {
-                "Given something"._((Action)Step);
+                "Given something"._((Action)this.Step);
             }
 
             private async void Step()
             {
+                await Task.Yield();
                 throw new InvalidOperationException();
             }
         }
@@ -254,6 +267,5 @@
                 "Given something"._(async () => await Task.Delay(500)).WithTimeout(1);
             }
         }
-
     }
 }

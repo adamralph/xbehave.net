@@ -12,19 +12,19 @@ namespace Xbehave.Sdk
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     public abstract class Step
     {
+        protected readonly MethodInfo MethodInfo;
+        protected readonly object Target;
+        protected readonly List<Action> Teardowns = new List<Action>();
         private readonly string name;
         private readonly object stepType;
-        protected readonly MethodInfo methodInfo;
-        protected readonly object target;
-        protected readonly List<Action> teardowns = new List<Action>();
 
         public Step(string name, MethodInfo methodInfo, object target, object stepType)
         {
             Guard.AgainstNullArgument("methodInfo", methodInfo);
 
             this.name = name;
-            this.methodInfo = methodInfo;
-            this.target = target;
+            this.MethodInfo = methodInfo;
+            this.Target = target;
             this.stepType = stepType;
         }
 
@@ -48,7 +48,7 @@ namespace Xbehave.Sdk
         {
             if (teardown != null)
             {
-                this.teardowns.Add(teardown);
+                this.Teardowns.Add(teardown);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Xbehave.Sdk
 
         protected object ExecuteMethodInfo()
         {
-            return this.methodInfo.Invoke(this.target, null);
+            return this.MethodInfo.Invoke(this.Target, null);
         }
     }
 }

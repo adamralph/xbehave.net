@@ -7,7 +7,7 @@ namespace Xbehave.Sdk
     using System;
     using System.Threading.Tasks;
 
-    class AsyncStep : Step
+    public class AsyncStep : Step
     {
         public AsyncStep(string name, Func<Task> body, object stepType)
             : base(name, body.Method, body.Target, stepType)
@@ -42,7 +42,7 @@ namespace Xbehave.Sdk
             }
             finally
             {
-                this.teardowns.ForEach(CurrentScenario.AddTeardown);
+                this.Teardowns.ForEach(CurrentScenario.AddTeardown);
             }
         }
     }

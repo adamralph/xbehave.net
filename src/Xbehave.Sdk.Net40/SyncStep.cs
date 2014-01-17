@@ -63,7 +63,7 @@ namespace Xbehave.Sdk
             }
             finally
             {
-                this.teardowns.ForEach(CurrentScenario.AddTeardown);
+                this.Teardowns.ForEach(CurrentScenario.AddTeardown);
             }
         }
     }

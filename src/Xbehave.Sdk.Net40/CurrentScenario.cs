@@ -8,11 +8,12 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Xunit.Sdk;
 
 #if NET45
     using System.Threading.Tasks;
 #endif
+
+    using Xunit.Sdk;
 
     public static class CurrentScenario
     {
