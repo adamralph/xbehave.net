@@ -64,9 +64,6 @@
     <Compile Include="..\Xbehave.Sdk.Net40\Argument.cs">
       <Link>Argument.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\AsyncTestSyncContext.cs">
-      <Link>AsyncTestSyncContext.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\BackgroundCommand.cs">
       <Link>BackgroundCommand.cs</Link>
     </Compile>
@@ -99,6 +96,9 @@
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\ReplayCommand.cs">
       <Link>ReplayCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\Step.AsyncTestSyncContext.cs">
+      <Link>Step.AsyncTestSyncContext.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\Step.cs">
       <Link>Step.cs</Link>

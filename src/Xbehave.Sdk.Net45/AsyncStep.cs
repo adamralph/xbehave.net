@@ -5,45 +5,37 @@
 namespace Xbehave.Sdk
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     public class AsyncStep : Step
     {
+        private readonly Func<Task> body;
+        private Task task;
+
         public AsyncStep(string name, Func<Task> body, object stepType)
-            : base(name, body.Method, body.Target, stepType)
+            : base(name, stepType)
         {
+            this.body = body;
+        }
+        
+        protected override void ExecuteBody()
+        {
+            this.task = this.body.Invoke();
         }
 
-        public override void Execute()
+        protected override Exception WaitForCompletion()
         {
             try
             {
-                var bodyTask = (Task)this.ExecuteMethodInfo();
-
-                if (this.MillisecondsTimeout > 0)
-                {
-                    var delay = Task.Delay(this.MillisecondsTimeout);
-                    var firstToFinish = Task.WhenAny(delay, bodyTask).Result;
-
-                    if (firstToFinish == delay)
-                    {
-                        throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
-                    }
-                }
-                else
-                {
-                    bodyTask.Wait();
-                }
+                this.task.Wait();
             }
             catch (AggregateException ae)
             {
-                var innerException = ae.InnerException;
-                throw innerException;
+                return ae.InnerException;
             }
-            finally
-            {
-                this.Teardowns.ForEach(CurrentScenario.AddTeardown);
-            }
+
+            return null;
         }
     }
 }
