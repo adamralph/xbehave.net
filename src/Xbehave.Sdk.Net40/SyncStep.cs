@@ -5,7 +5,11 @@
 namespace Xbehave.Sdk
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
     using System.Threading;
+    using Xunit.Sdk;
 
     public class SyncStep : Step
     {
@@ -16,6 +20,8 @@ namespace Xbehave.Sdk
 
         public override void Execute()
         {
+            IEnumerable<Action> teardowns = Enumerable.Empty<Action>();
+
             try
             {
                 Exception ex = null;
@@ -35,8 +41,13 @@ namespace Xbehave.Sdk
 
                             ex = asyncSyncContext.WaitForCompletion();
                         }
+                        catch (TargetInvocationException targetEx)
+                        {
+                            ex = targetEx.InnerException;
+                        }
                         finally
                         {
+                            teardowns = CurrentScenario.ExtractTeardowns();
                             SynchronizationContext.SetSynchronizationContext(oldSyncContext);
                             @event.Set();
                         }
@@ -58,11 +69,16 @@ namespace Xbehave.Sdk
 
                 if (ex != null)
                 {
-                    throw ex;
+                    ExceptionUtility.RethrowWithNoStackTraceLoss(ex);
                 }
             }
             finally
             {
+                foreach (var teardown in teardowns)
+                {
+                    CurrentScenario.AddTeardown(teardown);
+                }
+
                 this.Teardowns.ForEach(CurrentScenario.AddTeardown);
             }
         }
