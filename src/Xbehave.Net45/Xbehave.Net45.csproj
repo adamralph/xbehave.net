@@ -106,7 +106,9 @@
     <Compile Include="..\Xbehave.Net40\_.cs">
       <Link>_.cs</Link>
     </Compile>
+    <Compile Include="AsyncStringExtensions.cs" />
     <Compile Include="Guard.cs" />
+    <Compile Include="Helper.Async.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">

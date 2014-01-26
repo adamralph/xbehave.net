@@ -110,6 +110,13 @@
     <Compile Include="..\Xbehave.Features.Net40\TimeoutFeature.cs">
       <Link>TimeoutFeature.cs</Link>
     </Compile>
+    <Compile Include="AsyncStepFeature.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Xbehave.Net45\Xbehave.Net45.csproj">
+      <Project>{c2750cbf-e310-4819-aeac-9303e4c36d8d}</Project>
+      <Name>Xbehave.Net45</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave.Net45\Xbehave.Net45.csproj">

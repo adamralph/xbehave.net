@@ -62,12 +62,14 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Argument.cs" />
+    <Compile Include="Step.AsyncTestSyncContext.cs" />
     <Compile Include="ContextCommand.cs" />
     <Compile Include="BackgroundCommand.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="MethodCall.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="ReplayCommand.cs" />
+    <Compile Include="SyncStep.cs" />
     <Compile Include="TeardownCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Context.cs" />
