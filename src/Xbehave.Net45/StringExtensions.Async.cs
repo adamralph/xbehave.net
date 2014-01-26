@@ -1,21 +1,18 @@
-﻿// <copyright file="AsyncStringExtensions.cs" company="xBehave.net contributors">
+﻿// <copyright file="StringExtensions.Async.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
 namespace Xbehave
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using Xbehave.Fluent;
 
     /// <summary>
     /// Provides access to step definition methods.
     /// </summary>
-    public static class AsyncStringExtensions
+    public static partial class StringExtensions
     {
         /// <summary>
         /// Defines a step in the current scenario.
