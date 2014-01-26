@@ -57,17 +57,10 @@ namespace Xbehave.Sdk
                     }
                 });
 
-                if (this.MillisecondsTimeout > 0)
+                // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
+                if (!@event.WaitOne(this.MillisecondsTimeout, false))
                 {
-                    // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                    if (!@event.WaitOne(this.MillisecondsTimeout, false))
-                    {
-                        throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
-                    }
-                }
-                else
-                {
-                    @event.WaitOne();
+                    throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                 }
 
                 if (exception != null)

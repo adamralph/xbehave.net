@@ -24,20 +24,9 @@ namespace Xbehave.Sdk
         {
             try
             {
-                if (this.MillisecondsTimeout > 0)
+                if (!this.body().Wait(this.MillisecondsTimeout))
                 {
-                    var task = this.body();
-                    var timeout = Task.Delay(this.MillisecondsTimeout);
-                    if (Task.WhenAny(task, timeout).Result == timeout)
-                    {
-                        throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
-                    }
-
-                    task.Wait();
-                }
-                else
-                {
-                    this.body().Wait();
+                    throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                 }
             }
             catch (AggregateException ex)

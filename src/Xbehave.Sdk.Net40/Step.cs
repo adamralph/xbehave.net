@@ -23,6 +23,7 @@ namespace Xbehave.Sdk
         {
             this.name = name;
             this.stepType = stepType;
+            this.MillisecondsTimeout = -1;
         }
 
         public virtual string Name
