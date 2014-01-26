@@ -32,6 +32,8 @@ namespace Xbehave.Sdk
                     {
                         throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
                     }
+
+                    task.Wait();
                 }
                 else
                 {
