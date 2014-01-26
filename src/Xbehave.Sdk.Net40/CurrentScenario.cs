@@ -44,7 +44,7 @@ namespace Xbehave.Sdk
 
         public static Step AddStep(string name, Action body, object stepType)
         {
-            var step = new SyncStep(addingBackgroundSteps ? "(Background) " + name : name, body, stepType);
+            var step = new SyncStep(EmbellishStepName(name), body, stepType);
             Steps.Add(step);
             return step;
         }
@@ -52,7 +52,7 @@ namespace Xbehave.Sdk
 #if NET45 
         public static Step AddStep(string name, Func<Task> body, object stepType)
         {
-            var step = new AsyncStep(addingBackgroundSteps ? "(Background) " + name : name, body, stepType);
+            var step = new AsyncStep(EmbellishStepName(name), body, stepType);
             Steps.Add(step);
             return step;
         }
@@ -118,6 +118,11 @@ namespace Xbehave.Sdk
             {
                 steps = null;
             }
+        }
+
+        private static string EmbellishStepName(string name)
+        {
+            return addingBackgroundSteps ? "(Background) " + name : name;
         }
     }
 }
