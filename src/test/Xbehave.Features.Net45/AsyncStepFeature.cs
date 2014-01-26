@@ -129,6 +129,22 @@ namespace Xbehave.Features
         }
 
         [Scenario]
+        public void AsyncTaskStepThrowsExceptionWithinTimeout(Type feature, MethodResult[] results, Exception e)
+        {
+            "Given a feature with a scenario that throws an InvalidOperationException within its timeout"._(() =>
+                feature = typeof(AsyncTaskStepWhichThrowsExceptionWithinTimeout));
+
+            "When the test runner runs the feature"._(() =>
+                results = TestRunner.Run(feature).ToArray());
+
+            "Then the result should be a failure"._(() =>
+                results.Should().ContainItemsAssignableTo<FailedResult>());
+
+            "And the exception type should be \"System.InvalidOperationException\"".And(() =>
+                results.Cast<FailedResult>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
+        }
+
+        [Scenario]
         public void AsyncVoidStepThrowsException(Type feature, MethodResult[] results, Exception e)
         {
             "Given a feature with a scenario that throws an InvalidOperationException"._(() =>
@@ -201,6 +217,22 @@ namespace Xbehave.Features
                 {
                     throw new InvalidOperationException();
                 });
+#pragma warning restore 1998
+            }
+        }
+
+        private class AsyncTaskStepWhichThrowsExceptionWithinTimeout
+        {
+            [Scenario]
+            public void Scenario()
+            {
+                // disabling warning about async method not having await. it's intended
+#pragma warning disable 1998
+                "Given something"._(async () =>
+                {
+                    throw new InvalidOperationException();
+                })
+                .WithTimeout(1000);
 #pragma warning restore 1998
             }
         }
