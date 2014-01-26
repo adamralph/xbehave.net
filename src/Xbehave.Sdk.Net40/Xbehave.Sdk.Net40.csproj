@@ -62,7 +62,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Argument.cs" />
-    <Compile Include="Step.AsyncTestSyncContext.cs" />
     <Compile Include="ContextCommand.cs" />
     <Compile Include="BackgroundCommand.cs" />
     <Compile Include="Guard.cs" />
