@@ -9,6 +9,7 @@ namespace Xbehave.Test.Acceptance
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
@@ -213,6 +214,31 @@ namespace Xbehave.Test.Acceptance
                 .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
         }
 
+#if NET45
+        [Scenario]
+        public static void RegisteringManyDisposableObjectsInAnAsyncStep()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a step which registers many disposable objects in an async step"
+                .Given(() => feature = typeof(AsyncStep));
+
+            "When running the scenario"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(Disposable.ClearRecordedEvents);
+
+            "Then there should be no failures"
+                .Then(() => results.Should().NotContain(result => result is FailedResult));
+
+            "And some disposable objects should have been created"
+                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+
+            "And the disposable objects should each have been disposed once in reverse order"
+                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
+        }
+#endif
+
         private static AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<LifetimeEvent>> SomeDisposableObjectsShouldHaveBeenCreated()
         {
             return Disposable.RecordedEvents.Where(@event => @event.EventType == LifeTimeEventType.Constructed).Should().NotBeEmpty();
@@ -413,6 +439,32 @@ namespace Xbehave.Test.Acceptance
                     });
             }
         }
+
+#if NET45
+        private static class AsyncStep
+        {
+            [Scenario]
+            public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
+            {
+                "Given some disposables"
+                    .Given(async () =>
+                    {
+                        await Task.Yield();
+                        disposable0 = new Disposable().Using();
+                        disposable1 = new Disposable().Using();
+                        disposable2 = new Disposable().Using();
+                    });
+
+                "When using the disposables"
+                    .When(() =>
+                    {
+                        disposable0.Use();
+                        disposable1.Use();
+                        disposable2.Use();
+                    });
+            }
+        }
+#endif
 
         private class Disposable : IDisposable
         {
