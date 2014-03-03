@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Xbehave.nuspec = Xbehave.nuspec
 		Xbehave.ruleset = Xbehave.ruleset
 		Xbehave.snk = Xbehave.snk
+		Xbehave.Test.ruleset = Xbehave.Test.ruleset
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}"

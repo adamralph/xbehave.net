@@ -20,7 +20,7 @@ namespace Xbehave.Sdk
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string name, object stepType)
+        protected Step(string name, object stepType)
         {
             this.name = name;
             this.stepType = stepType;
