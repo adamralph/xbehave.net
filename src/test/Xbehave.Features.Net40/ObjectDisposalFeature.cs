@@ -9,6 +9,7 @@ namespace Xbehave.Test.Acceptance
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
@@ -33,6 +34,29 @@ namespace Xbehave.Test.Acceptance
 
             "Given a step which registers many disposable objects followed by a step which uses the objects"
                 .Given(() => feature = typeof(SingleStep));
+
+            "When running the scenario"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(Disposable.ClearRecordedEvents);
+
+            "Then there should be no failures"
+                .Then(() => results.Should().NotContain(result => result is FailedResult));
+
+            "And some disposable objects should have been created"
+                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+
+            "And the disposable objects should each have been disposed once in reverse order"
+                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
+        }
+
+        [Scenario]
+        public static void RegisteringManyDisposableObjectsInASingleStepWithATimeout()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a step which registers many disposable objects followed by a step which uses the objects"
+                .Given(() => feature = typeof(SingleStepWithATimeout));
 
             "When running the scenario"
                 .When(() => results = TestRunner.Run(feature).ToArray())
@@ -278,6 +302,34 @@ namespace Xbehave.Test.Acceptance
                         disposable1 = new Disposable().Using(c);
                         disposable2 = new Disposable().Using(c);
                     });
+
+                "When using the disposables"
+                    .When(() =>
+                    {
+                        disposable0.Use();
+                        disposable1.Use();
+                        disposable2.Use();
+                    });
+            }
+        }
+        
+        private static class SingleStepWithATimeout
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                var disposable0 = default(Disposable);
+                var disposable1 = default(Disposable);
+                var disposable2 = default(Disposable);
+
+                "Given some disposables"
+                    .Given(c =>
+                    {
+                        disposable0 = new Disposable().Using(c);
+                        disposable1 = new Disposable().Using(c);
+                        disposable2 = new Disposable().Using(c);
+                    })
+                    .WithTimeout(Timeout.Infinite);
 
                 "When using the disposables"
                     .When(() =>
