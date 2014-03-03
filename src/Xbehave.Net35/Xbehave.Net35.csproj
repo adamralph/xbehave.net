@@ -97,9 +97,6 @@
     <Compile Include="..\Xbehave.Net40\Fluent\Step.cs">
       <Link>Fluent\Step.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Helper.cs">
-      <Link>Helper.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

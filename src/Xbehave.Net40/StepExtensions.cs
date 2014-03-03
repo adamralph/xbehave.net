@@ -6,9 +6,6 @@ namespace Xbehave
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-
-    using Sdk;
-
     using Xbehave.Fluent;
 
     /// <summary>
@@ -29,11 +26,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep When(this IStep stepDefinition, string text, Action body)
         {
-            return Helper.AddStep("When " + text, body, StepType.When);
+            return new Step("When " + text, body, StepType.When);
         }
 
         /// <summary>
@@ -49,11 +46,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep Then(this IStep stepDefinition, string text, Action body)
         {
-            return Helper.AddStep("Then " + text, body, StepType.Then);
+            return new Step("Then " + text, body, StepType.Then);
         }
 
         /// <summary>
@@ -69,11 +66,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep And(this IStep stepDefinition, string text, Action body)
         {
-            return Helper.AddStep("And " + text, body, StepType.And);
+            return new Step("And " + text, body, StepType.And);
         }
 
         /// <summary>
@@ -89,11 +86,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep But(this IStep stepDefinition, string text, Action body)
         {
-            return Helper.AddStep("But " + text, body, StepType.But);
+            return new Step("But " + text, body, StepType.But);
         }
 
         /// <summary>
@@ -109,11 +106,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep When(this IStep stepDefinition, string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("When " + text, body, StepType.When);
+            return new Step("When " + text, body, StepType.When);
         }
 
         /// <summary>
@@ -129,11 +126,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep Then(this IStep stepDefinition, string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("Then " + text, body, StepType.Then);
+            return new Step("Then " + text, body, StepType.Then);
         }
 
         /// <summary>
@@ -149,11 +146,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep And(this IStep stepDefinition, string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("And " + text, body, StepType.And);
+            return new Step("And " + text, body, StepType.And);
         }
 
         /// <summary>
@@ -169,11 +166,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep But(this IStep stepDefinition, string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("But " + text, body, StepType.But);
+            return new Step("But " + text, body, StepType.But);
         }
     }
 }

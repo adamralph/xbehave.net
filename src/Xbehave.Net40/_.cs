@@ -27,11 +27,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep Given(string text, Action body)
         {
-            return Helper.AddStep("Given " + text, body, StepType.Given);
+            return new Step("Given " + text, body, StepType.Given);
         }
 
         /// <summary>
@@ -45,11 +45,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep When(string text, Action body)
         {
-            return Helper.AddStep("When " + text, body, StepType.When);
+            return new Step("When " + text, body, StepType.When);
         }
 
         /// <summary>
@@ -63,11 +63,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep Then(string text, Action body)
         {
-            return Helper.AddStep("Then " + text, body, StepType.Then);
+            return new Step("Then " + text, body, StepType.Then);
         }
 
         /// <summary>
@@ -81,11 +81,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep And(string text, Action body)
         {
-            return Helper.AddStep("And " + text, body, StepType.And);
+            return new Step("And " + text, body, StepType.And);
         }
 
         /// <summary>
@@ -99,11 +99,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep But(string text, Action body)
         {
-            return Helper.AddStep("But " + text, body, StepType.But);
+            return new Step("But " + text, body, StepType.But);
         }
 
         /// <summary>
@@ -117,11 +117,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep Given(string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("Given " + text, body, StepType.Given);
+            return new Step("Given " + text, body, StepType.Given);
         }
 
         /// <summary>
@@ -135,11 +135,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep When(string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("When " + text, body, StepType.When);
+            return new Step("When " + text, body, StepType.When);
         }
 
         /// <summary>
@@ -153,11 +153,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep Then(string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("Then " + text, body, StepType.Then);
+            return new Step("Then " + text, body, StepType.Then);
         }
 
         /// <summary>
@@ -171,11 +171,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep And(string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("And " + text, body, StepType.And);
+            return new Step("And " + text, body, StepType.And);
         }
 
         /// <summary>
@@ -189,11 +189,11 @@ namespace Xbehave
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
-            MessageId = "Xbehave.Helper.AddStep(System.String,System.Action)",
+            MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
         public static IStep But(string text, Action<IStepContext> body)
         {
-            return Helper.AddStep("But " + text, body, StepType.But);
+            return new Step("But " + text, body, StepType.But);
         }
     }
 }

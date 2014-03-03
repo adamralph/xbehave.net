@@ -76,9 +76,6 @@
     <Compile Include="..\Xbehave.Net40\Fluent\Step.cs">
       <Link>Fluent\Step.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Helper.cs">
-      <Link>Helper.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Net40\IStepContext.cs">
       <Link>IStepContext.cs</Link>
     </Compile>
@@ -114,7 +111,6 @@
     </Compile>
     <Compile Include="StringExtensions.Async.cs" />
     <Compile Include="Guard.cs" />
-    <Compile Include="Helper.Async.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">

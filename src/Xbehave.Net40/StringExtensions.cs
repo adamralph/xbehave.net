@@ -22,7 +22,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Given(this string text, Action body)
         {
-            return Helper.AddStep(text, body, StepType.Given);
+            return new Step(text, body, StepType.Given);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Xbehave
         /// </returns>
         public static IStep When(this string text, Action body)
         {
-            return Helper.AddStep(text, body, StepType.When);
+            return new Step(text, body, StepType.When);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Then(this string text, Action body)
         {
-            return Helper.AddStep(text, body, StepType.Then);
+            return new Step(text, body, StepType.Then);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Xbehave
         /// </returns>
         public static IStep And(this string text, Action body)
         {
-            return Helper.AddStep(text, body, StepType.And);
+            return new Step(text, body, StepType.And);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Xbehave
         /// </returns>
         public static IStep But(this string text, Action body)
         {
-            return Helper.AddStep(text, body, StepType.But);
+            return new Step(text, body, StepType.But);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Xbehave
         public static IStep f(this string text, Action body)
         {
             var stepType = GetStepType(text);
-            return Helper.AddStep(text, body, stepType);
+            return new Step(text, body, stepType);
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Xbehave
         public static IStep _(this string text, Action body)
         {
             var stepType = GetStepType(text);
-            return Helper.AddStep(text, body, stepType);
+            return new Step(text, body, stepType);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Given(this string text, Action<IStepContext> body)
         {
-            return Helper.AddStep(text, body, StepType.Given);
+            return new Step(text, body, StepType.Given);
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Xbehave
         /// </returns>
         public static IStep When(this string text, Action<IStepContext> body)
         {
-            return Helper.AddStep(text, body, StepType.When);
+            return new Step(text, body, StepType.When);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Then(this string text, Action<IStepContext> body)
         {
-            return Helper.AddStep(text, body, StepType.Then);
+            return new Step(text, body, StepType.Then);
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Xbehave
         /// </returns>
         public static IStep And(this string text, Action<IStepContext> body)
         {
-            return Helper.AddStep(text, body, StepType.And);
+            return new Step(text, body, StepType.And);
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Xbehave
         /// </returns>
         public static IStep But(this string text, Action<IStepContext> body)
         {
-            return Helper.AddStep(text, body, StepType.But);
+            return new Step(text, body, StepType.But);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Xbehave
         public static IStep f(this string text, Action<IStepContext> body)
         {
             var stepType = GetStepType(text);
-            return Helper.AddStep(text, body, stepType);
+            return new Step(text, body, stepType);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Xbehave
         public static IStep _(this string text, Action<IStepContext> body)
         {
             var stepType = GetStepType(text);
-            return Helper.AddStep(text, body, stepType);
+            return new Step(text, body, stepType);
         }
 
         /// <summary>
