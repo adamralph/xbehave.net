@@ -8,6 +8,11 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+
+#if NET45
+    using System.Threading.Tasks;
+#endif
+
     using Xunit.Sdk;
 
     public static class CurrentScenario
@@ -39,10 +44,19 @@ namespace Xbehave.Sdk
 
         public static Step AddStep(string name, Action body, object stepType)
         {
-            var step = new Step(addingBackgroundSteps ? "(Background) " + name : name, body, stepType);
+            var step = new SyncStep(EmbellishStepName(name), body, stepType);
             Steps.Add(step);
             return step;
         }
+
+#if NET45 
+        public static Step AddStep(string name, Func<Task> body, object stepType)
+        {
+            var step = new AsyncStep(EmbellishStepName(name), body, stepType);
+            Steps.Add(step);
+            return step;
+        }
+#endif
 
         public static void AddTeardown(Action teardown)
         {
@@ -104,6 +118,11 @@ namespace Xbehave.Sdk
             {
                 steps = null;
             }
+        }
+
+        private static string EmbellishStepName(string name)
+        {
+            return addingBackgroundSteps ? "(Background) " + name : name;
         }
     }
 }

@@ -7,22 +7,24 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
+    /// <summary>
+    /// Provides the implementation to execute each step.
+    /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-    public class Step
+    public abstract partial class Step
     {
         private readonly string name;
         private readonly object stepType;
-        private readonly Action body;
+        private readonly List<IDisposable> disposables = new List<IDisposable>();
         private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string name, Action body, object stepType)
+        protected Step(string name, object stepType)
         {
-            Guard.AgainstNullArgument("body", body);
-
             this.name = name;
-            this.body = body;
             this.stepType = stepType;
+            this.MillisecondsTimeout = -1;
         }
 
         public virtual string Name
@@ -35,11 +37,34 @@ namespace Xbehave.Sdk
             get { return this.stepType; }
         }
 
+        public IEnumerable<IDisposable> ExtractDisposables
+        {
+            get
+            {
+                var extracted = this.disposables.ToArray();
+                this.disposables.Clear();
+                return extracted;
+            }
+        }
+
+        public IEnumerable<Action> Teardowns
+        {
+            get { return this.teardowns.Select(x => x); }
+        }
+
         public string SkipReason { get; set; }
 
         public bool InIsolation { get; set; }
 
         public int MillisecondsTimeout { get; set; }
+
+        public void AddDisposable(IDisposable disposable)
+        {
+            if (disposable != null)
+            {
+                this.disposables.Add(disposable);
+            }
+        }
 
         public void AddTeardown(Action teardown)
         {
@@ -49,31 +74,6 @@ namespace Xbehave.Sdk
             }
         }
 
-        public void Execute()
-        {
-            try
-            {
-                if (this.MillisecondsTimeout > 0)
-                {
-                    var result = this.body.BeginInvoke(null, null);
-
-                    // NOTE: we do not call the WaitOne(int) overload because it wasn't introduced until .NET 3.5 SP1 and we want to support pre-SP1
-                    if (!result.AsyncWaitHandle.WaitOne(this.MillisecondsTimeout, false))
-                    {
-                        throw new Xunit.Sdk.TimeoutException(this.MillisecondsTimeout);
-                    }
-
-                    this.body.EndInvoke(result);
-                }
-                else
-                {
-                    this.body();
-                }
-            }
-            finally
-            {
-                this.teardowns.ForEach(CurrentScenario.AddTeardown);
-            }
-        }
+        public abstract void Execute();
     }
 }

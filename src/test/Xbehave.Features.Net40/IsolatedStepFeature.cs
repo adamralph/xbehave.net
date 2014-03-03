@@ -13,7 +13,7 @@ namespace Xbehave.Test.Acceptance
     // In order to define steps which would cause following steps to fail
     // As a developer
     // I want to execute steps in isolation from following steps
-    public class IsolatedStepFeature
+    public static class IsolatedStepFeature
     {
         [Scenario]
         public static void IsolatedSteps()

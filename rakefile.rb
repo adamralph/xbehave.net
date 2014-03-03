@@ -9,15 +9,16 @@ solution = "src/XBehave.sln"
 output = "bin"
 
 specs = [
-  { :command => xunit_command_net20, :assembly => "src/test/Xbehave.Sdk.Specifications.Net35/bin/Debug/Xbehave.Sdk.Specifications.Net35.dll" },
-  { :command => xunit_command_net20, :assembly => "src/test/Xbehave.Specifications.Net35/bin/Debug/Xbehave.Specifications.Net35.dll" },
-  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Sdk.Specifications.Net40/bin/Debug/Xbehave.Sdk.Specifications.Net40.dll" },
-  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Specifications.Net40/bin/Debug/Xbehave.Specifications.Net40.dll" }
+  { :command => xunit_command_net20, :assembly => "src/test/Xbehave.Sdk.Specifications.Net35/bin/Release/Xbehave.Sdk.Specifications.Net35.dll" },
+  { :command => xunit_command_net20, :assembly => "src/test/Xbehave.Specifications.Net35/bin/Release/Xbehave.Specifications.Net35.dll" },
+  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Sdk.Specifications.Net40/bin/Release/Xbehave.Sdk.Specifications.Net40.dll" },
+  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Specifications.Net40/bin/Release/Xbehave.Specifications.Net40.dll" }
 ]
 
 features = [
-  { :command => xunit_command_net20, :assembly => "src/test/Xbehave.Features.Net35/bin/Debug/Xbehave.Features.Net35.dll" },
-  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Features.Net40/bin/Debug/Xbehave.Features.Net40.dll" }
+  { :command => xunit_command_net20, :assembly => "src/test/Xbehave.Features.Net35/bin/Release/Xbehave.Features.Net35.dll" },
+  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Features.Net40/bin/Release/Xbehave.Features.Net40.dll" },
+  { :command => xunit_command_net40, :assembly => "src/test/Xbehave.Features.Net45/bin/Release/Xbehave.Features.Net45.dll" }
 ]
 
 nuspec = "src/Xbehave.nuspec"

@@ -7,14 +7,13 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Linq;
     using FluentAssertions;
-
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
 
     // In order to commit largely incomplete features
     // As a developer
     // I want to temporarily skip an entire scenario
-    public class SkippedScenarioFeature
+    public static class SkippedScenarioFeature
     {
         private static int executedStepCount;
 

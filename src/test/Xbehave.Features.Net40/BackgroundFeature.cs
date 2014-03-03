@@ -13,7 +13,7 @@ namespace Xbehave.Test.Acceptance
     // In order to write less code
     // As a developer
     // I want to add background steps to all the scenarios in a feature
-    public class BackgroundFeature
+    public static class BackgroundFeature
     {
         private static readonly Queue<StepType> ExecutedStepTypes = new Queue<StepType>();
 

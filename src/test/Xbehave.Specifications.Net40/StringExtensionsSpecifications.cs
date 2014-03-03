@@ -4,12 +4,11 @@
 
 namespace Xbehave.Test.Unit
 {
-    using System;
     using FluentAssertions;
     using Xbehave;
     using Xbehave.Fluent;
 
-    public class StringExtensionsSpecifications
+    public static class StringExtensionsSpecifications
     {
         [Scenario]
         [Example("Given", StepType.Given)]
@@ -17,34 +16,40 @@ namespace Xbehave.Test.Unit
         [Example("Then", StepType.Then)]
         [Example("But", StepType.But)]
         [Example("And", StepType.And)]
-        public void GetStepType(string clause, StepType expected, StepType actual)
+        public static void GetStepType(string clause, StepType expected, StepType actual)
         {
             "Given a string starts with '{0}'"
                 .Given(() => clause = clause + " foo");
-            "When GetStepType() is called"
+
+            "When getting the step type"
                 .When(() => actual = StringExtensions.GetStepType(clause));
-            "Then StepType.{1} is returned"
+
+            "Then the step type is '{1}'"
                 .Then(() => actual.Should().Be(expected));
         }
 
         [Scenario]
-        public void InvokefMethod(IStep step, string clause)
+        public static void InvokedMethod(IStep step, string clause)
         {
             "Given a string"
                 .Given(() => clause = "Given foo");
+
             "When the do extension method is invoked"
                 .When(() => step = clause.f(() => { }));
+
             "Then a step is returned"
                 .Then(() => step.Should().NotBeNull());
         }
 
         [Scenario]
-        public void InvokeUnderscoreMethod(IStep step, string clause)
+        public static void InvokeUnderscoreMethod(IStep step, string clause)
         {
             "Given a string"
                 .Given(() => clause = "Given foo");
+
             "When the do extension method is invoked"
                 .When(() => step = clause._(() => { }));
+
             "Then a step is returned"
                 .Then(() => step.Should().NotBeNull());
         }

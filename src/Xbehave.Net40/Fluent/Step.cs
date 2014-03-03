@@ -5,16 +5,37 @@
 namespace Xbehave.Fluent
 {
     using System;
+#if NET45
+    using System.Threading.Tasks;
+#endif
+    using Xbehave.Sdk;
 
     internal partial class Step : IStep
     {
         private readonly Sdk.Step step;
 
-        public Step(Sdk.Step step)
+        public Step(string text, Action body, StepType stepType)
         {
-            this.step = step;
+            this.step = CurrentScenario.AddStep(text, body, stepType);
         }
 
+        public Step(string text, Action<IStepContext> body, StepType stepType)
+        {
+            this.step = new StepContext(text, body, stepType).Step;
+        }
+
+#if NET45
+        public Step(string text, Func<Task> body, StepType stepType)
+        {
+            this.step = CurrentScenario.AddStep(text, body, stepType);
+        }
+
+        public Step(string text, Func<IStepContext, Task> body, StepType stepType)
+        {
+            this.step = new StepContext(text, body, stepType).Step;
+        }
+
+#endif
         public IStep And()
         {
             return this;

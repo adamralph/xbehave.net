@@ -8,7 +8,7 @@ namespace Xbehave.Sdk.Specifications
     using FluentAssertions;
     using Xbehave;
 
-    public class ArgumentSpecifications
+    public static class ArgumentSpecifications
     {
         [Scenario]
         public static void SpecificValue(object value, Argument argument)
