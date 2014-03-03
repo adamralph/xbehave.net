@@ -76,8 +76,8 @@
     <Compile Include="..\Xbehave.Net40\Fluent\Step.cs">
       <Link>Fluent\Step.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\Helper.cs">
-      <Link>Helper.cs</Link>
+    <Compile Include="..\Xbehave.Net40\IStepContext.cs">
+      <Link>IStepContext.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\OmitArgumentsFromScenarioNamesAttribute.cs">
       <Link>OmitArgumentsFromScenarioNamesAttribute.cs</Link>
@@ -94,6 +94,9 @@
     <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
       <Link>ScenarioAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\StepContext.cs">
+      <Link>StepContext.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\StepExtensions.cs">
       <Link>StepExtensions.cs</Link>
     </Compile>
@@ -108,7 +111,6 @@
     </Compile>
     <Compile Include="StringExtensions.Async.cs" />
     <Compile Include="Guard.cs" />
-    <Compile Include="Helper.Async.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">

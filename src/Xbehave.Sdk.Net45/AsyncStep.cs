@@ -35,6 +35,11 @@ namespace Xbehave.Sdk
             }
             finally
             {
+                foreach (var disposable in this.ExtractDisposables)
+                {
+                    CurrentScenario.AddTeardown(() => disposable.Dispose());
+                }
+
                 foreach (var teardown in this.Teardowns)
                 {
                     CurrentScenario.AddTeardown(teardown);

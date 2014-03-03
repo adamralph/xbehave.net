@@ -9,6 +9,7 @@ namespace Xbehave.Test.Acceptance
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
@@ -213,6 +214,31 @@ namespace Xbehave.Test.Acceptance
                 .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
         }
 
+#if NET45
+        [Scenario]
+        public static void RegisteringManyDisposableObjectsInAnAsyncStep()
+        {
+            var feature = default(Type);
+            var results = default(MethodResult[]);
+
+            "Given a step which registers many disposable objects in an async step"
+                .Given(() => feature = typeof(AsyncStep));
+
+            "When running the scenario"
+                .When(() => results = TestRunner.Run(feature).ToArray())
+                .Teardown(Disposable.ClearRecordedEvents);
+
+            "Then there should be no failures"
+                .Then(() => results.Should().NotContain(result => result is FailedResult));
+
+            "And some disposable objects should have been created"
+                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+
+            "And the disposable objects should each have been disposed once in reverse order"
+                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
+        }
+#endif
+
         private static AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<LifetimeEvent>> SomeDisposableObjectsShouldHaveBeenCreated()
         {
             return Disposable.RecordedEvents.Where(@event => @event.EventType == LifeTimeEventType.Constructed).Should().NotBeEmpty();
@@ -246,11 +272,11 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(Disposable);
 
                 "Given some disposables"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        disposable0 = new Disposable().Using();
-                        disposable1 = new Disposable().Using();
-                        disposable2 = new Disposable().Using();
+                        disposable0 = new Disposable().Using(c);
+                        disposable1 = new Disposable().Using(c);
+                        disposable2 = new Disposable().Using(c);
                     });
 
                 "When using the disposables"
@@ -273,11 +299,11 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(BadDisposable);
 
                 "Given some disposables"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        disposable0 = new BadDisposable().Using();
-                        disposable1 = new BadDisposable().Using();
-                        disposable2 = new BadDisposable().Using();
+                        disposable0 = new BadDisposable().Using(c);
+                        disposable1 = new BadDisposable().Using(c);
+                        disposable2 = new BadDisposable().Using(c);
                     });
 
                 "When using the disposables"
@@ -300,11 +326,11 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(SingleRecursionBadDisposable);
 
                 "Given some disposables"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        disposable0 = new SingleRecursionBadDisposable().Using();
-                        disposable1 = new SingleRecursionBadDisposable().Using();
-                        disposable2 = new SingleRecursionBadDisposable().Using();
+                        disposable0 = new SingleRecursionBadDisposable().Using(c);
+                        disposable1 = new SingleRecursionBadDisposable().Using(c);
+                        disposable2 = new SingleRecursionBadDisposable().Using(c);
                     });
 
                 "When using the disposables"
@@ -327,13 +353,13 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(Disposable);
 
                 "Given a disposable"
-                    .Given(() => disposable0 = new Disposable().Using());
+                    .Given(c => disposable0 = new Disposable().Using(c));
 
                 "And another disposable"
-                    .Given(() => disposable1 = new Disposable().Using());
+                    .Given(c => disposable1 = new Disposable().Using(c));
 
                 "And another disposable"
-                    .Given(() => disposable2 = new Disposable().Using());
+                    .Given(c => disposable2 = new Disposable().Using(c));
 
                 "When using the disposables"
                     .When(() =>
@@ -353,7 +379,7 @@ namespace Xbehave.Test.Acceptance
                 var disposable0 = default(Disposable);
 
                 "Given a disposable"
-                    .Given(() => disposable0 = new Disposable().Using());
+                    .Given(c => disposable0 = new Disposable().Using(c));
 
                 "When using the disposable"
                     .When(() => disposable0.Use());
@@ -377,13 +403,13 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(Disposable);
 
                 "Given a disposable"
-                    .Given(() => disposable0 = new Disposable().Using());
+                    .Given(c => disposable0 = new Disposable().Using(c));
 
                 "And another disposable"
-                    .Given(() => disposable1 = new Disposable().Using());
+                    .Given(c => disposable1 = new Disposable().Using(c));
 
                 "And another disposable"
-                    .Given(() => disposable2 = new Disposable().Using());
+                    .Given(c => disposable2 = new Disposable().Using(c));
 
                 "When using the disposables"
                     .When(() =>
@@ -404,15 +430,41 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 "Given some disposables"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        new Disposable().Using();
-                        new Disposable().Using();
-                        new Disposable().Using();
+                        new Disposable().Using(c);
+                        new Disposable().Using(c);
+                        new Disposable().Using(c);
                         throw new InvalidOperationException();
                     });
             }
         }
+
+#if NET45
+        private static class AsyncStep
+        {
+            [Scenario]
+            public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
+            {
+                "Given some disposables"
+                    .Given(async c =>
+                    {
+                        await Task.Yield();
+                        disposable0 = new Disposable().Using(c);
+                        disposable1 = new Disposable().Using(c);
+                        disposable2 = new Disposable().Using(c);
+                    });
+
+                "When using the disposables"
+                    .When(() =>
+                    {
+                        disposable0.Use();
+                        disposable1.Use();
+                        disposable2.Use();
+                    });
+            }
+        }
+#endif
 
         private class Disposable : IDisposable
         {

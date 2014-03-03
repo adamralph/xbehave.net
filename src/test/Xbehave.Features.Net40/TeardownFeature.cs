@@ -337,11 +337,11 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 "Given something"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        new Disposable(1).Using();
-                        new Disposable(2).Using();
-                        new Disposable(3).Using();
+                        new Disposable(1).Using(c);
+                        new Disposable(2).Using(c);
+                        new Disposable(3).Using(c);
                     })
                     .Teardown(() => ActionIds.Enqueue(4))
                     .And()
@@ -350,11 +350,11 @@ namespace Xbehave.Test.Acceptance
                     .Teardown(() => ActionIds.Enqueue(6));
 
                 "And something else"
-                    .And(() =>
+                    .And(c =>
                     {
-                        new Disposable(7).Using();
-                        new Disposable(8).Using();
-                        new Disposable(9).Using();
+                        new Disposable(7).Using(c);
+                        new Disposable(8).Using(c);
+                        new Disposable(9).Using(c);
                     })
                     .Teardown(() => ActionIds.Enqueue(10))
                     .And()

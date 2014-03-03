@@ -66,8 +66,14 @@
     <Compile Include="..\Xbehave.Net40\ContinueOnFailureAfterAttribute.cs">
       <Link>ContinueOnFailureAfterAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Net40\IStepContext.cs">
+      <Link>IStepContext.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Net40\OmitArgumentsFromScenarioNamesAttribute.cs">
       <Link>OmitArgumentsFromScenarioNamesAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Net40\StepContext.cs">
+      <Link>StepContext.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\StepType.cs">
       <Link>StepType.cs</Link>
@@ -90,9 +96,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Net40\Fluent\Step.cs">
       <Link>Fluent\Step.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Helper.cs">
-      <Link>Helper.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
