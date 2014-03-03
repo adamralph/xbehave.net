@@ -272,11 +272,11 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(Disposable);
 
                 "Given some disposables"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        disposable0 = new Disposable().Using();
-                        disposable1 = new Disposable().Using();
-                        disposable2 = new Disposable().Using();
+                        disposable0 = new Disposable().Using(c);
+                        disposable1 = new Disposable().Using(c);
+                        disposable2 = new Disposable().Using(c);
                     });
 
                 "When using the disposables"
@@ -299,11 +299,11 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(BadDisposable);
 
                 "Given some disposables"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        disposable0 = new BadDisposable().Using();
-                        disposable1 = new BadDisposable().Using();
-                        disposable2 = new BadDisposable().Using();
+                        disposable0 = new BadDisposable().Using(c);
+                        disposable1 = new BadDisposable().Using(c);
+                        disposable2 = new BadDisposable().Using(c);
                     });
 
                 "When using the disposables"
@@ -326,11 +326,11 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(SingleRecursionBadDisposable);
 
                 "Given some disposables"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        disposable0 = new SingleRecursionBadDisposable().Using();
-                        disposable1 = new SingleRecursionBadDisposable().Using();
-                        disposable2 = new SingleRecursionBadDisposable().Using();
+                        disposable0 = new SingleRecursionBadDisposable().Using(c);
+                        disposable1 = new SingleRecursionBadDisposable().Using(c);
+                        disposable2 = new SingleRecursionBadDisposable().Using(c);
                     });
 
                 "When using the disposables"
@@ -353,13 +353,13 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(Disposable);
 
                 "Given a disposable"
-                    .Given(() => disposable0 = new Disposable().Using());
+                    .Given(c => disposable0 = new Disposable().Using(c));
 
                 "And another disposable"
-                    .Given(() => disposable1 = new Disposable().Using());
+                    .Given(c => disposable1 = new Disposable().Using(c));
 
                 "And another disposable"
-                    .Given(() => disposable2 = new Disposable().Using());
+                    .Given(c => disposable2 = new Disposable().Using(c));
 
                 "When using the disposables"
                     .When(() =>
@@ -379,7 +379,7 @@ namespace Xbehave.Test.Acceptance
                 var disposable0 = default(Disposable);
 
                 "Given a disposable"
-                    .Given(() => disposable0 = new Disposable().Using());
+                    .Given(c => disposable0 = new Disposable().Using(c));
 
                 "When using the disposable"
                     .When(() => disposable0.Use());
@@ -403,13 +403,13 @@ namespace Xbehave.Test.Acceptance
                 var disposable2 = default(Disposable);
 
                 "Given a disposable"
-                    .Given(() => disposable0 = new Disposable().Using());
+                    .Given(c => disposable0 = new Disposable().Using(c));
 
                 "And another disposable"
-                    .Given(() => disposable1 = new Disposable().Using());
+                    .Given(c => disposable1 = new Disposable().Using(c));
 
                 "And another disposable"
-                    .Given(() => disposable2 = new Disposable().Using());
+                    .Given(c => disposable2 = new Disposable().Using(c));
 
                 "When using the disposables"
                     .When(() =>
@@ -430,11 +430,11 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 "Given some disposables"
-                    .Given(() =>
+                    .Given(c =>
                     {
-                        new Disposable().Using();
-                        new Disposable().Using();
-                        new Disposable().Using();
+                        new Disposable().Using(c);
+                        new Disposable().Using(c);
+                        new Disposable().Using(c);
                         throw new InvalidOperationException();
                     });
             }
@@ -447,12 +447,12 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
             {
                 "Given some disposables"
-                    .Given(async () =>
+                    .Given(async c =>
                     {
                         await Task.Yield();
-                        disposable0 = new Disposable().Using();
-                        disposable1 = new Disposable().Using();
-                        disposable2 = new Disposable().Using();
+                        disposable0 = new Disposable().Using(c);
+                        disposable1 = new Disposable().Using(c);
+                        disposable2 = new Disposable().Using(c);
                     });
 
                 "When using the disposables"

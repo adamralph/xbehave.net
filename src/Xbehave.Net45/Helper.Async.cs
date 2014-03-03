@@ -14,5 +14,13 @@ namespace Xbehave
         {
             return new Fluent.Step(CurrentScenario.AddStep(text, body, stepType));
         }
+
+        public static Fluent.IStep AddStep(string text, Func<IStepContext, Task> body, StepType stepType)
+        {
+            var context = new StepContext();
+            var step = CurrentScenario.AddStep(text, () => body(context), stepType);
+            context.Assign(step);
+            return new Fluent.Step(step);
+        }
     }
 }

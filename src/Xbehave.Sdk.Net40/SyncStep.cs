@@ -50,7 +50,6 @@ namespace Xbehave.Sdk
                         }
                         finally
                         {
-                            teardowns = CurrentScenario.ExtractTeardowns();
                             SynchronizationContext.SetSynchronizationContext(oldSyncContext);
                             @event.Set();
                         }
@@ -70,7 +69,12 @@ namespace Xbehave.Sdk
             }
             finally
             {
-                foreach (var teardown in teardowns.Concat(this.Teardowns))
+                foreach (var disposable in this.ExtractDisposables)
+                {
+                    CurrentScenario.AddTeardown(() => disposable.Dispose());
+                }
+
+                foreach (var teardown in this.Teardowns)
                 {
                     CurrentScenario.AddTeardown(teardown);
                 }
