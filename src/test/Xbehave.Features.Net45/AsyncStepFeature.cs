@@ -12,10 +12,10 @@ namespace Xbehave.Features
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
 
-    public class AsyncStepFeature
+    public static class AsyncStepFeature
     {
         [Scenario]
-        public void AsyncStep(bool asyncStepHasCompleted)
+        public static void AsyncStep(bool asyncStepHasCompleted)
         {
             "When an async step is executed"._(async () =>
             {
@@ -28,7 +28,7 @@ namespace Xbehave.Features
         }
 
         [Scenario]
-        public void AllMethodsAreUsedAsync(int count)
+        public static void AllMethodsAreUsedAsync(int count)
         {
             "Given the count is 20".Given(async () =>
             {
@@ -74,9 +74,9 @@ namespace Xbehave.Features
         }
 
         [Scenario]
-        public void MultipleAsyncSteps(int number)
+        public static void MultipleAsyncSteps(int number)
         {
-            "Given a number initialised as 2"._(async () =>
+            "Given a number initialized as 2"._(async () =>
             {
                 await Task.Delay(100);
                 number = 2;
@@ -99,7 +99,7 @@ namespace Xbehave.Features
         }
 
         [Scenario]
-        public void AsyncStepDoesNotTimeout(bool asyncStepHasCompleted)
+        public static void AsyncStepDoesNotTimeout(bool asyncStepHasCompleted)
         {
             "When an asynchronous step with a timeout which does not timeout is executed"._(async () =>
             {
@@ -113,9 +113,9 @@ namespace Xbehave.Features
         }
 
         [Scenario]
-        public void AsyncTaskStepThrowsException(Type feature, MethodResult[] results, Exception e)
+        public static void AsyncTaskStepThrowsException(Type feature, MethodResult[] results)
         {
-            "Given a feature with a scenario that throws an InvalidOperationException"._(() =>
+            "Given a feature with a scenario that throws an invalid operation exception"._(() =>
                 feature = typeof(AsyncTaskStepWhichThrowsException));
 
             "When the test runner runs the feature"._(() =>
@@ -124,14 +124,14 @@ namespace Xbehave.Features
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<FailedResult>());
 
-            "And the exception type should be \"System.InvalidOperationException\"".And(() =>
+            "And the exception should be an invalid operation exception".And(() =>
                 results.Cast<FailedResult>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
         [Scenario]
-        public void AsyncTaskStepThrowsExceptionWithinTimeout(Type feature, MethodResult[] results, Exception e)
+        public static void AsyncTaskStepThrowsExceptionWithinTimeout(Type feature, MethodResult[] results)
         {
-            "Given a feature with a scenario that throws an InvalidOperationException within its timeout"._(() =>
+            "Given a feature with a scenario that throws an invalid operation exception within its timeout"._(() =>
                 feature = typeof(AsyncTaskStepWhichThrowsExceptionWithinTimeout));
 
             "When the test runner runs the feature"._(() =>
@@ -140,14 +140,14 @@ namespace Xbehave.Features
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<FailedResult>());
 
-            "And the exception type should be \"System.InvalidOperationException\"".And(() =>
+            "And the exception should be an invalid operation exception".And(() =>
                 results.Cast<FailedResult>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
         [Scenario]
-        public void AsyncVoidStepThrowsException(Type feature, MethodResult[] results, Exception e)
+        public static void AsyncVoidStepThrowsException(Type feature, MethodResult[] results)
         {
-            "Given a feature with a scenario that throws an InvalidOperationException"._(() =>
+            "Given a feature with a scenario that throws an invalid operation exception"._(() =>
                 feature = typeof(AsyncVoidStepWhichThrowsException));
 
             "When the test runner runs the feature"._(() =>
@@ -156,12 +156,12 @@ namespace Xbehave.Features
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<FailedResult>());
 
-            "And the exception type should be \"System.InvalidOperationException\""._(() =>
+            "And the exception should be an invalid operation exception".And(() =>
                 results.Cast<FailedResult>().First().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
         [Scenario]
-        public void AsyncStepExceedsTimeout(Type feature, MethodResult[] results)
+        public static void AsyncStepExceedsTimeout(Type feature, MethodResult[] results)
         {
             "Given a feature with a scenario with a single step which exceeds it's 1ms timeout"._(() =>
                 feature = typeof(AsyncStepWhichExceedsTimeout));
@@ -180,7 +180,7 @@ namespace Xbehave.Features
         }
 
         [Scenario]
-        public void ExecutingAnAsyncVoidStepUsingMethodGroupSyntax()
+        public static void ExecutingAnAsyncVoidStepUsingMethodGroupSyntax()
         {
             "When an async void method is executed in a step using method group syntax"._(
                 (Action)AsyncVoidMethodType.AsyncVoidMethod);
@@ -206,10 +206,10 @@ namespace Xbehave.Features
             }
         }
 
-        private class AsyncTaskStepWhichThrowsException
+        private static class AsyncTaskStepWhichThrowsException
         {
             [Scenario]
-            public void Scenario()
+            public static void Scenario()
             {
                 // disabling warning about async method not having await. it's intended
 #pragma warning disable 1998
@@ -221,10 +221,10 @@ namespace Xbehave.Features
             }
         }
 
-        private class AsyncTaskStepWhichThrowsExceptionWithinTimeout
+        private static class AsyncTaskStepWhichThrowsExceptionWithinTimeout
         {
             [Scenario]
-            public void Scenario()
+            public static void Scenario()
             {
                 // disabling warning about async method not having await. it's intended
 #pragma warning disable 1998
@@ -237,26 +237,26 @@ namespace Xbehave.Features
             }
         }
 
-        private class AsyncVoidStepWhichThrowsException
+        private static class AsyncVoidStepWhichThrowsException
         {
             [Scenario]
-            public void Scenario()
+            public static void Scenario()
             {
                 "Given something"._(
-                    (Action)this.Step);
+                    (Action)Step);
             }
 
-            private async void Step()
+            private static async void Step()
             {
                 await Task.Yield();
                 throw new InvalidOperationException();
             }
         }
 
-        private class AsyncStepWhichExceedsTimeout
+        private static class AsyncStepWhichExceedsTimeout
         {
             [Scenario]
-            public void Scenario(bool set)
+            public static void Scenario(bool set)
             {
                 "Given something"._(async () =>
                     await Task.Delay(500)).WithTimeout(1);

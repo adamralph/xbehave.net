@@ -8,9 +8,12 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Threading;
+#if NET45
     using System.Threading.Tasks;
+#endif
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
@@ -18,7 +21,7 @@ namespace Xbehave.Test.Acceptance
     // In order to release allocated resources
     // As a developer
     // I want to register objects for disposal after a scenario has run
-    public class ObjectDisposalFeature
+    public static class ObjectDisposalFeature
     {
         private enum LifeTimeEventType
         {
@@ -132,7 +135,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void RegisteringManyDisposableObjectsInSeperateSteps()
+        public static void RegisteringManyDisposableObjectsInSeparateSteps()
         {
             var feature = default(Type);
             var results = default(MethodResult[]);
@@ -312,7 +315,7 @@ namespace Xbehave.Test.Acceptance
                     });
             }
         }
-        
+
         private static class SingleStepWithATimeout
         {
             [Scenario]
@@ -524,6 +527,7 @@ namespace Xbehave.Test.Acceptance
 
             private bool isDisposed;
 
+            [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Private class.")]
             public Disposable()
             {
                 Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Constructed, ObjectId = this.GetHashCode() });

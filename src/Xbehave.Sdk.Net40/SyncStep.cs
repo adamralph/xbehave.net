@@ -5,9 +5,8 @@
 namespace Xbehave.Sdk
 {
     using System;
-    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Reflection;
     using System.Threading;
     using Xunit.Sdk;
 
@@ -23,6 +22,7 @@ namespace Xbehave.Sdk
             this.body = body;
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Capturing an re-throwing an exception from another thread.")]
         public override void Execute()
         {
             var teardowns = Enumerable.Empty<Action>();
@@ -130,8 +130,11 @@ namespace Xbehave.Sdk
                 });
             }
 
+            [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Capturing an re-throwing an exception from another thread.")]
             public override void Send(SendOrPostCallback d, object state)
             {
+                Guard.AgainstNullArgument("d", d);
+
                 try
                 {
                     d(state);

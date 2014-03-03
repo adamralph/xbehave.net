@@ -21,9 +21,7 @@ namespace Xbehave.Fluent
 
         public Step(string text, Action<IStepContext> body, StepType stepType)
         {
-            var context = new StepContext();
-            this.step = CurrentScenario.AddStep(text, () => body(context), stepType);
-            context.Assign(this.step);
+            this.step = new StepContext(text, body, stepType).Step;
         }
 
 #if NET45
@@ -34,9 +32,7 @@ namespace Xbehave.Fluent
 
         public Step(string text, Func<IStepContext, Task> body, StepType stepType)
         {
-            var context = new StepContext();
-            this.step = CurrentScenario.AddStep(text, () => body(context), stepType);
-            context.Assign(this.step);
+            this.step = new StepContext(text, body, stepType).Step;
         }
 
 #endif

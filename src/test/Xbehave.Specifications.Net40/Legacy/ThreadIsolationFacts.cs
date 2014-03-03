@@ -7,12 +7,12 @@ namespace Xbehave.Test.Unit.Legacy
     using System.Threading;
     using Xunit;
 
-    public class ThreadIsolationFacts
+    public static class ThreadIsolationFacts
     {
         [Fact]
-        public static void CanSetUpSpecificationConcurrently()
+        public static void CanSetupSpecificationConcurrently()
         {
-            VerifyConcurrentExecution(SetUpSpecification);
+            VerifyConcurrentExecution(SetupSpecification);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Xbehave.Test.Unit.Legacy
         }
 
         [Fact]
-        public static void TodoEnsuresThreadStatic()
+        public static void SkipEnsuresThreadStatic()
         {
             VerifyConcurrentExecution(() => "foo".Then(() => { }).Skip("for some reason"));
         }
@@ -55,7 +55,7 @@ namespace Xbehave.Test.Unit.Legacy
             });
         }
 
-        private static void SetUpSpecification()
+        private static void SetupSpecification()
         {
             "foo".Given(() => { });
             "foo".When(() => { });

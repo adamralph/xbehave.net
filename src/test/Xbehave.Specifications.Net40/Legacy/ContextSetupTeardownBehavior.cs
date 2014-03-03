@@ -8,7 +8,7 @@ namespace Xbehave.Test.Unit.Legacy
     using Xbehave;
     using Xunit;
 
-    public class ContextSetupTeardownBehavior
+    public static class ContextSetupTeardownBehavior
     {
         [Scenario]
         public static void MultipleContextsShouldCauseActionToBeRepeated()
@@ -38,7 +38,7 @@ namespace Xbehave.Test.Unit.Legacy
             "we expect the context instantiation to be called in the first context"
                 .Then(() => Assert.Equal(1, sut.Called))
                 .InIsolation();
-            
+
             "we expect the context instantiation to be repeated for the second context"
                 .Then(() => Assert.Equal(2, sut.Called))
                 .InIsolation();

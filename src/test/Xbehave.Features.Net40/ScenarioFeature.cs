@@ -5,10 +5,9 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Threading;
     using FluentAssertions;
-
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
     using Xunit.Sdk;
@@ -16,7 +15,7 @@ namespace Xbehave.Test.Acceptance
     // In order to prevent bugs due to incorrect code
     // As a developer
     // I want to run automated acceptance tests describing each feature of my product using scenarios
-    public class ScenarioFeature
+    public static class ScenarioFeature
     {
         private static object[] arguments;
         private static int executedStepCount;
@@ -310,6 +309,7 @@ namespace Xbehave.Test.Acceptance
             {
             }
 
+            [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for testing.")]
             [Scenario]
             public void Scenario()
             {

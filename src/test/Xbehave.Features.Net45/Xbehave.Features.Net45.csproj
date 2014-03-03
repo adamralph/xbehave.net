@@ -23,7 +23,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
-    <CodeAnalysisRuleSet>..\..\Xbehave.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\Xbehave.Test.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
-    <CodeAnalysisRuleSet>..\..\Xbehave.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\..\Xbehave.Test.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FluentAssertions">
@@ -61,9 +61,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="..\Xbehave.Features.Net40\BackgroundFeature.cs">
       <Link>BackgroundFeature.cs</Link>
@@ -123,6 +121,11 @@
       <Project>{c2750cbf-e310-4819-aeac-9303e4c36d8d}</Project>
       <Name>Xbehave.Net45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\..\Xbehave.CustomDictionary.xml">
+      <Link>Properties\Xbehave.CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
