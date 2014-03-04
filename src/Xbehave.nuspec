@@ -22,5 +22,7 @@
     <file src="Xbehave.Net35\bin\Release\Xbehave.xml" target="lib\net35" />
     <file src="Xbehave.Net40\bin\Release\Xbehave.dll" target="lib\net40" />
     <file src="Xbehave.Net40\bin\Release\Xbehave.xml" target="lib\net40" />
+    <file src="Xbehave.Net45\bin\Release\Xbehave.dll" target="lib\net45" />
+    <file src="Xbehave.Net45\bin\Release\Xbehave.xml" target="lib\net45" />
   </files>
 </package>
