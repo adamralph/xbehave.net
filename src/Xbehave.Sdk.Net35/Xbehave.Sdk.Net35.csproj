@@ -21,7 +21,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
     <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
@@ -36,7 +36,6 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
-    <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
@@ -103,6 +102,9 @@
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\StepCommand.cs">
       <Link>StepCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Sdk.Net40\SyncStep.cs">
+      <Link>SyncStep.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Sdk.Net40\TeardownCommand.cs">
       <Link>TeardownCommand.cs</Link>

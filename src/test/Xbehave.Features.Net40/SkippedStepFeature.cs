@@ -13,7 +13,7 @@ namespace Xbehave.Test.Acceptance
     // In order to commit nearly completed features
     // As a developer
     // I want to temporarily skip specific steps
-    public class SkippedStepFeature
+    public static class SkippedStepFeature
     {
         [Scenario]
         public static void UnfinishedFeature()

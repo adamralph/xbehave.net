@@ -5,7 +5,7 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-#if NET40
+#if NET40 || NET45
     using System.Collections.Concurrent;
 #endif
     using System.Collections.Generic;
@@ -18,12 +18,12 @@ namespace Xbehave.Test.Acceptance
     // In order to save time
     // As a developer
     // I want to write a single scenario using many examples
-    public class ExampleFeature
+    public static class ExampleFeature
     {
-#if NET40
+#if NET40 || NET45
         private static readonly ConcurrentStack<object[]> ArgumentLists = new ConcurrentStack<object[]>();
 #endif
-#if NET40
+#if NET40 || NET45
 
         [Scenario]
         public static void Examples(Type feature, IEnumerable<MethodResult> results)
@@ -73,7 +73,7 @@ namespace Xbehave.Test.Acceptance
             "Then each result should be a success"
                 .Then(() => results.Should().ContainItemsAssignableTo<PassedResult>());
 
-            ("Then the scenario should be executed once for each example with" +
+            ("Then the scenario should be executed once for each example with " +
                 "the values from that example passed as the first two arguments and " +
                 "default values passed as the remaining two arguments")
                 .Then(() => ArgumentLists
@@ -109,7 +109,7 @@ namespace Xbehave.Test.Acceptance
             "Then each result should be a success"
                 .Then(() => results.Should().ContainItemsAssignableTo<PassedResult>());
 
-            ("Then the scenario should be executed once for each example with" +
+            ("Then the scenario should be executed once for each example with " +
                 "the values from that example passed as the first two arguments and " +
                 "default values passed as the remaining two arguments")
                 .Then(() => ArgumentLists
@@ -239,10 +239,10 @@ an null value for the fifth type parameter"
         }
 
         [Scenario]
-        public static void OmmissionOfArgumentsFromScenarioNames(Type feature, IEnumerable<MethodResult> results)
+        public static void OmissionOfArgumentsFromScenarioNames(Type feature, IEnumerable<MethodResult> results)
         {
-            "Given a feature with a scenario with a single step and examples and ommission of arguments from scenario names"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithOmmissionOfArgumentsFromScenarioNames));
+            "Given a feature with a scenario with a single step and examples and omission of arguments from scenario names"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
@@ -257,7 +257,7 @@ an null value for the fifth type parameter"
                 .And(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
         }
 
-#if NET40
+#if NET40 || NET45
         private static class FeatureWithAScenarioWithASingleStepAndExamples
         {
             [Scenario]
@@ -366,7 +366,7 @@ an null value for the fifth type parameter"
         }
 
         [OmitArgumentsFromScenarioNames(true)]
-        private static class FeatureWithAScenarioWithASingleStepAndExamplesWithOmmissionOfArgumentsFromScenarioNames
+        private static class FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames
         {
             [Scenario]
             [Example(1, 2, 3)]

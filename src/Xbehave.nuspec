@@ -5,18 +5,11 @@
     <version>0.0.0</version>
     <title>xBehave.net</title>
     <authors>Adam Ralph, xBehave.net contributors</authors>
+    <description>A BDD/TDD framework based on xUnit.net and inspired by Gherkin. Allows features and scenarios to be written directly in code rather than mapping to external feature files. Works seamlessly with xUnit.net tooling.</description>
+    <language>en-US</language>
     <projectUrl>http://xbehave.github.io/</projectUrl>
     <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
     <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/license.txt</licenseUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A BDD/TDD framework based on xUnit.net and inspired by Gherkin. Allows features and scenarios to be written directly in code rather than mapping to external feature files. Works seamlessly with xUnit.net tooling.</description>
-    <releaseNotes>Initial release.
-    
-With special thanks to contributors:
-Glenn Block - https://github.com/glennblock/
-James Foster - https://github.com/jamesfoster/
-robi-y - https://github.com/robi-y/
-Manoj - https://github.com/manojlds/</releaseNotes>
     <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
@@ -29,5 +22,7 @@ Manoj - https://github.com/manojlds/</releaseNotes>
     <file src="Xbehave.Net35\bin\Release\Xbehave.xml" target="lib\net35" />
     <file src="Xbehave.Net40\bin\Release\Xbehave.dll" target="lib\net40" />
     <file src="Xbehave.Net40\bin\Release\Xbehave.xml" target="lib\net40" />
+    <file src="Xbehave.Net45\bin\Release\Xbehave.dll" target="lib\net45" />
+    <file src="Xbehave.Net45\bin\Release\Xbehave.xml" target="lib\net45" />
   </files>
 </package>
