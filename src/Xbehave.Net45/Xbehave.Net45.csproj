@@ -110,8 +110,8 @@
     <Compile Include="..\Xbehave.Net40\_.cs">
       <Link>_.cs</Link>
     </Compile>
-    <Compile Include="StringExtensions.Async.cs" />
     <Compile Include="Guard.cs" />
+    <Compile Include="StringExtensions.Async.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">

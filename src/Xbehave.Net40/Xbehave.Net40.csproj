@@ -62,11 +62,11 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BackgroundAttribute.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="IStepContext.cs" />
     <Compile Include="OmitArgumentsFromScenarioNamesAttribute.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
-    <Compile Include="Guard.cs" />
     <Compile Include="ContinueOnFailureAfterAttribute.cs" />
     <Compile Include="StepContext.cs" />
     <Compile Include="StepExtensions.cs" />
