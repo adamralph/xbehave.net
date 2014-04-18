@@ -170,7 +170,9 @@ namespace Xbehave.Test.Acceptance
 
         private static class ScenarioFastEnough
         {
+#pragma warning disable 618
             [Scenario(Timeout = int.MaxValue)]
+#pragma warning restore 618
             public static void Scenario()
             {
                 "Given something"
@@ -181,7 +183,9 @@ namespace Xbehave.Test.Acceptance
 #if NET40 || NET45
         private static class ScenarioTooSlow
         {
+#pragma warning disable 618
             [Scenario(Timeout = 1)]
+#pragma warning restore 618
             public static void Scenario()
             {
                 "Given something"
@@ -191,7 +195,9 @@ namespace Xbehave.Test.Acceptance
 
         private static class ScenarioTooSlowInOneStepAndHasASubsequentPassingStep
         {
+#pragma warning disable 618
             [Scenario(Timeout = 1)]
+#pragma warning restore 618
             public static void Scenario()
             {
                 "Given something"

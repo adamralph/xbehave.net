@@ -50,7 +50,7 @@ namespace Xbehave.Test.Acceptance
             var exception = default(Exception);
             var results = default(MethodResult[]);
 
-            "Given a feature with a non-static scenario but no a default constructor"
+            "Given a feature with a non-static scenario but no default constructor"
                 .Given(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
 
             "When the test runner runs the feature"

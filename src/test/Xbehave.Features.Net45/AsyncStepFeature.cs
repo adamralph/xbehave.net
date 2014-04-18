@@ -195,7 +195,7 @@ namespace Xbehave.Features
 
             public static bool AsyncVoidMethodHasCompleted
             {
-                get { return AsyncVoidMethodType.asyncVoidMethodHasCompleted; }
+                get { return asyncVoidMethodHasCompleted; }
             }
 
             public static async void AsyncVoidMethod()

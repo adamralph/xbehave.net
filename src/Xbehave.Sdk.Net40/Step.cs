@@ -13,7 +13,7 @@ namespace Xbehave.Sdk
     /// Provides the implementation to execute each step.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-    public abstract partial class Step
+    public abstract class Step
     {
         private readonly string name;
         private readonly object stepType;
