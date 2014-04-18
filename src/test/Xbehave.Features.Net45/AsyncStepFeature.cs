@@ -9,8 +9,8 @@ namespace Xbehave.Features
     using System.Threading.Tasks;
     using FluentAssertions;
     using Xbehave;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
-    using Xunit.Sdk;
 
     public static class AsyncStepFeature
     {
@@ -113,7 +113,7 @@ namespace Xbehave.Features
         }
 
         [Scenario]
-        public static void AsyncTaskStepThrowsException(Type feature, MethodResult[] results)
+        public static void AsyncTaskStepThrowsException(Type feature, Result[] results)
         {
             "Given a feature with a scenario that throws an invalid operation exception"._(() =>
                 feature = typeof(AsyncTaskStepWhichThrowsException));
@@ -122,14 +122,14 @@ namespace Xbehave.Features
                 results = TestRunner.Run(feature).ToArray());
 
             "Then the result should be a failure"._(() =>
-                results.Should().ContainItemsAssignableTo<FailedResult>());
+                results.Should().ContainItemsAssignableTo<Fail>());
 
             "And the exception should be an invalid operation exception".And(() =>
-                results.Cast<FailedResult>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
+                results.Cast<Fail>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
         [Scenario]
-        public static void AsyncTaskStepThrowsExceptionWithinTimeout(Type feature, MethodResult[] results)
+        public static void AsyncTaskStepThrowsExceptionWithinTimeout(Type feature, Result[] results)
         {
             "Given a feature with a scenario that throws an invalid operation exception within its timeout"._(() =>
                 feature = typeof(AsyncTaskStepWhichThrowsExceptionWithinTimeout));
@@ -138,14 +138,14 @@ namespace Xbehave.Features
                 results = TestRunner.Run(feature).ToArray());
 
             "Then the result should be a failure"._(() =>
-                results.Should().ContainItemsAssignableTo<FailedResult>());
+                results.Should().ContainItemsAssignableTo<Fail>());
 
             "And the exception should be an invalid operation exception".And(() =>
-                results.Cast<FailedResult>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
+                results.Cast<Fail>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
         [Scenario]
-        public static void AsyncVoidStepThrowsException(Type feature, MethodResult[] results)
+        public static void AsyncVoidStepThrowsException(Type feature, Result[] results)
         {
             "Given a feature with a scenario that throws an invalid operation exception"._(() =>
                 feature = typeof(AsyncVoidStepWhichThrowsException));
@@ -154,14 +154,14 @@ namespace Xbehave.Features
                 results = TestRunner.Run(feature).ToArray());
 
             "Then the result should be a failure"._(() =>
-                results.Should().ContainItemsAssignableTo<FailedResult>());
+                results.Should().ContainItemsAssignableTo<Fail>());
 
             "And the exception should be an invalid operation exception".And(() =>
-                results.Cast<FailedResult>().First().ExceptionType.Should().Be("System.InvalidOperationException"));
+                results.Cast<Fail>().First().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
         [Scenario]
-        public static void AsyncStepExceedsTimeout(Type feature, MethodResult[] results)
+        public static void AsyncStepExceedsTimeout(Type feature, Result[] results)
         {
             "Given a feature with a scenario with a single step which exceeds it's 1ms timeout"._(() =>
                 feature = typeof(AsyncStepWhichExceedsTimeout));
@@ -173,10 +173,10 @@ namespace Xbehave.Features
                 results.Count().Should().Be(1));
 
             "And the result should be a failure"._(() =>
-                results.Should().ContainItemsAssignableTo<FailedResult>());
+                results.Should().ContainItemsAssignableTo<Fail>());
 
             "And the result message should be \"Test execution time exceeded: 1ms\""._(() =>
-                results.Cast<FailedResult>().Should().OnlyContain(result => result.Message == "Test execution time exceeded: 1ms"));
+                results.Cast<Fail>().Should().OnlyContain(result => result.Message == "Test execution time exceeded: 1ms"));
         }
 
         [Scenario]

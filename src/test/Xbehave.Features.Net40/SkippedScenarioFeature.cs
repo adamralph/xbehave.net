@@ -7,8 +7,8 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
-    using Xunit.Sdk;
 
     // In order to commit largely incomplete features
     // As a developer
@@ -21,7 +21,7 @@ namespace Xbehave.Test.Acceptance
         public static void SkippedScenario()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a skipped scenario"
                 .Given(() => feature = typeof(FeatureWithASkippedScenario));
@@ -37,7 +37,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Count().Should().Be(1));
 
             "And the result should be a skip result"
-                .And(() => results[0].Should().BeOfType<SkipResult>());
+                .And(() => results[0].Should().BeOfType<Skip>());
         }
 
         private static class FeatureWithASkippedScenario
