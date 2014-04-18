@@ -2,8 +2,9 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-using System.Diagnostics.CodeAnalysis;
+using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("xBehave.net contributors")]
@@ -12,6 +13,5 @@ using System.Reflection;
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyProduct("xBehave.net")]
 
-[assembly: AssemblyVersion("1.2.0.0")]
-[assembly: AssemblyFileVersion("1.2.0.0")]
-[assembly: AssemblyInformationalVersion("1.2.0")]
+[assembly: ComVisible(false)]
+[assembly: CLSCompliant(true)]

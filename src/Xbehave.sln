@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net40", "Xbehave.Net40\Xbehave.Net40.csproj", "{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1DAD0ED8-7F96-4299-BEBB-04F3C25BFC76}"
@@ -11,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		nuget.config = nuget.config
 		rakefile.rb = rakefile.rb
 		Settings.StyleCop = Settings.StyleCop
+		VersionInfo.1.cs = VersionInfo.1.cs
+		VersionInfo.2.cs = VersionInfo.2.cs
 		Xbehave.CustomDictionary.xml = Xbehave.CustomDictionary.xml
 		Xbehave.nuspec = Xbehave.nuspec
 		Xbehave.ruleset = Xbehave.ruleset
@@ -27,6 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Specifications.Net4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBC5886B-9456-470B-836F-722154863920}"
 	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
@@ -55,6 +56,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net45", "Xbehave.Net45\Xbehave.Net45.csproj", "{C2750CBF-E310-4819-AEAC-9303E4C36D8D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net45", "Xbehave.Sdk.Net45\Xbehave.Sdk.Net45.csproj", "{675BC957-BEE4-4BEF-B235-D1562DAC8660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2", "Xbehave.2\Xbehave.2.csproj", "{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.2.Net45", "test\Xbehave.Features.2.Net45\Xbehave.Features.2.Net45.csproj", "{B95C4972-1CD7-4632-994B-E6093CBF03BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,18 +119,14 @@ Global
 		{675BC957-BEE4-4BEF-B235-D1562DAC8660}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{675BC957-BEE4-4BEF-B235-D1562DAC8660}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{675BC957-BEE4-4BEF-B235-D1562DAC8660}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2750CBF-E310-4819-AEAC-9303E4C36D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2750CBF-E310-4819-AEAC-9303E4C36D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2750CBF-E310-4819-AEAC-9303E4C36D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2750CBF-E310-4819-AEAC-9303E4C36D8D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{675BC957-BEE4-4BEF-B235-D1562DAC8660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{675BC957-BEE4-4BEF-B235-D1562DAC8660}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{675BC957-BEE4-4BEF-B235-D1562DAC8660}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{675BC957-BEE4-4BEF-B235-D1562DAC8660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B95C4972-1CD7-4632-994B-E6093CBF03BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B95C4972-1CD7-4632-994B-E6093CBF03BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B95C4972-1CD7-4632-994B-E6093CBF03BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B95C4972-1CD7-4632-994B-E6093CBF03BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,5 +141,6 @@ Global
 		{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA} = {A763D3CE-3C9C-456D-A758-46C18B31DBD9}
 		{F64FAC93-8534-4A00-83C6-031C51923BA3} = {A763D3CE-3C9C-456D-A758-46C18B31DBD9}
 		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C} = {A763D3CE-3C9C-456D-A758-46C18B31DBD9}
+		{B95C4972-1CD7-4632-994B-E6093CBF03BA} = {A763D3CE-3C9C-456D-A758-46C18B31DBD9}
 	EndGlobalSection
 EndGlobal
