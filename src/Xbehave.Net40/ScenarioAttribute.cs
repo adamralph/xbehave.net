@@ -117,7 +117,7 @@ namespace Xbehave
             foreach (var arguments in GetArgumentCollections(method.MethodInfo))
             {
                 var closedTypeMethod = method;
-                Type[] typeArguments = null;
+                var typeArguments = new Type[0];
                 if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
                 {
                     typeArguments = ResolveTypeArguments(method, arguments).ToArray();
@@ -131,13 +131,16 @@ namespace Xbehave
                     if (parameterType.IsGenericParameter)
                     {
                         Type concreteType = null;
-                        var typeParameters = method.MethodInfo.GetGenericArguments();
-                        for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
+                        if (method.MethodInfo != null)
                         {
-                            if (typeParameters[typeParameterIndex] == parameterType)
+                            var typeParameters = method.MethodInfo.GetGenericArguments();
+                            for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
                             {
-                                concreteType = typeArguments[typeParameterIndex];
-                                break;
+                                if (typeParameters[typeParameterIndex] == parameterType)
+                                {
+                                    concreteType = typeArguments[typeParameterIndex];
+                                    break;
+                                }
                             }
                         }
 

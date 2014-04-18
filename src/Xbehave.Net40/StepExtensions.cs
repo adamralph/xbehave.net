@@ -11,7 +11,7 @@ namespace Xbehave
     /// <summary>
     /// <see cref="IStep"/> extensions.
     /// </summary>
-    public static partial class StepExtensions
+    public static class StepExtensions
     {
         /// <summary>
         /// Defines a step in the current scenario.

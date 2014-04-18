@@ -10,7 +10,7 @@ namespace Xbehave.Fluent
     /// <summary>
     /// A scenario step.
     /// </summary>
-    public partial interface IStep
+    public interface IStep
     {
         /// <summary>
         /// An optional fluent conjunction.

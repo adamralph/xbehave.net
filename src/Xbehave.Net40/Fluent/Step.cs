@@ -10,7 +10,7 @@ namespace Xbehave.Fluent
 #endif
     using Xbehave.Sdk;
 
-    internal partial class Step : IStep
+    internal class Step : IStep
     {
         private readonly Sdk.Step step;
 

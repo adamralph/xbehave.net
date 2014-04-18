@@ -277,7 +277,7 @@ namespace Xbehave.Test.Acceptance
                 .Reverse()
                 .SequenceEqual(
                     Disposable.RecordedEvents.TakeWhile(@event => @event.EventType == LifeTimeEventType.Constructed),
-                    new CustomEqualityComparer<LifetimeEvent>((x, y) => x.ObjectId == y.ObjectId, x => x.ObjectId))
+                    new CustomEqualityComparer<LifetimeEvent>((x, y) => x.ObjectId == y.ObjectId, x => x.ObjectId.GetHashCode()))
                 .Should().BeTrue();
         }
 
@@ -524,13 +524,13 @@ namespace Xbehave.Test.Acceptance
         private class Disposable : IDisposable
         {
             private static readonly ConcurrentQueue<LifetimeEvent> Events = new ConcurrentQueue<LifetimeEvent>();
-
+            private readonly Guid id = Guid.NewGuid();
             private bool isDisposed;
 
             [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Private class.")]
             public Disposable()
             {
-                Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Constructed, ObjectId = this.GetHashCode() });
+                Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Constructed, ObjectId = this.id });
             }
 
             ~Disposable()
@@ -540,7 +540,7 @@ namespace Xbehave.Test.Acceptance
 
             public static IEnumerable<LifetimeEvent> RecordedEvents
             {
-                get { return Disposable.Events.Select(_ => _); }
+                get { return Events.Select(_ => _); }
             }
 
             public static void ClearRecordedEvents()
@@ -569,7 +569,7 @@ namespace Xbehave.Test.Acceptance
             {
                 if (disposing)
                 {
-                    Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Disposed, ObjectId = this.GetHashCode() });
+                    Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Disposed, ObjectId = this.id });
                     this.isDisposed = true;
                 }
             }
@@ -594,7 +594,9 @@ namespace Xbehave.Test.Acceptance
                 base.Dispose(disposing);
                 if (disposing)
                 {
+#pragma warning disable 618
                     new BadDisposable().Using();
+#pragma warning restore 618
                     throw new NotImplementedException();
                 }
             }
@@ -604,7 +606,7 @@ namespace Xbehave.Test.Acceptance
         {
             public LifeTimeEventType EventType { get; set; }
 
-            public int ObjectId { get; set; }
+            public Guid ObjectId { get; set; }
         }
     }
 }

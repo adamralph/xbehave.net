@@ -19,11 +19,11 @@ namespace Xbehave
         /// <param name="obj">The object to be disposed.</param>
         /// <returns>The object.</returns>
         [Obsolete("Use Using(IStep) instead. This deprecated version of the method will fail to register objects for disposal in async steps, in steps with timeouts, or when called from a thread other than the scenario execution thread.")]
-        public static T Using<T>(this T obj) where T : IDisposable
+        public static T Using<T>(this T obj) where T : class, IDisposable
         {
             if (obj != null)
             {
-                CurrentScenario.AddTeardown(() => obj.Dispose());
+                CurrentScenario.AddTeardown(obj.Dispose);
             }
 
             return obj;

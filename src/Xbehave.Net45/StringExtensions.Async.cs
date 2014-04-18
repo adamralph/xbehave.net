@@ -92,7 +92,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStep f(this string text, Func<Task> body)
         {
-            var stepType = StringExtensions.GetStepType(text);
+            var stepType = GetStepType(text);
             return new Step(text, body, stepType);
         }
 
@@ -191,7 +191,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStep f(this string text, Func<IStepContext, Task> body)
         {
-            var stepType = StringExtensions.GetStepType(text);
+            var stepType = GetStepType(text);
             return new Step(text, body, stepType);
         }
 
