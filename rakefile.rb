@@ -4,7 +4,7 @@ require 'fileutils'
 version = IO.read("src/CommonAssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
 xunit_command_net20 = "packages/xunit.runners.1.9.2/tools/xunit.console.exe"
 xunit_command_net40 = "packages/xunit.runners.1.9.2/tools/xunit.console.clr4.exe"
-nuget_command = "packages/NuGet.CommandLine.2.7.0/tools/NuGet.exe"
+nuget_command = "packages/NuGet.CommandLine.2.8.1/tools/NuGet.exe"
 solution = "src/XBehave.sln"
 output = "bin"
 
