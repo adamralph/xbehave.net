@@ -2,6 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+#if !V2
 namespace Xbehave.Test.Acceptance
 {
     using System;
@@ -97,3 +98,4 @@ namespace Xbehave.Test.Acceptance
         }
     }
 }
+#endif
