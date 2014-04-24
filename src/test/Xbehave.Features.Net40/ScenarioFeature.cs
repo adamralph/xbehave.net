@@ -8,9 +8,9 @@ namespace Xbehave.Test.Acceptance
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
-    using Xunit.Sdk;
 
     // In order to prevent bugs due to incorrect code
     // As a developer
@@ -20,12 +20,30 @@ namespace Xbehave.Test.Acceptance
         private static object[] arguments;
         private static int executedStepCount;
 
+        [Fact(Skip = "Temporary development aid for use whilst working on getting scenarios recognised by the runner.")]
+        public static void ScenarioBodyThrowsAnExceptionShouldResultInAFailure()
+        {
+            var feature = default(Type);
+            var exception = default(Exception);
+            var results = default(Result[]);
+
+            feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException);
+
+            exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray());
+
+            exception.Should().BeNull();
+
+            results.Should().NotBeEmpty();
+
+            results.Should().ContainItemsAssignableTo<Fail>();
+        }
+
         [Scenario]
         public static void ScenarioBodyThrowsAnException()
         {
             var feature = default(Type);
             var exception = default(Exception);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a scenario body which throws an exception"
                 .Given(() => feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException));
@@ -40,7 +58,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().NotBeEmpty());
 
             "And each result should be a failure"
-                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+                .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
         [Scenario]
@@ -48,7 +66,7 @@ namespace Xbehave.Test.Acceptance
         {
             var feature = default(Type);
             var exception = default(Exception);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a non-static scenario but no default constructor"
                 .Given(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
@@ -63,14 +81,14 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().NotBeEmpty());
 
             "And each result should be a failure"
-                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+                .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
         [Scenario]
         public static void FailingStep()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a failing step followed by passing steps"
                 .Given(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
@@ -80,13 +98,13 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(() => executedStepCount = 0);
 
             "Then each result should be a failure"
-                .Then(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+                .Then(() => results.Should().ContainItemsAssignableTo<Fail>());
 
             "And only the first step should have been executed"
                 .And(() => executedStepCount.Should().Be(1));
 
             "And each subsequent result message should indicate that the step failed because of failure to execute the first step"
-                .And(() => results.Cast<FailedResult>().Skip(1).Should()
+                .And(() => results.Cast<Fail>().Skip(1).Should()
                     .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01.01] Given something\"")));
         }
 
@@ -94,7 +112,7 @@ namespace Xbehave.Test.Acceptance
         public static void FailingStepAfterContinueOnFailureStepType()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a failing step after the first Then"
                 .Given(() => feature = typeof(FeatureWithAFailingStepAfterContinueOnFailureStepType));
@@ -104,13 +122,13 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(() => executedStepCount = 0);
 
             "Then the first 3 should be passes"
-                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<PassedResult>());
+                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<Pass>());
 
             "And the 4th result should be a failure"
-                .And(() => results[3].Should().BeAssignableTo<FailedResult>());
+                .And(() => results[3].Should().BeAssignableTo<Fail>());
 
             "And the rest should be passes"
-                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<PassedResult>().And.NotBeEmpty());
+                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<Pass>().And.NotBeEmpty());
 
             "And it should execute all the steps"
                 .And(() => executedStepCount.Should().Be(results.Length));
@@ -120,7 +138,7 @@ namespace Xbehave.Test.Acceptance
         public static void FailingStepBeforeContinueOnFailureStepType()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a failing step after the first Then (but before the first But)"
                 .Given(() => feature = typeof(FeatureWithAFailingStepBeforeContinueOnFailureStepType));
@@ -130,16 +148,16 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(() => executedStepCount = 0);
 
             "Then the first 3 should be passes"
-                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<PassedResult>());
+                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<Pass>());
 
             "And the 4th result should be a failure"
-                .And(() => results[3].Should().BeAssignableTo<FailedResult>());
+                .And(() => results[3].Should().BeAssignableTo<Fail>());
 
             "And the rest should be failures"
-                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<FailedResult>().And.NotBeEmpty());
+                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<Fail>().And.NotBeEmpty());
 
             "And each subsequent result message should indicate that the step failed because of failure to execute the 4th step"
-                .And(() => results.Skip(4).Cast<FailedResult>()
+                .And(() => results.Skip(4).Cast<Fail>()
                                   .Should()
                                   .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01.04] And something goes wrong\"")));
 
@@ -151,7 +169,7 @@ namespace Xbehave.Test.Acceptance
         public static void FailingScenario()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a failing scenario"
                 .Given(() => feature = typeof(FeatureWithAFailingScenario));
@@ -167,14 +185,14 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Count().Should().Be(1));
 
             "And the result should be a failed result"
-                .And(() => results[0].Should().BeOfType<FailedResult>());
+                .And(() => results[0].Should().BeOfType<Fail>());
         }
 
         [Scenario]
         public static void ScenarioWithParameters()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a scenario with a single step and parameters"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndParameters));
@@ -183,7 +201,7 @@ namespace Xbehave.Test.Acceptance
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
             "Then each result should be a success"
-                .Then(() => results.Should().ContainItemsAssignableTo<PassedResult>());
+                .Then(() => results.Should().ContainItemsAssignableTo<Pass>());
 
             "Then the scenario should be executed with default values passed as arguments"
                 .Then(() => arguments.Should().OnlyContain(obj => (int)obj == default(int)))

@@ -9,8 +9,8 @@ namespace Xbehave.Test.Acceptance
     using System.Collections.Concurrent;
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
-    using Xunit.Sdk;
 
     // In order to release allocated resources
     // As a developer
@@ -23,7 +23,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringManyTeardownsInASingleStep()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a step which registers many teardowns"
                 .Given(() => feature = typeof(SingleStep));
@@ -33,7 +33,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(TeardownFeature.ClearActionIds);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some teardowns should have been executed"
                 .And(() => ActionIds.Count.Should().NotBe(0));
@@ -46,7 +46,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringTeardownActionsWhichThrowExceptionsWhenExecuted()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a step which registers teardown actions which throw exceptions when executed"
                 .Given(() => feature = typeof(SingleStepWithBadTeardowns));
@@ -59,10 +59,10 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And the first n-1 results should not be failures"
-                .And(() => results.Reverse().Skip(1).Should().NotContain(result => result is FailedResult));
+                .And(() => results.Reverse().Skip(1).Should().NotContain(result => result is Fail));
 
             "And the last result should be a failure"
-                .And(() => results.Reverse().First().Should().BeOfType<FailedResult>());
+                .And(() => results.Reverse().First().Should().BeOfType<Fail>());
 
             "And some teardowns should have been executed"
                 .And(() => ActionIds.Count.Should().NotBe(0));
@@ -75,7 +75,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringManyTeardownActionsInManySteps()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given many steps which each register many teardown actions"
                 .Given(() => feature = typeof(ManySteps));
@@ -85,7 +85,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(TeardownFeature.ClearActionIds);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some teardowns should have been executed"
                 .And(() => ActionIds.Count.Should().NotBe(0));
@@ -98,7 +98,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringATeardownInManyContexts()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a scenario with a step which registers a teardown action followed by steps which generate two contexts"
                 .Given(() => feature = typeof(SingleStepTwoContexts));
@@ -108,7 +108,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(TeardownFeature.ClearActionIds);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And two teardown actions should have been executed"
                 .And(() => ActionIds.Count.Should().Be(2));
@@ -118,7 +118,7 @@ namespace Xbehave.Test.Acceptance
         public static void FailingSteps()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a scenario with steps which register teardown actions followed by a failing step"
                 .Given(() => feature = typeof(StepsFollowedByAFailingStep));
@@ -128,7 +128,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(TeardownFeature.ClearActionIds);
 
             "Then there should be one failure"
-                .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
+                .Then(() => results.OfType<Fail>().Count().Should().Be(1));
 
             "And some teardowns should have been executed"
                 .And(() => ActionIds.Count.Should().NotBe(0));
@@ -141,7 +141,7 @@ namespace Xbehave.Test.Acceptance
         public static void FailureToCompleteAStep()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a scenario with a step which registers teardown actions but fails to complete"
                 .Given(() => feature = typeof(StepFailsToComplete));
@@ -151,7 +151,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(TeardownFeature.ClearActionIds);
 
             "Then there should be one failure"
-                .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
+                .Then(() => results.OfType<Fail>().Count().Should().Be(1));
 
             "And some teardowns should have been executed"
                 .And(() => ActionIds.Count.Should().NotBe(0));
@@ -164,7 +164,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringDisposableObjectsAndTeardownActions()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given steps which each register disposable objects and teardown actions"
                 .Given(() => feature = typeof(TeardownsAndDisposables));
@@ -174,7 +174,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(TeardownFeature.ClearActionIds);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some teardowns should have been executed"
                 .And(() => ActionIds.Count.Should().NotBe(0));

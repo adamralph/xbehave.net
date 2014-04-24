@@ -7,8 +7,8 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
-    using Xunit.Sdk;
 
     // In order to define steps which would cause following steps to fail
     // As a developer
@@ -19,7 +19,7 @@ namespace Xbehave.Test.Acceptance
         public static void IsolatedSteps()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a scenario with isolated steps which would cause following steps to fail if executed in the same context"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithIsolatedStepsWhichWouldCauseFollowingStepsToFailIfExecutedInTheSameContext));
@@ -31,7 +31,7 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And there should be no failures"
-                .And(() => results.Should().NotContain(result => result is FailedResult));
+                .And(() => results.Should().NotContain(result => result is Fail));
         }
 
         private static class FeatureWithAScenarioWithIsolatedStepsWhichWouldCauseFollowingStepsToFailIfExecutedInTheSameContext
