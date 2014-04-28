@@ -7,8 +7,8 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Collections.Generic;
     using FluentAssertions;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
-    using Xunit.Sdk;
 
     // In order to write less code
     // As a developer
@@ -27,7 +27,7 @@ namespace Xbehave.Test.Acceptance
         public static void FeatureWithBackgroundSteps()
         {
             var feature = default(Type);
-            var results = default(Queue<MethodResult>);
+            var results = default(Queue<Result>);
 
             "Given a feature with three background steps and two scenarios with two steps each"
                 .Given(() => feature = typeof(Feature));

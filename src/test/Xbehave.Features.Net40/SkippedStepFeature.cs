@@ -7,8 +7,8 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
-    using Xunit.Sdk;
 
     // In order to commit nearly completed features
     // As a developer
@@ -19,7 +19,7 @@ namespace Xbehave.Test.Acceptance
         public static void UnfinishedFeature()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a feature with a scenario with skipped steps because \"the feature is unfinished\" which would throw exceptions if executed"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithSkippedStepsBecauseTheFeatureIsUnfinishedWhichWouldThrowExceptionsIfExecuted));
@@ -31,13 +31,13 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And there should be no failures"
-                .And(() => results.Should().NotContain(result => result is FailedResult));
+                .And(() => results.Should().NotContain(result => result is Fail));
 
             "And some steps should have been skipped"
-                .And(() => results.Any(result => result is SkipResult).Should().BeTrue());
+                .And(() => results.Any(result => result is Skip).Should().BeTrue());
 
             "And each skipped step should be skipped because \"the feature is unfinished\""
-                .And(() => results.OfType<SkipResult>().Should().OnlyContain(result => result.Reason == "the feature is unfinished"));
+                .And(() => results.OfType<Skip>().Should().OnlyContain(result => result.Reason == "the feature is unfinished"));
         }
 
         private static class FeatureWithAScenarioWithSkippedStepsBecauseTheFeatureIsUnfinishedWhichWouldThrowExceptionsIfExecuted

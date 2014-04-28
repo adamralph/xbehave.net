@@ -15,6 +15,7 @@ namespace Xbehave.Test.Acceptance
     using System.Threading.Tasks;
 #endif
     using FluentAssertions;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Sdk;
 
@@ -33,7 +34,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringManyDisposableObjectsInASingleStep()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a step which registers many disposable objects followed by a step which uses the objects"
                 .Given(() => feature = typeof(SingleStep));
@@ -43,7 +44,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some disposable objects should have been created"
                 .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
@@ -56,7 +57,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringManyDisposableObjectsInASingleStepWithATimeout()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a step which registers many disposable objects followed by a step which uses the objects"
                 .Given(() => feature = typeof(SingleStepWithATimeout));
@@ -66,7 +67,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some disposable objects should have been created"
                 .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
@@ -79,7 +80,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringDisposableObjectWhichThrowExceptionsWhenDisposed()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a step which registers disposable objects which throw exceptions when disposed followed by a step which uses the objects"
                 .Given(() => feature = typeof(SingleStepWithBadDisposables));
@@ -92,10 +93,10 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And the first n-1 results should not be failures"
-                .And(() => results.Reverse().Skip(1).Should().NotContain(result => result is FailedResult));
+                .And(() => results.Reverse().Skip(1).Should().NotContain(result => result is Fail));
 
             "And the last result should be a failure"
-                .And(() => results.Reverse().First().Should().BeOfType<FailedResult>());
+                .And(() => results.Reverse().First().Should().BeOfType<Fail>());
 
             "And some disposable objects should have been created"
                 .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
@@ -104,11 +105,12 @@ namespace Xbehave.Test.Acceptance
                 .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
         }
 
+#if !V2
         [Scenario]
         public static void RegisteringDisposableObjectsWhichRegisterAFurtherDisposableWhenDisposed()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             ("Given a step which registers disposable objects which, when disposed," +
                 "throw an exception and register a further disposable objects which throw an exception when disposed")
@@ -122,10 +124,10 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotBeEmpty());
 
             "And the first n-2 results should not be failures"
-                .And(() => results.Reverse().Skip(2).Should().NotContain(result => result is FailedResult));
+                .And(() => results.Reverse().Skip(2).Should().NotContain(result => result is Fail));
 
             "And the last 2 results should be failures"
-                .And(() => results.Reverse().Take(2).Should().ContainItemsAssignableTo<FailedResult>());
+                .And(() => results.Reverse().Take(2).Should().ContainItemsAssignableTo<Fail>());
 
             "And some disposable objects should have been created"
                 .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
@@ -134,11 +136,12 @@ namespace Xbehave.Test.Acceptance
                 .And(() => EachDisposableObjectShouldHaveBeenDisposed());
         }
 
+#endif
         [Scenario]
         public static void RegisteringManyDisposableObjectsInSeparateSteps()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given many steps which each register a disposable object followed by a step which uses the objects"
                 .Given(() => feature = typeof(ManySteps));
@@ -148,7 +151,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some disposable objects should have been created"
                 .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
@@ -161,7 +164,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringADisposableObjectInManyContexts()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a scenario with a step which registers a disposable object followed by steps which use the disposable object and generate two contexts"
                 .Given(() => feature = typeof(SingleStepTwoContexts));
@@ -171,7 +174,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And two disposable objects should have been created"
                 .And(() => Disposable.RecordedEvents.Count(@event => @event.EventType == LifeTimeEventType.Constructed).Should().Be(2));
@@ -199,7 +202,7 @@ namespace Xbehave.Test.Acceptance
         public static void FailingSteps()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a scenario with steps which register disposable objects followed by a failing step"
                 .Given(() => feature = typeof(StepsFollowedByAFailingStep));
@@ -209,7 +212,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be one failure"
-                .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
+                .Then(() => results.OfType<Fail>().Count().Should().Be(1));
 
             "And some disposable objects should have been created"
                 .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
@@ -222,7 +225,7 @@ namespace Xbehave.Test.Acceptance
         public static void FailureToCompleteAStep()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a scenario with a step which registers disposable objects but fails to complete"
                 .Given(() => feature = typeof(StepFailsToComplete));
@@ -232,7 +235,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be one failure"
-                .Then(() => results.OfType<FailedResult>().Count().Should().Be(1));
+                .Then(() => results.OfType<Fail>().Count().Should().Be(1));
 
             "And some disposable objects should have been created"
                 .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
@@ -246,7 +249,7 @@ namespace Xbehave.Test.Acceptance
         public static void RegisteringManyDisposableObjectsInAnAsyncStep()
         {
             var feature = default(Type);
-            var results = default(MethodResult[]);
+            var results = default(Result[]);
 
             "Given a step which registers many disposable objects in an async step"
                 .Given(() => feature = typeof(AsyncStep));
@@ -256,7 +259,7 @@ namespace Xbehave.Test.Acceptance
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is FailedResult));
+                .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some disposable objects should have been created"
                 .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
@@ -371,6 +374,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#if !V2
         private static class SingleStepWithSingleRecursionBadDisposables
         {
             [Scenario]
@@ -398,6 +402,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#endif
         private static class ManySteps
         {
             [Scenario]
@@ -587,6 +592,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#if !V2
         private sealed class SingleRecursionBadDisposable : Disposable
         {
             protected override void Dispose(bool disposing)
@@ -602,6 +608,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#endif
         private class LifetimeEvent
         {
             public LifeTimeEventType EventType { get; set; }

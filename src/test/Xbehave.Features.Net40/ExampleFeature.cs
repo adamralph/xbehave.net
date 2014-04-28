@@ -11,6 +11,7 @@ namespace Xbehave.Test.Acceptance
     using System.Collections.Generic;
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Features.Infrastructure;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
     using Xunit.Sdk;
@@ -26,7 +27,7 @@ namespace Xbehave.Test.Acceptance
 #if NET40 || NET45
 
         [Scenario]
-        public static void Examples(Type feature, IEnumerable<MethodResult> results)
+        public static void Examples(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with a single step and examples"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamples))
@@ -41,8 +42,7 @@ namespace Xbehave.Test.Acceptance
                     .OrderBy(x => x, new EnumerableComparer<int>())
                     .SequenceEqual(
                         Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
-                            .Select(x => x.GetInstance<ExampleAttribute>())
-                            .Select(example => example.DataValues.Cast<int>().ToArray())
+                            .Select(x => x.GetExampleValues().Cast<int>().ToArray())
                             .OrderBy(x => x, new EnumerableComparer<int>()),
                         new EnumerableEqualityComparer<int>())
                     .Should().BeTrue());
@@ -58,7 +58,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void ExamplesWithTwoMissingArguments(Type feature, IEnumerable<MethodResult> results)
+        public static void ExamplesWithTwoMissingArguments(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with a single step and examples with one argument missing"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingArguments))
@@ -68,7 +68,7 @@ namespace Xbehave.Test.Acceptance
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
             "Then each result should be a success"
-                .Then(() => results.Should().ContainItemsAssignableTo<PassedResult>());
+                .Then(() => results.Should().ContainItemsAssignableTo<Pass>());
 
             ("Then the scenario should be executed once for each example with " +
                 "the values from that example passed as the first two arguments and " +
@@ -78,8 +78,7 @@ namespace Xbehave.Test.Acceptance
                     .OrderBy(x => x, new EnumerableComparer<int>())
                     .SequenceEqual(
                         Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
-                            .Select(x => x.GetInstance<ExampleAttribute>())
-                            .Select(example => example.DataValues.Cast<int>()
+                            .Select(x => x.GetExampleValues().Cast<int>()
                                 .Concat(new[]
                                     {
                                         default(int),
@@ -92,7 +91,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, IEnumerable<MethodResult> results)
+        public static void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with a single step and examples with one argument missing"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingResolvableGenericArguments))
@@ -102,7 +101,7 @@ namespace Xbehave.Test.Acceptance
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
             "Then each result should be a success"
-                .Then(() => results.Should().ContainItemsAssignableTo<PassedResult>());
+                .Then(() => results.Should().ContainItemsAssignableTo<Pass>());
 
             ("Then the scenario should be executed once for each example with " +
                 "the values from that example passed as the first two arguments and " +
@@ -112,8 +111,7 @@ namespace Xbehave.Test.Acceptance
                     .OrderBy(x => x, new EnumerableComparer<int>())
                     .SequenceEqual(
                         Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
-                            .Select(x => x.GetInstance<ExampleAttribute>())
-                            .Select(example => example.DataValues.Cast<int>()
+                            .Select(x => x.GetExampleValues().Cast<int>()
                                 .Concat(new[]
                                     {
                                         default(int),
@@ -127,7 +125,7 @@ namespace Xbehave.Test.Acceptance
 #endif
 
         [Scenario]
-        public static void GenericScenario(Type feature, IEnumerable<MethodResult> results)
+        public static void GenericScenario(Type feature, IEnumerable<Result> results)
         {
             @"Given a feature with a generic scenario with five type parameters and examples containing
 an Int32 value for the first type parameter,
@@ -149,7 +147,7 @@ an null value for the fifth type parameter"
         }
 
         [Scenario]
-        public static void FormattedSteps(Type feature, IEnumerable<MethodResult> results)
+        public static void FormattedSteps(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
                 .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndAFormattedStep));
@@ -165,7 +163,7 @@ an null value for the fifth type parameter"
         }
 
         [Scenario]
-        public static void FormattedStepsWithNullValues(Type feature, IEnumerable<MethodResult> results)
+        public static void FormattedStepsWithNullValues(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
                 .Given(() => feature = typeof(FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep));
@@ -181,7 +179,7 @@ an null value for the fifth type parameter"
         }
 
         [Scenario]
-        public static void BadlyFormattedSteps(Type feature, IEnumerable<MethodResult> results)
+        public static void BadlyFormattedSteps(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{3}}, {{4}} and {{5}}\""
                 .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep));
@@ -193,14 +191,14 @@ an null value for the fifth type parameter"
                 .Then(() => results.Should().NotBeEmpty());
 
             "And there should be no failures"
-                .And(() => results.Should().NotContain(result => result is FailedResult));
+                .And(() => results.Should().NotContain(result => result is Fail));
 
             "And the display name of each result should end with \"Given {{3}}, {{4}} and {{5}}\""
                 .And(() => results.Should().OnlyContain(result => result.DisplayName.EndsWith("Given {3}, {4} and {5}")));
         }
 
         [Scenario]
-        public static void InvalidExamples(Type feature, Exception exception, IEnumerable<MethodResult> results)
+        public static void InvalidExamples(Type feature, Exception exception, IEnumerable<Result> results)
         {
             "Given a feature with scenarios with invalid examples"
                 .Given(() => feature = typeof(FeatureWithTwoScenariosWithInvalidExamples));
@@ -215,11 +213,11 @@ an null value for the fifth type parameter"
                 .And(() => results.Count().Should().Be(2));
 
             "And each result should be a failure"
-                .And(() => results.Should().ContainItemsAssignableTo<FailedResult>());
+                .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
         [Scenario]
-        public static void OmissionOfArgumentsFromScenarioNames(Type feature, IEnumerable<MethodResult> results)
+        public static void OmissionOfArgumentsFromScenarioNames(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with a single step and examples and omission of arguments from scenario names"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames));
