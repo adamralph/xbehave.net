@@ -2,8 +2,8 @@ require 'albacore'
 require 'fileutils'
 
 version = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
-xunit_command = "src/packages/xunit.runners.2.0.0-beta-build2616/tools/xunit.console.exe"
-nuget_command = "src/packages/NuGet.CommandLine.2.8.1/tools/NuGet.exe"
+xunit_command = "src/packages/xunit.runners.2.0.0-beta-build2700/tools/xunit.console.exe"
+nuget_command = "src/packages/NuGet.CommandLine.2.8.2/tools/NuGet.exe"
 solution = "src/XBehave.sln"
 output = "bin"
 
