@@ -20,7 +20,7 @@ namespace Xbehave
     /// </summary>    
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
-    [TestCaseDiscoverer("Xbehave.Execution.ScenarioDiscoverer", "Xbehave.Execution")]
+    [XunitTestCaseDiscoverer("Xbehave.Execution.ScenarioDiscoverer", "Xbehave.Execution")]
     public class ScenarioAttribute : FactAttribute
     {
     }
