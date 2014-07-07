@@ -69,6 +69,18 @@ namespace Xbehave.Sdk
             }
         }
 
+        public static IEnumerable<Step> ExtractSteps()
+        {
+            try
+            {
+                return Steps;
+            }
+            finally
+            {
+                steps = null;
+            }
+        }
+
         private static string EmbellishStepName(string name)
         {
             return addingBackgroundSteps ? "(Background) " + name : name;

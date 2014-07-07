@@ -8,22 +8,11 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    ////public class ScenarioDiscoverer : FactDiscoverer
-    ////{
-    ////}
-
-    public class ScenarioDiscoverer : IXunitDiscoverer
+    public class ScenarioDiscoverer : IXunitTestCaseDiscoverer
     {
-        private readonly FactDiscoverer discoverer = new FactDiscoverer();
-
-        public IEnumerable<XunitTestCase> Discover(
-            ITestCollection testCollection,
-            IAssemblyInfo assembly,
-            ITypeInfo testClass,
-            IMethodInfo testMethod,
-            IAttributeInfo factAttribute)
+        public IEnumerable<IXunitTestCase> Discover(ITestMethod testMethod, IAttributeInfo factAttribute)
         {
-            return this.discoverer.Discover(testCollection, assembly, testClass, testMethod, factAttribute);
+            yield return new Scenario(testMethod);
         }
     }
 }
