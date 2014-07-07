@@ -31,19 +31,19 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            var testClass = this.TestMethod.TestClass;
-            var type = Reflector.GetType(testClass.TestCollection.TestAssembly.Assembly.Name, testClass.Class.Name);
+            var type = Reflector.GetType(
+                this.TestMethod.TestClass.TestCollection.TestAssembly.Assembly.Name,
+                this.TestMethod.TestClass.Class.Name);
 
             var method = type.GetMethod(this.TestMethod.Method.Name, this.TestMethod.Method.GetBindingFlags());
             method.Invoke(method.IsStatic ? null : Activator.CreateInstance(type), new object[0]);
 
-            var tests = CurrentScenario.ExtractSteps()
-                .Select(step => new LambdaTestCase(this.TestMethod, () => step.RunAsync().Wait()));
-
             var summary = new RunSummary();
-            foreach (var test in tests)
+            foreach (var testCase in CurrentScenario.ExtractSteps()
+                .Select(step => new StepTestCase(this.TestMethod, step)))
             {
-                summary.Aggregate(await test.RunAsync(messageBus, constructorArguments, aggregator, cancellationTokenSource));
+                summary.Aggregate(
+                    await testCase.RunAsync(messageBus, constructorArguments, aggregator, cancellationTokenSource));
             }
 
             return summary;
