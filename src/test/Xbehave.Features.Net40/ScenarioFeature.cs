@@ -37,7 +37,6 @@ namespace Xbehave.Test.Acceptance
             results.Should().ContainItemsAssignableTo<Pass>();
         }
 
-#if !V2
         [Scenario]
         public static void ScenarioWithThreePassingSteps()
         {
@@ -57,6 +56,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<Pass>());
         }
 
+#if !V2
         [Scenario]
         public static void ScenarioBodyThrowsAnException()
         {
