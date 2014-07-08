@@ -56,7 +56,6 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<Pass>());
         }
 
-#if !V2
         [Scenario]
         public static void ScenarioBodyThrowsAnException()
         {
@@ -80,6 +79,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
+#if !V2
         [Scenario]
         public static void FeatureCannotBeConstructed()
         {
@@ -270,6 +270,7 @@ namespace Xbehave.Test.Acceptance
                     .When(() => ++executedStepCount);
             }
         }
+#endif
 
         private static class FeatureWithAScenarioBodyWhichThrowsAnException
         {
@@ -280,6 +281,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#if !V2
         private static class FeatureWithAFailingStepFollowedByTwoPassingSteps
         {
             [Scenario]
