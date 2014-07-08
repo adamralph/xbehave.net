@@ -2,6 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+#if !V2
 namespace Xbehave.Features
 {
     using System;
@@ -264,3 +265,4 @@ namespace Xbehave.Features
         }
     }
 }
+#endif

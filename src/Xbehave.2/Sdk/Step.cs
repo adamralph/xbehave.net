@@ -8,6 +8,7 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Provides the implementation to execute each step.
@@ -73,5 +74,7 @@ namespace Xbehave.Sdk
                 this.teardowns.Add(teardown);
             }
         }
+
+        public abstract Task RunAsync();
     }
 }

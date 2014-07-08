@@ -18,5 +18,10 @@ namespace Xbehave.Sdk
 
             this.body = body;
         }
+
+        public override Task RunAsync()
+        {
+            return this.body();
+        }
     }
 }

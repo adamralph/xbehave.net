@@ -23,7 +23,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
                 var thread = new Thread(() => messages = test.Run<ITestResultMessage>(featureDefinition));
                 thread.Start();
                 thread.Join();
-                return messages.Select(Map);
+                return messages.Select(Map).ToArray();
             }
         }
 

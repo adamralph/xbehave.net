@@ -2,6 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+#if !V2
 #if NET40 || NET45
 namespace Xbehave.Test.Acceptance
 {
@@ -617,4 +618,5 @@ namespace Xbehave.Test.Acceptance
         }
     }
 }
+#endif
 #endif

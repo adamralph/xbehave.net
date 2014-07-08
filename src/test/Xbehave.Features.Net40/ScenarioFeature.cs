@@ -17,25 +17,43 @@ namespace Xbehave.Test.Acceptance
     // I want to run automated acceptance tests describing each feature of my product using scenarios
     public static class ScenarioFeature
     {
+#if !V2
         private static object[] arguments;
         private static int executedStepCount;
+#endif
 
-        [Fact(Skip = "Temporary development aid for use whilst working on getting scenarios recognised by the runner.")]
-        public static void ScenarioBodyThrowsAnExceptionShouldResultInAFailure()
+        // NOTE (adamralph): a plain xunit fact to prove that plain scenarios work in 2.x
+        [Fact]
+        public static void ScenarioWithThreePassingStepsYieldsThreePasses()
+        {
+            // arrange
+            var feature = typeof(FeatureWithAScenarioWithThreePassingSteps);
+
+            // act
+            var results = TestRunner.Run(feature).ToArray();
+
+            // assert
+            results.Length.Should().Be(3);
+            results.Should().ContainItemsAssignableTo<Pass>();
+        }
+
+        [Scenario]
+        public static void ScenarioWithThreePassingSteps()
         {
             var feature = default(Type);
-            var exception = default(Exception);
             var results = default(Result[]);
 
-            feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException);
+            "Given a feature with a scenario with three passing steps"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithThreePassingSteps));
 
-            exception = Record.Exception(() => results = TestRunner.Run(feature).ToArray());
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
 
-            exception.Should().BeNull();
+            "Then there should be three results"
+                .And(() => results.Length.Should().Be(3));
 
-            results.Should().NotBeEmpty();
-
-            results.Should().ContainItemsAssignableTo<Fail>();
+            "And each result should be a pass"
+                .And(() => results.Should().ContainItemsAssignableTo<Pass>());
         }
 
         [Scenario]
@@ -84,6 +102,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
+#if !V2
         [Scenario]
         public static void FailingStep()
         {
@@ -207,7 +226,27 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => arguments.Should().OnlyContain(obj => (int)obj == default(int)))
                 .Teardown(() => arguments = null);
         }
+#endif
 
+        private static class FeatureWithAScenarioWithThreePassingSteps
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                var i = 0;
+
+                "Given 1"
+                    .f(() => i = 1);
+
+                "When I add 1"
+                    .f(() => i += 1);
+
+                "Then I have 2"
+                    .f(() => i.Should().Be(2));
+            }
+        }
+
+#if !V2
         private static class FeatureWithAScenarioWithASingleStepAndParameters
         {
             [Scenario]
@@ -231,6 +270,7 @@ namespace Xbehave.Test.Acceptance
                     .When(() => ++executedStepCount);
             }
         }
+#endif
 
         private static class FeatureWithAScenarioBodyWhichThrowsAnException
         {
@@ -241,6 +281,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#if !V2
         private static class FeatureWithAFailingStepFollowedByTwoPassingSteps
         {
             [Scenario]
@@ -320,6 +361,7 @@ namespace Xbehave.Test.Acceptance
                     .And(() => ++executedStepCount);
             }
         }
+#endif
 
         private class FeatureWithANonStaticScenarioButNoDefaultConstructor
         {

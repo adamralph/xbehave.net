@@ -5,6 +5,7 @@
 namespace Xbehave.Sdk
 {
     using System;
+    using System.Threading.Tasks;
 
     public class SyncStep : Step
     {
@@ -16,6 +17,11 @@ namespace Xbehave.Sdk
             Guard.AgainstNullArgument("body", body);
 
             this.body = body;
+        }
+
+        public override Task RunAsync()
+        {
+            return Task.Factory.StartNew(this.body);
         }
     }
 }
