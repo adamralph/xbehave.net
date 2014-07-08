@@ -79,7 +79,6 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
-#if !V2
         [Scenario]
         public static void FeatureCannotBeConstructed()
         {
@@ -103,6 +102,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
+#if !V2
         [Scenario]
         public static void FailingStep()
         {
@@ -361,6 +361,7 @@ namespace Xbehave.Test.Acceptance
                     .And(() => ++executedStepCount);
             }
         }
+#endif
 
         private class FeatureWithANonStaticScenarioButNoDefaultConstructor
         {
@@ -376,6 +377,5 @@ namespace Xbehave.Test.Acceptance
                     .Given(() => { });
             }
         }
-#endif
     }
 }
