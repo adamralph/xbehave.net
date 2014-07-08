@@ -31,19 +31,40 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            var type = Reflector.GetType(
-                this.TestMethod.TestClass.TestCollection.TestAssembly.Assembly.Name,
-                this.TestMethod.TestClass.Class.Name);
-
-            var method = type.GetMethod(this.TestMethod.Method.Name, this.TestMethod.Method.GetBindingFlags());
-            method.Invoke(method.IsStatic ? null : Activator.CreateInstance(type), new object[0]);
-
+            var timer = new ExecutionTimer();
             var summary = new RunSummary();
-            foreach (var testCase in CurrentScenario.ExtractSteps()
-                .Select(step => new StepTestCase(this.TestMethod, step)))
+            try
             {
-                summary.Aggregate(
-                    await testCase.RunAsync(messageBus, constructorArguments, aggregator, cancellationTokenSource));
+                await timer.AggregateAsync(async () =>
+                {
+                    var type = Reflector.GetType(
+                        this.TestMethod.TestClass.TestCollection.TestAssembly.Assembly.Name,
+                        this.TestMethod.TestClass.Class.Name);
+
+                    var method = type.GetMethod(this.TestMethod.Method.Name, this.TestMethod.Method.GetBindingFlags());
+                    var obj = method.IsStatic ? null : Activator.CreateInstance(type, constructorArguments);
+                    var result = method.Invoke(obj, new object[0]);
+                    var task = result as Task;
+                    if (task != null)
+                    {
+                        await task;
+                    }
+                });
+
+                foreach (var testCase in CurrentScenario.ExtractSteps()
+                    .Select(step => new StepTestCase(this.TestMethod, step)))
+                {
+                    summary.Aggregate(
+                        await testCase.RunAsync(messageBus, constructorArguments, aggregator, cancellationTokenSource));
+                }
+            }
+            catch (Exception ex)
+            {
+                summary.Failed++;
+                if (!messageBus.QueueMessage(new TestFailed(this, DisplayName, timer.Total, null, ex)))
+                {
+                    cancellationTokenSource.Cancel();
+                }
             }
 
             return summary;
