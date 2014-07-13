@@ -6,9 +6,6 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-#if NET40 || NET45
-    using System.Collections.Concurrent;
-#endif
     using System.Collections.Generic;
     using System.Linq;
     using FluentAssertions;
@@ -22,108 +19,65 @@ namespace Xbehave.Test.Acceptance
     // I want to write a single scenario using many examples
     public static class ExampleFeature
     {
-#if NET40 || NET45
-        private static readonly ConcurrentStack<object[]> ArgumentLists = new ConcurrentStack<object[]>();
-#endif
-#if NET40 || NET45
-
         [Scenario]
-        public static void Examples(Type feature, IEnumerable<Result> results)
+        public static void Examples(Type feature, Result[] results)
         {
-            "Given a feature with a scenario with a single step and examples"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamples))
-                .Teardown(() => ArgumentLists.Clear());
+            "Given a feature with a scenario with examples"
+                .f(() => feature = typeof(SingleStepAndThreeExamples));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature));
+                .f(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then the scenario should be executed once for each example with the values from that example passed as arguments"
-                .Then(() => ArgumentLists
-                    .Select(arguments => arguments.Cast<int>().ToArray())
-                    .OrderBy(x => x, new EnumerableComparer<int>())
-                    .SequenceEqual(
-                        Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
-                            .Select(x => x.GetExampleValues().Cast<int>().ToArray())
-                            .OrderBy(x => x, new EnumerableComparer<int>()),
-                        new EnumerableEqualityComparer<int>())
-                    .Should().BeTrue());
+            "Then there should be three results"
+                .f(() => results.Length.Should().Be(3));
 
-            "And the display name of one result should contain '(x: 1, y: 2, z: 3)'"
-                .And(() => results.Should().ContainSingle(result => result.DisplayName.Contains("(x: 1, y: 2, z: 3)")));
+            "And each result should be a pass"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
 
-            "And the display name of one result should contain '(x: 3, y: 4, z: 5)'"
-                .And(() => results.Should().ContainSingle(result => result.DisplayName.Contains("(x: 3, y: 4, z: 5)")));
+            "And the display name of one result should contain '(x: 1, y: 2, sum: 3)'"
+                .f(() => results.Should().ContainSingle(result =>
+                    result.DisplayName.Contains("(x: 1, y: 2, sum: 3)")));
 
-            "And the display name of one result should contain '(x: 5, y: 6, z: 7)'"
-                .And(() => results.Should().ContainSingle(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
+            "And the display name of one result should contain '(x: 10, y: 20, sum: 30)'"
+                .f(() => results.Should().ContainSingle(result =>
+                    result.DisplayName.Contains("(x: 10, y: 20, sum: 30)")));
+
+            "And the display name of one result should contain '(x: 100, y: 200, sum: 300)'"
+                .f(() => results.Should().ContainSingle(result =>
+                    result.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
         }
 
         [Scenario]
-        public static void ExamplesWithTwoMissingArguments(Type feature, IEnumerable<Result> results)
+        public static void ExamplesWithTwoMissingArguments(Type feature, Result[] results)
         {
             "Given a feature with a scenario with a single step and examples with one argument missing"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingArguments))
-                .Teardown(() => ArgumentLists.Clear());
+                .Given(() => feature = typeof(SingleStepAndThreeExamplesWithTwoMissingArguments));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then each result should be a success"
-                .Then(() => results.Should().ContainItemsAssignableTo<Pass>());
+            "Then there should be three results"
+                .f(() => results.Length.Should().Be(3));
 
-            ("Then the scenario should be executed once for each example with " +
-                "the values from that example passed as the first two arguments and " +
-                "default values passed as the remaining two arguments")
-                .Then(() => ArgumentLists
-                    .Select(arguments => arguments.Cast<int>().ToArray())
-                    .OrderBy(x => x, new EnumerableComparer<int>())
-                    .SequenceEqual(
-                        Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
-                            .Select(x => x.GetExampleValues().Cast<int>()
-                                .Concat(new[]
-                                    {
-                                        default(int),
-                                        default(int),
-                                    })
-                                .ToArray())
-                            .OrderBy(x => x, new EnumerableComparer<int>()),
-                        new EnumerableEqualityComparer<int>())
-                    .Should().BeTrue());
+            "And each result should be a pass"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
         }
 
         [Scenario]
-        public static void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, IEnumerable<Result> results)
+        public static void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, Result[] results)
         {
             "Given a feature with a scenario with a single step and examples with one argument missing"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingResolvableGenericArguments))
-                .Teardown(() => ArgumentLists.Clear());
+                .Given(() => feature = typeof(SingleStepAndThreeExamplesWithMissingResolvableGenericArguments));
 
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then each result should be a success"
-                .Then(() => results.Should().ContainItemsAssignableTo<Pass>());
+            "Then there should be three results"
+                .f(() => results.Length.Should().Be(3));
 
-            ("Then the scenario should be executed once for each example with " +
-                "the values from that example passed as the first two arguments and " +
-                "default values passed as the remaining two arguments")
-                .Then(() => ArgumentLists
-                    .Select(arguments => arguments.Cast<int>().ToArray())
-                    .OrderBy(x => x, new EnumerableComparer<int>())
-                    .SequenceEqual(
-                        Reflector.Wrap(feature.GetMethods().First()).GetCustomAttributes(typeof(ExampleAttribute))
-                            .Select(x => x.GetExampleValues().Cast<int>()
-                                .Concat(new[]
-                                    {
-                                        default(int),
-                                        default(int),
-                                    })
-                                .ToArray())
-                            .OrderBy(x => x, new EnumerableComparer<int>()),
-                        new EnumerableEqualityComparer<int>())
-                    .Should().BeTrue());
+            "And each result should be a pass"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
         }
-#endif
 
         [Scenario]
         public static void GenericScenario(Type feature, IEnumerable<Result> results)
@@ -236,46 +190,70 @@ an null value for the fifth type parameter"
                 .And(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
         }
 
-#if NET40 || NET45
-        private static class FeatureWithAScenarioWithASingleStepAndExamples
+        private static class SingleStepAndThreeExamples
         {
+            private static int previousSum;
+
             [Scenario]
             [Example(1, 2, 3)]
-            [Example(3, 4, 5)]
-            [Example(5, 6, 7)]
-            public static void Scenario(int x, int y, int z)
+            [Example(10, 20, 30)]
+            [Example(100, 200, 300)]
+            public static void Scenario(int x, int y, int sum)
             {
-                "Given {0}, {1} and {2}"
-                    .Given(() => ArgumentLists.Push(new object[] { x, y, z }));
+                "Then as a distinct example the sum of {0} and {1} is {2}"
+                    .Given(() =>
+                    {
+                        sum.Should().NotBe(previousSum);
+                        (x + y).Should().Be(sum);
+                        previousSum = sum;
+                    });
             }
         }
 
-        private static class FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingArguments
+        private static class SingleStepAndThreeExamplesWithTwoMissingArguments
         {
+            private static int previousExample;
+
             [Scenario]
-            [Example(1, 2)]
-            [Example(3, 4)]
-            [Example(5, 6)]
-            public static void Scenario(int w, int x, int y, int z)
+            [Example(1)]
+            [Example(2)]
+            [Example(3)]
+            public static void Scenario(int example, int missing1, object missing2)
             {
-                "Given {0}, {1}, {2} and {3}"
-                    .Given(() => ArgumentLists.Push(new object[] { w, x, y, z }));
+                "Then distinct examples are passed with the default values for missing arguments"
+                    .Given(() =>
+                    {
+                        example.Should().NotBe(previousExample);
+                        missing1.Should().Be(default(int));
+                        missing2.Should().Be(default(object));
+                        previousExample = example;
+                    });
             }
         }
 
-        private static class FeatureWithAScenarioWithASingleStepAndExamplesWithTwoMissingResolvableGenericArguments
+        private static class SingleStepAndThreeExamplesWithMissingResolvableGenericArguments
         {
+            private static object previousExample1;
+            private static object previousExample2;
+
             [Scenario]
-            [Example(1, 2)]
-            [Example(3, 4)]
-            [Example(5, 6)]
-            public static void Scenario<T1, T2>(T1 w, T2 x, T1 y, T2 z)
+            [Example(1, "a")]
+            [Example(3, "b")]
+            [Example(5, "c")]
+            public static void Scenario<T1, T2>(T1 example1, T2 example2, T1 missing1, T2 missing2)
             {
-                "Given {0}, {1}, {2} and {3}"
-                    .Given(() => ArgumentLists.Push(new object[] { w, x, y, z }));
+                "Then distinct examples are passed with the default values for missing arguments"
+                    .Given(() =>
+                    {
+                        example1.Should().NotBe(previousExample1);
+                        example2.Should().NotBe(previousExample2);
+                        missing1.Should().Be(default(T1));
+                        missing2.Should().Be(default(T2));
+                        previousExample1 = example1;
+                        previousExample2 = example2;
+                    });
             }
         }
-#endif
 
         private static class GenericScenarioFeature
         {
