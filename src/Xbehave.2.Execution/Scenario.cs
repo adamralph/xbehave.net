@@ -14,6 +14,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
+    [Serializable]
     public class Scenario : XunitTestCase
     {
         public Scenario(ITestMethod method)
