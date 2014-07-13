@@ -54,9 +54,10 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Guard.cs" />
+    <Compile Include="ScenarioTestCaseRunner.cs" />
     <Compile Include="StepTestCaseRunner.cs" />
     <Compile Include="StepTestCase.cs" />
-    <Compile Include="Scenario.cs" />
+    <Compile Include="ScenarioTestCase.cs" />
     <Compile Include="ScenarioDiscoverer.cs" />
   </ItemGroup>
   <ItemGroup>
