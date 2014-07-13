@@ -31,7 +31,11 @@ namespace Xbehave.Execution
             get { return this.step; }
         }
 
-        public override async Task<RunSummary> RunAsync(IMessageBus messageBus, object[] constructorArguments, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
+        public override async Task<RunSummary> RunAsync(
+            IMessageBus messageBus,
+            object[] constructorArguments,
+            ExceptionAggregator aggregator,
+            CancellationTokenSource cancellationTokenSource)
         {
             return await new StepTestCaseRunner(this, messageBus, aggregator, cancellationTokenSource).RunAsync();
         }
