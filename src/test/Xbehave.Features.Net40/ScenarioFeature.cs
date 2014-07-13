@@ -102,7 +102,6 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
-#if !V2
         [Scenario]
         public static void FailingStep()
         {
@@ -113,20 +112,23 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => executedStepCount = 0);
+                .When(() => results = TestRunner.Run(feature).ToArray());
 
             "Then each result should be a failure"
                 .Then(() => results.Should().ContainItemsAssignableTo<Fail>());
 
-            "And only the first step should have been executed"
-                .And(() => executedStepCount.Should().Be(1));
-
-            "And each subsequent result message should indicate that the step failed because of failure to execute the first step"
-                .And(() => results.Cast<Fail>().Skip(1).Should()
-                    .OnlyContain(result => result.Message.Contains("Failed to execute preceding step \"[01.01.01] Given something\"")));
+            "And each subsequent result message should indicate that the first step failed"
+                .And(() =>
+                {
+                    foreach (var result in results.Cast<Fail>().Skip(1))
+                    {
+                        result.Message.Should().ContainEquivalentOf("Failed to execute preceding step");
+                        result.Message.Should().ContainEquivalentOf("Given something");
+                    }
+                });
         }
 
+#if !V2
         [Scenario]
         public static void FailingStepAfterContinueOnFailureStepType()
         {
@@ -281,7 +283,6 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-#if !V2
         private static class FeatureWithAFailingStepFollowedByTwoPassingSteps
         {
             [Scenario]
@@ -290,18 +291,18 @@ namespace Xbehave.Test.Acceptance
                 "Given something"
                     .Given(() =>
                     {
-                        ++executedStepCount;
                         throw new NotImplementedException();
                     });
 
                 "When something happens"
-                    .When(() => ++executedStepCount);
+                    .When(() => { });
 
                 "Then there is an outcome"
-                    .Then(() => ++executedStepCount);
+                    .Then(() => { });
             }
         }
 
+#if !V2
         private static class FeatureWithAFailingStepAfterContinueOnFailureStepType
         {
             [Scenario]
