@@ -185,6 +185,7 @@ namespace Xbehave.Test.Acceptance
             "And it should execute 4 steps"
                 .And(() => executedStepCount.Should().Be(4));
         }
+#endif
 
         [Scenario]
         public static void FailingScenario()
@@ -196,19 +197,16 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAFailingScenario));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => executedStepCount = 0);
+                .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then no steps should have been executed"
-                .Then(() => executedStepCount.Should().Be(0));
-
-            "And there should be one result"
+            "Then there should be one result"
                 .And(() => results.Count().Should().Be(1));
 
             "And the result should be a failed result"
-                .And(() => results[0].Should().BeOfType<Fail>());
+                .And(() => results.Single().Should().BeOfType<Fail>());
         }
 
+#if !V2
         [Scenario]
         public static void ScenarioWithParameters()
         {
@@ -258,6 +256,7 @@ namespace Xbehave.Test.Acceptance
                     .Given(() => arguments = new object[] { w, x, y, z });
             }
         }
+#endif
 
         private static class FeatureWithAFailingScenario
         {
@@ -266,13 +265,12 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario2(int i)
             {
                 "Given"
-                    .Given(() => ++executedStepCount);
+                    .Given(() => { });
 
                 "When"
-                    .When(() => ++executedStepCount);
+                    .When(() => { });
             }
         }
-#endif
 
         private static class FeatureWithAScenarioBodyWhichThrowsAnException
         {
