@@ -5,6 +5,7 @@
 namespace Xbehave.Execution
 {
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Runtime.Serialization;
     using System.Threading;
@@ -51,11 +52,49 @@ namespace Xbehave.Execution
                     }
                 });
 
+                var stepFailed = false;
+                StepTestCase failedStep = null;
+                var interceptingBus = new DelegatingMessageBus(
+                    messageBus,
+                    message =>
+                    {
+                        if (message is ITestFailed)
+                        {
+                            stepFailed = true;
+                        }
+                    });
+
                 foreach (var testCase in CurrentScenario.ExtractSteps()
                     .Select(step => new StepTestCase(this.TestMethod, step)))
                 {
+                    if (failedStep != null)
+                    {
+                        var message = string.Format(
+                            CultureInfo.InvariantCulture,
+                            "Failed to execute preceding step \"{0}\".",
+                            failedStep.Step.Name);
+
+                        var failingTestCase = new LambdaTestCase(
+                            this.TestMethod,
+                            () =>
+                            {
+                                throw new InvalidOperationException(message);
+                            });
+
+                        await failingTestCase
+                            .RunAsync(messageBus, constructorArguments, aggregator, cancellationTokenSource);
+
+                        continue;
+                    }
+
                     summary.Aggregate(
-                        await testCase.RunAsync(messageBus, constructorArguments, aggregator, cancellationTokenSource));
+                        await testCase.RunAsync(
+                            interceptingBus, constructorArguments, aggregator, cancellationTokenSource));
+
+                    if (stepFailed)
+                    {
+                        failedStep = testCase;
+                    }
                 }
             }
             catch (Exception ex)
