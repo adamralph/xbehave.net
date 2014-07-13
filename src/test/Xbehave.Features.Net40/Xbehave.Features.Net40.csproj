@@ -70,6 +70,7 @@
     <Compile Include="Infrastructure\Fail.cs" />
     <Compile Include="Infrastructure\Pass.cs" />
     <Compile Include="Infrastructure\Result.cs" />
+    <Compile Include="ContinueOnFailureFeature.cs" />
     <Compile Include="SkippedScenarioFeature.cs" />
     <Compile Include="TeardownFeature.cs" />
     <Compile Include="StepTimeoutFeature.cs" />
