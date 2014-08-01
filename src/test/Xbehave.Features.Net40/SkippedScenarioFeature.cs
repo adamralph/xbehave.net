@@ -2,7 +2,6 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
 namespace Xbehave.Test.Acceptance
 {
     using System;
@@ -16,8 +15,6 @@ namespace Xbehave.Test.Acceptance
     // I want to temporarily skip an entire scenario
     public static class SkippedScenarioFeature
     {
-        private static int executedStepCount;
-
         [Scenario]
         public static void SkippedScenario()
         {
@@ -28,17 +25,13 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithASkippedScenario));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray())
-                .Teardown(() => executedStepCount = 0);
+                .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then no steps should have been executed"
-                .Then(() => executedStepCount.Should().Be(0));
-
-            "And there should be one result"
+            "Then there should be one result"
                 .And(() => results.Count().Should().Be(1));
 
             "And the result should be a skip result"
-                .And(() => results[0].Should().BeOfType<Skip>());
+                .And(() => results[0].Should().BeOfType<Skip>(results.ToDisplayString("the result should be a skip")));
         }
 
         private static class FeatureWithASkippedScenario
@@ -46,13 +39,8 @@ namespace Xbehave.Test.Acceptance
             [Scenario(Skip = "Test")]
             public static void Scenario1()
             {
-                "Given"
-                    .Given(() => ++executedStepCount);
-
-                "When"
-                    .When(() => ++executedStepCount);
+                throw new Exception();
             }
         }
     }
 }
-#endif
