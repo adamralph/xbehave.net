@@ -90,7 +90,7 @@ namespace Xbehave.Execution
                         this.TestMethod,
                         this.TestMethodArguments,
                         this.DisplayName,
-                        this.SkipReason,
+                        step.SkipReason,
                         this.Aggregator,
                         this.CancellationTokenSource)));
             }
