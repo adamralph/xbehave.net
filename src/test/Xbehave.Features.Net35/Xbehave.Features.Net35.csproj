@@ -70,6 +70,9 @@
     <Compile Include="..\Xbehave.Features.Net40\ContinueOnFailureFeature.cs">
       <Link>ContinueOnFailureFeature.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Features.Net40\DefaultParametersFeature.cs">
+      <Link>DefaultParametersFeature.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Features.Net40\ExampleFeature.cs">
       <Link>ExampleFeature.cs</Link>
     </Compile>
@@ -90,6 +93,9 @@
     </Compile>
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\Result.cs">
       <Link>Infrastructure\Result.cs</Link>
+    </Compile>
+    <Compile Include="..\Xbehave.Features.Net40\Infrastructure\ResultExtensions.cs">
+      <Link>Infrastructure\ResultExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\Skip.cs">
       <Link>Infrastructure\Skip.cs</Link>

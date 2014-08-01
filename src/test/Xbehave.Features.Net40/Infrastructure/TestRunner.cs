@@ -44,7 +44,13 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             var fail = result as FailedResult;
             if (fail != null)
             {
-                return new Fail { DisplayName = fail.DisplayName, Message = fail.Message, ExceptionType = fail.ExceptionType };
+                return new Fail
+                {
+                    DisplayName = fail.DisplayName,
+                    Message = fail.Message,
+                    ExceptionType = fail.ExceptionType,
+                    StackTrace = fail.StackTrace,
+                };
             }
 
             throw new ArgumentException(

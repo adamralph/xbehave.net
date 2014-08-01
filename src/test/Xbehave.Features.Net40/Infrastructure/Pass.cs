@@ -6,5 +6,9 @@ namespace Xbehave.Features.Infrastructure
 {
     public class Pass : Result
     {
+        public override string ToString()
+        {
+            return "Passed";
+        }
     }
 }

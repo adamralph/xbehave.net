@@ -2,11 +2,11 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
 namespace Xbehave.Test.Acceptance
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Features.Infrastructure;
@@ -20,19 +20,23 @@ namespace Xbehave.Test.Acceptance
     public static class ExampleFeature
     {
         [Scenario]
-        public static void Examples(Type feature, Result[] results)
+        public static void Examples()
         {
+            var feature = default(Type);
+            var results = default(Result[]);
+
             "Given a feature with a scenario with examples"
                 .f(() => feature = typeof(SingleStepAndThreeExamples));
 
             "When the test runner runs the feature"
                 .f(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then there should be three results"
-                .f(() => results.Length.Should().Be(3));
+            "Then each result should be a pass"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>(
+                    results.ToDisplayString("the results should all be passes")));
 
-            "And each result should be a pass"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+            "Änd there should be three results"
+                .f(() => results.Length.Should().Be(3));
 
             "And the display name of one result should contain '(x: 1, y: 2, sum: 3)'"
                 .f(() => results.Should().ContainSingle(result =>
@@ -47,6 +51,7 @@ namespace Xbehave.Test.Acceptance
                     result.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
         }
 
+#if !V2
         [Scenario]
         public static void ExamplesWithTwoMissingArguments(Type feature, Result[] results)
         {
@@ -189,6 +194,7 @@ an null value for the fifth type parameter"
             "And the display name of no result should contain '(x: 5, y: 6, z: 7)'"
                 .And(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
         }
+#endif
 
         private static class SingleStepAndThreeExamples
         {
@@ -210,6 +216,7 @@ an null value for the fifth type parameter"
             }
         }
 
+#if !V2
         private static class SingleStepAndThreeExamplesWithTwoMissingArguments
         {
             private static int previousExample;
@@ -335,6 +342,6 @@ an null value for the fifth type parameter"
                     .Given(() => { });
             }
         }
+#endif
     }
 }
-#endif

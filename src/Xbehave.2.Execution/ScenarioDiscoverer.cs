@@ -12,7 +12,7 @@ namespace Xbehave.Execution
     {
         public IEnumerable<IXunitTestCase> Discover(ITestMethod testMethod, IAttributeInfo factAttribute)
         {
-            yield return new ScenarioTestCase(testMethod);
+            yield return new ScenarioOutline(testMethod);
         }
     }
 }

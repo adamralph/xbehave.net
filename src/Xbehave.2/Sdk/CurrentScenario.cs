@@ -35,16 +35,16 @@ namespace Xbehave.Sdk
             get { return teardowns ?? (teardowns = new List<Action>()); }
         }
 
-        public static Step AddStep(string name, Action body, object stepType)
+        public static Step AddStep(string name, Action body)
         {
-            var step = new SyncStep(EmbellishStepName(name), body, stepType);
+            var step = new Step(EmbellishStepName(name), body);
             Steps.Add(step);
             return step;
         }
 
-        public static Step AddStep(string name, Func<Task> body, object stepType)
+        public static Step AddStep(string name, Func<Task> body)
         {
-            var step = new AsyncStep(EmbellishStepName(name), body, stepType);
+            var step = new Step(EmbellishStepName(name), body);
             Steps.Add(step);
             return step;
         }

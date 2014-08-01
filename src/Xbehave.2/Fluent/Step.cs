@@ -12,24 +12,24 @@ namespace Xbehave.Fluent
     {
         private readonly Sdk.Step step;
 
-        public Step(string text, Action body, StepType stepType)
+        public Step(string text, Action body)
         {
-            this.step = CurrentScenario.AddStep(text, body, stepType);
+            this.step = CurrentScenario.AddStep(text, body);
         }
 
-        public Step(string text, Action<IStepContext> body, StepType stepType)
+        public Step(string text, Action<IStepContext> body)
         {
-            this.step = new StepContext(text, body, stepType).Step;
+            this.step = new StepContext(text, body).Step;
         }
 
-        public Step(string text, Func<Task> body, StepType stepType)
+        public Step(string text, Func<Task> body)
         {
-            this.step = CurrentScenario.AddStep(text, body, stepType);
+            this.step = CurrentScenario.AddStep(text, body);
         }
 
-        public Step(string text, Func<IStepContext, Task> body, StepType stepType)
+        public Step(string text, Func<IStepContext, Task> body)
         {
-            this.step = new StepContext(text, body, stepType).Step;
+            this.step = new StepContext(text, body).Step;
         }
 
         public IStep And()

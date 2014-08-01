@@ -14,17 +14,22 @@ namespace Xbehave.Sdk
     /// Provides the implementation to execute each step.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-    public abstract class Step
+    public class Step
     {
         private readonly string name;
-        private readonly object stepType;
+        private readonly Func<Task> body;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private readonly List<Action> teardowns = new List<Action>();
 
-        protected Step(string name, object stepType)
+        public Step(string name, Action body)
+            : this(name, body == null ? default(Func<Task>) : () => Task.Factory.StartNew(body))
+        {
+        }
+
+        public Step(string name, Func<Task> body)
         {
             this.name = name;
-            this.stepType = stepType;
+            this.body = body;
             this.MillisecondsTimeout = -1;
         }
 
@@ -33,9 +38,9 @@ namespace Xbehave.Sdk
             get { return this.name; }
         }
 
-        public object StepType
+        public virtual Func<Task> Body
         {
-            get { return this.stepType; }
+            get { return this.body; }
         }
 
         public IEnumerable<IDisposable> ExtractDisposables
@@ -74,7 +79,5 @@ namespace Xbehave.Sdk
                 this.teardowns.Add(teardown);
             }
         }
-
-        public abstract Task RunAsync();
     }
 }

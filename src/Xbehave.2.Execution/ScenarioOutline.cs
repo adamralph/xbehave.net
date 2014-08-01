@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioTestCase.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioOutline.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,14 +12,14 @@ namespace Xbehave.Execution
     using Xunit.Sdk;
 
     [Serializable]
-    public class ScenarioTestCase : XunitTestCase
+    public class ScenarioOutline : XunitTestCase
     {
-        public ScenarioTestCase(ITestMethod method)
+        public ScenarioOutline(ITestMethod method)
             : base(method)
         {
         }
 
-        protected ScenarioTestCase(SerializationInfo info, StreamingContext context)
+        protected ScenarioOutline(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
@@ -30,8 +30,14 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await new ScenarioTestCaseRunner(
-                    this, this.DisplayName, constructorArguments, messageBus, aggregator, cancellationTokenSource)
+            return await new ScenarioOutlineRunner(
+                    this,
+                    this.DisplayName,
+                    this.SkipReason,
+                    constructorArguments,
+                    messageBus,
+                    aggregator,
+                    cancellationTokenSource)
                 .RunAsync();
         }
     }

@@ -12,18 +12,18 @@ namespace Xbehave
     {
         private readonly Step step;
 
-        public StepContext(string text, Action<IStepContext> body, StepType stepType)
+        public StepContext(string text, Action<IStepContext> body)
         {
             Guard.AgainstNullArgument("body", body);
 
-            this.step = CurrentScenario.AddStep(text, () => body(this), stepType);
+            this.step = CurrentScenario.AddStep(text, () => body(this));
         }
 
-        public StepContext(string text, Func<IStepContext, Task> body, StepType stepType)
+        public StepContext(string text, Func<IStepContext, Task> body)
         {
             Guard.AgainstNullArgument("body", body);
 
-            this.step = CurrentScenario.AddStep(text, () => body(this), stepType);
+            this.step = CurrentScenario.AddStep(text, () => body(this));
         }
 
         public Step Step

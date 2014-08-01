@@ -43,7 +43,7 @@ namespace Xbehave.Sdk
             }
 
             this.Name = string.Format(provider, "{0} {1}", this.Name, stepName);
-            this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, stepName);
+            this.DisplayName = string.Format(provider, "{0} {1}", this.DisplayName, stepName);
         }
 
         public override MethodResult Execute(object testClass)
