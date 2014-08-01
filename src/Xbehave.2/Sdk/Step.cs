@@ -1,4 +1,4 @@
-﻿// <copyright file="StepDefinition.cs" company="xBehave.net contributors">
+﻿// <copyright file="Step.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -14,19 +14,19 @@ namespace Xbehave.Sdk
     /// Provides the implementation to execute each step.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-    public class StepDefinition
+    public class Step
     {
         private readonly string name;
         private readonly Func<Task> body;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private readonly List<Action> teardowns = new List<Action>();
 
-        public StepDefinition(string name, Action body)
+        public Step(string name, Action body)
             : this(name, body == null ? default(Func<Task>) : () => Task.Factory.StartNew(body))
         {
         }
 
-        public StepDefinition(string name, Func<Task> body)
+        public Step(string name, Func<Task> body)
         {
             this.name = name;
             this.body = body;

@@ -69,10 +69,10 @@ namespace Xbehave.Execution
                     await task;
                 }
 
-                runners.AddRange(CurrentScenario.ExtractStepDefinitions()
-                    .Select(definition => new StepRunner(
-                        definition.Name,
-                        definition.Body,
+                runners.AddRange(CurrentScenario.ExtractSteps()
+                    .Select(step => new StepRunner(
+                        step.Name,
+                        step.Body,
                         this.TestCase,
                         interceptingBus,
                         this.TestClass,

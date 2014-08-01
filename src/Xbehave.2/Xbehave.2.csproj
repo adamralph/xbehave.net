@@ -77,7 +77,7 @@
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="Sdk\CurrentScenario.cs" />
     <Compile Include="Sdk\Guard.cs" />
-    <Compile Include="Sdk\StepDefinition.cs" />
+    <Compile Include="Sdk\Step.cs" />
     <Compile Include="StepContext.cs" />
     <Compile Include="StepExtensions.cs" />
     <Compile Include="StringExtensions.Async.cs" />

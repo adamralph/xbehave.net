@@ -10,7 +10,7 @@ namespace Xbehave.Fluent
 
     internal class Step : IStep
     {
-        private readonly Sdk.StepDefinition step;
+        private readonly Sdk.Step step;
 
         public Step(string text, Action body)
         {

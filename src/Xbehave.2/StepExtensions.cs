@@ -16,19 +16,19 @@ namespace Xbehave
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="step">The current step.</param>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Part of fluent API.")]
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
             MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
-        public static IStep When(this IStep stepDefinition, string text, Action body)
+        public static IStep When(this IStep step, string text, Action body)
         {
             return new Step("When " + text, body);
         }
@@ -36,19 +36,19 @@ namespace Xbehave
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="step">The current step.</param>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Part of fluent API.")]
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
             MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
-        public static IStep Then(this IStep stepDefinition, string text, Action body)
+        public static IStep Then(this IStep step, string text, Action body)
         {
             return new Step("Then " + text, body);
         }
@@ -56,19 +56,19 @@ namespace Xbehave
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="step">The current step.</param>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Part of fluent API.")]
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
             MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
-        public static IStep And(this IStep stepDefinition, string text, Action body)
+        public static IStep And(this IStep step, string text, Action body)
         {
             return new Step("And " + text, body);
         }
@@ -76,19 +76,19 @@ namespace Xbehave
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="step">The current step.</param>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Part of fluent API.")]
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
             MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
-        public static IStep But(this IStep stepDefinition, string text, Action body)
+        public static IStep But(this IStep step, string text, Action body)
         {
             return new Step("But " + text, body);
         }
@@ -96,19 +96,19 @@ namespace Xbehave
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="step">The current step.</param>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Part of fluent API.")]
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
             MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
-        public static IStep When(this IStep stepDefinition, string text, Action<IStepContext> body)
+        public static IStep When(this IStep step, string text, Action<IStepContext> body)
         {
             return new Step("When " + text, body);
         }
@@ -116,19 +116,19 @@ namespace Xbehave
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="step">The current step.</param>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Part of fluent API.")]
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
             MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
-        public static IStep Then(this IStep stepDefinition, string text, Action<IStepContext> body)
+        public static IStep Then(this IStep step, string text, Action<IStepContext> body)
         {
             return new Step("Then " + text, body);
         }
@@ -136,19 +136,19 @@ namespace Xbehave
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="step">The current step.</param>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Part of fluent API.")]
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
             MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
-        public static IStep And(this IStep stepDefinition, string text, Action<IStepContext> body)
+        public static IStep And(this IStep step, string text, Action<IStepContext> body)
         {
             return new Step("And " + text, body);
         }
@@ -156,19 +156,19 @@ namespace Xbehave
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="step">The current step.</param>
         /// <param name="text">The step text.</param>
         /// <param name="body">The action that will perform the step.</param>
         /// <returns>
         /// An instance of <see cref="IStep"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "stepDefinition", Justification = "Part of fluent API.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "step", Justification = "Part of fluent API.")]
         [SuppressMessage(
             "Microsoft.Globalization",
             "CA1303:Do not pass literals as localized parameters",
             MessageId = "Xbehave.new Step(System.String,System.Action)",
             Justification = "Text must match method name.")]
-        public static IStep But(this IStep stepDefinition, string text, Action<IStepContext> body)
+        public static IStep But(this IStep step, string text, Action<IStepContext> body)
         {
             return new Step("But " + text, body);
         }

@@ -10,7 +10,7 @@ namespace Xbehave
 
     internal class StepContext : IStepContext
     {
-        private readonly StepDefinition step;
+        private readonly Step step;
 
         public StepContext(string text, Action<IStepContext> body)
         {
@@ -26,7 +26,7 @@ namespace Xbehave
             this.step = CurrentScenario.AddStep(text, () => body(this));
         }
 
-        public StepDefinition Step
+        public Step Step
         {
             get { return this.step; }
         }
