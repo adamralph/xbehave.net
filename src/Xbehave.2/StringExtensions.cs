@@ -22,7 +22,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Given(this string text, Action body)
         {
-            return new Step(text, body, StepType.Given);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Xbehave
         /// </returns>
         public static IStep When(this string text, Action body)
         {
-            return new Step(text, body, StepType.When);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Then(this string text, Action body)
         {
-            return new Step(text, body, StepType.Then);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Xbehave
         /// </returns>
         public static IStep And(this string text, Action body)
         {
-            return new Step(text, body, StepType.And);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Xbehave
         /// </returns>
         public static IStep But(this string text, Action body)
         {
-            return new Step(text, body, StepType.But);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -90,8 +90,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStep f(this string text, Action body)
         {
-            var stepType = GetStepType(text);
-            return new Step(text, body, stepType);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -107,8 +106,7 @@ namespace Xbehave
         [CLSCompliant(false)]
         public static IStep _(this string text, Action body)
         {
-            var stepType = GetStepType(text);
-            return new Step(text, body, stepType);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -121,7 +119,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Given(this string text, Action<IStepContext> body)
         {
-            return new Step(text, body, StepType.Given);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -134,7 +132,7 @@ namespace Xbehave
         /// </returns>
         public static IStep When(this string text, Action<IStepContext> body)
         {
-            return new Step(text, body, StepType.When);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -147,7 +145,7 @@ namespace Xbehave
         /// </returns>
         public static IStep Then(this string text, Action<IStepContext> body)
         {
-            return new Step(text, body, StepType.Then);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -160,7 +158,7 @@ namespace Xbehave
         /// </returns>
         public static IStep And(this string text, Action<IStepContext> body)
         {
-            return new Step(text, body, StepType.And);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -173,7 +171,7 @@ namespace Xbehave
         /// </returns>
         public static IStep But(this string text, Action<IStepContext> body)
         {
-            return new Step(text, body, StepType.But);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -189,8 +187,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStep f(this string text, Action<IStepContext> body)
         {
-            var stepType = GetStepType(text);
-            return new Step(text, body, stepType);
+            return new Step(text, body);
         }
 
         /// <summary>
@@ -206,47 +203,7 @@ namespace Xbehave
         [CLSCompliant(false)]
         public static IStep _(this string text, Action<IStepContext> body)
         {
-            var stepType = GetStepType(text);
-            return new Step(text, body, stepType);
-        }
-
-        /// <summary>
-        /// Get the appropriate step type based on the the text.
-        /// </summary>
-        /// <param name="text">The step text.</param>
-        /// <returns>The appropriate step type based on the text.</returns>
-        public static Xbehave.StepType GetStepType(string text)
-        {
-            var stepType = StepType.Any;
-            if (text == null)
-            {
-                return stepType;
-            }
-
-            var upperText = text.ToUpperInvariant();
-
-            if (upperText.StartsWith("GIVEN", StringComparison.Ordinal))
-            {
-                stepType = StepType.Given;
-            }
-            else if (upperText.StartsWith("WHEN", StringComparison.Ordinal))
-            {
-                stepType = StepType.When;
-            }
-            else if (upperText.StartsWith("THEN", StringComparison.Ordinal))
-            {
-                stepType = StepType.Then;
-            }
-            else if (upperText.StartsWith("AND", StringComparison.Ordinal))
-            {
-                stepType = StepType.And;
-            }
-            else if (upperText.StartsWith("BUT", StringComparison.Ordinal))
-            {
-                stepType = StepType.But;
-            }
-
-            return stepType;
+            return new Step(text, body);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep Given(string text, Action body)
         {
-            return new Step("Given " + text, body, StepType.Given);
+            return new Step("Given " + text, body);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep When(string text, Action body)
         {
-            return new Step("When " + text, body, StepType.When);
+            return new Step("When " + text, body);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep Then(string text, Action body)
         {
-            return new Step("Then " + text, body, StepType.Then);
+            return new Step("Then " + text, body);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep And(string text, Action body)
         {
-            return new Step("And " + text, body, StepType.And);
+            return new Step("And " + text, body);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep But(string text, Action body)
         {
-            return new Step("But " + text, body, StepType.But);
+            return new Step("But " + text, body);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep Given(string text, Action<IStepContext> body)
         {
-            return new Step("Given " + text, body, StepType.Given);
+            return new Step("Given " + text, body);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep When(string text, Action<IStepContext> body)
         {
-            return new Step("When " + text, body, StepType.When);
+            return new Step("When " + text, body);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep Then(string text, Action<IStepContext> body)
         {
-            return new Step("Then " + text, body, StepType.Then);
+            return new Step("Then " + text, body);
         }
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep And(string text, Action<IStepContext> body)
         {
-            return new Step("And " + text, body, StepType.And);
+            return new Step("And " + text, body);
         }
 
         /// <summary>
@@ -193,7 +193,7 @@ namespace Xbehave
             Justification = "Text must match method name.")]
         public static IStep But(string text, Action<IStepContext> body)
         {
-            return new Step("But " + text, body, StepType.But);
+            return new Step("But " + text, body);
         }
     }
 }

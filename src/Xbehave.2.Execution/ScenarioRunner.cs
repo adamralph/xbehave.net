@@ -1,34 +1,41 @@
-﻿// <copyright file="ScenarioTestCaseRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
 namespace Xbehave.Execution
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioTestCaseRunner : TestCaseRunner<ScenarioTestCase>
+    public class ScenarioRunner : XunitTestCaseRunner
     {
-        private readonly object[] constructorArguments;
-        private readonly string displayName;
-
-        public ScenarioTestCaseRunner(
-            ScenarioTestCase testCase,
+        public ScenarioRunner(
+            IXunitTestCase testCase,
             string displayName,
+            string skipReason,
             object[] constructorArguments,
+            object[] testMethodArguments,
             IMessageBus messageBus,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
-            : base(testCase, messageBus, aggregator, cancellationTokenSource)
+            : base(
+                testCase,
+                displayName,
+                skipReason,
+                constructorArguments,
+                testMethodArguments,
+                messageBus,
+                aggregator,
+                cancellationTokenSource)
         {
-            this.displayName = displayName;
-            this.constructorArguments = constructorArguments;
         }
 
         protected override async Task<RunSummary> RunTestAsync()
@@ -46,8 +53,8 @@ namespace Xbehave.Execution
                     var method = type.GetMethod(
                         this.TestCase.TestMethod.Method.Name, this.TestCase.TestMethod.Method.GetBindingFlags());
 
-                    var obj = method.IsStatic ? null : Activator.CreateInstance(type, this.constructorArguments);
-                    var result = method.Invoke(obj, new object[0]);
+                    var obj = method.IsStatic ? null : Activator.CreateInstance(type, this.ConstructorArguments);
+                    var result = method.Invoke(obj, this.TestMethodArguments);
                     var task = result as Task;
                     if (task != null)
                     {
@@ -56,7 +63,7 @@ namespace Xbehave.Execution
                 });
 
                 var stepFailed = false;
-                StepTestCase failedStep = null;
+                string failedStepName = null;
                 var interceptingBus = new DelegatingMessageBus(
                     this.MessageBus,
                     message =>
@@ -67,36 +74,36 @@ namespace Xbehave.Execution
                         }
                     });
 
-                foreach (var testCase in CurrentScenario.ExtractSteps()
-                    .Select(step => new StepTestCase(this.TestCase.TestMethod, step)))
+                foreach (var stepDefinition in CurrentScenario.ExtractStepDefinitions()
+                    .Select(definition => new Step(this.TestCase.TestMethod, definition.Name, definition.Body)))
                 {
-                    if (failedStep != null)
+                    if (failedStepName != null)
                     {
                         var message = string.Format(
                             CultureInfo.InvariantCulture,
                             "Failed to execute preceding step \"{0}\".",
-                            failedStep.Step.Name);
+                            failedStepName);
 
-                        var failingTestCase = new LambdaTestCase(
+                        var failFast = new LambdaTestCase(
                             this.TestCase.TestMethod,
                             () =>
                             {
                                 throw new InvalidOperationException(message);
                             });
 
-                        await failingTestCase.RunAsync(
-                            this.MessageBus, this.constructorArguments, this.Aggregator, this.CancellationTokenSource);
+                        await failFast.RunAsync(
+                            this.MessageBus, this.ConstructorArguments, this.Aggregator, this.CancellationTokenSource);
 
                         continue;
                     }
 
                     summary.Aggregate(
-                        await testCase.RunAsync(
-                            interceptingBus, this.constructorArguments, this.Aggregator, this.CancellationTokenSource));
+                        await stepDefinition.RunAsync(
+                            interceptingBus, this.ConstructorArguments, this.Aggregator, this.CancellationTokenSource));
 
                     if (stepFailed)
                     {
-                        failedStep = testCase;
+                        failedStepName = stepDefinition.Name;
                     }
                 }
             }
@@ -104,7 +111,7 @@ namespace Xbehave.Execution
             {
                 summary.Failed++;
                 if (!this.MessageBus.QueueMessage(
-                    new TestFailed(this.TestCase, this.displayName, timer.Total, null, ex)))
+                    new TestFailed(this.TestCase, this.DisplayName, timer.Total, null, ex)))
                 {
                     this.CancellationTokenSource.Cancel();
                 }

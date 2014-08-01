@@ -6,9 +6,7 @@ namespace Xbehave
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
-    using Xunit;
     using Xunit.Sdk;
 
     /// <summary>
@@ -20,12 +18,10 @@ namespace Xbehave
     /// <see cref="Xunit.MemberDataAttribute"/>.
     /// </summary>
     [CLSCompliant(false)]
+    [DataDiscoverer("Xunit.Sdk.InlineDataDiscoverer", "xunit.core")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
-    public class ExampleAttribute : DataAttribute
+    public sealed class ExampleAttribute : DataAttribute
     {
-        private readonly InlineDataAttribute wrappee;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ExampleAttribute"/> class.
         /// This attribute is designed as a synonym of <see cref="Xunit.InlineDataAttribute"/>,
@@ -37,13 +33,13 @@ namespace Xbehave
         /// <param name="data">The data values to pass to the scenario.</param>
         public ExampleAttribute(params object[] data)
         {
-            this.wrappee = new InlineDataAttribute(data);
         }
 
         /// <inheritdoc/>
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            return this.wrappee.GetData(testMethod);
+            // This should never be called, because the discoverer can always find the data.
+            throw new InvalidOperationException();
         }
     }
 }

@@ -68,7 +68,6 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BackgroundAttribute.cs" />
-    <Compile Include="ContinueOnFailureAfterAttribute.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
     <Compile Include="Fluent\IStep.cs" />
@@ -76,14 +75,11 @@
     <Compile Include="IStepContext.cs" />
     <Compile Include="OmitArgumentsFromScenarioNamesAttribute.cs" />
     <Compile Include="ScenarioAttribute.cs" />
-    <Compile Include="Sdk\AsyncStep.cs" />
     <Compile Include="Sdk\CurrentScenario.cs" />
     <Compile Include="Sdk\Guard.cs" />
-    <Compile Include="Sdk\Step.cs" />
-    <Compile Include="Sdk\SyncStep.cs" />
+    <Compile Include="Sdk\StepDefinition.cs" />
     <Compile Include="StepContext.cs" />
     <Compile Include="StepExtensions.cs" />
-    <Compile Include="StepType.cs" />
     <Compile Include="StringExtensions.Async.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="_.cs" />

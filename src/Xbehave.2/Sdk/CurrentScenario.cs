@@ -14,7 +14,7 @@ namespace Xbehave.Sdk
         private static bool addingBackgroundSteps;
 
         [ThreadStatic]
-        private static List<Step> steps;
+        private static List<StepDefinition> steps;
 
         [ThreadStatic]
         private static List<Action> teardowns;
@@ -25,9 +25,9 @@ namespace Xbehave.Sdk
             set { CurrentScenario.addingBackgroundSteps = value; }
         }
 
-        private static List<Step> Steps
+        private static List<StepDefinition> Steps
         {
-            get { return steps ?? (steps = new List<Step>()); }
+            get { return steps ?? (steps = new List<StepDefinition>()); }
         }
 
         private static List<Action> Teardowns
@@ -35,16 +35,16 @@ namespace Xbehave.Sdk
             get { return teardowns ?? (teardowns = new List<Action>()); }
         }
 
-        public static Step AddStep(string name, Action body, object stepType)
+        public static StepDefinition AddStep(string name, Action body)
         {
-            var step = new SyncStep(EmbellishStepName(name), body, stepType);
+            var step = new StepDefinition(EmbellishStepName(name), body);
             Steps.Add(step);
             return step;
         }
 
-        public static Step AddStep(string name, Func<Task> body, object stepType)
+        public static StepDefinition AddStep(string name, Func<Task> body)
         {
-            var step = new AsyncStep(EmbellishStepName(name), body, stepType);
+            var step = new StepDefinition(EmbellishStepName(name), body);
             Steps.Add(step);
             return step;
         }
@@ -69,7 +69,7 @@ namespace Xbehave.Sdk
             }
         }
 
-        public static IEnumerable<Step> ExtractSteps()
+        public static IEnumerable<StepDefinition> ExtractStepDefinitions()
         {
             try
             {

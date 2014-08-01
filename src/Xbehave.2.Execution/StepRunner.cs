@@ -1,4 +1,4 @@
-﻿// <copyright file="StepTestCaseRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="StepRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -10,10 +10,10 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepTestCaseRunner : TestCaseRunner<StepTestCase>
+    public class StepRunner : TestCaseRunner<Step>
     {
-        public StepTestCaseRunner(
-            StepTestCase testCase,
+        public StepRunner(
+            Step testCase,
             IMessageBus messageBus,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
@@ -30,7 +30,7 @@ namespace Xbehave.Execution
             {
                 try
                 {
-                    await timer.AggregateAsync(() => TestCase.Step.RunAsync());
+                    await timer.AggregateAsync(TestCase.Body);
                     this.Queue(new TestPassed(TestCase, TestCase.DisplayName, timer.Total, null));
                 }
                 catch (Exception ex)
