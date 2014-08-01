@@ -37,7 +37,7 @@ namespace Xbehave.Test.Acceptance
 
             "Änd there should be three results"
                 .f(() => results.Length.Should().Be(3));
-#if !V2
+
             "And the display name of one result should contain '(x: 1, y: 2, sum: 3)'"
                 .f(() => results.Should().ContainSingle(result =>
                     result.DisplayName.Contains("(x: 1, y: 2, sum: 3)")));
@@ -49,7 +49,6 @@ namespace Xbehave.Test.Acceptance
             "And the display name of one result should contain '(x: 100, y: 200, sum: 300)'"
                 .f(() => results.Should().ContainSingle(result =>
                     result.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
-#endif
         }
 
 #if !V2
