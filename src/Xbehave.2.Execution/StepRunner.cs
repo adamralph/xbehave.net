@@ -5,55 +5,55 @@
 namespace Xbehave.Execution
 {
     using System;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepRunner : TestCaseRunner<Step>
+    public class StepRunner : TestRunner<IXunitTestCase>
     {
+        private readonly string stepName;
+        private readonly Func<Task> stepBody;
+
         public StepRunner(
-            Step testCase,
+            string stepName,
+            Func<Task> stepBody,
+            IXunitTestCase testCase,
             IMessageBus messageBus,
+            Type testClass,
+            object[] constructorArguments,
+            MethodInfo testMethod,
+            object[] testMethodArguments,
+            string displayName,
+            string skipReason,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
-            : base(testCase, messageBus, aggregator, cancellationTokenSource)
+            : base(
+                testCase,
+                messageBus,
+                testClass,
+                constructorArguments,
+                testMethod,
+                testMethodArguments,
+                displayName,
+                skipReason,
+                aggregator,
+                cancellationTokenSource)
         {
+            this.stepName = stepName;
+            this.stepBody = stepBody;
         }
 
-        protected override async Task<RunSummary> RunTestAsync()
+        public string StepName
         {
-            var summary = new RunSummary { Total = 1 };
+            get { return this.stepName; }
+        }
+
+        protected override async Task<decimal> InvokeTestAsync(ExceptionAggregator aggregator)
+        {
             var timer = new ExecutionTimer();
-
-            if (this.Queue(new TestStarting(TestCase, TestCase.DisplayName)))
-            {
-                try
-                {
-                    await timer.AggregateAsync(TestCase.Body);
-                    this.Queue(new TestPassed(TestCase, TestCase.DisplayName, timer.Total, null));
-                }
-                catch (Exception ex)
-                {
-                    summary.Failed++;
-                    this.Queue(new TestFailed(TestCase, TestCase.DisplayName, timer.Total, null, ex));
-                }
-            }
-
-            this.Queue(new TestFinished(TestCase, TestCase.DisplayName, timer.Total, null));
-            summary.Time = timer.Total;
-            return summary;
-        }
-
-        private bool Queue(IMessageSinkMessage message)
-        {
-            if (!MessageBus.QueueMessage(message))
-            {
-                CancellationTokenSource.Cancel();
-                return false;
-            }
-
-            return true;
+            await aggregator.RunAsync(this.stepBody);
+            return timer.Total;
         }
     }
 }

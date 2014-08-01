@@ -60,7 +60,6 @@
     <Compile Include="Shims\ExceptionExtensions.cs" />
     <Compile Include="Shims\TypeUtility.cs" />
     <Compile Include="StepRunner.cs" />
-    <Compile Include="Step.cs" />
     <Compile Include="ScenarioDiscoverer.cs" />
   </ItemGroup>
   <ItemGroup>
