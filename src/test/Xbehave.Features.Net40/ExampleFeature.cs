@@ -2,7 +2,6 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
 namespace Xbehave.Test.Acceptance
 {
     using System;
@@ -20,8 +19,11 @@ namespace Xbehave.Test.Acceptance
     public static class ExampleFeature
     {
         [Scenario]
-        public static void Examples(Type feature, Result[] results)
+        public static void Examples()
         {
+            var feature = default(Type);
+            var results = default(Result[]);
+
             "Given a feature with a scenario with examples"
                 .f(() => feature = typeof(SingleStepAndThreeExamples));
 
@@ -33,7 +35,7 @@ namespace Xbehave.Test.Acceptance
 
             "And each result should be a pass"
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>());
-
+#if !V2
             "And the display name of one result should contain '(x: 1, y: 2, sum: 3)'"
                 .f(() => results.Should().ContainSingle(result =>
                     result.DisplayName.Contains("(x: 1, y: 2, sum: 3)")));
@@ -45,8 +47,10 @@ namespace Xbehave.Test.Acceptance
             "And the display name of one result should contain '(x: 100, y: 200, sum: 300)'"
                 .f(() => results.Should().ContainSingle(result =>
                     result.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
+#endif
         }
 
+#if !V2
         [Scenario]
         public static void ExamplesWithTwoMissingArguments(Type feature, Result[] results)
         {
@@ -189,6 +193,7 @@ an null value for the fifth type parameter"
             "And the display name of no result should contain '(x: 5, y: 6, z: 7)'"
                 .And(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
         }
+#endif
 
         private static class SingleStepAndThreeExamples
         {
@@ -210,6 +215,7 @@ an null value for the fifth type parameter"
             }
         }
 
+#if !V2
         private static class SingleStepAndThreeExamplesWithTwoMissingArguments
         {
             private static int previousExample;
@@ -335,6 +341,6 @@ an null value for the fifth type parameter"
                     .Given(() => { });
             }
         }
+#endif
     }
 }
-#endif
