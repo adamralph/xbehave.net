@@ -16,35 +16,42 @@ namespace Xbehave.Test.Acceptance
     public static class DefaultParametersFeature
     {
 #if !V2
-        private static object[] arguments;
-
         [Scenario]
         public static void ScenarioWithParameters()
         {
             var feature = default(Type);
             var results = default(Result[]);
 
-            "Given a feature with a scenario with a single step and parameters"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndParameters));
+            "Given a feature with a scenario with four parameters and step asserting each one is a default value"
+                .f(() => feature = typeof(FeatureWithAScenarioWithAFourParametersAndAStepAssertingEachOneIsADefaultValue));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray());
+                .f(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then each result should be a success"
-                .Then(() => results.Should().ContainItemsAssignableTo<Pass>());
+            "Then each result should be a pass"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>(
+                    results.ToDisplayString("each result should be a pass")));
 
-            "Then the scenario should be executed with default values passed as arguments"
-                .Then(() => arguments.Should().OnlyContain(obj => (int)obj == default(int)))
-                .Teardown(() => arguments = null);
+            "And there should be 4 results"
+                .f(() => results.Length.Should().Be(4));
         }
 
-        private static class FeatureWithAScenarioWithASingleStepAndParameters
+        private static class FeatureWithAScenarioWithAFourParametersAndAStepAssertingEachOneIsADefaultValue
         {
             [Scenario]
-            public static void Scenario(int w, int x, int y, int z)
+            public static void Scenario(string w, int x, object y, int? z)
             {
-                "Given {0}, {1}, {2} and {3}"
-                    .Given(() => arguments = new object[] { w, x, y, z });
+                "Then w should be the default value of string"
+                    .f(() => w.Should().Be(default(string)));
+
+                "And x should be the default value of int"
+                    .f(() => x.Should().Be(default(int)));
+
+                "And y should be the default value of object"
+                    .f(() => y.Should().Be(default(object)));
+
+                "And z should be the default value of int?"
+                    .f(() => z.Should().Be(default(int?)));
             }
         }
 #endif
