@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="BackgroundFeature.cs" />
     <Compile Include="Infrastructure\AttributeInfoExtensions.cs" />
+    <Compile Include="Infrastructure\ResultExtensions.cs" />
     <Compile Include="Infrastructure\Skip.cs" />
     <Compile Include="Infrastructure\Fail.cs" />
     <Compile Include="Infrastructure\Pass.cs" />

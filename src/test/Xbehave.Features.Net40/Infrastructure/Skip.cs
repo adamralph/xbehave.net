@@ -7,5 +7,10 @@ namespace Xbehave.Features.Infrastructure
     public class Skip : Result
     {
         public string Reason { get; set; }
+
+        public override string ToString()
+        {
+            return string.Concat("Skipped: ", this.Reason);
+        }
     }
 }

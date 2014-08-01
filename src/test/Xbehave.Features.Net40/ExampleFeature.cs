@@ -6,6 +6,7 @@ namespace Xbehave.Test.Acceptance
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Features.Infrastructure;
@@ -30,11 +31,12 @@ namespace Xbehave.Test.Acceptance
             "When the test runner runs the feature"
                 .f(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then there should be three results"
-                .f(() => results.Length.Should().Be(3));
+            "Then each result should be a pass"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>(
+                    results.ToDisplayString("the results should all be passes")));
 
-            "And each result should be a pass"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+            "Änd there should be three results"
+                .f(() => results.Length.Should().Be(3));
 #if !V2
             "And the display name of one result should contain '(x: 1, y: 2, sum: 3)'"
                 .f(() => results.Should().ContainSingle(result =>

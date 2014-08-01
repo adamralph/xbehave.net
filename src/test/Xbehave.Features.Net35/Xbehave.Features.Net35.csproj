@@ -94,6 +94,9 @@
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\Result.cs">
       <Link>Infrastructure\Result.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Features.Net40\Infrastructure\ResultExtensions.cs">
+      <Link>Infrastructure\ResultExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\Skip.cs">
       <Link>Infrastructure\Skip.cs</Link>
     </Compile>
