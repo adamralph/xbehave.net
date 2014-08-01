@@ -17,10 +17,6 @@ namespace Xbehave.Test.Acceptance
     // I want to run automated acceptance tests describing each feature of my product using scenarios
     public static class ScenarioFeature
     {
-#if !V2
-        private static object[] arguments;
-#endif
-
         // NOTE (adamralph): a plain xunit fact to prove that plain scenarios work in 2.x
         [Fact]
         public static void ScenarioWithThreePassingStepsYieldsThreePasses()
@@ -127,47 +123,6 @@ namespace Xbehave.Test.Acceptance
                 });
         }
 
-        [Scenario]
-        public static void FailingScenario()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a feature with a failing scenario"
-                .Given(() => feature = typeof(FeatureWithAFailingScenario));
-
-            "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray());
-
-            "Then there should be one result"
-                .And(() => results.Count().Should().Be(1));
-
-            "And the result should be a failed result"
-                .And(() => results.Single().Should().BeOfType<Fail>());
-        }
-
-#if !V2
-        [Scenario]
-        public static void ScenarioWithParameters()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a feature with a scenario with a single step and parameters"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndParameters));
-
-            "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray());
-
-            "Then each result should be a success"
-                .Then(() => results.Should().ContainItemsAssignableTo<Pass>());
-
-            "Then the scenario should be executed with default values passed as arguments"
-                .Then(() => arguments.Should().OnlyContain(obj => (int)obj == default(int)))
-                .Teardown(() => arguments = null);
-        }
-#endif
-
         private static class FeatureWithAScenarioWithThreePassingSteps
         {
             [Scenario]
@@ -183,32 +138,6 @@ namespace Xbehave.Test.Acceptance
 
                 "Then I have 2"
                     .f(() => i.Should().Be(2));
-            }
-        }
-
-#if !V2
-        private static class FeatureWithAScenarioWithASingleStepAndParameters
-        {
-            [Scenario]
-            public static void Scenario(int w, int x, int y, int z)
-            {
-                "Given {0}, {1}, {2} and {3}"
-                    .Given(() => arguments = new object[] { w, x, y, z });
-            }
-        }
-#endif
-
-        private static class FeatureWithAFailingScenario
-        {
-            [Scenario]
-            [Example("a")]
-            public static void Scenario2(int i)
-            {
-                "Given"
-                    .Given(() => { });
-
-                "When"
-                    .When(() => { });
             }
         }
 

@@ -94,6 +94,9 @@
     <Compile Include="..\Xbehave.Features.Net40\ContinueOnFailureFeature.cs">
       <Link>ContinueOnFailureFeature.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Features.Net40\DefaultParametersFeature.cs">
+      <Link>DefaultParametersFeature.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Features.Net40\ExampleFeature.cs">
       <Link>ExampleFeature.cs</Link>
     </Compile>
