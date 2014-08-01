@@ -40,6 +40,16 @@ namespace Xbehave.Execution
 
         protected override async Task<RunSummary> RunTestAsync()
         {
+            if (!string.IsNullOrEmpty(this.SkipReason))
+            {
+                if (!this.MessageBus.QueueMessage(new TestSkipped(this.TestCase, this.DisplayName, this.SkipReason)))
+                {
+                    CancellationTokenSource.Cancel();
+                }
+
+                return new RunSummary { Skipped = 1 };
+            }
+
             var stepFailed = false;
             var interceptingBus = new DelegatingMessageBus(
                 this.MessageBus,
