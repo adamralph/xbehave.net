@@ -6,15 +6,9 @@ namespace Xbehave.Execution.Shims
 {
     using System;
     using System.Reflection;
-    using System.Runtime.ExceptionServices;
 
     internal static class ExceptionExtensions
     {
-        public static void RethrowWithNoStackTraceLoss(this Exception ex)
-        {
-            ExceptionDispatchInfo.Capture(ex).Throw();
-        }
-
         public static Exception Unwrap(this Exception ex)
         {
             while (true)
