@@ -61,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net45", "Xbehav
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2", "Xbehave.2\Xbehave.2.csproj", "{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Features.2.Net45", "test\Xbehave.Features.2.Net45\Xbehave.Features.2.Net45.csproj", "{B95C4972-1CD7-4632-994B-E6093CBF03BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Features.Net45", "test\Xbehave.2.Features.Net45\Xbehave.2.Features.Net45.csproj", "{B95C4972-1CD7-4632-994B-E6093CBF03BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution", "Xbehave.2.Execution\Xbehave.2.Execution.csproj", "{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}"
 EndProject

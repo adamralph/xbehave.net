@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xbehave.Features</RootNamespace>
-    <AssemblyName>Xbehave.Features.2.Net45</AssemblyName>
+    <AssemblyName>Xbehave.2.Features.Net45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>bacace1e</NuGetPackageImportStamp>
