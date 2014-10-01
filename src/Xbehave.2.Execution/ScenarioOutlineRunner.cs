@@ -111,14 +111,14 @@ namespace Xbehave.Execution
             var testMethod = TestMethod;
             if (testMethod.IsGenericMethodDefinition)
             {
-                resolvedTypes = TypeUtility.ResolveGenericTypes(TestCase.TestMethod.Method, testMethodArguments);
+                resolvedTypes = Xunit.Sdk.TypeUtility.ResolveGenericTypes(TestCase.TestMethod.Method, testMethodArguments);
                 testMethod = testMethod.MakeGenericMethod(
                     resolvedTypes.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
             }
 
             var parameterTypes = testMethod.GetParameters().Select(p => p.ParameterType).ToArray();
             var convertedTestMethodArguments = Reflector.ConvertArguments(testMethodArguments, parameterTypes);
-            var displayName = TypeUtility.GetDisplayNameWithArguments(
+            var displayName = Xunit.Sdk.TypeUtility.GetDisplayNameWithArguments(
                 TestCase.TestMethod.Method, this.DisplayName, convertedTestMethodArguments, resolvedTypes);
 
             return new ScenarioRunner(

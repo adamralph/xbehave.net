@@ -68,8 +68,7 @@ namespace Xbehave.Execution
                     this.TestCase.TestMethod.TestClass.TestCollection.TestAssembly.Assembly.Name,
                     this.TestCase.TestMethod.TestClass.Class.Name);
 
-                var method = type.GetMethod(
-                    this.TestCase.TestMethod.Method.Name, this.TestCase.TestMethod.Method.GetBindingFlags());
+                var method = type.GetMethod(this.TestCase.TestMethod.Method.Name);
 
                 var obj = method.IsStatic ? null : Activator.CreateInstance(type, this.ConstructorArguments);
                 var result = method.Invoke(obj, this.TestMethodArguments);
