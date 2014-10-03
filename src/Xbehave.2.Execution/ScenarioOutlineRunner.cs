@@ -6,6 +6,7 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -82,7 +83,7 @@ namespace Xbehave.Execution
 
             if (!scenarioRunners.Any())
             {
-                scenarioRunners.Add(this.CreateRunner(disposables, NoArguments));
+                scenarioRunners.Add(this.CreateRunner(disposables, new object[0]));
             }
 
             var summary = new RunSummary();
@@ -103,30 +104,68 @@ namespace Xbehave.Execution
             return summary;
         }
 
-        private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] testMethodArguments)
+        private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues)
         {
-            disposables.AddRange(testMethodArguments.OfType<IDisposable>());
+            disposables.AddRange(argumentValues.OfType<IDisposable>());
 
-            ITypeInfo[] resolvedTypes = null;
-            var testMethod = TestMethod;
-            if (testMethod.IsGenericMethodDefinition)
+            var typeArguments = new ITypeInfo[0];
+            var closedMethod = TestMethod;
+            if (closedMethod.IsGenericMethodDefinition)
             {
-                resolvedTypes = TypeUtility.ResolveGenericTypes(TestCase.TestMethod.Method, testMethodArguments);
-                testMethod = testMethod.MakeGenericMethod(
-                    resolvedTypes.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
+                typeArguments = TestCase.TestMethod.Method.ResolveGenericTypes(argumentValues.ToArray());
+
+                closedMethod =
+                    closedMethod.MakeGenericMethod(typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
             }
 
-            var parameterTypes = testMethod.GetParameters().Select(p => p.ParameterType).ToArray();
-            var convertedTestMethodArguments = Reflector.ConvertArguments(testMethodArguments, parameterTypes);
+            var parameterTypes = closedMethod.GetParameters().Select(p => p.ParameterType).ToArray();
+            var convertedArgumentValues = Reflector.ConvertArguments(argumentValues, parameterTypes);
+
+            var parameters = TestCase.TestMethod.Method.GetParameters().ToArray();
+            var generatedArguments = new List<Argument>();
+            for (var missingArgumentIndex = argumentValues.Length; missingArgumentIndex < parameters.Length; ++missingArgumentIndex)
+            {
+                var parameterType = parameters[missingArgumentIndex].ParameterType;
+                if (parameterType.IsGenericParameter)
+                {
+                    ITypeInfo concreteType = null;
+                    var typeParameters = TestCase.TestMethod.Method.GetGenericArguments().ToArray();
+                    for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
+                    {
+                        if (typeParameters[typeParameterIndex] == parameterType)
+                        {
+                            concreteType = typeArguments[typeParameterIndex];
+                            break;
+                        }
+                    }
+
+                    if (concreteType == null)
+                    {
+                        var message = string.Format(
+                            CultureInfo.CurrentCulture, "The type of parameter \"{0}\" cannot be resolved.", parameters[missingArgumentIndex].Name);
+                        throw new InvalidOperationException(message);
+                    }
+
+                    parameterType = concreteType;
+                }
+
+                generatedArguments.Add(new Argument(((IReflectionTypeInfo)parameterType).Type));
+            }
+
+            var arguments = convertedArgumentValues
+                .Select(value => new Argument(value))
+                .Concat(generatedArguments)
+                .ToArray();
+
             var displayName = TypeUtility.GetDisplayNameWithArguments(
-                TestCase.TestMethod.Method, this.DisplayName, convertedTestMethodArguments, resolvedTypes);
+                TestCase.TestMethod.Method, this.DisplayName, arguments.Select(argument => argument.Value).ToArray(), typeArguments);
 
             return new ScenarioRunner(
                 TestCase,
                 displayName,
                 SkipReason,
                 ConstructorArguments,
-                convertedTestMethodArguments,
+                arguments.Select(argument => argument.Value).ToArray(),
                 MessageBus,
                 Aggregator,
                 CancellationTokenSource);

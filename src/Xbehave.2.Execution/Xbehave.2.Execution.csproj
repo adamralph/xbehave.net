@@ -52,6 +52,7 @@
     <Compile Include="..\VersionInfo.2.cs">
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
+    <Compile Include="Argument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="ScenarioOutline.cs" />
