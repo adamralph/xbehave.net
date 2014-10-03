@@ -39,7 +39,7 @@ namespace Xbehave.Execution
 
         protected override async Task<RunSummary> RunTestAsync()
         {
-            var runners = new List<ScenarioRunner>();
+            var scenarioRunners = new List<ScenarioRunner>();
             var disposables = new List<IDisposable>();
 
             try
@@ -54,7 +54,7 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        runners.Add(this.CreateRunner(disposables, dataRow));
+                        scenarioRunners.Add(this.CreateRunner(disposables, dataRow));
                     }
                 }
             }
@@ -80,15 +80,15 @@ namespace Xbehave.Execution
                 return new RunSummary { Total = 1, Failed = 1 };
             }
 
-            if (!runners.Any())
+            if (!scenarioRunners.Any())
             {
-                runners.Add(this.CreateRunner(disposables, NoArguments));
+                scenarioRunners.Add(this.CreateRunner(disposables, NoArguments));
             }
 
             var summary = new RunSummary();
-            foreach (var runner in runners)
+            foreach (var scenarioRunner in scenarioRunners)
             {
-                summary.Aggregate(await runner.RunAsync());
+                summary.Aggregate(await scenarioRunner.RunAsync());
             }
 
             var timer = new ExecutionTimer();
