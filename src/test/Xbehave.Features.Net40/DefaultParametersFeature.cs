@@ -15,7 +15,6 @@ namespace Xbehave.Test.Acceptance
     // I want to declare hold local state using scenario method parameters
     public static class DefaultParametersFeature
     {
-#if !V2
         [Scenario]
         public static void ScenarioWithParameters()
         {
@@ -54,6 +53,5 @@ namespace Xbehave.Test.Acceptance
                     .f(() => z.Should().Be(default(int?)));
             }
         }
-#endif
     }
 }
