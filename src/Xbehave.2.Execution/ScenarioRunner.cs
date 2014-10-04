@@ -61,7 +61,7 @@ namespace Xbehave.Execution
                     }
                 });
 
-            var runners = new List<StepRunner>();
+            var stepRunners = new List<StepRunner>();
             try
             {
                 var type = Reflector.GetType(
@@ -78,7 +78,7 @@ namespace Xbehave.Execution
                     await task;
                 }
 
-                runners.AddRange(CurrentScenario.ExtractSteps()
+                stepRunners.AddRange(CurrentScenario.ExtractSteps()
                     .Select(step => new StepRunner(
                         step.Name,
                         step.Body,
@@ -117,7 +117,7 @@ namespace Xbehave.Execution
 
             var summary = new RunSummary();
             string failedStepName = null;
-            foreach (var runner in runners)
+            foreach (var stepRunner in stepRunners)
             {
                 if (failedStepName != null)
                 {
@@ -139,11 +139,11 @@ namespace Xbehave.Execution
                     continue;
                 }
 
-                summary.Aggregate(await runner.RunAsync());
+                summary.Aggregate(await stepRunner.RunAsync());
 
                 if (stepFailed)
                 {
-                    failedStepName = runner.StepName;
+                    failedStepName = stepRunner.StepName;
                 }
             }
 
