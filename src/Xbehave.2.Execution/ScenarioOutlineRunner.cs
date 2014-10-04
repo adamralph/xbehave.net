@@ -17,6 +17,7 @@ namespace Xbehave.Execution
     public class ScenarioOutlineRunner : XunitTestCaseRunner
     {
         private static readonly object[] NoArguments = new object[0];
+        private static readonly ITypeInfo ObjectTypeInfo = Reflector.Wrap(typeof(object));
 
         public ScenarioOutlineRunner(
             IXunitTestCase testCase,
@@ -104,6 +105,47 @@ namespace Xbehave.Execution
             return summary;
         }
 
+        private static IEnumerable<ITypeInfo> ResolveTypeArguments(IMethodInfo method, IList<object> argumentValues)
+        {
+            var parameters = method.GetParameters().ToArray();
+            return method.GetGenericArguments()
+                .Select(typeParameter => ResolveTypeArgument(typeParameter, parameters, argumentValues));
+        }
+
+        private static ITypeInfo ResolveTypeArgument(
+            ITypeInfo typeParameter, IList<IParameterInfo> parameters, IList<object> argumentValues)
+        {
+            var sawNullValue = false;
+            ITypeInfo type = null;
+            for (var index = 0; index < Math.Min(parameters.Count, argumentValues.Count); ++index)
+            {
+                var parameterType = parameters[index].ParameterType;
+                if (parameterType.IsGenericParameter && parameterType.Name == typeParameter.Name)
+                {
+                    var argumentValue = argumentValues[index];
+                    if (argumentValue == null)
+                    {
+                        sawNullValue = true;
+                    }   
+                    else if (type == null)
+                    {
+                        type = Reflector.Wrap(argumentValue.GetType());
+                    }
+                    else if (type.Name != argumentValue.GetType().FullName)
+                    {
+                        return ObjectTypeInfo;
+                    }
+                }
+            }
+
+            if (type == null)
+            {
+                return ObjectTypeInfo;
+            }
+
+            return sawNullValue && type.IsValueType ? ObjectTypeInfo : type;
+        }
+
         private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues)
         {
             disposables.AddRange(argumentValues.OfType<IDisposable>());
@@ -112,7 +154,7 @@ namespace Xbehave.Execution
             var closedMethod = TestMethod;
             if (closedMethod.IsGenericMethodDefinition)
             {
-                typeArguments = TestCase.TestMethod.Method.ResolveGenericTypes(argumentValues.ToArray());
+                typeArguments = ResolveTypeArguments(TestCase.TestMethod.Method, argumentValues.ToArray()).ToArray();
 
                 closedMethod =
                     closedMethod.MakeGenericMethod(typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
@@ -132,7 +174,8 @@ namespace Xbehave.Execution
                     var typeParameters = TestCase.TestMethod.Method.GetGenericArguments().ToArray();
                     for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
                     {
-                        if (typeParameters[typeParameterIndex] == parameterType)
+                        var typeParameter = typeParameters[typeParameterIndex];
+                        if (typeParameter.Name == parameterType.Name)
                         {
                             concreteType = typeArguments[typeParameterIndex];
                             break;
