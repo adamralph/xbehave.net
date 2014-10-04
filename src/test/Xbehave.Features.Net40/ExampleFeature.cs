@@ -51,7 +51,6 @@ namespace Xbehave.Test.Acceptance
                     result.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
         }
 
-#if !V2
         [Scenario]
         public static void ExamplesWithTwoMissingArguments(Type feature, Result[] results)
         {
@@ -68,6 +67,7 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>());
         }
 
+#if !V2
         [Scenario]
         public static void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, Result[] results)
         {
@@ -216,7 +216,6 @@ an null value for the fifth type parameter"
             }
         }
 
-#if !V2
         private static class SingleStepAndThreeExamplesWithTwoMissingArguments
         {
             private static int previousExample;
@@ -238,6 +237,7 @@ an null value for the fifth type parameter"
             }
         }
 
+#if !V2
         private static class SingleStepAndThreeExamplesWithMissingResolvableGenericArguments
         {
             private static object previousExample1;
