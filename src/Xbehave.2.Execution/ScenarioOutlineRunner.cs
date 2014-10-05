@@ -204,6 +204,7 @@ namespace Xbehave.Execution
                 TestCase.TestMethod.Method, this.DisplayName, arguments.Select(argument => argument.Value).ToArray(), typeArguments);
 
             return new ScenarioRunner(
+                closedMethod,
                 TestCase,
                 displayName,
                 SkipReason,
