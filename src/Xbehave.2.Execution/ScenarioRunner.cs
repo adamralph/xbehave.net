@@ -8,6 +8,7 @@ namespace Xbehave.Execution
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Execution.Shims;
@@ -18,6 +19,7 @@ namespace Xbehave.Execution
     public class ScenarioRunner : XunitTestCaseRunner
     {
         public ScenarioRunner(
+            MethodInfo testMethod,
             IXunitTestCase testCase,
             string displayName,
             string skipReason,
@@ -36,6 +38,9 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
+            Guard.AgainstNullArgument("testMethod", testMethod);
+
+            this.TestMethod = testMethod;
         }
 
         protected override async Task<RunSummary> RunTestAsync()
@@ -68,10 +73,8 @@ namespace Xbehave.Execution
                     this.TestCase.TestMethod.TestClass.TestCollection.TestAssembly.Assembly.Name,
                     this.TestCase.TestMethod.TestClass.Class.Name);
 
-                var method = type.GetMethod(this.TestCase.TestMethod.Method.Name);
-
-                var obj = method.IsStatic ? null : Activator.CreateInstance(type, this.ConstructorArguments);
-                var result = method.Invoke(obj, this.TestMethodArguments);
+                var obj = this.TestMethod.IsStatic ? null : Activator.CreateInstance(type, this.ConstructorArguments);
+                var result = this.TestMethod.Invoke(obj, this.TestMethodArguments);
                 var task = result as Task;
                 if (task != null)
                 {

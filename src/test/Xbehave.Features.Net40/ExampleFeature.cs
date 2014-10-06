@@ -67,7 +67,6 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>());
         }
 
-#if !V2
         [Scenario]
         public static void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, Result[] results)
         {
@@ -106,6 +105,7 @@ an null value for the fifth type parameter"
                 .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")));
         }
 
+#if !V2
         [Scenario]
         public static void FormattedSteps(Type feature, IEnumerable<Result> results)
         {
@@ -237,7 +237,6 @@ an null value for the fifth type parameter"
             }
         }
 
-#if !V2
         private static class SingleStepAndThreeExamplesWithMissingResolvableGenericArguments
         {
             private static object previousExample1;
@@ -281,6 +280,7 @@ an null value for the fifth type parameter"
             }
         }
 
+#if !V2
         private static class FeatureWithAScenarioWithExampleValuesAndAFormattedStep
         {
             [Scenario]
