@@ -5,7 +5,8 @@ version = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\("
 xunit_command = "src/packages/xunit.runners.2.0.0-beta4-build2738/tools/xunit.console.exe"
 nuget_command = "src/packages/NuGet.CommandLine.2.8.2/tools/NuGet.exe"
 solution = "src/XBehave.sln"
-output = "bin"
+output = "artifacts/output"
+logs = "artifacts/logs"
 
 specs = [
   "src/test/Xbehave.Sdk.Specifications.Net35/bin/Release/Xbehave.Sdk.Specifications.Net35.dll",
@@ -39,16 +40,22 @@ end
 desc "Clean solution"
 msbuild :clean do |msb|
   FileUtils.rmtree output
+  FileUtils.mkpath logs
   msb.properties = { :configuration => :Release }
   msb.targets = [:Clean]
   msb.solution = solution
+  msb.verbosity = :minimal
+  msb.other_switches = {:nologo => true, :fl => true, :flp => "LogFile=#{logs}/clean.log;Verbosity=Detailed;PerformanceSummary", :nr => false}
 end
 
 desc "Build solution"
 msbuild :build => [:clean, :restore] do |msb|
+  FileUtils.mkpath logs
   msb.properties = { :configuration => :Release }
   msb.targets = [:Build]
   msb.solution = solution
+  msb.verbosity = :minimal
+  msb.other_switches = {:nologo => true, :fl => true, :flp => "LogFile=#{logs}/build.log;Verbosity=Detailed;PerformanceSummary", :nr => false}
 end
 
 desc "Execute specs"
