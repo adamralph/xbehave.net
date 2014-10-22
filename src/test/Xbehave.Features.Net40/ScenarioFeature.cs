@@ -33,6 +33,31 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
+        public static void ScenarioWithThreeSteps()
+        {
+            var feature = default(Type);
+            var results = default(Result[]);
+
+            "Given a feature with a scenario with three steps"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithThreeSteps));
+
+            "When the test runner runs the feature"
+                .When(() => results = TestRunner.Run(feature).ToArray());
+
+            "Then there should be three results"
+                .And(() => results.Length.Should().Be(3));
+
+            "And the first result should have a display name ending with 'Step 1'"
+                .And(() => results[0].DisplayName.Should().EndWith("Step 1"));
+
+            "And the second result should have a display name ending with 'Step 2'"
+                .And(() => results[1].DisplayName.Should().EndWith("Step 2"));
+
+            "And the third result should have a display name ending with 'Step 3'"
+                .And(() => results[2].DisplayName.Should().EndWith("Step 3"));
+        }
+
+        [Scenario]
         public static void ScenarioWithThreePassingSteps()
         {
             var feature = default(Type);
@@ -121,6 +146,22 @@ namespace Xbehave.Test.Acceptance
                         result.Message.Should().ContainEquivalentOf("Given something");
                     }
                 });
+        }
+
+        private static class FeatureWithAScenarioWithThreeSteps
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "Step 1"
+                    .f(() => { });
+
+                "Step 2"
+                    .f(() => { });
+
+                "Step 3"
+                    .f(() => { });
+            }
         }
 
         private static class FeatureWithAScenarioWithThreePassingSteps
