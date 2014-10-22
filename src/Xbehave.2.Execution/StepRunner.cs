@@ -5,19 +5,19 @@
 namespace Xbehave.Execution
 {
     using System;
+    using System.Globalization;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
+    using Xbehave.Sdk;
     using Xunit.Sdk;
 
     public class StepRunner : TestRunner<IXunitTestCase>
     {
-        private readonly string stepName;
-        private readonly Func<Task> stepBody;
+        private readonly Step step;
 
         public StepRunner(
-            string stepName,
-            Func<Task> stepBody,
+            Step step,
             IXunitTestCase testCase,
             IMessageBus messageBus,
             Type testClass,
@@ -40,19 +40,21 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            this.stepName = stepName;
-            this.stepBody = stepBody;
+            Guard.AgainstNullArgument("step", step);
+
+            this.step = step;
+            this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, step.Name);
         }
 
-        public string StepName
+        public Step Step
         {
-            get { return this.stepName; }
+            get { return this.step; }
         }
 
         protected override async Task<decimal> InvokeTestAsync(ExceptionAggregator aggregator)
         {
             var timer = new ExecutionTimer();
-            await aggregator.RunAsync(this.stepBody);
+            await aggregator.RunAsync(this.step.Body);
             return timer.Total;
         }
     }

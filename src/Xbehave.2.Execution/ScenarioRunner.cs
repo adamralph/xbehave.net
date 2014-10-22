@@ -83,8 +83,7 @@ namespace Xbehave.Execution
 
                 stepRunners.AddRange(CurrentScenario.ExtractSteps()
                     .Select(step => new StepRunner(
-                        step.Name,
-                        step.Body,
+                        step,
                         this.TestCase,
                         interceptingBus,
                         this.TestClass,
@@ -146,7 +145,7 @@ namespace Xbehave.Execution
 
                 if (stepFailed)
                 {
-                    failedStepName = stepRunner.StepName;
+                    failedStepName = stepRunner.Step.Name;
                 }
             }
 
