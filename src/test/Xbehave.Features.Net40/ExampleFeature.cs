@@ -131,11 +131,11 @@ an null value for the fifth type parameter"
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then the results should not be empty"
-                .Then(() => results.Should().NotBeEmpty());
+            "Then there should be one result"
+                .Then(() => results.Count().Should().Be(1));
 
-            "And the display name of each result should contain \"Given null, null and null\""
-                .And(() => results.Should().OnlyContain(result => result.DisplayName.EndsWith("Given null, null and null")));
+            "And the display name of the result should end with \"Given null, null and null\""
+                .And(() => results.Single().DisplayName.Should().EndWith("Given null, null and null"));
         }
 
         [Scenario]
