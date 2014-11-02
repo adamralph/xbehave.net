@@ -121,7 +121,6 @@ an null value for the fifth type parameter"
                 .And(() => results.Single().DisplayName.Should().EndWith("Given 1, 2 and 3"));
         }
 
-#if !V2
         [Scenario]
         public static void FormattedStepsWithNullValues(Type feature, IEnumerable<Result> results)
         {
@@ -138,6 +137,7 @@ an null value for the fifth type parameter"
                 .And(() => results.Single().DisplayName.Should().EndWith("Given null, null and null"));
         }
 
+#if !V2
         [Scenario]
         public static void BadlyFormattedSteps(Type feature, IEnumerable<Result> results)
         {
@@ -291,7 +291,6 @@ an null value for the fifth type parameter"
             }
         }
 
-#if !V2
         private static class FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep
         {
             [Scenario]
@@ -303,6 +302,7 @@ an null value for the fifth type parameter"
             }
         }
 
+#if !V2
         private static class FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep
         {
             [Scenario]
