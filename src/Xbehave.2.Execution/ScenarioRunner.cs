@@ -145,7 +145,7 @@ namespace Xbehave.Execution
 
                 if (stepFailed)
                 {
-                    failedStepName = stepRunner.Step.Name;
+                    failedStepName = stepRunner.StepName;
                 }
             }
 
