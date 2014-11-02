@@ -46,7 +46,10 @@ namespace Xbehave.Execution
 
             try
             {
-                this.stepName = string.Format(CultureInfo.InvariantCulture, step.Name, testMethodArguments);
+                this.stepName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    step.Name,
+                    testMethodArguments.Select(argument => argument ?? "null").ToArray());
             }
             catch (FormatException)
             {
