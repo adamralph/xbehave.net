@@ -6,6 +6,7 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -14,7 +15,8 @@ namespace Xbehave.Execution
 
     public class StepRunner : TestRunner<IXunitTestCase>
     {
-        private readonly Step step;
+        private readonly string stepName;
+        private readonly Func<Task> body;
 
         public StepRunner(
             Step step,
@@ -42,19 +44,28 @@ namespace Xbehave.Execution
         {
             Guard.AgainstNullArgument("step", step);
 
-            this.step = step;
-            this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, step.Name);
+            try
+            {
+                this.stepName = string.Format(CultureInfo.InvariantCulture, step.Name, testMethodArguments);
+            }
+            catch (FormatException)
+            {
+                this.stepName = step.Name;
+            }
+
+            this.body = step.Body;
+            this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, this.stepName);
         }
 
-        public Step Step
+        public string StepName
         {
-            get { return this.step; }
+            get { return this.stepName; }
         }
 
         protected override async Task<decimal> InvokeTestAsync(ExceptionAggregator aggregator)
         {
             var timer = new ExecutionTimer();
-            await aggregator.RunAsync(this.step.Body);
+            await aggregator.RunAsync(this.body);
             return timer.Total;
         }
     }
