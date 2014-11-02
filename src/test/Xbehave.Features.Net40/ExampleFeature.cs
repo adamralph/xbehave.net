@@ -147,14 +147,14 @@ an null value for the fifth type parameter"
             "When the test runner runs the feature"
                 .When(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then the results should not be empty"
-                .Then(() => results.Should().NotBeEmpty());
+            "Then there should be one result"
+                .Then(() => results.Count().Should().Be(1));
 
-            "And there should be no failures"
-                .And(() => results.Should().NotContain(result => result is Fail));
+            "And the result should not be a pass"
+                .And(() => results.Single().Should().BeOfType<Pass>());
 
-            "And the display name of each result should end with \"Given {{3}}, {{4}} and {{5}}\""
-                .And(() => results.Should().OnlyContain(result => result.DisplayName.EndsWith("Given {3}, {4} and {5}")));
+            "And the display name of the result should end with \"Given {{3}}, {{4}} and {{5}}\""
+                .And(() => results.Single().DisplayName.Should().EndWith("Given {3}, {4} and {5}"));
         }
 
         [Scenario]
