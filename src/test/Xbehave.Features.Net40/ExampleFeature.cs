@@ -105,7 +105,6 @@ an null value for the fifth type parameter"
                 .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")));
         }
 
-#if !V2
         [Scenario]
         public static void FormattedSteps(Type feature, IEnumerable<Result> results)
         {
@@ -122,6 +121,7 @@ an null value for the fifth type parameter"
                 .And(() => results.Single().DisplayName.Should().EndWith("Given 1, 2 and 3"));
         }
 
+#if !V2
         [Scenario]
         public static void FormattedStepsWithNullValues(Type feature, IEnumerable<Result> results)
         {
@@ -280,7 +280,6 @@ an null value for the fifth type parameter"
             }
         }
 
-#if !V2
         private static class FeatureWithAScenarioWithExampleValuesAndAFormattedStep
         {
             [Scenario]
@@ -292,6 +291,7 @@ an null value for the fifth type parameter"
             }
         }
 
+#if !V2
         private static class FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep
         {
             [Scenario]
