@@ -156,7 +156,6 @@ an null value for the fifth type parameter"
                 .And(() => results.Single().DisplayName.Should().EndWith("Given {3}, {4} and {5}"));
         }
 
-#if !V2
         [Scenario]
         public static void InvalidExamples(Type feature, Exception exception, IEnumerable<Result> results)
         {
@@ -176,6 +175,7 @@ an null value for the fifth type parameter"
                 .And(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
+#if !V2
         [Scenario]
         public static void OmissionOfArgumentsFromScenarioNames(Type feature, IEnumerable<Result> results)
         {
@@ -313,7 +313,6 @@ an null value for the fifth type parameter"
             }
         }
 
-#if !V2
         private static class FeatureWithTwoScenariosWithInvalidExamples
         {
             [Scenario]
@@ -329,6 +328,7 @@ an null value for the fifth type parameter"
             }
         }
 
+#if !V2
         [OmitArgumentsFromScenarioNames(true)]
         private static class FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames
         {
