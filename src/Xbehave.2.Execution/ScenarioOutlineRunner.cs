@@ -126,7 +126,7 @@ namespace Xbehave.Execution
                     if (argumentValue == null)
                     {
                         sawNullValue = true;
-                    }   
+                    }
                     else if (type == null)
                     {
                         type = Reflector.Wrap(argumentValue.GetType());
@@ -144,6 +144,111 @@ namespace Xbehave.Execution
             }
 
             return sawNullValue && type.IsValueType ? ObjectTypeInfo : type;
+        }
+
+        private static string GetString(
+            IMethodInfo method,
+            string baseDisplayName,
+            Argument[] arguments,
+            ITypeInfo[] typeArguments,
+            bool omitArgumentsFromScenarioNames)
+        {
+            var csharp = baseDisplayName;
+            if (typeArguments.Length > 0)
+            {
+                csharp = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}<{1}>",
+                    csharp,
+                    string.Join(", ", typeArguments.Select(typeArgument => GetString(typeArgument)).ToArray()));
+            }
+
+            var format = "{0}";
+            var parameterTokens = new List<string>();
+            if (!omitArgumentsFromScenarioNames)
+            {
+                format += "({1})";
+
+                var parameters = method.GetParameters().ToArray();
+                int parameterIndex;
+                for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+                {
+                    if (arguments[parameterIndex].IsGeneratedDefault)
+                    {
+                        continue;
+                    }
+
+                    parameterTokens.Add(string.Concat(
+                        parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
+                        ": ",
+                        GetString(arguments[parameterIndex])));
+                }
+
+                for (; parameterIndex < parameters.Length; parameterIndex++)
+                {
+                    parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
+                }
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, format, csharp, string.Join(", ", parameterTokens.ToArray()));
+        }
+
+        private static string GetString(ITypeInfo type)
+        {
+            var baseTypeName = type.Name;
+
+            var backTickIdx = baseTypeName.IndexOf('`');
+            if (backTickIdx >= 0)
+            {
+                baseTypeName = baseTypeName.Substring(0, backTickIdx);
+            }
+
+            var lastIndex = baseTypeName.LastIndexOf('.');
+            if (lastIndex >= 0)
+            {
+                baseTypeName = baseTypeName.Substring(lastIndex + 1);
+            }
+
+            if (!type.IsGenericType)
+            {
+                return baseTypeName;
+            }
+
+            var genericTypes = type.GetGenericArguments().ToArray();
+            var simpleNames = new string[genericTypes.Length];
+
+            for (var idx = 0; idx < genericTypes.Length; idx++)
+            {
+                simpleNames[idx] = GetString(genericTypes[idx]);
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}<{1}>", baseTypeName, string.Join(", ", simpleNames));
+        }
+
+        private static string GetString(Argument argument)
+        {
+            if (argument.Value == null)
+            {
+                return "null";
+            }
+
+            if (argument.Value is char)
+            {
+                return "'" + argument.Value + "'";
+            }
+
+            var stringArgument = argument.Value as string;
+            if (stringArgument != null)
+            {
+                if (stringArgument.Length > 50)
+                {
+                    return string.Concat("\"", stringArgument.Substring(0, 50), "\"...");
+                }
+
+                return string.Concat("\"", stringArgument, "\"");
+            }
+
+            return Convert.ToString(argument.Value, CultureInfo.InvariantCulture);
         }
 
         private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues)
@@ -200,8 +305,8 @@ namespace Xbehave.Execution
                 .Concat(generatedArguments)
                 .ToArray();
 
-            var displayName = TypeUtility.GetDisplayNameWithArguments(
-                TestCase.TestMethod.Method, this.DisplayName, arguments.Select(argument => argument.Value).ToArray(), typeArguments);
+            var displayName = GetString(
+                TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments, false);
 
             return new ScenarioRunner(
                 closedMethod,
