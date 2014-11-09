@@ -84,25 +84,31 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void GenericScenario(Type feature, IEnumerable<Result> results)
+        public static void GenericScenario(Type feature, Result[] results)
         {
-            @"Given a feature with a generic scenario with five type parameters and examples containing
-an Int32 value for the first type parameter,
-an Int64 value for the second type parameter,
-an String value for the third type parameter,
-an Int32 value for the fourth type parameter,
-an Int64 value for the fourth type parameter and
-an null value for the fifth type parameter"
-                .Given(() => feature = typeof(GenericScenarioFeature));
+            @"Given a feature with a scenario with one step, five type parameters and three examples each containing
+an Int32 value for an argument defined using the first type parameter,
+an Int64 value for an argument defined using the second type parameter,
+an String value for an argument defined using the third type parameter,
+an Int32 value for an argument defined using the fourth type parameter,
+an Int64 value for another argument defined using the fourth type parameter and
+an null value for an argument defined using the fifth type parameter"
+                .f(() => feature = typeof(GenericScenarioFeature));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray());
+                .f(() => results = TestRunner.Run(feature).ToArray());
 
-            "Then the results should not be empty"
-                .Then(() => results.Should().NotBeEmpty());
+            "Then there should be three results"
+                .f(() => results.Length.Should().Be(3));
 
             "And the display name of each result should contain \"<Int32, Int64, String, Object, Object>\""
-                .And(() => results.Should().OnlyContain(result => result.DisplayName.Contains("<Int32, Int64, String, Object, Object>")));
+                .f(() =>
+                {
+                    foreach (var result in results)
+                    {
+                        result.DisplayName.Should().Contain("<Int32, Int64, String, Object, Object>");
+                    }
+                });
         }
 
         [Scenario]
@@ -271,12 +277,6 @@ an null value for the fifth type parameter"
             {
                 "Given"
                     .Given(() => { });
-
-                "When"
-                    .When(() => { });
-
-                "Then"
-                    .Then(() => { });
             }
         }
 

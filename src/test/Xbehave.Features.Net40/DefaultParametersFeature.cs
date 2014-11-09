@@ -33,6 +33,18 @@ namespace Xbehave.Test.Acceptance
 
             "And there should be 4 results"
                 .f(() => results.Length.Should().Be(4));
+
+            "And the display name of each result should not contain the parameter values"
+                .f(() =>
+                {
+                    foreach (var result in results)
+                    {
+                        result.DisplayName.Should().NotContain("w:");
+                        result.DisplayName.Should().NotContain("x:");
+                        result.DisplayName.Should().NotContain("y:");
+                        result.DisplayName.Should().NotContain("z:");
+                    }
+                });
         }
 
         private static class FeatureWithAScenarioWithAFourParametersAndAStepAssertingEachOneIsADefaultValue

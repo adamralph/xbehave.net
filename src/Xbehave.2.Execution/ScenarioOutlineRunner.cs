@@ -126,7 +126,7 @@ namespace Xbehave.Execution
                     if (argumentValue == null)
                     {
                         sawNullValue = true;
-                    }   
+                    }
                     else if (type == null)
                     {
                         type = Reflector.Wrap(argumentValue.GetType());
@@ -144,6 +144,42 @@ namespace Xbehave.Execution
             }
 
             return sawNullValue && type.IsValueType ? ObjectTypeInfo : type;
+        }
+
+        private static string GetDisplayName(
+            IMethodInfo method, string baseDisplayName, Argument[] arguments, ITypeInfo[] typeArguments)
+        {
+            if (typeArguments.Length > 0)
+            {
+                baseDisplayName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}<{1}>",
+                    baseDisplayName,
+                    string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString())));
+            }
+
+            var parameterTokens = new List<string>();
+            var parameters = method.GetParameters().ToArray();
+            int parameterIndex;
+            for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+            {
+                if (arguments[parameterIndex].IsGeneratedDefault)
+                {
+                    continue;
+                }
+
+                parameterTokens.Add(string.Concat(
+                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
+                    ": ",
+                    arguments[parameterIndex].ToString()));
+            }
+
+            for (; parameterIndex < parameters.Length; parameterIndex++)
+            {
+                parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
 
         private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues)
@@ -200,8 +236,7 @@ namespace Xbehave.Execution
                 .Concat(generatedArguments)
                 .ToArray();
 
-            var displayName = TypeUtility.GetDisplayNameWithArguments(
-                TestCase.TestMethod.Method, this.DisplayName, arguments.Select(argument => argument.Value).ToArray(), typeArguments);
+            var displayName = GetDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments);
 
             return new ScenarioRunner(
                 closedMethod,
