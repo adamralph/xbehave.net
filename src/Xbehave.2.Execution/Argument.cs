@@ -5,6 +5,7 @@
 namespace Xbehave.Execution
 {
     using System;
+    using System.Globalization;
 
     public class Argument
     {
@@ -32,6 +33,32 @@ namespace Xbehave.Execution
         public bool IsGeneratedDefault
         {
             get { return this.isGeneratedDefault; }
+        }
+
+        public override string ToString()
+        {
+            if (this.Value == null)
+            {
+                return "null";
+            }
+
+            if (this.Value is char)
+            {
+                return "'" + this.Value + "'";
+            }
+
+            var stringArgument = this.Value as string;
+            if (stringArgument != null)
+            {
+                if (stringArgument.Length > 50)
+                {
+                    return string.Concat("\"", stringArgument.Substring(0, 50), "\"...");
+                }
+
+                return string.Concat("\"", stringArgument, "\"");
+            }
+
+            return Convert.ToString(this.Value, CultureInfo.InvariantCulture);
         }
     }
 }

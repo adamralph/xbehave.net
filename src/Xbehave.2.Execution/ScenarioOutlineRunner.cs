@@ -146,109 +146,40 @@ namespace Xbehave.Execution
             return sawNullValue && type.IsValueType ? ObjectTypeInfo : type;
         }
 
-        private static string GetString(
-            IMethodInfo method,
-            string baseDisplayName,
-            Argument[] arguments,
-            ITypeInfo[] typeArguments,
-            bool omitArgumentsFromScenarioNames)
+        private static string GetDisplayName(
+            IMethodInfo method, string baseDisplayName, Argument[] arguments, ITypeInfo[] typeArguments)
         {
-            var csharp = baseDisplayName;
             if (typeArguments.Length > 0)
             {
-                csharp = string.Format(
+                baseDisplayName = string.Format(
                     CultureInfo.InvariantCulture,
                     "{0}<{1}>",
-                    csharp,
-                    string.Join(", ", typeArguments.Select(typeArgument => GetString(typeArgument)).ToArray()));
+                    baseDisplayName,
+                    string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString())));
             }
 
-            var format = "{0}";
             var parameterTokens = new List<string>();
-            if (!omitArgumentsFromScenarioNames)
+            var parameters = method.GetParameters().ToArray();
+            int parameterIndex;
+            for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
             {
-                format += "({1})";
-
-                var parameters = method.GetParameters().ToArray();
-                int parameterIndex;
-                for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+                if (arguments[parameterIndex].IsGeneratedDefault)
                 {
-                    if (arguments[parameterIndex].IsGeneratedDefault)
-                    {
-                        continue;
-                    }
-
-                    parameterTokens.Add(string.Concat(
-                        parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
-                        ": ",
-                        GetString(arguments[parameterIndex])));
+                    continue;
                 }
 
-                for (; parameterIndex < parameters.Length; parameterIndex++)
-                {
-                    parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
-                }
+                parameterTokens.Add(string.Concat(
+                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
+                    ": ",
+                    arguments[parameterIndex].ToString()));
             }
 
-            return string.Format(CultureInfo.InvariantCulture, format, csharp, string.Join(", ", parameterTokens.ToArray()));
-        }
-
-        private static string GetString(ITypeInfo type)
-        {
-            var baseTypeName = type.Name;
-
-            var backTickIdx = baseTypeName.IndexOf('`');
-            if (backTickIdx >= 0)
+            for (; parameterIndex < parameters.Length; parameterIndex++)
             {
-                baseTypeName = baseTypeName.Substring(0, backTickIdx);
+                parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
             }
 
-            var lastIndex = baseTypeName.LastIndexOf('.');
-            if (lastIndex >= 0)
-            {
-                baseTypeName = baseTypeName.Substring(lastIndex + 1);
-            }
-
-            if (!type.IsGenericType)
-            {
-                return baseTypeName;
-            }
-
-            var genericTypes = type.GetGenericArguments().ToArray();
-            var simpleNames = new string[genericTypes.Length];
-
-            for (var idx = 0; idx < genericTypes.Length; idx++)
-            {
-                simpleNames[idx] = GetString(genericTypes[idx]);
-            }
-
-            return string.Format(CultureInfo.InvariantCulture, "{0}<{1}>", baseTypeName, string.Join(", ", simpleNames));
-        }
-
-        private static string GetString(Argument argument)
-        {
-            if (argument.Value == null)
-            {
-                return "null";
-            }
-
-            if (argument.Value is char)
-            {
-                return "'" + argument.Value + "'";
-            }
-
-            var stringArgument = argument.Value as string;
-            if (stringArgument != null)
-            {
-                if (stringArgument.Length > 50)
-                {
-                    return string.Concat("\"", stringArgument.Substring(0, 50), "\"...");
-                }
-
-                return string.Concat("\"", stringArgument, "\"");
-            }
-
-            return Convert.ToString(argument.Value, CultureInfo.InvariantCulture);
+            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
 
         private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues)
@@ -305,8 +236,7 @@ namespace Xbehave.Execution
                 .Concat(generatedArguments)
                 .ToArray();
 
-            var displayName = GetString(
-                TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments, false);
+            var displayName = GetDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments);
 
             return new ScenarioRunner(
                 closedMethod,
