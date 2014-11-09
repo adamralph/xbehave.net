@@ -10,28 +10,21 @@ namespace Xbehave.Features.Infrastructure
     using Xunit;
     using Xunit.Abstractions;
 
-    public class SpyMessageSink<TFinalMessage> : LongLivedMarshalByRefObject, IMessageSink
+    public class SpyMessageSink<TFinalMessage> : LongLivedMarshalByRefObject, IMessageSink, IDisposable
     {
         private readonly ManualResetEvent finished = new ManualResetEvent(initialState: false);
-        private readonly List<IMessageSinkMessage> messages = new List<IMessageSinkMessage>();
-        private readonly Func<IMessageSinkMessage, bool> cancellationThunk;
-
-        public SpyMessageSink(Func<IMessageSinkMessage, bool> cancellationThunk = null)
-        {
-            this.cancellationThunk = cancellationThunk ?? (msg => true);
-        }
+        private readonly IList<IMessageSinkMessage> messages = new List<IMessageSinkMessage>();
 
         public ManualResetEvent Finished
         {
             get { return this.finished; }
         }
 
-        public List<IMessageSinkMessage> Messages
+        public IList<IMessageSinkMessage> Messages
         {
             get { return this.messages; }
         }
 
-        /// <inheritdoc/>
         public void Dispose()
         {
             this.Finished.Dispose();
@@ -46,7 +39,7 @@ namespace Xbehave.Features.Infrastructure
                 this.Finished.Set();
             }
 
-            return this.cancellationThunk(message);
+            return true;
         }
     }
 }
