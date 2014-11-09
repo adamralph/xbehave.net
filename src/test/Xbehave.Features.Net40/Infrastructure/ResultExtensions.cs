@@ -10,19 +10,21 @@ namespace Xbehave.Features.Infrastructure
 
     public static class ResultExtensions
     {
-        public static string ToDisplayString(this Result[] results, string header = null)
+        public static string ToDisplayString(this Result[] results, string header)
         {
             var text = string.Join(
                 Environment.NewLine, results.Select((result, index) => Format(result, index)).ToArray());
 
-            return header == null
-                ? text
-                : string.Concat(header, Environment.NewLine, text);
+            return string.Concat(header, Environment.NewLine, text);
         }
 
         private static string Format(Result result, int index)
         {
-            return string.Format("Result {0}: {1}", (++index).ToString(CultureInfo.InvariantCulture), result);
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "Result {0}: {1}",
+                (++index).ToString(CultureInfo.InvariantCulture),
+                result);
         }
     }
 }

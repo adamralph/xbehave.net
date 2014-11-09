@@ -10,7 +10,7 @@ namespace Xbehave.Features.Infrastructure
     using Xunit;
     using Xunit.Abstractions;
 
-    public class SpyMessageSink<TFinalMessage> : LongLivedMarshalByRefObject, IMessageSink, IDisposable
+    public sealed class SpyMessageSink<TFinalMessage> : LongLivedMarshalByRefObject, IMessageSink, IDisposable
     {
         private readonly ManualResetEvent finished = new ManualResetEvent(initialState: false);
         private readonly IList<IMessageSinkMessage> messages = new List<IMessageSinkMessage>();

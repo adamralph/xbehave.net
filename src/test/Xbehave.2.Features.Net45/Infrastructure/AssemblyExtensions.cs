@@ -5,6 +5,7 @@
 namespace Xbehave.Features.Infrastructure
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
 
@@ -13,10 +14,14 @@ namespace Xbehave.Features.Infrastructure
         public static string GetLocalCodeBase(this Assembly assembly)
         {
             var codeBase = assembly.CodeBase;
-            if (!codeBase.StartsWith("file:///"))
+            if (!codeBase.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
             {
-                throw new ArgumentException(
-                    string.Format("Code base {0} in wrong format; must start with file:///", codeBase), "assembly");
+                var message = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "Code base {0} in wrong format; must start with 'file:///' (case-insensitive).",
+                    codeBase);
+
+                throw new ArgumentException(message, "assembly");
             }
 
             codeBase = codeBase.Substring(8);

@@ -35,7 +35,7 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>(
                     results.ToDisplayString("the results should all be passes")));
 
-            "Änd there should be three results"
+            "And there should be three results"
                 .f(() => results.Length.Should().Be(3));
 
             "And the display name of one result should contain '(x: 1, y: 2, sum: 3)'"

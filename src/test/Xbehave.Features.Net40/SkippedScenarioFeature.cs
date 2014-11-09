@@ -39,7 +39,7 @@ namespace Xbehave.Test.Acceptance
             [Scenario(Skip = "Test")]
             public static void Scenario1()
             {
-                throw new Exception();
+                throw new InvalidOperationException();
             }
         }
     }
