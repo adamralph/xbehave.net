@@ -76,9 +76,6 @@
     <Compile Include="..\Xbehave.Features.Net40\ExampleFeature.cs">
       <Link>ExampleFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\Infrastructure\AttributeInfoExtensions.cs">
-      <Link>Infrastructure\AttributeInfoExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\EnumerableExtensions.cs">
       <Link>Infrastructure\EnumerableExtensions.cs</Link>
     </Compile>

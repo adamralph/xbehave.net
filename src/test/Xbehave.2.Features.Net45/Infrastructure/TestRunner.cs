@@ -8,22 +8,37 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Threading;
     using Xbehave.Features.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
-    using Xunit.Sdk;
 
     internal static class TestRunner
     {
-        public static IEnumerable<Result> Run(Type featureDefinition)
+        public static IList<Result> Run(this Type type)
         {
-            using (var test = new AcceptanceTest())
+            using (var xunit2 = new Xunit2(new NullSourceInformationProvider(), type.Assembly.GetLocalCodeBase()))
             {
-                List<ITestResultMessage> messages = null;
-                var thread = new Thread(() => messages = test.Run<ITestResultMessage>(featureDefinition));
-                thread.Start();
-                thread.Join();
-                return messages.Select(Map).ToArray();
+                return xunit2.Run(xunit2.Find(type));
+            }
+        }
+
+        private static IList<ITestCase> Find(this Xunit2 xunit2, Type type)
+        {
+            using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
+            {
+                xunit2.Find(type.FullName, false, sink, new XunitDiscoveryOptions());
+                sink.Finished.WaitOne();
+                return sink.Messages.OfType<ITestCaseDiscoveryMessage>().Select(message => message.TestCase).ToList();
+            }
+        }
+
+        private static IList<Result> Run(this Xunit2 xunit2, IList<ITestCase> testCases)
+        {
+            using (var sink = new SpyMessageSink<ITestAssemblyFinished>())
+            {
+                xunit2.Run(testCases, sink, new XunitExecutionOptions());
+                sink.Finished.WaitOne();
+                return sink.Messages.OfType<ITestResultMessage>().Select(Map).ToList();
             }
         }
 
@@ -53,9 +68,8 @@ namespace Xbehave.Test.Acceptance.Infrastructure
                 };
             }
 
-            throw new ArgumentException(
-                string.Format(CultureInfo.InvariantCulture, "Unknown test result message type '{0}'.", result.GetType()),
-                "result");
+            throw new InvalidOperationException(
+                string.Format(CultureInfo.InvariantCulture, "Unknown test result message type '{0}'.", result.GetType()));
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Xbehave
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using Xunit.Sdk;
 
@@ -17,6 +18,10 @@ namespace Xbehave
     /// E.g. <see cref="Xunit.InlineDataAttribute"/> or
     /// <see cref="Xunit.MemberDataAttribute"/>.
     /// </summary>
+    [SuppressMessage(
+        "Microsoft.Design",
+        "CA1019:DefineAccessorsForAttributeArguments",
+        Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
     [CLSCompliant(false)]
     [DataDiscoverer("Xunit.Sdk.InlineDataDiscoverer", "xunit.core")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
@@ -31,6 +36,11 @@ namespace Xbehave
         /// <see cref="Xunit.MemberDataAttribute"/>.
         /// </summary>
         /// <param name="data">The data values to pass to the scenario.</param>
+        [SuppressMessage(
+            "Microsoft.Usage",
+            "CA1801:ReviewUnusedParameters",
+            MessageId = "data",
+            Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
         public ExampleAttribute(params object[] data)
         {
         }

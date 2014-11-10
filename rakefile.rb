@@ -19,7 +19,7 @@ features = [
   "src/test/Xbehave.Features.Net35/bin/Release/Xbehave.Features.Net35.dll",
   "src/test/Xbehave.Features.Net40/bin/Release/Xbehave.Features.Net40.dll",
   "src/test/Xbehave.Features.Net45/bin/Release/Xbehave.Features.Net45.dll",
-  "src/test/Xbehave.2.Features.Net45/bin/Release/Xbehave.2.Features.Net45.dll",
+  "src/test/Xbehave.2.Features.Net45/bin/Release/Xbehave.Features.Net45.dll",
 ]
 
 nuspec = "src/Xbehave.nuspec"

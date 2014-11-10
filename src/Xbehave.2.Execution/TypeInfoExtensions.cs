@@ -12,6 +12,8 @@ namespace Xbehave.Execution
     {
         public static string ToSimpleString(this ITypeInfo type)
         {
+            Guard.AgainstNullArgument("type", type);
+
             var baseTypeName = type.Name;
 
             var backTickIdx = baseTypeName.IndexOf('`');

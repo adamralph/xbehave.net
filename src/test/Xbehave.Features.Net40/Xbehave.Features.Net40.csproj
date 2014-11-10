@@ -65,7 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackgroundFeature.cs" />
-    <Compile Include="Infrastructure\AttributeInfoExtensions.cs" />
     <Compile Include="Infrastructure\ResultExtensions.cs" />
     <Compile Include="Infrastructure\Skip.cs" />
     <Compile Include="Infrastructure\Fail.cs" />
@@ -85,8 +84,6 @@
     <Compile Include="IsolatedStepFeature.cs" />
     <Compile Include="SkippedStepFeature.cs" />
     <Compile Include="Infrastructure\TestRunner.cs" />
-    <Compile Include="Infrastructure\EnumerableEqualityComparer.cs" />
-    <Compile Include="Infrastructure\EnumerableComparer.cs" />
     <Compile Include="ExampleFeature.cs" />
   </ItemGroup>
   <ItemGroup>

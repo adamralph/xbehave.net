@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xbehave.Features</RootNamespace>
-    <AssemblyName>Xbehave.2.Features.Net45</AssemblyName>
+    <AssemblyName>Xbehave.Features.Net45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>c959b7db</NuGetPackageImportStamp>
@@ -92,26 +92,11 @@
     <Compile Include="..\Xbehave.Features.Net40\ExampleFeature.cs">
       <Link>ExampleFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\Infrastructure\CustomEqualityComparer.cs">
-      <Link>Infrastructure\CustomEqualityComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\Infrastructure\EnumerableComparer.cs">
-      <Link>Infrastructure\EnumerableComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\Infrastructure\EnumerableEqualityComparer.cs">
-      <Link>Infrastructure\EnumerableEqualityComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\Infrastructure\EnumerableExtensions.cs">
-      <Link>Infrastructure\EnumerableExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\Fail.cs">
       <Link>Infrastructure\Fail.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\Pass.cs">
       <Link>Infrastructure\Pass.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Features.Net40\Infrastructure\QueueExtensions.cs">
-      <Link>Infrastructure\QueueExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Features.Net40\Infrastructure\Result.cs">
       <Link>Infrastructure\Result.cs</Link>
@@ -146,10 +131,8 @@
     <Compile Include="..\Xbehave.Features.Net45\AsyncStepFeature.cs">
       <Link>AsyncStepFeature.cs</Link>
     </Compile>
-    <Compile Include="Infrastructure\AcceptanceTest.cs" />
     <Compile Include="Infrastructure\AssemblyExtensions.cs" />
     <Compile Include="Infrastructure\SpyMessageSink.cs" />
-    <Compile Include="Infrastructure\AttributeInfoExtensions.cs" />
     <Compile Include="Infrastructure\TestRunner.cs" />
   </ItemGroup>
   <ItemGroup>
