@@ -65,6 +65,25 @@ namespace Xbehave.Test.Acceptance
 
             "And each result should be a pass"
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+
+            "And each result should contain the example value"
+                .f(() =>
+                {
+                    foreach (var result in results)
+                    {
+                        result.DisplayName.Should().Contain("example:");
+                    }
+                });
+
+            "And each result should not contain the missing values"
+                .f(() =>
+                {
+                    foreach (var result in results)
+                    {
+                        result.DisplayName.Should().NotContain("missing1:");
+                        result.DisplayName.Should().NotContain("missing2:");
+                    }
+                });
         }
 
         [Scenario]
