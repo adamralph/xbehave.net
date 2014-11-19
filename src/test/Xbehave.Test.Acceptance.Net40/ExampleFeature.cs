@@ -6,12 +6,10 @@ namespace Xbehave.Test.Acceptance
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
-    using Xunit.Sdk;
 
     // In order to save time
     // As a developer
