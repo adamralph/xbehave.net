@@ -33,7 +33,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(Feature));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToQueue());
+                .When(() => results = feature.RunScenarios().ToQueue());
 
             "Then the first three executed steps are background steps"
                 .Then(() => ExecutedStepTypes.Dequeue(3).Should().OnlyContain(stepType => stepType == StepType.Background));

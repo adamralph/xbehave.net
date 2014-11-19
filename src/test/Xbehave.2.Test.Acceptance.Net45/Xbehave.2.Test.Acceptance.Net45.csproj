@@ -133,7 +133,7 @@
     </Compile>
     <Compile Include="Infrastructure\AssemblyExtensions.cs" />
     <Compile Include="Infrastructure\SpyMessageSink.cs" />
-    <Compile Include="Infrastructure\TestRunner.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\..\Xbehave.CustomDictionary.xml">

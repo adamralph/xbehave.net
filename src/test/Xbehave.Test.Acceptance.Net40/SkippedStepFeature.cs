@@ -24,7 +24,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAScenarioWithSkippedStepsBecauseTheFeatureIsUnfinishedWhichWouldThrowExceptionsIfExecuted));
 
             "When the test runner runs the feature"
-                .When(() => results = TestRunner.Run(feature).ToArray());
+                .When(() => results = feature.RunScenarios().ToArray());
 
             "Then the results should not be empty"
                 .Then(() => results.Should().NotBeEmpty());

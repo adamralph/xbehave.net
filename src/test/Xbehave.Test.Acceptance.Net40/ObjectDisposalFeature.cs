@@ -40,7 +40,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(SingleStep));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
@@ -63,7 +63,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(SingleStepWithATimeout));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
@@ -86,7 +86,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(SingleStepWithBadDisposables));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then the results should not be empty"
@@ -117,7 +117,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(SingleStepWithSingleRecursionBadDisposables));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then the results should not be empty"
@@ -147,7 +147,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(ManySteps));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
@@ -170,7 +170,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(SingleStepTwoContexts));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"
@@ -208,7 +208,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(StepsFollowedByAFailingStep));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be one failure"
@@ -231,7 +231,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(StepFailsToComplete));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be one failure"
@@ -255,7 +255,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(AsyncStep));
 
             "When running the scenario"
-                .When(() => results = TestRunner.Run(feature).ToArray())
+                .When(() => results = feature.RunScenarios().ToArray())
                 .Teardown(Disposable.ClearRecordedEvents);
 
             "Then there should be no failures"

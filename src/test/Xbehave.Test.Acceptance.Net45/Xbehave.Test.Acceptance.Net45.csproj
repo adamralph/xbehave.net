@@ -100,8 +100,8 @@
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Skip.cs">
       <Link>Infrastructure\Skip.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\TestRunner.cs">
-      <Link>Infrastructure\TestRunner.cs</Link>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\TypeExtensions.cs">
+      <Link>Infrastructure\TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\IsolatedStepFeature.cs">
       <Link>IsolatedStepFeature.cs</Link>

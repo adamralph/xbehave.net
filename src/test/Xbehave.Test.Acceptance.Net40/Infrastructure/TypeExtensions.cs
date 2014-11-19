@@ -1,4 +1,4 @@
-﻿// <copyright file="TestRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="TypeExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -11,9 +11,9 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     using System.Threading;
     using Xunit.Sdk;
 
-    internal static class TestRunner
+    internal static class TypeExtensions
     {
-        public static IList<Result> Run(this Type feature)
+        public static IList<Result> RunScenarios(this Type feature)
         {
             var command = new TestClassCommand(feature);
             List<Result> results = null;

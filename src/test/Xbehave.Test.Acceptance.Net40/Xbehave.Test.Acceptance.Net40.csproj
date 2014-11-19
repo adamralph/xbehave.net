@@ -83,7 +83,7 @@
     <Compile Include="Infrastructure\CustomEqualityComparer.cs" />
     <Compile Include="IsolatedStepFeature.cs" />
     <Compile Include="SkippedStepFeature.cs" />
-    <Compile Include="Infrastructure\TestRunner.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.cs" />
     <Compile Include="ExampleFeature.cs" />
   </ItemGroup>
   <ItemGroup>
