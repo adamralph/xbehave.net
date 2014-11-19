@@ -6,6 +6,7 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -18,10 +19,13 @@ namespace Xbehave.Execution
 
     public class ScenarioRunner : XunitTestCaseRunner
     {
+        private readonly int scenarioNumber;
+
         public ScenarioRunner(
             MethodInfo testMethod,
             IXunitTestCase testCase,
             string displayName,
+            int scenarioNumber,
             string skipReason,
             object[] constructorArguments,
             object[] testMethodArguments,
@@ -41,6 +45,7 @@ namespace Xbehave.Execution
             Guard.AgainstNullArgument("testMethod", testMethod);
 
             this.TestMethod = testMethod;
+            this.scenarioNumber = scenarioNumber;
         }
 
         protected override async Task<RunSummary> RunTestAsync()
@@ -91,6 +96,7 @@ namespace Xbehave.Execution
                         this.TestMethod,
                         this.TestMethodArguments,
                         this.DisplayName,
+                        this.scenarioNumber,
                         ++index,
                         step.SkipReason,
                         this.Aggregator,

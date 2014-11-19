@@ -27,6 +27,7 @@ namespace Xbehave.Execution
             MethodInfo testMethod,
             object[] testMethodArguments,
             string displayName,
+            int scenarioNumber,
             int stepNumber,
             string skipReason,
             ExceptionAggregator aggregator,
@@ -60,8 +61,9 @@ namespace Xbehave.Execution
             this.body = step.Body;
             this.DisplayName = string.Format(
                 CultureInfo.InvariantCulture,
-                "{0} [{1}] {2}",
+                "{0} [{1}.{2}] {3}",
                 this.DisplayName,
+                scenarioNumber.ToString(CultureInfo.InvariantCulture),
                 stepNumber.ToString(CultureInfo.InvariantCulture),
                 this.stepName);
         }
