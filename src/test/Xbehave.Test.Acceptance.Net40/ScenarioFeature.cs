@@ -56,7 +56,6 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results[2].DisplayName.Should().EndWith("Step 3"));
         }
 
-#if !V2
         [Scenario]
         public static void OrderingStepsByDisplayName()
         {
@@ -78,7 +77,6 @@ namespace Xbehave.Test.Acceptance
             "And the second result should have a display name ending with 'y'"
                 .f(() => results[1].DisplayName.Should().EndWith("y"));
         }
-#endif
 
         [Scenario]
         public static void ScenarioWithThreePassingSteps()
@@ -187,7 +185,6 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-#if !V2
         private static class TwoStepsNamedZandY
         {
             [Scenario]
@@ -200,7 +197,6 @@ namespace Xbehave.Test.Acceptance
                     .f(() => { });
             }
         }
-#endif
 
         private static class FeatureWithAScenarioWithThreePassingSteps
         {
