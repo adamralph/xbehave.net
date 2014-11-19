@@ -34,6 +34,34 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Should().NotContain(result => result is Fail));
         }
 
+        [Scenario]
+        public static void OrderingStepsByDisplayName()
+        {
+            var feature = default(Type);
+            var results = default(Result[]);
+
+            "Given a step 'z' and an isolated step 'y'"
+                .f(() => feature = typeof(AStepZAnIsolatedStepYAndAStepX));
+
+            "When I run the scenarios"
+                .f(() => results = feature.RunScenarios());
+
+            "And I sort the results by their display name"
+                .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
+
+            "Then the first result should have a display name ending with 'z'"
+                .f(() => results[0].DisplayName.Should().EndWith("z"));
+
+            "And the second result should have a display name ending with 'y'"
+                .f(() => results[1].DisplayName.Should().EndWith("y"));
+
+            "And the third result should have a display name ending with 'z'"
+                .f(() => results[2].DisplayName.Should().EndWith("z"));
+
+            "And the fourth result should have a display name ending with 'x'"
+                .f(() => results[3].DisplayName.Should().EndWith("x"));
+        }
+
         private static class FeatureWithAScenarioWithIsolatedStepsWhichWouldCauseFollowingStepsToFailIfExecutedInTheSameContext
         {
             [Scenario]
@@ -60,6 +88,22 @@ namespace Xbehave.Test.Acceptance
 
                 "But the stack should not contain more than one item"
                     .But(() => stack.Count.Should().BeLessOrEqualTo(1));
+            }
+        }
+
+        private static class AStepZAnIsolatedStepYAndAStepX
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "z"
+                    .f(() => { });
+
+                "y"
+                    .f(() => { }).InIsolation();
+
+                "x"
+                    .f(() => { });
             }
         }
     }

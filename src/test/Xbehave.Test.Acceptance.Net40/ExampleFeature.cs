@@ -48,6 +48,36 @@ namespace Xbehave.Test.Acceptance
                     result.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
         }
 
+#if !V2
+        [Scenario]
+        public static void OrderingStepsByDisplayName()
+        {
+            var feature = default(Type);
+            var results = default(Result[]);
+
+            "Given three steps namd 'z' and 'y' each rendering two examples of 0 and 1"
+                .f(() => feature = typeof(TwoStepsNamedZandYEachRenderingTwoExamplesOf0And1));
+
+            "When I run the scenarios"
+                .f(() => results = feature.RunScenarios());
+
+            "And I sort the results by their display name"
+                .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
+
+            "Then the first result should have a display name ending with 'z0'"
+                .f(() => results[0].DisplayName.Should().EndWith("z0"));
+
+            "And the second result should have a display name ending with 'y0'"
+                .f(() => results[1].DisplayName.Should().EndWith("y0"));
+
+            "And the third result should have a display name ending with 'z1'"
+                .f(() => results[2].DisplayName.Should().EndWith("z1"));
+
+            "And the fourth result should have a display name ending with 'y1'"
+                .f(() => results[3].DisplayName.Should().EndWith("y1"));
+        }
+#endif
+
         [Scenario]
         public static void ExamplesWithMissingValues(Type feature, Result[] results)
         {
@@ -237,6 +267,23 @@ an null value for an argument defined using the fifth type parameter"
                     });
             }
         }
+
+#if !V2
+        private static class TwoStepsNamedZandYEachRenderingTwoExamplesOf0And1
+        {
+            [Scenario]
+            [Example(0)]
+            [Example(1)]
+            public static void Scenario(int x)
+            {
+                "z{0}"
+                    .f(() => { });
+
+                "y{0}"
+                    .f(() => { });
+            }
+        }
+#endif
 
         private static class ScenarioWithThreeParametersASingleStepAndThreeExamplesEachWithOneValue
         {

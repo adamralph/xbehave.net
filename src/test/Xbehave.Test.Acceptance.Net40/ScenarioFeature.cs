@@ -56,6 +56,30 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results[2].DisplayName.Should().EndWith("Step 3"));
         }
 
+#if !V2
+        [Scenario]
+        public static void OrderingStepsByDisplayName()
+        {
+            var feature = default(Type);
+            var results = default(Result[]);
+
+            "Given two steps named 'z' and 'y'"
+                .f(() => feature = typeof(TwoStepsNamedZandY));
+
+            "When I run the scenarios"
+                .f(() => results = feature.RunScenarios());
+
+            "And I sort the results by their display name"
+                .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
+
+            "Then the first result should have a display name ending with 'z'"
+                .f(() => results[0].DisplayName.Should().EndWith("z"));
+
+            "And the second result should have a display name ending with 'y'"
+                .f(() => results[1].DisplayName.Should().EndWith("y"));
+        }
+#endif
+
         [Scenario]
         public static void ScenarioWithThreePassingSteps()
         {
@@ -162,6 +186,21 @@ namespace Xbehave.Test.Acceptance
                     .f(() => { });
             }
         }
+
+#if !V2
+        private static class TwoStepsNamedZandY
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "z"
+                    .f(() => { });
+
+                "y"
+                    .f(() => { });
+            }
+        }
+#endif
 
         private static class FeatureWithAScenarioWithThreePassingSteps
         {
