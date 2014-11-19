@@ -49,13 +49,13 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void ExamplesWithTwoMissingArguments(Type feature, Result[] results)
+        public static void ExamplesWithMissingValues(Type feature, Result[] results)
         {
-            "Given a feature with a scenario with a single step and examples with one argument missing"
-                .Given(() => feature = typeof(SingleStepAndThreeExamplesWithTwoMissingArguments));
+            "Given a scenario with three parameters, a single step and three examples each with one value"
+                .f(() => feature = typeof(ScenarioWithThreeParametersASingleStepAndThreeExamplesEachWithOneValue));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
@@ -238,7 +238,7 @@ an null value for an argument defined using the fifth type parameter"
             }
         }
 
-        private static class SingleStepAndThreeExamplesWithTwoMissingArguments
+        private static class ScenarioWithThreeParametersASingleStepAndThreeExamplesEachWithOneValue
         {
             private static int previousExample;
 
