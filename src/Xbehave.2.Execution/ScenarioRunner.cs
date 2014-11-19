@@ -82,7 +82,7 @@ namespace Xbehave.Execution
                 }
 
                 stepRunners.AddRange(CurrentScenario.ExtractSteps()
-                    .Select(step => new StepRunner(
+                    .Select((step, index) => new StepRunner(
                         step,
                         this.TestCase,
                         interceptingBus,
@@ -91,6 +91,7 @@ namespace Xbehave.Execution
                         this.TestMethod,
                         this.TestMethodArguments,
                         this.DisplayName,
+                        ++index,
                         step.SkipReason,
                         this.Aggregator,
                         this.CancellationTokenSource)));
