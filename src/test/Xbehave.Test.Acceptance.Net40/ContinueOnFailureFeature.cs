@@ -26,7 +26,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAFailingStepAfterContinueOnFailureStepType));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray())
+                .When(() => results = feature.RunScenarios())
                 .Teardown(() => executedStepCount = 0);
 
             "Then the first 3 should be passes"
@@ -52,7 +52,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAFailingStepBeforeContinueOnFailureStepType));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray())
+                .When(() => results = feature.RunScenarios())
                 .Teardown(() => executedStepCount = 0);
 
             "Then the first 3 should be passes"

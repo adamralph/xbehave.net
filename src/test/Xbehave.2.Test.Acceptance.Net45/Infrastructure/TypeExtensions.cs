@@ -13,7 +13,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
     internal static class TypeExtensions
     {
-        public static IList<Result> RunScenarios(this Type feature)
+        public static Result[] RunScenarios(this Type feature)
         {
             using (var xunit2 = new Xunit2(new NullSourceInformationProvider(), feature.Assembly.GetLocalCodeBase()))
             {
@@ -21,23 +21,23 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             }
         }
 
-        private static IList<ITestCase> Find(this Xunit2Discoverer xunit2, Type type)
+        private static ITestCase[] Find(this Xunit2Discoverer xunit2, Type type)
         {
             using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
             {
                 xunit2.Find(type.FullName, false, sink, new XunitDiscoveryOptions());
                 sink.Finished.WaitOne();
-                return sink.Messages.OfType<ITestCaseDiscoveryMessage>().Select(message => message.TestCase).ToList();
+                return sink.Messages.OfType<ITestCaseDiscoveryMessage>().Select(message => message.TestCase).ToArray();
             }
         }
 
-        private static IList<Result> Run(this Xunit2 xunit2, IEnumerable<ITestCase> testCases)
+        private static Result[] Run(this Xunit2 xunit2, IEnumerable<ITestCase> testCases)
         {
             using (var sink = new SpyMessageSink<ITestAssemblyFinished>())
             {
                 xunit2.Run(testCases, sink, new XunitExecutionOptions());
                 sink.Finished.WaitOne();
-                return sink.Messages.OfType<ITestResultMessage>().Select(Map).ToList();
+                return sink.Messages.OfType<ITestResultMessage>().Select(Map).ToArray();
             }
         }
 

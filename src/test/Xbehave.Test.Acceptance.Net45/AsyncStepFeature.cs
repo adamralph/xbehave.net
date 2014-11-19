@@ -119,7 +119,7 @@ namespace Xbehave.Test.Acceptance
                 feature = typeof(AsyncTaskStepWhichThrowsException));
 
             "When the test runner runs the feature"._(() =>
-                results = feature.RunScenarios().ToArray());
+                results = feature.RunScenarios());
 
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<Fail>());
@@ -135,7 +135,7 @@ namespace Xbehave.Test.Acceptance
                 feature = typeof(AsyncTaskStepWhichThrowsExceptionWithinTimeout));
 
             "When the test runner runs the feature"._(() =>
-                results = feature.RunScenarios().ToArray());
+                results = feature.RunScenarios());
 
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<Fail>());
@@ -151,7 +151,7 @@ namespace Xbehave.Test.Acceptance
                 feature = typeof(AsyncVoidStepWhichThrowsException));
 
             "When the test runner runs the feature"._(() =>
-                results = feature.RunScenarios().ToArray());
+                results = feature.RunScenarios());
 
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<Fail>());
@@ -167,7 +167,7 @@ namespace Xbehave.Test.Acceptance
                 feature = typeof(AsyncStepWhichExceedsTimeout));
 
             "When the test runner runs the feature"._(() =>
-                results = feature.RunScenarios().ToArray());
+                results = feature.RunScenarios());
 
             "Then there should be one result"._(() =>
                 results.Count().Should().Be(1));

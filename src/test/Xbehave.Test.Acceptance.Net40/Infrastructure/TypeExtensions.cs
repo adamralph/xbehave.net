@@ -5,7 +5,6 @@
 namespace Xbehave.Test.Acceptance.Infrastructure
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Threading;
@@ -13,16 +12,16 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
     internal static class TypeExtensions
     {
-        public static IList<Result> RunScenarios(this Type feature)
+        public static Result[] RunScenarios(this Type feature)
         {
             var command = new TestClassCommand(feature);
-            List<Result> results = null;
+            Result[] results = null;
             var thread = new Thread(() => results = TestClassCommandRunner
                 .Execute(command, command.EnumerateTestMethods().ToList(), null, null)
                 .Results
                 .OfType<MethodResult>()
                 .Select(Map)
-                .ToList());
+                .ToArray());
 
             thread.Start();
             thread.Join();

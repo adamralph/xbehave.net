@@ -24,7 +24,7 @@ namespace Xbehave.Test.Acceptance
                 .f(() => feature = typeof(FeatureWithAScenarioWithAFourParametersAndAStepAssertingEachOneIsADefaultValue));
 
             "When the test runner runs the feature"
-                .f(() => results = feature.RunScenarios().ToArray());
+                .f(() => results = feature.RunScenarios());
 
             "Then each result should be a pass"
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>(

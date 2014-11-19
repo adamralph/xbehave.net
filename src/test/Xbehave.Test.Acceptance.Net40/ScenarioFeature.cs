@@ -24,7 +24,7 @@ namespace Xbehave.Test.Acceptance
             var feature = typeof(FeatureWithAScenarioWithThreePassingSteps);
 
             // act
-            var results = feature.RunScenarios().ToArray();
+            var results = feature.RunScenarios();
 
             // assert
             results.Length.Should().Be(3);
@@ -41,7 +41,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAScenarioWithThreeSteps));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be three results"
                 .And(() => results.Length.Should().Be(3));
@@ -66,7 +66,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAScenarioWithThreePassingSteps));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be three results"
                 .And(() => results.Length.Should().Be(3));
@@ -86,7 +86,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException));
 
             "When the test runner runs the feature"
-                .When(() => exception = Record.Exception(() => results = feature.RunScenarios().ToArray()));
+                .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
                 .Then(() => exception.Should().BeNull());
@@ -109,7 +109,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
 
             "When the test runner runs the feature"
-                .When(() => exception = Record.Exception(() => results = feature.RunScenarios().ToArray()));
+                .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
                 .Then(() => exception.Should().BeNull());
@@ -131,7 +131,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then each result should be a failure"
                 .Then(() => results.Should().ContainItemsAssignableTo<Fail>());

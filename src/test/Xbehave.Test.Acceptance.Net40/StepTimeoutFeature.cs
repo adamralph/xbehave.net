@@ -32,7 +32,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(StepFastEnough));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
                 .Then(() => results.Count().Should().Be(1));
@@ -55,7 +55,7 @@ namespace Xbehave.Test.Acceptance
                 .When(() =>
                 {
                     @Event.Reset();
-                    results = feature.RunScenarios().ToArray();
+                    results = feature.RunScenarios();
                 })
                 .Teardown(() => @Event.Set());
 

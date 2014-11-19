@@ -24,7 +24,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(FeatureWithASkippedScenario));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
                 .And(() => results.Count().Should().Be(1));

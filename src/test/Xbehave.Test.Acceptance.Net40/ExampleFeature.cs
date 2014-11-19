@@ -28,7 +28,7 @@ namespace Xbehave.Test.Acceptance
                 .f(() => feature = typeof(SingleStepAndThreeExamples));
 
             "When the test runner runs the feature"
-                .f(() => results = feature.RunScenarios().ToArray());
+                .f(() => results = feature.RunScenarios());
 
             "Then each result should be a pass"
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>(
@@ -57,7 +57,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(SingleStepAndThreeExamplesWithTwoMissingArguments));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
@@ -92,7 +92,7 @@ namespace Xbehave.Test.Acceptance
                 .Given(() => feature = typeof(SingleStepAndThreeExamplesWithMissingResolvableGenericArguments));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
@@ -114,7 +114,7 @@ an null value for an argument defined using the fifth type parameter"
                 .f(() => feature = typeof(GenericScenarioFeature));
 
             "When the test runner runs the feature"
-                .f(() => results = feature.RunScenarios().ToArray());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
@@ -136,7 +136,7 @@ an null value for an argument defined using the fifth type parameter"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndAFormattedStep));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
                 .Then(() => results.Count().Should().Be(1));
@@ -152,7 +152,7 @@ an null value for an argument defined using the fifth type parameter"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
                 .Then(() => results.Count().Should().Be(1));
@@ -168,7 +168,7 @@ an null value for an argument defined using the fifth type parameter"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
                 .Then(() => results.Count().Should().Be(1));
@@ -187,7 +187,7 @@ an null value for an argument defined using the fifth type parameter"
                 .Given(() => feature = typeof(FeatureWithTwoScenariosWithInvalidExamples));
 
             "When the test runner runs the feature"
-                .When(() => exception = Record.Exception(() => results = feature.RunScenarios().ToArray()));
+                .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
                 .Then(() => exception.Should().BeNull());
@@ -207,7 +207,7 @@ an null value for an argument defined using the fifth type parameter"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames));
 
             "When the test runner runs the feature"
-                .When(() => results = feature.RunScenarios().ToArray());
+                .When(() => results = feature.RunScenarios());
 
             "Then the display name of no result should contain '(x: 1, y: 2, z: 3)'"
                 .Then(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 1, y: 2, z: 3)")));
