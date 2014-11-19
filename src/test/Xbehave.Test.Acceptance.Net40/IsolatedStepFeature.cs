@@ -40,8 +40,8 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(Result[]);
 
-            "Given a step 'z' and an isolated step 'y'"
-                .f(() => feature = typeof(AStepZAnIsolatedStepYAndAStepX));
+            "Given a step followed by ten isolated steps with all steps named alphabetically backwards"
+                .f(() => feature = typeof(AStepFollowedByTenIsolatedStepsWithAllStepsNamedAlphabeticallyBackwards));
 
             "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
@@ -49,17 +49,9 @@ namespace Xbehave.Test.Acceptance
             "And I sort the results by their display name"
                 .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
 
-            "Then the first result should have a display name ending with 'z'"
-                .f(() => results[0].DisplayName.Should().EndWith("z"));
-
-            "And the second result should have a display name ending with 'y'"
-                .f(() => results[1].DisplayName.Should().EndWith("y"));
-
-            "And the third result should have a display name ending with 'z'"
-                .f(() => results[2].DisplayName.Should().EndWith("z"));
-
-            "And the fourth result should have a display name ending with 'x'"
-                .f(() => results[3].DisplayName.Should().EndWith("x"));
+            "Then a concatenation of the last character of each result display names should be 'zyzxzwzvzuztzszrzqzp'"
+                .f(() => new string(results.Select(result => result.DisplayName.Last()).ToArray())
+                    .Should().Be("zyzxzwzvzuztzszrzqzp"));
         }
 
         private static class FeatureWithAScenarioWithIsolatedStepsWhichWouldCauseFollowingStepsToFailIfExecutedInTheSameContext
@@ -91,7 +83,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class AStepZAnIsolatedStepYAndAStepX
+        private static class AStepFollowedByTenIsolatedStepsWithAllStepsNamedAlphabeticallyBackwards
         {
             [Scenario]
             public static void Scenario()
@@ -103,7 +95,31 @@ namespace Xbehave.Test.Acceptance
                     .f(() => { }).InIsolation();
 
                 "x"
-                    .f(() => { });
+                    .f(() => { }).InIsolation();
+
+                "w"
+                    .f(() => { }).InIsolation();
+
+                "v"
+                    .f(() => { }).InIsolation();
+
+                "u"
+                    .f(() => { }).InIsolation();
+
+                "t"
+                    .f(() => { }).InIsolation();
+
+                "s"
+                    .f(() => { }).InIsolation();
+
+                "r"
+                    .f(() => { }).InIsolation();
+
+                "q"
+                    .f(() => { }).InIsolation();
+
+                "p"
+                    .f(() => { }).InIsolation();
             }
         }
     }

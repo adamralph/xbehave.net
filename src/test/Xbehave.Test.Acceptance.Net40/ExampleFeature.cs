@@ -55,7 +55,7 @@ namespace Xbehave.Test.Acceptance
             var results = default(Result[]);
 
             "Given three steps namd 'z' and 'y' each rendering two examples of 0 and 1"
-                .f(() => feature = typeof(TwoStepsNamedZandYAndTwoIdenticalExamples));
+                .f(() => feature = typeof(TenStepsNamedAlphabeticallyBackwardsAndTwoIdenticalExamples));
 
             "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
@@ -63,17 +63,9 @@ namespace Xbehave.Test.Acceptance
             "And I sort the results by their display name"
                 .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
 
-            "Then the first result should have a display name ending with 'z'"
-                .f(() => results[0].DisplayName.Should().EndWith("z"));
-
-            "And the second result should have a display name ending with 'y'"
-                .f(() => results[1].DisplayName.Should().EndWith("y"));
-
-            "And the third result should have a display name ending with 'z'"
-                .f(() => results[2].DisplayName.Should().EndWith("z"));
-
-            "And the fourth result should have a display name ending with 'y'"
-                .f(() => results[3].DisplayName.Should().EndWith("y"));
+            "Then a concatenation of the last character of each result display names should be 'zyxwvutsrqzyxwvutsrq'"
+                .f(() => new string(results.Select(result => result.DisplayName.Last()).ToArray())
+                    .Should().Be("zyxwvutsrqzyxwvutsrq"));
         }
 
         [Scenario]
@@ -266,7 +258,7 @@ an null value for an argument defined using the fifth type parameter"
             }
         }
 
-        private static class TwoStepsNamedZandYAndTwoIdenticalExamples
+        private static class TenStepsNamedAlphabeticallyBackwardsAndTwoIdenticalExamples
         {
             [Scenario]
             [Example(0)]
@@ -277,6 +269,30 @@ an null value for an argument defined using the fifth type parameter"
                     .f(() => { });
 
                 "y"
+                    .f(() => { });
+
+                "x"
+                    .f(() => { });
+
+                "w"
+                    .f(() => { });
+
+                "v"
+                    .f(() => { });
+
+                "u"
+                    .f(() => { });
+
+                "t"
+                    .f(() => { });
+
+                "s"
+                    .f(() => { });
+
+                "r"
+                    .f(() => { });
+
+                "q"
                     .f(() => { });
             }
         }

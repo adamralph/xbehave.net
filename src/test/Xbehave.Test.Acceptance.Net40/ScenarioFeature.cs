@@ -63,7 +63,7 @@ namespace Xbehave.Test.Acceptance
             var results = default(Result[]);
 
             "Given two steps named 'z' and 'y'"
-                .f(() => feature = typeof(TwoStepsNamedZandY));
+                .f(() => feature = typeof(TenStepsNamedAlphabeticallyBackwards));
 
             "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
@@ -71,11 +71,9 @@ namespace Xbehave.Test.Acceptance
             "And I sort the results by their display name"
                 .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
 
-            "Then the first result should have a display name ending with 'z'"
-                .f(() => results[0].DisplayName.Should().EndWith("z"));
-
-            "And the second result should have a display name ending with 'y'"
-                .f(() => results[1].DisplayName.Should().EndWith("y"));
+            "Then a concatenation of the last character of each result display names should be 'zyxwvutsrq'"
+                .f(() => new string(results.Select(result => result.DisplayName.Last()).ToArray())
+                    .Should().Be("zyxwvutsrq"));
         }
 
         [Scenario]
@@ -185,7 +183,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class TwoStepsNamedZandY
+        private static class TenStepsNamedAlphabeticallyBackwards
         {
             [Scenario]
             public static void Scenario()
@@ -194,6 +192,30 @@ namespace Xbehave.Test.Acceptance
                     .f(() => { });
 
                 "y"
+                    .f(() => { });
+
+                "x"
+                    .f(() => { });
+
+                "w"
+                    .f(() => { });
+
+                "v"
+                    .f(() => { });
+
+                "u"
+                    .f(() => { });
+
+                "t"
+                    .f(() => { });
+
+                "s"
+                    .f(() => { });
+
+                "r"
+                    .f(() => { });
+
+                "q"
                     .f(() => { });
             }
         }
