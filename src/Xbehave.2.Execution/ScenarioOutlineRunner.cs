@@ -44,6 +44,7 @@ namespace Xbehave.Execution
             var scenarioRunners = new List<ScenarioRunner>();
             var disposables = new List<IDisposable>();
 
+            var scenarioNumber = 1;
             try
             {
                 var dataAttributes = TestCase.TestMethod.Method.GetCustomAttributes(typeof(DataAttribute)).ToList();
@@ -56,7 +57,7 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        scenarioRunners.Add(this.CreateRunner(disposables, dataRow));
+                        scenarioRunners.Add(this.CreateRunner(disposables, dataRow, scenarioNumber++));
                     }
                 }
             }
@@ -84,7 +85,7 @@ namespace Xbehave.Execution
 
             if (!scenarioRunners.Any())
             {
-                scenarioRunners.Add(this.CreateRunner(disposables, new object[0]));
+                scenarioRunners.Add(this.CreateRunner(disposables, new object[0], 1));
             }
 
             var summary = new RunSummary();
@@ -182,7 +183,7 @@ namespace Xbehave.Execution
             return string.Format(CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
 
-        private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues)
+        private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues, int scenarioNumber)
         {
             disposables.AddRange(argumentValues.OfType<IDisposable>());
 
@@ -242,6 +243,7 @@ namespace Xbehave.Execution
                 closedMethod,
                 TestCase,
                 displayName,
+                scenarioNumber,
                 SkipReason,
                 ConstructorArguments,
                 arguments.Select(argument => argument.Value).ToArray(),

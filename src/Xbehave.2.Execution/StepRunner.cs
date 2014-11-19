@@ -27,6 +27,8 @@ namespace Xbehave.Execution
             MethodInfo testMethod,
             object[] testMethodArguments,
             string displayName,
+            int scenarioNumber,
+            int stepNumber,
             string skipReason,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
@@ -57,7 +59,13 @@ namespace Xbehave.Execution
             }
 
             this.body = step.Body;
-            this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, this.stepName);
+            this.DisplayName = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}.{2}] {3}",
+                this.DisplayName,
+                scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                this.stepName);
         }
 
         public string StepName
