@@ -14,15 +14,15 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
     internal static class TestRunner
     {
-        public static IList<Result> Run(this Type type)
+        public static IList<Result> Run(this Type feature)
         {
-            using (var xunit2 = new Xunit2(new NullSourceInformationProvider(), type.Assembly.GetLocalCodeBase()))
+            using (var xunit2 = new Xunit2(new NullSourceInformationProvider(), feature.Assembly.GetLocalCodeBase()))
             {
-                return xunit2.Run(xunit2.Find(type));
+                return xunit2.Run(xunit2.Find(feature));
             }
         }
 
-        private static IList<ITestCase> Find(this Xunit2 xunit2, Type type)
+        private static IList<ITestCase> Find(this Xunit2Discoverer xunit2, Type type)
         {
             using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
             {
@@ -32,7 +32,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             }
         }
 
-        private static IList<Result> Run(this Xunit2 xunit2, IList<ITestCase> testCases)
+        private static IList<Result> Run(this Xunit2 xunit2, IEnumerable<ITestCase> testCases)
         {
             using (var sink = new SpyMessageSink<ITestAssemblyFinished>())
             {

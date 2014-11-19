@@ -14,17 +14,21 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
     internal static class TestRunner
     {
-        public static IEnumerable<Result> Run(Type featureDefinition)
+        public static IList<Result> Run(this Type feature)
         {
-            var feature = new TestClassCommand(featureDefinition);
-            MethodResult[] results = null;
-            var thread = new Thread(() => results =
-                TestClassCommandRunner.Execute(feature, feature.EnumerateTestMethods().ToList(), startCallback: null, resultCallback: null).Results
-                .OfType<MethodResult>().ToArray());
+            var command = new TestClassCommand(feature);
+            List<Result> results = null;
+            var thread = new Thread(() => results = TestClassCommandRunner
+                .Execute(command, command.EnumerateTestMethods().ToList(), null, null)
+                .Results
+                .OfType<MethodResult>()
+                .Select(Map)
+                .ToList());
+
             thread.Start();
             thread.Join();
 
-            return results.Select(Map);
+            return results;
         }
 
         private static Result Map(MethodResult result)
@@ -53,9 +57,8 @@ namespace Xbehave.Test.Acceptance.Infrastructure
                 };
             }
 
-            throw new ArgumentException(
-                string.Format(CultureInfo.InvariantCulture, "Unknown method result type '{0}'.", result.GetType()),
-                "result");
+            throw new InvalidOperationException(
+                string.Format(CultureInfo.InvariantCulture, "Unknown method result type '{0}'.", result.GetType()));
         }
     }
 }
