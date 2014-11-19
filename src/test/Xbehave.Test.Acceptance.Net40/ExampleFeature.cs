@@ -48,7 +48,6 @@ namespace Xbehave.Test.Acceptance
                     result.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
         }
 
-#if !V2
         [Scenario]
         public static void OrderingStepsByDisplayName()
         {
@@ -76,7 +75,6 @@ namespace Xbehave.Test.Acceptance
             "And the fourth result should have a display name ending with 'y'"
                 .f(() => results[3].DisplayName.Should().EndWith("y"));
         }
-#endif
 
         [Scenario]
         public static void ExamplesWithMissingValues(Type feature, Result[] results)
@@ -268,7 +266,6 @@ an null value for an argument defined using the fifth type parameter"
             }
         }
 
-#if !V2
         private static class TwoStepsNamedZandYAndTwoIdenticalExamples
         {
             [Scenario]
@@ -283,7 +280,6 @@ an null value for an argument defined using the fifth type parameter"
                     .f(() => { });
             }
         }
-#endif
 
         private static class ScenarioWithThreeParametersASingleStepAndThreeExamplesEachWithOneValue
         {
