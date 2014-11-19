@@ -9,17 +9,17 @@ output = "artifacts/output"
 logs = "artifacts/logs"
 
 specs = [
-  "src/test/Xbehave.Sdk.Specifications.Net35/bin/Release/Xbehave.Sdk.Specifications.Net35.dll",
-  "src/test/Xbehave.Specifications.Net35/bin/Release/Xbehave.Specifications.Net35.dll",
-  "src/test/Xbehave.Sdk.Specifications.Net40/bin/Release/Xbehave.Sdk.Specifications.Net40.dll",
-  "src/test/Xbehave.Specifications.Net40/bin/Release/Xbehave.Specifications.Net40.dll",
+  "src/test/Xbehave.Sdk.Test.Unit.Net35/bin/Release/Xbehave.Sdk.Test.Unit.Net35.dll",
+  "src/test/Xbehave.Test.Unit.Net35/bin/Release/Xbehave.Test.Unit.Net35.dll",
+  "src/test/Xbehave.Sdk.Test.Unit.Net40/bin/Release/Xbehave.Sdk.Test.Unit.Net40.dll",
+  "src/test/Xbehave.Test.Unit.Net40/bin/Release/Xbehave.Test.Unit.Net40.dll",
 ]
 
 features = [
-  "src/test/Xbehave.Features.Net35/bin/Release/Xbehave.Features.Net35.dll",
-  "src/test/Xbehave.Features.Net40/bin/Release/Xbehave.Features.Net40.dll",
-  "src/test/Xbehave.Features.Net45/bin/Release/Xbehave.Features.Net45.dll",
-  "src/test/Xbehave.2.Features.Net45/bin/Release/Xbehave.Features.Net45.dll",
+  "src/test/Xbehave.Test.Acceptance.Net35/bin/Release/Xbehave.Test.Acceptance.Net35.dll",
+  "src/test/Xbehave.Test.Acceptance.Net40/bin/Release/Xbehave.Test.Acceptance.Net40.dll",
+  "src/test/Xbehave.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
+  "src/test/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
 ]
 
 nuspec = "src/Xbehave.nuspec"
