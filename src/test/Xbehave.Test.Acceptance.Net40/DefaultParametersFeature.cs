@@ -23,7 +23,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with four parameters and step asserting each one is a default value"
                 .f(() => feature = typeof(FeatureWithAScenarioWithAFourParametersAndAStepAssertingEachOneIsADefaultValue));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
 
             "Then each result should be a pass"

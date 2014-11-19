@@ -24,7 +24,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with isolated steps which would cause following steps to fail if executed in the same context"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithIsolatedStepsWhichWouldCauseFollowingStepsToFailIfExecutedInTheSameContext));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then the results should not be empty"

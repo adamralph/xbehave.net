@@ -23,7 +23,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with skipped steps because \"the feature is unfinished\" which would throw exceptions if executed"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithSkippedStepsBecauseTheFeatureIsUnfinishedWhichWouldThrowExceptionsIfExecuted));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then the results should not be empty"

@@ -118,7 +118,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario that throws an invalid operation exception"._(() =>
                 feature = typeof(AsyncTaskStepWhichThrowsException));
 
-            "When the test runner runs the feature"._(() =>
+            "When I run the scenarios"._(() =>
                 results = feature.RunScenarios());
 
             "Then the result should be a failure"._(() =>
@@ -134,7 +134,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario that throws an invalid operation exception within its timeout"._(() =>
                 feature = typeof(AsyncTaskStepWhichThrowsExceptionWithinTimeout));
 
-            "When the test runner runs the feature"._(() =>
+            "When I run the scenarios"._(() =>
                 results = feature.RunScenarios());
 
             "Then the result should be a failure"._(() =>
@@ -150,7 +150,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario that throws an invalid operation exception"._(() =>
                 feature = typeof(AsyncVoidStepWhichThrowsException));
 
-            "When the test runner runs the feature"._(() =>
+            "When I run the scenarios"._(() =>
                 results = feature.RunScenarios());
 
             "Then the result should be a failure"._(() =>
@@ -166,7 +166,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with a single step which exceeds it's 1ms timeout"._(() =>
                 feature = typeof(AsyncStepWhichExceedsTimeout));
 
-            "When the test runner runs the feature"._(() =>
+            "When I run the scenarios"._(() =>
                 results = feature.RunScenarios());
 
             "Then there should be one result"._(() =>

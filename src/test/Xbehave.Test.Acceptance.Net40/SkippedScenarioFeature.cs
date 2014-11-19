@@ -23,7 +23,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a skipped scenario"
                 .Given(() => feature = typeof(FeatureWithASkippedScenario));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"

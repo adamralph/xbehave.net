@@ -40,7 +40,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with three steps"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithThreeSteps));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then there should be three results"
@@ -65,7 +65,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with three passing steps"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithThreePassingSteps));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then there should be three results"
@@ -85,7 +85,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario body which throws an exception"
                 .Given(() => feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
@@ -108,7 +108,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a non-static scenario but no default constructor"
                 .Given(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
@@ -130,7 +130,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a failing step followed by passing steps"
                 .Given(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then each result should be a failure"

@@ -32,7 +32,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with three background steps and two scenarios with two steps each"
                 .Given(() => feature = typeof(Feature));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios().ToQueue());
 
             "Then the first three executed steps are background steps"

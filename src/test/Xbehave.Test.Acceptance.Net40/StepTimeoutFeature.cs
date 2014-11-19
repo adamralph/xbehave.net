@@ -31,7 +31,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with a single step which does not exceed it's timeout"
                 .Given(() => feature = typeof(StepFastEnough));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
@@ -51,7 +51,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with a single step which exceeds it's 1ms timeout"
                 .Given(() => feature = typeof(StepTooSlow));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() =>
                 {
                     @Event.Reset();

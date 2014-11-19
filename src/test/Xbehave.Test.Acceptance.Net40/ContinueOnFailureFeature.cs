@@ -25,7 +25,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a failing step after the first Then"
                 .Given(() => feature = typeof(FeatureWithAFailingStepAfterContinueOnFailureStepType));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios())
                 .Teardown(() => executedStepCount = 0);
 
@@ -51,7 +51,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a failing step after the first Then (but before the first But)"
                 .Given(() => feature = typeof(FeatureWithAFailingStepBeforeContinueOnFailureStepType));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios())
                 .Teardown(() => executedStepCount = 0);
 

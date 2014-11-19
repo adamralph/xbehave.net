@@ -25,7 +25,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with examples"
                 .f(() => feature = typeof(SingleStepAndThreeExamples));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
 
             "Then each result should be a pass"
@@ -54,7 +54,7 @@ namespace Xbehave.Test.Acceptance
             "Given a scenario with three parameters, a single step and three examples each with one value"
                 .f(() => feature = typeof(ScenarioWithThreeParametersASingleStepAndThreeExamplesEachWithOneValue));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
 
             "Then there should be three results"
@@ -89,7 +89,7 @@ namespace Xbehave.Test.Acceptance
             "Given a feature with a scenario with a single step and examples with one argument missing"
                 .Given(() => feature = typeof(SingleStepAndThreeExamplesWithMissingResolvableGenericArguments));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then there should be three results"
@@ -111,7 +111,7 @@ an Int64 value for another argument defined using the fourth type parameter and
 an null value for an argument defined using the fifth type parameter"
                 .f(() => feature = typeof(GenericScenarioFeature));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
 
             "Then there should be three results"
@@ -133,7 +133,7 @@ an null value for an argument defined using the fifth type parameter"
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
                 .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndAFormattedStep));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
@@ -149,7 +149,7 @@ an null value for an argument defined using the fifth type parameter"
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
                 .Given(() => feature = typeof(FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
@@ -165,7 +165,7 @@ an null value for an argument defined using the fifth type parameter"
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{3}}, {{4}} and {{5}}\""
                 .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then there should be one result"
@@ -184,7 +184,7 @@ an null value for an argument defined using the fifth type parameter"
             "Given a feature with scenarios with invalid examples"
                 .Given(() => feature = typeof(FeatureWithTwoScenariosWithInvalidExamples));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
@@ -204,7 +204,7 @@ an null value for an argument defined using the fifth type parameter"
             "Given a feature with a scenario with a single step and examples and omission of arguments from scenario names"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames));
 
-            "When the test runner runs the feature"
+            "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
 
             "Then the display name of no result should contain '(x: 1, y: 2, z: 3)'"
