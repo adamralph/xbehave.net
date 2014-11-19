@@ -63,8 +63,8 @@ namespace Xbehave.Execution
                 CultureInfo.InvariantCulture,
                 "{0} [{1}.{2}] {3}",
                 this.DisplayName,
-                scenarioNumber.ToString(CultureInfo.InvariantCulture),
-                stepNumber.ToString(CultureInfo.InvariantCulture),
+                scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
                 this.stepName);
         }
 
