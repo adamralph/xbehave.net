@@ -27,6 +27,9 @@ namespace Xbehave.Test.Acceptance
 
             "Then the background steps are run before each scenario"
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+
+            "And there are eight results"
+                .f(() => results.Length.Should().Be(8));
         }
 
         private static class BackgroundWithTwoStepsAndTwoScenariosEachWithTwoSteps
