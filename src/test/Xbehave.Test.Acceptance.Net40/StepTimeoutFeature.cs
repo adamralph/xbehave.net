@@ -19,7 +19,7 @@ namespace Xbehave.Test.Acceptance
     public static class StepTimeoutFeature
     {
 #if NET40 || NET45
-        private static readonly ManualResetEventSlim @Event = new ManualResetEventSlim();
+        private static readonly ManualResetEventSlim @event = new ManualResetEventSlim();
 #endif
 
         [Scenario]
@@ -54,10 +54,10 @@ namespace Xbehave.Test.Acceptance
             "When I run the scenarios"
                 .When(() =>
                 {
-                    @Event.Reset();
+                    @event.Reset();
                     results = feature.RunScenarios();
                 })
-                .Teardown(() => @Event.Set());
+                .Teardown(() => @event.Set());
 
             "Then there should be one result"
                 .Then(() => results.Count().Should().Be(1));
@@ -88,7 +88,7 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 "Given something"
-                    .Given(() => @Event.Wait())
+                    .Given(() => @event.Wait())
                     .WithTimeout(1);
             }
         }

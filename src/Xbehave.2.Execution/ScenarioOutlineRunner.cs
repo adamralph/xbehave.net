@@ -16,8 +16,8 @@ namespace Xbehave.Execution
 
     public class ScenarioOutlineRunner : XunitTestCaseRunner
     {
-        private static readonly object[] NoArguments = new object[0];
-        private static readonly ITypeInfo ObjectTypeInfo = Reflector.Wrap(typeof(object));
+        private static readonly object[] noArguments = new object[0];
+        private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
         public ScenarioOutlineRunner(
             IXunitTestCase testCase,
@@ -32,7 +32,7 @@ namespace Xbehave.Execution
                 displayName,
                 skipReason,
                 constructorArguments,
-                NoArguments,
+                noArguments,
                 messageBus,
                 aggregator,
                 cancellationTokenSource)
@@ -136,17 +136,17 @@ namespace Xbehave.Execution
                     }
                     else if (type.Name != argumentValue.GetType().FullName)
                     {
-                        return ObjectTypeInfo;
+                        return objectTypeInfo;
                     }
                 }
             }
 
             if (type == null)
             {
-                return ObjectTypeInfo;
+                return objectTypeInfo;
             }
 
-            return sawNullValue && type.IsValueType ? ObjectTypeInfo : type;
+            return sawNullValue && type.IsValueType ? objectTypeInfo : type;
         }
 
         private static string GetDisplayName(

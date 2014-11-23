@@ -528,14 +528,14 @@ namespace Xbehave.Test.Acceptance
 
         private class Disposable : IDisposable
         {
-            private static readonly ConcurrentQueue<LifetimeEvent> Events = new ConcurrentQueue<LifetimeEvent>();
+            private static readonly ConcurrentQueue<LifetimeEvent> events = new ConcurrentQueue<LifetimeEvent>();
             private readonly Guid id = Guid.NewGuid();
             private bool isDisposed;
 
             [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Private class.")]
             public Disposable()
             {
-                Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Constructed, ObjectId = this.id });
+                events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Constructed, ObjectId = this.id });
             }
 
             ~Disposable()
@@ -545,13 +545,13 @@ namespace Xbehave.Test.Acceptance
 
             public static IEnumerable<LifetimeEvent> RecordedEvents
             {
-                get { return Events.Select(_ => _); }
+                get { return events.Select(_ => _); }
             }
 
             public static void ClearRecordedEvents()
             {
                 LifetimeEvent ignored;
-                while (Events.TryDequeue(out ignored))
+                while (events.TryDequeue(out ignored))
                 {
                 }
             }
@@ -574,7 +574,7 @@ namespace Xbehave.Test.Acceptance
             {
                 if (disposing)
                 {
-                    Events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Disposed, ObjectId = this.id });
+                    events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Disposed, ObjectId = this.id });
                     this.isDisposed = true;
                 }
             }

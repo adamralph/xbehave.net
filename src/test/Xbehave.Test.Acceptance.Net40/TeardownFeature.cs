@@ -17,7 +17,7 @@ namespace Xbehave.Test.Acceptance
     // I want to execute teardown actions after a scenario has run
     public static class TeardownFeature
     {
-        private static readonly ConcurrentQueue<int> ActionIds = new ConcurrentQueue<int>();
+        private static readonly ConcurrentQueue<int> actionIds = new ConcurrentQueue<int>();
 
         [Scenario]
         public static void RegisteringManyTeardownsInASingleStep()
@@ -36,7 +36,7 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some teardowns should have been executed"
-                .And(() => ActionIds.Count.Should().NotBe(0));
+                .And(() => actionIds.Count.Should().NotBe(0));
 
             "And the teardown actions should have been executed once in reverse order"
                 .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
@@ -65,7 +65,7 @@ namespace Xbehave.Test.Acceptance
                 .And(() => results.Reverse().First().Should().BeOfType<Fail>());
 
             "And some teardowns should have been executed"
-                .And(() => ActionIds.Count.Should().NotBe(0));
+                .And(() => actionIds.Count.Should().NotBe(0));
 
             "And the teardown actions should have been executed once in reverse order"
                 .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
@@ -88,7 +88,7 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some teardowns should have been executed"
-                .And(() => ActionIds.Count.Should().NotBe(0));
+                .And(() => actionIds.Count.Should().NotBe(0));
 
             "And the teardown actions should have been executed once in reverse order"
                 .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
@@ -111,7 +111,7 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And two teardown actions should have been executed"
-                .And(() => ActionIds.Count.Should().Be(2));
+                .And(() => actionIds.Count.Should().Be(2));
         }
 
         [Scenario]
@@ -131,7 +131,7 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.OfType<Fail>().Count().Should().Be(1));
 
             "And some teardowns should have been executed"
-                .And(() => ActionIds.Count.Should().NotBe(0));
+                .And(() => actionIds.Count.Should().NotBe(0));
 
             "And the teardown actions should have been executed once in reverse order"
                 .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
@@ -154,7 +154,7 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.OfType<Fail>().Count().Should().Be(1));
 
             "And some teardowns should have been executed"
-                .And(() => ActionIds.Count.Should().NotBe(0));
+                .And(() => actionIds.Count.Should().NotBe(0));
 
             "And the teardown actions should have been executed once in reverse order"
                 .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
@@ -177,7 +177,7 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Should().NotContain(result => result is Fail));
 
             "And some teardowns should have been executed"
-                .And(() => ActionIds.Count.Should().NotBe(0));
+                .And(() => actionIds.Count.Should().NotBe(0));
 
             "And the teardown actions should have been executed once in reverse order"
                 .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
@@ -186,15 +186,15 @@ namespace Xbehave.Test.Acceptance
         private static void ClearActionIds()
         {
             int ignored;
-            while (ActionIds.TryDequeue(out ignored))
+            while (actionIds.TryDequeue(out ignored))
             {
             }
         }
 
         private static int EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder()
         {
-            return ActionIds.Aggregate(
-                ActionIds.First() + 1,
+            return actionIds.Aggregate(
+                actionIds.First() + 1,
                 (previous, current) =>
                 {
                     current.Should().Be(previous - 1);
@@ -209,11 +209,11 @@ namespace Xbehave.Test.Acceptance
             {
                 "Given something"
                     .Given(() => { })
-                    .Teardown(() => ActionIds.Enqueue(1))
+                    .Teardown(() => actionIds.Enqueue(1))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(2))
+                    .Teardown(() => actionIds.Enqueue(2))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(3));
+                    .Teardown(() => actionIds.Enqueue(3));
             }
         }
 
@@ -226,19 +226,19 @@ namespace Xbehave.Test.Acceptance
                     .Given(() => { })
                     .Teardown(() =>
                     {
-                        ActionIds.Enqueue(1);
+                        actionIds.Enqueue(1);
                         throw new InvalidOperationException();
                     })
                     .And()
                     .Teardown(() =>
                     {
-                        ActionIds.Enqueue(2);
+                        actionIds.Enqueue(2);
                         throw new InvalidOperationException();
                     })
                     .And()
                     .Teardown(() =>
                     {
-                        ActionIds.Enqueue(3);
+                        actionIds.Enqueue(3);
                         throw new InvalidOperationException();
                     });
             }
@@ -251,19 +251,19 @@ namespace Xbehave.Test.Acceptance
             {
                 "Given something"
                     .Given(() => { })
-                    .Teardown(() => ActionIds.Enqueue(1))
+                    .Teardown(() => actionIds.Enqueue(1))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(2))
+                    .Teardown(() => actionIds.Enqueue(2))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(3));
+                    .Teardown(() => actionIds.Enqueue(3));
 
                 "And something else"
                     .And(() => { })
-                    .Teardown(() => ActionIds.Enqueue(4))
+                    .Teardown(() => actionIds.Enqueue(4))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(5))
+                    .Teardown(() => actionIds.Enqueue(5))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(6));
+                    .Teardown(() => actionIds.Enqueue(6));
             }
         }
 
@@ -274,7 +274,7 @@ namespace Xbehave.Test.Acceptance
             {
                 "Given something"
                     .Given(() => { })
-                    .Teardown(() => ActionIds.Enqueue(1));
+                    .Teardown(() => actionIds.Enqueue(1));
 
                 "When something happens"
                     .When(() => { });
@@ -295,15 +295,15 @@ namespace Xbehave.Test.Acceptance
             {
                 "Given something"
                     .Given(() => { })
-                    .Teardown(() => ActionIds.Enqueue(1));
+                    .Teardown(() => actionIds.Enqueue(1));
 
                 "And something"
                     .And(() => { })
-                    .Teardown(() => ActionIds.Enqueue(2));
+                    .Teardown(() => actionIds.Enqueue(2));
 
                 "And something"
                     .And(() => { })
-                    .Teardown(() => ActionIds.Enqueue(3));
+                    .Teardown(() => actionIds.Enqueue(3));
 
                 "When something happens"
                     .When(() => { });
@@ -323,11 +323,11 @@ namespace Xbehave.Test.Acceptance
                     {
                         throw new InvalidOperationException();
                     })
-                    .Teardown(() => ActionIds.Enqueue(1))
+                    .Teardown(() => actionIds.Enqueue(1))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(2))
+                    .Teardown(() => actionIds.Enqueue(2))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(3));
+                    .Teardown(() => actionIds.Enqueue(3));
             }
         }
 
@@ -343,11 +343,11 @@ namespace Xbehave.Test.Acceptance
                         new Disposable(2).Using(c);
                         new Disposable(3).Using(c);
                     })
-                    .Teardown(() => ActionIds.Enqueue(4))
+                    .Teardown(() => actionIds.Enqueue(4))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(5))
+                    .Teardown(() => actionIds.Enqueue(5))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(6));
+                    .Teardown(() => actionIds.Enqueue(6));
 
                 "And something else"
                     .And(c =>
@@ -356,11 +356,11 @@ namespace Xbehave.Test.Acceptance
                         new Disposable(8).Using(c);
                         new Disposable(9).Using(c);
                     })
-                    .Teardown(() => ActionIds.Enqueue(10))
+                    .Teardown(() => actionIds.Enqueue(10))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(11))
+                    .Teardown(() => actionIds.Enqueue(11))
                     .And()
-                    .Teardown(() => ActionIds.Enqueue(12));
+                    .Teardown(() => actionIds.Enqueue(12));
             }
         }
 
@@ -375,7 +375,7 @@ namespace Xbehave.Test.Acceptance
 
             public void Dispose()
             {
-                ActionIds.Enqueue(this.id);
+                actionIds.Enqueue(this.id);
             }
         }
     }
