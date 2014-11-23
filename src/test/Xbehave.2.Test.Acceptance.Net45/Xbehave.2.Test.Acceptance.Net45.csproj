@@ -83,9 +83,6 @@
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\BackgroundFeature.cs">
       <Link>BackgroundFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\ContinueOnFailureFeature.cs">
-      <Link>ContinueOnFailureFeature.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\DefaultParametersFeature.cs">
       <Link>DefaultParametersFeature.cs</Link>
     </Compile>
@@ -106,9 +103,6 @@
     </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Skip.cs">
       <Link>Infrastructure\Skip.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\IsolatedStepFeature.cs">
-      <Link>IsolatedStepFeature.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\ObjectDisposalFeature.cs">
       <Link>ObjectDisposalFeature.cs</Link>
