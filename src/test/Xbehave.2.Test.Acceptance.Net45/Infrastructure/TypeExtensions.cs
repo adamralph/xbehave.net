@@ -46,13 +46,13 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             var pass = result as ITestPassed;
             if (pass != null)
             {
-                return new Pass { DisplayName = pass.TestDisplayName };
+                return new Pass { DisplayName = pass.Test.DisplayName };
             }
 
             var skip = result as ITestSkipped;
             if (skip != null)
             {
-                return new Skip { DisplayName = skip.TestDisplayName, Reason = skip.Reason };
+                return new Skip { DisplayName = skip.Test.DisplayName, Reason = skip.Reason };
             }
 
             var fail = result as ITestFailed;
@@ -60,7 +60,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             {
                 return new Fail
                 {
-                    DisplayName = fail.TestDisplayName,
+                    DisplayName = fail.Test.DisplayName,
                     Message = fail.Messages[0],
                     ExceptionType = fail.ExceptionTypes[0],
                     StackTrace = fail.StackTraces[0],

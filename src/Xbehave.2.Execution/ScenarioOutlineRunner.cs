@@ -63,19 +63,21 @@ namespace Xbehave.Execution
             }
             catch (Exception ex)
             {
-                if (!MessageBus.QueueMessage(new TestStarting(TestCase, DisplayName)))
+                var test = new XunitTest(TestCase, DisplayName);
+
+                if (!MessageBus.QueueMessage(new TestStarting(test)))
                 {
                     CancellationTokenSource.Cancel();
                 }
                 else
                 {
-                    if (!MessageBus.QueueMessage(new TestFailed(TestCase, DisplayName, 0, null, ex.Unwrap())))
+                    if (!MessageBus.QueueMessage(new TestFailed(test, 0, null, ex.Unwrap())))
                     {
                         CancellationTokenSource.Cancel();
                     }
                 }
 
-                if (!MessageBus.QueueMessage(new TestFinished(TestCase, DisplayName, 0, null)))
+                if (!MessageBus.QueueMessage(new TestFinished(test, 0, null)))
                 {
                     CancellationTokenSource.Cancel();
                 }
