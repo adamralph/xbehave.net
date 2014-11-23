@@ -27,12 +27,6 @@ namespace Xbehave.Fluent
         IStep WithTimeout(int millisecondsTimeout);
 
         /// <summary>
-        /// Indicates that an isolated context will be created containing this step and a copy of all preceding steps.
-        /// </summary>
-        /// <returns>An instance of <see cref="IStep"/>.</returns>
-        IStep InIsolation();
-
-        /// <summary>
         /// Indicates that the step will not be executed.
         /// </summary>
         /// <param name="reason">The reason for not executing the step.</param>
