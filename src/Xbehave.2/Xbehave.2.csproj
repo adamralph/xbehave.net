@@ -73,7 +73,6 @@
     <Compile Include="Fluent\IStep.cs" />
     <Compile Include="Fluent\Step.cs" />
     <Compile Include="IStepContext.cs" />
-    <Compile Include="OmitArgumentsFromScenarioNamesAttribute.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="Sdk\CurrentScenario.cs" />
     <Compile Include="Sdk\Guard.cs" />
