@@ -6,7 +6,6 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -79,12 +78,21 @@ namespace Xbehave.Execution
                     this.TestCase.TestMethod.TestClass.Class.Name);
 
                 var obj = this.TestMethod.IsStatic ? null : Activator.CreateInstance(type, this.ConstructorArguments);
-                var result = this.TestMethod.Invoke(obj, this.TestMethodArguments);
-                var task = result as Task;
-                if (task != null)
+                foreach (var backgroundMethod in this.TestCase.TestMethod.Method.Type
+                    .GetMethods(false)
+                    .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
+                    .Select(method =>
+                    {
+                        var reflectionMethodInfo = method as IReflectionMethodInfo;
+                        return reflectionMethodInfo != null
+                            ? reflectionMethodInfo.MethodInfo
+                            : this.TestClass.GetMethodInfoFromIMethodInfo(method);
+                    }))
                 {
-                    await task;
+                    await backgroundMethod.InvokeAsync(obj, null);
                 }
+
+                await this.TestMethod.InvokeAsync(obj, this.TestMethodArguments);
 
                 stepRunners.AddRange(CurrentScenario.ExtractSteps()
                     .Select((step, index) => new StepRunner(
