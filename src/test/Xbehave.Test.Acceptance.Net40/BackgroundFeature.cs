@@ -5,6 +5,7 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
+    using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
 
@@ -14,10 +15,12 @@ namespace Xbehave.Test.Acceptance
     public static class BackgroundFeature
     {
         [Scenario]
+        [Example(typeof(BackgroundWithTwoStepsAndTwoScenariosEachWithTwoSteps))]
+        [Example(typeof(BackgroundInBaseTypeWithTwoStepsAndTwoScenariosEachWithTwoSteps))]
         public static void BackgroundSteps(Type feature, Result[] results)
         {
-            "Given a background and 2 scenarios"
-                .f(() => feature = typeof(BackgroundAndTwoScenarios));
+            "Given a {0}"
+                .f(() => { });
 
             "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
@@ -26,20 +29,7 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>());
         }
 
-        [Scenario]
-        public static void BackgroundStepsInBase(Type feature, Result[] results)
-        {
-            "Given a background in a base type and 2 scenarios"
-                .f(() => feature = typeof(BackgroundInBaseTypeAndTwoScenarios));
-
-            "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
-
-            "Then the background steps are run before each scenario"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
-        }
-
-        private static class BackgroundAndTwoScenarios
+        private static class BackgroundWithTwoStepsAndTwoScenariosEachWithTwoSteps
         {
             private static int x;
 
@@ -89,7 +79,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private class BackgroundInBaseTypeAndTwoScenarios : Base
+        private class BackgroundInBaseTypeWithTwoStepsAndTwoScenariosEachWithTwoSteps : Base
         {
             [Scenario]
             public void Scenario1()
