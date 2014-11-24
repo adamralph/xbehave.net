@@ -17,19 +17,29 @@ namespace Xbehave.Sdk
     public class Step
     {
         private readonly string name;
-        private readonly Func<Task> body;
+        private readonly Func<object> body;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private readonly List<Action> teardowns = new List<Action>();
 
         public Step(string name, Action body)
-            : this(name, body == null ? default(Func<Task>) : () => Task.Factory.StartNew(body))
+            : this(name)
         {
+            this.body = () =>
+            {
+                body();
+                return null;
+            };
         }
 
         public Step(string name, Func<Task> body)
+            : this(name)
+        {
+            this.body = body;
+        }
+
+        private Step(string name)
         {
             this.name = name;
-            this.body = body;
             this.MillisecondsTimeout = -1;
         }
 
@@ -38,7 +48,7 @@ namespace Xbehave.Sdk
             get { return this.name; }
         }
 
-        public virtual Func<Task> Body
+        public virtual Func<object> Body
         {
             get { return this.body; }
         }
