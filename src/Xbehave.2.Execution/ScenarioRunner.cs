@@ -6,7 +6,6 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -52,7 +51,8 @@ namespace Xbehave.Execution
         {
             if (!string.IsNullOrEmpty(this.SkipReason))
             {
-                if (!this.MessageBus.QueueMessage(new TestSkipped(this.TestCase, this.DisplayName, this.SkipReason)))
+                var message = new TestSkipped(new XunitTest(TestCase, DisplayName), this.SkipReason);
+                if (!this.MessageBus.QueueMessage(message))
                 {
                     CancellationTokenSource.Cancel();
                 }
@@ -79,44 +79,71 @@ namespace Xbehave.Execution
                     this.TestCase.TestMethod.TestClass.Class.Name);
 
                 var obj = this.TestMethod.IsStatic ? null : Activator.CreateInstance(type, this.ConstructorArguments);
-                var result = this.TestMethod.Invoke(obj, this.TestMethodArguments);
-                var task = result as Task;
-                if (task != null)
+                foreach (var backgroundMethod in this.TestCase.TestMethod.Method.Type
+                    .GetMethods(false)
+                    .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
+                    .Select(method => method.ToRuntimeMethod()))
                 {
-                    await task;
+                    await backgroundMethod.InvokeAsync(obj, null);
                 }
 
+                await this.TestMethod.InvokeAsync(obj, this.TestMethodArguments);
+
                 stepRunners.AddRange(CurrentScenario.ExtractSteps()
-                    .Select((step, index) => new StepRunner(
-                        step,
-                        this.TestCase,
-                        interceptingBus,
-                        this.TestClass,
-                        this.ConstructorArguments,
-                        this.TestMethod,
-                        this.TestMethodArguments,
-                        this.DisplayName,
-                        this.scenarioNumber,
-                        ++index,
-                        step.SkipReason,
-                        this.Aggregator,
-                        this.CancellationTokenSource)));
+                    .Select((step, index) =>
+                    {
+                        string stepName;
+                        try
+                        {
+                            stepName = string.Format(
+                                CultureInfo.InvariantCulture,
+                                step.Name,
+                                this.TestMethodArguments.Select(argument => argument ?? "null").ToArray());
+                        }
+                        catch (FormatException)
+                        {
+                            stepName = step.Name;
+                        }
+
+                        var displayName = string.Format(
+                            CultureInfo.InvariantCulture,
+                            "{0} [{1}.{2}] {3}",
+                            this.DisplayName,
+                            scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
+                            (++index).ToString("D2", CultureInfo.InvariantCulture),
+                            stepName);
+
+                        return new StepRunner(
+                            stepName,
+                            step.Body,
+                            new XunitTest(this.TestCase, displayName),
+                            interceptingBus,
+                            this.TestClass,
+                            this.ConstructorArguments,
+                            this.TestMethod,
+                            this.TestMethodArguments,
+                            step.SkipReason,
+                            this.Aggregator,
+                            this.CancellationTokenSource);
+                    }));
             }
             catch (Exception ex)
             {
-                if (!MessageBus.QueueMessage(new TestStarting(TestCase, DisplayName)))
+                var test = new XunitTest(TestCase, DisplayName);
+
+                if (!MessageBus.QueueMessage(new TestStarting(test)))
                 {
                     CancellationTokenSource.Cancel();
                 }
                 else
                 {
-                    if (!MessageBus.QueueMessage(new TestFailed(TestCase, DisplayName, 0, null, ex.Unwrap())))
+                    if (!MessageBus.QueueMessage(new TestFailed(test, 0, null, ex.Unwrap())))
                     {
                         CancellationTokenSource.Cancel();
                     }
                 }
 
-                if (!MessageBus.QueueMessage(new TestFinished(TestCase, DisplayName, 0, null)))
+                if (!MessageBus.QueueMessage(new TestFinished(test, 0, null)))
                 {
                     CancellationTokenSource.Cancel();
                 }

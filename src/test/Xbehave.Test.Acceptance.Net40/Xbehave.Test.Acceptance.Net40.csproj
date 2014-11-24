@@ -78,8 +78,6 @@
     <Compile Include="ScenarioTimeoutFeature.cs" />
     <Compile Include="ObjectDisposalFeature.cs" />
     <Compile Include="ScenarioFeature.cs" />
-    <Compile Include="Infrastructure\EnumerableExtensions.cs" />
-    <Compile Include="Infrastructure\QueueExtensions.cs" />
     <Compile Include="Infrastructure\CustomEqualityComparer.cs" />
     <Compile Include="IsolatedStepFeature.cs" />
     <Compile Include="SkippedStepFeature.cs" />

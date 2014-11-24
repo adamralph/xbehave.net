@@ -2,11 +2,10 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
 
@@ -15,86 +14,104 @@ namespace Xbehave.Test.Acceptance
     // I want to add background steps to all the scenarios in a feature
     public static class BackgroundFeature
     {
-        private static readonly Queue<StepType> ExecutedStepTypes = new Queue<StepType>();
-
-        private enum StepType
-        {
-            Background,
-            Scenario,
-        }
-
         [Scenario]
-        public static void FeatureWithBackgroundSteps()
+        [Example(typeof(BackgroundWithTwoStepsAndTwoScenariosEachWithTwoSteps))]
+        [Example(typeof(BackgroundInBaseTypeWithTwoStepsAndTwoScenariosEachWithTwoSteps))]
+        public static void BackgroundSteps(Type feature, Result[] results)
         {
-            var feature = default(Type);
-            var results = default(Queue<Result>);
-
-            "Given a feature with three background steps and two scenarios with two steps each"
-                .Given(() => feature = typeof(Feature));
+            "Given a {0}"
+                .f(() => { });
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios().ToQueue());
+                .f(() => results = feature.RunScenarios());
 
-            "Then the first three executed steps are background steps"
-                .Then(() => ExecutedStepTypes.Dequeue(3).Should().OnlyContain(stepType => stepType == StepType.Background));
+            "Then the background steps are run before each scenario"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
 
-            "And the next two executed steps are scenario steps"
-                .And(() => ExecutedStepTypes.Dequeue(2).Should().OnlyContain(stepType => stepType == StepType.Scenario));
+            "And there are eight results"
+                .f(() => results.Length.Should().Be(8));
 
-            "And the next three executed steps are background steps"
-                .And(() => ExecutedStepTypes.Dequeue(3).Should().OnlyContain(stepType => stepType == StepType.Background));
-
-            "And the next two executed steps are scenario steps"
-                .And(() => ExecutedStepTypes.Dequeue(2).Should().OnlyContain(stepType => stepType == StepType.Scenario));
-
-            "And the first three results contain \"(Background)\""
-                .And(() => results.Dequeue(3).Should().OnlyContain(result => result.DisplayName.Contains("(Background)")));
-
-            "And the next two results do not contain \"(Background)\""
-                .And(() => results.Dequeue(2).Should().NotContain(result => result.DisplayName.Contains("(Background)")));
-
-            "And the next three results contain \"(Background)\""
-                .And(() => results.Dequeue(3).Should().OnlyContain(result => result.DisplayName.Contains("(Background)")));
-
-            "And the next two results do not contain \"(Background)\""
-                .And(() => results.Dequeue(2).Should().NotContain(result => result.DisplayName.Contains("(Background)")));
+            "And the background steps have '(Background)' in their names"
+                .f(() =>
+                {
+                    foreach (var result in results.Take(2).Skip(2).Take(2).Skip(2))
+                    {
+                        result.DisplayName.Should().Contain("(Background)");
+                    }
+                });
         }
 
-        private static class Feature
+        private static class BackgroundWithTwoStepsAndTwoScenariosEachWithTwoSteps
         {
+            private static int x;
+
             [Background]
             public static void Background()
             {
-                "Given something"
-                    .Given(() => ExecutedStepTypes.Enqueue(StepType.Background));
+                "Given x is incremented"
+                    .f(() => ++x);
 
-                "And something else"
-                    .And(() => ExecutedStepTypes.Enqueue(StepType.Background));
-
-                "And something else"
-                    .And(() => ExecutedStepTypes.Enqueue(StepType.Background));
+                "And x is incremented again"
+                    .f(() => ++x);
             }
 
             [Scenario]
             public static void Scenario1()
             {
-                "Given something"
-                    .Given(() => ExecutedStepTypes.Enqueue(StepType.Scenario));
+                "Given x is 2"
+                    .f(() => x.Should().Be(2));
 
-                "And something else"
-                    .And(() => ExecutedStepTypes.Enqueue(StepType.Scenario));
+                "Then I set x to 0"
+                    .f(() => x = 0);
             }
 
             [Scenario]
             public static void Scenario2()
             {
-                "Given something"
-                    .Given(() => ExecutedStepTypes.Enqueue(StepType.Scenario));
+                "Given x is 2"
+                    .f(() => x.Should().Be(2));
 
-                "And something else"
-                    .And(() => ExecutedStepTypes.Enqueue(StepType.Scenario));
+                "Then I set x to 0"
+                    .f(() => x = 0);
+            }
+        }
+
+        private class Base
+        {
+            protected int X { get; set; }
+
+            [Background]
+            public void Background()
+            {
+                "Given x is incremented"
+                    .f(() => ++this.X);
+
+                "And x is incremented again"
+                    .f(() => ++this.X);
+            }
+        }
+
+        private class BackgroundInBaseTypeWithTwoStepsAndTwoScenariosEachWithTwoSteps : Base
+        {
+            [Scenario]
+            public void Scenario1()
+            {
+                "Given x is 2"
+                    .f(() => this.X.Should().Be(2));
+
+                "Then I set x to 0"
+                    .f(() => this.X = 0);
+            }
+
+            [Scenario]
+            public void Scenario2()
+            {
+                "Given x is 2"
+                    .f(() => this.X.Should().Be(2));
+
+                "Then I set x to 0"
+                    .f(() => this.X = 0);
             }
         }
     }
 }
-#endif

@@ -43,12 +43,6 @@ namespace Xbehave.Fluent
             return this;
         }
 
-        public IStep InIsolation()
-        {
-            this.step.InIsolation = true;
-            return this;
-        }
-
         public IStep Skip(string reason)
         {
             this.step.SkipReason = reason;

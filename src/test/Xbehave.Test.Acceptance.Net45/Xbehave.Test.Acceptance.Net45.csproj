@@ -79,17 +79,11 @@
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\CustomEqualityComparer.cs">
       <Link>Infrastructure\CustomEqualityComparer.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\EnumerableExtensions.cs">
-      <Link>Infrastructure\EnumerableExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Fail.cs">
       <Link>Infrastructure\Fail.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Pass.cs">
       <Link>Infrastructure\Pass.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\QueueExtensions.cs">
-      <Link>Infrastructure\QueueExtensions.cs</Link>
     </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Result.cs">
       <Link>Infrastructure\Result.cs</Link>

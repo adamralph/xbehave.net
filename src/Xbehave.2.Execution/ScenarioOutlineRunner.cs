@@ -16,8 +16,8 @@ namespace Xbehave.Execution
 
     public class ScenarioOutlineRunner : XunitTestCaseRunner
     {
-        private static readonly object[] NoArguments = new object[0];
-        private static readonly ITypeInfo ObjectTypeInfo = Reflector.Wrap(typeof(object));
+        private static readonly object[] noArguments = new object[0];
+        private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
         public ScenarioOutlineRunner(
             IXunitTestCase testCase,
@@ -32,7 +32,7 @@ namespace Xbehave.Execution
                 displayName,
                 skipReason,
                 constructorArguments,
-                NoArguments,
+                noArguments,
                 messageBus,
                 aggregator,
                 cancellationTokenSource)
@@ -63,19 +63,21 @@ namespace Xbehave.Execution
             }
             catch (Exception ex)
             {
-                if (!MessageBus.QueueMessage(new TestStarting(TestCase, DisplayName)))
+                var test = new XunitTest(TestCase, DisplayName);
+
+                if (!MessageBus.QueueMessage(new TestStarting(test)))
                 {
                     CancellationTokenSource.Cancel();
                 }
                 else
                 {
-                    if (!MessageBus.QueueMessage(new TestFailed(TestCase, DisplayName, 0, null, ex.Unwrap())))
+                    if (!MessageBus.QueueMessage(new TestFailed(test, 0, null, ex.Unwrap())))
                     {
                         CancellationTokenSource.Cancel();
                     }
                 }
 
-                if (!MessageBus.QueueMessage(new TestFinished(TestCase, DisplayName, 0, null)))
+                if (!MessageBus.QueueMessage(new TestFinished(test, 0, null)))
                 {
                     CancellationTokenSource.Cancel();
                 }
@@ -134,17 +136,17 @@ namespace Xbehave.Execution
                     }
                     else if (type.Name != argumentValue.GetType().FullName)
                     {
-                        return ObjectTypeInfo;
+                        return objectTypeInfo;
                     }
                 }
             }
 
             if (type == null)
             {
-                return ObjectTypeInfo;
+                return objectTypeInfo;
             }
 
-            return sawNullValue && type.IsValueType ? ObjectTypeInfo : type;
+            return sawNullValue && type.IsValueType ? objectTypeInfo : type;
         }
 
         private static string GetDisplayName(

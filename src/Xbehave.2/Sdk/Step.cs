@@ -60,8 +60,6 @@ namespace Xbehave.Sdk
 
         public string SkipReason { get; set; }
 
-        public bool InIsolation { get; set; }
-
         public int MillisecondsTimeout { get; set; }
 
         public void AddDisposable(IDisposable disposable)
