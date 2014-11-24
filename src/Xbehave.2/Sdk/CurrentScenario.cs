@@ -6,6 +6,7 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Threading.Tasks;
 
     public static class CurrentScenario
@@ -37,14 +38,14 @@ namespace Xbehave.Sdk
 
         public static Step AddStep(string name, Action body)
         {
-            var step = new Step(EmbellishStepName(name), body);
+            var step = new Step(EmbellishStepName(name), body.GetMethodInfo());
             Steps.Add(step);
             return step;
         }
 
         public static Step AddStep(string name, Func<Task> body)
         {
-            var step = new Step(EmbellishStepName(name), body);
+            var step = new Step(EmbellishStepName(name), body.GetMethodInfo());
             Steps.Add(step);
             return step;
         }

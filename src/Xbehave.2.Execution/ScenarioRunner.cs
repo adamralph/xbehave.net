@@ -115,7 +115,7 @@ namespace Xbehave.Execution
 
                         return new StepRunner(
                             stepName,
-                            step.Body,
+                            step.Method,
                             new XunitTest(this.TestCase, displayName),
                             interceptingBus,
                             this.TestClass,

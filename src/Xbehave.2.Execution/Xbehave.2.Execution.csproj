@@ -53,6 +53,8 @@
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
     <Compile Include="Argument.cs" />
+    <Compile Include="AsyncManualResetEvent.cs" />
+    <Compile Include="AsyncTestSyncContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="ScenarioOutline.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Shims\ExceptionExtensions.cs" />
     <Compile Include="StepRunner.cs" />
     <Compile Include="ScenarioDiscoverer.cs" />
+    <Compile Include="XunitWorkerThread_Thread.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">

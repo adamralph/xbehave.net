@@ -8,7 +8,7 @@ namespace Xbehave.Sdk
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Threading.Tasks;
+    using System.Reflection;
 
     /// <summary>
     /// Provides the implementation to execute each step.
@@ -17,19 +17,14 @@ namespace Xbehave.Sdk
     public class Step
     {
         private readonly string name;
-        private readonly Func<Task> body;
+        private readonly MethodInfo method;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string name, Action body)
-            : this(name, body == null ? default(Func<Task>) : () => Task.Factory.StartNew(body))
-        {
-        }
-
-        public Step(string name, Func<Task> body)
+        public Step(string name, MethodInfo method)
         {
             this.name = name;
-            this.body = body;
+            this.method = method;
             this.MillisecondsTimeout = -1;
         }
 
@@ -38,9 +33,9 @@ namespace Xbehave.Sdk
             get { return this.name; }
         }
 
-        public virtual Func<Task> Body
+        public virtual MethodInfo Method
         {
-            get { return this.body; }
+            get { return this.method; }
         }
 
         public IEnumerable<IDisposable> ExtractDisposables

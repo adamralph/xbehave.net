@@ -7,6 +7,7 @@ namespace Xbehave.Execution
     using System;
     using System.Linq;
     using System.Reflection;
+    using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
     using Xunit.Abstractions;
@@ -15,11 +16,11 @@ namespace Xbehave.Execution
     public class StepRunner : TestRunner<IXunitTestCase>
     {
         private readonly string stepName;
-        private readonly Func<Task> stepBody;
+        private readonly MethodInfo stepMethod;
 
         public StepRunner(
             string stepName,
-            Func<Task> stepBody,
+            MethodInfo stepMethod,
             ITest test,
             IMessageBus messageBus,
             Type testClass,
@@ -40,10 +41,10 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("stepBody", stepBody);
+            Guard.AgainstNullArgument("stepBody", stepMethod);
 
             this.stepName = stepName;
-            this.stepBody = stepBody;
+            this.stepMethod = stepMethod;
         }
 
         public string StepName
@@ -60,9 +61,7 @@ namespace Xbehave.Execution
                 testOutputHelper.Initialize(this.MessageBus, this.Test);
             }
 
-            var timer = new ExecutionTimer();
-            await aggregator.RunAsync(this.stepBody);
-            var executionTime = timer.Total;
+            var executionTime = await InvokeTestMethodAsync(null, aggregator);
 
             if (testOutputHelper != null)
             {
@@ -71,6 +70,48 @@ namespace Xbehave.Execution
             }
 
             return Tuple.Create(executionTime, output);
+        }
+
+        public virtual async Task<decimal> InvokeTestMethodAsync(object testClassInstance, ExceptionAggregator aggregator)
+        {
+            var timer = new ExecutionTimer();
+            var oldSyncContext = SynchronizationContext.Current;
+
+            try
+            {
+                var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
+                SetSynchronizationContext(asyncSyncContext);
+
+                await Aggregator.RunAsync(
+                    () => timer.AggregateAsync(
+                        async () =>
+                        {
+                            var result = this.stepMethod.Invoke(null, null);
+                            var task = result as Task;
+                            if (task != null)
+                                await task;
+                            else
+                            {
+                                var ex = await asyncSyncContext.WaitForCompletionAsync();
+                                if (ex != null)
+                                    Aggregator.Add(ex);
+                            }
+                        }
+                    )
+                );
+            }
+            finally
+            {
+                SetSynchronizationContext(oldSyncContext);
+            }
+
+            return timer.Total;
+        }
+
+        [SecuritySafeCritical]
+        static void SetSynchronizationContext(SynchronizationContext context)
+        {
+            SynchronizationContext.SetSynchronizationContext(context);
         }
     }
 }
