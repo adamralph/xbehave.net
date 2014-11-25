@@ -1,20 +1,19 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
+﻿// <copyright file="AsyncTestSyncContext.cs" company="xBehave.net contributors">
+//  Copyright (c) xBehave.net contributors. All rights reserved.
+// </copyright>
 
-#if WINDOWS_PHONE_APP
-using Windows.System.Threading;
-#endif
-
-namespace Xunit.Sdk
+namespace Xbehave.Execution.Shims
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     internal class AsyncTestSyncContext : SynchronizationContext
     {
-        readonly AsyncManualResetEvent @event = new AsyncManualResetEvent(true);
-        Exception exception;
-        readonly SynchronizationContext innerContext;
-        int operationCount;
+        private readonly AsyncManualResetEvent @event = new AsyncManualResetEvent(true);
+        private readonly SynchronizationContext innerContext;
+        private Exception exception;
+        private int operationCount;
 
         public AsyncTestSyncContext(SynchronizationContext innerContext)
         {
@@ -23,14 +22,16 @@ namespace Xunit.Sdk
 
         public override void OperationCompleted()
         {
-            var result = Interlocked.Decrement(ref operationCount);
+            var result = Interlocked.Decrement(ref this.operationCount);
             if (result == 0)
+            {
                 @event.Set();
+            }
         }
 
         public override void OperationStarted()
         {
-            Interlocked.Increment(ref operationCount);
+            Interlocked.Increment(ref this.operationCount);
             @event.Reset();
         }
 
@@ -39,13 +40,13 @@ namespace Xunit.Sdk
             // The call to Post() may be the state machine signaling that an exception is
             // about to be thrown, so we make sure the operation count gets incremented
             // before the Task.Run, and then decrement the count when the operation is done.
-            OperationStarted();
+            this.OperationStarted();
 
             try
             {
-                if (innerContext == null)
+                if (this.innerContext == null)
                 {
-                    XunitWorkerThread.QueueUserWorkItem(() =>
+                    ThreadPool.QueueUserWorkItem(_ =>
                     {
                         try
                         {
@@ -58,41 +59,50 @@ namespace Xunit.Sdk
                     });
                 }
                 else
-                    innerContext.Post(_ =>
-                    {
-                        try
+                {
+                    this.innerContext.Post(
+                        _ =>
                         {
-                            Send(d, _);
-                        }
-                        finally
-                        {
-                            OperationCompleted();
-                        }
-                    }, state);
+                            try
+                            {
+                                Send(d, _);
+                            }
+                            finally
+                            {
+                                OperationCompleted();
+                            }
+                        },
+                        state);
+                }
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         public override void Send(SendOrPostCallback d, object state)
         {
             try
             {
-                if (innerContext != null)
-                    innerContext.Send(d, state);
+                if (this.innerContext != null)
+                {
+                    this.innerContext.Send(d, state);
+                }
                 else
+                {
                     d(state);
+                }
             }
             catch (Exception ex)
             {
-                exception = ex;
+                this.exception = ex;
             }
         }
 
         public async Task<Exception> WaitForCompletionAsync()
         {
             await @event.WaitAsync();
-
-            return exception;
+            return this.exception;
         }
     }
 }

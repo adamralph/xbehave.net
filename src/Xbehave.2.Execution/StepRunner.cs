@@ -10,6 +10,7 @@ namespace Xbehave.Execution
     using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
+    using Xbehave.Execution.Shims;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
@@ -72,7 +73,7 @@ namespace Xbehave.Execution
             return Tuple.Create(executionTime, output);
         }
 
-        public static async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator, Func<object> stepBody)
+        private static async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator, Func<object> stepBody)
         {
             var timer = new ExecutionTimer();
             var oldSyncContext = SynchronizationContext.Current;
@@ -89,16 +90,18 @@ namespace Xbehave.Execution
                             var result = stepBody();
                             var task = result as Task;
                             if (task != null)
+                            {
                                 await task;
+                            }
                             else
                             {
                                 var ex = await asyncSyncContext.WaitForCompletionAsync();
                                 if (ex != null)
+                                {
                                     aggregator.Add(ex);
+                                }
                             }
-                        }
-                    )
-                );
+                        }));
             }
             finally
             {
@@ -109,7 +112,7 @@ namespace Xbehave.Execution
         }
 
         [SecuritySafeCritical]
-        static void SetSynchronizationContext(SynchronizationContext context)
+        private static void SetSynchronizationContext(SynchronizationContext context)
         {
             SynchronizationContext.SetSynchronizationContext(context);
         }
