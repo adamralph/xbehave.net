@@ -40,7 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
-    <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
+    <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
     <DocumentationFile>
     </DocumentationFile>
     <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
