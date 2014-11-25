@@ -62,19 +62,6 @@ namespace Xbehave.Execution
                 testOutputHelper.Initialize(this.MessageBus, this.Test);
             }
 
-            var executionTime = await InvokeTestMethodAsync(aggregator, this.stepBody);
-
-            if (testOutputHelper != null)
-            {
-                output = testOutputHelper.Output;
-                testOutputHelper.Uninitialize();
-            }
-
-            return Tuple.Create(executionTime, output);
-        }
-
-        private static async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator, Func<object> stepBody)
-        {
             var timer = new ExecutionTimer();
             var oldSyncContext = SynchronizationContext.Current;
 
@@ -87,7 +74,7 @@ namespace Xbehave.Execution
                     () => timer.AggregateAsync(
                         async () =>
                         {
-                            var result = stepBody();
+                            var result = this.stepBody();
                             var task = result as Task;
                             if (task != null)
                             {
@@ -108,7 +95,15 @@ namespace Xbehave.Execution
                 SetSynchronizationContext(oldSyncContext);
             }
 
-            return timer.Total;
+            var executionTime = timer.Total;
+
+            if (testOutputHelper != null)
+            {
+                output = testOutputHelper.Output;
+                testOutputHelper.Uninitialize();
+            }
+
+            return Tuple.Create(executionTime, output);
         }
 
         [SecuritySafeCritical]
