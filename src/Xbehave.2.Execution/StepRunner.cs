@@ -5,6 +5,7 @@
 namespace Xbehave.Execution
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.Security;
@@ -106,6 +107,10 @@ namespace Xbehave.Execution
             return Tuple.Create(executionTime, output);
         }
 
+        [SuppressMessage(
+            "Microsoft.Security",
+            "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule",
+            Justification = "From xunit.")]
         [SecuritySafeCritical]
         private static void SetSynchronizationContext(SynchronizationContext context)
         {

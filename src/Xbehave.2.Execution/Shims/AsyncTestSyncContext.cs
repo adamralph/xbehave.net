@@ -5,6 +5,7 @@
 namespace Xbehave.Execution.Shims
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -35,6 +36,7 @@ namespace Xbehave.Execution.Shims
             @event.Reset();
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "From xunit.")]
         public override void Post(SendOrPostCallback d, object state)
         {
             // The call to Post() may be the state machine signaling that an exception is
@@ -80,8 +82,12 @@ namespace Xbehave.Execution.Shims
             }
         }
 
+        [SuppressMessage(
+            "Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exception is recorded.")]
         public override void Send(SendOrPostCallback d, object state)
         {
+            Guard.AgainstNullArgument("d", d);
+
             try
             {
                 if (this.innerContext != null)
