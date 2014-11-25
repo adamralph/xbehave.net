@@ -5,21 +5,24 @@
 namespace Xbehave.Execution
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
+    using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
+    using Xbehave.Execution.Shims;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
     public class StepRunner : TestRunner<IXunitTestCase>
     {
         private readonly string stepName;
-        private readonly Func<Task> stepBody;
+        private readonly Func<object> stepBody;
 
         public StepRunner(
             string stepName,
-            Func<Task> stepBody,
+            Func<object> stepBody,
             ITest test,
             IMessageBus messageBus,
             Type testClass,
@@ -61,7 +64,38 @@ namespace Xbehave.Execution
             }
 
             var timer = new ExecutionTimer();
-            await aggregator.RunAsync(this.stepBody);
+            var oldSyncContext = SynchronizationContext.Current;
+
+            try
+            {
+                var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
+                SetSynchronizationContext(asyncSyncContext);
+
+                await aggregator.RunAsync(
+                    () => timer.AggregateAsync(
+                        async () =>
+                        {
+                            var result = this.stepBody();
+                            var task = result as Task;
+                            if (task != null)
+                            {
+                                await task;
+                            }
+                            else
+                            {
+                                var ex = await asyncSyncContext.WaitForCompletionAsync();
+                                if (ex != null)
+                                {
+                                    aggregator.Add(ex);
+                                }
+                            }
+                        }));
+            }
+            finally
+            {
+                SetSynchronizationContext(oldSyncContext);
+            }
+
             var executionTime = timer.Total;
 
             if (testOutputHelper != null)
@@ -71,6 +105,16 @@ namespace Xbehave.Execution
             }
 
             return Tuple.Create(executionTime, output);
+        }
+
+        [SuppressMessage(
+            "Microsoft.Security",
+            "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule",
+            Justification = "From xunit.")]
+        [SecuritySafeCritical]
+        private static void SetSynchronizationContext(SynchronizationContext context)
+        {
+            SynchronizationContext.SetSynchronizationContext(context);
         }
     }
 }

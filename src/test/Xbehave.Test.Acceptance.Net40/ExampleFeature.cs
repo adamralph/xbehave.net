@@ -54,7 +54,7 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(Result[]);
 
-            "Given three steps namd 'z' and 'y' each rendering two examples of 0 and 1"
+            "Given three steps named 'z' and 'y' each rendering two examples of 0 and 1"
                 .f(() => feature = typeof(TenStepsNamedAlphabeticallyBackwardsAndTwoIdenticalExamples));
 
             "When I run the scenarios"

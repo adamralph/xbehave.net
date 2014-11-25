@@ -2,7 +2,6 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
 namespace Xbehave.Test.Acceptance
 {
     using System;
@@ -160,6 +159,7 @@ namespace Xbehave.Test.Acceptance
                 results.Cast<Fail>().First().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
+#if !V2
         [Scenario]
         public static void AsyncStepExceedsTimeout(Type feature, Result[] results)
         {
@@ -178,6 +178,7 @@ namespace Xbehave.Test.Acceptance
             "And the result message should be \"Test execution time exceeded: 1ms\""._(() =>
                 results.Cast<Fail>().Should().OnlyContain(result => result.Message == "Test execution time exceeded: 1ms"));
         }
+#endif
 
         [Scenario]
         public static void ExecutingAnAsyncVoidStepUsingMethodGroupSyntax()
@@ -253,6 +254,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#if !V2
         private static class AsyncStepWhichExceedsTimeout
         {
             [Scenario]
@@ -262,6 +264,6 @@ namespace Xbehave.Test.Acceptance
                     await Task.Delay(500)).WithTimeout(1);
             }
         }
+#endif
     }
 }
-#endif
