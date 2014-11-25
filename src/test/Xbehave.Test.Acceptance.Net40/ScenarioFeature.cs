@@ -18,17 +18,18 @@ namespace Xbehave.Test.Acceptance
     {
         // NOTE (adamralph): a plain xunit fact to prove that plain scenarios work in 2.x
         [Fact]
-        public static void ScenarioWithThreePassingStepsYieldsThreePasses()
+        public static void ScenarioWithTwoPassingStepsAndOneFailingStepYieldsTwoPassesAndOneFail()
         {
             // arrange
-            var feature = typeof(FeatureWithAScenarioWithThreePassingSteps);
+            var feature = typeof(FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep);
 
             // act
             var results = feature.RunScenarios();
 
             // assert
             results.Length.Should().Be(3);
-            results.Should().ContainItemsAssignableTo<Pass>();
+            results.Take(2).Should().ContainItemsAssignableTo<Pass>();
+            results.Skip(2).Should().ContainItemsAssignableTo<Fail>();
         }
 
         [Scenario]
@@ -77,13 +78,13 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void ScenarioWithThreePassingSteps()
+        public static void ScenarioWithTwoPassingStepsAndOneFailingStep()
         {
             var feature = default(Type);
             var results = default(Result[]);
 
-            "Given a feature with a scenario with three passing steps"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithThreePassingSteps));
+            "Given a feature with a scenario with two passing steps and one failing step"
+                .Given(() => feature = typeof(FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep));
 
             "When I run the scenarios"
                 .When(() => results = feature.RunScenarios());
@@ -91,8 +92,11 @@ namespace Xbehave.Test.Acceptance
             "Then there should be three results"
                 .And(() => results.Length.Should().Be(3));
 
-            "And each result should be a pass"
-                .And(() => results.Should().ContainItemsAssignableTo<Pass>());
+            "And the first two results should be passes"
+                .And(() => results.Take(2).Should().ContainItemsAssignableTo<Pass>());
+
+            "And the third result should be a fail"
+                .And(() => results.Skip(2).Should().ContainItemsAssignableTo<Fail>());
         }
 
         [Scenario]
@@ -220,7 +224,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAScenarioWithThreePassingSteps
+        private static class FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep
         {
             [Scenario]
             public static void Scenario()
@@ -233,8 +237,8 @@ namespace Xbehave.Test.Acceptance
                 "When I add 1"
                     .f(() => i += 1);
 
-                "Then I have 2"
-                    .f(() => i.Should().Be(2));
+                "Then I have 3"
+                    .f(() => i.Should().Be(3));
             }
         }
 
