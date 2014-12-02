@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BeforeAfterTestFeature.cs" />
     <Compile Include="BackgroundFeature.cs" />
     <Compile Include="Infrastructure\ResultExtensions.cs" />
     <Compile Include="Infrastructure\Skip.cs" />

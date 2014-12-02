@@ -87,6 +87,9 @@
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\BackgroundFeature.cs">
       <Link>BackgroundFeature.cs</Link>
     </Compile>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\BeforeAfterTestFeature.cs">
+      <Link>BeforeAfterTestFeature.cs</Link>
+    </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\DefaultParametersFeature.cs">
       <Link>DefaultParametersFeature.cs</Link>
     </Compile>
