@@ -9,6 +9,7 @@ namespace Xbehave.Execution
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.ExceptionServices;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Execution.Shims;
@@ -72,6 +73,7 @@ namespace Xbehave.Execution
                 });
 
             var stepRunners = new List<StepRunner>();
+            StepRunner teardownRunner = null;
             try
             {
                 var type = Reflector.GetType(
@@ -89,6 +91,7 @@ namespace Xbehave.Execution
 
                 await this.TestMethod.InvokeAsync(obj, this.TestMethodArguments);
 
+                var teardowns = new List<Action>();
                 stepRunners.AddRange(CurrentScenario.ExtractSteps()
                     .Select((step, index) =>
                     {
@@ -105,18 +108,12 @@ namespace Xbehave.Execution
                             stepName = step.Name;
                         }
 
-                        var displayName = string.Format(
-                            CultureInfo.InvariantCulture,
-                            "{0} [{1}.{2}] {3}",
-                            this.DisplayName,
-                            scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
-                            (++index).ToString("D2", CultureInfo.InvariantCulture),
-                            stepName);
+                        teardowns.AddRange(step.Teardowns);
 
                         return new StepRunner(
                             stepName,
                             step.Body,
-                            new XunitTest(this.TestCase, displayName),
+                            new XunitTest(this.TestCase, GetDisplayName(++index, stepName)),
                             interceptingBus,
                             this.TestClass,
                             this.ConstructorArguments,
@@ -126,6 +123,44 @@ namespace Xbehave.Execution
                             this.Aggregator,
                             this.CancellationTokenSource);
                     }));
+
+                if (teardowns.Any())
+                {
+                    teardownRunner = new StepRunner(
+                        "(Teardown)",
+                        () =>
+                        {
+                            teardowns.Reverse();
+                            Exception exception = null;
+                            foreach (var teardown in teardowns)
+                            {
+                                try
+                                {
+                                    teardown();
+                                }
+                                catch (Exception ex)
+                                {
+                                    exception = ex;
+                                }
+                            }
+
+                            if (exception != null)
+                            {
+                                ExceptionDispatchInfo.Capture(exception).Throw();
+                            }
+
+                            return null;
+                        },
+                        new XunitTest(this.TestCase, this.GetDisplayName(stepRunners.Count + 1, "(Teardown)")),
+                        interceptingBus,
+                        this.TestClass,
+                        this.ConstructorArguments,
+                        this.TestMethod,
+                        this.TestMethodArguments,
+                        string.Empty,
+                        this.Aggregator,
+                        this.CancellationTokenSource);
+                }
             }
             catch (Exception ex)
             {
@@ -183,7 +218,23 @@ namespace Xbehave.Execution
                 }
             }
 
+            if (teardownRunner != null)
+            {
+                summary.Aggregate(await teardownRunner.RunAsync());
+            }
+
             return summary;
+        }
+
+        private string GetDisplayName(int index, string stepName)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}.{2}] {3}",
+                this.DisplayName,
+                this.scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
+                index.ToString("D2", CultureInfo.InvariantCulture),
+                stepName);
         }
     }
 }
