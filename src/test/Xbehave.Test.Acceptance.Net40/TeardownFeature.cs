@@ -2,12 +2,13 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
 #if NET40 || NET45
 namespace Xbehave.Test.Acceptance
 {
     using System;
+#if !V2
     using System.Globalization;
+#endif
     using System.IO;
     using System.Linq;
     using System.Threading;
@@ -106,6 +107,7 @@ namespace Xbehave.Test.Acceptance
                     "teardown.1.temp"));
         }
 
+#if !V2
         [Scenario]
         public static void RegisteringATeardownInManyContexts(Type feature, Result[] results)
         {
@@ -129,6 +131,7 @@ namespace Xbehave.Test.Acceptance
                     "step.2.4.temp",
                     "teardown.2.1.temp"));
         }
+#endif
 
         [Scenario]
         public static void FailingSteps(Type feature, Result[] results)
@@ -260,6 +263,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#if !V2
         private static class SingleStepTwoContexts
         {
             private static int context;
@@ -291,6 +295,7 @@ namespace Xbehave.Test.Acceptance
                         string.Concat("step.", context.ToString(CultureInfo.InvariantCulture), ".4.temp")));
             }
         }
+#endif
 
         private static class TwoStepsWithTeardownsFollowedByAFailingStep
         {
@@ -332,5 +337,4 @@ namespace Xbehave.Test.Acceptance
         }
     }
 }
-#endif
 #endif
