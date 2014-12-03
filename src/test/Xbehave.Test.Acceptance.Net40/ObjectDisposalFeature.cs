@@ -17,13 +17,14 @@ namespace Xbehave.Test.Acceptance
 #endif
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
-    using Xunit.Sdk;
 
     // In order to release allocated resources
     // As a developer
     // I want to register objects for disposal after a scenario has run
     public static class ObjectDisposalFeature
     {
+        private static readonly ConcurrentQueue<int> actionIds = new ConcurrentQueue<int>();
+
         private enum LifeTimeEventType
         {
             Constructed,
@@ -244,6 +245,29 @@ namespace Xbehave.Test.Acceptance
                 .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
         }
 
+        [Scenario]
+        public static void RegisteringDisposableObjectsAndTeardownActions()
+        {
+            var feature = default(Type);
+            var results = default(Result[]);
+
+            "Given steps which each register disposable objects and teardown actions"
+                .Given(() => feature = typeof(TeardownsAndDisposables));
+
+            "When running the scenario"
+                .When(() => results = feature.RunScenarios())
+                .Teardown(ObjectDisposalFeature.ClearActionIds);
+
+            "Then there should be no failures"
+                .Then(() => results.Should().NotContain(result => result is Fail));
+
+            "And some teardowns should have been executed"
+                .And(() => actionIds.Count.Should().NotBe(0));
+
+            "And the teardown actions should have been executed once in reverse order"
+                .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
+        }
+
 #if NET45
         [Scenario]
         public static void RegisteringManyDisposableObjectsInAnAsyncStep()
@@ -268,6 +292,25 @@ namespace Xbehave.Test.Acceptance
                 .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
         }
 #endif
+
+        private static void ClearActionIds()
+        {
+            int ignored;
+            while (actionIds.TryDequeue(out ignored))
+            {
+            }
+        }
+
+        private static int EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder()
+        {
+            return actionIds.Aggregate(
+                actionIds.First() + 1,
+                (previous, current) =>
+                {
+                    current.Should().Be(previous - 1);
+                    return current;
+                });
+        }
 
         private static AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<LifetimeEvent>> SomeDisposableObjectsShouldHaveBeenCreated()
         {
@@ -525,6 +568,54 @@ namespace Xbehave.Test.Acceptance
             }
         }
 #endif
+
+        private static class TeardownsAndDisposables
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "Given something"
+                    .Given(c =>
+                    {
+                        new SimpleDisposable(1).Using(c);
+                        new SimpleDisposable(2).Using(c);
+                        new SimpleDisposable(3).Using(c);
+                    })
+                    .Teardown(() => actionIds.Enqueue(4))
+                    .And()
+                    .Teardown(() => actionIds.Enqueue(5))
+                    .And()
+                    .Teardown(() => actionIds.Enqueue(6));
+
+                "And something else"
+                    .And(c =>
+                    {
+                        new SimpleDisposable(7).Using(c);
+                        new SimpleDisposable(8).Using(c);
+                        new SimpleDisposable(9).Using(c);
+                    })
+                    .Teardown(() => actionIds.Enqueue(10))
+                    .And()
+                    .Teardown(() => actionIds.Enqueue(11))
+                    .And()
+                    .Teardown(() => actionIds.Enqueue(12));
+            }
+        }
+
+        private class SimpleDisposable : IDisposable
+        {
+            private readonly int id;
+
+            public SimpleDisposable(int id)
+            {
+                this.id = id;
+            }
+
+            public void Dispose()
+            {
+                actionIds.Enqueue(this.id);
+            }
+        }
 
         private class Disposable : IDisposable
         {
