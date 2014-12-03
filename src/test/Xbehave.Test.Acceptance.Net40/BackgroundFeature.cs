@@ -34,7 +34,7 @@ namespace Xbehave.Test.Acceptance
             "And the background steps have '(Background)' in their names"
                 .f(() =>
                 {
-                    foreach (var result in results.Take(2).Skip(2).Take(2).Skip(2))
+                    foreach (var result in results.Take(2).Concat(results.Skip(4).Take(2)))
                     {
                         result.DisplayName.Should().Contain("(Background)");
                     }
