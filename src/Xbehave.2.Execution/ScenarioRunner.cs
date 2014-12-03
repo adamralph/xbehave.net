@@ -81,12 +81,21 @@ namespace Xbehave.Execution
                     this.TestCase.TestMethod.TestClass.Class.Name);
 
                 var obj = this.TestMethod.IsStatic ? null : Activator.CreateInstance(type, this.ConstructorArguments);
-                foreach (var backgroundMethod in this.TestCase.TestMethod.Method.Type
-                    .GetMethods(false)
-                    .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
-                    .Select(method => method.ToRuntimeMethod()))
+
+                CurrentScenario.AddingBackgroundSteps = true;
+                try
                 {
-                    await backgroundMethod.InvokeAsync(obj, null);
+                    foreach (var backgroundMethod in this.TestCase.TestMethod.Method.Type
+                        .GetMethods(false)
+                        .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
+                        .Select(method => method.ToRuntimeMethod()))
+                    {
+                        await backgroundMethod.InvokeAsync(obj, null);
+                    }
+                }
+                finally
+                {
+                    CurrentScenario.AddingBackgroundSteps = false;
                 }
 
                 await this.TestMethod.InvokeAsync(obj, this.TestMethodArguments);
