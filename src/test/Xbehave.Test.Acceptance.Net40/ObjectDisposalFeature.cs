@@ -7,9 +7,9 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Threading;
 #if NET45
@@ -23,337 +23,209 @@ namespace Xbehave.Test.Acceptance
     // I want to register objects for disposal after a scenario has run
     public static class ObjectDisposalFeature
     {
-        private static readonly ConcurrentQueue<int> actionIds = new ConcurrentQueue<int>();
-
-        private enum LifeTimeEventType
+        [Background]
+        public static void Background()
         {
-            Constructed,
-            Disposed,
-        }
-
-        [Scenario]
-        public static void RegisteringManyDisposableObjectsInASingleStep()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a step which registers many disposable objects followed by a step which uses the objects"
-                .Given(() => feature = typeof(SingleStep));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
-
-            "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is Fail));
-
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
-
-            "And the disposable objects should each have been disposed once in reverse order"
-                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
-        }
-
-        [Scenario]
-        public static void RegisteringManyDisposableObjectsInASingleStepWithATimeout()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a step which registers many disposable objects followed by a step which uses the objects"
-                .Given(() => feature = typeof(SingleStepWithATimeout));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
-
-            "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is Fail));
-
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
-
-            "And the disposable objects should each have been disposed once in reverse order"
-                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
-        }
-
-        [Scenario]
-        public static void RegisteringDisposableObjectWhichThrowExceptionsWhenDisposed()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a step which registers disposable objects which throw exceptions when disposed followed by a step which uses the objects"
-                .Given(() => feature = typeof(SingleStepWithBadDisposables));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
-
-            "Then the results should not be empty"
-                .Then(() => results.Should().NotBeEmpty());
-
-            "And the first n-1 results should not be failures"
-                .And(() => results.Reverse().Skip(1).Should().NotContain(result => result is Fail));
-
-            "And the last result should be a failure"
-                .And(() => results.Reverse().First().Should().BeOfType<Fail>());
-
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
-
-            "And the disposable objects should each have been disposed once in reverse order"
-                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
-        }
-
-#if !V2
-        [Scenario]
-        public static void RegisteringDisposableObjectsWhichRegisterAFurtherDisposableWhenDisposed()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            ("Given a step which registers disposable objects which, when disposed," +
-                "throw an exception and register a further disposable objects which throw an exception when disposed")
-                .Given(() => feature = typeof(SingleStepWithSingleRecursionBadDisposables));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
-
-            "Then the results should not be empty"
-                .Then(() => results.Should().NotBeEmpty());
-
-            "And the first n-2 results should not be failures"
-                .And(() => results.Reverse().Skip(2).Should().NotContain(result => result is Fail));
-
-            "And the last 2 results should be failures"
-                .And(() => results.Reverse().Take(2).Should().ContainItemsAssignableTo<Fail>());
-
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
-
-            "And the disposable objects should each have been disposed once in reverse order"
-                .And(() => EachDisposableObjectShouldHaveBeenDisposed());
-        }
-
-#endif
-        [Scenario]
-        public static void RegisteringManyDisposableObjectsInSeparateSteps()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given many steps which each register a disposable object followed by a step which uses the objects"
-                .Given(() => feature = typeof(ManySteps));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
-
-            "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is Fail));
-
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
-
-            "And the disposable objects should each have been disposed once in reverse order"
-                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
-        }
-
-        [Scenario]
-        public static void RegisteringADisposableObjectInManyContexts()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a scenario with a step which registers a disposable object followed by steps which use the disposable object and generate two contexts"
-                .Given(() => feature = typeof(SingleStepTwoContexts));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
-
-            "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is Fail));
-
-            "And two disposable objects should have been created"
-                .And(() => Disposable.RecordedEvents.Count(@event => @event.EventType == LifeTimeEventType.Constructed).Should().Be(2));
-
-            "And the disposable objects should each have been created and disposed one before the other"
-                .And(() =>
+            "Given no temporary files exist"
+                .f(() =>
                 {
-                    var @events = Disposable.RecordedEvents.ToArray();
-                    (@events.Length % 2).Should().Be(0);
-                    for (var index = 0; index < @events.Length; index = index + 2)
+                    foreach (var path in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.ObjectDisposalFeature"))
                     {
-                        var event0 = events[index];
-                        var event1 = events[index + 1];
-
-                        event0.ObjectId.Should().Be(event1.ObjectId);
-                        event0.EventType.Should().Be(LifeTimeEventType.Constructed);
-                        event1.EventType.Should().Be(LifeTimeEventType.Disposed);
-
-                        @events.Count(@event => @event.ObjectId == event0.ObjectId).Should().Be(2);
+                        File.Delete(path);
                     }
                 });
         }
 
         [Scenario]
-        public static void FailingSteps()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a scenario with steps which register disposable objects followed by a failing step"
-                .Given(() => feature = typeof(StepsFollowedByAFailingStep));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
-
-            "Then there should be one failure"
-                .Then(() => results.OfType<Fail>().Count().Should().Be(1));
-
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
-
-            "And the disposable objects should each have been disposed once in reverse order"
-                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
-        }
-
-        [Scenario]
-        public static void FailureToCompleteAStep()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a scenario with a step which registers disposable objects but fails to complete"
-                .Given(() => feature = typeof(StepFailsToComplete));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
-
-            "Then there should be one failure"
-                .Then(() => results.OfType<Fail>().Count().Should().Be(1));
-
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
-
-            "And the disposable objects should each have been disposed once in reverse order"
-                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
-        }
-
-        [Scenario]
-        public static void RegisteringDisposableObjectsAndTeardownActions()
-        {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given steps which each register disposable objects and teardown actions"
-                .Given(() => feature = typeof(TeardownsAndDisposables));
-
-            "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(ObjectDisposalFeature.ClearActionIds);
-
-            "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is Fail));
-
-            "And some teardowns should have been executed"
-                .And(() => actionIds.Count.Should().NotBe(0));
-
-            "And the teardown actions should have been executed once in reverse order"
-                .And(() => EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder());
-        }
-
+        [Example(typeof(AStepWithThreeDisposables))]
+        [Example(typeof(AStepWithThreeDisposablesAndATimeout))]
+        [Example(typeof(ThreeStepsWithDisposables))]
 #if NET45
-        [Scenario]
-        public static void RegisteringManyDisposableObjectsInAnAsyncStep()
+        [Example(typeof(AnAsyncStepWithThreeDisposables))]
+#endif
+        public static void ManyDisposablesInASingleStep(Type feature, Result[] results)
         {
-            var feature = default(Type);
-            var results = default(Result[]);
-
-            "Given a step which registers many disposable objects in an async step"
-                .Given(() => feature = typeof(AsyncStep));
+            "Given {0}"
+                .f(() => { });
 
             "When running the scenario"
-                .When(() => results = feature.RunScenarios())
-                .Teardown(Disposable.ClearRecordedEvents);
+                .f(() => results = feature.RunScenarios());
 
-            "Then there should be no failures"
-                .Then(() => results.Should().NotContain(result => result is Fail));
+            "And there should be no failures"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
 
-            "And some disposable objects should have been created"
-                .And(() => SomeDisposableObjectsShouldHaveBeenCreated());
+            "And all but the last result should not be generated by a teardown"
+                .f(() => results.Reverse().Skip(1).ShouldNotBeTeardowns());
 
-            "And the disposable objects should each have been disposed once in reverse order"
-                .And(() => DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder());
+            "And the last result should be generated by a teardown"
+                .f(() => results.Last().ShouldBeATeardown());
+
+            "And the disposables should each have been disposed in reverse order"
+                .f(() => ShouldBeWrittenInOrder("disposed.3.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature"));
+        }
+
+        [Scenario]
+        public static void ADisposableWhichThrowExceptionsWhenDisposed(Type feature, Result[] results)
+        {
+            "Given a step with three disposables which throw exceptions when disposed"
+                .f(() => feature = typeof(StepWithThreeBadDisposables));
+
+            "When running the scenario"
+                .f(() => results = feature.RunScenarios());
+
+            "Then the results should not be empty"
+                .f(() => results.Should().NotBeEmpty());
+
+            "And the first n-1 results should not be failures"
+                .f(() => results.Reverse().Skip(1).Should().NotContain(result => result is Fail));
+
+            "And the last result should be a failure"
+                .f(() => results.Reverse().First().Should().BeOfType<Fail>());
+
+            "And the disposables should be disposed in reverse order"
+                .f(() => ShouldBeWrittenInOrder("disposed.3.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature"));
+        }
+
+#if !V2
+        [Scenario]
+        public static void DisposablesWhichCreateNewDisposablesWhenDisposed(
+            Type feature, Result[] results)
+        {
+            ("Given a step with disposables which, when disposed," +
+                "throw an exception and add more disposables which throw an exception when disposed")
+                .f(() => feature = typeof(StepWithThreeRecursiveBadDisposables));
+
+            "When running the scenario"
+                .f(() => results = feature.RunScenarios());
+
+            "Then the results should not be empty"
+                .f(() => results.Should().NotBeEmpty());
+
+            "And the first n-2 results should not be failures"
+                .f(() => results.Reverse().Skip(2).Should().NotContain(result => result is Fail));
+
+            "And the last 2 results should be failures"
+                .f(() => results.Reverse().Take(2).Should().ContainItemsAssignableTo<Fail>());
+
+            "And the disposables should be disposed in reverse order"
+                .f(() => ShouldBeWrittenInOrder("disposed.3.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature"));
+        }
+
+        [Scenario]
+        public static void MultipleContexts(Type feature, Result[] results)
+        {
+            "Given a step with a disposable and steps which generate two contexts"
+                .f(() => feature = typeof(TwoContexts));
+
+            "When running the scenario"
+                .f(() => results = feature.RunScenarios());
+
+            "And there should be no failures"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+
+            "And the disposable should be disposed after each context"
+                .f(() => ShouldBeWrittenInOrder("step.1.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature", "step.2.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature"));
         }
 #endif
 
-        private static void ClearActionIds()
+        [Scenario]
+        [Example(typeof(StepsFollowedByAFailingStep))]
+        [Example(typeof(StepFailsToComplete))]
+        public static void FailingSteps(Type feature, Result[] results)
         {
-            int ignored;
-            while (actionIds.TryDequeue(out ignored))
+            "Given {0}"
+                .f(() => { });
+
+            "When running the scenario"
+                .f(() => results = feature.RunScenarios());
+
+            "Then there should be one failure"
+                .f(() => results.OfType<Fail>().Count().Should().Be(1));
+
+            "And the disposables should be disposed in reverse order"
+                .f(() => ShouldBeWrittenInOrder("disposed.3.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature"));
+        }
+
+        [Scenario]
+        public static void DisposablesAndTeardowns(Type feature, Result[] results)
+        {
+            "Given steps with disposables and teardowns"
+                .f(() => feature = typeof(StepsWithDisposablesAndTeardowns));
+
+            "When running the scenario"
+                .f(() => results = feature.RunScenarios());
+
+            "And there should be no failures"
+                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+
+            "And the disposables and teardowns should be disposed/executed in reverse order"
+                .f(() => ShouldBeWrittenInOrder(
+                    "teardown.12.ObjectDisposalFeature",
+                    "teardown.11.ObjectDisposalFeature",
+                    "teardown.10.ObjectDisposalFeature",
+                    "disposed.9.ObjectDisposalFeature",
+                    "disposed.8.ObjectDisposalFeature",
+                    "disposed.7.ObjectDisposalFeature",
+                    "teardown.6.ObjectDisposalFeature",
+                    "teardown.5.ObjectDisposalFeature",
+                    "teardown.4.ObjectDisposalFeature",
+                    "disposed.3.ObjectDisposalFeature",
+                    "disposed.2.ObjectDisposalFeature",
+                    "disposed.1.ObjectDisposalFeature"));
+        }
+
+        private static void ShouldBeWrittenInOrder(params string[] paths)
+        {
+            Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.ObjectDisposalFeature").Select(Path.GetFileName)
+                .Should().BeEquivalentTo(paths);
+
+            var writings = paths.Select(s => new { Path = s, Ticks = Read(s) }).ToArray();
+            writings.Should().Equal(writings.OrderBy(writing => writing.Ticks));
+        }
+
+        private static void ShouldNotBeTeardowns(this IEnumerable<Result> results)
+        {
+            foreach (var result in results)
             {
+                result.DisplayName.Should().NotContainEquivalentOf("(teardown)");
             }
         }
 
-        private static int EachTeardownActionShouldHaveBeenExecutedOnceInReverseOrder()
+        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldBeATeardown(this Result result)
         {
-            return actionIds.Aggregate(
-                actionIds.First() + 1,
-                (previous, current) =>
-                {
-                    current.Should().Be(previous - 1);
-                    return current;
-                });
+            return result.DisplayName.Should().ContainEquivalentOf("(teardown)");
         }
 
-        private static AndConstraint<FluentAssertions.Collections.GenericCollectionAssertions<LifetimeEvent>> SomeDisposableObjectsShouldHaveBeenCreated()
+        private static void Write(string path)
         {
-            return Disposable.RecordedEvents.Where(@event => @event.EventType == LifeTimeEventType.Constructed).Should().NotBeEmpty();
-        }
-
-        private static AndConstraint<FluentAssertions.Primitives.BooleanAssertions> DisposableObjectsShouldEachHaveBeenDisposedOnceInReverseOrder()
-        {
-            return Disposable.RecordedEvents.SkipWhile(@event => @event.EventType != LifeTimeEventType.Disposed)
-                .Reverse()
-                .SequenceEqual(
-                    Disposable.RecordedEvents.TakeWhile(@event => @event.EventType == LifeTimeEventType.Constructed),
-                    new CustomEqualityComparer<LifetimeEvent>((x, y) => x.ObjectId == y.ObjectId, x => x.ObjectId.GetHashCode()))
-                .Should().BeTrue();
-        }
-
-        private static void EachDisposableObjectShouldHaveBeenDisposed()
-        {
-            foreach (var x in Disposable.RecordedEvents.Where(@event => @event.EventType == LifeTimeEventType.Constructed).Select(@event => @event.ObjectId))
+            Thread.Sleep(1);
+            using (var file = new StreamWriter(path, false))
             {
-                Disposable.RecordedEvents.Count(@event => @event.ObjectId == x && @event.EventType == LifeTimeEventType.Disposed).Should().Be(1);
+                file.Write(DateTime.Now.Ticks);
             }
         }
 
-        private static class SingleStep
+        private static long Read(string path)
+        {
+            return long.Parse(File.ReadAllText(path));
+        }
+
+        private static class AStepWithThreeDisposables
         {
             [Scenario]
-            public static void Scenario()
+            public static void Scenario(
+                WritingDisposable disposable0, WritingDisposable disposable1, WritingDisposable disposable2)
             {
-                var disposable0 = default(Disposable);
-                var disposable1 = default(Disposable);
-                var disposable2 = default(Disposable);
-
                 "Given some disposables"
-                    .Given(c =>
+                    .f(c =>
                     {
-                        disposable0 = new Disposable().Using(c);
-                        disposable1 = new Disposable().Using(c);
-                        disposable2 = new Disposable().Using(c);
+                        disposable0 = new WritingDisposable(1).Using(c);
+                        disposable1 = new WritingDisposable(2).Using(c);
+                        disposable2 = new WritingDisposable(3).Using(c);
                     });
 
                 "When using the disposables"
-                    .When(() =>
+                    .f(() =>
                     {
                         disposable0.Use();
                         disposable1.Use();
@@ -362,26 +234,23 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class SingleStepWithATimeout
+        private static class AStepWithThreeDisposablesAndATimeout
         {
             [Scenario]
-            public static void Scenario()
+            public static void Scenario(
+                WritingDisposable disposable0, WritingDisposable disposable1, WritingDisposable disposable2)
             {
-                var disposable0 = default(Disposable);
-                var disposable1 = default(Disposable);
-                var disposable2 = default(Disposable);
-
                 "Given some disposables"
-                    .Given(c =>
+                    .f(c =>
                     {
-                        disposable0 = new Disposable().Using(c);
-                        disposable1 = new Disposable().Using(c);
-                        disposable2 = new Disposable().Using(c);
+                        disposable0 = new WritingDisposable(1).Using(c);
+                        disposable1 = new WritingDisposable(2).Using(c);
+                        disposable2 = new WritingDisposable(3).Using(c);
                     })
                     .WithTimeout(Timeout.Infinite);
 
                 "When using the disposables"
-                    .When(() =>
+                    .f(() =>
                     {
                         disposable0.Use();
                         disposable1.Use();
@@ -390,25 +259,22 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class SingleStepWithBadDisposables
+        private static class StepWithThreeBadDisposables
         {
             [Scenario]
-            public static void Scenario()
+            public static void Scenario(
+                WritingDisposable disposable0, WritingDisposable disposable1, WritingDisposable disposable2)
             {
-                var disposable0 = default(BadDisposable);
-                var disposable1 = default(BadDisposable);
-                var disposable2 = default(BadDisposable);
-
                 "Given some disposables"
-                    .Given(c =>
+                    .f(c =>
                     {
-                        disposable0 = new BadDisposable().Using(c);
-                        disposable1 = new BadDisposable().Using(c);
-                        disposable2 = new BadDisposable().Using(c);
+                        disposable0 = new BadDisposable(1).Using(c);
+                        disposable1 = new BadDisposable(2).Using(c);
+                        disposable2 = new BadDisposable(3).Using(c);
                     });
 
                 "When using the disposables"
-                    .When(() =>
+                    .f(() =>
                     {
                         disposable0.Use();
                         disposable1.Use();
@@ -418,25 +284,22 @@ namespace Xbehave.Test.Acceptance
         }
 
 #if !V2
-        private static class SingleStepWithSingleRecursionBadDisposables
+        private static class StepWithThreeRecursiveBadDisposables
         {
             [Scenario]
-            public static void Scenario()
+            public static void Scenario(
+                WritingDisposable disposable0, WritingDisposable disposable1, WritingDisposable disposable2)
             {
-                var disposable0 = default(SingleRecursionBadDisposable);
-                var disposable1 = default(SingleRecursionBadDisposable);
-                var disposable2 = default(SingleRecursionBadDisposable);
-
                 "Given some disposables"
-                    .Given(c =>
+                    .f(c =>
                     {
-                        disposable0 = new SingleRecursionBadDisposable().Using(c);
-                        disposable1 = new SingleRecursionBadDisposable().Using(c);
-                        disposable2 = new SingleRecursionBadDisposable().Using(c);
+                        disposable0 = new SingleRecursionBadDisposable(1).Using(c);
+                        disposable1 = new SingleRecursionBadDisposable(2).Using(c);
+                        disposable2 = new SingleRecursionBadDisposable(3).Using(c);
                     });
 
                 "When using the disposables"
-                    .When(() =>
+                    .f(() =>
                     {
                         disposable0.Use();
                         disposable1.Use();
@@ -446,26 +309,23 @@ namespace Xbehave.Test.Acceptance
         }
 
 #endif
-        private static class ManySteps
+        private static class ThreeStepsWithDisposables
         {
             [Scenario]
-            public static void Scenario()
+            public static void Scenario(
+                WritingDisposable disposable0, WritingDisposable disposable1, WritingDisposable disposable2)
             {
-                var disposable0 = default(Disposable);
-                var disposable1 = default(Disposable);
-                var disposable2 = default(Disposable);
-
                 "Given a disposable"
-                    .Given(c => disposable0 = new Disposable().Using(c));
+                    .f(c => disposable0 = new WritingDisposable(1).Using(c));
 
                 "And another disposable"
-                    .Given(c => disposable1 = new Disposable().Using(c));
+                    .f(c => disposable1 = new WritingDisposable(2).Using(c));
 
                 "And another disposable"
-                    .Given(c => disposable2 = new Disposable().Using(c));
+                    .f(c => disposable2 = new WritingDisposable(3).Using(c));
 
                 "When using the disposables"
-                    .When(() =>
+                    .f(() =>
                     {
                         disposable0.Use();
                         disposable1.Use();
@@ -474,48 +334,52 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class SingleStepTwoContexts
+#if !V2
+        private static class TwoContexts
         {
-            [Scenario]
-            public static void Scenario()
-            {
-                var disposable0 = default(Disposable);
+            private static int context;
 
+            [Scenario]
+            public static void Scenario(WritingDisposable disposable)
+            {
                 "Given a disposable"
-                    .Given(c => disposable0 = new Disposable().Using(c));
+                    .f(c =>
+                    {
+                        context++;
+                        Write(string.Concat("step.", context.ToString(CultureInfo.InvariantCulture), ".ObjectDisposalFeature"));
+                        disposable = new WritingDisposable(context).Using(c);
+                    });
 
                 "When using the disposable"
-                    .When(() => disposable0.Use());
+                    .f(() => disposable.Use());
 
                 "Then something"
-                    .Then(() => { })
+                    .f(() => { })
                     .InIsolation();
 
                 "And something"
-                    .Then(() => { });
+                    .f(() => { });
             }
         }
+#endif
 
         private static class StepsFollowedByAFailingStep
         {
             [Scenario]
-            public static void Scenario()
+            public static void Scenario(
+                WritingDisposable disposable0, WritingDisposable disposable1, WritingDisposable disposable2)
             {
-                var disposable0 = default(Disposable);
-                var disposable1 = default(Disposable);
-                var disposable2 = default(Disposable);
-
                 "Given a disposable"
-                    .Given(c => disposable0 = new Disposable().Using(c));
+                    .f(c => disposable0 = new WritingDisposable(1).Using(c));
 
                 "And another disposable"
-                    .Given(c => disposable1 = new Disposable().Using(c));
+                    .f(c => disposable1 = new WritingDisposable(2).Using(c));
 
                 "And another disposable"
-                    .Given(c => disposable2 = new Disposable().Using(c));
+                    .f(c => disposable2 = new WritingDisposable(3).Using(c));
 
                 "When using the disposables"
-                    .When(() =>
+                    .f(() =>
                     {
                         disposable0.Use();
                         disposable1.Use();
@@ -523,7 +387,7 @@ namespace Xbehave.Test.Acceptance
                     });
 
                 "Then something happens"
-                    .Then(() => 1.Should().Be(0));
+                    .f(() => 1.Should().Be(0));
             }
         }
 
@@ -533,33 +397,34 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 "Given some disposables"
-                    .Given(c =>
+                    .f(c =>
                     {
-                        new Disposable().Using(c);
-                        new Disposable().Using(c);
-                        new Disposable().Using(c);
+                        new WritingDisposable(1).Using(c);
+                        new WritingDisposable(2).Using(c);
+                        new WritingDisposable(3).Using(c);
                         throw new InvalidOperationException();
                     });
             }
         }
 
 #if NET45
-        private static class AsyncStep
+        private static class AnAsyncStepWithThreeDisposables
         {
             [Scenario]
-            public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
+            public static void Scenario(
+                WritingDisposable disposable0, WritingDisposable disposable1, WritingDisposable disposable2)
             {
                 "Given some disposables"
-                    .Given(async c =>
+                    .f(async c =>
                     {
                         await Task.Yield();
-                        disposable0 = new Disposable().Using(c);
-                        disposable1 = new Disposable().Using(c);
-                        disposable2 = new Disposable().Using(c);
+                        disposable0 = new WritingDisposable(1).Using(c);
+                        disposable1 = new WritingDisposable(2).Using(c);
+                        disposable2 = new WritingDisposable(3).Using(c);
                     });
 
                 "When using the disposables"
-                    .When(() =>
+                    .f(() =>
                     {
                         disposable0.Use();
                         disposable1.Use();
@@ -569,82 +434,48 @@ namespace Xbehave.Test.Acceptance
         }
 #endif
 
-        private static class TeardownsAndDisposables
+        private static class StepsWithDisposablesAndTeardowns
         {
             [Scenario]
             public static void Scenario()
             {
                 "Given something"
-                    .Given(c =>
+                    .f(c =>
                     {
-                        new SimpleDisposable(1).Using(c);
-                        new SimpleDisposable(2).Using(c);
-                        new SimpleDisposable(3).Using(c);
+                        new WritingDisposable(1).Using(c);
+                        new WritingDisposable(2).Using(c);
+                        new WritingDisposable(3).Using(c);
                     })
-                    .Teardown(() => actionIds.Enqueue(4))
-                    .And()
-                    .Teardown(() => actionIds.Enqueue(5))
-                    .And()
-                    .Teardown(() => actionIds.Enqueue(6));
+                    .Teardown(() => Write("teardown.4.ObjectDisposalFeature"))
+                    .Teardown(() => Write("teardown.5.ObjectDisposalFeature"))
+                    .Teardown(() => Write("teardown.6.ObjectDisposalFeature"));
 
                 "And something else"
-                    .And(c =>
+                    .f(c =>
                     {
-                        new SimpleDisposable(7).Using(c);
-                        new SimpleDisposable(8).Using(c);
-                        new SimpleDisposable(9).Using(c);
+                        new WritingDisposable(7).Using(c);
+                        new WritingDisposable(8).Using(c);
+                        new WritingDisposable(9).Using(c);
                     })
-                    .Teardown(() => actionIds.Enqueue(10))
-                    .And()
-                    .Teardown(() => actionIds.Enqueue(11))
-                    .And()
-                    .Teardown(() => actionIds.Enqueue(12));
+                    .Teardown(() => Write("teardown.10.ObjectDisposalFeature"))
+                    .Teardown(() => Write("teardown.11.ObjectDisposalFeature"))
+                    .Teardown(() => Write("teardown.12.ObjectDisposalFeature"));
             }
         }
 
-        private class SimpleDisposable : IDisposable
+        private class WritingDisposable : IDisposable
         {
-            private readonly int id;
-
-            public SimpleDisposable(int id)
-            {
-                this.id = id;
-            }
-
-            public void Dispose()
-            {
-                actionIds.Enqueue(this.id);
-            }
-        }
-
-        private class Disposable : IDisposable
-        {
-            private static readonly ConcurrentQueue<LifetimeEvent> events = new ConcurrentQueue<LifetimeEvent>();
-            private readonly Guid id = Guid.NewGuid();
+            private readonly int number;
             private bool isDisposed;
 
-            [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Justification = "Private class.")]
-            public Disposable()
+            public WritingDisposable(int number)
             {
-                events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Constructed, ObjectId = this.id });
+                this.number = number;
             }
 
-            ~Disposable()
+            ~WritingDisposable()
             {
                 this.Dispose(false);
-            }
-
-            public static IEnumerable<LifetimeEvent> RecordedEvents
-            {
-                get { return events.Select(_ => _); }
-            }
-
-            public static void ClearRecordedEvents()
-            {
-                LifetimeEvent ignored;
-                while (events.TryDequeue(out ignored))
-                {
-                }
             }
 
             public void Use()
@@ -665,14 +496,19 @@ namespace Xbehave.Test.Acceptance
             {
                 if (disposing)
                 {
-                    events.Enqueue(new LifetimeEvent { EventType = LifeTimeEventType.Disposed, ObjectId = this.id });
+                    Write(string.Concat("disposed.", this.number.ToString(CultureInfo.InvariantCulture), ".ObjectDisposalFeature"));
                     this.isDisposed = true;
                 }
             }
         }
 
-        private sealed class BadDisposable : Disposable
+        private sealed class BadDisposable : WritingDisposable
         {
+            public BadDisposable(int number)
+                : base(number)
+            {
+            }
+
             protected override void Dispose(bool disposing)
             {
                 base.Dispose(disposing);
@@ -684,15 +520,20 @@ namespace Xbehave.Test.Acceptance
         }
 
 #if !V2
-        private sealed class SingleRecursionBadDisposable : Disposable
+        private sealed class SingleRecursionBadDisposable : WritingDisposable
         {
+            public SingleRecursionBadDisposable(int number)
+                : base(number)
+            {
+            }
+
             protected override void Dispose(bool disposing)
             {
                 base.Dispose(disposing);
                 if (disposing)
                 {
 #pragma warning disable 618
-                    new BadDisposable().Using();
+                    new BadDisposable(1).Using();
 #pragma warning restore 618
                     throw new NotImplementedException();
                 }
@@ -700,12 +541,6 @@ namespace Xbehave.Test.Acceptance
         }
 
 #endif
-        private class LifetimeEvent
-        {
-            public LifeTimeEventType EventType { get; set; }
-
-            public Guid ObjectId { get; set; }
-        }
     }
 }
 #endif
