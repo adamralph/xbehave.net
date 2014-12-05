@@ -53,14 +53,9 @@ namespace Xbehave.Sdk
             get { return this.body; }
         }
 
-        public IEnumerable<IDisposable> ExtractDisposables
+        public IEnumerable<IDisposable> Disposables
         {
-            get
-            {
-                var extracted = this.disposables.ToArray();
-                this.disposables.Clear();
-                return extracted;
-            }
+            get { return this.disposables.ToArray(); }
         }
 
         public IEnumerable<Action> Teardowns

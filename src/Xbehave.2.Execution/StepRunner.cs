@@ -5,24 +5,24 @@
 namespace Xbehave.Execution
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xbehave.Execution.Shims;
+    using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepRunner : TestRunner<IXunitTestCase>
+    public class StepRunner : XbehaveTestRunner
     {
-        private readonly string stepName;
-        private readonly Func<object> stepBody;
+        private readonly string stepDisplayName;
+        private readonly Step step;
+        private readonly List<Action> teardowns = new List<Action>();
 
         public StepRunner(
-            string stepName,
-            Func<object> stepBody,
+            string stepDisplayName,
+            Step step,
             ITest test,
             IMessageBus messageBus,
             Type testClass,
@@ -43,78 +43,38 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("stepBody", stepBody);
+            Guard.AgainstNullArgument("step", step);
 
-            this.stepName = stepName;
-            this.stepBody = stepBody;
+            this.stepDisplayName = stepDisplayName;
+            this.step = step;
         }
 
-        public string StepName
+        public string StepDisplayName
         {
-            get { return this.stepName; }
+            get { return this.stepDisplayName; }
         }
 
-        protected override async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
+        public IEnumerable<Action> Teardowns
         {
-            var output = string.Empty;
-            var testOutputHelper = ConstructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
-            if (testOutputHelper != null)
-            {
-                testOutputHelper.Initialize(this.MessageBus, this.Test);
-            }
+            get { return this.teardowns.ToArray(); }
+        }
 
-            var timer = new ExecutionTimer();
-            var oldSyncContext = SynchronizationContext.Current;
-
+        protected override async Task RunTestAsync()
+        {
             try
             {
-                var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
-                SetSynchronizationContext(asyncSyncContext);
-
-                await aggregator.RunAsync(
-                    () => timer.AggregateAsync(
-                        async () =>
-                        {
-                            var result = this.stepBody();
-                            var task = result as Task;
-                            if (task != null)
-                            {
-                                await task;
-                            }
-                            else
-                            {
-                                var ex = await asyncSyncContext.WaitForCompletionAsync();
-                                if (ex != null)
-                                {
-                                    aggregator.Add(ex);
-                                }
-                            }
-                        }));
+                var result = this.step.Body();
+                var task = result as Task;
+                if (task != null)
+                {
+                    await task;
+                }
             }
             finally
             {
-                SetSynchronizationContext(oldSyncContext);
+                this.teardowns.AddRange(this.step.Disposables.Select(disposable => (Action)disposable.Dispose));
+                this.teardowns.AddRange(this.step.Teardowns);
             }
-
-            var executionTime = timer.Total;
-
-            if (testOutputHelper != null)
-            {
-                output = testOutputHelper.Output;
-                testOutputHelper.Uninitialize();
-            }
-
-            return Tuple.Create(executionTime, output);
-        }
-
-        [SuppressMessage(
-            "Microsoft.Security",
-            "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule",
-            Justification = "From xunit.")]
-        [SecuritySafeCritical]
-        private static void SetSynchronizationContext(SynchronizationContext context)
-        {
-            SynchronizationContext.SetSynchronizationContext(context);
         }
     }
 }

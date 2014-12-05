@@ -73,7 +73,6 @@ namespace Xbehave.Execution
                 });
 
             var stepRunners = new List<StepRunner>();
-            StepRunner teardownRunner = null;
             try
             {
                 var type = Reflector.GetType(
@@ -100,7 +99,6 @@ namespace Xbehave.Execution
 
                 await this.TestMethod.InvokeAsync(obj, this.TestMethodArguments);
 
-                var teardowns = new List<Action>();
                 stepRunners.AddRange(CurrentScenario.ExtractSteps()
                     .Select((step, index) =>
                     {
@@ -117,11 +115,9 @@ namespace Xbehave.Execution
                             stepName = step.Name;
                         }
 
-                        teardowns.AddRange(step.Teardowns);
-
                         return new StepRunner(
                             stepName,
-                            step.Body,
+                            step,
                             new XunitTest(this.TestCase, GetDisplayName(++index, stepName)),
                             interceptingBus,
                             this.TestClass,
@@ -132,44 +128,6 @@ namespace Xbehave.Execution
                             this.Aggregator,
                             this.CancellationTokenSource);
                     }));
-
-                if (teardowns.Any())
-                {
-                    teardownRunner = new StepRunner(
-                        "(Teardown)",
-                        () =>
-                        {
-                            teardowns.Reverse();
-                            Exception exception = null;
-                            foreach (var teardown in teardowns)
-                            {
-                                try
-                                {
-                                    teardown();
-                                }
-                                catch (Exception ex)
-                                {
-                                    exception = ex;
-                                }
-                            }
-
-                            if (exception != null)
-                            {
-                                ExceptionDispatchInfo.Capture(exception).Throw();
-                            }
-
-                            return null;
-                        },
-                        new XunitTest(this.TestCase, this.GetDisplayName(stepRunners.Count + 1, "(Teardown)")),
-                        interceptingBus,
-                        this.TestClass,
-                        this.ConstructorArguments,
-                        this.TestMethod,
-                        this.TestMethodArguments,
-                        string.Empty,
-                        this.Aggregator,
-                        this.CancellationTokenSource);
-                }
             }
             catch (Exception ex)
             {
@@ -202,9 +160,7 @@ namespace Xbehave.Execution
                 if (failedStepName != null)
                 {
                     var message = string.Format(
-                        CultureInfo.InvariantCulture,
-                        "Failed to execute preceding step \"{0}\".",
-                        failedStepName);
+                        CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
                     var failFast = new LambdaTestCase(
                         this.TestCase.TestMethod,
@@ -223,12 +179,25 @@ namespace Xbehave.Execution
 
                 if (stepFailed)
                 {
-                    failedStepName = stepRunner.StepName;
+                    failedStepName = stepRunner.StepDisplayName;
                 }
             }
 
-            if (teardownRunner != null)
+            var teardowns = stepRunners.SelectMany(runner => runner.Teardowns).ToArray();
+            if (teardowns.Any())
             {
+                var teardownRunner = new TeardownRunner(
+                    teardowns,
+                    new XunitTest(this.TestCase, this.GetDisplayName(stepRunners.Count + 1, "(Teardown)")),
+                    interceptingBus,
+                    this.TestClass,
+                    this.ConstructorArguments,
+                    this.TestMethod,
+                    this.TestMethodArguments,
+                    string.Empty,
+                    this.Aggregator,
+                    this.CancellationTokenSource);
+
                 summary.Aggregate(await teardownRunner.RunAsync());
             }
 
