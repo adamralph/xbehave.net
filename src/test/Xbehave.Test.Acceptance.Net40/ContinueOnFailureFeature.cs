@@ -2,15 +2,12 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
-    using Xunit;
 
     public static class ContinueOnFailureFeature
     {
@@ -135,4 +132,3 @@ namespace Xbehave.Test.Acceptance
         }
     }
 }
-#endif

@@ -5,7 +5,6 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
 
