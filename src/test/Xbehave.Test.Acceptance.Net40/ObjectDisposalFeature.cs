@@ -200,13 +200,13 @@ namespace Xbehave.Test.Acceptance
             Thread.Sleep(1);
             using (var file = new StreamWriter(path, false))
             {
-                file.Write(DateTime.Now.Ticks);
+                file.Write(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
             }
         }
 
         private static long Read(string path)
         {
-            return long.Parse(File.ReadAllText(path));
+            return long.Parse(File.ReadAllText(path), CultureInfo.InvariantCulture);
         }
 
         private static class AStepWithThreeDisposables
