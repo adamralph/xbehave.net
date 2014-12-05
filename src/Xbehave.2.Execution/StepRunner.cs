@@ -19,10 +19,12 @@ namespace Xbehave.Execution
     {
         private readonly string stepName;
         private readonly Func<object> stepBody;
+        private readonly Action processDisposables;
 
         public StepRunner(
             string stepName,
             Func<object> stepBody,
+            Action processDisposables,
             ITest test,
             IMessageBus messageBus,
             Type testClass,
@@ -47,6 +49,7 @@ namespace Xbehave.Execution
 
             this.stepName = stepName;
             this.stepBody = stepBody;
+            this.processDisposables = processDisposables;
         }
 
         public string StepName
@@ -75,18 +78,28 @@ namespace Xbehave.Execution
                     () => timer.AggregateAsync(
                         async () =>
                         {
-                            var result = this.stepBody();
-                            var task = result as Task;
-                            if (task != null)
+                            try
                             {
-                                await task;
-                            }
-                            else
-                            {
-                                var ex = await asyncSyncContext.WaitForCompletionAsync();
-                                if (ex != null)
+                                var result = this.stepBody();
+                                var task = result as Task;
+                                if (task != null)
                                 {
-                                    aggregator.Add(ex);
+                                    await task;
+                                }
+                                else
+                                {
+                                    var ex = await asyncSyncContext.WaitForCompletionAsync();
+                                    if (ex != null)
+                                    {
+                                        aggregator.Add(ex);
+                                    }
+                                }
+                            }
+                            finally
+                            {
+                                if (this.processDisposables != null)
+                                {
+                                    this.processDisposables();
                                 }
                             }
                         }));
