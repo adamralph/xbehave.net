@@ -59,6 +59,7 @@
     <Compile Include="Guard.cs" />
     <Compile Include="ScenarioOutline.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
+    <Compile Include="XbehaveTestRunner.cs" />
     <Compile Include="TeardownRunner.cs" />
     <Compile Include="TypeInfoExtensions.cs" />
     <Compile Include="ScenarioOutlineRunner.cs" />

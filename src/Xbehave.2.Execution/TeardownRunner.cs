@@ -5,18 +5,15 @@
 namespace Xbehave.Execution
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.ExceptionServices;
-    using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xbehave.Execution.Shims;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class TeardownRunner : TestRunner<IXunitTestCase>
+    public class TeardownRunner : XbehaveTestRunner
     {
         private readonly Action[] teardowns;
 
@@ -47,75 +44,27 @@ namespace Xbehave.Execution
             this.teardowns = teardowns.ToArray();
         }
 
-        protected override async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
+        protected override Task RunTestAsync()
         {
-            var output = string.Empty;
-            var testOutputHelper = ConstructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
-            if (testOutputHelper != null)
+            Exception exception = null;
+            foreach (var teardown in this.teardowns.Reverse())
             {
-                testOutputHelper.Initialize(this.MessageBus, this.Test);
+                try
+                {
+                    teardown();
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
+                }
             }
 
-            var timer = new ExecutionTimer();
-            var oldSyncContext = SynchronizationContext.Current;
-
-            try
+            if (exception != null)
             {
-                var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
-                SetSynchronizationContext(asyncSyncContext);
-
-                await aggregator.RunAsync(
-                    () => timer.AggregateAsync(
-                        async () =>
-                        {
-                            Exception exception = null;
-                            foreach (var teardown in teardowns.Reverse())
-                            {
-                                try
-                                {
-                                    teardown();
-                                    var ex = await asyncSyncContext.WaitForCompletionAsync();
-                                    if (ex != null)
-                                    {
-                                        aggregator.Add(ex);
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    exception = ex;
-                                }
-                            }
-
-                            if (exception != null)
-                            {
-                                ExceptionDispatchInfo.Capture(exception).Throw();
-                            }
-                        }));
-            }
-            finally
-            {
-                SetSynchronizationContext(oldSyncContext);
+                ExceptionDispatchInfo.Capture(exception).Throw();
             }
 
-            var executionTime = timer.Total;
-
-            if (testOutputHelper != null)
-            {
-                output = testOutputHelper.Output;
-                testOutputHelper.Uninitialize();
-            }
-
-            return Tuple.Create(executionTime, output);
-        }
-
-        [SuppressMessage(
-            "Microsoft.Security",
-            "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule",
-            Justification = "From xunit.")]
-        [SecuritySafeCritical]
-        private static void SetSynchronizationContext(SynchronizationContext context)
-        {
-            SynchronizationContext.SetSynchronizationContext(context);
+            return Task.FromResult(0);
         }
     }
 }
