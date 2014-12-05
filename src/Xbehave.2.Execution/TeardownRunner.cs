@@ -46,7 +46,7 @@ namespace Xbehave.Execution
             this.teardowns = teardowns.ToArray();
         }
 
-        protected async override Task<decimal> RunTestAsync(ExceptionAggregator aggregator)
+        protected async override Task<decimal> InvokeDelegatesAsync(ExceptionAggregator aggregator)
         {
             return await new TeardownInvoker(
                 this.teardowns,

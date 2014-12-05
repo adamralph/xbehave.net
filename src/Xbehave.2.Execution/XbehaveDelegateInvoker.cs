@@ -1,4 +1,4 @@
-﻿// <copyright file="XbehaveTestInvoker.cs" company="xBehave.net contributors">
+﻿// <copyright file="XbehaveDelegateInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -15,9 +15,9 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public abstract class XbehaveTestInvoker : XunitTestInvoker
+    public abstract class XbehaveDelegateInvoker : XunitTestInvoker
     {
-        protected XbehaveTestInvoker(
+        protected XbehaveDelegateInvoker(
             ITest test,
             IMessageBus messageBus,
             Type testClass,
@@ -53,7 +53,7 @@ namespace Xbehave.Execution
                     () => Timer.AggregateAsync(
                         async () =>
                         {
-                            await this.RunTestAsync();
+                            await this.InvokeDelegatesAsync();
                             var ex = await asyncSyncContext.WaitForCompletionAsync();
                             if (ex != null)
                             {
@@ -69,7 +69,7 @@ namespace Xbehave.Execution
             return Timer.Total;
         }
 
-        protected abstract Task RunTestAsync();
+        protected abstract Task InvokeDelegatesAsync();
 
         [SuppressMessage(
             "Microsoft.Security",

@@ -56,7 +56,7 @@ namespace Xbehave.Execution
                 testOutputHelper.Initialize(this.MessageBus, this.Test);
             }
 
-            var executionTime = await this.RunTestAsync(aggregator);
+            var executionTime = await this.InvokeDelegatesAsync(aggregator);
 
             if (testOutputHelper != null)
             {
@@ -67,6 +67,6 @@ namespace Xbehave.Execution
             return Tuple.Create(executionTime, output);
         }
 
-        protected abstract Task<decimal> RunTestAsync(ExceptionAggregator aggregator);
+        protected abstract Task<decimal> InvokeDelegatesAsync(ExceptionAggregator aggregator);
     }
 }

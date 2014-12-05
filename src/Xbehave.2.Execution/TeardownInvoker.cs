@@ -6,6 +6,7 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.ExceptionServices;
@@ -14,7 +15,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class TeardownInvoker : XbehaveTestInvoker
+    public class TeardownInvoker : XbehaveDelegateInvoker
     {
         private readonly Action[] teardowns;
 
@@ -45,7 +46,9 @@ namespace Xbehave.Execution
             this.teardowns = teardowns.ToArray();
         }
 
-        protected override Task RunTestAsync()
+        [SuppressMessage(
+            "Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Emulating try finally.")]
+        protected override Task InvokeDelegatesAsync()
         {
             Exception exception = null;
             foreach (var teardown in this.teardowns.Reverse())

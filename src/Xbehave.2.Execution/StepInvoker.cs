@@ -14,7 +14,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepInvoker : XbehaveTestInvoker
+    public class StepInvoker : XbehaveDelegateInvoker
     {
         private readonly string stepDisplayName;
         private readonly Step step;
@@ -59,7 +59,7 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        protected override async Task RunTestAsync()
+        protected override async Task InvokeDelegatesAsync()
         {
             try
             {

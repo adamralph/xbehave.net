@@ -60,7 +60,7 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        protected override async Task<decimal> RunTestAsync(ExceptionAggregator aggregator)
+        protected override async Task<decimal> InvokeDelegatesAsync(ExceptionAggregator aggregator)
         {
             var invoker = new StepInvoker(
                 this.DisplayName,
@@ -68,16 +68,21 @@ namespace Xbehave.Execution
                 this.Test,
                 this.MessageBus,
                 this.TestClass,
-                this.ConstructorArguments, 
+                this.ConstructorArguments,
                 this.TestMethod,
-                this.TestMethodArguments, 
+                this.TestMethodArguments,
                 this.BeforeAfterAttributes,
                 aggregator,
                 this.CancellationTokenSource);
-
-            var executionTime = await invoker.RunAsync();
-            this.teardowns.AddRange(invoker.Teardowns);
-            return executionTime;
+            
+            try
+            {
+                return await invoker.RunAsync();
+            }
+            finally
+            {
+                this.teardowns.AddRange(invoker.Teardowns);
+            }
         }
     }
 }
