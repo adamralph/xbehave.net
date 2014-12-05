@@ -1,4 +1,4 @@
-﻿// <copyright file="TeardownRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="TeardownInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -8,16 +8,17 @@ namespace Xbehave.Execution
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.ExceptionServices;
     using System.Threading;
     using System.Threading.Tasks;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class TeardownRunner : XbehaveTestRunner
+    public class TeardownInvoker : XbehaveTestInvoker
     {
         private readonly Action[] teardowns;
 
-        public TeardownRunner(
+        public TeardownInvoker(
             Action[] teardowns,
             ITest test,
             IMessageBus messageBus,
@@ -25,7 +26,6 @@ namespace Xbehave.Execution
             object[] constructorArguments,
             MethodInfo testMethod,
             object[] testMethodArguments,
-            string skipReason,
             IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
@@ -36,7 +36,6 @@ namespace Xbehave.Execution
                 constructorArguments,
                 testMethod,
                 testMethodArguments,
-                skipReason,
                 beforeAfterAttributes,
                 aggregator,
                 cancellationTokenSource)
@@ -46,19 +45,27 @@ namespace Xbehave.Execution
             this.teardowns = teardowns.ToArray();
         }
 
-        protected async override Task<decimal> RunTestAsync(ExceptionAggregator aggregator)
+        protected override Task RunTestAsync()
         {
-            return await new TeardownInvoker(
-                this.teardowns,
-                this.Test,
-                this.MessageBus,
-                this.TestClass,
-                this.ConstructorArguments,
-                this.TestMethod,
-                this.TestMethodArguments,
-                this.BeforeAfterAttributes,
-                aggregator,
-                this.CancellationTokenSource).RunAsync();
+            Exception exception = null;
+            foreach (var teardown in this.teardowns.Reverse())
+            {
+                try
+                {
+                    teardown();
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
+                }
+            }
+
+            if (exception != null)
+            {
+                ExceptionDispatchInfo.Capture(exception).Throw();
+            }
+
+            return Task.FromResult(0);
         }
     }
 }
