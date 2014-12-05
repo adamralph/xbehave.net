@@ -104,7 +104,7 @@ namespace Xbehave.Execution
                 SetSynchronizationContext(oldSyncContext);
             }
 
-            this.teardowns.AddRange(this.step.ExtractDisposables.Select(disposable => (Action)disposable.Dispose));
+            this.teardowns.AddRange(this.step.Disposables.Select(disposable => (Action)disposable.Dispose));
             this.teardowns.AddRange(this.step.Teardowns);
 
             var executionTime = timer.Total;
