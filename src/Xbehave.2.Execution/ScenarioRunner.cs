@@ -121,7 +121,7 @@ namespace Xbehave.Execution
                             step.Body,
                             () =>
                             {
-                                teardowns.AddRange(step.ExtractDisposables.Select(disposable => (Action)(disposable.Dispose)));
+                                teardowns.AddRange(step.ExtractDisposables.Select(disposable => (Action)disposable.Dispose));
                                 teardowns.AddRange(step.Teardowns);
                             },
                             new XunitTest(this.TestCase, GetDisplayName(++index, stepName)),
@@ -166,9 +166,7 @@ namespace Xbehave.Execution
                 if (failedStepName != null)
                 {
                     var message = string.Format(
-                        CultureInfo.InvariantCulture,
-                        "Failed to execute preceding step \"{0}\".",
-                        failedStepName);
+                        CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
                     var failFast = new LambdaTestCase(
                         this.TestCase.TestMethod,
