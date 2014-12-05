@@ -73,7 +73,6 @@ namespace Xbehave.Execution
                 });
 
             var stepRunners = new List<StepRunner>();
-            var teardowns = new List<Action>();
             try
             {
                 var type = Reflector.GetType(
@@ -118,12 +117,7 @@ namespace Xbehave.Execution
 
                         return new StepRunner(
                             stepName,
-                            step.Body,
-                            () =>
-                            {
-                                teardowns.AddRange(step.ExtractDisposables.Select(disposable => (Action)disposable.Dispose));
-                                teardowns.AddRange(step.Teardowns);
-                            },
+                            step,
                             new XunitTest(this.TestCase, GetDisplayName(++index, stepName)),
                             interceptingBus,
                             this.TestClass,
@@ -185,38 +179,15 @@ namespace Xbehave.Execution
 
                 if (stepFailed)
                 {
-                    failedStepName = stepRunner.StepName;
+                    failedStepName = stepRunner.StepDisplayName;
                 }
             }
 
+            var teardowns = stepRunners.SelectMany(runner => runner.Teardowns).ToArray();
             if (teardowns.Any())
             {
-                var teardownRunner = new StepRunner(
-                    "(Teardown)",
-                    () =>
-                    {
-                        teardowns.Reverse();
-                        Exception exception = null;
-                        foreach (var teardown in teardowns)
-                        {
-                            try
-                            {
-                                teardown();
-                            }
-                            catch (Exception ex)
-                            {
-                                exception = ex;
-                            }
-                        }
-
-                        if (exception != null)
-                        {
-                            ExceptionDispatchInfo.Capture(exception).Throw();
-                        }
-
-                        return null;
-                    },
-                    null,
+                var teardownRunner = new TeardownRunner(
+                    teardowns,
                     new XunitTest(this.TestCase, this.GetDisplayName(stepRunners.Count + 1, "(Teardown)")),
                     interceptingBus,
                     this.TestClass,

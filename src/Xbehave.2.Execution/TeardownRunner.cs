@@ -1,31 +1,27 @@
-﻿// <copyright file="StepRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="TeardownRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
 namespace Xbehave.Execution
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.ExceptionServices;
     using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Execution.Shims;
-    using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepRunner : TestRunner<IXunitTestCase>
+    public class TeardownRunner : TestRunner<IXunitTestCase>
     {
-        private readonly string stepDisplayName;
-        private readonly Step step;
-        private readonly List<Action> teardowns = new List<Action>();
+        private readonly Action[] teardowns;
 
-        public StepRunner(
-            string stepDisplayName,
-            Step step,
+        public TeardownRunner(
+            Action[] teardowns,
             ITest test,
             IMessageBus messageBus,
             Type testClass,
@@ -46,20 +42,9 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("step", step);
+            Guard.AgainstNullArgument("teardowns", teardowns);
 
-            this.stepDisplayName = stepDisplayName;
-            this.step = step;
-        }
-
-        public string StepDisplayName
-        {
-            get { return this.stepDisplayName; }
-        }
-
-        public IEnumerable<Action> Teardowns
-        {
-            get { return this.teardowns.ToArray(); }
+            this.teardowns = teardowns.ToArray();
         }
 
         protected override async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
@@ -83,19 +68,27 @@ namespace Xbehave.Execution
                     () => timer.AggregateAsync(
                         async () =>
                         {
-                            var result = this.step.Body();
-                            var task = result as Task;
-                            if (task != null)
+                            Exception exception = null;
+                            foreach (var teardown in teardowns.Reverse())
                             {
-                                await task;
-                            }
-                            else
-                            {
-                                var ex = await asyncSyncContext.WaitForCompletionAsync();
-                                if (ex != null)
+                                try
                                 {
-                                    aggregator.Add(ex);
+                                    teardown();
+                                    var ex = await asyncSyncContext.WaitForCompletionAsync();
+                                    if (ex != null)
+                                    {
+                                        aggregator.Add(ex);
+                                    }
                                 }
+                                catch (Exception ex)
+                                {
+                                    exception = ex;
+                                }
+                            }
+
+                            if (exception != null)
+                            {
+                                ExceptionDispatchInfo.Capture(exception).Throw();
                             }
                         }));
             }
@@ -103,9 +96,6 @@ namespace Xbehave.Execution
             {
                 SetSynchronizationContext(oldSyncContext);
             }
-
-            this.teardowns.AddRange(this.step.ExtractDisposables.Select(disposable => (Action)disposable.Dispose));
-            this.teardowns.AddRange(this.step.Teardowns);
 
             var executionTime = timer.Total;
 
