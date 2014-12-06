@@ -53,7 +53,11 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results[1].ShouldBeATeardown());
 
             "Ann the teardowns should be executed in reverse order after the step"
-                .f(() => ShouldBeWrittenInOrder("step.1.TeardownFeature", "teardown.3.TeardownFeature", "teardown.2.TeardownFeature", "teardown.1.TeardownFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "step.1.TeardownFeature", 
+                    "teardown.3.TeardownFeature", 
+                    "teardown.2.TeardownFeature",
+                    "teardown.1.TeardownFeature"));
         }
 
         [Scenario]
@@ -75,7 +79,11 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results[1].Should().BeOfType<Fail>());
 
             "Then the teardowns should be executed in reverse order after the step"
-                .f(() => ShouldBeWrittenInOrder("step.1.TeardownFeature", "teardown.3.TeardownFeature", "teardown.2.TeardownFeature", "teardown.1.TeardownFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "step.1.TeardownFeature", 
+                    "teardown.3.TeardownFeature",
+                    "teardown.2.TeardownFeature",
+                    "teardown.1.TeardownFeature"));
         }
 
         [Scenario]
@@ -181,12 +189,14 @@ namespace Xbehave.Test.Acceptance
             writings.Should().Equal(writings.OrderBy(writing => writing.Ticks));
         }
 
-        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldNotBeATeardown(this Result result)
+        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldNotBeATeardown(
+            this Result result)
         {
             return result.DisplayName.Should().NotContainEquivalentOf("(teardown)");
         }
 
-        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldBeATeardown(this Result result)
+        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldBeATeardown(
+            this Result result)
         {
             return result.DisplayName.Should().ContainEquivalentOf("(teardown)");
         }

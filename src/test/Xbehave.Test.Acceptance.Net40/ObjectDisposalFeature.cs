@@ -28,7 +28,8 @@ namespace Xbehave.Test.Acceptance
             "Given no temporary files exist"
                 .f(() =>
                 {
-                    foreach (var path in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.ObjectDisposalFeature"))
+                    foreach (var path in Directory.EnumerateFiles(
+                        Directory.GetCurrentDirectory(), "*.ObjectDisposalFeature"))
                     {
                         File.Delete(path);
                     }
@@ -60,7 +61,10 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Last().ShouldBeATeardown());
 
             "And the disposables should each have been disposed in reverse order"
-                .f(() => ShouldBeWrittenInOrder("disposed.3.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "disposed.3.ObjectDisposalFeature",
+                    "disposed.2.ObjectDisposalFeature",
+                    "disposed.1.ObjectDisposalFeature"));
         }
 
         [Scenario]
@@ -82,7 +86,10 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Reverse().First().Should().BeOfType<Fail>());
 
             "And the disposables should be disposed in reverse order"
-                .f(() => ShouldBeWrittenInOrder("disposed.3.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "disposed.3.ObjectDisposalFeature",
+                    "disposed.2.ObjectDisposalFeature",
+                    "disposed.1.ObjectDisposalFeature"));
         }
 
 #if !V2
@@ -107,7 +114,10 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Reverse().Take(2).Should().ContainItemsAssignableTo<Fail>());
 
             "And the disposables should be disposed in reverse order"
-                .f(() => ShouldBeWrittenInOrder("disposed.3.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "disposed.3.ObjectDisposalFeature",
+                    "disposed.2.ObjectDisposalFeature",
+                    "disposed.1.ObjectDisposalFeature"));
         }
 
         [Scenario]
@@ -123,7 +133,11 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Should().ContainItemsAssignableTo<Pass>());
 
             "And the disposable should be disposed after each context"
-                .f(() => ShouldBeWrittenInOrder("step.1.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature", "step.2.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "step.1.ObjectDisposalFeature",
+                    "disposed.1.ObjectDisposalFeature",
+                    "step.2.ObjectDisposalFeature",
+                    "disposed.2.ObjectDisposalFeature"));
         }
 #endif
 
@@ -142,7 +156,10 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.OfType<Fail>().Count().Should().Be(1));
 
             "And the disposables should be disposed in reverse order"
-                .f(() => ShouldBeWrittenInOrder("disposed.3.ObjectDisposalFeature", "disposed.2.ObjectDisposalFeature", "disposed.1.ObjectDisposalFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "disposed.3.ObjectDisposalFeature",
+                    "disposed.2.ObjectDisposalFeature",
+                    "disposed.1.ObjectDisposalFeature"));
         }
 
         [Scenario]
@@ -345,7 +362,10 @@ namespace Xbehave.Test.Acceptance
                     .f(c =>
                     {
                         context++;
-                        Write(string.Concat("step.", context.ToString(CultureInfo.InvariantCulture), ".ObjectDisposalFeature"));
+                        var path = string.Concat(
+                            "step.", context.ToString(CultureInfo.InvariantCulture), ".ObjectDisposalFeature");
+
+                        Write(path);
                         disposable = new WritingDisposable(context).Using(c);
                     });
 
@@ -495,7 +515,10 @@ namespace Xbehave.Test.Acceptance
             {
                 if (disposing)
                 {
-                    Write(string.Concat("disposed.", this.number.ToString(CultureInfo.InvariantCulture), ".ObjectDisposalFeature"));
+                    var path = string.Concat(
+                        "disposed.", this.number.ToString(CultureInfo.InvariantCulture), ".ObjectDisposalFeature");
+
+                    Write(path);
                     this.isDisposed = true;
                 }
             }
