@@ -7,7 +7,6 @@ namespace Xbehave.Sdk
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -59,7 +58,7 @@ namespace Xbehave.Sdk
 
         public IEnumerable<Action> Teardowns
         {
-            get { return this.teardowns.Select(x => x); }
+            get { return this.teardowns.ToArray(); }
         }
 
         public string SkipReason { get; set; }
