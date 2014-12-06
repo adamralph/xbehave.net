@@ -8,28 +8,28 @@ namespace Xbehave.Fluent
     using System.Threading.Tasks;
     using Xbehave.Sdk;
 
-    internal class Step : IStep
+    internal class Step : IStep, IStepContext
     {
         private readonly Sdk.Step step;
 
         public Step(string text, Action body)
+            : this(text, c => body())
         {
-            this.step = CurrentScenario.AddStep(text, body);
         }
 
         public Step(string text, Action<IStepContext> body)
         {
-            this.step = new StepContext(text, body).Step;
+            this.step = CurrentScenario.AddStep(text, () => body(this));
         }
 
         public Step(string text, Func<Task> body)
+            : this(text, c => body())
         {
-            this.step = CurrentScenario.AddStep(text, body);
         }
 
         public Step(string text, Func<IStepContext, Task> body)
         {
-            this.step = new StepContext(text, body).Step;
+            this.step = CurrentScenario.AddStep(text, () => body(this));
         }
 
         public IStep Skip(string reason)
@@ -41,6 +41,12 @@ namespace Xbehave.Fluent
         public IStep Teardown(Action teardown)
         {
             this.step.AddTeardown(teardown);
+            return this;
+        }
+
+        public IStepContext Using(IDisposable disposable)
+        {
+            this.step.AddDisposable(disposable);
             return this;
         }
     }
