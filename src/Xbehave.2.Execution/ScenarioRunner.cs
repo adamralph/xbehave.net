@@ -9,7 +9,6 @@ namespace Xbehave.Execution
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.ExceptionServices;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Execution.Shims;

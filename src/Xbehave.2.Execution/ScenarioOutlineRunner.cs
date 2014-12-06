@@ -182,7 +182,8 @@ namespace Xbehave.Execution
                 parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
             }
 
-            return string.Format(CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
+            return string.Format(
+                CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
 
         private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues, int scenarioNumber)
@@ -204,7 +205,9 @@ namespace Xbehave.Execution
 
             var parameters = TestCase.TestMethod.Method.GetParameters().ToArray();
             var generatedArguments = new List<Argument>();
-            for (var missingArgumentIndex = argumentValues.Length; missingArgumentIndex < parameters.Length; ++missingArgumentIndex)
+            for (var missingArgumentIndex = argumentValues.Length;
+                missingArgumentIndex < parameters.Length;
+                ++missingArgumentIndex)
             {
                 var parameterType = parameters[missingArgumentIndex].ParameterType;
                 if (parameterType.IsGenericParameter)
@@ -224,7 +227,10 @@ namespace Xbehave.Execution
                     if (concreteType == null)
                     {
                         var message = string.Format(
-                            CultureInfo.CurrentCulture, "The type of parameter \"{0}\" cannot be resolved.", parameters[missingArgumentIndex].Name);
+                            CultureInfo.CurrentCulture,
+                            "The type of parameter \"{0}\" cannot be resolved.",
+                            parameters[missingArgumentIndex].Name);
+                        
                         throw new InvalidOperationException(message);
                     }
 
