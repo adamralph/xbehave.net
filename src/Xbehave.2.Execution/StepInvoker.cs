@@ -1,4 +1,4 @@
-﻿// <copyright file="StepRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="StepInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -6,6 +6,7 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -13,13 +14,13 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepRunner : XbehaveTestRunner
+    public class StepInvoker : XbehaveDelegateInvoker
     {
         private readonly string stepDisplayName;
         private readonly Step step;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public StepRunner(
+        public StepInvoker(
             string stepDisplayName,
             Step step,
             ITest test,
@@ -28,7 +29,6 @@ namespace Xbehave.Execution
             object[] constructorArguments,
             MethodInfo testMethod,
             object[] testMethodArguments,
-            string skipReason,
             IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
@@ -39,7 +39,6 @@ namespace Xbehave.Execution
                 constructorArguments,
                 testMethod,
                 testMethodArguments,
-                skipReason,
                 beforeAfterAttributes,
                 aggregator,
                 cancellationTokenSource)
@@ -60,28 +59,21 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        protected override async Task<decimal> InvokeDelegatesAsync(ExceptionAggregator aggregator)
+        protected override async Task InvokeDelegatesAsync()
         {
-            var invoker = new StepInvoker(
-                this.DisplayName,
-                this.step,
-                this.Test,
-                this.MessageBus,
-                this.TestClass,
-                this.ConstructorArguments,
-                this.TestMethod,
-                this.TestMethodArguments,
-                this.BeforeAfterAttributes,
-                aggregator,
-                this.CancellationTokenSource);
-            
             try
             {
-                return await invoker.RunAsync();
+                var result = this.step.Body();
+                var task = result as Task;
+                if (task != null)
+                {
+                    await task;
+                }
             }
             finally
             {
-                this.teardowns.AddRange(invoker.Teardowns);
+                this.teardowns.AddRange(this.step.Disposables.Select(disposable => (Action)disposable.Dispose));
+                this.teardowns.AddRange(this.step.Teardowns);
             }
         }
     }

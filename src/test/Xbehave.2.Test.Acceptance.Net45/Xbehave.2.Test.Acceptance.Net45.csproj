@@ -123,9 +123,6 @@
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\SkippedStepFeature.cs">
       <Link>SkippedStepFeature.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\StepTimeoutFeature.cs">
-      <Link>StepTimeoutFeature.cs</Link>
-    </Compile>
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\TeardownFeature.cs">
       <Link>TeardownFeature.cs</Link>
     </Compile>

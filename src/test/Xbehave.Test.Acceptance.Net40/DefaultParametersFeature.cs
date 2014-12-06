@@ -5,7 +5,6 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
 
@@ -20,8 +19,8 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(Result[]);
 
-            "Given a feature with a scenario with four parameters and step asserting each one is a default value"
-                .f(() => feature = typeof(FeatureWithAScenarioWithAFourParametersAndAStepAssertingEachOneIsADefaultValue));
+            "Given a scenario with four parameters and step asserting each is a default value"
+                .f(() => feature = typeof(ScenarioWithFourParametersAndAStepAssertingEachIsADefaultValue));
 
             "When I run the scenarios"
                 .f(() => results = feature.RunScenarios());
@@ -46,7 +45,7 @@ namespace Xbehave.Test.Acceptance
                 });
         }
 
-        private static class FeatureWithAScenarioWithAFourParametersAndAStepAssertingEachOneIsADefaultValue
+        private static class ScenarioWithFourParametersAndAStepAssertingEachIsADefaultValue
         {
             [Scenario]
             public static void Scenario(string w, int x, object y, int? z)

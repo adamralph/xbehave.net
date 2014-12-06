@@ -59,6 +59,9 @@
     <Compile Include="Guard.cs" />
     <Compile Include="ScenarioOutline.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
+    <Compile Include="StepInvoker.cs" />
+    <Compile Include="TeardownInvoker.cs" />
+    <Compile Include="XbehaveDelegateInvoker.cs" />
     <Compile Include="XbehaveTestRunner.cs" />
     <Compile Include="TeardownRunner.cs" />
     <Compile Include="TypeInfoExtensions.cs" />

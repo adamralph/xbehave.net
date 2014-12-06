@@ -2,7 +2,6 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
 namespace Xbehave.Test.Acceptance
 {
     using System;
@@ -58,33 +57,23 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private class BeforeAfter : BeforeAfterTestAttribute
+        private sealed class BeforeAfter : BeforeAfterTestAttribute
         {
-            private static int beforeCount;
-            private static int afterCount;
+            public static int BeforeCount { get; private set; }
 
-            public static int BeforeCount
-            {
-                get { return beforeCount; }
-            }
-
-            public static int AfterCount
-            {
-                get { return afterCount; }
-            }
+            public static int AfterCount { get; private set; }
 
             public override void Before(System.Reflection.MethodInfo methodUnderTest)
             {
-                beforeCount++;
-                afterCount.Should().Be(beforeCount - 1);
+                BeforeCount++;
+                AfterCount.Should().Be(BeforeCount - 1);
             }
 
             public override void After(System.Reflection.MethodInfo methodUnderTest)
             {
-                afterCount++;
-                afterCount.Should().Be(beforeCount);
+                AfterCount++;
+                AfterCount.Should().Be(BeforeCount);
             }
         }
     }
 }
-#endif

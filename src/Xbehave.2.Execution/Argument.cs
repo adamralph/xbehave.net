@@ -50,12 +50,9 @@ namespace Xbehave.Execution
             var stringArgument = this.Value as string;
             if (stringArgument != null)
             {
-                if (stringArgument.Length > 50)
-                {
-                    return string.Concat("\"", stringArgument.Substring(0, 50), "\"...");
-                }
-
-                return string.Concat("\"", stringArgument, "\"");
+                return stringArgument.Length > 50
+                    ? string.Concat("\"", stringArgument.Substring(0, 50), "\"...")
+                    : string.Concat("\"", stringArgument, "\"");
             }
 
             return Convert.ToString(this.Value, CultureInfo.InvariantCulture);

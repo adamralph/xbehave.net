@@ -9,7 +9,6 @@ namespace Xbehave.Execution
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.ExceptionServices;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Execution.Shims;
@@ -125,6 +124,7 @@ namespace Xbehave.Execution
                             this.TestMethod,
                             this.TestMethodArguments,
                             step.SkipReason,
+                            this.BeforeAfterAttributes,
                             this.Aggregator,
                             this.CancellationTokenSource);
                     }));
@@ -195,6 +195,7 @@ namespace Xbehave.Execution
                     this.TestMethod,
                     this.TestMethodArguments,
                     string.Empty,
+                    this.BeforeAfterAttributes,
                     this.Aggregator,
                     this.CancellationTokenSource);
 

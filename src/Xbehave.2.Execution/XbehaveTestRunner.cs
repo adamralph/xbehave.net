@@ -5,18 +5,18 @@
 namespace Xbehave.Execution
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xbehave.Execution.Shims;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
     public abstract class XbehaveTestRunner : TestRunner<IXunitTestCase>
     {
+        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
+
         protected XbehaveTestRunner(
             ITest test,
             IMessageBus messageBus,
@@ -25,6 +25,7 @@ namespace Xbehave.Execution
             MethodInfo testMethod,
             object[] testMethodArguments,
             string skipReason,
+            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
             : base(
@@ -38,6 +39,12 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
+            this.beforeAfterAttributes = beforeAfterAttributes;
+        }
+
+        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterAttributes
+        {
+            get { return this.beforeAfterAttributes; }
         }
 
         protected override async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
@@ -49,32 +56,7 @@ namespace Xbehave.Execution
                 testOutputHelper.Initialize(this.MessageBus, this.Test);
             }
 
-            var timer = new ExecutionTimer();
-            var oldSyncContext = SynchronizationContext.Current;
-
-            try
-            {
-                var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
-                SetSynchronizationContext(asyncSyncContext);
-
-                await aggregator.RunAsync(
-                    () => timer.AggregateAsync(
-                        async () =>
-                        {
-                            await this.RunTestAsync();
-                            var ex = await asyncSyncContext.WaitForCompletionAsync();
-                            if (ex != null)
-                            {
-                                aggregator.Add(ex);
-                            }
-                        }));
-            }
-            finally
-            {
-                SetSynchronizationContext(oldSyncContext);
-            }
-
-            var executionTime = timer.Total;
+            var executionTime = await this.InvokeDelegatesAsync(aggregator);
 
             if (testOutputHelper != null)
             {
@@ -85,16 +67,6 @@ namespace Xbehave.Execution
             return Tuple.Create(executionTime, output);
         }
 
-        protected abstract Task RunTestAsync();
-
-        [SuppressMessage(
-            "Microsoft.Security",
-            "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule",
-            Justification = "From xunit.")]
-        [SecuritySafeCritical]
-        private static void SetSynchronizationContext(SynchronizationContext context)
-        {
-            SynchronizationContext.SetSynchronizationContext(context);
-        }
+        protected abstract Task<decimal> InvokeDelegatesAsync(ExceptionAggregator aggregator);
     }
 }

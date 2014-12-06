@@ -6,9 +6,7 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-#if !V2
     using System.Globalization;
-#endif
     using System.IO;
     using System.Linq;
     using System.Threading;
@@ -55,7 +53,11 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results[1].ShouldBeATeardown());
 
             "Ann the teardowns should be executed in reverse order after the step"
-                .f(() => ShouldBeWrittenInOrder("step.1.TeardownFeature", "teardown.3.TeardownFeature", "teardown.2.TeardownFeature", "teardown.1.TeardownFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "step.1.TeardownFeature", 
+                    "teardown.3.TeardownFeature", 
+                    "teardown.2.TeardownFeature",
+                    "teardown.1.TeardownFeature"));
         }
 
         [Scenario]
@@ -77,7 +79,11 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results[1].Should().BeOfType<Fail>());
 
             "Then the teardowns should be executed in reverse order after the step"
-                .f(() => ShouldBeWrittenInOrder("step.1.TeardownFeature", "teardown.3.TeardownFeature", "teardown.2.TeardownFeature", "teardown.1.TeardownFeature"));
+                .f(() => ShouldBeWrittenInOrder(
+                    "step.1.TeardownFeature", 
+                    "teardown.3.TeardownFeature",
+                    "teardown.2.TeardownFeature",
+                    "teardown.1.TeardownFeature"));
         }
 
         [Scenario]
@@ -183,12 +189,14 @@ namespace Xbehave.Test.Acceptance
             writings.Should().Equal(writings.OrderBy(writing => writing.Ticks));
         }
 
-        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldNotBeATeardown(this Result result)
+        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldNotBeATeardown(
+            this Result result)
         {
             return result.DisplayName.Should().NotContainEquivalentOf("(teardown)");
         }
 
-        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldBeATeardown(this Result result)
+        private static AndConstraint<FluentAssertions.Primitives.StringAssertions> ShouldBeATeardown(
+            this Result result)
         {
             return result.DisplayName.Should().ContainEquivalentOf("(teardown)");
         }
@@ -198,13 +206,13 @@ namespace Xbehave.Test.Acceptance
             Thread.Sleep(1);
             using (var file = new StreamWriter(path, false))
             {
-                file.Write(DateTime.Now.Ticks);
+                file.Write(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
             }
         }
 
         private static long Read(string path)
         {
-            return long.Parse(File.ReadAllText(path));
+            return long.Parse(File.ReadAllText(path), CultureInfo.InvariantCulture);
         }
 
         private static class StepWithManyTeardowns
