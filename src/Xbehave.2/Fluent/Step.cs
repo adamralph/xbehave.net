@@ -32,17 +32,6 @@ namespace Xbehave.Fluent
             this.step = new StepContext(text, body).Step;
         }
 
-        public IStep And()
-        {
-            return this;
-        }
-
-        public IStep WithTimeout(int millisecondsTimeout)
-        {
-            this.step.MillisecondsTimeout = millisecondsTimeout;
-            return this;
-        }
-
         public IStep Skip(string reason)
         {
             this.step.SkipReason = reason;

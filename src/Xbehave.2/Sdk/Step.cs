@@ -40,7 +40,6 @@ namespace Xbehave.Sdk
         private Step(string name)
         {
             this.name = name;
-            this.MillisecondsTimeout = -1;
         }
 
         public virtual string Name
@@ -64,8 +63,6 @@ namespace Xbehave.Sdk
         }
 
         public string SkipReason { get; set; }
-
-        public int MillisecondsTimeout { get; set; }
 
         public void AddDisposable(IDisposable disposable)
         {

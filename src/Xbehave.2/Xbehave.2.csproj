@@ -78,10 +78,8 @@
     <Compile Include="Sdk\Guard.cs" />
     <Compile Include="Sdk\Step.cs" />
     <Compile Include="StepContext.cs" />
-    <Compile Include="StepExtensions.cs" />
     <Compile Include="StringExtensions.Async.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="_.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">
