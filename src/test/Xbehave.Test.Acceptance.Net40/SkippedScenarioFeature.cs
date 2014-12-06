@@ -21,16 +21,16 @@ namespace Xbehave.Test.Acceptance
             var results = default(Result[]);
 
             "Given a feature with a skipped scenario"
-                .Given(() => feature = typeof(FeatureWithASkippedScenario));
+                .f(() => feature = typeof(FeatureWithASkippedScenario));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be one result"
-                .And(() => results.Count().Should().Be(1));
+                .f(() => results.Count().Should().Be(1));
 
             "And the result should be a skip result"
-                .And(() => results[0].Should().BeOfType<Skip>(results.ToDisplayString("the result should be a skip")));
+                .f(() => results[0].Should().BeOfType<Skip>(results.ToDisplayString("the result should be a skip")));
         }
 
         private static class FeatureWithASkippedScenario

@@ -107,10 +107,10 @@ namespace Xbehave.Test.Acceptance
         public static void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, Result[] results)
         {
             "Given a feature with a scenario with a single step and examples with one argument missing"
-                .Given(() => feature = typeof(SingleStepAndThreeExamplesWithMissingResolvableGenericArguments));
+                .f(() => feature = typeof(SingleStepAndThreeExamplesWithMissingResolvableGenericArguments));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
@@ -151,70 +151,70 @@ an null value for an argument defined using the fifth type parameter"
         public static void FormattedSteps(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
-                .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndAFormattedStep));
+                .f(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndAFormattedStep));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be one result"
-                .Then(() => results.Count().Should().Be(1));
+                .f(() => results.Count().Should().Be(1));
 
             "And the display name of the result should end with \"Given 1, 2 and 3\""
-                .And(() => results.Single().DisplayName.Should().EndWith("Given 1, 2 and 3"));
+                .f(() => results.Single().DisplayName.Should().EndWith("Given 1, 2 and 3"));
         }
 
         [Scenario]
         public static void FormattedStepsWithNullValues(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
-                .Given(() => feature = typeof(FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep));
+                .f(() => feature = typeof(FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be one result"
-                .Then(() => results.Count().Should().Be(1));
+                .f(() => results.Count().Should().Be(1));
 
             "And the display name of the result should end with \"Given null, null and null\""
-                .And(() => results.Single().DisplayName.Should().EndWith("Given null, null and null"));
+                .f(() => results.Single().DisplayName.Should().EndWith("Given null, null and null"));
         }
 
         [Scenario]
         public static void BadlyFormattedSteps(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{3}}, {{4}} and {{5}}\""
-                .Given(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep));
+                .f(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be one result"
-                .Then(() => results.Count().Should().Be(1));
+                .f(() => results.Count().Should().Be(1));
 
             "And the result should not be a pass"
-                .And(() => results.Single().Should().BeOfType<Pass>());
+                .f(() => results.Single().Should().BeOfType<Pass>());
 
             "And the display name of the result should end with \"Given {{3}}, {{4}} and {{5}}\""
-                .And(() => results.Single().DisplayName.Should().EndWith("Given {3}, {4} and {5}"));
+                .f(() => results.Single().DisplayName.Should().EndWith("Given {3}, {4} and {5}"));
         }
 
         [Scenario]
         public static void InvalidExamples(Type feature, Exception exception, IEnumerable<Result> results)
         {
             "Given a feature with scenarios with invalid examples"
-                .Given(() => feature = typeof(FeatureWithTwoScenariosWithInvalidExamples));
+                .f(() => feature = typeof(FeatureWithTwoScenariosWithInvalidExamples));
 
             "When I run the scenarios"
-                .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
+                .f(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
-                .Then(() => exception.Should().BeNull());
+                .f(() => exception.Should().BeNull());
 
             "And there should be 2 results"
-                .And(() => results.Count().Should().Be(2));
+                .f(() => results.Count().Should().Be(2));
 
             "And each result should be a failure"
-                .And(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
 #if !V2
@@ -222,19 +222,19 @@ an null value for an argument defined using the fifth type parameter"
         public static void OmissionOfArgumentsFromScenarioNames(Type feature, IEnumerable<Result> results)
         {
             "Given a feature with a scenario with a single step and examples and omission of arguments from scenario names"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames));
+                .f(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then the display name of no result should contain '(x: 1, y: 2, z: 3)'"
-                .Then(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 1, y: 2, z: 3)")));
+                .f(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 1, y: 2, z: 3)")));
 
             "And the display name of no result should contain '(x: 3, y: 4, z: 5)'"
-                .And(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 3, y: 4, z: 5)")));
+                .f(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 3, y: 4, z: 5)")));
 
             "And the display name of no result should contain '(x: 5, y: 6, z: 7)'"
-                .And(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
+                .f(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
         }
 #endif
 
@@ -249,7 +249,7 @@ an null value for an argument defined using the fifth type parameter"
             public static void Scenario(int x, int y, int sum)
             {
                 "Then as a distinct example the sum of {0} and {1} is {2}"
-                    .Given(() =>
+                    .f(() =>
                     {
                         sum.Should().NotBe(previousSum);
                         (x + y).Should().Be(sum);
@@ -308,7 +308,7 @@ an null value for an argument defined using the fifth type parameter"
             public static void Scenario(int example, int missing1, object missing2)
             {
                 "Then distinct examples are passed with the default values for missing arguments"
-                    .Given(() =>
+                    .f(() =>
                     {
                         example.Should().NotBe(previousExample);
                         missing1.Should().Be(default(int));
@@ -330,7 +330,7 @@ an null value for an argument defined using the fifth type parameter"
             public static void Scenario<T1, T2>(T1 example1, T2 example2, T1 missing1, T2 missing2)
             {
                 "Then distinct examples are passed with the default values for missing arguments"
-                    .Given(() =>
+                    .f(() =>
                     {
                         example1.Should().NotBe(previousExample1);
                         example2.Should().NotBe(previousExample2);
@@ -351,7 +351,7 @@ an null value for an argument defined using the fifth type parameter"
             public static void Scenario<T1, T2, T3, T4, T5>(T1 a, T2 b, T3 c, T4 d, T4 e, T5 f)
             {
                 "Given"
-                    .Given(() => { });
+                    .f(() => { });
             }
         }
 
@@ -362,7 +362,7 @@ an null value for an argument defined using the fifth type parameter"
             public static void Scenario(int x, int y, int z)
             {
                 "Given {0}, {1} and {2}"
-                    .Given(() => { });
+                    .f(() => { });
             }
         }
 
@@ -373,7 +373,7 @@ an null value for an argument defined using the fifth type parameter"
             public static void Scenario(object x, object y, object z)
             {
                 "Given {0}, {1} and {2}"
-                    .Given(() => { });
+                    .f(() => { });
             }
         }
 
@@ -384,7 +384,7 @@ an null value for an argument defined using the fifth type parameter"
             public static void Scenario(int x, int y, int z)
             {
                 "Given {3}, {4} and {5}"
-                    .Given(() => { });
+                    .f(() => { });
             }
         }
 
@@ -414,7 +414,7 @@ an null value for an argument defined using the fifth type parameter"
             public static void Scenario(int x, int y, int z)
             {
                 "Given {0}, {1} and {2}"
-                    .Given(() => { });
+                    .f(() => { });
             }
         }
 #endif

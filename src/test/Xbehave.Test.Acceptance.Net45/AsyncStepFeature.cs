@@ -29,13 +29,13 @@ namespace Xbehave.Test.Acceptance
         [Scenario]
         public static void AllMethodsAreUsedAsync(int count)
         {
-            "Given the count is 20".Given(async () =>
+            "Given the count is 20".f(async () =>
             {
                 await Task.Yield();
                 count = 20;
             });
 
-            "When it is increased by one".When(async () =>
+            "When it is increased by one".f(async () =>
             {
                 await Task.Yield();
                 count++;
@@ -59,13 +59,13 @@ namespace Xbehave.Test.Acceptance
                 count.Should().Be(25);
             });
 
-            "And obviously it is greater than 10".And(async () =>
+            "And obviously it is greater than 10".f(async () =>
             {
                 await Task.Yield();
                 count.Should().BeGreaterThan(10);
             });
 
-            "But evidently it is not 24".But(async () =>
+            "But evidently it is not 24".f(async () =>
             {
                 await Task.Yield();
                 count.Should().NotBe(24);
@@ -97,6 +97,7 @@ namespace Xbehave.Test.Acceptance
                 number.Should().Be(4));
         }
 
+#if !V2
         [Scenario]
         public static void AsyncStepDoesNotTimeout(bool asyncStepHasCompleted)
         {
@@ -110,6 +111,7 @@ namespace Xbehave.Test.Acceptance
             "Then it has completed before the next step begins"._(() =>
                 asyncStepHasCompleted.Should().BeTrue());
         }
+#endif
 
         [Scenario]
         public static void AsyncTaskStepThrowsException(Type feature, Result[] results)
@@ -123,10 +125,11 @@ namespace Xbehave.Test.Acceptance
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<Fail>());
 
-            "And the exception should be an invalid operation exception".And(() =>
+            "And the exception should be an invalid operation exception".f(() =>
                 results.Cast<Fail>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
+#if !V2
         [Scenario]
         public static void AsyncTaskStepThrowsExceptionWithinTimeout(Type feature, Result[] results)
         {
@@ -139,9 +142,10 @@ namespace Xbehave.Test.Acceptance
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<Fail>());
 
-            "And the exception should be an invalid operation exception".And(() =>
+            "And the exception should be an invalid operation exception".f(() =>
                 results.Cast<Fail>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
+#endif
 
         [Scenario]
         public static void AsyncVoidStepThrowsException(Type feature, Result[] results)
@@ -155,7 +159,7 @@ namespace Xbehave.Test.Acceptance
             "Then the result should be a failure"._(() =>
                 results.Should().ContainItemsAssignableTo<Fail>());
 
-            "And the exception should be an invalid operation exception".And(() =>
+            "And the exception should be an invalid operation exception".f(() =>
                 results.Cast<Fail>().First().ExceptionType.Should().Be("System.InvalidOperationException"));
         }
 
@@ -222,6 +226,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#if !V2
         private static class AsyncTaskStepWhichThrowsExceptionWithinTimeout
         {
             [Scenario]
@@ -237,6 +242,7 @@ namespace Xbehave.Test.Acceptance
 #pragma warning restore 1998
             }
         }
+#endif
 
         private static class AsyncVoidStepWhichThrowsException
         {
