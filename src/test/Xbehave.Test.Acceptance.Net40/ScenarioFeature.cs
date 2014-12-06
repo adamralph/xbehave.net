@@ -39,22 +39,22 @@ namespace Xbehave.Test.Acceptance
             var results = default(Result[]);
 
             "Given a feature with a scenario with three steps"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithThreeSteps));
+                .f(() => feature = typeof(FeatureWithAScenarioWithThreeSteps));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be three results"
-                .And(() => results.Length.Should().Be(3));
+                .f(() => results.Length.Should().Be(3));
 
             "And the first result should have a display name ending with 'Step 1'"
-                .And(() => results[0].DisplayName.Should().EndWith("Step 1"));
+                .f(() => results[0].DisplayName.Should().EndWith("Step 1"));
 
             "And the second result should have a display name ending with 'Step 2'"
-                .And(() => results[1].DisplayName.Should().EndWith("Step 2"));
+                .f(() => results[1].DisplayName.Should().EndWith("Step 2"));
 
             "And the third result should have a display name ending with 'Step 3'"
-                .And(() => results[2].DisplayName.Should().EndWith("Step 3"));
+                .f(() => results[2].DisplayName.Should().EndWith("Step 3"));
         }
 
         [Scenario]
@@ -84,19 +84,19 @@ namespace Xbehave.Test.Acceptance
             var results = default(Result[]);
 
             "Given a feature with a scenario with two passing steps and one failing step"
-                .Given(() => feature = typeof(FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep));
+                .f(() => feature = typeof(FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then there should be three results"
-                .And(() => results.Length.Should().Be(3));
+                .f(() => results.Length.Should().Be(3));
 
             "And the first two results should be passes"
-                .And(() => results.Take(2).Should().ContainItemsAssignableTo<Pass>());
+                .f(() => results.Take(2).Should().ContainItemsAssignableTo<Pass>());
 
             "And the third result should be a fail"
-                .And(() => results.Skip(2).Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Skip(2).Should().ContainItemsAssignableTo<Fail>());
         }
 
         [Scenario]
@@ -107,19 +107,19 @@ namespace Xbehave.Test.Acceptance
             var results = default(Result[]);
 
             "Given a feature with a scenario body which throws an exception"
-                .Given(() => feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException));
+                .f(() => feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException));
 
             "When I run the scenarios"
-                .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
+                .f(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
-                .Then(() => exception.Should().BeNull());
+                .f(() => exception.Should().BeNull());
 
             "And the results should not be empty"
-                .And(() => results.Should().NotBeEmpty());
+                .f(() => results.Should().NotBeEmpty());
 
             "And each result should be a failure"
-                .And(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
         [Scenario]
@@ -130,19 +130,19 @@ namespace Xbehave.Test.Acceptance
             var results = default(Result[]);
 
             "Given a feature with a non-static scenario but no default constructor"
-                .Given(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
+                .f(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
 
             "When I run the scenarios"
-                .When(() => exception = Record.Exception(() => results = feature.RunScenarios()));
+                .f(() => exception = Record.Exception(() => results = feature.RunScenarios()));
 
             "Then no exception should be thrown"
-                .Then(() => exception.Should().BeNull());
+                .f(() => exception.Should().BeNull());
 
             "And the results should not be empty"
-                .And(() => results.Should().NotBeEmpty());
+                .f(() => results.Should().NotBeEmpty());
 
             "And each result should be a failure"
-                .And(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Should().ContainItemsAssignableTo<Fail>());
         }
 
         [Scenario]
@@ -152,16 +152,16 @@ namespace Xbehave.Test.Acceptance
             var results = default(Result[]);
 
             "Given a feature with a failing step followed by passing steps"
-                .Given(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
+                .f(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .f(() => results = feature.RunScenarios());
 
             "Then each result should be a failure"
-                .Then(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Should().ContainItemsAssignableTo<Fail>());
 
             "And each subsequent result message should indicate that the first step failed"
-                .And(() =>
+                .f(() =>
                 {
                     foreach (var result in results.Cast<Fail>().Skip(1))
                     {
@@ -257,16 +257,16 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 "Given something"
-                    .Given(() =>
+                    .f(() =>
                     {
                         throw new NotImplementedException();
                     });
 
                 "When something happens"
-                    .When(() => { });
+                    .f(() => { });
 
                 "Then there is an outcome"
-                    .Then(() => { });
+                    .f(() => { });
             }
         }
 
@@ -281,7 +281,7 @@ namespace Xbehave.Test.Acceptance
             public void Scenario()
             {
                 "Given something"
-                    .Given(() => { });
+                    .f(() => { });
             }
         }
     }

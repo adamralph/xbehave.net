@@ -38,7 +38,9 @@ namespace Xbehave.Test.Acceptance
 
         [Scenario]
         [Example(typeof(AStepWithThreeDisposables))]
+#if !V2
         [Example(typeof(AStepWithThreeDisposablesAndATimeout))]
+#endif
         [Example(typeof(ThreeStepsWithDisposables))]
 #if NET45
         [Example(typeof(AnAsyncStepWithThreeDisposables))]
@@ -250,6 +252,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
+#if !V2
         private static class AStepWithThreeDisposablesAndATimeout
         {
             [Scenario]
@@ -274,6 +277,7 @@ namespace Xbehave.Test.Acceptance
                     });
             }
         }
+#endif
 
         private static class StepWithThreeBadDisposables
         {
