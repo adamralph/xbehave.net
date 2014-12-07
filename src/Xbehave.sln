@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net40", "Xbehave.Net40\Xbehave.Net40.csproj", "{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}"
 EndProject
@@ -62,7 +62,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2", "Xbehave.2\Xbeh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Test.Acceptance.Net45", "test\Xbehave.2.Test.Acceptance.Net45\Xbehave.2.Test.Acceptance.Net45.csproj", "{B95C4972-1CD7-4632-994B-E6093CBF03BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution", "Xbehave.2.Execution\Xbehave.2.Execution.csproj", "{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution.Net45", "Xbehave.2.Execution.Net45\Xbehave.2.Execution.Net45.csproj", "{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
