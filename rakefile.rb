@@ -1,7 +1,8 @@
 require 'albacore'
 require 'fileutils'
 
-version = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
+version1 = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
+version2 = IO.read("src/VersionInfo.2.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first
 xunit_command = "src/packages/xunit.runners.2.0.0-beta5-build2785/tools/xunit.console.exe"
 nuget_command = "src/packages/NuGet.CommandLine.2.8.2/tools/NuGet.exe"
 solution = "src/XBehave.sln"
@@ -22,7 +23,10 @@ features = [
   "src/test/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
 ]
 
-nuspec = "src/Xbehave.nuspec"
+nuspecs = [
+  { :file => "src/Xbehave.nuspec", :version => version1 },
+  { :file => "src/Xbehave.2.nuspec", :version => version2 }
+]
 
 Albacore.configure do |config|
   config.log_level = :verbose
@@ -68,11 +72,15 @@ task :feature => [:build] do
   execute_xunit features, xunit_command
 end
 
-desc "Create the nuget package"
-exec :pack => [:build] do |cmd|
+desc "Create the nuget packages"
+task :pack => [:build] do
   FileUtils.mkpath output
-  cmd.command = nuget_command
-  cmd.parameters "pack " + nuspec + " -Version " + version + " -OutputDirectory " + output
+  nuspecs.each do |nuspec|
+    cmd = Exec.new
+    cmd.command = nuget_command
+    cmd.parameters "pack " + nuspec[:file] + " -Version " + nuspec[:version] + " -OutputDirectory " + output + " -NoPackageAnalysis"
+    cmd.execute
+  end
 end
 
 def execute_xunit(tests, command)

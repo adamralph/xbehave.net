@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Xbehave</id>
+    <version>0.0.0</version>
+    <title>xBehave.net</title>
+    <authors>Adam Ralph, xBehave.net contributors</authors>
+    <description>A BDD/TDD framework based on xUnit.net and inspired by Gherkin. Allows features and scenarios to be written directly in code rather than mapping to external feature files. Works seamlessly with xUnit.net tooling.</description>
+    <language>en-US</language>
+    <projectUrl>http://xbehave.github.io/</projectUrl>
+    <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
+    <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/license.txt</licenseUrl>
+    <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
+    <tags>xUnit.net BDD test TDD</tags>
+    <references>
+      <reference file="Xbehave.dll" />
+    </references>
+    <dependencies>
+      <dependency id="xunit" version="[2.0.0-beta5-build2785]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Xbehave.2\bin\Release\Xbehave.dll"                           target="lib\portable-net45" />
+    <file src="Xbehave.2\bin\Release\Xbehave.xml"                           target="lib\portable-net45" />
+
+    <!-- Execution -->
+    <file src="Xbehave.2\Xbehave.props"                                     target="build\portable-net45" />
+    <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll" target="build\portable-net45" />
+  </files>
+</package>

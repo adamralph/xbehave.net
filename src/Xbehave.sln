@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Settings.StyleCop = Settings.StyleCop
 		VersionInfo.1.cs = VersionInfo.1.cs
 		VersionInfo.2.cs = VersionInfo.2.cs
+		Xbehave.2.nuspec = Xbehave.2.nuspec
 		Xbehave.CustomDictionary.xml = Xbehave.CustomDictionary.xml
 		Xbehave.nuspec = Xbehave.nuspec
 		Xbehave.ruleset = Xbehave.ruleset
