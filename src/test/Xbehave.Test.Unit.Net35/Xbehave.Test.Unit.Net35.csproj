@@ -67,17 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\ContextSetupTeardownBehavior.cs">
-      <Link>Legacy\ContextSetupTeardownBehavior.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\SubSpecDemo.cs">
-      <Link>Legacy\SubSpecDemo.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\Legacy\ThreadIsolationFacts.cs">
-      <Link>Legacy\ThreadIsolationFacts.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Unit.Net40\StringExtensionsSpecifications.cs">
-      <Link>StringExtensionsSpecifications.cs</Link>
+    <Compile Include="..\Xbehave.Test.Unit.Net40\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

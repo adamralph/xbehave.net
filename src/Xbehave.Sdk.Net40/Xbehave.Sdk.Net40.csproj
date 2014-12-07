@@ -66,6 +66,7 @@
       <Link>Properties\VersionInfo.1.cs</Link>
     </Compile>
     <Compile Include="Argument.cs" />
+    <Compile Include="AsyncStep.cs" />
     <Compile Include="ContextCommand.cs" />
     <Compile Include="BackgroundCommand.cs" />
     <Compile Include="Guard.cs" />

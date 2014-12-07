@@ -64,8 +64,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncStepFeature.cs" />
     <Compile Include="BeforeAfterTestFeature.cs" />
     <Compile Include="BackgroundFeature.cs" />
+    <Compile Include="Infrastructure\AssemblyExtensions.cs" />
     <Compile Include="Infrastructure\ResultExtensions.cs" />
     <Compile Include="Infrastructure\Skip.cs" />
     <Compile Include="Infrastructure\Fail.cs" />
@@ -73,6 +75,7 @@
     <Compile Include="Infrastructure\Result.cs" />
     <Compile Include="ContinueOnFailureFeature.cs" />
     <Compile Include="DefaultParametersFeature.cs" />
+    <Compile Include="Infrastructure\SpyMessageSink.cs" />
     <Compile Include="SkippedScenarioFeature.cs" />
     <Compile Include="TeardownFeature.cs" />
     <Compile Include="StepTimeoutFeature.cs" />

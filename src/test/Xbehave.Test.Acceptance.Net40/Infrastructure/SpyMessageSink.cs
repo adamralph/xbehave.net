@@ -2,6 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+#if V2
 namespace Xbehave.Test.Acceptance.Infrastructure
 {
     using System;
@@ -43,3 +44,4 @@ namespace Xbehave.Test.Acceptance.Infrastructure
         }
     }
 }
+#endif
