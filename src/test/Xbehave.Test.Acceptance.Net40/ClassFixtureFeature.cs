@@ -22,7 +22,8 @@ namespace Xbehave.Test.Acceptance
             "Given no temporary files exist"
                 .f(() =>
                 {
-                    foreach (var path in Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.ClassFixtureFeature"))
+                    foreach (var path in Directory.EnumerateFiles(
+                        Directory.GetCurrentDirectory(), "*.ClassFixtureFeature"))
                     {
                         File.Delete(path);
                     }
@@ -48,7 +49,8 @@ namespace Xbehave.Test.Acceptance
 
         private static void ShouldBeWrittenInOrder(params string[] paths)
         {
-            Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.ClassFixtureFeature").Select(Path.GetFileName)
+            Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.ClassFixtureFeature")
+                .Select(Path.GetFileName)
                 .Should().BeEquivalentTo(paths);
 
             var writings = paths.Select(s => new { Path = s, Ticks = Read(s) }).ToArray();
@@ -69,32 +71,32 @@ namespace Xbehave.Test.Acceptance
             return long.Parse(File.ReadAllText(path), CultureInfo.InvariantCulture);
         }
 
-        private class ScenarioWithAClassFixture : IClassFixture<Foo>
+        private class ScenarioWithAClassFixture : IClassFixture<Fixture>
         {
-            private readonly Foo foo;
+            private readonly Fixture fixture;
 
-            public ScenarioWithAClassFixture(Foo foo)
+            public ScenarioWithAClassFixture(Fixture fixture)
             {
-                foo.Should().NotBeNull();
-                this.foo = foo;
+                fixture.Should().NotBeNull();
+                this.fixture = fixture;
             }
 
             [Scenario]
             public void Scenario1()
             {
                 "Given"
-                    .f(() => this.foo.Scenario1Executed = true);
+                    .f(() => this.fixture.Scenario1Executed = true);
             }
 
             [Scenario]
             public void Scenario2()
             {
                 "Given"
-                    .f(() => this.foo.Scenario2Executed = true);
+                    .f(() => this.fixture.Scenario2Executed = true);
             }
         }
 
-        private sealed class Foo : IDisposable
+        private sealed class Fixture : IDisposable
         {
             public bool Scenario1Executed { private get; set; }
 
