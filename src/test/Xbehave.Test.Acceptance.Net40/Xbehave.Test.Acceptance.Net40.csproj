@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncStepFeature.cs" />
+    <Compile Include="ClassFixtureFeature.cs" />
     <Compile Include="BeforeAfterTestFeature.cs" />
     <Compile Include="BackgroundFeature.cs" />
     <Compile Include="Infrastructure\AssemblyExtensions.cs" />
