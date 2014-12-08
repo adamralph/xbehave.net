@@ -64,57 +64,10 @@
     <Compile Include="..\VersionInfo.1.cs">
       <Link>Properties\VersionInfo.1.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Net40\BackgroundAttribute.cs">
-      <Link>BackgroundAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ContinueOnFailureAfterAttribute.cs">
-      <Link>ContinueOnFailureAfterAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\IStepContext.cs">
-      <Link>IStepContext.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\OmitArgumentsFromScenarioNamesAttribute.cs">
-      <Link>OmitArgumentsFromScenarioNamesAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\StepContext.cs">
-      <Link>StepContext.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\StepType.cs">
-      <Link>StepType.cs</Link>
-    </Compile>
-    <Compile Include="Guard.cs" />
-    <None Include="..\Xbehave.Net40\Sandbox\DynamicStringExtensions.cs">
-      <Link>Sandbox\DynamicStringExtensions.cs</Link>
-    </None>
-    <None Include="..\Xbehave.Net40\Sandbox\Scenario.cs">
-      <Link>Sandbox\Scenario.cs</Link>
-    </None>
-    <Compile Include="..\Xbehave.Net40\DisposableExtensions.cs">
-      <Link>DisposableExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ExampleAttribute.cs">
-      <Link>ExampleAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\IStep.cs">
-      <Link>Fluent\IStep.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Fluent\Step.cs">
-      <Link>Fluent\Step.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\ScenarioAttribute.cs">
-      <Link>ScenarioAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\StepExtensions.cs">
-      <Link>StepExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\StringExtensions.cs">
-      <Link>StringExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Net40\_.cs">
-      <Link>_.cs</Link>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Xbehave.Net40\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

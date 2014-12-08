@@ -67,8 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\ArgumentSpecifications.cs">
-      <Link>ArgumentSpecifications.cs</Link>
+    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>

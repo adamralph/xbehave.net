@@ -62,69 +62,10 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\BackgroundFeature.cs">
-      <Link>BackgroundFeature.cs</Link>
+    <Compile Include="..\Xbehave.Test.Acceptance.Net40\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\BeforeAfterTestFeature.cs">
-      <Link>BeforeAfterTestFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\ContinueOnFailureFeature.cs">
-      <Link>ContinueOnFailureFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\DefaultParametersFeature.cs">
-      <Link>DefaultParametersFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\ExampleFeature.cs">
-      <Link>ExampleFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\CustomEqualityComparer.cs">
-      <Link>Infrastructure\CustomEqualityComparer.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Fail.cs">
-      <Link>Infrastructure\Fail.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Pass.cs">
-      <Link>Infrastructure\Pass.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Result.cs">
-      <Link>Infrastructure\Result.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\ResultExtensions.cs">
-      <Link>Infrastructure\ResultExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\Skip.cs">
-      <Link>Infrastructure\Skip.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\Infrastructure\TypeExtensions.cs">
-      <Link>Infrastructure\TypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\IsolatedStepFeature.cs">
-      <Link>IsolatedStepFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\ObjectDisposalFeature.cs">
-      <Link>ObjectDisposalFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\ScenarioFeature.cs">
-      <Link>ScenarioFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\ScenarioTimeoutFeature.cs">
-      <Link>ScenarioTimeoutFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\SkippedScenarioFeature.cs">
-      <Link>SkippedScenarioFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\SkippedStepFeature.cs">
-      <Link>SkippedStepFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\StepTimeoutFeature.cs">
-      <Link>StepTimeoutFeature.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Test.Acceptance.Net40\TeardownFeature.cs">
-      <Link>TeardownFeature.cs</Link>
-    </Compile>
-    <Compile Include="AsyncStepFeature.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave.Net45\Xbehave.Net45.csproj">

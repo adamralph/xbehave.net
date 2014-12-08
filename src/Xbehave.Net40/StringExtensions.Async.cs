@@ -2,6 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+#if NET45
 namespace Xbehave
 {
     using System;
@@ -213,3 +214,4 @@ namespace Xbehave
         }
     }
 }
+#endif

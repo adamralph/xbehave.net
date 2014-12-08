@@ -66,56 +66,11 @@
     <Compile Include="..\VersionInfo.1.cs">
       <Link>Properties\VersionInfo.1.cs</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Argument.cs">
-      <Link>Argument.cs</Link>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Xbehave.Sdk.Net40\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\BackgroundCommand.cs">
-      <Link>BackgroundCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Command.cs">
-      <Link>Command.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Context.cs">
-      <Link>Context.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ContextCommand.cs">
-      <Link>ContextCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ContextFactory.cs">
-      <Link>ContextFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\CurrentScenario.cs">
-      <Link>CurrentScenario.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ExceptionCommand.cs">
-      <Link>ExceptionCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ICommand.cs">
-      <Link>ICommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\MethodCall.cs">
-      <Link>MethodCall.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Properties\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\ReplayCommand.cs">
-      <Link>ReplayCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\Step.cs">
-      <Link>Step.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\StepCommand.cs">
-      <Link>StepCommand.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\SyncStep.cs">
-      <Link>SyncStep.cs</Link>
-    </Compile>
-    <Compile Include="..\Xbehave.Sdk.Net40\TeardownCommand.cs">
-      <Link>TeardownCommand.cs</Link>
-    </Compile>
-    <Compile Include="AsyncStep.cs" />
-    <Compile Include="Guard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">
