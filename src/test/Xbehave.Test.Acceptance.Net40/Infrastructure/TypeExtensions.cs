@@ -10,6 +10,9 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 #endif
     using System.Globalization;
     using System.Linq;
+#if V2
+    using System.Reflection;
+#endif
 #if !V2
     using System.Threading;
 #endif
@@ -24,11 +27,32 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     internal static class TypeExtensions
     {
 #if V2
+        public static Result[] RunScenarios(this Assembly assembly, string collectionName)
+        {
+            using (var xunit2 = new Xunit2(new NullSourceInformationProvider(), assembly.GetLocalCodeBase()))
+            {
+                return xunit2.Run(xunit2.Find(assembly, collectionName));
+            }
+        }
+
         public static Result[] RunScenarios(this Type feature)
         {
             using (var xunit2 = new Xunit2(new NullSourceInformationProvider(), feature.Assembly.GetLocalCodeBase()))
             {
                 return xunit2.Run(xunit2.Find(feature));
+            }
+        }
+
+        private static ITestCase[] Find(this Xunit2Discoverer xunit2, Assembly assembly, string collectionName)
+        {
+            using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
+            {
+                xunit2.Find(false, sink, new XunitDiscoveryOptions());
+                sink.Finished.WaitOne();
+                return sink.Messages.OfType<ITestCaseDiscoveryMessage>()
+                    .Select(message => message.TestCase)
+                    .Where(message => message.TestMethod.TestClass.TestCollection.DisplayName == collectionName)
+                    .ToArray();
             }
         }
 
