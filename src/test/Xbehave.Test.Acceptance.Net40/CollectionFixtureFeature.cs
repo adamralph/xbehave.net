@@ -6,10 +6,6 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Threading;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
@@ -19,15 +15,8 @@ namespace Xbehave.Test.Acceptance
         [Background]
         public void Background()
         {
-            "Given no temporary files exist"
-                .f(() =>
-                {
-                    foreach (var path in Directory.EnumerateFiles(
-                        Directory.GetCurrentDirectory(), "*.CollectionFixtureFeature"))
-                    {
-                        File.Delete(path);
-                    }
-                });
+            "Given no events have occurred"
+                .f(() => typeof(CollectionFixtureFeature).ClearTestEvents());
         }
 
         [Scenario]
@@ -43,32 +32,8 @@ namespace Xbehave.Test.Acceptance
                 .f(() =>
                 {
                     results.Should().ContainItemsAssignableTo<Pass>();
-                    ShouldBeWrittenInOrder("disposed.CollectionFixtureFeature");
+                    typeof(CollectionFixtureFeature).GetTestEvents().Should().Equal("disposed");
                 });
-        }
-
-        private static void ShouldBeWrittenInOrder(params string[] paths)
-        {
-            Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.CollectionFixtureFeature")
-                .Select(Path.GetFileName)
-                .Should().BeEquivalentTo(paths);
-
-            var writings = paths.Select(s => new { Path = s, Ticks = Read(s) }).ToArray();
-            writings.Should().Equal(writings.OrderBy(writing => writing.Ticks));
-        }
-
-        private static void Write(string path)
-        {
-            Thread.Sleep(1);
-            using (var file = new StreamWriter(path, false))
-            {
-                file.Write(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
-            }
-        }
-
-        private static long Read(string path)
-        {
-            return long.Parse(File.ReadAllText(path), CultureInfo.InvariantCulture);
         }
 
         [CollectionDefinition("CollectionFixtureFeatureCollection")]
@@ -124,7 +89,7 @@ namespace Xbehave.Test.Acceptance
             {
                 this.Feature1Executed.Should().BeTrue();
                 this.Feature2Executed.Should().BeTrue();
-                Write("disposed.CollectionFixtureFeature");
+                typeof(CollectionFixtureFeature).SaveTestEvent("disposed");
             }
         }
     }

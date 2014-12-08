@@ -1,37 +1,25 @@
-﻿// <copyright file="TypeExtensions.cs" company="xBehave.net contributors">
+﻿// <copyright file="TypeExtensions.2.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+#if V2
 namespace Xbehave.Test.Acceptance.Infrastructure
 {
     using System;
-#if V2
     using System.Collections.Generic;
-#endif
     using System.Globalization;
     using System.Linq;
-#if V2
     using System.Reflection;
-#endif
-#if !V2
-    using System.Threading;
-#endif
-#if V2
     using Xunit;
     using Xunit.Abstractions;
-#endif
-#if !V2
-    using Xunit.Sdk;
-#endif
 
-    internal static class TypeExtensions
+    internal static partial class TypeExtensions
     {
-#if V2
         public static Result[] RunScenarios(this Assembly assembly, string collectionName)
         {
             using (var xunit2 = new Xunit2(new NullSourceInformationProvider(), assembly.GetLocalCodeBase()))
             {
-                return xunit2.Run(xunit2.Find(assembly, collectionName));
+                return xunit2.Run(xunit2.Find(collectionName));
             }
         }
 
@@ -43,7 +31,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             }
         }
 
-        private static ITestCase[] Find(this Xunit2Discoverer xunit2, Assembly assembly, string collectionName)
+        private static IEnumerable<ITestCase> Find(this Xunit2Discoverer xunit2, string collectionName)
         {
             using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
             {
@@ -56,7 +44,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             }
         }
 
-        private static ITestCase[] Find(this Xunit2Discoverer xunit2, Type type)
+        private static IEnumerable<ITestCase> Find(this Xunit2Discoverer xunit2, Type type)
         {
             using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
             {
@@ -105,53 +93,6 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             throw new InvalidOperationException(
                 string.Format(CultureInfo.InvariantCulture, "Unknown test result message type '{0}'.", result.GetType()));
         }
-#else
-        public static Result[] RunScenarios(this Type feature)
-        {
-            var command = new TestClassCommand(feature);
-            Result[] results = null;
-            var thread = new Thread(() => results = TestClassCommandRunner
-                .Execute(command, command.EnumerateTestMethods().ToList(), null, null)
-                .Results
-                .OfType<MethodResult>()
-                .Select(Map)
-                .ToArray());
-
-            thread.Start();
-            thread.Join();
-
-            return results;
-        }
-
-        private static Result Map(MethodResult result)
-        {
-            var pass = result as PassedResult;
-            if (pass != null)
-            {
-                return new Pass { DisplayName = pass.DisplayName };
-            }
-
-            var skip = result as SkipResult;
-            if (skip != null)
-            {
-                return new Skip { DisplayName = skip.DisplayName, Reason = skip.Reason };
-            }
-
-            var fail = result as FailedResult;
-            if (fail != null)
-            {
-                return new Fail
-                {
-                    DisplayName = fail.DisplayName,
-                    Message = fail.Message,
-                    ExceptionType = fail.ExceptionType,
-                    StackTrace = fail.StackTrace,
-                };
-            }
-
-            throw new InvalidOperationException(
-                string.Format(CultureInfo.InvariantCulture, "Unknown method result type '{0}'.", result.GetType()));
-        }
-#endif
     }
 }
+#endif
