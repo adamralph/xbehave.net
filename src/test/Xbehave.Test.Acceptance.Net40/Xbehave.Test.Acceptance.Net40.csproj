@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncStepFeature.cs" />
+    <Compile Include="CollectionFixtureFeature.cs" />
     <Compile Include="ClassFixtureFeature.cs" />
     <Compile Include="BeforeAfterTestFeature.cs" />
     <Compile Include="BackgroundFeature.cs" />
@@ -77,6 +78,8 @@
     <Compile Include="ContinueOnFailureFeature.cs" />
     <Compile Include="DefaultParametersFeature.cs" />
     <Compile Include="Infrastructure\SpyMessageSink.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.Net40.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.2.cs" />
     <Compile Include="SkippedScenarioFeature.cs" />
     <Compile Include="TeardownFeature.cs" />
     <Compile Include="StepTimeoutFeature.cs" />
@@ -86,7 +89,7 @@
     <Compile Include="Infrastructure\CustomEqualityComparer.cs" />
     <Compile Include="IsolatedStepFeature.cs" />
     <Compile Include="SkippedStepFeature.cs" />
-    <Compile Include="Infrastructure\TypeExtensions.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.1.cs" />
     <Compile Include="ExampleFeature.cs" />
   </ItemGroup>
   <ItemGroup>

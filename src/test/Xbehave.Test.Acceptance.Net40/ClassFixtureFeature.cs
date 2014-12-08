@@ -6,10 +6,6 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Threading;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
@@ -19,15 +15,8 @@ namespace Xbehave.Test.Acceptance
         [Background]
         public static void Background()
         {
-            "Given no temporary files exist"
-                .f(() =>
-                {
-                    foreach (var path in Directory.EnumerateFiles(
-                        Directory.GetCurrentDirectory(), "*.ClassFixtureFeature"))
-                    {
-                        File.Delete(path);
-                    }
-                });
+            "Given no events have occurred"
+                .f(() => typeof(ClassFixtureFeature).ClearTestEvents());
         }
 
         [Scenario]
@@ -43,32 +32,8 @@ namespace Xbehave.Test.Acceptance
                 .f(() =>
                 {
                     results.Should().ContainItemsAssignableTo<Pass>();
-                    ShouldBeWrittenInOrder("disposed.ClassFixtureFeature");
+                    typeof(ClassFixtureFeature).GetTestEvents().Should().Equal("disposed");
                 });
-        }
-
-        private static void ShouldBeWrittenInOrder(params string[] paths)
-        {
-            Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.ClassFixtureFeature")
-                .Select(Path.GetFileName)
-                .Should().BeEquivalentTo(paths);
-
-            var writings = paths.Select(s => new { Path = s, Ticks = Read(s) }).ToArray();
-            writings.Should().Equal(writings.OrderBy(writing => writing.Ticks));
-        }
-
-        private static void Write(string path)
-        {
-            Thread.Sleep(1);
-            using (var file = new StreamWriter(path, false))
-            {
-                file.Write(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
-            }
-        }
-
-        private static long Read(string path)
-        {
-            return long.Parse(File.ReadAllText(path), CultureInfo.InvariantCulture);
         }
 
         private class ScenarioWithAClassFixture : IClassFixture<Fixture>
@@ -106,7 +71,7 @@ namespace Xbehave.Test.Acceptance
             {
                 this.Scenario1Executed.Should().BeTrue();
                 this.Scenario2Executed.Should().BeTrue();
-                Write("disposed.ClassFixtureFeature");
+                typeof(ClassFixtureFeature).SaveTestEvent("disposed");
             }
         }
     }
