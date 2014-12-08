@@ -10,25 +10,25 @@ namespace Xbehave.Test.Acceptance
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
 
-    public class CollectionFixtureFeature
+    public static class CollectionFixtureFeature
     {
         [Background]
-        public void Background()
+         public static void Background()
         {
             "Given no events have occurred"
                 .f(() => typeof(CollectionFixtureFeature).ClearTestEvents());
         }
 
         [Scenario]
-        public void CollectionFixture(string collectionName, Result[] results)
+        public static void CollectionFixture(string collectionName, Result[] results)
         {
             "Given features with a collection fixture"
-                .f(() => collectionName = "CollectionFixtureFeatureCollection");
+                .f(() => collectionName = "CollectionFixtureTestFeatures");
 
-            "When I run the scenario"
+            "When I run the features"
                 .f(() => results = typeof(CollectionFixtureFeature).Assembly.RunScenarios(collectionName));
 
-            "Then the class fixture is supplied as a constructor to each test class instance and disposed"
+            "Then the collection fixture is supplied as a constructor to each test class instance and disposed"
                 .f(() =>
                 {
                     results.Should().ContainItemsAssignableTo<Pass>();
@@ -36,12 +36,12 @@ namespace Xbehave.Test.Acceptance
                 });
         }
 
-        [CollectionDefinition("CollectionFixtureFeatureCollection")]
-        public class CollectionFixtureFeatureCollection : ICollectionFixture<Fixture>
+        [CollectionDefinition("CollectionFixtureTestFeatures")]
+        public class CollectionFixtureTestFeatures : ICollectionFixture<Fixture>
         {
         }
 
-        [Collection("CollectionFixtureFeatureCollection")]
+        [Collection("CollectionFixtureTestFeatures")]
         public class ScenarioWithACollectionFixture1
         {
             private readonly Fixture fixture;
@@ -56,11 +56,11 @@ namespace Xbehave.Test.Acceptance
             public void Scenario1()
             {
                 "Given"
-                    .f(() => this.fixture.Feature1Executed = true);
+                    .f(() => this.fixture.Feature1Executed());
             }
         }
 
-        [Collection("CollectionFixtureFeatureCollection")]
+        [Collection("CollectionFixtureTestFeatures")]
         public class ScenarioWithACollectionFixture2
         {
             private readonly Fixture fixture;
@@ -75,20 +75,29 @@ namespace Xbehave.Test.Acceptance
             public void Scenario1()
             {
                 "Given"
-                    .f(() => this.fixture.Feature2Executed = true);
+                    .f(() => this.fixture.Feature2Executed());
             }
         }
 
         public sealed class Fixture : IDisposable
         {
-            public bool Feature1Executed { private get; set; }
+            private bool feature1Executed;
+            private bool feature2Executed;
 
-            public bool Feature2Executed { private get; set; }
+            public void Feature1Executed()
+            {
+                this.feature1Executed = true;
+            }
+
+            public void Feature2Executed()
+            {
+                this.feature2Executed = true;
+            }
 
             public void Dispose()
             {
-                this.Feature1Executed.Should().BeTrue();
-                this.Feature2Executed.Should().BeTrue();
+                this.feature1Executed.Should().BeTrue();
+                this.feature2Executed.Should().BeTrue();
                 typeof(CollectionFixtureFeature).SaveTestEvent("disposed");
             }
         }
