@@ -12,41 +12,42 @@ namespace Xbehave.Test.Acceptance
 #endif
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit.Abstractions;
 
     // In order to prevent very long running tests <-- improve!
     // As a developer
     // I want a feature to fail if a given step takes to long to run
-    public static class StepTimeoutFeature
+    public class StepTimeoutFeature : Feature
     {
 #if NET40 || NET45
         private static readonly ManualResetEventSlim @event = new ManualResetEventSlim();
 #endif
 
         [Scenario]
-        public static void StepExecutesFastEnough()
+        public void StepExecutesFastEnough()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a scenario with a single step which does not exceed it's timeout"
                 .Given(() => feature = typeof(StepFastEnough));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .When(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
                 .Then(() => results.Count().Should().Be(1));
 
             "And the result should be a pass"
-                .And(() => results.Should().ContainItemsAssignableTo<Pass>());
+                .And(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
         }
 
 #if NET40 || NET45
         [Scenario]
-        public static void StepExecutesTooSlowly()
+        public void StepExecutesTooSlowly()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a scenario with a single step which exceeds it's 1ms timeout"
                 .Given(() => feature = typeof(StepTooSlow));
@@ -55,7 +56,7 @@ namespace Xbehave.Test.Acceptance
                 .When(() =>
                 {
                     @event.Reset();
-                    results = feature.RunScenarios();
+                    results = this.Run<ITestResultMessage>(feature);
                 })
                 .Teardown(() => @event.Set());
 
@@ -63,10 +64,11 @@ namespace Xbehave.Test.Acceptance
                 .Then(() => results.Count().Should().Be(1));
 
             "And the result should be a failure"
-                .And(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .And(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
 
             "And the result message should be \"Test execution time exceeded: 1ms\""
-                .And(() => results.Cast<Fail>().Should().OnlyContain(result => result.Message == "Test execution time exceeded: 1ms"));
+                .And(() => results.Cast<ITestFailed>().Should().OnlyContain(result =>
+                    result.Messages.Single() == "Test execution time exceeded: 1ms"));
         }
 #endif
 

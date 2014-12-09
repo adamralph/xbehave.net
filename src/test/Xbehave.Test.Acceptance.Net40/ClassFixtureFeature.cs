@@ -9,29 +9,30 @@ namespace Xbehave.Test.Acceptance
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
+    using Xunit.Abstractions;
 
-    public static class ClassFixtureFeature
+    public class ClassFixtureFeature : Feature
     {
         [Background]
-        public static void Background()
+        public void Background()
         {
             "Given no events have occurred"
                 .f(() => typeof(ClassFixtureFeature).ClearTestEvents());
         }
 
         [Scenario]
-        public static void ClassFixture(Type feature, Result[] results)
+        public void ClassFixture(Type feature, ITestResultMessage[] results)
         {
             "Given a scenario with a class fixture"
                 .f(() => feature = typeof(ScenarioWithAClassFixture));
 
             "When I run the scenario"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the class fixture is supplied as a constructor to each test class instance and disposed"
                 .f(() =>
                 {
-                    results.Should().ContainItemsAssignableTo<Pass>();
+                    results.Should().ContainItemsAssignableTo<ITestPassed>();
                     typeof(ClassFixtureFeature).GetTestEvents().Should().Equal("disposed");
                 });
         }

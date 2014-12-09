@@ -7,26 +7,27 @@ namespace Xbehave.Test.Acceptance
     using System;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit.Abstractions;
 
     // In order to have terse code
     // As a developer
     // I want to declare hold local state using scenario method parameters
-    public static class DefaultParametersFeature
+    public class DefaultParametersFeature : Feature
     {
         [Scenario]
-        public static void ScenarioWithParameters()
+        public void ScenarioWithParameters()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a scenario with four parameters and step asserting each is a default value"
                 .f(() => feature = typeof(ScenarioWithFourParametersAndAStepAssertingEachIsADefaultValue));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then each result should be a pass"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>(
+                .f(() => results.Should().ContainItemsAssignableTo<ITestPassed>(
                     results.ToDisplayString("each result should be a pass")));
 
             "And there should be 4 results"
@@ -37,10 +38,10 @@ namespace Xbehave.Test.Acceptance
                 {
                     foreach (var result in results)
                     {
-                        result.DisplayName.Should().NotContain("w:");
-                        result.DisplayName.Should().NotContain("x:");
-                        result.DisplayName.Should().NotContain("y:");
-                        result.DisplayName.Should().NotContain("z:");
+                        result.Test.DisplayName.Should().NotContain("w:");
+                        result.Test.DisplayName.Should().NotContain("x:");
+                        result.Test.DisplayName.Should().NotContain("y:");
+                        result.Test.DisplayName.Should().NotContain("z:");
                     }
                 });
         }

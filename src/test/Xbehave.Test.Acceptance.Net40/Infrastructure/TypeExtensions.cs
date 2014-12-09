@@ -1,4 +1,4 @@
-﻿// <copyright file="TypeExtensions.Net40.cs" company="xBehave.net contributors">
+﻿// <copyright file="TypeExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     using System.Linq;
     using System.Threading;
 
-    internal static partial class TypeExtensions
+    internal static class TypeExtensions
     {
         public static void ClearTestEvents(this Type feature)
         {

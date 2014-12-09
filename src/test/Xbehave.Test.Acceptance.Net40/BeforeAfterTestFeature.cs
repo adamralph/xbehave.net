@@ -9,23 +9,25 @@ namespace Xbehave.Test.Acceptance
     using Xbehave.Test.Acceptance.Infrastructure;
 #if !V2
     using Xunit;
+    using Xunit.Abstractions;
 #else
+    using Xunit.Abstractions;
     using Xunit.Sdk;
 #endif
 
-    public static class BeforeAfterTestFeature
+    public class BeforeAfterTestFeature : Feature
     {
         [Scenario]
-        public static void BeforeAfterAttribute(Type feature, Result[] results)
+        public void BeforeAfterAttribute(Type feature, ITestResultMessage[] results)
         {
             "Given a scenario with a before and after attribute"
                 .f(() => feature = typeof(ScenarioWithBeforeAfterTestAttribute));
 
             "When I run the scenario"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the attributes before and after methods are called before and after each step"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+                .f(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
         }
 
         private static class ScenarioWithBeforeAfterTestAttribute

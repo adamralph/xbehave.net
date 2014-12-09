@@ -9,48 +9,49 @@ namespace Xbehave.Test.Acceptance
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit.Abstractions;
 
     // In order to define steps which would cause following steps to fail
     // As a developer
     // I want to execute steps in isolation from following steps
-    public static class IsolatedStepFeature
+    public class IsolatedStepFeature : Feature
     {
         [Scenario]
-        public static void IsolatedSteps()
+        public void IsolatedSteps()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a scenario with isolated steps which would cause following steps to fail if executed in the same context"
                 .Given(() => feature = typeof(FeatureWithAScenarioWithIsolatedStepsWhichWouldCauseFollowingStepsToFailIfExecutedInTheSameContext));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios());
+                .When(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the results should not be empty"
                 .Then(() => results.Should().NotBeEmpty());
 
             "And there should be no failures"
-                .And(() => results.Should().NotContain(result => result is Fail));
+                .And(() => results.Should().NotContain(result => result is ITestFailed));
         }
 
         [Scenario]
-        public static void OrderingStepsByDisplayName()
+        public void OrderingStepsByDisplayName()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a step followed by ten isolated steps with all steps named alphabetically backwards"
                 .f(() => feature = typeof(AStepFollowedByTenIsolatedStepsWithAllStepsNamedAlphabeticallyBackwards));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "And I sort the results by their display name"
-                .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
+                .f(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
 
             "Then a concatenation of the last character of each result display names should be 'zyzxzwzvzuztzszrzqzp'"
-                .f(() => new string(results.Select(result => result.DisplayName.Last()).ToArray())
+                .f(() => new string(results.Select(result => result.Test.DisplayName.Last()).ToArray())
                     .Should().Be("zyzxzwzvzuztzszrzqzp"));
         }
 

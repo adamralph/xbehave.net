@@ -9,63 +9,64 @@ namespace Xbehave.Test.Acceptance
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit.Abstractions;
 
-    public static class ContinueOnFailureFeature
+    public class ContinueOnFailureFeature : Feature
     {
         private static int executedStepCount;
 
         [Scenario]
-        public static void FailingStepAfterContinueOnFailureStepType()
+        public void FailingStepAfterContinueOnFailureStepType()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a failing step after the first Then"
                 .Given(() => feature = typeof(FeatureWithAFailingStepAfterContinueOnFailureStepType));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios())
+                .When(() => results = this.Run<ITestResultMessage>(feature))
                 .Teardown(() => executedStepCount = 0);
 
             "Then the first 3 should be passes"
-                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<Pass>());
+                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<ITestPassed>());
 
             "And the 4th result should be a failure"
-                .And(() => results[3].Should().BeAssignableTo<Fail>());
+                .And(() => results[3].Should().BeAssignableTo<ITestFailed>());
 
             "And the rest should be passes"
-                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<Pass>().And.NotBeEmpty());
+                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<ITestPassed>().And.NotBeEmpty());
 
             "And it should execute all the steps"
                 .And(() => executedStepCount.Should().Be(results.Length));
         }
 
         [Scenario]
-        public static void FailingStepBeforeContinueOnFailureStepType()
+        public void FailingStepBeforeContinueOnFailureStepType()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a failing step after the first Then (but before the first But)"
                 .Given(() => feature = typeof(FeatureWithAFailingStepBeforeContinueOnFailureStepType));
 
             "When I run the scenarios"
-                .When(() => results = feature.RunScenarios())
+                .When(() => results = this.Run<ITestResultMessage>(feature))
                 .Teardown(() => executedStepCount = 0);
 
             "Then the first 3 should be passes"
-                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<Pass>());
+                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<ITestPassed>());
 
             "And the 4th result should be a failure"
-                .And(() => results[3].Should().BeAssignableTo<Fail>());
+                .And(() => results[3].Should().BeAssignableTo<ITestFailed>());
 
             "And the rest should be failures"
-                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<Fail>().And.NotBeEmpty());
+                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<ITestFailed>().And.NotBeEmpty());
 
             "And each subsequent result message should indicate that the step failed because of failure to execute the 4th step"
-                .And(() => results.Skip(4).Cast<Fail>()
+                .And(() => results.Skip(4).Cast<ITestFailed>()
                     .Should()
-                    .OnlyContain(result => result.Message.Contains(
+                    .OnlyContain(result => result.Messages.Single().Contains(
                         "Failed to execute preceding step \"[01.01.04] And something goes wrong\"")));
 
             "And it should execute 4 steps"

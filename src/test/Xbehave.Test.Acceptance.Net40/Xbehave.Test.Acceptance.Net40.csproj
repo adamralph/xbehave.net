@@ -46,6 +46,9 @@
     <AssemblyOriginatorKeyFile>..\..\Xbehave.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy">
+      <HintPath>..\..\packages\FakeItEasy.1.22.0\lib\net40\FakeItEasy.dll</HintPath>
+    </Reference>
     <Reference Include="FluentAssertions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\FluentAssertions.2.2.0.0\lib\net40\FluentAssertions.dll</HintPath>
@@ -57,6 +60,9 @@
     <Reference Include="xunit, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.0-beta5-build2785\lib\net35\xunit.abstractions.dll</HintPath>
     </Reference>
     <Reference Include="xunit.extensions, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -70,26 +76,22 @@
     <Compile Include="BeforeAfterTestFeature.cs" />
     <Compile Include="BackgroundFeature.cs" />
     <Compile Include="Infrastructure\AssemblyExtensions.cs" />
-    <Compile Include="Infrastructure\ResultExtensions.cs" />
-    <Compile Include="Infrastructure\Skip.cs" />
-    <Compile Include="Infrastructure\Fail.cs" />
-    <Compile Include="Infrastructure\Pass.cs" />
-    <Compile Include="Infrastructure\Result.cs" />
     <Compile Include="ContinueOnFailureFeature.cs" />
     <Compile Include="DefaultParametersFeature.cs" />
+    <Compile Include="Infrastructure\Xunit2DiscovererExtensions.cs" />
+    <Compile Include="Infrastructure\Xunit2Extensions.cs" />
+    <Compile Include="Infrastructure\TestResultMessageExtensions.cs" />
     <Compile Include="Infrastructure\SpyMessageSink.cs" />
-    <Compile Include="Infrastructure\TypeExtensions.Net40.cs" />
-    <Compile Include="Infrastructure\TypeExtensions.2.cs" />
+    <Compile Include="Infrastructure\Feature.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.cs" />
     <Compile Include="SkippedScenarioFeature.cs" />
     <Compile Include="TeardownFeature.cs" />
     <Compile Include="StepTimeoutFeature.cs" />
     <Compile Include="ScenarioTimeoutFeature.cs" />
     <Compile Include="ObjectDisposalFeature.cs" />
     <Compile Include="ScenarioFeature.cs" />
-    <Compile Include="Infrastructure\CustomEqualityComparer.cs" />
     <Compile Include="IsolatedStepFeature.cs" />
     <Compile Include="SkippedStepFeature.cs" />
-    <Compile Include="Infrastructure\TypeExtensions.1.cs" />
     <Compile Include="ExampleFeature.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -8,38 +8,40 @@ namespace Xbehave.Test.Acceptance
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit.Abstractions;
 
     // In order to commit nearly completed features
     // As a developer
     // I want to temporarily skip specific steps
-    public static class SkippedStepFeature
+    public class SkippedStepFeature : Feature
     {
         [Scenario]
-        public static void UnfinishedFeature()
+        public void UnfinishedFeature()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
-            "Given a feature with a scenario with skipped steps because \"the feature is unfinished\" which would throw exceptions if executed"
-                .f(() => feature = typeof(FeatureWithAScenarioWithSkippedStepsBecauseTheFeatureIsUnfinishedWhichWouldThrowExceptionsIfExecuted));
+            "Given a scenario with skipped steps because \"the feature is unfinished\""
+                .f(() => feature = typeof(AScenarioWithSkippedStepsBecauseTheFeatureIsUnfinished));
 
-            "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+            "When I run the scenario"
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the results should not be empty"
                 .f(() => results.Should().NotBeEmpty());
 
             "And there should be no failures"
-                .f(() => results.Should().NotContain(result => result is Fail));
+                .f(() => results.Should().NotContain(result => result is ITestFailed));
 
             "And some steps should have been skipped"
-                .f(() => results.Any(result => result is Skip).Should().BeTrue());
+                .f(() => results.Any(result => result is ITestSkipped).Should().BeTrue());
 
             "And each skipped step should be skipped because \"the feature is unfinished\""
-                .f(() => results.OfType<Skip>().Should().OnlyContain(result => result.Reason == "the feature is unfinished"));
+                .f(() => results.OfType<ITestSkipped>().Should().OnlyContain(result =>
+                    result.Reason == "the feature is unfinished"));
         }
 
-        private static class FeatureWithAScenarioWithSkippedStepsBecauseTheFeatureIsUnfinishedWhichWouldThrowExceptionsIfExecuted
+        private static class AScenarioWithSkippedStepsBecauseTheFeatureIsUnfinished
         {
             [Scenario]
             public static void Scenario()
@@ -51,10 +53,10 @@ namespace Xbehave.Test.Acceptance
                     .f(() => { });
 
                 "Then there is an outcome"
-                    .f(() => { throw new System.NotImplementedException(); }).Skip("the feature is unfinished");
+                    .f(() => { throw new NotImplementedException(); }).Skip("the feature is unfinished");
 
                 "And there is another outcome"
-                    .f(() => { throw new System.NotImplementedException(); }).Skip("the feature is unfinished");
+                    .f(() => { throw new NotImplementedException(); }).Skip("the feature is unfinished");
             }
         }
     }
