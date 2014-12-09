@@ -5,31 +5,31 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
+    using Xunit.Abstractions;
 
     // In order to save time
     // As a developer
     // I want to write a single scenario using many examples
-    public static class ExampleFeature
+    public class ExampleFeature : Feature
     {
         [Scenario]
-        public static void Examples()
+        public void Examples()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a scenario with examples"
                 .f(() => feature = typeof(SingleStepAndThreeExamples));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then each result should be a pass"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>(
+                .f(() => results.Should().ContainItemsAssignableTo<ITestPassed>(
                     results.ToDisplayString("the results should all be passes")));
 
             "And there should be three results"
@@ -37,58 +37,58 @@ namespace Xbehave.Test.Acceptance
 
             "And the display name of one result should contain '(x: 1, y: 2, sum: 3)'"
                 .f(() => results.Should().ContainSingle(result =>
-                    result.DisplayName.Contains("(x: 1, y: 2, sum: 3)")));
+                    result.Test.DisplayName.Contains("(x: 1, y: 2, sum: 3)")));
 
             "And the display name of one result should contain '(x: 10, y: 20, sum: 30)'"
                 .f(() => results.Should().ContainSingle(result =>
-                    result.DisplayName.Contains("(x: 10, y: 20, sum: 30)")));
+                    result.Test.DisplayName.Contains("(x: 10, y: 20, sum: 30)")));
 
             "And the display name of one result should contain '(x: 100, y: 200, sum: 300)'"
                 .f(() => results.Should().ContainSingle(result =>
-                    result.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
+                    result.Test.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
         }
 
         [Scenario]
-        public static void OrderingStepsByDisplayName()
+        public void OrderingStepsByDisplayName()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given three steps named 'z' and 'y' each rendering two examples of 0 and 1"
                 .f(() => feature = typeof(TenStepsNamedAlphabeticallyBackwardsAndTwoIdenticalExamples));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "And I sort the results by their display name"
-                .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
+                .f(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
 
             "Then a concatenation of the last character of each result display names should be 'zyxwvutsrqzyxwvutsrq'"
-                .f(() => new string(results.Select(result => result.DisplayName.Last()).ToArray())
+                .f(() => new string(results.Select(result => result.Test.DisplayName.Last()).ToArray())
                     .Should().Be("zyxwvutsrqzyxwvutsrq"));
         }
 
         [Scenario]
-        public static void ExamplesWithMissingValues(Type feature, Result[] results)
+        public void ExamplesWithMissingValues(Type feature, ITestResultMessage[] results)
         {
             "Given a scenario with three parameters, a single step and three examples each with one value"
                 .f(() => feature = typeof(ScenarioWithThreeParametersASingleStepAndThreeExamplesEachWithOneValue));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
 
             "And each result should be a pass"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+                .f(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
 
             "And each result should contain the example value"
                 .f(() =>
                 {
                     foreach (var result in results)
                     {
-                        result.DisplayName.Should().Contain("example:");
+                        result.Test.DisplayName.Should().Contain("example:");
                     }
                 });
 
@@ -97,30 +97,30 @@ namespace Xbehave.Test.Acceptance
                 {
                     foreach (var result in results)
                     {
-                        result.DisplayName.Should().NotContain("missing1:");
-                        result.DisplayName.Should().NotContain("missing2:");
+                        result.Test.DisplayName.Should().NotContain("missing1:");
+                        result.Test.DisplayName.Should().NotContain("missing2:");
                     }
                 });
         }
 
         [Scenario]
-        public static void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, Result[] results)
+        public void ExamplesWithTwoMissingResolvableGenericArguments(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario with a single step and examples with one argument missing"
                 .f(() => feature = typeof(SingleStepAndThreeExamplesWithMissingResolvableGenericArguments));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
 
             "And each result should be a pass"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+                .f(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
         }
 
         [Scenario]
-        public static void GenericScenario(Type feature, Result[] results)
+        public void GenericScenario(Type feature, ITestResultMessage[] results)
         {
             @"Given a feature with a scenario with one step, five type parameters and three examples each containing
 an Int32 value for an argument defined using the first type parameter,
@@ -132,7 +132,7 @@ an null value for an argument defined using the fifth type parameter"
                 .f(() => feature = typeof(GenericScenarioFeature));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
@@ -142,70 +142,71 @@ an null value for an argument defined using the fifth type parameter"
                 {
                     foreach (var result in results)
                     {
-                        result.DisplayName.Should().Contain("<Int32, Int64, String, Object, Object>");
+                        result.Test.DisplayName.Should().Contain("<Int32, Int64, String, Object, Object>");
                     }
                 });
         }
 
         [Scenario]
-        public static void FormattedSteps(Type feature, IEnumerable<Result> results)
+        public void FormattedSteps(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
                 .f(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndAFormattedStep));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
                 .f(() => results.Count().Should().Be(1));
 
             "And the display name of the result should end with \"Given 1, 2 and 3\""
-                .f(() => results.Single().DisplayName.Should().EndWith("Given 1, 2 and 3"));
+                .f(() => results.Single().Test.DisplayName.Should().EndWith("Given 1, 2 and 3"));
         }
 
         [Scenario]
-        public static void FormattedStepsWithNullValues(Type feature, IEnumerable<Result> results)
+        public void FormattedStepsWithNullValues(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
                 .f(() => feature = typeof(FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
                 .f(() => results.Count().Should().Be(1));
 
             "And the display name of the result should end with \"Given null, null and null\""
-                .f(() => results.Single().DisplayName.Should().EndWith("Given null, null and null"));
+                .f(() => results.Single().Test.DisplayName.Should().EndWith("Given null, null and null"));
         }
 
         [Scenario]
-        public static void BadlyFormattedSteps(Type feature, IEnumerable<Result> results)
+        public void BadlyFormattedSteps(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{3}}, {{4}} and {{5}}\""
                 .f(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
                 .f(() => results.Count().Should().Be(1));
 
             "And the result should not be a pass"
-                .f(() => results.Single().Should().BeOfType<Pass>());
+                .f(() => results.Single().Should().BeAssignableTo<ITestPassed>());
 
             "And the display name of the result should end with \"Given {{3}}, {{4}} and {{5}}\""
-                .f(() => results.Single().DisplayName.Should().EndWith("Given {3}, {4} and {5}"));
+                .f(() => results.Single().Test.DisplayName.Should().EndWith("Given {3}, {4} and {5}"));
         }
 
         [Scenario]
-        public static void InvalidExamples(Type feature, Exception exception, IEnumerable<Result> results)
+        public void InvalidExamples(Type feature, Exception exception, ITestResultMessage[] results)
         {
             "Given a feature with scenarios with invalid examples"
                 .f(() => feature = typeof(FeatureWithTwoScenariosWithInvalidExamples));
 
             "When I run the scenarios"
-                .f(() => exception = Record.Exception(() => results = feature.RunScenarios()));
+                .f(() => exception = Record.Exception(() =>
+                    results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
                 .f(() => exception.Should().BeNull());
@@ -214,27 +215,27 @@ an null value for an argument defined using the fifth type parameter"
                 .f(() => results.Count().Should().Be(2));
 
             "And each result should be a failure"
-                .f(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
         }
 
 #if !V2
         [Scenario]
-        public static void OmissionOfArgumentsFromScenarioNames(Type feature, IEnumerable<Result> results)
+        public void OmissionOfArgumentsFromScenarioNames(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario with a single step and examples and omission of arguments from scenario names"
-                .f(() => feature = typeof(FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames));
+                .f(() => feature = typeof(ASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the display name of no result should contain '(x: 1, y: 2, z: 3)'"
-                .f(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 1, y: 2, z: 3)")));
+                .f(() => results.Should().NotContain(result => result.Test.DisplayName.Contains("(x: 1, y: 2, z: 3)")));
 
             "And the display name of no result should contain '(x: 3, y: 4, z: 5)'"
-                .f(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 3, y: 4, z: 5)")));
+                .f(() => results.Should().NotContain(result => result.Test.DisplayName.Contains("(x: 3, y: 4, z: 5)")));
 
             "And the display name of no result should contain '(x: 5, y: 6, z: 7)'"
-                .f(() => results.Should().NotContain(result => result.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
+                .f(() => results.Should().NotContain(result => result.Test.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
         }
 #endif
 
@@ -405,7 +406,7 @@ an null value for an argument defined using the fifth type parameter"
 
 #if !V2
         [OmitArgumentsFromScenarioNames(true)]
-        private static class FeatureWithAScenarioWithASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames
+        private static class ASingleStepAndExamplesWithOmissionOfArgumentsFromScenarioNames
         {
             [Scenario]
             [Example(1, 2, 3)]

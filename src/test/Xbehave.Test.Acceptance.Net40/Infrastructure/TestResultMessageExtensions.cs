@@ -1,4 +1,4 @@
-﻿// <copyright file="ResultExtensions.cs" company="xBehave.net contributors">
+﻿// <copyright file="TestResultMessageExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -7,18 +7,19 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     using System;
     using System.Globalization;
     using System.Linq;
+    using Xunit.Abstractions;
 
-    public static class ResultExtensions
+    public static class TestResultMessageExtensions
     {
-        public static string ToDisplayString(this Result[] results, string header)
+        public static string ToDisplayString(this ITestResultMessage[] results, string header)
         {
             var text = string.Join(
-                Environment.NewLine, results.Select((result, index) => Format(result, index)).ToArray());
+                Environment.NewLine, results.Select(Format).ToArray());
 
             return string.Concat(header, Environment.NewLine, text);
         }
 
-        private static string Format(Result result, int index)
+        private static string Format(ITestResultMessage result, int index)
         {
             return string.Format(
                 CultureInfo.InvariantCulture,

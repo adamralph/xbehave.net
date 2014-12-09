@@ -11,11 +11,12 @@ namespace Xbehave.Test.Acceptance
     using FluentAssertions;
     using Xbehave;
     using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit.Abstractions;
 
-    public static class AsyncStepFeature
+    public class AsyncStepFeature : Feature
     {
         [Scenario]
-        public static void AsyncStep(bool asyncStepHasCompleted)
+        public void AsyncStep(bool asyncStepHasCompleted)
         {
             "When an async step is executed"._(async () =>
             {
@@ -28,7 +29,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void AllMethodsAreUsedAsync(int count)
+        public void AllMethodsAreUsedAsync(int count)
         {
             "Given the count is 20".f(async () =>
             {
@@ -74,7 +75,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public static void MultipleAsyncSteps(int number)
+        public void MultipleAsyncSteps(int number)
         {
             "Given a number initialized as 2"._(async () =>
             {
@@ -100,7 +101,7 @@ namespace Xbehave.Test.Acceptance
 
 #if !V2
         [Scenario]
-        public static void AsyncStepDoesNotTimeout(bool asyncStepHasCompleted)
+        public void AsyncStepDoesNotTimeout(bool asyncStepHasCompleted)
         {
             "When an asynchronous step with a timeout which does not timeout is executed"._(async () =>
             {
@@ -115,78 +116,79 @@ namespace Xbehave.Test.Acceptance
 #endif
 
         [Scenario]
-        public static void AsyncTaskStepThrowsException(Type feature, Result[] results)
+        public void AsyncTaskStepThrowsException(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario that throws an invalid operation exception"._(() =>
                 feature = typeof(AsyncTaskStepWhichThrowsException));
 
             "When I run the scenarios"._(() =>
-                results = feature.RunScenarios());
+                results = this.Run<ITestResultMessage>(feature));
 
             "Then the result should be a failure"._(() =>
-                results.Should().ContainItemsAssignableTo<Fail>());
+                results.Should().ContainItemsAssignableTo<ITestFailed>());
 
             "And the exception should be an invalid operation exception".f(() =>
-                results.Cast<Fail>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
+                results.Cast<ITestFailed>().Single().ExceptionTypes.Single().Should().Be("System.InvalidOperationException"));
         }
 
 #if !V2
         [Scenario]
-        public static void AsyncTaskStepThrowsExceptionWithinTimeout(Type feature, Result[] results)
+        public void AsyncTaskStepThrowsExceptionWithinTimeout(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario that throws an invalid operation exception within its timeout"._(() =>
                 feature = typeof(AsyncTaskStepWhichThrowsExceptionWithinTimeout));
 
             "When I run the scenarios"._(() =>
-                results = feature.RunScenarios());
+                results = this.Run<ITestResultMessage>(feature));
 
             "Then the result should be a failure"._(() =>
-                results.Should().ContainItemsAssignableTo<Fail>());
+                results.Should().ContainItemsAssignableTo<ITestFailed>());
 
             "And the exception should be an invalid operation exception".f(() =>
-                results.Cast<Fail>().Single().ExceptionType.Should().Be("System.InvalidOperationException"));
+                results.Cast<ITestFailed>().Single().ExceptionTypes.Single().Should().Be("System.InvalidOperationException"));
         }
 #endif
 
         [Scenario]
-        public static void AsyncVoidStepThrowsException(Type feature, Result[] results)
+        public void AsyncVoidStepThrowsException(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario that throws an invalid operation exception"._(() =>
                 feature = typeof(AsyncVoidStepWhichThrowsException));
 
             "When I run the scenarios"._(() =>
-                results = feature.RunScenarios());
+                results = this.Run<ITestResultMessage>(feature));
 
             "Then the result should be a failure"._(() =>
-                results.Should().ContainItemsAssignableTo<Fail>());
+                results.Should().ContainItemsAssignableTo<ITestFailed>());
 
             "And the exception should be an invalid operation exception".f(() =>
-                results.Cast<Fail>().First().ExceptionType.Should().Be("System.InvalidOperationException"));
+                results.Cast<ITestFailed>().First().ExceptionTypes.Single().Should().Be("System.InvalidOperationException"));
         }
 
 #if !V2
         [Scenario]
-        public static void AsyncStepExceedsTimeout(Type feature, Result[] results)
+        public void AsyncStepExceedsTimeout(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario with a single step which exceeds it's 1ms timeout"._(() =>
                 feature = typeof(AsyncStepWhichExceedsTimeout));
 
             "When I run the scenarios"._(() =>
-                results = feature.RunScenarios());
+                results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"._(() =>
                 results.Count().Should().Be(1));
 
             "And the result should be a failure"._(() =>
-                results.Should().ContainItemsAssignableTo<Fail>());
+                results.Should().ContainItemsAssignableTo<ITestFailed>());
 
             "And the result message should be \"Test execution time exceeded: 1ms\""._(() =>
-                results.Cast<Fail>().Should().OnlyContain(result => result.Message == "Test execution time exceeded: 1ms"));
+                results.Cast<ITestFailed>().Should().OnlyContain(result =>
+                    result.Messages.Single() == "Test execution time exceeded: 1ms"));
         }
 #endif
 
         [Scenario]
-        public static void ExecutingAnAsyncVoidStepUsingMethodGroupSyntax()
+        public void ExecutingAnAsyncVoidStepUsingMethodGroupSyntax()
         {
             "When an async void method is executed in a step using method group syntax"._(
                 (Action)AsyncVoidMethodType.AsyncVoidMethod);

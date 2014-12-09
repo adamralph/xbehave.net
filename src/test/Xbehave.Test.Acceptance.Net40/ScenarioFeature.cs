@@ -10,107 +10,109 @@ namespace Xbehave.Test.Acceptance
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
+    using Xunit.Abstractions;
 
     // In order to prevent bugs due to incorrect code
     // As a developer
     // I want to run automated acceptance tests describing each feature of my product using scenarios
-    public static class ScenarioFeature
+    public class ScenarioFeature : Feature
     {
         // NOTE (adamralph): a plain xunit fact to prove that plain scenarios work in 2.x
         [Fact]
-        public static void ScenarioWithTwoPassingStepsAndOneFailingStepYieldsTwoPassesAndOneFail()
+        public void ScenarioWithTwoPassingStepsAndOneFailingStepYieldsTwoPassesAndOneFail()
         {
             // arrange
             var feature = typeof(FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep);
 
             // act
-            var results = feature.RunScenarios();
+            var results = this.Run<ITestResultMessage>(feature);
 
             // assert
             results.Length.Should().Be(3);
-            results.Take(2).Should().ContainItemsAssignableTo<Pass>();
-            results.Skip(2).Should().ContainItemsAssignableTo<Fail>();
+            results.Take(2).Should().ContainItemsAssignableTo<ITestPassed>();
+            results.Skip(2).Should().ContainItemsAssignableTo<ITestFailed>();
         }
 
         [Scenario]
-        public static void ScenarioWithThreeSteps()
+        public void ScenarioWithThreeSteps()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a scenario with three steps"
                 .f(() => feature = typeof(FeatureWithAScenarioWithThreeSteps));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
 
             "And the first result should have a display name ending with 'Step 1'"
-                .f(() => results[0].DisplayName.Should().EndWith("Step 1"));
+                .f(() => results[0].Test.DisplayName.Should().EndWith("Step 1"));
 
             "And the second result should have a display name ending with 'Step 2'"
-                .f(() => results[1].DisplayName.Should().EndWith("Step 2"));
+                .f(() => results[1].Test.DisplayName.Should().EndWith("Step 2"));
 
             "And the third result should have a display name ending with 'Step 3'"
-                .f(() => results[2].DisplayName.Should().EndWith("Step 3"));
+                .f(() => results[2].Test.DisplayName.Should().EndWith("Step 3"));
         }
 
         [Scenario]
-        public static void OrderingStepsByDisplayName()
+        public void OrderingStepsByDisplayName()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given two steps named 'z' and 'y'"
                 .f(() => feature = typeof(TenStepsNamedAlphabeticallyBackwards));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "And I sort the results by their display name"
-                .f(() => results = results.OrderBy(result => result.DisplayName).ToArray());
+                .f(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
 
             "Then a concatenation of the last character of each result display names should be 'zyxwvutsrq'"
-                .f(() => new string(results.Select(result => result.DisplayName.Last()).ToArray())
+                .f(() => new string(results.Select(result => result.Test.DisplayName.Last()).ToArray())
                     .Should().Be("zyxwvutsrq"));
         }
 
         [Scenario]
-        public static void ScenarioWithTwoPassingStepsAndOneFailingStep()
+        public void ScenarioWithTwoPassingStepsAndOneFailingStep()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a scenario with two passing steps and one failing step"
                 .f(() => feature = typeof(FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
 
             "And the first two results should be passes"
-                .f(() => results.Take(2).Should().ContainItemsAssignableTo<Pass>());
+                .f(() => results.Take(2).Should().ContainItemsAssignableTo<ITestPassed>());
 
             "And the third result should be a fail"
-                .f(() => results.Skip(2).Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Skip(2).Should().ContainItemsAssignableTo<ITestFailed>());
         }
 
         [Scenario]
-        public static void ScenarioBodyThrowsAnException()
+        public void ScenarioBodyThrowsAnException()
         {
             var feature = default(Type);
             var exception = default(Exception);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a scenario body which throws an exception"
                 .f(() => feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException));
 
             "When I run the scenarios"
-                .f(() => exception = Record.Exception(() => results = feature.RunScenarios()));
+                .f(() => exception = Record.Exception(() =>
+                    results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
                 .f(() => exception.Should().BeNull());
@@ -119,21 +121,22 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Should().NotBeEmpty());
 
             "And each result should be a failure"
-                .f(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
         }
 
         [Scenario]
-        public static void FeatureCannotBeConstructed()
+        public void FeatureCannotBeConstructed()
         {
             var feature = default(Type);
             var exception = default(Exception);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a non-static scenario but no default constructor"
                 .f(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
 
             "When I run the scenarios"
-                .f(() => exception = Record.Exception(() => results = feature.RunScenarios()));
+                .f(() => exception = Record.Exception(() =>
+                    results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
                 .f(() => exception.Should().BeNull());
@@ -142,31 +145,31 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Should().NotBeEmpty());
 
             "And each result should be a failure"
-                .f(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
         }
 
         [Scenario]
-        public static void FailingStep()
+        public void FailingStep()
         {
             var feature = default(Type);
-            var results = default(Result[]);
+            var results = default(ITestResultMessage[]);
 
             "Given a feature with a failing step followed by passing steps"
                 .f(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then each result should be a failure"
-                .f(() => results.Should().ContainItemsAssignableTo<Fail>());
+                .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
 
             "And each subsequent result message should indicate that the first step failed"
                 .f(() =>
                 {
-                    foreach (var result in results.Cast<Fail>().Skip(1))
+                    foreach (var result in results.Cast<ITestFailed>().Skip(1))
                     {
-                        result.Message.Should().ContainEquivalentOf("Failed to execute preceding step");
-                        result.Message.Should().ContainEquivalentOf("Given something");
+                        result.Messages.Single().Should().ContainEquivalentOf("Failed to execute preceding step");
+                        result.Messages.Single().Should().ContainEquivalentOf("Given something");
                     }
                 });
         }

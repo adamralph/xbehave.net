@@ -8,25 +8,26 @@ namespace Xbehave.Test.Acceptance
     using System.Linq;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit.Abstractions;
 
     // In order to write less code
     // As a developer
     // I want to add background steps to all the scenarios in a feature
-    public static class BackgroundFeature
+    public class BackgroundFeature : Feature
     {
         [Scenario]
         [Example(typeof(BackgroundWithTwoStepsAndTwoScenariosEachWithTwoSteps))]
         [Example(typeof(BackgroundInBaseTypeWithTwoStepsAndTwoScenariosEachWithTwoSteps))]
-        public static void BackgroundSteps(Type feature, Result[] results)
+        public void BackgroundSteps(Type feature, ITestResultMessage[] results)
         {
             "Given a {0}"
                 .f(() => { });
 
             "When I run the scenarios"
-                .f(() => results = feature.RunScenarios());
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the background steps are run before each scenario"
-                .f(() => results.Should().ContainItemsAssignableTo<Pass>());
+                .f(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
 
             "And there are eight results"
                 .f(() => results.Length.Should().Be(8));
@@ -36,7 +37,7 @@ namespace Xbehave.Test.Acceptance
                 {
                     foreach (var result in results.Take(2).Concat(results.Skip(4).Take(2)))
                     {
-                        result.DisplayName.Should().Contain("(Background)");
+                        result.Test.DisplayName.Should().Contain("(Background)");
                     }
                 });
         }
