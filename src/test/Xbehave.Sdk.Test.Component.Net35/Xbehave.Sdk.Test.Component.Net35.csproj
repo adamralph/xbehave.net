@@ -5,21 +5,21 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4AFB913B-3798-4857-8E9D-28285F4FE21C}</ProjectGuid>
+    <ProjectGuid>{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Sdk.Test.Unit</RootNamespace>
-    <AssemblyName>Xbehave.Sdk.Test.Unit.Net40</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <RootNamespace>Xbehave.Sdk.Test.Component</RootNamespace>
+    <AssemblyName>Xbehave.Sdk.Test.Component.Net35</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>643581c0</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>f6cb1fe2</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET40</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -31,7 +31,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;NET40</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -48,13 +48,12 @@
   <ItemGroup>
     <Reference Include="FakeItEasy, Version=1.22.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\FakeItEasy.1.22.0\lib\net40\FakeItEasy.dll</HintPath>
+      <HintPath>..\..\packages\FakeItEasy.1.22.0\lib\net35\FakeItEasy.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+    <Reference Include="FluentAssertions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\FluentAssertions.2.2.0.0\lib\net40\FluentAssertions.dll</HintPath>
+      <HintPath>..\..\packages\FluentAssertions.2.2.0.0\lib\net35\FluentAssertions.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
@@ -68,19 +67,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentSpecifications.cs" />
+    <Compile Include="..\Xbehave.Sdk.Test.Component.Net40\**\*.cs">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">
-      <Project>{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}</Project>
-      <Name>Xbehave.Net40</Name>
+    <ProjectReference Include="..\..\Xbehave.Net35\Xbehave.Net35.csproj">
+      <Project>{425C1030-10E5-4CCF-80C2-A4A8966EA48A}</Project>
+      <Name>Xbehave.Net35</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Xbehave.Sdk.Net40\Xbehave.Sdk.Net40.csproj">
-      <Project>{69370680-9671-466C-B7BC-1C9BB5474F31}</Project>
-      <Name>Xbehave.Sdk.Net40</Name>
+    <ProjectReference Include="..\..\Xbehave.Sdk.Net35\Xbehave.Sdk.Net35.csproj">
+      <Project>{D39D0F1E-191A-4FF5-BA7F-73A8029ED45A}</Project>
+      <Name>Xbehave.Sdk.Net35</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

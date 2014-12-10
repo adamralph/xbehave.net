@@ -9,14 +9,14 @@ solution = "src/XBehave.sln"
 output = "artifacts/output"
 logs = "artifacts/logs"
 
-specs = [
-  "src/test/Xbehave.Sdk.Test.Unit.Net35/bin/Release/Xbehave.Sdk.Test.Unit.Net35.dll",
-  "src/test/Xbehave.Test.Unit.Net35/bin/Release/Xbehave.Test.Unit.Net35.dll",
-  "src/test/Xbehave.Sdk.Test.Unit.Net40/bin/Release/Xbehave.Sdk.Test.Unit.Net40.dll",
-  "src/test/Xbehave.Test.Unit.Net40/bin/Release/Xbehave.Test.Unit.Net40.dll",
+component_tests = [
+  "src/test/Xbehave.Sdk.Test.Component.Net35/bin/Release/Xbehave.Sdk.Test.Component.Net35.dll",
+  "src/test/Xbehave.Test.Component.Net35/bin/Release/Xbehave.Test.Component.Net35.dll",
+  "src/test/Xbehave.Sdk.Test.Component.Net40/bin/Release/Xbehave.Sdk.Test.Component.Net40.dll",
+  "src/test/Xbehave.Test.Component.Net40/bin/Release/Xbehave.Test.Component.Net40.dll",
 ]
 
-features = [
+acceptance_tests = [
   "src/test/Xbehave.Test.Acceptance.Net35/bin/Release/Xbehave.Test.Acceptance.Net35.dll",
   "src/test/Xbehave.Test.Acceptance.Net40/bin/Release/Xbehave.Test.Acceptance.Net40.dll",
   "src/test/Xbehave.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
@@ -33,7 +33,7 @@ Albacore.configure do |config|
 end
 
 desc "Execute default tasks"
-task :default => [:spec, :feature, :pack]
+task :default => [:component, :accept, :pack]
 
 desc "Restore NuGet packages"
 exec :restore do |cmd|
@@ -62,14 +62,14 @@ msbuild :build => [:clean, :restore] do |msb|
   msb.other_switches = {:nologo => true, :fl => true, :flp => "LogFile=#{logs}/build.log;Verbosity=Detailed;PerformanceSummary", :nr => false}
 end
 
-desc "Execute specs"
-task :spec => [:build] do
-  execute_xunit specs, xunit_command
+desc "Run component tests"
+task :component => [:build] do
+  run_tests component_tests, xunit_command
 end
 
-desc "Execute features"
-task :feature => [:build] do
-  execute_xunit features, xunit_command
+desc "Run acceptance tests"
+task :accept => [:build] do
+  run_tests acceptance_tests, xunit_command
 end
 
 desc "Create the nuget packages"
@@ -83,7 +83,7 @@ task :pack => [:build] do
   end
 end
 
-def execute_xunit(tests, command)
+def run_tests(tests, command)
   tests.each do |test|
     xunit = XUnitTestRunner.new
     xunit.command = command

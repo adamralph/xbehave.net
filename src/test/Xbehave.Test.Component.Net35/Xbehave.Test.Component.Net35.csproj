@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}</ProjectGuid>
+    <ProjectGuid>{5CC1C3CC-67FC-4691-83BF-E14B367E06C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Sdk.Test.Unit</RootNamespace>
-    <AssemblyName>Xbehave.Sdk.Test.Unit.Net35</AssemblyName>
+    <RootNamespace>Xbehave.Test.Component</RootNamespace>
+    <AssemblyName>Xbehave.Test.Component.Net35</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>f6cb1fe2</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>4abb7d0a</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,10 +50,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\FakeItEasy.1.22.0\lib\net35\FakeItEasy.dll</HintPath>
     </Reference>
-    <Reference Include="FluentAssertions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="FluentAssertions">
       <HintPath>..\..\packages\FluentAssertions.2.2.0.0\lib\net35\FluentAssertions.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
@@ -67,7 +67,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Xbehave.Sdk.Test.Unit.Net40\**\*.cs">
+    <Compile Include="..\Xbehave.Test.Component.Net40\**\*.cs">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
@@ -78,10 +78,6 @@
     <ProjectReference Include="..\..\Xbehave.Net35\Xbehave.Net35.csproj">
       <Project>{425C1030-10E5-4CCF-80C2-A4A8966EA48A}</Project>
       <Name>Xbehave.Net35</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Xbehave.Sdk.Net35\Xbehave.Sdk.Net35.csproj">
-      <Project>{D39D0F1E-191A-4FF5-BA7F-73A8029ED45A}</Project>
-      <Name>Xbehave.Sdk.Net35</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
