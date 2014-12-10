@@ -3,8 +3,8 @@ require 'fileutils'
 
 version_suffix1 = ENV["VERSION_SUFFIX1"] || ""
 version_suffix2 = ENV["VERSION_SUFFIX2"] || "-pre"
-build_number_suffix1 = version_suffix1 == "" ? "" : "-build-" + ENV["BUILD_NUMBER"]
-build_number_suffix2 = version_suffix2 == "" ? "" : "-build-" + ENV["BUILD_NUMBER"]
+build_number_suffix1 = version_suffix1 == "" ? "" : "-build" + ENV["BUILD_NUMBER"]
+build_number_suffix2 = version_suffix2 == "" ? "" : "-build" + ENV["BUILD_NUMBER"]
 
 version1 = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix1 + build_number_suffix1
 version2 = IO.read("src/VersionInfo.2.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix2 + build_number_suffix2
