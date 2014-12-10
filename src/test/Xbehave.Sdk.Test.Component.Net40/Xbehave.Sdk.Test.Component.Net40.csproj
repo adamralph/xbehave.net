@@ -5,14 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}</ProjectGuid>
+    <ProjectGuid>{4AFB913B-3798-4857-8E9D-28285F4FE21C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Test.Unit</RootNamespace>
-    <AssemblyName>Xbehave.Test.Unit.Net40</AssemblyName>
+    <RootNamespace>Xbehave.Sdk.Test.Component</RootNamespace>
+    <AssemblyName>Xbehave.Sdk.Test.Component.Net40</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>01fa705d</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>643581c0</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,19 +68,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Legacy\ContextSetupTeardownBehavior.cs" />
-    <Compile Include="Legacy\SubSpecDemo.cs" />
-    <Compile Include="Legacy\ThreadIsolationFacts.cs" />
-    <Compile Include="StringExtensionsSpecifications.cs" />
+    <Compile Include="ArgumentSpecifications.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">
       <Project>{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}</Project>
       <Name>Xbehave.Net40</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\..\Xbehave.Sdk.Net40\Xbehave.Sdk.Net40.csproj">
+      <Project>{69370680-9671-466C-B7BC-1C9BB5474F31}</Project>
+      <Name>Xbehave.Sdk.Net40</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

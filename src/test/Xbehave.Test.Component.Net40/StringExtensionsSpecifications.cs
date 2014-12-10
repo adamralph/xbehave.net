@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Test.Unit
+namespace Xbehave.Test.Component
 {
     using FluentAssertions;
     using Xbehave;
