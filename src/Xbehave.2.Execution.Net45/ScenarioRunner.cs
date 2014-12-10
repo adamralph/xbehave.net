@@ -186,20 +186,23 @@ namespace Xbehave.Execution
             var teardowns = stepRunners.SelectMany(runner => runner.Teardowns).ToArray();
             if (teardowns.Any())
             {
-                var teardownRunner = new TeardownRunner(
-                    teardowns,
-                    new XunitTest(this.TestCase, this.GetDisplayName(stepRunners.Count + 1, "(Teardown)")),
-                    interceptingBus,
-                    this.TestClass,
-                    this.ConstructorArguments,
-                    this.TestMethod,
-                    this.TestMethodArguments,
-                    string.Empty,
-                    this.BeforeAfterAttributes,
-                    this.Aggregator,
-                    this.CancellationTokenSource);
+                var timer = new ExecutionTimer();
+                var aggregator = new ExceptionAggregator();
 
-                summary.Aggregate(await teardownRunner.RunAsync());
+                foreach (var teardown in teardowns.Reverse())
+                {
+                    timer.Aggregate(() => aggregator.Run(() => teardown()));
+                }
+
+                if (aggregator.HasExceptions)
+                {
+                    if (!MessageBus.QueueMessage(new TestCaseCleanupFailure(TestCase, aggregator.ToException())))
+                    {
+                        CancellationTokenSource.Cancel();
+                    }
+                }
+
+                summary.Time += timer.Total;
             }
 
             return summary;
