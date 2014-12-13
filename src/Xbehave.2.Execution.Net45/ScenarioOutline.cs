@@ -5,11 +5,19 @@
 namespace Xbehave.Execution
 {
     using System;
+#if NET45
     using System.Runtime.Serialization;
+#endif
     using System.Threading;
     using System.Threading.Tasks;
+#if WPA81
+    using Xbehave.Execution.Shims;
+#endif
     using Xunit.Abstractions;
     using Xunit.Sdk;
+#if WPA81
+    using Xunit;
+#endif
 
     [Serializable]
     public class ScenarioOutline : XunitTestCase

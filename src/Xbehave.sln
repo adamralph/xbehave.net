@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Test.Acceptance.N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution.Net45", "Xbehave.2.Execution.Net45\Xbehave.2.Execution.Net45.csproj", "{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution.wpa81", "Xbehave.2.Execution.wpa81\Xbehave.2.Execution.wpa81.csproj", "{B34C5845-1008-460B-9C61-4D7D0891A2D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B34C5845-1008-460B-9C61-4D7D0891A2D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B34C5845-1008-460B-9C61-4D7D0891A2D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B34C5845-1008-460B-9C61-4D7D0891A2D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B34C5845-1008-460B-9C61-4D7D0891A2D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

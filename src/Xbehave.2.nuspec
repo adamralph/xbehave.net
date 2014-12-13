@@ -36,13 +36,11 @@
     <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll"                 target="build\win8\device" />
 
     <!-- wpa81 -->
-    <!--
     <file src="Xbehave.2\Xbehave.props"                                                     target="build\wpa81" />
     <file src="Xbehave.2\Xbehave.targets"                                                   target="build\wpa81" />
-    <file src="Xbehave.2.Execution.Net45.NoSerialization\bin\Release\Xbehave.Execution.dll" target="build\wpa81" />
+    <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll"                 target="build\wpa81" />
     <file src="Xbehave.2.Execution.wpa81\bin\Release\Xbehave.Execution.dll"                 target="build\wpa81\device" />
     <file src="Xbehave.2.Execution.wpa81\bin\Release\Xbehave.Execution.pri"                 target="build\wpa81\device" />
-    -->
 
     <!-- wp8 -->
     <!--

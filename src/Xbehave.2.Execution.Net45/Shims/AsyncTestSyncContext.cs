@@ -8,6 +8,9 @@ namespace Xbehave.Execution.Shims
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using System.Threading.Tasks;
+#if WPA81
+    using Windows.System.Threading;
+#endif
 
     internal class AsyncTestSyncContext : SynchronizationContext
     {
@@ -48,17 +51,28 @@ namespace Xbehave.Execution.Shims
             {
                 if (this.innerContext == null)
                 {
-                    ThreadPool.QueueUserWorkItem(_ =>
-                    {
-                        try
+#if WPA81
+                    var unused = ThreadPool.RunAsync(
+#else
+                    ThreadPool.QueueUserWorkItem(
+#endif
+_ =>
                         {
-                            Send(d, state);
-                        }
-                        finally
-                        {
-                            OperationCompleted();
-                        }
-                    });
+                            try
+                            {
+                                Send(d, state);
+                            }
+                            finally
+                            {
+                                OperationCompleted();
+                            }
+#if WPA81
+                        },
+                        WorkItemPriority.Normal,
+                        WorkItemOptions.TimeSliced);
+#else
+                        });
+#endif
                 }
                 else
                 {

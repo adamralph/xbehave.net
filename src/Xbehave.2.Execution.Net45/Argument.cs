@@ -6,9 +6,13 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Globalization;
+    using System.Linq.Expressions;
+    using System.Reflection;
 
     public class Argument
     {
+        private static readonly MethodInfo genericFactoryMethod = CreateGenericFactoryMethod();
+
         private readonly object value;
         private readonly bool isGeneratedDefault;
 
@@ -16,7 +20,7 @@ namespace Xbehave.Execution
         {
             Guard.AgainstNullArgument("type", type);
 
-            this.value = type.IsValueType ? Activator.CreateInstance(type) : null;
+            this.value = genericFactoryMethod.MakeGenericMethod(type).Invoke(null, null);
             this.isGeneratedDefault = true;
         }
 
@@ -56,6 +60,17 @@ namespace Xbehave.Execution
             }
 
             return Convert.ToString(this.Value, CultureInfo.InvariantCulture);
+        }
+
+        private static MethodInfo CreateGenericFactoryMethod()
+        {
+            Expression<Func<object>> template = () => CreateDefault<object>();
+            return ((MethodCallExpression)template.Body).Method.GetGenericMethodDefinition();
+        }
+
+        private static T CreateDefault<T>()
+        {
+            return default(T);
         }
     }
 }
