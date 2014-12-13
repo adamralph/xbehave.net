@@ -43,11 +43,9 @@
     <file src="Xbehave.2.Execution.wpa81\bin\Release\Xbehave.Execution.pri"                 target="build\wpa81\device" />
 
     <!-- wp8 -->
-    <!--
     <file src="Xbehave.2\Xbehave.props"                                                     target="build\wp8" />
     <file src="Xbehave.2\Xbehave.wp8.targets"                                               target="build\wp8" />
-    <file src="Xbehave.2.Execution.Net45.NoSerialization\bin\Release\Xbehave.Execution.dll" target="build\wp8" />
+    <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll"                 target="build\wp8" />
     <file src="Xbehave.2.Execution.wp8\bin\Release\Xbehave.Execution.dll"                   target="build\wp8\device" />
-    -->
   </files>
 </package>

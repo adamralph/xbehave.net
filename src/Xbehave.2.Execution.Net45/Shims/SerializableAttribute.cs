@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if WPA81
+#if WPA81 || WINDOWS_PHONE
 namespace Xbehave.Execution.Shims
 {
     using System;

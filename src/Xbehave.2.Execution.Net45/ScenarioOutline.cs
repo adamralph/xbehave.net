@@ -10,14 +10,12 @@ namespace Xbehave.Execution
 #endif
     using System.Threading;
     using System.Threading.Tasks;
-#if WPA81
+#if WPA81 || WINDOWS_PHONE
     using Xbehave.Execution.Shims;
+    using Xunit;
 #endif
     using Xunit.Abstractions;
     using Xunit.Sdk;
-#if WPA81
-    using Xunit;
-#endif
 
     [Serializable]
     public class ScenarioOutline : XunitTestCase

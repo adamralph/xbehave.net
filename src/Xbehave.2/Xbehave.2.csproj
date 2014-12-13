@@ -87,6 +87,7 @@
     <None Include="Settings.StyleCop" />
     <None Include="Xbehave.props" />
     <None Include="Xbehave.targets" />
+    <None Include="Xbehave.wp8.targets" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="xunit.abstractions">
