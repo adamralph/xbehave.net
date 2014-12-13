@@ -86,6 +86,7 @@
     <None Include="packages.config" />
     <None Include="Settings.StyleCop" />
     <None Include="Xbehave.props" />
+    <None Include="Xbehave.targets" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="xunit.abstractions">
