@@ -21,6 +21,7 @@
   </metadata>
   <files>
     <file src="Xbehave.2\bin\Release\Xbehave.dll"                           target="lib\portable-net45" />
+    <file src="Xbehave.2\bin\Release\Xbehave.pdb"                           target="lib\portable-net45" />
     <file src="Xbehave.2\bin\Release\Xbehave.xml"                           target="lib\portable-net45" />
 
     <!-- Execution -->
