@@ -5,9 +5,15 @@
 namespace Xbehave.Execution
 {
     using System;
+#if NET45
     using System.Runtime.Serialization;
+#endif
     using System.Threading;
     using System.Threading.Tasks;
+#if WPA81 || WINDOWS_PHONE
+    using Xbehave.Execution.Shims;
+    using Xunit;
+#endif
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
