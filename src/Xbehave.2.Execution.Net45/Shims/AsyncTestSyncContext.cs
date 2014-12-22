@@ -64,17 +64,17 @@ namespace Xbehave.Execution.Shims
                     ThreadPool.QueueUserWorkItem(
 #endif
 _ =>
-{
-    try
-    {
-        Send(d, state);
-    }
-    finally
-    {
-        OperationCompleted();
-    }
+                        {
+                            try
+                            {
+                                Send(d, state);
+                            }
+                            finally
+                            {
+                                OperationCompleted();
+                            }
 #if WPA81
-},
+                        },
                         WorkItemPriority.Normal,
                         WorkItemOptions.TimeSliced);
 #else
