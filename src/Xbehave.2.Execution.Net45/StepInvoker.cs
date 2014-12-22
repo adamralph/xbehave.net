@@ -6,15 +6,18 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
+    using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
+    using Xbehave.Execution.Shims;
     using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepInvoker : XbehaveDelegateInvoker
+    public class StepInvoker : XunitTestInvoker
     {
         private readonly string stepDisplayName;
         private readonly Step step;
@@ -59,22 +62,57 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        protected override async Task InvokeDelegatesAsync()
+        public async override Task<decimal> InvokeTestMethodAsync(object testClassInstance)
         {
+            var oldSyncContext = SynchronizationContext.Current;
+
             try
             {
-                var result = this.step.Body();
-                var task = result as Task;
-                if (task != null)
-                {
-                    await task;
-                }
+                var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
+                SetSynchronizationContext(asyncSyncContext);
+
+                await Aggregator.RunAsync(
+                    () => Timer.AggregateAsync(
+                        async () =>
+                        {
+                            try
+                            {
+                                var result = this.step.Body();
+                                var task = result as Task;
+                                if (task != null)
+                                {
+                                    await task;
+                                }
+                            }
+                            finally
+                            {
+                                this.teardowns.AddRange(this.step.Disposables.Select(disposable => (Action)disposable.Dispose));
+                                this.teardowns.AddRange(this.step.Teardowns);
+                            }
+
+                            var ex = await asyncSyncContext.WaitForCompletionAsync();
+                            if (ex != null)
+                            {
+                                Aggregator.Add(ex);
+                            }
+                        }));
             }
             finally
             {
-                this.teardowns.AddRange(this.step.Disposables.Select(disposable => (Action)disposable.Dispose));
-                this.teardowns.AddRange(this.step.Teardowns);
+                SetSynchronizationContext(oldSyncContext);
             }
+
+            return Timer.Total;
+        }
+
+        [SuppressMessage(
+            "Microsoft.Security",
+            "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule",
+            Justification = "From xunit.")]
+        [SecuritySafeCritical]
+        private static void SetSynchronizationContext(SynchronizationContext context)
+        {
+            SynchronizationContext.SetSynchronizationContext(context);
         }
     }
 }
