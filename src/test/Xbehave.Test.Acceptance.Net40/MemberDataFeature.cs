@@ -49,13 +49,13 @@ namespace Xbehave.Test.Acceptance
 
             [Scenario]
             [MemberData("MemberData")]
-            public void Scenario(int x, int y, int sum)
+            public void Scenario(int operand1, int operand2, int sum)
             {
                 "Then as a distinct example the sum of {0} and {1} is {2}"
                     .f(() =>
                     {
                         sum.Should().NotBe(previousSum);
-                        (x + y).Should().Be(sum);
+                        (operand1 + operand2).Should().Be(sum);
                         previousSum = sum;
                     });
             }
@@ -74,13 +74,13 @@ namespace Xbehave.Test.Acceptance
 
             [Scenario]
             [MemberData("MemberData")]
-            public void Scenario(int x, int y, int sum)
+            public void Scenario(int operand1, int operand2, int sum)
             {
                 "Then as a distinct example the sum of {0} and {1} is {2}"
                     .f(() =>
                     {
                         sum.Should().NotBe(previousSum);
-                        (x + y).Should().Be(sum);
+                        (operand1 + operand2).Should().Be(sum);
                         previousSum = sum;
                     });
             }
@@ -99,13 +99,13 @@ namespace Xbehave.Test.Acceptance
 
             [Scenario]
             [MemberData("MemberData")]
-            public void Scenario(int x, int y, int sum)
+            public void Scenario(int operand1, int operand2, int sum)
             {
                 "Then as a distinct example the sum of {0} and {1} is {2}"
                     .f(() =>
                     {
                         sum.Should().NotBe(previousSum);
-                        (x + y).Should().Be(sum);
+                        (operand1 + operand2).Should().Be(sum);
                         previousSum = sum;
                     });
             }

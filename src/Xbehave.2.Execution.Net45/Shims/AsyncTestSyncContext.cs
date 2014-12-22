@@ -40,6 +40,13 @@ namespace Xbehave.Execution.Shims
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "From xunit.")]
+#if WPA81
+        [SuppressMessage(
+            "Microsoft.Performance",
+            "CA1804:RemoveUnusedLocals",
+            MessageId = "unused",
+            Justification = "Avoids a seemingly unsuppressable compiler warning regarding lack of 'await'.")]
+#endif
         public override void Post(SendOrPostCallback d, object state)
         {
             // The call to Post() may be the state machine signaling that an exception is
@@ -57,17 +64,17 @@ namespace Xbehave.Execution.Shims
                     ThreadPool.QueueUserWorkItem(
 #endif
 _ =>
-                        {
-                            try
-                            {
-                                Send(d, state);
-                            }
-                            finally
-                            {
-                                OperationCompleted();
-                            }
+{
+    try
+    {
+        Send(d, state);
+    }
+    finally
+    {
+        OperationCompleted();
+    }
 #if WPA81
-                        },
+},
                         WorkItemPriority.Normal,
                         WorkItemOptions.TimeSliced);
 #else

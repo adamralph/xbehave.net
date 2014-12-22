@@ -9,29 +9,29 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     using System.Globalization;
     using System.IO;
     using System.Reflection;
+    using LiteGuard;
 
     internal static class AssemblyExtensions
     {
         public static string GetLocalCodeBase(this Assembly assembly)
         {
-            var codeBase = assembly.CodeBase;
-            if (!codeBase.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
+            Guard.AgainstNullArgument("assembly", assembly);
+            Guard.AgainstNullArgumentProperty("assembly", "Codebase", assembly.CodeBase);
+
+            if (!assembly.CodeBase.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
             {
                 var message = string.Format(
                     CultureInfo.InvariantCulture,
                     "Code base {0} in wrong format; must start with 'file:///' (case-insensitive).",
-                    codeBase);
+                    assembly.CodeBase);
 
                 throw new ArgumentException(message, "assembly");
             }
 
-            codeBase = codeBase.Substring(8);
-            if (Path.DirectorySeparatorChar == '/')
-            {
-                return "/" + codeBase;
-            }
-
-            return codeBase.Replace('/', Path.DirectorySeparatorChar);
+            var codeBase = assembly.CodeBase.Substring(8);
+            return Path.DirectorySeparatorChar == '/'
+                ? "/" + codeBase
+                : codeBase.Replace('/', Path.DirectorySeparatorChar);
         }
     }
 }

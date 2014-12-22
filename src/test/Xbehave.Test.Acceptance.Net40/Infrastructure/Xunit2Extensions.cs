@@ -7,6 +7,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 {
     using System.Collections.Generic;
     using System.Linq;
+    using LiteGuard;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -14,6 +15,8 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     {
         public static IEnumerable<IMessageSinkMessage> Run(this Xunit2 runner, IEnumerable<ITestCase> testCases)
         {
+            Guard.AgainstNullArgument("runner", runner);
+
             using (var sink = new SpyMessageSink<ITestAssemblyFinished>())
             {
                 runner.Run(testCases, sink, new XunitExecutionOptions());
