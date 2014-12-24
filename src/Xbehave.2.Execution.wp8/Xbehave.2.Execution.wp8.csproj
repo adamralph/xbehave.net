@@ -50,6 +50,7 @@
     <Compile Include="..\VersionInfo.2.cs">
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Xbehave.2.Execution.Net45\**\*.cs" Exclude="..\Xbehave.2.Execution.Net45\**\TemporaryGeneratedFile_*.cs">

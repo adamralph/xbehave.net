@@ -10,6 +10,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
     using System.Linq;
     using System.Reflection;
     using System.Runtime.ExceptionServices;
+    using LiteGuard;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -59,6 +60,8 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
         public IMessageSinkMessage[] Run(Type feature)
         {
+            Guard.AgainstNullArgument("feature", feature);
+
             this.runners.Add(new Xunit2(new NullSourceInformationProvider(), feature.Assembly.GetLocalCodeBase()));
             var runner = this.runners.Last();
             return runner.Run(runner.Find(feature)).ToArray();

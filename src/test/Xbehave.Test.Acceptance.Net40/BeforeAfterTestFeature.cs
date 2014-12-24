@@ -2,9 +2,11 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+#if NET40 || NET45
 namespace Xbehave.Test.Acceptance
 {
     using System;
+    using System.Globalization;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
 #if !V2
@@ -17,6 +19,13 @@ namespace Xbehave.Test.Acceptance
 
     public class BeforeAfterTestFeature : Feature
     {
+        [Background]
+        public void Background()
+        {
+            "Given no events have occurred"
+                .f(() => typeof(BeforeAfterTestFeature).ClearTestEvents());
+        }
+
         [Scenario]
         public void BeforeAfterAttribute(Type feature, ITestResultMessage[] results)
         {
@@ -26,8 +35,15 @@ namespace Xbehave.Test.Acceptance
             "When I run the scenario"
                 .f(() => results = this.Run<ITestResultMessage>(feature));
 
+#if !V2
             "Then the attributes before and after methods are called before and after each step"
-                .f(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .f(() => typeof(BeforeAfterTestFeature).GetTestEvents().Should().Equal(
+                    "before1", "step1", "after1", "before2", "step2", "after2", "before3", "step3", "after3"));
+#else
+            "Then the attributes before and after methods are called before and after the scenario"
+                .f(() => typeof(BeforeAfterTestFeature).GetTestEvents().Should().Equal(
+                    "before1", "step1", "step2", "step3", "after1"));
+#endif
         }
 
         private static class ScenarioWithBeforeAfterTestAttribute
@@ -37,45 +53,35 @@ namespace Xbehave.Test.Acceptance
             public static void Scenario()
             {
                 "Given"
-                    .f(() =>
-                    {
-                        BeforeAfter.BeforeCount.Should().Be(1, "the before method should have called once");
-                        BeforeAfter.AfterCount.Should().Be(0, "the after method should not have been called");
-                    });
+                    .f(() => typeof(BeforeAfterTestFeature).SaveTestEvent("step1"));
 
                 "When"
-                    .f(() =>
-                    {
-                        BeforeAfter.BeforeCount.Should().Be(2, "the before method should have called twice");
-                        BeforeAfter.AfterCount.Should().Be(1, "the after method should have called once");
-                    });
+                    .f(() => typeof(BeforeAfterTestFeature).SaveTestEvent("step2"));
 
                 "Then"
-                    .f(() =>
-                    {
-                        BeforeAfter.BeforeCount.Should().Be(3, "the before method should have called thrice");
-                        BeforeAfter.AfterCount.Should().Be(2, "the after method should have called twice");
-                    });
+                    .f(() => typeof(BeforeAfterTestFeature).SaveTestEvent("step3"));
             }
         }
 
         private sealed class BeforeAfter : BeforeAfterTestAttribute
         {
-            public static int BeforeCount { get; private set; }
-
-            public static int AfterCount { get; private set; }
+            private static int beforeCount;
+            private static int afterCount;
 
             public override void Before(System.Reflection.MethodInfo methodUnderTest)
             {
-                BeforeCount++;
-                AfterCount.Should().Be(BeforeCount - 1);
+                beforeCount++;
+                typeof(BeforeAfterTestFeature)
+                    .SaveTestEvent("before" + beforeCount.ToString(CultureInfo.InvariantCulture));
             }
 
             public override void After(System.Reflection.MethodInfo methodUnderTest)
             {
-                AfterCount++;
-                AfterCount.Should().Be(BeforeCount);
+                afterCount++;
+                typeof(BeforeAfterTestFeature)
+                    .SaveTestEvent("after" + afterCount.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
 }
+#endif

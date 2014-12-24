@@ -19,7 +19,6 @@ namespace Xbehave.Execution
         private readonly string stepDisplayName;
         private readonly Step step;
         private readonly List<Action> teardowns = new List<Action>();
-        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
 
         public StepRunner(
             string stepDisplayName,
@@ -31,7 +30,6 @@ namespace Xbehave.Execution
             MethodInfo testMethod,
             object[] testMethodArguments,
             string skipReason,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
             : base(
@@ -49,7 +47,6 @@ namespace Xbehave.Execution
 
             this.stepDisplayName = stepDisplayName;
             this.step = step;
-            this.beforeAfterAttributes = beforeAfterAttributes;
         }
 
         public string StepDisplayName
@@ -60,11 +57,6 @@ namespace Xbehave.Execution
         public IEnumerable<Action> Teardowns
         {
             get { return this.teardowns.ToArray(); }
-        }
-
-        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterAttributes
-        {
-            get { return this.beforeAfterAttributes; }
         }
 
         protected override async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
@@ -89,18 +81,7 @@ namespace Xbehave.Execution
 
         protected virtual async Task<decimal> InvokeDelegatesAsync(ExceptionAggregator aggregator)
         {
-            var invoker = new StepInvoker(
-                this.DisplayName,
-                this.step,
-                this.Test,
-                this.MessageBus,
-                this.TestClass,
-                this.ConstructorArguments,
-                this.TestMethod,
-                this.TestMethodArguments,
-                this.BeforeAfterAttributes,
-                aggregator,
-                this.CancellationTokenSource);
+            var invoker = new StepInvoker(this.DisplayName, this.step, aggregator);
 
             try
             {
