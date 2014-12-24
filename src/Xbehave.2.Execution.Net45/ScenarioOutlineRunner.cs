@@ -230,7 +230,7 @@ namespace Xbehave.Execution
                             CultureInfo.CurrentCulture,
                             "The type of parameter \"{0}\" cannot be resolved.",
                             parameters[missingArgumentIndex].Name);
-                        
+
                         throw new InvalidOperationException(message);
                     }
 

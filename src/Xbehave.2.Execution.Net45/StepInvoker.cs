@@ -67,7 +67,9 @@ namespace Xbehave.Execution
                             }
                             finally
                             {
-                                this.teardowns.AddRange(this.step.Disposables.Select(disposable => (Action)disposable.Dispose));
+                                this.teardowns.AddRange(
+                                    this.step.Disposables.Select(disposable => (Action)disposable.Dispose));
+
                                 this.teardowns.AddRange(this.step.Teardowns);
                             }
 
