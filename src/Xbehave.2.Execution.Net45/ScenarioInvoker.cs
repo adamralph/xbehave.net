@@ -96,18 +96,15 @@ namespace Xbehave.Execution
             {
                 if (failedStepName != null)
                 {
+                    var test = new XunitTest(this.TestCase, stepRunner.TestDisplayName);
                     var message = string.Format(
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
-                    var failFast = new LambdaTestCase(
-                        this.TestCase.TestMethod,
-                        () =>
-                        {
-                            throw new InvalidOperationException(message);
-                        });
-
-                    await failFast.RunAsync(
-                        this.MessageBus, this.ConstructorArguments, this.Aggregator, this.CancellationTokenSource);
+                    if (!MessageBus.QueueMessage(
+                        new TestFailed(test, 0, string.Empty, new InvalidOperationException(message))))
+                    {
+                        CancellationTokenSource.Cancel();
+                    }
 
                     continue;
                 }
