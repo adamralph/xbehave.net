@@ -64,8 +64,8 @@ namespace Xbehave.Test.Acceptance
             var feature = default(Type);
             var results = default(ITestResultMessage[]);
 
-            "Given two steps named 'z' and 'y'"
-                .f(() => feature = typeof(TenStepsNamedAlphabeticallyBackwards));
+            "Given ten steps named alphabetically backwards starting with 'z'"
+                .f(() => feature = typeof(TenStepsNamedAlphabeticallyBackwardsStartingWithZ));
 
             "When I run the scenarios"
                 .f(() => results = this.Run<ITestResultMessage>(feature));
@@ -190,7 +190,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class TenStepsNamedAlphabeticallyBackwards
+        private static class TenStepsNamedAlphabeticallyBackwardsStartingWithZ
         {
             [Scenario]
             public static void Scenario()
