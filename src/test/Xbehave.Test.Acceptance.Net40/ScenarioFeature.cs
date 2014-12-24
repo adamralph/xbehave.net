@@ -149,19 +149,28 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public void FailingStep()
+        public void FailingStepFollowedByPassingSteps()
         {
             var feature = default(Type);
             var results = default(ITestResultMessage[]);
 
-            "Given a feature with a failing step followed by passing steps"
-                .f(() => feature = typeof(FeatureWithAFailingStepFollowedByTwoPassingSteps));
+            "Given a failing step and two passing steps named alphabetically backwards"
+                .f(() => feature = typeof(AFailingStepAndTwoPassingStepsNamedAlphabeticallyBackwards));
 
-            "When I run the scenarios"
+            "When I run the scenario"
                 .f(() => results = this.Run<ITestResultMessage>(feature));
+            
+            "And I sort the results by their display name"
+                .f(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
 
             "Then each result should be a failure"
                 .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+
+            "And the second result should refer to the second step"
+                .f(() => results[1].Test.DisplayName.Should().ContainEquivalentOf("Step y"));
+
+            "And the third result should refer to the third step"
+                .f(() => results[2].Test.DisplayName.Should().ContainEquivalentOf("Step x"));
 
             "And each subsequent result message should indicate that the first step failed"
                 .f(() =>
@@ -169,7 +178,7 @@ namespace Xbehave.Test.Acceptance
                     foreach (var result in results.Cast<ITestFailed>().Skip(1))
                     {
                         result.Messages.Single().Should().ContainEquivalentOf("Failed to execute preceding step");
-                        result.Messages.Single().Should().ContainEquivalentOf("Given something");
+                        result.Messages.Single().Should().ContainEquivalentOf("Step z");
                     }
                 });
         }
@@ -254,21 +263,21 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAFailingStepFollowedByTwoPassingSteps
+        private static class AFailingStepAndTwoPassingStepsNamedAlphabeticallyBackwards
         {
             [Scenario]
             public static void Scenario()
             {
-                "Given something"
+                "Step z"
                     .f(() =>
                     {
                         throw new NotImplementedException();
                     });
 
-                "When something happens"
+                "Step y"
                     .f(() => { });
 
-                "Then there is an outcome"
+                "Step x"
                     .f(() => { });
             }
         }
