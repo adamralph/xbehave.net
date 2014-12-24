@@ -248,14 +248,15 @@ namespace Xbehave.Execution
             var displayName = GetDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments);
 
             return new ScenarioRunner(
-                closedMethod,
-                TestCase,
-                displayName,
                 scenarioNumber,
-                SkipReason,
-                ConstructorArguments,
-                arguments.Select(argument => argument.Value).ToArray(),
+                new XunitTest(TestCase, displayName),
                 MessageBus,
+                TestClass,
+                ConstructorArguments,
+                closedMethod,
+                arguments.Select(argument => argument.Value).ToArray(),
+                SkipReason,
+                BeforeAfterAttributes,
                 Aggregator,
                 CancellationTokenSource);
         }

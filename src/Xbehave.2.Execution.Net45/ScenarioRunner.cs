@@ -6,217 +6,146 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xbehave.Execution.Shims;
-    using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioRunner : XunitTestCaseRunner
+    public class ScenarioRunner : XunitTestRunner
     {
         private readonly int scenarioNumber;
+        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
 
         public ScenarioRunner(
-            MethodInfo testMethod,
-            IXunitTestCase testCase,
-            string displayName,
             int scenarioNumber,
-            string skipReason,
-            object[] constructorArguments,
-            object[] testMethodArguments,
+            ITest test,
             IMessageBus messageBus,
+            Type testClass,
+            object[] constructorArguments,
+            MethodInfo testMethod,
+            object[] testMethodArguments,
+            string skipReason,
+            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
             : base(
-                testCase,
-                displayName,
-                skipReason,
-                constructorArguments,
-                testMethodArguments,
+                test,
                 messageBus,
+                testClass,
+                constructorArguments,
+                testMethod,
+                testMethodArguments,
+                skipReason,
+                beforeAfterAttributes,
                 aggregator,
                 cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("testMethod", testMethod);
-
-            this.TestMethod = testMethod;
             this.scenarioNumber = scenarioNumber;
+            this.beforeAfterAttributes = beforeAfterAttributes;
         }
 
-        protected override async Task<RunSummary> RunTestAsync()
+        // NOTE (adamralph): lifted from Xunit.Sdk.TestRunner.RunAsync() with removal of sending of TestPassed
+        public new async Task<RunSummary> RunAsync()
         {
-            if (!string.IsNullOrEmpty(this.SkipReason))
-            {
-                var message = new TestSkipped(new XunitTest(TestCase, DisplayName), this.SkipReason);
-                if (!this.MessageBus.QueueMessage(message))
-                {
-                    CancellationTokenSource.Cancel();
-                }
+            var runSummary = new RunSummary { Total = 1 };
+            var output = string.Empty;
 
-                return new RunSummary { Skipped = 1 };
+            if (!MessageBus.QueueMessage(new TestStarting(Test)))
+            {
+                CancellationTokenSource.Cancel();
             }
-
-            var stepFailed = false;
-            var interceptingBus = new DelegatingMessageBus(
-                this.MessageBus,
-                message =>
-                {
-                    if (message is ITestFailed)
-                    {
-                        stepFailed = true;
-                    }
-                });
-
-            var stepRunners = new List<StepRunner>();
-            try
+            else
             {
-                var type = Reflector.GetType(
-                    this.TestCase.TestMethod.TestClass.TestCollection.TestAssembly.Assembly.Name,
-                    this.TestCase.TestMethod.TestClass.Class.Name);
+                this.AfterTestStarting();
 
-                var obj = this.TestMethod.IsStatic ? null : Activator.CreateInstance(type, this.ConstructorArguments);
-
-                CurrentScenario.AddingBackgroundSteps = true;
-                try
+                if (!string.IsNullOrEmpty(this.SkipReason))
                 {
-                    foreach (var backgroundMethod in this.TestCase.TestMethod.Method.Type
-                        .GetMethods(false)
-                        .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
-                        .Select(method => method.ToRuntimeMethod()))
+                    runSummary.Skipped++;
+
+                    if (!MessageBus.QueueMessage(new TestSkipped(this.Test, this.SkipReason)))
                     {
-                        await backgroundMethod.InvokeAsync(obj, null);
+                        CancellationTokenSource.Cancel();
                     }
-                }
-                finally
-                {
-                    CurrentScenario.AddingBackgroundSteps = false;
-                }
-
-                await this.TestMethod.InvokeAsync(obj, this.TestMethodArguments);
-
-                stepRunners.AddRange(CurrentScenario.ExtractSteps()
-                    .Select((step, index) =>
-                    {
-                        string stepName;
-                        try
-                        {
-                            stepName = string.Format(
-                                CultureInfo.InvariantCulture,
-                                step.Name,
-                                this.TestMethodArguments.Select(argument => argument ?? "null").ToArray());
-                        }
-                        catch (FormatException)
-                        {
-                            stepName = step.Name;
-                        }
-
-                        return new StepRunner(
-                            stepName,
-                            step,
-                            new XunitTest(this.TestCase, GetDisplayName(++index, stepName)),
-                            interceptingBus,
-                            this.TestClass,
-                            this.ConstructorArguments,
-                            this.TestMethod,
-                            this.TestMethodArguments,
-                            step.SkipReason,
-                            this.BeforeAfterAttributes,
-                            this.Aggregator,
-                            this.CancellationTokenSource);
-                    }));
-            }
-            catch (Exception ex)
-            {
-                var test = new XunitTest(TestCase, DisplayName);
-
-                if (!MessageBus.QueueMessage(new TestStarting(test)))
-                {
-                    CancellationTokenSource.Cancel();
                 }
                 else
                 {
-                    if (!MessageBus.QueueMessage(new TestFailed(test, 0, null, ex.Unwrap())))
+                    var aggregator = new ExceptionAggregator(this.Aggregator);
+
+                    if (!aggregator.HasExceptions)
                     {
-                        CancellationTokenSource.Cancel();
+                        var tuple = await aggregator.RunAsync(() => this.InvokeTestAsync(aggregator));
+                        runSummary.Time = tuple.Item1;
+                        output = tuple.Item2;
                     }
-                }
 
-                if (!MessageBus.QueueMessage(new TestFinished(test, 0, null)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
+                    var exception = aggregator.ToException();
 
-                return new RunSummary { Total = 1, Failed = 1 };
-            }
-
-            var summary = new RunSummary();
-            string failedStepName = null;
-            foreach (var stepRunner in stepRunners)
-            {
-                if (failedStepName != null)
-                {
-                    var message = string.Format(
-                        CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
-
-                    var failFast = new LambdaTestCase(
-                        this.TestCase.TestMethod,
-                        () =>
+                    if (exception != null)
+                    {
+                        var testResult = new TestFailed(this.Test, runSummary.Time, output, exception);
+                        runSummary.Failed++;
+                        if (!this.CancellationTokenSource.IsCancellationRequested)
                         {
-                            throw new InvalidOperationException(message);
-                        });
-
-                    await failFast.RunAsync(
-                        this.MessageBus, this.ConstructorArguments, this.Aggregator, this.CancellationTokenSource);
-
-                    continue;
-                }
-
-                summary.Aggregate(await stepRunner.RunAsync());
-
-                if (stepFailed)
-                {
-                    failedStepName = stepRunner.StepDisplayName;
-                }
-            }
-
-            var teardowns = stepRunners.SelectMany(runner => runner.Teardowns).ToArray();
-            if (teardowns.Any())
-            {
-                var timer = new ExecutionTimer();
-                var aggregator = new ExceptionAggregator();
-
-                foreach (var teardown in teardowns.Reverse())
-                {
-                    timer.Aggregate(() => aggregator.Run(() => teardown()));
-                }
-
-                if (aggregator.HasExceptions)
-                {
-                    if (!MessageBus.QueueMessage(new TestCaseCleanupFailure(TestCase, aggregator.ToException())))
-                    {
-                        CancellationTokenSource.Cancel();
+                            if (!this.MessageBus.QueueMessage(testResult))
+                            {
+                                this.CancellationTokenSource.Cancel();
+                            }
+                        }
                     }
                 }
 
-                summary.Time += timer.Total;
+                this.Aggregator.Clear();
+                this.BeforeTestFinished();
+
+                if (this.Aggregator.HasExceptions)
+                {
+                    if (!this.MessageBus.QueueMessage(new TestCleanupFailure(this.Test, this.Aggregator.ToException())))
+                    {
+                        this.CancellationTokenSource.Cancel();
+                    }
+                }
             }
 
-            return summary;
+            if (!MessageBus.QueueMessage(new TestFinished(Test, runSummary.Time, output)))
+            {
+                this.CancellationTokenSource.Cancel();
+            }
+
+            return runSummary;
         }
 
-        private string GetDisplayName(int index, string stepName)
+        // NOTE (adamralph): lifted from Xunit.Sdk.XunitTestRunner.InvokeTestAsync() with different invoker
+        protected override async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}.{2}] {3}",
-                this.DisplayName,
-                this.scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
-                index.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
+            var output = string.Empty;
+            var testOutputHelper = this.ConstructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
+            if (testOutputHelper != null)
+            {
+                testOutputHelper.Initialize(this.MessageBus, this.Test);
+            }
+
+            var executionTime = await new ScenarioInvoker(
+                    this.scenarioNumber,
+                    this.Test,
+                    this.MessageBus,
+                    this.TestClass,
+                    this.ConstructorArguments,
+                    this.TestMethod,
+                    this.TestMethodArguments,
+                    this.beforeAfterAttributes,
+                    aggregator,
+                    this.CancellationTokenSource)
+                .RunAsync();
+
+            if (testOutputHelper != null)
+            {
+                output = testOutputHelper.Output;
+                testOutputHelper.Uninitialize();
+            }
+
+            return Tuple.Create(executionTime, output);
         }
     }
 }

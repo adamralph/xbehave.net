@@ -8,48 +8,28 @@ namespace Xbehave.Execution
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Reflection;
     using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Execution.Shims;
     using Xbehave.Sdk;
-    using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepInvoker : XunitTestInvoker
+    public class StepInvoker
     {
         private readonly string stepDisplayName;
         private readonly Step step;
+        private readonly ExceptionAggregator aggregator;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public StepInvoker(
-            string stepDisplayName,
-            Step step,
-            ITest test,
-            IMessageBus messageBus,
-            Type testClass,
-            object[] constructorArguments,
-            MethodInfo testMethod,
-            object[] testMethodArguments,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource)
-            : base(
-                test,
-                messageBus,
-                testClass,
-                constructorArguments,
-                testMethod,
-                testMethodArguments,
-                beforeAfterAttributes,
-                aggregator,
-                cancellationTokenSource)
+        public StepInvoker(string stepDisplayName, Step step, ExceptionAggregator aggregator)
         {
             Guard.AgainstNullArgument("step", step);
+            Guard.AgainstNullArgument("aggregator", aggregator);
 
             this.stepDisplayName = stepDisplayName;
             this.step = step;
+            this.aggregator = aggregator;
         }
 
         public string StepDisplayName
@@ -62,8 +42,9 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        public async override Task<decimal> InvokeTestMethodAsync(object testClassInstance)
+        public async Task<decimal> RunAsync()
         {
+            var timer = new ExecutionTimer();
             var oldSyncContext = SynchronizationContext.Current;
 
             try
@@ -71,8 +52,8 @@ namespace Xbehave.Execution
                 var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
                 SetSynchronizationContext(asyncSyncContext);
 
-                await Aggregator.RunAsync(
-                    () => Timer.AggregateAsync(
+                await this.aggregator.RunAsync(
+                    () => timer.AggregateAsync(
                         async () =>
                         {
                             try
@@ -93,7 +74,7 @@ namespace Xbehave.Execution
                             var ex = await asyncSyncContext.WaitForCompletionAsync();
                             if (ex != null)
                             {
-                                Aggregator.Add(ex);
+                                this.aggregator.Add(ex);
                             }
                         }));
             }
@@ -102,7 +83,7 @@ namespace Xbehave.Execution
                 SetSynchronizationContext(oldSyncContext);
             }
 
-            return Timer.Total;
+            return timer.Total;
         }
 
         [SuppressMessage(
