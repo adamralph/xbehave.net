@@ -20,7 +20,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
             using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
             {
-                discoverer.Find(false, sink, new XunitDiscoveryOptions());
+                discoverer.Find(false, sink, TestFrameworkOptions.ForDiscovery());
                 sink.Finished.WaitOne();
                 return sink.Messages.OfType<ITestCaseDiscoveryMessage>()
                     .Select(message => message.TestCase)
@@ -36,7 +36,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
             using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
             {
-                discoverer.Find(type.FullName, false, sink, new XunitDiscoveryOptions());
+                discoverer.Find(type.FullName, false, sink, TestFrameworkOptions.ForDiscovery());
                 sink.Finished.WaitOne();
                 return sink.Messages.OfType<ITestCaseDiscoveryMessage>().Select(message => message.TestCase).ToArray();
             }

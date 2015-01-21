@@ -13,9 +13,12 @@ namespace Xbehave.Execution
     {
         [SuppressMessage(
             "Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Factory method.")]
-        public IEnumerable<IXunitTestCase> Discover(ITestMethod testMethod, IAttributeInfo factAttribute)
+        public IEnumerable<IXunitTestCase> Discover(
+            ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
-            yield return new ScenarioOutline(testMethod);
+            Guard.AgainstNullArgument("discoveryOptions", discoveryOptions);
+
+            yield return new ScenarioOutline(discoveryOptions.MethodDisplay(), testMethod);
         }
     }
 }

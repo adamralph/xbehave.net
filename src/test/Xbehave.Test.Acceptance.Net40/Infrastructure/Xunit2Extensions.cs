@@ -19,7 +19,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
             using (var sink = new SpyMessageSink<ITestAssemblyFinished>())
             {
-                runner.Run(testCases, sink, new XunitExecutionOptions());
+                runner.RunTests(testCases, sink, TestFrameworkOptions.ForExecution());
                 sink.Finished.WaitOne();
                 return sink.Messages.Select(message => message);
             }

@@ -20,8 +20,9 @@ namespace Xbehave.Execution
     [Serializable]
     public class ScenarioOutline : XunitTestCase
     {
-        public ScenarioOutline(ITestMethod method)
-            : base(method)
+        public ScenarioOutline(
+            TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod, object[] testMethodArguments = null)
+            : base(defaultMethodDisplay, testMethod, testMethodArguments)
         {
         }
 
