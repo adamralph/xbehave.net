@@ -49,9 +49,10 @@
     <Compile Include="..\VersionInfo.2.cs">
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
+    <Compile Include="Guard.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Xbehave.2.Execution.Net45\**\*.cs" Exclude="..\Xbehave.2.Execution.Net45\**\TemporaryGeneratedFile_*.cs">
+    <Compile Include="..\Xbehave.2.Execution.Net45\**\*.cs" Exclude="..\Xbehave.2.Execution.Net45\**\TemporaryGeneratedFile_*.cs;..\Xbehave.2.Execution.Net45\**\Guard.cs">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
   </ItemGroup>
@@ -64,7 +65,9 @@
     <None Include="..\Xbehave.snk">
       <Link>Properties\Xbehave.snk</Link>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>

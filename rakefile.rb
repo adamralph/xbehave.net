@@ -10,7 +10,7 @@ version2 = IO.read("src/VersionInfo.2.cs").split(/AssemblyInformationalVersion\(
 
 $msbuild_command = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
 $xunit_command = "src/packages/xunit.runners.2.0.0-beta5-build2785/tools/xunit.console.exe"
-nuget_command = "src/packages/NuGet.CommandLine.2.8.2/tools/NuGet.exe"
+nuget_command = "src/packages/NuGet.CommandLine.2.8.3/tools/NuGet.exe"
 $solution = "src/Xbehave.sln"
 output = "artifacts/output"
 logs = "artifacts/logs"
