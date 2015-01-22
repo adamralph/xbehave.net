@@ -194,6 +194,7 @@ namespace Xbehave.Execution
                 this.TestMethod,
                 this.TestMethodArguments,
                 step.SkipReason,
+                this.BeforeAfterAttributes,
                 this.Aggregator,
                 this.CancellationTokenSource);
         }
