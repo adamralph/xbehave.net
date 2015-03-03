@@ -9,7 +9,7 @@ version1 = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\(
 version2 = IO.read("src/VersionInfo.2.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix2 + build_number_suffix2
 
 $msbuild_command = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
-$xunit_command = "src/packages/xunit.runners.2.0.0-rc1-build2826/tools/xunit.console.exe"
+$xunit_command = "src/packages/xunit.runners.2.0.0-rc3-build2880/tools/xunit.console.exe"
 nuget_command = "src/packages/NuGet.CommandLine.2.8.3/tools/NuGet.exe"
 $solution = "src/Xbehave.sln"
 output = "artifacts/output"

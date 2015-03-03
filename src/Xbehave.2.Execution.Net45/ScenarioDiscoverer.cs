@@ -11,6 +11,13 @@ namespace Xbehave.Execution
 
     public class ScenarioDiscoverer : IXunitTestCaseDiscoverer
     {
+        private readonly IMessageSink diagnosticMessageSink;
+
+        public ScenarioDiscoverer(IMessageSink diagnosticMessageSink)
+        {
+            this.diagnosticMessageSink = diagnosticMessageSink;
+        }
+
         [SuppressMessage(
             "Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Factory method.")]
         public IEnumerable<IXunitTestCase> Discover(
@@ -18,7 +25,8 @@ namespace Xbehave.Execution
         {
             Guard.AgainstNullArgument("discoveryOptions", discoveryOptions);
 
-            yield return new ScenarioOutline(discoveryOptions.MethodDisplay(), testMethod);
+            yield return new ScenarioOutline(
+                this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
         }
     }
 }
