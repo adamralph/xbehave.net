@@ -13,7 +13,8 @@ namespace Xbehave
     public static class DisposableExtensions
     {
         /// <summary>
-        /// Immediately registers the <see cref="IDisposable"/> object for disposal after all steps in the current scenario have been executed.
+        /// Immediately registers the <see cref="IDisposable"/> object for disposal
+        /// after all steps in the current scenario have been executed.
         /// </summary>
         /// <typeparam name="T">The type of the object.</typeparam>
         /// <param name="obj">The object to be disposed.</param>

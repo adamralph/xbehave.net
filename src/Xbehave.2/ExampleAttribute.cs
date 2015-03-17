@@ -18,13 +18,10 @@ namespace Xbehave
     /// E.g. <see cref="Xunit.InlineDataAttribute"/> or
     /// <see cref="Xunit.MemberDataAttribute"/>.
     /// </summary>
-    [SuppressMessage(
-        "Microsoft.Design",
-        "CA1019:DefineAccessorsForAttributeArguments",
-        Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
-    [CLSCompliant(false)]
     [DataDiscoverer("Xunit.Sdk.InlineDataDiscoverer", "xunit.core")]
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [CLSCompliant(false)]
+    [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
     public sealed class ExampleAttribute : DataAttribute
     {
         /// <summary>

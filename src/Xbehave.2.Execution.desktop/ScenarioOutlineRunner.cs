@@ -53,7 +53,9 @@ namespace Xbehave.Execution
                 foreach (var dataAttribute in dataAttributes)
                 {
                     var discovererAttribute = dataAttribute.GetCustomAttributes(typeof(DataDiscovererAttribute)).First();
-                    var discoverer = ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
+                    var discoverer =
+                        ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
+
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
                         scenarioRunners.Add(this.CreateRunner(disposables, dataRow, scenarioNumber++));
