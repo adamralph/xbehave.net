@@ -26,7 +26,7 @@ acceptance_tests = [
   "src/test/Xbehave.Test.Acceptance.Net35/bin/Release/Xbehave.Test.Acceptance.Net35.dll",
   "src/test/Xbehave.Test.Acceptance.Net40/bin/Release/Xbehave.Test.Acceptance.Net40.dll",
   "src/test/Xbehave.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
-  "src/test/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
+  "src/test/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.2.Test.Acceptance.Net45.dll",
 ]
 
 nuspecs = [
