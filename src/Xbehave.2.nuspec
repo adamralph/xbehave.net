@@ -16,35 +16,20 @@
       <reference file="Xbehave.dll" />
     </references>
     <dependencies>
-      <dependency id="xunit" version="[2.0.0-beta5-build2785,3)" />
+      <dependency id="xunit" version="[2.0.0,3)" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Xbehave.2\bin\Release\Xbehave.dll"                                           target="lib\portable-net45+win+wpa81+wp80" />
-    <file src="Xbehave.2\bin\Release\Xbehave.pdb"                                           target="lib\portable-net45+win+wpa81+wp80" />
-    <file src="Xbehave.2\bin\Release\Xbehave.xml"                                           target="lib\portable-net45+win+wpa81+wp80" />
+    <file src="Xbehave.2\bin\Release\Xbehave.dll" target="lib\portable-net45" />
+    <file src="Xbehave.2\bin\Release\Xbehave.pdb" target="lib\portable-net45" />
+    <file src="Xbehave.2\bin\Release\Xbehave.xml" target="lib\portable-net45" />
 
-    <!-- Execution -->
-    <!-- net45 -->
-    <file src="Xbehave.2\Xbehave.props"                                                     target="build\portable-net45+win+wpa81+wp80" />
-    <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll"                 target="build\portable-net45+win+wpa81+wp80" />
+    <!-- execution -->
 
-    <!-- win8 -->
-    <file src="Xbehave.2\Xbehave.props"                                                     target="build\win8" />
-    <file src="Xbehave.2\Xbehave.targets"                                                   target="build\win8" />
-    <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll"                 target="build\win8" />
-    <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll"                 target="build\win8\device" />
+    <!-- common -->
+    <file src="Xbehave.2.Execution.desktop\bin\Release\Xbehave.Execution.desktop.dll" target="build\_Desktop\" />
 
-    <!-- wpa81 -->
-    <file src="Xbehave.2\Xbehave.props"                                                     target="build\wpa81" />
-    <file src="Xbehave.2\Xbehave.targets"                                                   target="build\wpa81" />
-    <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll"                 target="build\wpa81" />
-    <file src="Xbehave.2.Execution.wpa81\bin\Release\Xbehave.Execution.dll"                 target="build\wpa81\device" />
-
-    <!-- wp8 -->
-    <file src="Xbehave.2\Xbehave.props"                                                     target="build\wp8" />
-    <file src="Xbehave.2\Xbehave.wp8.targets"                                               target="build\wp8" />
-    <file src="Xbehave.2.Execution.Net45\bin\Release\Xbehave.Execution.dll"                 target="build\wp8" />
-    <file src="Xbehave.2.Execution.wp8\bin\Release\Xbehave.Execution.dll"                   target="build\wp8\device" />
+    <!-- portable -->
+    <file src="Xbehave.2\Xbehave.WithDesktop.props" target="build\portable-net45\Xbehave.props" />
   </files>
 </package>

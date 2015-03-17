@@ -5,9 +5,7 @@
 namespace Xbehave.Execution
 {
     using System;
-#if NET45
-    using System.Runtime.Serialization;
-#endif
+    using System.ComponentModel;
     using System.Threading;
     using System.Threading.Tasks;
 #if WPA81 || WINDOWS_PHONE
@@ -20,23 +18,27 @@ namespace Xbehave.Execution
     [Serializable]
     public class ScenarioOutline : XunitTestCase
     {
-        public ScenarioOutline(ITestMethod method)
-            : base(method)
+        public ScenarioOutline(
+            IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod)
+            : base(diagnosticMessageSink, defaultMethodDisplay, testMethod, null)
         {
         }
 
-        protected ScenarioOutline(SerializationInfo info, StreamingContext context)
-            : base(info, context)
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("Called by the de-serializer", true)]
+        protected ScenarioOutline()
         {
         }
 
         public override async Task<RunSummary> RunAsync(
+            IMessageSink diagnosticMessageSink,
             IMessageBus messageBus,
             object[] constructorArguments,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
             return await new ScenarioOutlineRunner(
+                    diagnosticMessageSink,
                     this,
                     this.DisplayName,
                     this.SkipReason,

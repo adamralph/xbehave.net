@@ -9,7 +9,7 @@ version1 = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\(
 version2 = IO.read("src/VersionInfo.2.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix2 + build_number_suffix2
 
 $msbuild_command = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
-$xunit_command = "src/packages/xunit.runners.2.0.0-beta5-build2785/tools/xunit.console.exe"
+$xunit_command = "src/packages/xunit.runner.console.2.0.0/tools/xunit.console.exe"
 nuget_command = "src/packages/NuGet.CommandLine.2.8.3/tools/NuGet.exe"
 $solution = "src/Xbehave.sln"
 output = "artifacts/output"
@@ -26,7 +26,7 @@ acceptance_tests = [
   "src/test/Xbehave.Test.Acceptance.Net35/bin/Release/Xbehave.Test.Acceptance.Net35.dll",
   "src/test/Xbehave.Test.Acceptance.Net40/bin/Release/Xbehave.Test.Acceptance.Net40.dll",
   "src/test/Xbehave.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
-  "src/test/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
+  "src/test/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.2.Test.Acceptance.Net45.dll",
 ]
 
 nuspecs = [
