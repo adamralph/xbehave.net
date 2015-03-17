@@ -26,7 +26,7 @@ namespace Xbehave.Execution
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer", true)]
-        protected ScenarioOutline()
+        public ScenarioOutline()
         {
         }
 
