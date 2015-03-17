@@ -159,7 +159,7 @@ namespace Xbehave.Test.Acceptance
 
             "When I run the scenario"
                 .f(() => results = this.Run<ITestResultMessage>(feature));
-            
+
             "And I sort the results by their display name"
                 .f(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
 

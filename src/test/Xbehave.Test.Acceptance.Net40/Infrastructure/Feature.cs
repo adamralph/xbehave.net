@@ -147,7 +147,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
             return results;
         }
-        
+
         protected virtual void Dispose(bool disposing)
         {
         }

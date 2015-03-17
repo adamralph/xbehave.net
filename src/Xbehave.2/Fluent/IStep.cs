@@ -19,7 +19,8 @@ namespace Xbehave.Fluent
         IStep Skip(string reason);
 
         /// <summary>
-        /// Declares a teardown action (related to this step and/or previous steps) which will be executed after all steps in the current scenario have been executed.
+        /// Declares a teardown action (related to this step and/or previous steps) which will be executed
+        /// after all steps in the current scenario have been executed.
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>

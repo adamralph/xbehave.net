@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Execution.Shims
+namespace Xbehave.Execution
 {
     using System;
     using System.Reflection;

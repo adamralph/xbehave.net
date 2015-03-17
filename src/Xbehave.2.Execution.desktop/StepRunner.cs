@@ -6,7 +6,6 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -14,7 +13,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepRunner : TestRunner<IXunitTestCase>
+    public class StepRunner : XunitTestRunner
     {
         private readonly string stepDisplayName;
         private readonly Step step;
@@ -30,6 +29,7 @@ namespace Xbehave.Execution
             MethodInfo testMethod,
             object[] testMethodArguments,
             string skipReason,
+            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
             : base(
@@ -40,6 +40,7 @@ namespace Xbehave.Execution
                 testMethod,
                 testMethodArguments,
                 skipReason,
+                beforeAfterAttributes,
                 aggregator,
                 cancellationTokenSource)
         {
@@ -64,27 +65,7 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        protected override async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
-        {
-            var output = string.Empty;
-            var testOutputHelper = ConstructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
-            if (testOutputHelper != null)
-            {
-                testOutputHelper.Initialize(this.MessageBus, this.Test);
-            }
-
-            var executionTime = await this.InvokeDelegatesAsync(aggregator);
-
-            if (testOutputHelper != null)
-            {
-                output = testOutputHelper.Output;
-                testOutputHelper.Uninitialize();
-            }
-
-            return Tuple.Create(executionTime, output);
-        }
-
-        protected virtual async Task<decimal> InvokeDelegatesAsync(ExceptionAggregator aggregator)
+        protected override async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
             var invoker = new StepInvoker(this.DisplayName, this.step, aggregator);
 

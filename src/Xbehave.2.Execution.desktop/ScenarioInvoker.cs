@@ -11,7 +11,6 @@ namespace Xbehave.Execution
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xbehave.Execution.Shims;
     using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
@@ -194,6 +193,7 @@ namespace Xbehave.Execution
                 this.TestMethod,
                 this.TestMethodArguments,
                 step.SkipReason,
+                this.BeforeAfterAttributes,
                 this.Aggregator,
                 this.CancellationTokenSource);
         }

@@ -11,7 +11,6 @@ namespace Xbehave.Execution
     using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xbehave.Execution.Shims;
     using Xbehave.Sdk;
     using Xunit.Sdk;
 

@@ -6,7 +6,6 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,7 +15,6 @@ namespace Xbehave.Execution
     public class ScenarioRunner : XunitTestRunner
     {
         private readonly int scenarioNumber;
-        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
 
         public ScenarioRunner(
             int scenarioNumber,
@@ -43,7 +41,6 @@ namespace Xbehave.Execution
                 cancellationTokenSource)
         {
             this.scenarioNumber = scenarioNumber;
-            this.beforeAfterAttributes = beforeAfterAttributes;
         }
 
         // NOTE (adamralph): lifted from Xunit.Sdk.TestRunner.RunAsync() with removal of sending of TestPassed
@@ -116,17 +113,9 @@ namespace Xbehave.Execution
             return runSummary;
         }
 
-        // NOTE (adamralph): lifted from Xunit.Sdk.XunitTestRunner.InvokeTestAsync() with different invoker
-        protected override async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
+        protected async override Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
-            var output = string.Empty;
-            var testOutputHelper = this.ConstructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
-            if (testOutputHelper != null)
-            {
-                testOutputHelper.Initialize(this.MessageBus, this.Test);
-            }
-
-            var executionTime = await new ScenarioInvoker(
+            return await new ScenarioInvoker(
                     this.scenarioNumber,
                     this.Test,
                     this.MessageBus,
@@ -134,18 +123,10 @@ namespace Xbehave.Execution
                     this.ConstructorArguments,
                     this.TestMethod,
                     this.TestMethodArguments,
-                    this.beforeAfterAttributes,
+                    this.BeforeAfterAttributes,
                     aggregator,
                     this.CancellationTokenSource)
                 .RunAsync();
-
-            if (testOutputHelper != null)
-            {
-                output = testOutputHelper.Output;
-                testOutputHelper.Uninitialize();
-            }
-
-            return Tuple.Create(executionTime, output);
         }
     }
 }

@@ -13,7 +13,8 @@ namespace Xbehave
     public interface IStepContext
     {
         /// <summary>
-        /// Immediately registers the <see cref="IDisposable"/> object for disposal after all steps in the current scenario have been executed.
+        /// Immediately registers the <see cref="IDisposable"/> object for disposal
+        /// after all steps in the current scenario have been executed.
         /// </summary>
         /// <param name="disposable">The object to be disposed.</param>
         /// <returns>The current <see cref="IStepContext"/>.</returns>
