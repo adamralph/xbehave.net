@@ -141,6 +141,16 @@ namespace Xbehave.Execution
             return summary.Time;
         }
 
+        protected override Task BeforeTestMethodInvokedAsync()
+        {
+            return Task.FromResult(false);
+        }
+
+        protected override Task AfterTestMethodInvokedAsync()
+        {
+            return Task.FromResult(false);
+        }
+
         private async Task InvokeBackgroundMethods(object testClassInstance)
         {
             CurrentScenario.AddingBackgroundSteps = true;
