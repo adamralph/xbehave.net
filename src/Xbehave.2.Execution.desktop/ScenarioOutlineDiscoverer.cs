@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioDiscoverer.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioOutlineDiscoverer.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -9,11 +9,11 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioDiscoverer : IXunitTestCaseDiscoverer
+    public class ScenarioOutlineDiscoverer : IXunitTestCaseDiscoverer
     {
         private readonly IMessageSink diagnosticMessageSink;
 
-        public ScenarioDiscoverer(IMessageSink diagnosticMessageSink)
+        public ScenarioOutlineDiscoverer(IMessageSink diagnosticMessageSink)
         {
             this.diagnosticMessageSink = diagnosticMessageSink;
         }
