@@ -35,15 +35,9 @@ namespace Xbehave.Test.Acceptance
             "When I run the scenario"
                 .f(() => results = this.Run<ITestResultMessage>(feature));
 
-#if !V2
             "Then the attributes before and after methods are called before and after each step"
                 .f(() => typeof(BeforeAfterTestFeature).GetTestEvents().Should().Equal(
                     "before1", "step1", "after1", "before2", "step2", "after2", "before3", "step3", "after3"));
-#else
-            "Then the attributes before and after methods are called before and after the scenario"
-                .f(() => typeof(BeforeAfterTestFeature).GetTestEvents().Should().Equal(
-                    "before1", "step1", "step2", "step3", "after1"));
-#endif
         }
 
         private static class ScenarioWithBeforeAfterTestAttribute
