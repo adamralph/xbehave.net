@@ -51,20 +51,20 @@
     <Compile Include="..\VersionInfo.2.cs">
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="ExceptionExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="MessageBusExtensions.cs" />
-    <Compile Include="ScenarioOutline.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
-    <Compile Include="ScenarioInvoker.cs" />
-    <Compile Include="StepInvoker.cs" />
-    <Compile Include="StepRunner.cs" />
-    <Compile Include="TypeInfoExtensions.cs" />
-    <Compile Include="ScenarioOutlineRunner.cs" />
-    <Compile Include="ScenarioRunner.cs" />
     <Compile Include="ScenarioOutlineDiscoverer.cs" />
+    <Compile Include="ScenarioOutlineTestCase.cs" />
+    <Compile Include="ScenarioOutlineTestCaseRunner.cs" />
+    <Compile Include="ScenarioTestInvoker.cs" />
+    <Compile Include="ScenarioTestRunner.cs" />
+    <Compile Include="StepTestInvoker.cs" />
+    <Compile Include="StepTestRunner.cs" />
+    <Compile Include="TypeInfoExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">

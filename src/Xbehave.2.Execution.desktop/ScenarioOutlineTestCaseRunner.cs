@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioOutlineRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioOutlineTestCaseRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -13,13 +13,13 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioOutlineRunner : XunitTestCaseRunner
+    public class ScenarioOutlineTestCaseRunner : XunitTestCaseRunner
     {
         private static readonly object[] noArguments = new object[0];
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
         private readonly IMessageSink diagnosticMessageSink;
 
-        public ScenarioOutlineRunner(
+        public ScenarioOutlineTestCaseRunner(
             IMessageSink diagnosticMessageSink,
             IXunitTestCase testCase,
             string displayName,
@@ -43,7 +43,7 @@ namespace Xbehave.Execution
 
         protected override async Task<RunSummary> RunTestAsync()
         {
-            var scenarioRunners = new List<ScenarioRunner>();
+            var scenarioTestRunners = new List<ScenarioTestRunner>();
             var disposables = new List<IDisposable>();
 
             var scenarioNumber = 1;
@@ -58,7 +58,7 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        scenarioRunners.Add(this.CreateRunner(disposables, dataRow, scenarioNumber++));
+                        scenarioTestRunners.Add(this.CreateScenarioTestRunner(disposables, dataRow, scenarioNumber++));
                     }
                 }
             }
@@ -72,15 +72,15 @@ namespace Xbehave.Execution
                 return new RunSummary { Total = 1, Failed = 1 };
             }
 
-            if (!scenarioRunners.Any())
+            if (!scenarioTestRunners.Any())
             {
-                scenarioRunners.Add(this.CreateRunner(disposables, new object[0], 1));
+                scenarioTestRunners.Add(this.CreateScenarioTestRunner(disposables, new object[0], 1));
             }
 
             var summary = new RunSummary();
-            foreach (var scenarioRunner in scenarioRunners)
+            foreach (var scenarioTestRunner in scenarioTestRunners)
             {
-                summary.Aggregate(await scenarioRunner.RunAsync());
+                summary.Aggregate(await scenarioTestRunner.RunAsync());
             }
 
             // TODO (adamralph): don't just throw disposal exceptions away, see XunitTheoryTestCaseRunner
@@ -174,7 +174,8 @@ namespace Xbehave.Execution
                 CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
 
-        private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues, int scenarioNumber)
+        private ScenarioTestRunner CreateScenarioTestRunner(
+            List<IDisposable> disposables, object[] argumentValues, int scenarioNumber)
         {
             disposables.AddRange(argumentValues.OfType<IDisposable>());
 
@@ -235,7 +236,7 @@ namespace Xbehave.Execution
 
             var displayName = GetDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments);
 
-            return new ScenarioRunner(
+            return new ScenarioTestRunner(
                 scenarioNumber,
                 new XunitTest(TestCase, displayName),
                 MessageBus,

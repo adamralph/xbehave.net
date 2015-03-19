@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioInvoker.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioTestInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -15,11 +15,11 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioInvoker : XunitTestInvoker
+    public class ScenarioTestInvoker : XunitTestInvoker
     {
         private readonly int scenarioNumber;
 
-        public ScenarioInvoker(
+        public ScenarioTestInvoker(
             int scenarioNumber,
             ITest test,
             IMessageBus messageBus,
@@ -57,13 +57,13 @@ namespace Xbehave.Execution
                     }
                 });
 
-            var stepRunners = new List<StepRunner>();
+            var stepTestRunners = new List<StepTestRunner>();
             try
             {
                 await this.InvokeBackgroundMethods(testClassInstance);
                 await this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments);
-                stepRunners.AddRange(CurrentScenario.ExtractSteps()
-                    .Select((step, index) => this.CreateRunner(interceptingBus, step, index + 1)));
+                stepTestRunners.AddRange(CurrentScenario.ExtractSteps()
+                    .Select((step, index) => this.CreateStepTestRunner(interceptingBus, step, index + 1)));
             }
             catch (Exception ex)
             {
@@ -75,7 +75,7 @@ namespace Xbehave.Execution
 
             var summary = new RunSummary();
             string failedStepName = null;
-            foreach (var stepRunner in stepRunners)
+            foreach (var stepTestRunner in stepTestRunners)
             {
                 if (failedStepName != null)
                 {
@@ -83,22 +83,22 @@ namespace Xbehave.Execution
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
                     this.MessageBus.Queue(
-                        new XunitTest(this.TestCase, stepRunner.TestDisplayName),
+                        new XunitTest(this.TestCase, stepTestRunner.TestDisplayName),
                         test => new TestFailed(test, 0, string.Empty, new InvalidOperationException(message)),
                         this.CancellationTokenSource);
 
                     continue;
                 }
 
-                summary.Aggregate(await stepRunner.RunAsync());
+                summary.Aggregate(await stepTestRunner.RunAsync());
 
                 if (stepFailed)
                 {
-                    failedStepName = stepRunner.StepDisplayName;
+                    failedStepName = stepTestRunner.StepDisplayName;
                 }
             }
 
-            var teardowns = stepRunners.SelectMany(runner => runner.Teardowns).ToArray();
+            var teardowns = stepTestRunners.SelectMany(runner => runner.Teardowns).ToArray();
             if (teardowns.Any())
             {
                 var timer = new ExecutionTimer();
@@ -114,7 +114,7 @@ namespace Xbehave.Execution
                     this.MessageBus.Queue(
                         new XunitTest(
                             TestCase,
-                            GetDisplayName(this.DisplayName, this.scenarioNumber, stepRunners.Count + 1, "(Teardown)")),
+                            GetDisplayName(this.DisplayName, this.scenarioNumber, stepTestRunners.Count + 1, "(Teardown)")),
                         test => new TestFailed(test, 0, null, teardownAggregator.ToException()),
                         this.CancellationTokenSource);
                 }
@@ -165,7 +165,7 @@ namespace Xbehave.Execution
             }
         }
 
-        private StepRunner CreateRunner(IMessageBus messageBus, Step step, int stepNumber)
+        private StepTestRunner CreateStepTestRunner(IMessageBus messageBus, Step step, int stepNumber)
         {
             string stepName;
             try
@@ -180,7 +180,7 @@ namespace Xbehave.Execution
                 stepName = step.Name;
             }
 
-            return new StepRunner(
+            return new StepTestRunner(
                 stepName,
                 step,
                 new XunitTest(this.TestCase, GetDisplayName(this.DisplayName, this.scenarioNumber, stepNumber, stepName)),

@@ -1,4 +1,4 @@
-﻿// <copyright file="StepInvoker.cs" company="xBehave.net contributors">
+﻿// <copyright file="StepTestInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -16,13 +16,13 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepInvoker : XunitTestInvoker
+    public class StepTestInvoker : XunitTestInvoker
     {
         private readonly string stepDisplayName;
         private readonly Step step;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public StepInvoker(
+        public StepTestInvoker(
             string stepDisplayName,
             Step step,
             ITest test,

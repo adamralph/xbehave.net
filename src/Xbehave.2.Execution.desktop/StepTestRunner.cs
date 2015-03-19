@@ -1,4 +1,4 @@
-﻿// <copyright file="StepRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="StepTestRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -13,13 +13,13 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepRunner : XunitTestRunner
+    public class StepTestRunner : XunitTestRunner
     {
         private readonly string stepDisplayName;
         private readonly Step step;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public StepRunner(
+        public StepTestRunner(
             string stepDisplayName,
             Step step,
             ITest test,
@@ -67,7 +67,7 @@ namespace Xbehave.Execution
 
         protected override async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
-            var invoker = new StepInvoker(
+            var stepTestInvoker = new StepTestInvoker(
                 this.DisplayName,
                 this.step,
                 this.Test,
@@ -82,11 +82,11 @@ namespace Xbehave.Execution
 
             try
             {
-                return await invoker.RunAsync();
+                return await stepTestInvoker.RunAsync();
             }
             finally
             {
-                this.teardowns.AddRange(invoker.Teardowns);
+                this.teardowns.AddRange(stepTestInvoker.Teardowns);
             }
         }
     }

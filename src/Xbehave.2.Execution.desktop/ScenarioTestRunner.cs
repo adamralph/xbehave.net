@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioTestRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioRunner
+    public class ScenarioTestRunner
     {
         private readonly int scenarioNumber;
         private readonly ITest test;
@@ -26,7 +26,7 @@ namespace Xbehave.Execution
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
 
-        public ScenarioRunner(
+        public ScenarioTestRunner(
             int scenarioNumber,
             ITest test,
             IMessageBus messageBus,
@@ -65,17 +65,17 @@ namespace Xbehave.Execution
             {
                 if (!this.aggregator.HasExceptions)
                 {
-                    runSummary.Time = await this.aggregator.RunAsync(() => new ScenarioInvoker(
-                        this.scenarioNumber,
-                        this.test,
-                        this.messageBus,
-                        this.testClass,
-                        this.constructorArguments,
-                        this.testMethod,
-                        this.testMethodArguments,
-                        this.beforeAfterAttributes,
-                        this.aggregator,
-                        this.cancellationTokenSource)
+                    runSummary.Time = await this.aggregator.RunAsync(() => new ScenarioTestInvoker(
+                            this.scenarioNumber,
+                            this.test,
+                            this.messageBus,
+                            this.testClass,
+                            this.constructorArguments,
+                            this.testMethod,
+                            this.testMethodArguments,
+                            this.beforeAfterAttributes,
+                            this.aggregator,
+                            this.cancellationTokenSource)
                         .RunAsync());
                 }
                 else
