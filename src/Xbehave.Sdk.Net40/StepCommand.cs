@@ -15,7 +15,7 @@ namespace Xbehave.Sdk
         private readonly Step step;
         private readonly bool stepBeginsContinueOnFailure;
 
-        // TODO (adamralph): provide overload with out stepBeginsContinueOnFailure
+        // NOTE (adamralph): can provide overload with out stepBeginsContinueOnFailure
         public StepCommand(
             MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step, bool stepBeginsContinueOnFailure, bool omitArgumentsFromScenarioNames)
             : base(methodCall, contextOrdinal, stepOrdinal, omitArgumentsFromScenarioNames)
