@@ -18,6 +18,11 @@ namespace Xbehave.Execution
         private static readonly object[] noArguments = new object[0];
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
+        private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
+        private readonly List<ScenarioTestRunner> scenarioTestRunners = new List<ScenarioTestRunner>();
+        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private Exception dataDiscoveryException;
+
         public ScenarioOutlineTestCaseRunner(
             IMessageSink diagnosticMessageSink,
             IXunitTestCase testCase,
@@ -42,10 +47,9 @@ namespace Xbehave.Execution
 
         protected IMessageSink DiagnosticMessageSink { get; set; }
 
-        protected override async Task<RunSummary> RunTestAsync()
+        protected override async Task AfterTestCaseStartingAsync()
         {
-            var scenarioTestRunners = new List<ScenarioTestRunner>();
-            var disposables = new List<IDisposable>();
+            await base.AfterTestCaseStartingAsync();
 
             var scenarioNumber = 1;
             try
@@ -59,42 +63,57 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        scenarioTestRunners.Add(this.CreateScenarioTestRunner(disposables, dataRow, scenarioNumber++));
+                        this.scenarioTestRunners.Add(this.CreateScenarioTestRunner(dataRow, scenarioNumber++));
                     }
+                }
+
+                if (!this.scenarioTestRunners.Any())
+                {
+                    this.scenarioTestRunners.Add(this.CreateScenarioTestRunner(new object[0], 1));
                 }
             }
             catch (Exception ex)
             {
+                this.dataDiscoveryException = ex;
+            }
+        }
+
+        protected override async Task<RunSummary> RunTestAsync()
+        {
+            if (this.dataDiscoveryException != null)
+            {
                 this.MessageBus.Queue(
                     new XunitTest(TestCase, DisplayName),
-                    test => new TestFailed(test, 0, null, ex.Unwrap()),
+                    test => new TestFailed(test, 0, null, this.dataDiscoveryException.Unwrap()),
                     this.CancellationTokenSource);
 
                 return new RunSummary { Total = 1, Failed = 1 };
             }
 
-            if (!scenarioTestRunners.Any())
-            {
-                scenarioTestRunners.Add(this.CreateScenarioTestRunner(disposables, new object[0], 1));
-            }
-
             var summary = new RunSummary();
-            foreach (var scenarioTestRunner in scenarioTestRunners)
+            foreach (var scenarioTestRunner in this.scenarioTestRunners)
             {
                 summary.Aggregate(await scenarioTestRunner.RunAsync());
             }
 
-            // TODO (adamralph): don't just throw disposal exceptions away, see XunitTheoryTestCaseRunner
+            // Run the cleanup here so we can include cleanup time in the run summary,
+            // but save any exceptions so we can surface them during the cleanup phase,
+            // so they get properly reported as test case cleanup failures.
             var timer = new ExecutionTimer();
-            var aggregator = new ExceptionAggregator();
-
-            foreach (var disposable in disposables)
+            foreach (var disposable in this.disposables)
             {
-                timer.Aggregate(() => aggregator.Run(() => disposable.Dispose()));
+                timer.Aggregate(() => this.cleanupAggregator.Run(() => disposable.Dispose()));
             }
 
             summary.Time += timer.Total;
             return summary;
+        }
+
+        protected override Task BeforeTestCaseFinishedAsync()
+        {
+            Aggregator.Aggregate(this.cleanupAggregator);
+
+            return base.BeforeTestCaseFinishedAsync();
         }
 
         private static IEnumerable<ITypeInfo> ResolveTypeArguments(IMethodInfo method, IList<object> argumentValues)
@@ -175,10 +194,9 @@ namespace Xbehave.Execution
                 CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
 
-        private ScenarioTestRunner CreateScenarioTestRunner(
-            List<IDisposable> disposables, object[] argumentValues, int scenarioNumber)
+        private ScenarioTestRunner CreateScenarioTestRunner(object[] argumentValues, int scenarioNumber)
         {
-            disposables.AddRange(argumentValues.OfType<IDisposable>());
+            this.disposables.AddRange(argumentValues.OfType<IDisposable>());
 
             var typeArguments = new ITypeInfo[0];
             var closedMethod = TestMethod;
