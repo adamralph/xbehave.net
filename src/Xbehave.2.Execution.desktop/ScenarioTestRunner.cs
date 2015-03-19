@@ -15,16 +15,7 @@ namespace Xbehave.Execution
     public class ScenarioTestRunner
     {
         private readonly int scenarioNumber;
-        private readonly ITest test;
-        private readonly IMessageBus messageBus;
-        private readonly Type testClass;
-        private readonly object[] constructorArguments;
-        private readonly MethodInfo testMethod;
-        private readonly object[] testMethodArguments;
-        private readonly string skipReason;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
-        private readonly ExceptionAggregator aggregator;
-        private readonly CancellationTokenSource cancellationTokenSource;
 
         public ScenarioTestRunner(
             int scenarioNumber,
@@ -40,54 +31,100 @@ namespace Xbehave.Execution
             CancellationTokenSource cancellationTokenSource)
         {
             this.scenarioNumber = scenarioNumber;
-            this.test = test;
-            this.messageBus = messageBus;
-            this.testClass = testClass;
-            this.constructorArguments = constructorArguments;
-            this.testMethod = testMethod;
-            this.testMethodArguments = testMethodArguments;
-            this.skipReason = skipReason;
+            this.Test = test;
+            this.MessageBus = messageBus;
+            this.TestClass = testClass;
+            this.ConstructorArguments = constructorArguments;
+            this.TestMethod = testMethod;
+            this.TestMethodArguments = testMethodArguments;
+            this.SkipReason = skipReason;
             this.beforeAfterAttributes = beforeAfterAttributes;
-            this.aggregator = aggregator;
-            this.cancellationTokenSource = cancellationTokenSource;
+            this.Aggregator = aggregator;
+            this.CancellationTokenSource = cancellationTokenSource;
         }
+
+        protected int ScenarioNumber
+        {
+            get { return this.scenarioNumber; }
+        }
+
+        protected ITest Test { get; set; }
+
+        protected IMessageBus MessageBus { get; set; }
+
+        protected Type TestClass { get; set; }
+
+        protected object[] ConstructorArguments { get; set; }
+
+        protected MethodInfo TestMethod { get; set; }
+
+        protected object[] TestMethodArguments { get; set; }
+
+        protected string SkipReason { get; set; }
+
+        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterAttributes
+        {
+            get { return this.beforeAfterAttributes; }
+        }
+
+        protected ExceptionAggregator Aggregator { get; set; }
+
+        protected CancellationTokenSource CancellationTokenSource { get; set; }
 
         public async Task<RunSummary> RunAsync()
         {
             var runSummary = new RunSummary { Total = 1 };
 
-            if (!string.IsNullOrEmpty(this.skipReason))
+            if (!string.IsNullOrEmpty(this.SkipReason))
             {
                 runSummary.Skipped++;
-                this.messageBus.Queue(this.test, t => new TestSkipped(t, this.skipReason), this.cancellationTokenSource);
+                this.MessageBus.Queue(this.Test, t => new TestSkipped(t, this.SkipReason), this.CancellationTokenSource);
             }
             else
             {
-                if (!this.aggregator.HasExceptions)
+                var output = string.Empty;
+                var aggregator = new ExceptionAggregator(this.Aggregator);
+                if (!aggregator.HasExceptions)
                 {
-                    runSummary.Time = await this.aggregator.RunAsync(() => new ScenarioTestInvoker(
-                            this.scenarioNumber,
-                            this.test,
-                            this.messageBus,
-                            this.testClass,
-                            this.constructorArguments,
-                            this.testMethod,
-                            this.testMethodArguments,
-                            this.beforeAfterAttributes,
-                            this.aggregator,
-                            this.cancellationTokenSource)
-                        .RunAsync());
+                    var tuple = await this.Aggregator.RunAsync(() => this.InvokeTestAsync(aggregator));
+                    runSummary.Time = tuple.Item1;
+                    output = tuple.Item2;
                 }
-                else
+
+                var exception = aggregator.ToException();
+                if (exception != null)
                 {
-                    this.messageBus.Queue(
-                        this.test,
-                        t => new TestFailed(t, 0, null, this.aggregator.ToException()),
-                        this.cancellationTokenSource);
+                    runSummary.Failed++;
+                    this.MessageBus.Queue(
+                        this.Test,
+                        t => new TestFailed(t, runSummary.Time, output, exception),
+                        this.CancellationTokenSource);
                 }
             }
 
             return runSummary;
+        }
+
+        protected virtual async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
+        {
+            // NOTE (adamralph): as in XunitTestRunner, we use a ScenarioOutputHelper here for output
+            return Tuple.Create(await this.InvokeTestMethodAsync(), string.Empty);
+        }
+
+        protected virtual async Task<decimal> InvokeTestMethodAsync()
+        {
+            return await new ScenarioTestInvoker(
+                    this.ScenarioNumber,
+                    this.Test,
+                    this.MessageBus,
+                    this.TestClass,
+                    this.ConstructorArguments,
+                    this.TestMethod,
+                    this.TestMethodArguments,
+                    this.BeforeAfterAttributes,
+                    this.Aggregator,
+                    this.CancellationTokenSource)
+                .RunAsync();
         }
     }
 }

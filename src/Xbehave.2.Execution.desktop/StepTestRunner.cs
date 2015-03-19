@@ -65,10 +65,14 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
+        protected Step Step
+        {
+            get { return this.step; }
+        }
+
         protected override async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
-            var stepTestInvoker =
-                new StepTestInvoker(this.DisplayName, this.step, aggregator, this.CancellationTokenSource);
+            var stepTestInvoker = new StepTestInvoker(this.step, aggregator, this.CancellationTokenSource);
 
             try
             {

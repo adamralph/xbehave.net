@@ -17,34 +17,44 @@ namespace Xbehave.Execution
     public class StepTestInvoker
     {
         private readonly ExecutionTimer timer = new ExecutionTimer();
-        private readonly string stepDisplayName;
         private readonly Step step;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly List<Action> teardowns = new List<Action>();
 
         public StepTestInvoker(
-            string stepDisplayName,
-            Step step,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource)
+            Step step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
         {
             Guard.AgainstNullArgument("step", step);
 
-            this.stepDisplayName = stepDisplayName;
             this.step = step;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        public string StepDisplayName
-        {
-            get { return this.stepDisplayName; }
-        }
-
         public IEnumerable<Action> Teardowns
         {
             get { return this.teardowns.ToArray(); }
+        }
+
+        protected ExecutionTimer Timer
+        {
+            get { return this.timer; }
+        }
+
+        protected Step Step
+        {
+            get { return this.step; }
+        }
+
+        protected ExceptionAggregator Aggregator
+        {
+            get { return this.aggregator; }
+        }
+
+        protected CancellationTokenSource CancellationTokenSource
+        {
+            get { return this.cancellationTokenSource; }
         }
 
         public Task<decimal> RunAsync()

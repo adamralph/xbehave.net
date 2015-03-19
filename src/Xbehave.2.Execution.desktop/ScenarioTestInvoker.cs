@@ -45,6 +45,16 @@ namespace Xbehave.Execution
             this.beforeAfterAttributes = beforeAfterAttributes;
         }
 
+        protected int ScenarioNumber
+        {
+            get { return this.scenarioNumber; }
+        }
+
+        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterAttributes
+        {
+            get { return this.beforeAfterAttributes; }
+        }
+
         public async override Task<decimal> InvokeTestMethodAsync(object testClassInstance)
         {
             var stepFailed = false;

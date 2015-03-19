@@ -17,7 +17,6 @@ namespace Xbehave.Execution
     {
         private static readonly object[] noArguments = new object[0];
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
-        private readonly IMessageSink diagnosticMessageSink;
 
         public ScenarioOutlineTestCaseRunner(
             IMessageSink diagnosticMessageSink,
@@ -38,8 +37,10 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            this.diagnosticMessageSink = diagnosticMessageSink;
+            this.DiagnosticMessageSink = diagnosticMessageSink;
         }
+
+        protected IMessageSink DiagnosticMessageSink { get; set; }
 
         protected override async Task<RunSummary> RunTestAsync()
         {
@@ -54,7 +55,7 @@ namespace Xbehave.Execution
                 {
                     var discovererAttribute = dataAttribute.GetCustomAttributes(typeof(DataDiscovererAttribute)).First();
                     var discoverer =
-                        ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
+                        ExtensibilityPointFactory.GetDataDiscoverer(this.DiagnosticMessageSink, discovererAttribute);
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
