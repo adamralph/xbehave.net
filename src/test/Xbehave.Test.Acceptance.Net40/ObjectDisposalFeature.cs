@@ -65,27 +65,22 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public void ADisposableWhichThrowExceptionsWhenDisposed(Type feature, IMessageSinkMessage[] messages)
+        public void ADisposableWhichThrowExceptionsWhenDisposed(Type feature, ITestResultMessage[] results)
         {
             "Given a step with three disposables which throw exceptions when disposed"
                 .f(() => feature = typeof(StepWithThreeBadDisposables));
 
             "When running the scenario"
-                .f(() => messages = this.Run<ITestResultMessage, ITestCaseCleanupFailure>(feature));
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then the messages should not be empty"
-                .f(() => messages.Should().NotBeEmpty());
+            "Then the there should be at least two results"
+                .f(() => results.Length.Should().BeGreaterOrEqualTo(2));
 
-            "And the first n-1 messages should be test passes"
-                .f(() => messages.Reverse().Skip(1).Should().ContainItemsAssignableTo<ITestPassed>());
+            "And the first n-1 results should be passes"
+                .f(() => results.Reverse().Skip(1).Should().ContainItemsAssignableTo<ITestPassed>());
 
-#if !V2
-            "And the last message should be a test failure"
-                .f(() => messages.Reverse().First().Should().BeAssignableTo<ITestFailed>());
-#else
-            "And the last message should be a test case clean up failure"
-                .f(() => messages.Reverse().First().Should().BeAssignableTo<ITestCaseCleanupFailure>());
-#endif
+            "And the last result should be a failure"
+                .f(() => results.Reverse().First().Should().BeAssignableTo<ITestFailed>());
 
             "And the disposables should be disposed in reverse order"
                 .f(() => typeof(ObjectDisposalFeature).GetTestEvents()
