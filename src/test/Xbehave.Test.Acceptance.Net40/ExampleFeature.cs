@@ -5,9 +5,7 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
-#if !V2
     using System.Collections.Generic;
-#endif
     using System.Linq;
     using System.Reflection;
     using FluentAssertions;
@@ -17,6 +15,7 @@ namespace Xbehave.Test.Acceptance
 #if !V2
     using Xunit.Extensions;
 #endif
+    using Xunit.Sdk;
 
     // In order to save time
     // As a developer
@@ -245,6 +244,24 @@ an null value for an argument defined using the fifth type parameter"
                 .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
         }
 
+#if V2
+        [Scenario]
+        public void ExampleValueDisposalFailure(Type feature, Exception exception, ITestCaseCleanupFailure[] failures)
+        {
+            "Given a feature with two scenarios with examples with values which throw exceptions when disposed"
+                .f(() => feature = typeof(FeatureWithTwoScenariosWithExamplesWithValuesWhichThrowErrorsWhenDisposed));
+
+            "When I run the scenarios"
+                .f(() => exception = Record.Exception(() => failures = this.Run<ITestCaseCleanupFailure>(feature)));
+
+            "Then no exception should be thrown"
+                .f(() => exception.Should().BeNull());
+
+            "And there should be 2 test case clean up failures"
+                .f(() => failures.Count().Should().Be(2));
+        }
+#endif
+
 #if !V2
         [Scenario]
         public void OmissionOfArgumentsFromScenarioNames(Type feature, ITestResultMessage[] results)
@@ -275,6 +292,26 @@ an null value for an argument defined using the fifth type parameter"
             }
 
             protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class BadValuesExampleAttribute : DataAttribute
+        {
+            public BadValuesExampleAttribute()
+            {
+            }
+
+            public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+            {
+                yield return new object[] { new BadDisposable() };
+            }
+        }
+
+        public class BadDisposable : IDisposable
+        {
+            public void Dispose()
             {
                 throw new NotImplementedException();
             }
@@ -473,6 +510,23 @@ an null value for an argument defined using the fifth type parameter"
             {
             }
         }
+
+#if V2
+        private static class FeatureWithTwoScenariosWithExamplesWithValuesWhichThrowErrorsWhenDisposed
+        {
+            [Scenario]
+            [BadValuesExample]
+            public static void Scenario1(BadDisposable obj)
+            {
+            }
+
+            [Scenario]
+            [BadValuesExample]
+            public static void Scenario2(BadDisposable obj)
+            {
+            }
+        }
+#endif
 
 #if !V2
         [OmitArgumentsFromScenarioNames(true)]
