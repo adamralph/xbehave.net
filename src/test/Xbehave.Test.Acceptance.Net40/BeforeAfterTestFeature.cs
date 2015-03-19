@@ -2,6 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
+#if !V2
 #if NET40 || NET45
 namespace Xbehave.Test.Acceptance
 {
@@ -9,13 +10,8 @@ namespace Xbehave.Test.Acceptance
     using System.Globalization;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
-#if !V2
     using Xunit;
     using Xunit.Abstractions;
-#else
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-#endif
 
     public class BeforeAfterTestFeature : Feature
     {
@@ -78,4 +74,5 @@ namespace Xbehave.Test.Acceptance
         }
     }
 }
+#endif
 #endif
