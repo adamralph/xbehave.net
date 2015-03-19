@@ -246,7 +246,7 @@ namespace Xbehave.Execution
                 arguments.Select(argument => argument.Value).ToArray(),
                 SkipReason,
                 BeforeAfterAttributes,
-                Aggregator,
+                new ExceptionAggregator(Aggregator),
                 CancellationTokenSource);
         }
     }
