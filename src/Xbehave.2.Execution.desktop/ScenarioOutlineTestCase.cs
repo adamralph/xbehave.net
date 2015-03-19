@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioOutline.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioOutlineTestCase.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -16,9 +16,9 @@ namespace Xbehave.Execution
     using Xunit.Sdk;
 
     [Serializable]
-    public class ScenarioOutline : XunitTestCase
+    public class ScenarioOutlineTestCase : XunitTestCase
     {
-        public ScenarioOutline(
+        public ScenarioOutlineTestCase(
             IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod)
             : base(diagnosticMessageSink, defaultMethodDisplay, testMethod, null)
         {
@@ -26,7 +26,7 @@ namespace Xbehave.Execution
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer", true)]
-        public ScenarioOutline()
+        public ScenarioOutlineTestCase()
         {
         }
 
@@ -37,7 +37,7 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            return await new ScenarioOutlineRunner(
+            return await new ScenarioOutlineTestCaseRunner(
                     diagnosticMessageSink,
                     this,
                     this.DisplayName,

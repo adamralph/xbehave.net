@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioInvoker.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioTestInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -15,11 +15,12 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioInvoker : XunitTestInvoker
+    public class ScenarioTestInvoker : TestInvoker<IXunitTestCase>
     {
         private readonly int scenarioNumber;
+        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
 
-        public ScenarioInvoker(
+        public ScenarioTestInvoker(
             int scenarioNumber,
             ITest test,
             IMessageBus messageBus,
@@ -37,11 +38,21 @@ namespace Xbehave.Execution
                 constructorArguments,
                 testMethod,
                 testMethodArguments,
-                beforeAfterAttributes,
                 aggregator,
                 cancellationTokenSource)
         {
             this.scenarioNumber = scenarioNumber;
+            this.beforeAfterAttributes = beforeAfterAttributes;
+        }
+
+        protected int ScenarioNumber
+        {
+            get { return this.scenarioNumber; }
+        }
+
+        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterAttributes
+        {
+            get { return this.beforeAfterAttributes; }
         }
 
         public async override Task<decimal> InvokeTestMethodAsync(object testClassInstance)
@@ -57,66 +68,48 @@ namespace Xbehave.Execution
                     }
                 });
 
-            var stepRunners = new List<StepRunner>();
+            var stepTestRunners = new List<StepTestRunner>();
             try
             {
                 await this.InvokeBackgroundMethods(testClassInstance);
                 await this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments);
-                stepRunners.AddRange(CurrentScenario.ExtractSteps()
-                    .Select((step, index) => this.CreateRunner(interceptingBus, step, index + 1)));
+                stepTestRunners.AddRange(CurrentScenario.ExtractSteps()
+                    .Select((step, index) => this.CreateStepTestRunner(interceptingBus, step, index + 1)));
             }
             catch (Exception ex)
             {
-                var test = new XunitTest(TestCase, DisplayName);
-
-                if (!MessageBus.QueueMessage(new TestStarting(test)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
-                else
-                {
-                    if (!MessageBus.QueueMessage(new TestFailed(test, 0, null, ex.Unwrap())))
-                    {
-                        CancellationTokenSource.Cancel();
-                    }
-                }
-
-                if (!MessageBus.QueueMessage(new TestFinished(test, 0, null)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
+                this.MessageBus.Queue(
+                    this.Test, test => new TestFailed(test, 0, null, ex.Unwrap()), this.CancellationTokenSource);
 
                 return 0;
             }
 
             var summary = new RunSummary();
             string failedStepName = null;
-            foreach (var stepRunner in stepRunners)
+            foreach (var stepTestRunner in stepTestRunners)
             {
                 if (failedStepName != null)
                 {
-                    var test = new XunitTest(this.TestCase, stepRunner.TestDisplayName);
                     var message = string.Format(
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
-                    if (!MessageBus.QueueMessage(
-                        new TestFailed(test, 0, string.Empty, new InvalidOperationException(message))))
-                    {
-                        CancellationTokenSource.Cancel();
-                    }
+                    this.MessageBus.Queue(
+                        new XunitTest(this.TestCase, stepTestRunner.TestDisplayName),
+                        test => new TestFailed(test, 0, string.Empty, new InvalidOperationException(message)),
+                        this.CancellationTokenSource);
 
                     continue;
                 }
 
-                summary.Aggregate(await stepRunner.RunAsync());
+                summary.Aggregate(await stepTestRunner.RunAsync());
 
                 if (stepFailed)
                 {
-                    failedStepName = stepRunner.StepDisplayName;
+                    failedStepName = stepTestRunner.StepDisplayName;
                 }
             }
 
-            var teardowns = stepRunners.SelectMany(runner => runner.Teardowns).ToArray();
+            var teardowns = stepTestRunners.SelectMany(runner => runner.Teardowns).ToArray();
             if (teardowns.Any())
             {
                 var timer = new ExecutionTimer();
@@ -129,16 +122,29 @@ namespace Xbehave.Execution
 
                 if (teardownAggregator.HasExceptions)
                 {
-                    if (!MessageBus.QueueMessage(new TestCaseCleanupFailure(TestCase, teardownAggregator.ToException())))
-                    {
-                        CancellationTokenSource.Cancel();
-                    }
+                    this.MessageBus.Queue(
+                        new XunitTest(
+                            TestCase,
+                            GetDisplayName(this.DisplayName, this.scenarioNumber, stepTestRunners.Count + 1, "(Teardown)")),
+                        test => new TestFailed(test, 0, null, teardownAggregator.ToException()),
+                        this.CancellationTokenSource);
                 }
 
                 summary.Time += timer.Total;
             }
 
             return summary.Time;
+        }
+
+        private static string GetDisplayName(string scenarioName, int scenarioNumber, int stepNumber, string stepName)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}.{2}] {3}",
+                scenarioName,
+                scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepName);
         }
 
         private async Task InvokeBackgroundMethods(object testClassInstance)
@@ -160,7 +166,7 @@ namespace Xbehave.Execution
             }
         }
 
-        private StepRunner CreateRunner(IMessageBus messageBus, Step step, int stepNumber)
+        private StepTestRunner CreateStepTestRunner(IMessageBus messageBus, Step step, int stepNumber)
         {
             string stepName;
             try
@@ -175,26 +181,18 @@ namespace Xbehave.Execution
                 stepName = step.Name;
             }
 
-            var displayName = string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}.{2}] {3}",
-                this.DisplayName,
-                this.scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
-
-            return new StepRunner(
+            return new StepTestRunner(
                 stepName,
                 step,
-                new XunitTest(this.TestCase, displayName),
+                new XunitTest(this.TestCase, GetDisplayName(this.DisplayName, this.scenarioNumber, stepNumber, stepName)),
                 messageBus,
                 this.TestClass,
                 this.ConstructorArguments,
                 this.TestMethod,
                 this.TestMethodArguments,
                 step.SkipReason,
-                this.BeforeAfterAttributes,
-                this.Aggregator,
+                this.beforeAfterAttributes,
+                new ExceptionAggregator(this.Aggregator),
                 this.CancellationTokenSource);
         }
     }

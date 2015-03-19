@@ -60,27 +60,22 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public void TeardownsWhichThrowExceptionsWhenExecuted(Type feature, IMessageSinkMessage[] messages)
+        public void TeardownsWhichThrowExceptionsWhenExecuted(Type feature, ITestResultMessage[] results)
         {
             "Given a step with three teardowns which throw exceptions when executed"
                 .f(() => feature = typeof(StepWithThreeBadTeardowns));
 
             "When running the scenario"
-                .f(() => messages = this.Run<ITestResultMessage, ITestCaseCleanupFailure>(feature));
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then there should be two messages"
-                .f(() => messages.Length.Should().Be(2));
+            "Then there should be two results"
+                .f(() => results.Length.Should().Be(2));
 
-            "And the first message should be a test pass"
-                .f(() => messages[0].Should().BeAssignableTo<ITestPassed>());
+            "And the first result should be a pass"
+                .f(() => results[0].Should().BeAssignableTo<ITestPassed>());
 
-#if !V2
-            "And the second message should be a test failure"
-                .f(() => messages[1].Should().BeAssignableTo<ITestFailed>());
-#else
-            "And the second message should be a test case clean up failure"
-                .f(() => messages[1].Should().BeAssignableTo<ITestCaseCleanupFailure>());
-#endif
+            "And the second result should be a failure"
+                .f(() => results[1].Should().BeAssignableTo<ITestFailed>());
 
             "Then the teardowns should be executed in reverse order after the step"
                 .f(() => typeof(TeardownFeature).GetTestEvents()

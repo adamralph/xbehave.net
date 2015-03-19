@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioOutlineRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioOutlineTestCaseRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -13,13 +13,17 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioOutlineRunner : XunitTestCaseRunner
+    public class ScenarioOutlineTestCaseRunner : XunitTestCaseRunner
     {
         private static readonly object[] noArguments = new object[0];
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
-        private readonly IMessageSink diagnosticMessageSink;
 
-        public ScenarioOutlineRunner(
+        private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
+        private readonly List<ScenarioTestRunner> scenarioTestRunners = new List<ScenarioTestRunner>();
+        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private Exception dataDiscoveryException;
+
+        public ScenarioOutlineTestCaseRunner(
             IMessageSink diagnosticMessageSink,
             IXunitTestCase testCase,
             string displayName,
@@ -38,13 +42,14 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            this.diagnosticMessageSink = diagnosticMessageSink;
+            this.DiagnosticMessageSink = diagnosticMessageSink;
         }
 
-        protected override async Task<RunSummary> RunTestAsync()
+        protected IMessageSink DiagnosticMessageSink { get; set; }
+
+        protected override async Task AfterTestCaseStartingAsync()
         {
-            var scenarioRunners = new List<ScenarioRunner>();
-            var disposables = new List<IDisposable>();
+            await base.AfterTestCaseStartingAsync();
 
             var scenarioNumber = 1;
             try
@@ -54,59 +59,61 @@ namespace Xbehave.Execution
                 {
                     var discovererAttribute = dataAttribute.GetCustomAttributes(typeof(DataDiscovererAttribute)).First();
                     var discoverer =
-                        ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
+                        ExtensibilityPointFactory.GetDataDiscoverer(this.DiagnosticMessageSink, discovererAttribute);
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        scenarioRunners.Add(this.CreateRunner(disposables, dataRow, scenarioNumber++));
+                        this.scenarioTestRunners.Add(this.CreateScenarioTestRunner(dataRow, scenarioNumber++));
                     }
+                }
+
+                if (!this.scenarioTestRunners.Any())
+                {
+                    this.scenarioTestRunners.Add(this.CreateScenarioTestRunner(new object[0], 1));
                 }
             }
             catch (Exception ex)
             {
-                var test = new XunitTest(TestCase, DisplayName);
+                this.dataDiscoveryException = ex;
+            }
+        }
 
-                if (!MessageBus.QueueMessage(new TestStarting(test)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
-                else
-                {
-                    if (!MessageBus.QueueMessage(new TestFailed(test, 0, null, ex.Unwrap())))
-                    {
-                        CancellationTokenSource.Cancel();
-                    }
-                }
-
-                if (!MessageBus.QueueMessage(new TestFinished(test, 0, null)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
+        protected override async Task<RunSummary> RunTestAsync()
+        {
+            if (this.dataDiscoveryException != null)
+            {
+                this.MessageBus.Queue(
+                    new XunitTest(TestCase, DisplayName),
+                    test => new TestFailed(test, 0, null, this.dataDiscoveryException.Unwrap()),
+                    this.CancellationTokenSource);
 
                 return new RunSummary { Total = 1, Failed = 1 };
             }
 
-            if (!scenarioRunners.Any())
-            {
-                scenarioRunners.Add(this.CreateRunner(disposables, new object[0], 1));
-            }
-
             var summary = new RunSummary();
-            foreach (var scenarioRunner in scenarioRunners)
+            foreach (var scenarioTestRunner in this.scenarioTestRunners)
             {
-                summary.Aggregate(await scenarioRunner.RunAsync());
+                summary.Aggregate(await scenarioTestRunner.RunAsync());
             }
 
+            // Run the cleanup here so we can include cleanup time in the run summary,
+            // but save any exceptions so we can surface them during the cleanup phase,
+            // so they get properly reported as test case cleanup failures.
             var timer = new ExecutionTimer();
-            var aggregator = new ExceptionAggregator();
-
-            foreach (var disposable in disposables)
+            foreach (var disposable in this.disposables)
             {
-                timer.Aggregate(() => aggregator.Run(() => disposable.Dispose()));
+                timer.Aggregate(() => this.cleanupAggregator.Run(() => disposable.Dispose()));
             }
 
             summary.Time += timer.Total;
             return summary;
+        }
+
+        protected override Task BeforeTestCaseFinishedAsync()
+        {
+            Aggregator.Aggregate(this.cleanupAggregator);
+
+            return base.BeforeTestCaseFinishedAsync();
         }
 
         private static IEnumerable<ITypeInfo> ResolveTypeArguments(IMethodInfo method, IList<object> argumentValues)
@@ -187,9 +194,9 @@ namespace Xbehave.Execution
                 CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
 
-        private ScenarioRunner CreateRunner(List<IDisposable> disposables, object[] argumentValues, int scenarioNumber)
+        private ScenarioTestRunner CreateScenarioTestRunner(object[] argumentValues, int scenarioNumber)
         {
-            disposables.AddRange(argumentValues.OfType<IDisposable>());
+            this.disposables.AddRange(argumentValues.OfType<IDisposable>());
 
             var typeArguments = new ITypeInfo[0];
             var closedMethod = TestMethod;
@@ -248,7 +255,7 @@ namespace Xbehave.Execution
 
             var displayName = GetDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments);
 
-            return new ScenarioRunner(
+            return new ScenarioTestRunner(
                 scenarioNumber,
                 new XunitTest(TestCase, displayName),
                 MessageBus,
@@ -258,7 +265,7 @@ namespace Xbehave.Execution
                 arguments.Select(argument => argument.Value).ToArray(),
                 SkipReason,
                 BeforeAfterAttributes,
-                Aggregator,
+                new ExceptionAggregator(Aggregator),
                 CancellationTokenSource);
         }
     }

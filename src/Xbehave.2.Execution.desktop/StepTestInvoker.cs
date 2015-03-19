@@ -1,4 +1,4 @@
-﻿// <copyright file="StepInvoker.cs" company="xBehave.net contributors">
+﻿// <copyright file="StepTestInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -14,26 +14,22 @@ namespace Xbehave.Execution
     using Xbehave.Sdk;
     using Xunit.Sdk;
 
-    public class StepInvoker
+    public class StepTestInvoker
     {
-        private readonly string stepDisplayName;
+        private readonly ExecutionTimer timer = new ExecutionTimer();
         private readonly Step step;
         private readonly ExceptionAggregator aggregator;
+        private readonly CancellationTokenSource cancellationTokenSource;
         private readonly List<Action> teardowns = new List<Action>();
 
-        public StepInvoker(string stepDisplayName, Step step, ExceptionAggregator aggregator)
+        public StepTestInvoker(
+            Step step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
         {
             Guard.AgainstNullArgument("step", step);
-            Guard.AgainstNullArgument("aggregator", aggregator);
 
-            this.stepDisplayName = stepDisplayName;
             this.step = step;
             this.aggregator = aggregator;
-        }
-
-        public string StepDisplayName
-        {
-            get { return this.stepDisplayName; }
+            this.cancellationTokenSource = cancellationTokenSource;
         }
 
         public IEnumerable<Action> Teardowns
@@ -41,9 +37,44 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        public async Task<decimal> RunAsync()
+        protected ExecutionTimer Timer
         {
-            var timer = new ExecutionTimer();
+            get { return this.timer; }
+        }
+
+        protected Step Step
+        {
+            get { return this.step; }
+        }
+
+        protected ExceptionAggregator Aggregator
+        {
+            get { return this.aggregator; }
+        }
+
+        protected CancellationTokenSource CancellationTokenSource
+        {
+            get { return this.cancellationTokenSource; }
+        }
+
+        public Task<decimal> RunAsync()
+        {
+            return this.aggregator.RunAsync(async () =>
+            {
+                if (!this.cancellationTokenSource.IsCancellationRequested)
+                {
+                    if (!this.aggregator.HasExceptions)
+                    {
+                        await InvokeTestMethodAsync();
+                    }
+                }
+
+                return this.timer.Total;
+            });
+        }
+
+        protected virtual async Task<decimal> InvokeTestMethodAsync()
+        {
             var oldSyncContext = SynchronizationContext.Current;
 
             try
@@ -52,7 +83,7 @@ namespace Xbehave.Execution
                 SetSynchronizationContext(asyncSyncContext);
 
                 await this.aggregator.RunAsync(
-                    () => timer.AggregateAsync(
+                    () => this.timer.AggregateAsync(
                         async () =>
                         {
                             try
@@ -84,13 +115,10 @@ namespace Xbehave.Execution
                 SetSynchronizationContext(oldSyncContext);
             }
 
-            return timer.Total;
+            return this.timer.Total;
         }
 
-        [SuppressMessage(
-            "Microsoft.Security",
-            "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule",
-            Justification = "From xunit.")]
+        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
         [SecuritySafeCritical]
         private static void SetSynchronizationContext(SynchronizationContext context)
         {

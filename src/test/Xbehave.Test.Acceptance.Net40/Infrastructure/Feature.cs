@@ -29,16 +29,6 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             GC.SuppressFinalize(this);
         }
 
-        public IMessageSinkMessage[] Run<TMessage1, TMessage2>(Type feature)
-            where TMessage1 : IMessageSinkMessage
-            where TMessage2 : IMessageSinkMessage
-        {
-            var messages = this.Run(feature);
-            return messages.OfType<TMessage1>().Cast<IMessageSinkMessage>()
-                .Concat(messages.OfType<TMessage2>().Cast<IMessageSinkMessage>())
-                .ToArray();
-        }
-
         public TMessage[] Run<TMessage>(Assembly assembly, string collectionName)
             where TMessage : IMessageSinkMessage
         {
@@ -113,16 +103,6 @@ namespace Xbehave.Test.Acceptance.Infrastructure
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public IMessageSinkMessage[] Run<TMessage1, TMessage2>(Type feature)
-            where TMessage1 : IMessageSinkMessage
-            where TMessage2 : IMessageSinkMessage
-        {
-            var messages = this.Run(feature);
-            return messages.OfType<TMessage1>().Cast<IMessageSinkMessage>()
-                .Concat(messages.OfType<TMessage2>().Cast<IMessageSinkMessage>())
-                .ToArray();
         }
 
         public TMessage[] Run<TMessage>(Type feature)

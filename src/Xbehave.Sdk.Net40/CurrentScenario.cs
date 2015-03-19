@@ -49,7 +49,7 @@ namespace Xbehave.Sdk
             return step;
         }
 
-#if NET45 
+#if NET45
         public static Step AddStep(string name, Func<Task> body, object stepType)
         {
             var step = new AsyncStep(EmbellishStepName(name), body, stepType);
@@ -78,7 +78,7 @@ namespace Xbehave.Sdk
             }
         }
 
-        // TODO (adamralph): provide overload with out continueOnFailureStepType
+        // NOTE (adamralph): can provide overload with out continueOnFailureStepType
         [SuppressMessage(
             "Microsoft.Design",
             "CA1031:DoNotCatchGeneralExceptionTypes",
