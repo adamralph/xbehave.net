@@ -15,9 +15,10 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioTestInvoker : XunitTestInvoker
+    public class ScenarioTestInvoker : TestInvoker<IXunitTestCase>
     {
         private readonly int scenarioNumber;
+        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
 
         public ScenarioTestInvoker(
             int scenarioNumber,
@@ -37,11 +38,11 @@ namespace Xbehave.Execution
                 constructorArguments,
                 testMethod,
                 testMethodArguments,
-                beforeAfterAttributes,
                 aggregator,
                 cancellationTokenSource)
         {
             this.scenarioNumber = scenarioNumber;
+            this.beforeAfterAttributes = beforeAfterAttributes;
         }
 
         public async override Task<decimal> InvokeTestMethodAsync(object testClassInstance)
@@ -125,16 +126,6 @@ namespace Xbehave.Execution
             return summary.Time;
         }
 
-        protected override Task BeforeTestMethodInvokedAsync()
-        {
-            return Task.FromResult(false);
-        }
-
-        protected override Task AfterTestMethodInvokedAsync()
-        {
-            return Task.FromResult(false);
-        }
-
         private static string GetDisplayName(string scenarioName, int scenarioNumber, int stepNumber, string stepName)
         {
             return string.Format(
@@ -190,7 +181,7 @@ namespace Xbehave.Execution
                 this.TestMethod,
                 this.TestMethodArguments,
                 step.SkipReason,
-                this.BeforeAfterAttributes,
+                this.beforeAfterAttributes,
                 this.Aggregator,
                 this.CancellationTokenSource);
         }
