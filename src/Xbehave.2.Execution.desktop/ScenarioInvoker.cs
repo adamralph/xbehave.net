@@ -67,24 +67,8 @@ namespace Xbehave.Execution
             }
             catch (Exception ex)
             {
-                var test = new XunitTest(TestCase, DisplayName);
-
-                if (!MessageBus.QueueMessage(new TestStarting(test)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
-                else
-                {
-                    if (!MessageBus.QueueMessage(new TestFailed(test, 0, null, ex.Unwrap())))
-                    {
-                        CancellationTokenSource.Cancel();
-                    }
-                }
-
-                if (!MessageBus.QueueMessage(new TestFinished(test, 0, null)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
+                this.MessageBus.Queue(
+                    this.Test, test => new TestFailed(test, 0, null, ex.Unwrap()), this.CancellationTokenSource);
 
                 return 0;
             }
@@ -95,15 +79,13 @@ namespace Xbehave.Execution
             {
                 if (failedStepName != null)
                 {
-                    var test = new XunitTest(this.TestCase, stepRunner.TestDisplayName);
                     var message = string.Format(
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
-                    if (!MessageBus.QueueMessage(
-                        new TestFailed(test, 0, string.Empty, new InvalidOperationException(message))))
-                    {
-                        CancellationTokenSource.Cancel();
-                    }
+                    this.MessageBus.Queue(
+                        new XunitTest(this.TestCase, stepRunner.TestDisplayName),
+                        test => new TestFailed(test, 0, string.Empty, new InvalidOperationException(message)),
+                        this.CancellationTokenSource);
 
                     continue;
                 }
@@ -129,10 +111,12 @@ namespace Xbehave.Execution
 
                 if (teardownAggregator.HasExceptions)
                 {
-                    if (!MessageBus.QueueMessage(new TestCaseCleanupFailure(TestCase, teardownAggregator.ToException())))
-                    {
-                        CancellationTokenSource.Cancel();
-                    }
+                    this.MessageBus.Queue(
+                        new XunitTest(
+                            TestCase,
+                            GetDisplayName(this.DisplayName, this.scenarioNumber, stepRunners.Count + 1, "(Teardown)")),
+                        test => new TestFailed(test, 0, null, teardownAggregator.ToException()),
+                        this.CancellationTokenSource);
                 }
 
                 summary.Time += timer.Total;
@@ -149,6 +133,17 @@ namespace Xbehave.Execution
         protected override Task AfterTestMethodInvokedAsync()
         {
             return Task.FromResult(false);
+        }
+
+        private static string GetDisplayName(string scenarioName, int scenarioNumber, int stepNumber, string stepName)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}.{2}] {3}",
+                scenarioName,
+                scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepName);
         }
 
         private async Task InvokeBackgroundMethods(object testClassInstance)
@@ -185,18 +180,10 @@ namespace Xbehave.Execution
                 stepName = step.Name;
             }
 
-            var displayName = string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}.{2}] {3}",
-                this.DisplayName,
-                this.scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
-
             return new StepRunner(
                 stepName,
                 step,
-                new XunitTest(this.TestCase, displayName),
+                new XunitTest(this.TestCase, GetDisplayName(this.DisplayName, this.scenarioNumber, stepNumber, stepName)),
                 messageBus,
                 this.TestClass,
                 this.ConstructorArguments,

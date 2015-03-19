@@ -55,6 +55,7 @@
     <Compile Include="ExceptionExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Guard.cs" />
+    <Compile Include="MessageBusExtensions.cs" />
     <Compile Include="ScenarioOutline.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
     <Compile Include="ScenarioInvoker.cs" />

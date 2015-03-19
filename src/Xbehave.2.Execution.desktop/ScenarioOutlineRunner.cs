@@ -64,24 +64,10 @@ namespace Xbehave.Execution
             }
             catch (Exception ex)
             {
-                var test = new XunitTest(TestCase, DisplayName);
-
-                if (!MessageBus.QueueMessage(new TestStarting(test)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
-                else
-                {
-                    if (!MessageBus.QueueMessage(new TestFailed(test, 0, null, ex.Unwrap())))
-                    {
-                        CancellationTokenSource.Cancel();
-                    }
-                }
-
-                if (!MessageBus.QueueMessage(new TestFinished(test, 0, null)))
-                {
-                    CancellationTokenSource.Cancel();
-                }
+                this.MessageBus.Queue(
+                    new XunitTest(TestCase, DisplayName),
+                    test => new TestFailed(test, 0, null, ex.Unwrap()),
+                    this.CancellationTokenSource);
 
                 return new RunSummary { Total = 1, Failed = 1 };
             }
@@ -97,6 +83,7 @@ namespace Xbehave.Execution
                 summary.Aggregate(await scenarioRunner.RunAsync());
             }
 
+            // TODO (adamralph): don't just throw disposal exceptions away, see XunitTheoryTestCaseRunner
             var timer = new ExecutionTimer();
             var aggregator = new ExceptionAggregator();
 
