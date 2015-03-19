@@ -15,6 +15,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
+    // TODO (adamralph): detach from TestInvoker, support BeforeAfterTest and return a RunSummary instead of a time
     public class ScenarioTestInvoker : TestInvoker<IXunitTestCase>
     {
         private readonly int scenarioNumber;
