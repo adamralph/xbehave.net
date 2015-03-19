@@ -67,18 +67,8 @@ namespace Xbehave.Execution
 
         protected override async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
-            var stepTestInvoker = new StepTestInvoker(
-                this.DisplayName,
-                this.step,
-                this.Test,
-                this.MessageBus,
-                this.TestClass,
-                this.ConstructorArguments,
-                this.TestMethod,
-                this.TestMethodArguments,
-                this.BeforeAfterAttributes,
-                aggregator,
-                this.CancellationTokenSource);
+            var stepTestInvoker =
+                new StepTestInvoker(this.DisplayName, this.step, aggregator, this.CancellationTokenSource);
 
             try
             {

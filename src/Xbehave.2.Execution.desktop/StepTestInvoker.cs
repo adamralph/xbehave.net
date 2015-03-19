@@ -8,48 +8,33 @@ namespace Xbehave.Execution
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Reflection;
     using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Sdk;
-    using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepTestInvoker : XunitTestInvoker
+    public class StepTestInvoker
     {
+        private readonly ExecutionTimer timer = new ExecutionTimer();
         private readonly string stepDisplayName;
         private readonly Step step;
+        private readonly ExceptionAggregator aggregator;
+        private readonly CancellationTokenSource cancellationTokenSource;
         private readonly List<Action> teardowns = new List<Action>();
 
         public StepTestInvoker(
             string stepDisplayName,
             Step step,
-            ITest test,
-            IMessageBus messageBus,
-            Type testClass,
-            object[] constructorArguments,
-            MethodInfo testMethod,
-            object[] testMethodArguments,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
-            : base(
-                test,
-                messageBus,
-                testClass,
-                constructorArguments,
-                testMethod,
-                testMethodArguments,
-                beforeAfterAttributes,
-                aggregator,
-                cancellationTokenSource)
         {
             Guard.AgainstNullArgument("step", step);
-            Guard.AgainstNullArgument("aggregator", aggregator);
 
             this.stepDisplayName = stepDisplayName;
             this.step = step;
+            this.aggregator = aggregator;
+            this.cancellationTokenSource = cancellationTokenSource;
         }
 
         public string StepDisplayName
@@ -62,9 +47,24 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        public override async Task<decimal> InvokeTestMethodAsync(object testClassInstance)
+        public Task<decimal> RunAsync()
         {
-            var timer = new ExecutionTimer();
+            return this.aggregator.RunAsync(async () =>
+            {
+                if (!this.cancellationTokenSource.IsCancellationRequested)
+                {
+                    if (!this.aggregator.HasExceptions)
+                    {
+                        await InvokeTestMethodAsync();
+                    }
+                }
+
+                return this.timer.Total;
+            });
+        }
+
+        protected virtual async Task<decimal> InvokeTestMethodAsync()
+        {
             var oldSyncContext = SynchronizationContext.Current;
 
             try
@@ -72,8 +72,8 @@ namespace Xbehave.Execution
                 var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
                 SetSynchronizationContext(asyncSyncContext);
 
-                await this.Aggregator.RunAsync(
-                    () => timer.AggregateAsync(
+                await this.aggregator.RunAsync(
+                    () => this.timer.AggregateAsync(
                         async () =>
                         {
                             try
@@ -96,7 +96,7 @@ namespace Xbehave.Execution
                             var ex = await asyncSyncContext.WaitForCompletionAsync();
                             if (ex != null)
                             {
-                                this.Aggregator.Add(ex);
+                                this.aggregator.Add(ex);
                             }
                         }));
             }
@@ -105,18 +105,10 @@ namespace Xbehave.Execution
                 SetSynchronizationContext(oldSyncContext);
             }
 
-            return timer.Total;
+            return this.timer.Total;
         }
 
-        protected override object CreateTestClass()
-        {
-            return null;
-        }
-
-        [SuppressMessage(
-            "Microsoft.Security",
-            "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule",
-            Justification = "From xunit.")]
+        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
         [SecuritySafeCritical]
         private static void SetSynchronizationContext(SynchronizationContext context)
         {
