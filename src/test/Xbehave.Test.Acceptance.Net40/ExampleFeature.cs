@@ -5,11 +5,18 @@
 namespace Xbehave.Test.Acceptance
 {
     using System;
+#if !V2
+    using System.Collections.Generic;
+#endif
     using System.Linq;
+    using System.Reflection;
     using FluentAssertions;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
     using Xunit.Abstractions;
+#if !V2
+    using Xunit.Extensions;
+#endif
 
     // In order to save time
     // As a developer
@@ -218,6 +225,26 @@ an null value for an argument defined using the fifth type parameter"
                 .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
         }
 
+        [Scenario]
+        public void DiscoveryFailure(Type feature, Exception exception, ITestResultMessage[] results)
+        {
+            "Given a feature with two scenarios with examples which throw errors"
+                .f(() => feature = typeof(FeatureWithTwoScenariosWithExamplesWhichThrowErrors));
+
+            "When I run the scenarios"
+                .f(() => exception = Record.Exception(() =>
+                    results = this.Run<ITestResultMessage>(feature)));
+
+            "Then no exception should be thrown"
+                .f(() => exception.Should().BeNull());
+
+            "And there should be 2 results"
+                .f(() => results.Count().Should().Be(2));
+
+            "And each result should be a failure"
+                .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+        }
+
 #if !V2
         [Scenario]
         public void OmissionOfArgumentsFromScenarioNames(Type feature, ITestResultMessage[] results)
@@ -236,6 +263,34 @@ an null value for an argument defined using the fifth type parameter"
 
             "And the display name of no result should contain '(x: 5, y: 6, z: 7)'"
                 .f(() => results.Should().NotContain(result => result.Test.DisplayName.Contains("(x: 5, y: 6, z: 7)")));
+        }
+#endif
+
+#if V2
+        public class BadExampleAttribute : MemberDataAttributeBase
+        {
+            public BadExampleAttribute()
+                : base("Dummy", new object[0])
+            {
+            }
+
+            protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
+            {
+                throw new NotImplementedException();
+            }
+        }
+#else
+        public class BadExampleAttribute : PropertyDataAttribute
+        {
+            public BadExampleAttribute()
+                : base("Dummy")
+            {
+            }
+
+            public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+            {
+                throw new NotImplementedException();
+            }
         }
 #endif
 
@@ -400,6 +455,21 @@ an null value for an argument defined using the fifth type parameter"
             [Scenario]
             [Example(1, 2)]
             public static void Scenario3(int i)
+            {
+            }
+        }
+
+        private static class FeatureWithTwoScenariosWithExamplesWhichThrowErrors
+        {
+            [Scenario]
+            [BadExample]
+            public static void Scenario1(int i)
+            {
+            }
+
+            [Scenario]
+            [BadExample]
+            public static void Scenario2(int i)
             {
             }
         }
