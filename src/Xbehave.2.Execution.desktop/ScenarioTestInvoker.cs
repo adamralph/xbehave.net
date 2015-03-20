@@ -20,6 +20,7 @@ namespace Xbehave.Execution
         private readonly ExecutionTimer timer = new ExecutionTimer();
         private readonly int scenarioNumber;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
+        private readonly Stack<BeforeAfterTestAttribute> beforeAfterAttributesRun = new Stack<BeforeAfterTestAttribute>();
 
         public ScenarioTestInvoker(
             int scenarioNumber,
@@ -123,11 +124,30 @@ namespace Xbehave.Execution
 
         protected virtual Task BeforeTestMethodInvokedAsync()
         {
+            foreach (var beforeAfterAttribute in this.beforeAfterAttributes)
+            {
+                try
+                {
+                    this.timer.Aggregate(() => beforeAfterAttribute.Before(this.TestMethod));
+                    this.beforeAfterAttributesRun.Push(beforeAfterAttribute);
+                }
+                catch (Exception ex)
+                {
+                    this.Aggregator.Add(ex);
+                    break;
+                }
+            }
+
             return Task.FromResult(0);
         }
 
         protected virtual Task AfterTestMethodInvokedAsync()
         {
+            foreach (var beforeAfterAttribute in this.beforeAfterAttributesRun)
+            {
+                this.Aggregator.Run(() => this.Timer.Aggregate(() => beforeAfterAttribute.After(this.TestMethod)));
+            }
+
             return Task.FromResult(0);
         }
 
