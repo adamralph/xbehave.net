@@ -225,7 +225,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class TenStepsNamedAlphabeticallyBackwardsStartingWithZ
+        private class TenStepsNamedAlphabeticallyBackwardsStartingWithZ
         {
             [Scenario]
             public static void Scenario()
@@ -262,7 +262,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep
+        private class FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep
         {
             [Scenario]
             public static void Scenario()
@@ -280,7 +280,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class FeatureWithAScenarioBodyWhichThrowsAnException
+        private class FeatureWithAScenarioBodyWhichThrowsAnException
         {
             [Scenario]
             public static void Scenario()
@@ -289,7 +289,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private static class AFailingStepAndTwoPassingStepsNamedAlphabeticallyBackwards
+        private class AFailingStepAndTwoPassingStepsNamedAlphabeticallyBackwards
         {
             [Scenario]
             public static void Scenario()
