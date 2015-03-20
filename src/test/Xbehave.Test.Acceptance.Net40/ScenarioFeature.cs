@@ -37,13 +37,15 @@ namespace Xbehave.Test.Acceptance
         public void ScenarioWithThreeSteps()
         {
             var feature = default(Type);
+            var messages = default(IMessageSinkMessage[]);
             var results = default(ITestResultMessage[]);
 
             "Given a feature with a scenario with three steps"
                 .f(() => feature = typeof(FeatureWithAScenarioWithThreeSteps));
 
             "When I run the scenarios"
-                .f(() => results = this.Run<ITestResultMessage>(feature));
+                .f(() => results = (messages = this.Run<IMessageSinkMessage>(feature))
+                    .OfType<ITestResultMessage>().ToArray());
 
             "Then there should be three results"
                 .f(() => results.Length.Should().Be(3));
@@ -56,6 +58,30 @@ namespace Xbehave.Test.Acceptance
 
             "And the third result should have a display name ending with 'Step 3'"
                 .f(() => results[2].Test.DisplayName.Should().EndWith("Step 3"));
+
+#if V2
+            "And the messages should satisfy the xunit message contract"
+                .f(() => messages.Select(message => message.GetType().Name).Should().Equal(
+                    "TestAssemblyStarting",
+                    "TestCollectionStarting",
+                    "TestClassStarting",
+                    "TestMethodStarting",
+                    "TestCaseStarting",
+                    "TestStarting",
+                    "TestPassed",
+                    "TestFinished",
+                    "TestStarting",
+                    "TestPassed",
+                    "TestFinished",
+                    "TestStarting",
+                    "TestPassed",
+                    "TestFinished",
+                    "TestCaseFinished",
+                    "TestMethodFinished",
+                    "TestClassFinished",
+                    "TestCollectionFinished",
+                    "TestAssemblyFinished"));
+#endif
         }
 
         [Scenario]
@@ -183,10 +209,10 @@ namespace Xbehave.Test.Acceptance
                 });
         }
 
-        private static class FeatureWithAScenarioWithThreeSteps
+        private class FeatureWithAScenarioWithThreeSteps
         {
             [Scenario]
-            public static void Scenario()
+            public void Scenario()
             {
                 "Step 1"
                     .f(() => { });
