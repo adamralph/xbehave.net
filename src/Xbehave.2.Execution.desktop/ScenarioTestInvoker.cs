@@ -101,7 +101,7 @@ namespace Xbehave.Execution
                     var disposable = testClassInstance as IDisposable;
                     if (disposable != null)
                     {
-                        Aggregator.Run(() => timer.Aggregate(disposable.Dispose));
+                        timer.Aggregate(() => Aggregator.Run(disposable.Dispose));
                     }
                 }
 
@@ -212,12 +212,10 @@ namespace Xbehave.Execution
             var teardowns = stepTestRunners.SelectMany(runner => runner.Teardowns).ToArray();
             if (teardowns.Any())
             {
-                var teardownTimer = new ExecutionTimer();
                 var teardownAggregator = new ExceptionAggregator();
-
                 foreach (var teardown in teardowns.Reverse())
                 {
-                    teardownTimer.Aggregate(() => teardownAggregator.Run(() => teardown()));
+                    this.timer.Aggregate(() => teardownAggregator.Run(() => teardown()));
                 }
 
                 if (teardownAggregator.HasExceptions)
@@ -231,8 +229,6 @@ namespace Xbehave.Execution
                         test => new TestFailed(test, 0, null, teardownAggregator.ToException()),
                         this.CancellationTokenSource);
                 }
-
-                summary.Time += teardownTimer.Total;
             }
 
             return summary;
