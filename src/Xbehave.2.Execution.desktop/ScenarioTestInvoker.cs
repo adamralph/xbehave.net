@@ -76,8 +76,9 @@ namespace Xbehave.Execution
             get { return this.timer; }
         }
 
-        public Task<decimal> RunAsync()
+        public Task<RunSummary> RunAsync()
         {
+            var summary = new RunSummary();
             return this.Aggregator.RunAsync(async () =>
             {
                 if (!CancellationTokenSource.IsCancellationRequested)
@@ -90,7 +91,7 @@ namespace Xbehave.Execution
 
                         if (!Aggregator.HasExceptions)
                         {
-                            await InvokeTestMethodAsync(testClassInstance);
+                            summary.Aggregate(await InvokeTestMethodAsync(testClassInstance));
                         }
 
                         await AfterTestMethodInvokedAsync();
@@ -103,7 +104,8 @@ namespace Xbehave.Execution
                     }
                 }
 
-                return this.timer.Total;
+                summary.Time += this.timer.Total;
+                return summary;
             });
         }
 
@@ -129,8 +131,7 @@ namespace Xbehave.Execution
             return Task.FromResult(0);
         }
 
-        // TODO (adamralph): use aggregator and/or timer where appropriate
-        protected async virtual Task<decimal> InvokeTestMethodAsync(object testClassInstance)
+        protected async virtual Task<RunSummary> InvokeTestMethodAsync(object testClassInstance)
         {
             var stepFailed = false;
             var interceptingBus = new DelegatingMessageBus(
@@ -146,8 +147,10 @@ namespace Xbehave.Execution
             var stepTestRunners = new List<StepTestRunner>();
             try
             {
-                await this.InvokeBackgroundMethods(testClassInstance);
-                await this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments);
+                await this.InvokeBackgroundMethodsAsync(testClassInstance);
+                await this.timer.AggregateAsync(() =>
+                    this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments));
+
                 stepTestRunners.AddRange(CurrentScenario.ExtractSteps()
                     .Select((step, index) => this.CreateStepTestRunner(interceptingBus, step, index + 1)));
             }
@@ -156,7 +159,7 @@ namespace Xbehave.Execution
                 this.MessageBus.Queue(
                     this.Test, test => new TestFailed(test, 0, null, ex.Unwrap()), this.CancellationTokenSource);
 
-                return 0;
+                return new RunSummary { Failed = 1, Total = 1 };
             }
 
             var summary = new RunSummary();
@@ -165,6 +168,8 @@ namespace Xbehave.Execution
             {
                 if (failedStepName != null)
                 {
+                    summary.Failed++;
+                    summary.Total++;
                     var message = string.Format(
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
@@ -197,6 +202,8 @@ namespace Xbehave.Execution
 
                 if (teardownAggregator.HasExceptions)
                 {
+                    summary.Failed++;
+                    summary.Total++;
                     this.MessageBus.Queue(
                         new XunitTest(
                             (IXunitTestCase)this.Test.TestCase,
@@ -208,7 +215,7 @@ namespace Xbehave.Execution
                 summary.Time += teardownTimer.Total;
             }
 
-            return summary.Time;
+            return summary;
         }
 
         private static string GetDisplayName(string scenarioName, int scenarioNumber, int stepNumber, string stepName)
@@ -222,7 +229,7 @@ namespace Xbehave.Execution
                 stepName);
         }
 
-        private async Task InvokeBackgroundMethods(object testClassInstance)
+        private async Task InvokeBackgroundMethodsAsync(object testClassInstance)
         {
             CurrentScenario.AddingBackgroundSteps = true;
             try
@@ -232,7 +239,7 @@ namespace Xbehave.Execution
                     .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
                     .Select(method => method.ToRuntimeMethod()))
                 {
-                    await backgroundMethod.InvokeAsync(testClassInstance, null);
+                    await this.timer.AggregateAsync(() => backgroundMethod.InvokeAsync(testClassInstance, null));
                 }
             }
             finally
