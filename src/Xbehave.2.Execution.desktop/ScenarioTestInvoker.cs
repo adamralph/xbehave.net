@@ -96,8 +96,11 @@ namespace Xbehave.Execution
                         await AfterTestMethodInvokedAsync();
                     }
 
-                    Aggregator.Run(() => this.Test.DisposeTestClass(
-                        testClassInstance, this.MessageBus, this.timer, this.CancellationTokenSource));
+                    var disposable = testClassInstance as IDisposable;
+                    if (disposable != null)
+                    {
+                        Aggregator.Run(() => timer.Aggregate(disposable.Dispose));
+                    }
                 }
 
                 return this.timer.Total;
@@ -110,8 +113,7 @@ namespace Xbehave.Execution
 
             if (!this.TestMethod.IsStatic && !this.Aggregator.HasExceptions)
             {
-                testClass = this.Test.CreateTestClass(
-                    this.TestClass, this.ConstructorArguments, this.MessageBus, this.timer, this.CancellationTokenSource);
+                this.timer.Aggregate(() => testClass = Activator.CreateInstance(this.TestClass, this.ConstructorArguments));
             }
 
             return testClass;
