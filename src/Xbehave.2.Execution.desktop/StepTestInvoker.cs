@@ -61,12 +61,9 @@ namespace Xbehave.Execution
         {
             return this.aggregator.RunAsync(async () =>
             {
-                if (!this.cancellationTokenSource.IsCancellationRequested)
+                if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
                 {
-                    if (!this.aggregator.HasExceptions)
-                    {
-                        await InvokeTestMethodAsync();
-                    }
+                    await InvokeTestMethodAsync();
                 }
 
                 return this.timer.Total;
