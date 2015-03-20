@@ -110,10 +110,10 @@ namespace Xbehave.Execution
         protected virtual async Task<Tuple<RunSummary, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
             // NOTE (adamralph): as in XunitTestRunner, we use a ScenarioOutputHelper here for output
-            return Tuple.Create(await this.InvokeTestMethodAsync(), string.Empty);
+            return Tuple.Create(await this.InvokeTestMethodAsync(aggregator), string.Empty);
         }
 
-        protected virtual async Task<RunSummary> InvokeTestMethodAsync()
+        protected virtual async Task<RunSummary> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
             return await new ScenarioTestInvoker(
                     this.ScenarioNumber,
@@ -124,7 +124,7 @@ namespace Xbehave.Execution
                     this.TestMethod,
                     this.TestMethodArguments,
                     this.BeforeAfterAttributes,
-                    this.Aggregator,
+                    aggregator,
                     this.CancellationTokenSource)
                 .RunAsync();
         }
