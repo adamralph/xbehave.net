@@ -15,8 +15,9 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioTestInvoker : TestInvoker<IXunitTestCase>
+    public class ScenarioTestInvoker
     {
+        private readonly ExecutionTimer timer = new ExecutionTimer();
         private readonly int scenarioNumber;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
 
@@ -31,18 +32,17 @@ namespace Xbehave.Execution
             IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
-            : base(
-                test,
-                messageBus,
-                testClass,
-                constructorArguments,
-                testMethod,
-                testMethodArguments,
-                aggregator,
-                cancellationTokenSource)
         {
             this.scenarioNumber = scenarioNumber;
+            this.Test = test;
+            this.MessageBus = messageBus;
+            this.TestClass = testClass;
+            this.ConstructorArguments = constructorArguments;
+            this.TestMethod = testMethod;
+            this.TestMethodArguments = testMethodArguments;
             this.beforeAfterAttributes = beforeAfterAttributes;
+            this.Aggregator = aggregator;
+            this.CancellationTokenSource = cancellationTokenSource;
         }
 
         protected int ScenarioNumber
@@ -50,12 +50,85 @@ namespace Xbehave.Execution
             get { return this.scenarioNumber; }
         }
 
+        protected ITest Test { get; set; }
+
+        protected IMessageBus MessageBus { get; set; }
+
+        protected Type TestClass { get; set; }
+
+        protected object[] ConstructorArguments { get; set; }
+
+        protected MethodInfo TestMethod { get; set; }
+
+        protected object[] TestMethodArguments { get; set; }
+
         protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterAttributes
         {
             get { return this.beforeAfterAttributes; }
         }
 
-        public async override Task<decimal> InvokeTestMethodAsync(object testClassInstance)
+        protected ExceptionAggregator Aggregator { get; set; }
+
+        protected CancellationTokenSource CancellationTokenSource { get; set; }
+
+        protected ExecutionTimer Timer
+        {
+            get { return this.timer; }
+        }
+
+        public Task<decimal> RunAsync()
+        {
+            return this.Aggregator.RunAsync(async () =>
+            {
+                if (!CancellationTokenSource.IsCancellationRequested)
+                {
+                    var testClassInstance = CreateTestClass();
+
+                    if (!CancellationTokenSource.IsCancellationRequested)
+                    {
+                        await BeforeTestMethodInvokedAsync();
+
+                        if (!Aggregator.HasExceptions)
+                        {
+                            await InvokeTestMethodAsync(testClassInstance);
+                        }
+
+                        await AfterTestMethodInvokedAsync();
+                    }
+
+                    Aggregator.Run(() => this.Test.DisposeTestClass(
+                        testClassInstance, this.MessageBus, this.timer, this.CancellationTokenSource));
+                }
+
+                return this.timer.Total;
+            });
+        }
+
+        protected virtual object CreateTestClass()
+        {
+            object testClass = null;
+
+            if (!this.TestMethod.IsStatic && !this.Aggregator.HasExceptions)
+            {
+                testClass = this.Test.CreateTestClass(
+                    this.TestClass, this.ConstructorArguments, this.MessageBus, this.timer, this.CancellationTokenSource);
+            }
+
+            return testClass;
+        }
+
+        protected virtual Task BeforeTestMethodInvokedAsync()
+        {
+            return Task.FromResult(0);
+        }
+
+        protected virtual Task AfterTestMethodInvokedAsync()
+        {
+            return Task.FromResult(0);
+        }
+
+        // TODO (adamralph): use aggregator and/or timer where appropriate
+        protected async virtual Task<decimal> InvokeTestMethodAsync(object testClassInstance)
         {
             var stepFailed = false;
             var interceptingBus = new DelegatingMessageBus(
@@ -94,7 +167,7 @@ namespace Xbehave.Execution
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
                     this.MessageBus.Queue(
-                        new XunitTest(this.TestCase, stepTestRunner.TestDisplayName),
+                        new XunitTest((IXunitTestCase)this.Test.TestCase, stepTestRunner.TestDisplayName),
                         test => new TestFailed(test, 0, string.Empty, new InvalidOperationException(message)),
                         this.CancellationTokenSource);
 
@@ -112,25 +185,25 @@ namespace Xbehave.Execution
             var teardowns = stepTestRunners.SelectMany(runner => runner.Teardowns).ToArray();
             if (teardowns.Any())
             {
-                var timer = new ExecutionTimer();
+                var teardownTimer = new ExecutionTimer();
                 var teardownAggregator = new ExceptionAggregator();
 
                 foreach (var teardown in teardowns.Reverse())
                 {
-                    timer.Aggregate(() => teardownAggregator.Run(() => teardown()));
+                    teardownTimer.Aggregate(() => teardownAggregator.Run(() => teardown()));
                 }
 
                 if (teardownAggregator.HasExceptions)
                 {
                     this.MessageBus.Queue(
                         new XunitTest(
-                            TestCase,
-                            GetDisplayName(this.DisplayName, this.scenarioNumber, stepTestRunners.Count + 1, "(Teardown)")),
+                            (IXunitTestCase)this.Test.TestCase,
+                            GetDisplayName(this.Test.DisplayName, this.scenarioNumber, stepTestRunners.Count + 1, "(Teardown)")),
                         test => new TestFailed(test, 0, null, teardownAggregator.ToException()),
                         this.CancellationTokenSource);
                 }
 
-                summary.Time += timer.Total;
+                summary.Time += teardownTimer.Total;
             }
 
             return summary.Time;
@@ -152,7 +225,7 @@ namespace Xbehave.Execution
             CurrentScenario.AddingBackgroundSteps = true;
             try
             {
-                foreach (var backgroundMethod in this.TestCase.TestMethod.Method.Type
+                foreach (var backgroundMethod in this.Test.TestCase.TestMethod.Method.Type
                     .GetMethods(false)
                     .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
                     .Select(method => method.ToRuntimeMethod()))
@@ -184,7 +257,9 @@ namespace Xbehave.Execution
             return new StepTestRunner(
                 stepName,
                 step,
-                new XunitTest(this.TestCase, GetDisplayName(this.DisplayName, this.scenarioNumber, stepNumber, stepName)),
+                new XunitTest(
+                    (IXunitTestCase)this.Test.TestCase,
+                    GetDisplayName(this.Test.DisplayName, this.scenarioNumber, stepNumber, stepName)),
                 messageBus,
                 this.TestClass,
                 this.ConstructorArguments,
