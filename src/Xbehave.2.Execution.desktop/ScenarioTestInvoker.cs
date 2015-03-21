@@ -164,11 +164,12 @@ namespace Xbehave.Execution
                     }
                 });
 
+            var stepDiscoveryTimer = new ExecutionTimer();
             var stepTestRunners = new List<StepTestRunner>();
             try
             {
-                await this.InvokeBackgroundMethodsAsync(testClassInstance);
-                await this.timer.AggregateAsync(() =>
+                await this.InvokeBackgroundMethodsAsync(testClassInstance, stepDiscoveryTimer);
+                await stepDiscoveryTimer.AggregateAsync(() =>
                     this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments));
 
                 stepTestRunners.AddRange(CurrentScenario.ExtractSteps()
@@ -177,17 +178,19 @@ namespace Xbehave.Execution
             catch (Exception ex)
             {
                 this.MessageBus.Queue(
-                    this.Test, test => new TestFailed(test, 0, null, ex.Unwrap()), this.CancellationTokenSource);
+                    this.Test,
+                    test => new TestFailed(test, stepDiscoveryTimer.Total, null, ex.Unwrap()), this.CancellationTokenSource);
 
-                return new RunSummary { Failed = 1, Total = 1 };
+                return new RunSummary { Failed = 1, Total = 1, Time = stepDiscoveryTimer.Total };
             }
 
             if (!stepTestRunners.Any())
             {
                 this.MessageBus.Queue(
-                    this.Test, test => new TestPassed(test, 0, null), this.CancellationTokenSource);
+                    this.Test,
+                    test => new TestPassed(test, stepDiscoveryTimer.Total, null), this.CancellationTokenSource);
 
-                return new RunSummary { Total = 1 };
+                return new RunSummary { Total = 1, Time = stepDiscoveryTimer.Total };
             }
 
             var summary = new RunSummary();
@@ -220,21 +223,23 @@ namespace Xbehave.Execution
             var teardowns = stepTestRunners.SelectMany(runner => runner.Teardowns).ToArray();
             if (teardowns.Any())
             {
+                var teardownTimer = new ExecutionTimer();
                 var teardownAggregator = new ExceptionAggregator();
                 foreach (var teardown in teardowns.Reverse())
                 {
-                    this.timer.Aggregate(() => teardownAggregator.Run(() => teardown()));
+                    teardownTimer.Aggregate(() => teardownAggregator.Run(() => teardown()));
                 }
 
                 if (teardownAggregator.HasExceptions)
                 {
                     summary.Failed++;
                     summary.Total++;
+                    summary.Time += teardownTimer.Total;
                     this.MessageBus.Queue(
                         new XunitTest(
                             (IXunitTestCase)this.Test.TestCase,
                             GetDisplayName(this.Test.DisplayName, this.scenarioNumber, stepTestRunners.Count + 1, "(Teardown)")),
-                        test => new TestFailed(test, 0, null, teardownAggregator.ToException()),
+                        test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.CancellationTokenSource);
                 }
             }
@@ -253,7 +258,7 @@ namespace Xbehave.Execution
                 stepName);
         }
 
-        private async Task InvokeBackgroundMethodsAsync(object testClassInstance)
+        private async Task InvokeBackgroundMethodsAsync(object testClassInstance, ExecutionTimer stepDiscoveryTimer)
         {
             CurrentScenario.AddingBackgroundSteps = true;
             try
@@ -263,7 +268,7 @@ namespace Xbehave.Execution
                     .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
                     .Select(method => method.ToRuntimeMethod()))
                 {
-                    await this.timer.AggregateAsync(() => backgroundMethod.InvokeAsync(testClassInstance, null));
+                    await stepDiscoveryTimer.AggregateAsync(() => backgroundMethod.InvokeAsync(testClassInstance, null));
                 }
             }
             finally
