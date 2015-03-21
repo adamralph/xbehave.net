@@ -90,7 +90,7 @@ namespace Xbehave.Execution
                     {
                         await BeforeTestMethodInvokedAsync();
 
-                        if (!Aggregator.HasExceptions)
+                        if (!this.CancellationTokenSource.IsCancellationRequested && !this.Aggregator.HasExceptions)
                         {
                             summary.Aggregate(await InvokeTestMethodAsync(testClassInstance));
                         }
@@ -134,6 +134,11 @@ namespace Xbehave.Execution
                 catch (Exception ex)
                 {
                     this.Aggregator.Add(ex);
+                    break;
+                }
+
+                if (CancellationTokenSource.IsCancellationRequested)
+                {
                     break;
                 }
             }
