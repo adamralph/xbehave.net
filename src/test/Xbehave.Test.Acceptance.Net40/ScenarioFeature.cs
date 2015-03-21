@@ -209,6 +209,27 @@ namespace Xbehave.Test.Acceptance
                 });
         }
 
+#if V2
+        [Scenario]
+        public void ScenarioWithNoSteps()
+        {
+            var feature = default(Type);
+            var results = default(ITestResultMessage[]);
+
+            "Given a scenario with no steps"
+                .f(() => feature = typeof(FeatureWithAScenarioWithNoSteps));
+
+            "When I run the scenario"
+                .f(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then there should be one result"
+                .f(() => results.Length.Should().Be(1));
+
+            "And the result should be a pass"
+                .f(() => results.Single().Should().BeAssignableTo<ITestPassed>());
+        }
+#endif
+
         private class FeatureWithAScenarioWithThreeSteps
         {
             [Scenario]
@@ -322,5 +343,15 @@ namespace Xbehave.Test.Acceptance
                     .f(() => { });
             }
         }
+
+#if V2
+        private class FeatureWithAScenarioWithNoSteps
+        {
+            [Scenario]
+            public void Scenario()
+            {
+            }
+        }
+#endif
     }
 }
