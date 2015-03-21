@@ -182,6 +182,14 @@ namespace Xbehave.Execution
                 return new RunSummary { Failed = 1, Total = 1 };
             }
 
+            if (!stepTestRunners.Any())
+            {
+                this.MessageBus.Queue(
+                    this.Test, test => new TestPassed(test, 0, null), this.CancellationTokenSource);
+
+                return new RunSummary { Total = 1 };
+            }
+
             var summary = new RunSummary();
             string failedStepName = null;
             foreach (var stepTestRunner in stepTestRunners)
