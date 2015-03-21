@@ -73,10 +73,11 @@ namespace Xbehave.Execution
 
         public async Task<RunSummary> RunAsync()
         {
-            var runSummary = new RunSummary { Total = 1 };
+            var runSummary = new RunSummary();
 
             if (!string.IsNullOrEmpty(this.SkipReason))
             {
+                runSummary.Total++;
                 runSummary.Skipped++;
                 this.MessageBus.Queue(this.Test, t => new TestSkipped(t, this.SkipReason), this.CancellationTokenSource);
             }
@@ -87,13 +88,14 @@ namespace Xbehave.Execution
                 if (!aggregator.HasExceptions)
                 {
                     var tuple = await this.Aggregator.RunAsync(() => this.InvokeTestAsync(aggregator));
-                    runSummary.Time = tuple.Item1;
+                    runSummary.Aggregate(tuple.Item1);
                     output = tuple.Item2;
                 }
 
                 var exception = aggregator.ToException();
                 if (exception != null)
                 {
+                    runSummary.Total++;
                     runSummary.Failed++;
                     this.MessageBus.Queue(
                         this.Test,
@@ -105,13 +107,13 @@ namespace Xbehave.Execution
             return runSummary;
         }
 
-        protected virtual async Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
+        protected virtual async Task<Tuple<RunSummary, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
             // NOTE (adamralph): as in XunitTestRunner, we use a ScenarioOutputHelper here for output
-            return Tuple.Create(await this.InvokeTestMethodAsync(), string.Empty);
+            return Tuple.Create(await this.InvokeTestMethodAsync(aggregator), string.Empty);
         }
 
-        protected virtual async Task<decimal> InvokeTestMethodAsync()
+        protected virtual async Task<RunSummary> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
             return await new ScenarioTestInvoker(
                     this.ScenarioNumber,
@@ -122,7 +124,7 @@ namespace Xbehave.Execution
                     this.TestMethod,
                     this.TestMethodArguments,
                     this.BeforeAfterAttributes,
-                    this.Aggregator,
+                    aggregator,
                     this.CancellationTokenSource)
                 .RunAsync();
         }

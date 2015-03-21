@@ -76,6 +76,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncScenarioFeature.cs" />
     <Compile Include="AsyncStepFeature.cs" />
     <Compile Include="CollectionFixtureFeature.cs" />
     <Compile Include="ClassFixtureFeature.cs" />

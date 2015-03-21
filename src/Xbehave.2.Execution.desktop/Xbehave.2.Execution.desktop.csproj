@@ -57,7 +57,7 @@
     <Compile Include="Guard.cs" />
     <Compile Include="MessageBusExtensions.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
-    <Compile Include="ScenarioOutlineDiscoverer.cs" />
+    <Compile Include="ScenarioDiscoverer.cs" />
     <Compile Include="ScenarioOutlineTestCase.cs" />
     <Compile Include="ScenarioOutlineTestCaseRunner.cs" />
     <Compile Include="ScenarioTestInvoker.cs" />
