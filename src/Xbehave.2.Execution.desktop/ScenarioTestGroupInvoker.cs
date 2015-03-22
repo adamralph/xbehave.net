@@ -298,14 +298,15 @@ namespace Xbehave.Execution
                 stepDisplayName = step.Name;
             }
 
-            var displayName = GetStepTestDisplayName(this.TestGroup.DisplayName, this.scenarioNumber, stepNumber, stepDisplayName);
+            var stepTestDisplayName = GetStepTestDisplayName(
+                this.TestGroup.DisplayName, this.scenarioNumber, stepNumber, stepDisplayName);
 
             return new KeyValuePair<string, StepTestRunner>(
-                displayName,
+                stepTestDisplayName,
                 new StepTestRunner(
                     stepDisplayName,
                     step,
-                    new XunitTest(this.TestGroup.TestCase, displayName),
+                    new XunitTest(this.TestGroup.TestCase, stepTestDisplayName),
                     messageBus,
                     this.TestClass,
                     this.ConstructorArguments,
