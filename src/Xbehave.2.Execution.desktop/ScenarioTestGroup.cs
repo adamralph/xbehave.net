@@ -6,6 +6,7 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
@@ -15,6 +16,8 @@ namespace Xbehave.Execution
 
     public class ScenarioTestGroup : IScenarioTestGroup, IDisposable
     {
+        private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
+
         private readonly IXunitTestCase testCase;
         private readonly string displayName;
         private readonly int scenarioNumber;
@@ -26,7 +29,7 @@ namespace Xbehave.Execution
 
         public ScenarioTestGroup(
             IXunitTestCase testCase,
-            string displayName,
+            string baseDisplayName,
             int scenarioNumber,
             Type testClass,
             MethodInfo testMethod,
@@ -34,12 +37,67 @@ namespace Xbehave.Execution
             string skipReason,
             IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes)
         {
+            var typeArguments = new ITypeInfo[0];
+            var closedMethod = testMethod;
+            if (closedMethod.IsGenericMethodDefinition)
+            {
+                typeArguments = ResolveTypeArguments(testCase.TestMethod.Method, testMethodArguments.ToArray()).ToArray();
+
+                closedMethod =
+                    closedMethod.MakeGenericMethod(typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
+            }
+
+            var parameterTypes = closedMethod.GetParameters().Select(p => p.ParameterType).ToArray();
+            var convertedArgumentValues = Reflector.ConvertArguments(testMethodArguments, parameterTypes);
+
+            var parameters = testCase.TestMethod.Method.GetParameters().ToArray();
+            var generatedArguments = new List<Argument>();
+            for (var missingArgumentIndex = testMethodArguments.Length;
+                missingArgumentIndex < parameters.Length;
+                ++missingArgumentIndex)
+            {
+                var parameterType = parameters[missingArgumentIndex].ParameterType;
+                if (parameterType.IsGenericParameter)
+                {
+                    ITypeInfo concreteType = null;
+                    var typeParameters = testCase.TestMethod.Method.GetGenericArguments().ToArray();
+                    for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
+                    {
+                        var typeParameter = typeParameters[typeParameterIndex];
+                        if (typeParameter.Name == parameterType.Name)
+                        {
+                            concreteType = typeArguments[typeParameterIndex];
+                            break;
+                        }
+                    }
+
+                    if (concreteType == null)
+                    {
+                        var message = string.Format(
+                            CultureInfo.CurrentCulture,
+                            "The type of parameter \"{0}\" cannot be resolved.",
+                            parameters[missingArgumentIndex].Name);
+
+                        throw new InvalidOperationException(message);
+                    }
+
+                    parameterType = concreteType;
+                }
+
+                generatedArguments.Add(new Argument(((IReflectionTypeInfo)parameterType).Type));
+            }
+
+            var arguments = convertedArgumentValues
+                .Select(value => new Argument(value))
+                .Concat(generatedArguments)
+                .ToArray();
+
             this.testCase = testCase;
-            this.displayName = displayName;
+            this.displayName = GetScenarioTestGroupDisplayName(testCase.TestMethod.Method, baseDisplayName, arguments, typeArguments);
             this.scenarioNumber = scenarioNumber;
             this.testClass = testClass;
-            this.testMethod = testMethod;
-            this.testMethodArguments = testMethodArguments;
+            this.testMethod = closedMethod;
+            this.testMethodArguments = arguments.Select(argument => argument.Value).ToArray();
             this.skipReason = skipReason;
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
         }
@@ -131,6 +189,84 @@ namespace Xbehave.Execution
                     disposable.Dispose();
                 }
             }
+        }
+
+        private static IEnumerable<ITypeInfo> ResolveTypeArguments(IMethodInfo method, IList<object> argumentValues)
+        {
+            var parameters = method.GetParameters().ToArray();
+            return method.GetGenericArguments()
+                .Select(typeParameter => ResolveTypeArgument(typeParameter, parameters, argumentValues));
+        }
+
+        private static ITypeInfo ResolveTypeArgument(
+            ITypeInfo typeParameter, IList<IParameterInfo> parameters, IList<object> argumentValues)
+        {
+            var sawNullValue = false;
+            ITypeInfo type = null;
+            for (var index = 0; index < Math.Min(parameters.Count, argumentValues.Count); ++index)
+            {
+                var parameterType = parameters[index].ParameterType;
+                if (parameterType.IsGenericParameter && parameterType.Name == typeParameter.Name)
+                {
+                    var argumentValue = argumentValues[index];
+                    if (argumentValue == null)
+                    {
+                        sawNullValue = true;
+                    }
+                    else if (type == null)
+                    {
+                        type = Reflector.Wrap(argumentValue.GetType());
+                    }
+                    else if (type.Name != argumentValue.GetType().FullName)
+                    {
+                        return objectTypeInfo;
+                    }
+                }
+            }
+
+            if (type == null)
+            {
+                return objectTypeInfo;
+            }
+
+            return sawNullValue && type.IsValueType ? objectTypeInfo : type;
+        }
+
+        private static string GetScenarioTestGroupDisplayName(
+            IMethodInfo method, string baseDisplayName, Argument[] arguments, ITypeInfo[] typeArguments)
+        {
+            if (typeArguments.Length > 0)
+            {
+                baseDisplayName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}<{1}>",
+                    baseDisplayName,
+                    string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString())));
+            }
+
+            var parameterTokens = new List<string>();
+            var parameters = method.GetParameters().ToArray();
+            int parameterIndex;
+            for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+            {
+                if (arguments[parameterIndex].IsGeneratedDefault)
+                {
+                    continue;
+                }
+
+                parameterTokens.Add(string.Concat(
+                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
+                    ": ",
+                    arguments[parameterIndex].ToString()));
+            }
+
+            for (; parameterIndex < parameters.Length; parameterIndex++)
+            {
+                parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
+            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
     }
 }
