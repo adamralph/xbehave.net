@@ -116,6 +116,83 @@ namespace Xbehave.Execution
             return base.BeforeTestCaseFinishedAsync();
         }
 
+        private ScenarioTestGroupRunner CreateScenarioTestGroupRunner(object[] argumentValues, int scenarioNumber)
+        {
+            this.disposables.AddRange(argumentValues.OfType<IDisposable>());
+
+            var typeArguments = new ITypeInfo[0];
+            var closedMethod = TestMethod;
+            if (closedMethod.IsGenericMethodDefinition)
+            {
+                typeArguments = ResolveTypeArguments(TestCase.TestMethod.Method, argumentValues.ToArray()).ToArray();
+
+                closedMethod =
+                    closedMethod.MakeGenericMethod(typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
+            }
+
+            var parameterTypes = closedMethod.GetParameters().Select(p => p.ParameterType).ToArray();
+            var convertedArgumentValues = Reflector.ConvertArguments(argumentValues, parameterTypes);
+
+            var parameters = TestCase.TestMethod.Method.GetParameters().ToArray();
+            var generatedArguments = new List<Argument>();
+            for (var missingArgumentIndex = argumentValues.Length;
+                missingArgumentIndex < parameters.Length;
+                ++missingArgumentIndex)
+            {
+                var parameterType = parameters[missingArgumentIndex].ParameterType;
+                if (parameterType.IsGenericParameter)
+                {
+                    ITypeInfo concreteType = null;
+                    var typeParameters = TestCase.TestMethod.Method.GetGenericArguments().ToArray();
+                    for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
+                    {
+                        var typeParameter = typeParameters[typeParameterIndex];
+                        if (typeParameter.Name == parameterType.Name)
+                        {
+                            concreteType = typeArguments[typeParameterIndex];
+                            break;
+                        }
+                    }
+
+                    if (concreteType == null)
+                    {
+                        var message = string.Format(
+                            CultureInfo.CurrentCulture,
+                            "The type of parameter \"{0}\" cannot be resolved.",
+                            parameters[missingArgumentIndex].Name);
+
+                        throw new InvalidOperationException(message);
+                    }
+
+                    parameterType = concreteType;
+                }
+
+                generatedArguments.Add(new Argument(((IReflectionTypeInfo)parameterType).Type));
+            }
+
+            var arguments = convertedArgumentValues
+                .Select(value => new Argument(value))
+                .Concat(generatedArguments)
+                .ToArray();
+
+            var scenarioTestGroup = new ScenarioTestGroup(
+                this.TestCase,
+                GetScenarioTestGroupDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments));
+
+            return new ScenarioTestGroupRunner(
+                scenarioNumber,
+                scenarioTestGroup,
+                MessageBus,
+                TestClass,
+                ConstructorArguments,
+                closedMethod,
+                arguments.Select(argument => argument.Value).ToArray(),
+                SkipReason,
+                BeforeAfterAttributes,
+                new ExceptionAggregator(Aggregator),
+                CancellationTokenSource);
+        }
+
         private static IEnumerable<ITypeInfo> ResolveTypeArguments(IMethodInfo method, IList<object> argumentValues)
         {
             var parameters = method.GetParameters().ToArray();
@@ -192,83 +269,6 @@ namespace Xbehave.Execution
 
             return string.Format(
                 CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
-        }
-
-        private ScenarioTestGroupRunner CreateScenarioTestGroupRunner(object[] argumentValues, int scenarioNumber)
-        {
-            this.disposables.AddRange(argumentValues.OfType<IDisposable>());
-
-            var typeArguments = new ITypeInfo[0];
-            var closedMethod = TestMethod;
-            if (closedMethod.IsGenericMethodDefinition)
-            {
-                typeArguments = ResolveTypeArguments(TestCase.TestMethod.Method, argumentValues.ToArray()).ToArray();
-
-                closedMethod =
-                    closedMethod.MakeGenericMethod(typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
-            }
-
-            var parameterTypes = closedMethod.GetParameters().Select(p => p.ParameterType).ToArray();
-            var convertedArgumentValues = Reflector.ConvertArguments(argumentValues, parameterTypes);
-
-            var parameters = TestCase.TestMethod.Method.GetParameters().ToArray();
-            var generatedArguments = new List<Argument>();
-            for (var missingArgumentIndex = argumentValues.Length;
-                missingArgumentIndex < parameters.Length;
-                ++missingArgumentIndex)
-            {
-                var parameterType = parameters[missingArgumentIndex].ParameterType;
-                if (parameterType.IsGenericParameter)
-                {
-                    ITypeInfo concreteType = null;
-                    var typeParameters = TestCase.TestMethod.Method.GetGenericArguments().ToArray();
-                    for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
-                    {
-                        var typeParameter = typeParameters[typeParameterIndex];
-                        if (typeParameter.Name == parameterType.Name)
-                        {
-                            concreteType = typeArguments[typeParameterIndex];
-                            break;
-                        }
-                    }
-
-                    if (concreteType == null)
-                    {
-                        var message = string.Format(
-                            CultureInfo.CurrentCulture,
-                            "The type of parameter \"{0}\" cannot be resolved.",
-                            parameters[missingArgumentIndex].Name);
-
-                        throw new InvalidOperationException(message);
-                    }
-
-                    parameterType = concreteType;
-                }
-
-                generatedArguments.Add(new Argument(((IReflectionTypeInfo)parameterType).Type));
-            }
-
-            var arguments = convertedArgumentValues
-                .Select(value => new Argument(value))
-                .Concat(generatedArguments)
-                .ToArray();
-
-            var scenarioTestGroup = new ScenarioTestGroup(
-                this.TestCase,
-                GetScenarioTestGroupDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments));
-
-            return new ScenarioTestGroupRunner(
-                scenarioNumber,
-                scenarioTestGroup,
-                MessageBus,
-                TestClass,
-                ConstructorArguments,
-                closedMethod,
-                arguments.Select(argument => argument.Value).ToArray(),
-                SkipReason,
-                BeforeAfterAttributes,
-                new ExceptionAggregator(Aggregator),
-                CancellationTokenSource);
         }
     }
 }

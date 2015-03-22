@@ -263,17 +263,6 @@ namespace Xbehave.Execution
             return summary;
         }
 
-        private static string GetStepTestDisplayName(string scenarioName, int scenarioNumber, int stepNumber, string stepName)
-        {
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}.{2}] {3}",
-                scenarioName,
-                scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
-        }
-
         private async Task InvokeBackgroundMethodsAsync(object testClassInstance, ExecutionTimer stepDiscoveryTimer)
         {
             CurrentScenario.AddingBackgroundSteps = true;
@@ -326,6 +315,17 @@ namespace Xbehave.Execution
                     this.beforeAfterTestGroupAttributes,
                     new ExceptionAggregator(this.Aggregator),
                     this.CancellationTokenSource));
+        }
+
+        private static string GetStepTestDisplayName(string scenarioName, int scenarioNumber, int stepNumber, string stepName)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}.{2}] {3}",
+                scenarioName,
+                scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepName);
         }
     }
 }
