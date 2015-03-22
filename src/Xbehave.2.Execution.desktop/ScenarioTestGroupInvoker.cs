@@ -290,26 +290,26 @@ namespace Xbehave.Execution
         private KeyValuePair<string, StepTestRunner> CreateStepTestRunner(
             IMessageBus messageBus, Step step, int stepNumber)
         {
-            string stepDisplayName;
+            string stepName;
             try
             {
-                stepDisplayName = string.Format(
+                stepName = string.Format(
                     CultureInfo.InvariantCulture,
-                    step.Name,
+                    step.Text,
                     this.TestMethodArguments.Select(argument => argument ?? "null").ToArray());
             }
             catch (FormatException)
             {
-                stepDisplayName = step.Name;
+                stepName = step.Text;
             }
 
             var stepTest = new StepTest(
-                this.TestGroup.TestCase, this.TestGroup.DisplayName, this.scenarioNumber, stepNumber, stepDisplayName);
+                this.TestGroup.TestCase, this.TestGroup.DisplayName, this.scenarioNumber, stepNumber, stepName);
 
             return new KeyValuePair<string, StepTestRunner>(
                 stepTest.DisplayName,
                 new StepTestRunner(
-                    stepDisplayName,
+                    stepName,
                     step,
                     stepTest,
                     messageBus,

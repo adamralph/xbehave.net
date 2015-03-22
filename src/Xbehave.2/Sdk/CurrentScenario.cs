@@ -27,16 +27,16 @@ namespace Xbehave.Sdk
             get { return steps ?? (steps = new List<Step>()); }
         }
 
-        public static Step AddStep(string name, Action body)
+        public static Step AddStep(string text, Action body)
         {
-            var step = new Step(EmbellishStepName(name), body);
+            var step = new Step(EmbellishStepText(text), body);
             Steps.Add(step);
             return step;
         }
 
-        public static Step AddStep(string name, Func<Task> body)
+        public static Step AddStep(string text, Func<Task> body)
         {
-            var step = new Step(EmbellishStepName(name), body);
+            var step = new Step(EmbellishStepText(text), body);
             Steps.Add(step);
             return step;
         }
@@ -53,9 +53,9 @@ namespace Xbehave.Sdk
             }
         }
 
-        private static string EmbellishStepName(string name)
+        private static string EmbellishStepText(string text)
         {
-            return addingBackgroundSteps ? "(Background) " + name : name;
+            return addingBackgroundSteps ? "(Background) " + text : text;
         }
     }
 }

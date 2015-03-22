@@ -15,13 +15,13 @@ namespace Xbehave.Sdk
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     public class Step
     {
-        private readonly string name;
+        private readonly string text;
         private readonly Func<object> body;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private readonly List<Action> teardowns = new List<Action>();
 
-        public Step(string name, Action body)
-            : this(name)
+        public Step(string text, Action body)
+            : this(text)
         {
             this.body = () =>
             {
@@ -30,20 +30,20 @@ namespace Xbehave.Sdk
             };
         }
 
-        public Step(string name, Func<Task> body)
-            : this(name)
+        public Step(string text, Func<Task> body)
+            : this(text)
         {
             this.body = body;
         }
 
-        private Step(string name)
+        private Step(string text)
         {
-            this.name = name;
+            this.text = text;
         }
 
-        public virtual string Name
+        public virtual string Text
         {
-            get { return this.name; }
+            get { return this.text; }
         }
 
         public virtual Func<object> Body
