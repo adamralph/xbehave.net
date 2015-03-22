@@ -250,11 +250,16 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     summary.Total++;
                     summary.Time += teardownTimer.Total;
-                    var stepTestDisplayName = GetStepTestDisplayName(
-                        this.TestGroup.DisplayName, this.scenarioNumber, stepTestRunners.Count + 1, "(Teardown)");
+
+                    var stepTest = new StepTest(
+                        this.testGroup.TestCase,
+                        this.TestGroup.DisplayName,
+                        this.scenarioNumber,
+                        stepTestRunners.Count + 1,
+                        "(Teardown)");
 
                     this.MessageBus.Queue(
-                        new XunitTest(this.testGroup.TestCase, stepTestDisplayName),
+                        stepTest,
                         test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.CancellationTokenSource);
                 }
@@ -298,15 +303,15 @@ namespace Xbehave.Execution
                 stepDisplayName = step.Name;
             }
 
-            var stepTestDisplayName = GetStepTestDisplayName(
-                this.TestGroup.DisplayName, this.scenarioNumber, stepNumber, stepDisplayName);
+            var stepTest = new StepTest(
+                this.TestGroup.TestCase, this.TestGroup.DisplayName, this.scenarioNumber, stepNumber, stepDisplayName);
 
             return new KeyValuePair<string, StepTestRunner>(
-                stepTestDisplayName,
+                stepTest.DisplayName,
                 new StepTestRunner(
                     stepDisplayName,
                     step,
-                    new XunitTest(this.TestGroup.TestCase, stepTestDisplayName),
+                    stepTest,
                     messageBus,
                     this.TestClass,
                     this.ConstructorArguments,
@@ -316,17 +321,6 @@ namespace Xbehave.Execution
                     this.beforeAfterTestGroupAttributes,
                     new ExceptionAggregator(this.Aggregator),
                     this.CancellationTokenSource));
-        }
-
-        private static string GetStepTestDisplayName(string scenarioName, int scenarioNumber, int stepNumber, string stepName)
-        {
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}.{2}] {3}",
-                scenarioName,
-                scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
         }
     }
 }

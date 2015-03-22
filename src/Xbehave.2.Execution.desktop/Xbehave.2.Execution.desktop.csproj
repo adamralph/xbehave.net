@@ -64,6 +64,7 @@
     <Compile Include="ScenarioOutlineTestCaseRunner.cs" />
     <Compile Include="ScenarioTestGroupInvoker.cs" />
     <Compile Include="ScenarioTestGroupRunner.cs" />
+    <Compile Include="StepTest.cs" />
     <Compile Include="StepTestInvoker.cs" />
     <Compile Include="StepTestRunner.cs" />
     <Compile Include="TypeInfoExtensions.cs" />
