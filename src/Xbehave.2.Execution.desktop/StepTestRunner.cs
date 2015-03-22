@@ -42,8 +42,6 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("step", step);
-
             this.step = step;
         }
 
@@ -59,16 +57,9 @@ namespace Xbehave.Execution
 
         protected override async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
-            var stepTestInvoker = new StepTestInvoker(this.step, aggregator, this.CancellationTokenSource);
-
-            try
-            {
-                return await stepTestInvoker.RunAsync();
-            }
-            finally
-            {
-                this.teardowns.AddRange(stepTestInvoker.Teardowns);
-            }
+            var tuple = await new StepTestInvoker(this.step, aggregator, this.CancellationTokenSource).RunAsync();
+            this.teardowns.AddRange(tuple.Item2);
+            return tuple.Item1;
         }
     }
 }
