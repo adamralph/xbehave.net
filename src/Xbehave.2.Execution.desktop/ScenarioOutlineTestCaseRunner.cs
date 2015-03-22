@@ -19,7 +19,7 @@ namespace Xbehave.Execution
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
-        private readonly List<ScenarioTestRunner> scenarioTestRunners = new List<ScenarioTestRunner>();
+        private readonly List<ScenarioTestGroupRunner> scenarioTestGroupRunners = new List<ScenarioTestGroupRunner>();
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private Exception dataDiscoveryException;
 
@@ -63,13 +63,13 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        this.scenarioTestRunners.Add(this.CreateScenarioTestRunner(dataRow, scenarioNumber++));
+                        this.scenarioTestGroupRunners.Add(this.CreateScenarioTestGroupRunner(dataRow, scenarioNumber++));
                     }
                 }
 
-                if (!this.scenarioTestRunners.Any())
+                if (!this.scenarioTestGroupRunners.Any())
                 {
-                    this.scenarioTestRunners.Add(this.CreateScenarioTestRunner(new object[0], 1));
+                    this.scenarioTestGroupRunners.Add(this.CreateScenarioTestGroupRunner(new object[0], 1));
                 }
             }
             catch (Exception ex)
@@ -91,9 +91,9 @@ namespace Xbehave.Execution
             }
 
             var summary = new RunSummary();
-            foreach (var scenarioTestRunner in this.scenarioTestRunners)
+            foreach (var scenarioTestGroupRunner in this.scenarioTestGroupRunners)
             {
-                summary.Aggregate(await scenarioTestRunner.RunAsync());
+                summary.Aggregate(await scenarioTestGroupRunner.RunAsync());
             }
 
             // Run the cleanup here so we can include cleanup time in the run summary,
@@ -157,7 +157,7 @@ namespace Xbehave.Execution
             return sawNullValue && type.IsValueType ? objectTypeInfo : type;
         }
 
-        private static string GetDisplayName(
+        private static string GetScenarioTestGroupDisplayName(
             IMethodInfo method, string baseDisplayName, Argument[] arguments, ITypeInfo[] typeArguments)
         {
             if (typeArguments.Length > 0)
@@ -194,7 +194,7 @@ namespace Xbehave.Execution
                 CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
         }
 
-        private ScenarioTestRunner CreateScenarioTestRunner(object[] argumentValues, int scenarioNumber)
+        private ScenarioTestGroupRunner CreateScenarioTestGroupRunner(object[] argumentValues, int scenarioNumber)
         {
             this.disposables.AddRange(argumentValues.OfType<IDisposable>());
 
@@ -253,11 +253,13 @@ namespace Xbehave.Execution
                 .Concat(generatedArguments)
                 .ToArray();
 
-            var displayName = GetDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments);
+            var scenarioTestGroup = new ScenarioTestGroup(
+                this.TestCase,
+                GetScenarioTestGroupDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments));
 
-            return new ScenarioTestRunner(
+            return new ScenarioTestGroupRunner(
                 scenarioNumber,
-                new XunitTest(TestCase, displayName),
+                scenarioTestGroup,
                 MessageBus,
                 TestClass,
                 ConstructorArguments,

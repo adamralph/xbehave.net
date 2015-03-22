@@ -50,11 +50,6 @@ namespace Xbehave.Execution
             this.step = step;
         }
 
-        public string TestDisplayName
-        {
-            get { return this.Test.DisplayName; }
-        }
-
         public string StepDisplayName
         {
             get { return this.stepDisplayName; }

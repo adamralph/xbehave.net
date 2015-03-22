@@ -51,6 +51,8 @@
     <Compile Include="..\VersionInfo.2.cs">
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
+    <Compile Include="IScenarioTestGroup.cs" />
+    <Compile Include="ITestGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Argument.cs" />
     <Compile Include="ExceptionExtensions.cs" />
@@ -60,11 +62,12 @@
     <Compile Include="ScenarioDiscoverer.cs" />
     <Compile Include="ScenarioOutlineTestCase.cs" />
     <Compile Include="ScenarioOutlineTestCaseRunner.cs" />
-    <Compile Include="ScenarioTestInvoker.cs" />
-    <Compile Include="ScenarioTestRunner.cs" />
+    <Compile Include="ScenarioTestGroupInvoker.cs" />
+    <Compile Include="ScenarioTestGroupRunner.cs" />
     <Compile Include="StepTestInvoker.cs" />
     <Compile Include="StepTestRunner.cs" />
     <Compile Include="TypeInfoExtensions.cs" />
+    <Compile Include="ScenarioTestGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">

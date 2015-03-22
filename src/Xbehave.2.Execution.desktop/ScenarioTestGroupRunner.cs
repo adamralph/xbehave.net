@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioTestRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioTestGroupRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -9,36 +9,36 @@ namespace Xbehave.Execution
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioTestRunner
+    public class ScenarioTestGroupRunner
     {
         private readonly int scenarioNumber;
-        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes;
+        private readonly IScenarioTestGroup testGroup;
+        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes;
 
-        public ScenarioTestRunner(
+        public ScenarioTestGroupRunner(
             int scenarioNumber,
-            ITest test,
+            IScenarioTestGroup testGroup,
             IMessageBus messageBus,
             Type testClass,
             object[] constructorArguments,
             MethodInfo testMethod,
             object[] testMethodArguments,
             string skipReason,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
+            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
+            this.testGroup = testGroup;
             this.scenarioNumber = scenarioNumber;
-            this.Test = test;
             this.MessageBus = messageBus;
             this.TestClass = testClass;
             this.ConstructorArguments = constructorArguments;
             this.TestMethod = testMethod;
             this.TestMethodArguments = testMethodArguments;
             this.SkipReason = skipReason;
-            this.beforeAfterAttributes = beforeAfterAttributes;
+            this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
             this.Aggregator = aggregator;
             this.CancellationTokenSource = cancellationTokenSource;
         }
@@ -48,7 +48,10 @@ namespace Xbehave.Execution
             get { return this.scenarioNumber; }
         }
 
-        protected ITest Test { get; set; }
+        protected IScenarioTestGroup TestGroup
+        {
+            get { return this.testGroup; }
+        }
 
         protected IMessageBus MessageBus { get; set; }
 
@@ -62,9 +65,9 @@ namespace Xbehave.Execution
 
         protected string SkipReason { get; set; }
 
-        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterAttributes
+        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterTestGroupAttributes
         {
-            get { return this.beforeAfterAttributes; }
+            get { return this.beforeAfterTestGroupAttributes; }
         }
 
         protected ExceptionAggregator Aggregator { get; set; }
@@ -79,17 +82,17 @@ namespace Xbehave.Execution
             {
                 runSummary.Total++;
                 runSummary.Skipped++;
-                this.MessageBus.Queue(this.Test, t => new TestSkipped(t, this.SkipReason), this.CancellationTokenSource);
+                this.MessageBus.Queue(
+                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
+                    t => new TestSkipped(t, this.SkipReason),
+                    this.CancellationTokenSource);
             }
             else
             {
-                var output = string.Empty;
                 var aggregator = new ExceptionAggregator(this.Aggregator);
                 if (!aggregator.HasExceptions)
                 {
-                    var tuple = await this.Aggregator.RunAsync(() => this.InvokeTestAsync(aggregator));
-                    runSummary.Aggregate(tuple.Item1);
-                    output = tuple.Item2;
+                    runSummary.Aggregate(await this.Aggregator.RunAsync(() => this.InvokeTestGroupAsync(aggregator)));
                 }
 
                 var exception = aggregator.ToException();
@@ -98,8 +101,8 @@ namespace Xbehave.Execution
                     runSummary.Total++;
                     runSummary.Failed++;
                     this.MessageBus.Queue(
-                        this.Test,
-                        t => new TestFailed(t, runSummary.Time, output, exception),
+                        new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
+                        t => new TestFailed(t, runSummary.Time, string.Empty, exception),
                         this.CancellationTokenSource);
                 }
             }
@@ -107,23 +110,17 @@ namespace Xbehave.Execution
             return runSummary;
         }
 
-        protected virtual async Task<Tuple<RunSummary, string>> InvokeTestAsync(ExceptionAggregator aggregator)
+        protected virtual async Task<RunSummary> InvokeTestGroupAsync(ExceptionAggregator aggregator)
         {
-            // NOTE (adamralph): as in XunitTestRunner, we use a ScenarioOutputHelper here for output
-            return Tuple.Create(await this.InvokeTestMethodAsync(aggregator), string.Empty);
-        }
-
-        protected virtual async Task<RunSummary> InvokeTestMethodAsync(ExceptionAggregator aggregator)
-        {
-            return await new ScenarioTestInvoker(
-                    this.ScenarioNumber,
-                    this.Test,
+            return await new ScenarioTestGroupInvoker(
+                    this.scenarioNumber,
+                    this.testGroup,
                     this.MessageBus,
                     this.TestClass,
                     this.ConstructorArguments,
                     this.TestMethod,
                     this.TestMethodArguments,
-                    this.BeforeAfterAttributes,
+                    this.BeforeAfterTestGroupAttributes,
                     aggregator,
                     this.CancellationTokenSource)
                 .RunAsync();
