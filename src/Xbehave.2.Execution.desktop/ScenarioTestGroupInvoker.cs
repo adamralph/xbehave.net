@@ -163,6 +163,51 @@ namespace Xbehave.Execution
 
         protected async virtual Task<RunSummary> InvokeTestMethodAsync(object testClassInstance)
         {
+            var stepDiscoveryTimer = new ExecutionTimer();
+            try
+            {
+                CurrentScenario.AddingBackgroundSteps = true;
+                try
+                {
+                    foreach (var backgroundMethod in this.testGroup.TestCase.TestMethod.Method.Type
+                        .GetMethods(false)
+                        .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
+                        .Select(method => method.ToRuntimeMethod()))
+                    {
+                        await stepDiscoveryTimer.AggregateAsync(() =>
+                            backgroundMethod.InvokeAsync(testClassInstance, null));
+                    }
+                }
+                finally
+                {
+                    CurrentScenario.AddingBackgroundSteps = false;
+                }
+
+                await stepDiscoveryTimer.AggregateAsync(() =>
+                    this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments));
+            }
+            catch (Exception ex)
+            {
+                CurrentScenario.ExtractSteps();
+                this.MessageBus.Queue(
+                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
+                    test => new TestFailed(test, stepDiscoveryTimer.Total, null, ex.Unwrap()),
+                    this.CancellationTokenSource);
+
+                return new RunSummary { Failed = 1, Total = 1, Time = stepDiscoveryTimer.Total };
+            }
+
+            var steps = CurrentScenario.ExtractSteps().ToArray();
+            if (!steps.Any())
+            {
+                this.MessageBus.Queue(
+                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
+                    test => new TestPassed(test, stepDiscoveryTimer.Total, null),
+                    this.CancellationTokenSource);
+
+                return new RunSummary { Total = 1, Time = stepDiscoveryTimer.Total };
+            }
+
             var stepFailed = false;
             var interceptingBus = new DelegatingMessageBus(
                 this.MessageBus,
@@ -174,65 +219,34 @@ namespace Xbehave.Execution
                     }
                 });
 
-            var stepDiscoveryTimer = new ExecutionTimer();
-            var stepTestRunners = new Dictionary<StepTest, StepTestRunner>();
-            try
-            {
-                await this.InvokeBackgroundMethodsAsync(testClassInstance, stepDiscoveryTimer);
-                await stepDiscoveryTimer.AggregateAsync(() =>
-                    this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments));
-
-                foreach (var pair in CurrentScenario.ExtractSteps()
-                    .Select((step, index) => new { step, index }))
-                {
-                    var stepTest = new StepTest(
-                        this.TestGroup.TestCase,
-                        this.TestGroup.DisplayName,
-                        this.scenarioNumber,
-                        pair.index + 1,
-                        pair.step.Text,
-                        this.TestMethodArguments);
-
-                    var stepTestRunner = new StepTestRunner(
-                        pair.step,
-                        stepTest,
-                        interceptingBus,
-                        this.TestClass,
-                        this.ConstructorArguments,
-                        this.TestMethod,
-                        this.TestMethodArguments,
-                        pair.step.SkipReason,
-                        this.beforeAfterTestGroupAttributes,
-                        new ExceptionAggregator(this.Aggregator),
-                        this.CancellationTokenSource);
-
-                    stepTestRunners.Add(stepTest, stepTestRunner);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.MessageBus.Queue(
-                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
-                    test => new TestFailed(test, stepDiscoveryTimer.Total, null, ex.Unwrap()),
-                    this.CancellationTokenSource);
-
-                return new RunSummary { Failed = 1, Total = 1, Time = stepDiscoveryTimer.Total };
-            }
-
-            if (!stepTestRunners.Any())
-            {
-                this.MessageBus.Queue(
-                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
-                    test => new TestPassed(test, stepDiscoveryTimer.Total, null),
-                    this.CancellationTokenSource);
-
-                return new RunSummary { Total = 1, Time = stepDiscoveryTimer.Total };
-            }
-
-            var summary = new RunSummary();
+            var stepTestRunners = new List<StepTestRunner>();
             string failedStepName = null;
-            foreach (var stepTestRunner in stepTestRunners)
+            var summary = new RunSummary { Time = stepDiscoveryTimer.Total };
+            foreach (var item in steps.Select((step, index) => new { step, index }))
             {
+                var stepTest = new StepTest(
+                    this.TestGroup.TestCase,
+                    this.TestGroup.DisplayName,
+                    this.scenarioNumber,
+                    item.index + 1,
+                    item.step.Text,
+                    this.TestMethodArguments);
+
+                var stepTestRunner = new StepTestRunner(
+                    item.step,
+                    stepTest,
+                    interceptingBus,
+                    this.TestClass,
+                    this.ConstructorArguments,
+                    this.TestMethod,
+                    this.TestMethodArguments,
+                    item.step.SkipReason,
+                    this.beforeAfterTestGroupAttributes,
+                    new ExceptionAggregator(this.Aggregator),
+                    this.CancellationTokenSource);
+
+                stepTestRunners.Add(stepTestRunner);
+
                 if (failedStepName != null)
                 {
                     summary.Failed++;
@@ -241,22 +255,22 @@ namespace Xbehave.Execution
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
                     this.MessageBus.Queue(
-                        stepTestRunner.Key,
+                        stepTest,
                         test => new TestFailed(test, 0, string.Empty, new InvalidOperationException(message)),
                         this.CancellationTokenSource);
 
                     continue;
                 }
 
-                summary.Aggregate(await stepTestRunner.Value.RunAsync());
+                summary.Aggregate(await stepTestRunner.RunAsync());
 
                 if (stepFailed)
                 {
-                    failedStepName = stepTestRunner.Key.StepName;
+                    failedStepName = stepTest.StepName;
                 }
             }
 
-            var teardowns = stepTestRunners.SelectMany(runner => runner.Value.Teardowns).ToArray();
+            var teardowns = stepTestRunners.SelectMany(stepTestRunner => stepTestRunner.Teardowns).ToArray();
             if (teardowns.Any())
             {
                 var teardownTimer = new ExecutionTimer();
@@ -266,17 +280,18 @@ namespace Xbehave.Execution
                     teardownTimer.Aggregate(() => teardownAggregator.Run(() => teardown()));
                 }
 
+                summary.Time += teardownTimer.Total;
+
                 if (teardownAggregator.HasExceptions)
                 {
                     summary.Failed++;
                     summary.Total++;
-                    summary.Time += teardownTimer.Total;
 
                     var stepTest = new StepTest(
                         this.testGroup.TestCase,
                         this.TestGroup.DisplayName,
                         this.scenarioNumber,
-                        stepTestRunners.Count + 1,
+                        steps.Length + 1,
                         "(Teardown)");
 
                     this.MessageBus.Queue(
@@ -287,25 +302,6 @@ namespace Xbehave.Execution
             }
 
             return summary;
-        }
-
-        private async Task InvokeBackgroundMethodsAsync(object testClassInstance, ExecutionTimer stepDiscoveryTimer)
-        {
-            CurrentScenario.AddingBackgroundSteps = true;
-            try
-            {
-                foreach (var backgroundMethod in this.testGroup.TestCase.TestMethod.Method.Type
-                    .GetMethods(false)
-                    .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
-                    .Select(method => method.ToRuntimeMethod()))
-                {
-                    await stepDiscoveryTimer.AggregateAsync(() => backgroundMethod.InvokeAsync(testClassInstance, null));
-                }
-            }
-            finally
-            {
-                CurrentScenario.AddingBackgroundSteps = false;
-            }
         }
     }
 }
