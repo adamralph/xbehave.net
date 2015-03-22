@@ -45,7 +45,7 @@ namespace Xbehave.Execution
             this.step = step;
         }
 
-        public IEnumerable<Action> Teardowns
+        public IReadOnlyList<Action> Teardowns
         {
             get { return this.teardowns.ToArray(); }
         }

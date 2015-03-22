@@ -51,12 +51,12 @@ namespace Xbehave.Sdk
             get { return this.body; }
         }
 
-        public IEnumerable<IDisposable> Disposables
+        public IReadOnlyList<IDisposable> Disposables
         {
             get { return this.disposables.ToArray(); }
         }
 
-        public IEnumerable<Action> Teardowns
+        public IReadOnlyList<Action> Teardowns
         {
             get { return this.teardowns.ToArray(); }
         }

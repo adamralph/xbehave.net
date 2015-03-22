@@ -41,7 +41,7 @@ namespace Xbehave.Sdk
             return step;
         }
 
-        public static IEnumerable<Step> ExtractSteps()
+        public static IList<Step> ExtractSteps()
         {
             try
             {
