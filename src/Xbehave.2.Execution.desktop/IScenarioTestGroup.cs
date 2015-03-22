@@ -4,10 +4,20 @@
 
 namespace Xbehave.Execution
 {
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Xunit.Abstractions;
     using Xunit.Sdk;
 
     public interface IScenarioTestGroup : ITestGroup
     {
         new IXunitTestCase TestCase { get; }
+
+        Task<RunSummary> RunAsync(
+            IMessageSink diagnosticMessageSink,
+            IMessageBus messageBus,
+            object[] constructorArguments,
+            ExceptionAggregator aggregator,
+            CancellationTokenSource cancellationTokenSource);
     }
 }

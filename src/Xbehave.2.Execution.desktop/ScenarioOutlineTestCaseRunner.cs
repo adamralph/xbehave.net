@@ -19,7 +19,7 @@ namespace Xbehave.Execution
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
-        private readonly List<ScenarioTestGroupRunner> scenarioTestGroupRunners = new List<ScenarioTestGroupRunner>();
+        private readonly List<IScenarioTestGroup> scenarioTestGroups = new List<IScenarioTestGroup>();
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private Exception dataDiscoveryException;
 
@@ -63,13 +63,13 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        this.scenarioTestGroupRunners.Add(this.CreateScenarioTestGroupRunner(dataRow, scenarioNumber++));
+                        this.scenarioTestGroups.Add(this.CreateScenarioTestGroup(dataRow, scenarioNumber++));
                     }
                 }
 
-                if (!this.scenarioTestGroupRunners.Any())
+                if (!this.scenarioTestGroups.Any())
                 {
-                    this.scenarioTestGroupRunners.Add(this.CreateScenarioTestGroupRunner(new object[0], 1));
+                    this.scenarioTestGroups.Add(this.CreateScenarioTestGroup(new object[0], 1));
                 }
             }
             catch (Exception ex)
@@ -91,9 +91,14 @@ namespace Xbehave.Execution
             }
 
             var summary = new RunSummary();
-            foreach (var scenarioTestGroupRunner in this.scenarioTestGroupRunners)
+            foreach (var scenarioTestGroup in this.scenarioTestGroups)
             {
-                summary.Aggregate(await scenarioTestGroupRunner.RunAsync());
+                summary.Aggregate(await scenarioTestGroup.RunAsync(
+                        this.DiagnosticMessageSink,
+                        this.MessageBus,
+                        this.ConstructorArguments,
+                        new ExceptionAggregator(this.Aggregator),
+                        this.CancellationTokenSource));
             }
 
             // Run the cleanup here so we can include cleanup time in the run summary,
@@ -116,7 +121,7 @@ namespace Xbehave.Execution
             return base.BeforeTestCaseFinishedAsync();
         }
 
-        private ScenarioTestGroupRunner CreateScenarioTestGroupRunner(object[] argumentValues, int scenarioNumber)
+        private IScenarioTestGroup CreateScenarioTestGroup(object[] argumentValues, int scenarioNumber)
         {
             this.disposables.AddRange(argumentValues.OfType<IDisposable>());
 
@@ -175,22 +180,15 @@ namespace Xbehave.Execution
                 .Concat(generatedArguments)
                 .ToArray();
 
-            var scenarioTestGroup = new ScenarioTestGroup(
+            return new ScenarioTestGroup(
                 this.TestCase,
-                GetScenarioTestGroupDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments));
-
-            return new ScenarioTestGroupRunner(
+                GetScenarioTestGroupDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments),
                 scenarioNumber,
-                scenarioTestGroup,
-                MessageBus,
-                TestClass,
-                ConstructorArguments,
+                this.TestClass,
                 closedMethod,
                 arguments.Select(argument => argument.Value).ToArray(),
-                SkipReason,
-                BeforeAfterAttributes,
-                new ExceptionAggregator(Aggregator),
-                CancellationTokenSource);
+                this.SkipReason,
+                this.BeforeAfterAttributes);
         }
 
         private static IEnumerable<ITypeInfo> ResolveTypeArguments(IMethodInfo method, IList<object> argumentValues)
