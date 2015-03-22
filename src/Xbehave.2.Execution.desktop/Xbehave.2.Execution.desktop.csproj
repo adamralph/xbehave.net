@@ -52,6 +52,7 @@
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
     <Compile Include="IScenarioTestGroup.cs" />
+    <Compile Include="IStepTest.cs" />
     <Compile Include="ITestGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Argument.cs" />

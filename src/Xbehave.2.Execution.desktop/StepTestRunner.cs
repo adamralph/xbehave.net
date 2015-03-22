@@ -15,12 +15,10 @@ namespace Xbehave.Execution
 
     public class StepTestRunner : XunitTestRunner
     {
-        private readonly string stepDisplayName;
         private readonly Step step;
         private readonly List<Action> teardowns = new List<Action>();
 
         public StepTestRunner(
-            string stepDisplayName,
             Step step,
             ITest test,
             IMessageBus messageBus,
@@ -46,13 +44,7 @@ namespace Xbehave.Execution
         {
             Guard.AgainstNullArgument("step", step);
 
-            this.stepDisplayName = stepDisplayName;
             this.step = step;
-        }
-
-        public string StepDisplayName
-        {
-            get { return this.stepDisplayName; }
         }
 
         public IEnumerable<Action> Teardowns

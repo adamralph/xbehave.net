@@ -175,7 +175,7 @@ namespace Xbehave.Execution
                 });
 
             var stepDiscoveryTimer = new ExecutionTimer();
-            var stepTestRunners = new Dictionary<string, StepTestRunner>();
+            var stepTestRunners = new Dictionary<StepTest, StepTestRunner>();
             try
             {
                 await this.InvokeBackgroundMethodsAsync(testClassInstance, stepDiscoveryTimer);
@@ -220,7 +220,7 @@ namespace Xbehave.Execution
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
                     this.MessageBus.Queue(
-                        new XunitTest(this.testGroup.TestCase, stepTestRunner.Key),
+                        stepTestRunner.Key,
                         test => new TestFailed(test, 0, string.Empty, new InvalidOperationException(message)),
                         this.CancellationTokenSource);
 
@@ -231,7 +231,7 @@ namespace Xbehave.Execution
 
                 if (stepFailed)
                 {
-                    failedStepName = stepTestRunner.Value.StepDisplayName;
+                    failedStepName = stepTestRunner.Key.StepName;
                 }
             }
 
@@ -287,7 +287,7 @@ namespace Xbehave.Execution
             }
         }
 
-        private KeyValuePair<string, StepTestRunner> CreateStepTestRunner(
+        private KeyValuePair<StepTest, StepTestRunner> CreateStepTestRunner(
             IMessageBus messageBus, Step step, int stepNumber)
         {
             string stepName;
@@ -306,10 +306,9 @@ namespace Xbehave.Execution
             var stepTest = new StepTest(
                 this.TestGroup.TestCase, this.TestGroup.DisplayName, this.scenarioNumber, stepNumber, stepName);
 
-            return new KeyValuePair<string, StepTestRunner>(
-                stepTest.DisplayName,
+            return new KeyValuePair<StepTest, StepTestRunner>(
+                stepTest,
                 new StepTestRunner(
-                    stepName,
                     step,
                     stepTest,
                     messageBus,
