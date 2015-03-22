@@ -4,8 +4,11 @@
 
 namespace Xbehave.Execution
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Linq;
     using Xunit.Sdk;
 
     public class StepTest : XunitTest, IStepTest
@@ -14,6 +17,22 @@ namespace Xbehave.Execution
         private readonly int scenarioNumber;
         private readonly int stepNumber;
         private readonly string stepName;
+
+        public StepTest(
+            IXunitTestCase testCase,
+            string scenarioName,
+            int scenarioNumber,
+            int stepNumber,
+            string stepText,
+            IEnumerable<object> testMethodArguments)
+            : this(
+                testCase,
+                scenarioName,
+                scenarioNumber,
+                stepNumber,
+                TryFormatInvariantCulture(stepText, testMethodArguments))
+        {
+        }
 
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines", Justification = "It's a constructor.")]
         public StepTest(
@@ -52,6 +71,21 @@ namespace Xbehave.Execution
         public string StepName
         {
             get { return this.stepName; }
+        }
+
+        private static string TryFormatInvariantCulture(string stepText, IEnumerable<object> testMethodArguments)
+        {
+            try
+            {
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    stepText,
+                    (testMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
+            }
+            catch (FormatException)
+            {
+                return stepText;
+            }
         }
     }
 }

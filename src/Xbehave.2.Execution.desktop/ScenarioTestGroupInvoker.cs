@@ -183,9 +183,30 @@ namespace Xbehave.Execution
                     this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments));
 
                 foreach (var pair in CurrentScenario.ExtractSteps()
-                    .Select((step, index) => this.CreateStepTestRunner(interceptingBus, step, index + 1)))
+                    .Select((step, index) => new { step, index }))
                 {
-                    stepTestRunners.Add(pair.Key, pair.Value);
+                    var stepTest = new StepTest(
+                        this.TestGroup.TestCase,
+                        this.TestGroup.DisplayName,
+                        this.scenarioNumber,
+                        pair.index + 1,
+                        pair.step.Text,
+                        this.TestMethodArguments);
+
+                    var stepTestRunner = new StepTestRunner(
+                        pair.step,
+                        stepTest,
+                        interceptingBus,
+                        this.TestClass,
+                        this.ConstructorArguments,
+                        this.TestMethod,
+                        this.TestMethodArguments,
+                        pair.step.SkipReason,
+                        this.beforeAfterTestGroupAttributes,
+                        new ExceptionAggregator(this.Aggregator),
+                        this.CancellationTokenSource);
+
+                    stepTestRunners.Add(stepTest, stepTestRunner);
                 }
             }
             catch (Exception ex)
@@ -285,41 +306,6 @@ namespace Xbehave.Execution
             {
                 CurrentScenario.AddingBackgroundSteps = false;
             }
-        }
-
-        private KeyValuePair<StepTest, StepTestRunner> CreateStepTestRunner(
-            IMessageBus messageBus, Step step, int stepNumber)
-        {
-            string stepName;
-            try
-            {
-                stepName = string.Format(
-                    CultureInfo.InvariantCulture,
-                    step.Text,
-                    this.TestMethodArguments.Select(argument => argument ?? "null").ToArray());
-            }
-            catch (FormatException)
-            {
-                stepName = step.Text;
-            }
-
-            var stepTest = new StepTest(
-                this.TestGroup.TestCase, this.TestGroup.DisplayName, this.scenarioNumber, stepNumber, stepName);
-
-            return new KeyValuePair<StepTest, StepTestRunner>(
-                stepTest,
-                new StepTestRunner(
-                    step,
-                    stepTest,
-                    messageBus,
-                    this.TestClass,
-                    this.ConstructorArguments,
-                    this.TestMethod,
-                    this.TestMethodArguments,
-                    step.SkipReason,
-                    this.beforeAfterTestGroupAttributes,
-                    new ExceptionAggregator(this.Aggregator),
-                    this.CancellationTokenSource));
         }
     }
 }
