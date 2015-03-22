@@ -6,13 +6,14 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioTestGroup : IScenarioTestGroup
+    public class ScenarioTestGroup : IScenarioTestGroup, IDisposable
     {
         private readonly IXunitTestCase testCase;
         private readonly string displayName;
@@ -41,6 +42,11 @@ namespace Xbehave.Execution
             this.testMethodArguments = testMethodArguments;
             this.skipReason = skipReason;
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
+        }
+
+        ~ScenarioTestGroup()
+        {
+            this.Dispose(false);
         }
 
         public IXunitTestCase TestCase
@@ -108,6 +114,23 @@ namespace Xbehave.Execution
                     aggregator,
                     cancellationTokenSource)
                 .RunAsync();
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && this.testMethodArguments != null)
+            {
+                foreach (var disposable in this.testMethodArguments.OfType<IDisposable>())
+                {
+                    disposable.Dispose();
+                }
+            }
         }
     }
 }

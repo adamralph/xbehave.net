@@ -8,6 +8,7 @@ namespace Xbehave.Execution
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
     using Xunit.Abstractions;
@@ -19,8 +20,7 @@ namespace Xbehave.Execution
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
-        private readonly List<IScenarioTestGroup> scenarioTestGroups = new List<IScenarioTestGroup>();
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private readonly List<ScenarioTestGroup> scenarioTestGroups = new List<ScenarioTestGroup>();
         private Exception dataDiscoveryException;
 
         public ScenarioOutlineTestCaseRunner(
@@ -63,13 +63,33 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        this.scenarioTestGroups.Add(this.CreateScenarioTestGroup(dataRow, scenarioNumber++));
+                        var scenarioTestGroup = CreateScenarioTestGroup(
+                            this.TestCase,
+                            this.DisplayName,
+                            scenarioNumber++,
+                            this.TestClass,
+                            this.TestMethod,
+                            dataRow,
+                            this.SkipReason,
+                            this.BeforeAfterAttributes);
+
+                        this.scenarioTestGroups.Add(scenarioTestGroup);
                     }
                 }
 
                 if (!this.scenarioTestGroups.Any())
                 {
-                    this.scenarioTestGroups.Add(this.CreateScenarioTestGroup(new object[0], 1));
+                    var scenarioTestGroup = CreateScenarioTestGroup(
+                        this.TestCase,
+                        this.DisplayName,
+                        1,
+                        this.TestClass,
+                        this.TestMethod,
+                        noArguments,
+                        this.SkipReason,
+                        this.BeforeAfterAttributes);
+
+                    this.scenarioTestGroups.Add(scenarioTestGroup);
                 }
             }
             catch (Exception ex)
@@ -105,9 +125,9 @@ namespace Xbehave.Execution
             // but save any exceptions so we can surface them during the cleanup phase,
             // so they get properly reported as test case cleanup failures.
             var timer = new ExecutionTimer();
-            foreach (var disposable in this.disposables)
+            foreach (var scenarioTestGroup in this.scenarioTestGroups)
             {
-                timer.Aggregate(() => this.cleanupAggregator.Run(() => disposable.Dispose()));
+                timer.Aggregate(() => this.cleanupAggregator.Run(() => scenarioTestGroup.Dispose()));
             }
 
             summary.Time += timer.Total;
@@ -121,26 +141,32 @@ namespace Xbehave.Execution
             return base.BeforeTestCaseFinishedAsync();
         }
 
-        private IScenarioTestGroup CreateScenarioTestGroup(object[] argumentValues, int scenarioNumber)
+        private static ScenarioTestGroup CreateScenarioTestGroup(
+            IXunitTestCase testCase,
+            string baseDisplayName,
+            int scenarioNumber,
+            Type testClass,
+            MethodInfo testMethod,
+            object[] testMethodArguments,
+            string skipReason,
+            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes)
         {
-            this.disposables.AddRange(argumentValues.OfType<IDisposable>());
-
             var typeArguments = new ITypeInfo[0];
-            var closedMethod = TestMethod;
+            var closedMethod = testMethod;
             if (closedMethod.IsGenericMethodDefinition)
             {
-                typeArguments = ResolveTypeArguments(TestCase.TestMethod.Method, argumentValues.ToArray()).ToArray();
+                typeArguments = ResolveTypeArguments(testCase.TestMethod.Method, testMethodArguments.ToArray()).ToArray();
 
                 closedMethod =
                     closedMethod.MakeGenericMethod(typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
             }
 
             var parameterTypes = closedMethod.GetParameters().Select(p => p.ParameterType).ToArray();
-            var convertedArgumentValues = Reflector.ConvertArguments(argumentValues, parameterTypes);
+            var convertedArgumentValues = Reflector.ConvertArguments(testMethodArguments, parameterTypes);
 
-            var parameters = TestCase.TestMethod.Method.GetParameters().ToArray();
+            var parameters = testCase.TestMethod.Method.GetParameters().ToArray();
             var generatedArguments = new List<Argument>();
-            for (var missingArgumentIndex = argumentValues.Length;
+            for (var missingArgumentIndex = testMethodArguments.Length;
                 missingArgumentIndex < parameters.Length;
                 ++missingArgumentIndex)
             {
@@ -148,7 +174,7 @@ namespace Xbehave.Execution
                 if (parameterType.IsGenericParameter)
                 {
                     ITypeInfo concreteType = null;
-                    var typeParameters = TestCase.TestMethod.Method.GetGenericArguments().ToArray();
+                    var typeParameters = testCase.TestMethod.Method.GetGenericArguments().ToArray();
                     for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
                     {
                         var typeParameter = typeParameters[typeParameterIndex];
@@ -181,14 +207,14 @@ namespace Xbehave.Execution
                 .ToArray();
 
             return new ScenarioTestGroup(
-                this.TestCase,
-                GetScenarioTestGroupDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments),
+                testCase,
+                GetScenarioTestGroupDisplayName(testCase.TestMethod.Method, baseDisplayName, arguments, typeArguments),
                 scenarioNumber,
-                this.TestClass,
+                testClass,
                 closedMethod,
                 arguments.Select(argument => argument.Value).ToArray(),
-                this.SkipReason,
-                this.BeforeAfterAttributes);
+                skipReason,
+                beforeAfterTestGroupAttributes);
         }
 
         private static IEnumerable<ITypeInfo> ResolveTypeArguments(IMethodInfo method, IList<object> argumentValues)
