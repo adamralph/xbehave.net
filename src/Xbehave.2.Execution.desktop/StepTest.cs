@@ -30,7 +30,7 @@ namespace Xbehave.Execution
                 scenarioName,
                 scenarioNumber,
                 stepNumber,
-                TryFormatInvariantCulture(stepText, testMethodArguments))
+                GetStepName(stepText, testMethodArguments))
         {
         }
 
@@ -73,7 +73,7 @@ namespace Xbehave.Execution
             get { return this.stepName; }
         }
 
-        private static string TryFormatInvariantCulture(string stepText, IEnumerable<object> testMethodArguments)
+        private static string GetStepName(string stepText, IEnumerable<object> testMethodArguments)
         {
             try
             {
