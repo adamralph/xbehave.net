@@ -204,8 +204,7 @@ namespace Xbehave.Execution
             var stepDiscoveryTimer = new ExecutionTimer();
             try
             {
-                CurrentScenario.AddingBackgroundSteps = true;
-                try
+                using (ThreadStaticStepCollection.ExpectBackgroundSteps())
                 {
                     foreach (var backgroundMethod in this.testGroup.TestCase.TestMethod.Method.Type
                         .GetMethods(false)
@@ -216,17 +215,13 @@ namespace Xbehave.Execution
                             backgroundMethod.InvokeAsync(testClassInstance, null));
                     }
                 }
-                finally
-                {
-                    CurrentScenario.AddingBackgroundSteps = false;
-                }
 
                 await stepDiscoveryTimer.AggregateAsync(() =>
                     this.testMethod.InvokeAsync(testClassInstance, this.testMethodArguments));
             }
             catch (Exception ex)
             {
-                CurrentScenario.ExtractSteps();
+                ThreadStaticStepCollection.TakeAll();
                 this.messageBus.Queue(
                     new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
                     test => new TestFailed(test, stepDiscoveryTimer.Total, null, ex.Unwrap()),
@@ -235,7 +230,7 @@ namespace Xbehave.Execution
                 return new RunSummary { Failed = 1, Total = 1, Time = stepDiscoveryTimer.Total };
             }
 
-            var steps = CurrentScenario.ExtractSteps().ToArray();
+            var steps = ThreadStaticStepCollection.TakeAll().ToArray();
             if (!steps.Any())
             {
                 this.messageBus.Queue(

@@ -19,7 +19,7 @@ namespace Xbehave.Fluent
 
         public Step(string text, Action<IStepContext> body)
         {
-            this.step = CurrentScenario.AddStep(text, () => body(this));
+            this.step = ThreadStaticStepCollection.Add(text, () => body(this));
         }
 
         public Step(string text, Func<Task> body)
@@ -29,7 +29,7 @@ namespace Xbehave.Fluent
 
         public Step(string text, Func<IStepContext, Task> body)
         {
-            this.step = CurrentScenario.AddStep(text, () => body(this));
+            this.step = ThreadStaticStepCollection.Add(text, () => body(this));
         }
 
         public IStep Skip(string reason)
@@ -40,13 +40,13 @@ namespace Xbehave.Fluent
 
         public IStep Teardown(Action teardown)
         {
-            this.step.AddTeardown(teardown);
+            this.step.Add(teardown);
             return this;
         }
 
         public IStepContext Using(IDisposable disposable)
         {
-            this.step.AddDisposable(disposable);
+            this.step.Add(disposable);
             return this;
         }
     }
