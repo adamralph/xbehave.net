@@ -41,20 +41,42 @@ namespace Xbehave.Test.Acceptance.Infrastructure
             return this.Run(feature).OfType<TMessage>().ToArray();
         }
 
+        public TMessage[] Run<TMessage>(Type feature, string traitName, string traitValue)
+            where TMessage : IMessageSinkMessage
+        {
+            return this.Run(feature, traitName, traitValue).OfType<TMessage>().ToArray();
+        }
+
         public IMessageSinkMessage[] Run(Assembly assembly, string collectionName)
         {
-            this.runners.Add(new Xunit2(new NullSourceInformationProvider(), assembly.GetLocalCodeBase()));
-            var runner = this.runners.Last();
+            Guard.AgainstNullArgument("assembly", assembly);
+
+            var runner = this.CreateRunner(assembly.GetLocalCodeBase());
             return runner.Run(runner.Find(collectionName)).ToArray();
         }
 
         public IMessageSinkMessage[] Run(Type feature)
         {
             Guard.AgainstNullArgument("feature", feature);
+            Guard.AgainstNullArgumentProperty("feature", "Assembly", feature.Assembly);
 
-            this.runners.Add(new Xunit2(new NullSourceInformationProvider(), feature.Assembly.GetLocalCodeBase()));
-            var runner = this.runners.Last();
+            var runner = this.CreateRunner(feature.Assembly.GetLocalCodeBase());
             return runner.Run(runner.Find(feature)).ToArray();
+        }
+
+        public IMessageSinkMessage[] Run(Type feature, string traitName, string traitValue)
+        {
+            Guard.AgainstNullArgument("feature", feature);
+            Guard.AgainstNullArgumentProperty("feature", "Assembly", feature.Assembly);
+
+            var runner = this.CreateRunner(feature.Assembly.GetLocalCodeBase());
+            var testCases = runner.Find(feature).Where(testCase =>
+            {
+                List<string> values;
+                return testCase.Traits.TryGetValue(traitName, out values) && values.Contains(traitValue);
+            }).ToArray();
+
+            return runner.Run(testCases).ToArray();
         }
 
         protected virtual void Dispose(bool disposing)
@@ -79,6 +101,12 @@ namespace Xbehave.Test.Acceptance.Infrastructure
                     ExceptionDispatchInfo.Capture(exception).Throw();
                 }
             }
+        }
+
+        private Xunit2 CreateRunner(string assemblyFileName)
+        {
+            this.runners.Add(new Xunit2(new NullSourceInformationProvider(), assemblyFileName));
+            return this.runners.Last();
         }
     }
 }

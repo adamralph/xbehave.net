@@ -102,6 +102,7 @@
     <Compile Include="SkippedStepFeature.cs" />
     <Compile Include="ExampleFeature.cs" />
     <Compile Include="TestClassFeature.cs" />
+    <Compile Include="TraitFeature.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">
