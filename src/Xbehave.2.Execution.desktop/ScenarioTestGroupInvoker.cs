@@ -204,7 +204,7 @@ namespace Xbehave.Execution
             var stepDiscoveryTimer = new ExecutionTimer();
             try
             {
-                using (ThreadStaticStepCollection.ExpectBackgroundSteps())
+                using (ThreadStaticStepHub.CreateBackgroundSteps())
                 {
                     foreach (var backgroundMethod in this.testGroup.TestCase.TestMethod.Method.Type
                         .GetMethods(false)
@@ -221,7 +221,7 @@ namespace Xbehave.Execution
             }
             catch (Exception ex)
             {
-                ThreadStaticStepCollection.TakeAll();
+                ThreadStaticStepHub.RemoveAll();
                 this.messageBus.Queue(
                     new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
                     test => new TestFailed(test, stepDiscoveryTimer.Total, null, ex.Unwrap()),
@@ -230,7 +230,7 @@ namespace Xbehave.Execution
                 return new RunSummary { Failed = 1, Total = 1, Time = stepDiscoveryTimer.Total };
             }
 
-            var steps = ThreadStaticStepCollection.TakeAll().ToArray();
+            var steps = ThreadStaticStepHub.RemoveAll();
             if (!steps.Any())
             {
                 this.messageBus.Queue(
@@ -324,7 +324,7 @@ namespace Xbehave.Execution
                         this.testGroup.TestCase,
                         this.testGroup.DisplayName,
                         this.scenarioNumber,
-                        steps.Length + 1,
+                        steps.Count + 1,
                         "(Teardown)");
 
                     this.messageBus.Queue(

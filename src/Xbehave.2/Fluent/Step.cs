@@ -19,7 +19,7 @@ namespace Xbehave.Fluent
 
         public Step(string text, Action<IStepContext> body)
         {
-            this.step = ThreadStaticStepCollection.Add(text, () => body(this));
+            this.step = ThreadStaticStepHub.CreateAndAdd(text, () => body(this));
         }
 
         public Step(string text, Func<Task> body)
@@ -29,7 +29,7 @@ namespace Xbehave.Fluent
 
         public Step(string text, Func<IStepContext, Task> body)
         {
-            this.step = ThreadStaticStepCollection.Add(text, () => body(this));
+            this.step = ThreadStaticStepHub.CreateAndAdd(text, () => body(this));
         }
 
         public IStep Skip(string reason)
