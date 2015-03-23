@@ -160,7 +160,7 @@ namespace Xbehave.Test.Acceptance
         {
             public override void Before(System.Reflection.MethodInfo methodUnderTest)
             {
-                throw new Exception();
+                throw new InvalidOperationException();
             }
         }
 
@@ -168,7 +168,7 @@ namespace Xbehave.Test.Acceptance
         {
             public override void After(System.Reflection.MethodInfo methodUnderTest)
             {
-                throw new Exception();
+                throw new InvalidOperationException();
             }
         }
     }
