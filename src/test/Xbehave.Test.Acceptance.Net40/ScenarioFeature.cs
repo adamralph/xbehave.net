@@ -175,7 +175,7 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public void FailingStepFollowedByPassingSteps()
+        public void FailingStepThenPassingSteps()
         {
             var feature = default(Type);
             var results = default(ITestResultMessage[]);

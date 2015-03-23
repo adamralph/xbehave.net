@@ -6,6 +6,7 @@ namespace Xbehave.Test.Acceptance
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
     using FluentAssertions;
@@ -284,7 +285,7 @@ an null value for an argument defined using the fifth type parameter"
 #endif
 
 #if V2
-        public class BadExampleAttribute : MemberDataAttributeBase
+        public sealed class BadExampleAttribute : MemberDataAttributeBase
         {
             public BadExampleAttribute()
                 : base("Dummy", new object[0])
@@ -297,7 +298,7 @@ an null value for an argument defined using the fifth type parameter"
             }
         }
 
-        public class BadValuesExampleAttribute : DataAttribute
+        public sealed class BadValuesExampleAttribute : DataAttribute
         {
             public BadValuesExampleAttribute()
             {
@@ -309,15 +310,16 @@ an null value for an argument defined using the fifth type parameter"
             }
         }
 
-        public class BadDisposable : IDisposable
+        public sealed class BadDisposable : IDisposable
         {
+            [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Test")]
             public void Dispose()
             {
-                throw new NotImplementedException();
+                throw new InvalidOperationException();
             }
         }
 #else
-        public class BadExampleAttribute : PropertyDataAttribute
+        public sealed class BadExampleAttribute : PropertyDataAttribute
         {
             public BadExampleAttribute()
                 : base("Dummy")
@@ -326,7 +328,7 @@ an null value for an argument defined using the fifth type parameter"
 
             public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
             {
-                throw new NotImplementedException();
+                throw new InvalidOperationException();
             }
         }
 #endif
