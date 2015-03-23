@@ -51,6 +51,7 @@
     <Compile Include="..\VersionInfo.2.cs">
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IScenarioTestGroup.cs" />
     <Compile Include="IStepTest.cs" />
     <Compile Include="ITestGroup.cs" />

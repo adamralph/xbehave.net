@@ -22,7 +22,7 @@ namespace Xbehave.Execution
         private readonly object[] testMethodArguments;
         private readonly string skipReason;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes;
-        private readonly ExceptionAggregator aggregator;
+        private readonly ExceptionAggregator parentAggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
 
         public ScenarioTestGroupRunner(
@@ -51,7 +51,7 @@ namespace Xbehave.Execution
             this.testMethodArguments = testMethodArguments;
             this.skipReason = skipReason;
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
-            this.aggregator = aggregator;
+            this.parentAggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
@@ -102,7 +102,7 @@ namespace Xbehave.Execution
 
         protected ExceptionAggregator Aggregator
         {
-            get { return this.aggregator; }
+            get { return this.parentAggregator; }
         }
 
         protected CancellationTokenSource CancellationTokenSource
@@ -125,10 +125,10 @@ namespace Xbehave.Execution
             }
             else
             {
-                var childAggregator = new ExceptionAggregator(this.aggregator);
+                var childAggregator = new ExceptionAggregator(this.parentAggregator);
                 if (!childAggregator.HasExceptions)
                 {
-                    runSummary.Aggregate(await this.aggregator.RunAsync(() => this.InvokeTestGroupAsync(childAggregator)));
+                    runSummary.Aggregate(await this.parentAggregator.RunAsync(() => this.InvokeTestGroupAsync(childAggregator)));
                 }
 
                 var exception = childAggregator.ToException();
