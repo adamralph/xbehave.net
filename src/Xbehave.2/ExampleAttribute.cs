@@ -33,11 +33,7 @@ namespace Xbehave
         /// <see cref="Xunit.MemberDataAttribute"/>.
         /// </summary>
         /// <param name="data">The data values to pass to the scenario.</param>
-        [SuppressMessage(
-            "Microsoft.Usage",
-            "CA1801:ReviewUnusedParameters",
-            MessageId = "data",
-            Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
+        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "data", Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
         public ExampleAttribute(params object[] data)
         {
         }
@@ -45,7 +41,7 @@ namespace Xbehave
         /// <inheritdoc/>
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            // This should never be called, because the discoverer can always find the data.
+            // NOTE (adamralph): When adding wpa81 support, see InlineDataAttribute implementation
             throw new InvalidOperationException();
         }
     }
