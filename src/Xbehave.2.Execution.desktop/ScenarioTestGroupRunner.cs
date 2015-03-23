@@ -15,7 +15,15 @@ namespace Xbehave.Execution
     {
         private readonly int scenarioNumber;
         private readonly IScenarioTestGroup testGroup;
+        private readonly IMessageBus messageBus;
+        private readonly Type testClass;
+        private readonly object[] constructorArguments;
+        private readonly MethodInfo testMethod;
+        private readonly object[] testMethodArguments;
+        private readonly string skipReason;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes;
+        private readonly ExceptionAggregator aggregator;
+        private readonly CancellationTokenSource cancellationTokenSource;
 
         public ScenarioTestGroupRunner(
             int scenarioNumber,
@@ -32,15 +40,15 @@ namespace Xbehave.Execution
         {
             this.testGroup = testGroup;
             this.scenarioNumber = scenarioNumber;
-            this.MessageBus = messageBus;
-            this.TestClass = testClass;
-            this.ConstructorArguments = constructorArguments;
-            this.TestMethod = testMethod;
-            this.TestMethodArguments = testMethodArguments;
-            this.SkipReason = skipReason;
+            this.messageBus = messageBus;
+            this.testClass = testClass;
+            this.constructorArguments = constructorArguments;
+            this.testMethod = testMethod;
+            this.testMethodArguments = testMethodArguments;
+            this.skipReason = skipReason;
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
-            this.Aggregator = aggregator;
-            this.CancellationTokenSource = cancellationTokenSource;
+            this.aggregator = aggregator;
+            this.cancellationTokenSource = cancellationTokenSource;
         }
 
         protected int ScenarioNumber
@@ -53,54 +61,78 @@ namespace Xbehave.Execution
             get { return this.testGroup; }
         }
 
-        protected IMessageBus MessageBus { get; set; }
+        protected IMessageBus MessageBus
+        {
+            get { return this.messageBus; }
+        }
 
-        protected Type TestClass { get; set; }
+        protected Type TestClass
+        {
+            get { return this.testClass; }
+        }
 
-        protected object[] ConstructorArguments { get; set; }
+        protected IReadOnlyList<object> ConstructorArguments
+        {
+            get { return this.constructorArguments; }
+        }
 
-        protected MethodInfo TestMethod { get; set; }
+        protected MethodInfo TestMethod
+        {
+            get { return this.testMethod; }
+        }
 
-        protected object[] TestMethodArguments { get; set; }
+        protected IReadOnlyList<object> TestMethodArguments
+        {
+            get { return this.testMethodArguments; }
+        }
 
-        protected string SkipReason { get; set; }
+        protected string SkipReason
+        {
+            get { return this.skipReason; }
+        }
 
         protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterTestGroupAttributes
         {
             get { return this.beforeAfterTestGroupAttributes; }
         }
 
-        protected ExceptionAggregator Aggregator { get; set; }
+        protected ExceptionAggregator Aggregator
+        {
+            get { return this.aggregator; }
+        }
 
-        protected CancellationTokenSource CancellationTokenSource { get; set; }
+        protected CancellationTokenSource CancellationTokenSource
+        {
+            get { return this.cancellationTokenSource; }
+        }
 
         public async Task<RunSummary> RunAsync()
         {
             var runSummary = new RunSummary();
 
-            if (!string.IsNullOrEmpty(this.SkipReason))
+            if (!string.IsNullOrEmpty(this.skipReason))
             {
                 runSummary.Total++;
                 runSummary.Skipped++;
-                this.MessageBus.Queue(
+                this.messageBus.Queue(
                     new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
-                    t => new TestSkipped(t, this.SkipReason),
+                    t => new TestSkipped(t, this.skipReason),
                     this.CancellationTokenSource);
             }
             else
             {
-                var aggregator = new ExceptionAggregator(this.Aggregator);
-                if (!aggregator.HasExceptions)
+                var childAggregator = new ExceptionAggregator(this.aggregator);
+                if (!childAggregator.HasExceptions)
                 {
-                    runSummary.Aggregate(await this.Aggregator.RunAsync(() => this.InvokeTestGroupAsync(aggregator)));
+                    runSummary.Aggregate(await this.aggregator.RunAsync(() => this.InvokeTestGroupAsync(childAggregator)));
                 }
 
-                var exception = aggregator.ToException();
+                var exception = childAggregator.ToException();
                 if (exception != null)
                 {
                     runSummary.Total++;
                     runSummary.Failed++;
-                    this.MessageBus.Queue(
+                    this.messageBus.Queue(
                         new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
                         t => new TestFailed(t, runSummary.Time, string.Empty, exception),
                         this.CancellationTokenSource);
@@ -115,14 +147,14 @@ namespace Xbehave.Execution
             return await new ScenarioTestGroupInvoker(
                     this.scenarioNumber,
                     this.testGroup,
-                    this.MessageBus,
-                    this.TestClass,
-                    this.ConstructorArguments,
-                    this.TestMethod,
-                    this.TestMethodArguments,
-                    this.BeforeAfterTestGroupAttributes,
+                    this.messageBus,
+                    this.testClass,
+                    this.constructorArguments,
+                    this.testMethod,
+                    this.testMethodArguments,
+                    this.beforeAfterTestGroupAttributes,
                     aggregator,
-                    this.CancellationTokenSource)
+                    this.cancellationTokenSource)
                 .RunAsync();
         }
     }

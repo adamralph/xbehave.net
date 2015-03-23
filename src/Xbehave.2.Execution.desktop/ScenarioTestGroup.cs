@@ -119,7 +119,7 @@ namespace Xbehave.Execution
 
         ITestCase ITestGroup.TestCase
         {
-            get { return this.TestCase; }
+            get { return this.testCase; }
         }
 
         protected int ScenarioNumber
@@ -137,7 +137,7 @@ namespace Xbehave.Execution
             get { return this.testMethod; }
         }
 
-        protected object[] TestMethodArguments
+        protected IReadOnlyList<object> TestMethodArguments
         {
             get { return this.testMethodArguments; }
         }

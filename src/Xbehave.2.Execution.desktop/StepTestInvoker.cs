@@ -15,10 +15,10 @@ namespace Xbehave.Execution
 
     public class StepTestInvoker
     {
-        private readonly ExecutionTimer timer = new ExecutionTimer();
         private readonly Step step;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
+        private readonly ExecutionTimer timer = new ExecutionTimer();
 
         public StepTestInvoker(
             Step step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
@@ -28,11 +28,6 @@ namespace Xbehave.Execution
             this.step = step;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        protected ExecutionTimer Timer
-        {
-            get { return this.timer; }
         }
 
         protected Step Step
@@ -48,6 +43,11 @@ namespace Xbehave.Execution
         protected CancellationTokenSource CancellationTokenSource
         {
             get { return this.cancellationTokenSource; }
+        }
+
+        protected ExecutionTimer Timer
+        {
+            get { return this.timer; }
         }
 
         public Task<Tuple<decimal, Action[]>> RunAsync()

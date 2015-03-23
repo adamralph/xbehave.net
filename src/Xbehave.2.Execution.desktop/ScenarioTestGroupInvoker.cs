@@ -17,10 +17,17 @@ namespace Xbehave.Execution
 
     public class ScenarioTestGroupInvoker
     {
-        private readonly ExecutionTimer timer = new ExecutionTimer();
         private readonly int scenarioNumber;
         private readonly IScenarioTestGroup testGroup;
+        private readonly IMessageBus messageBus;
+        private readonly Type testClass;
+        private readonly object[] constructorArguments;
+        private readonly MethodInfo testMethod;
+        private readonly object[] testMethodArguments;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes;
+        private readonly ExceptionAggregator aggregator;
+        private readonly CancellationTokenSource cancellationTokenSource;
+        private readonly ExecutionTimer timer = new ExecutionTimer();
         private readonly Stack<BeforeAfterTestAttribute> beforeAfterTestGroupAttributesRun =
             new Stack<BeforeAfterTestAttribute>();
 
@@ -38,14 +45,14 @@ namespace Xbehave.Execution
         {
             this.testGroup = testGroup;
             this.scenarioNumber = scenarioNumber;
-            this.MessageBus = messageBus;
-            this.TestClass = testClass;
-            this.ConstructorArguments = constructorArguments;
-            this.TestMethod = testMethod;
-            this.TestMethodArguments = testMethodArguments;
+            this.messageBus = messageBus;
+            this.testClass = testClass;
+            this.constructorArguments = constructorArguments;
+            this.testMethod = testMethod;
+            this.testMethodArguments = testMethodArguments;
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
-            this.Aggregator = aggregator;
-            this.CancellationTokenSource = cancellationTokenSource;
+            this.aggregator = aggregator;
+            this.cancellationTokenSource = cancellationTokenSource;
         }
 
         protected int ScenarioNumber
@@ -58,24 +65,45 @@ namespace Xbehave.Execution
             get { return this.testGroup; }
         }
 
-        protected IMessageBus MessageBus { get; set; }
+        protected IMessageBus MessageBus
+        {
+            get { return this.messageBus; }
+        }
 
-        protected Type TestClass { get; set; }
+        protected Type TestClass
+        {
+            get { return this.testClass; }
+        }
 
-        protected object[] ConstructorArguments { get; set; }
+        protected IReadOnlyList<object> ConstructorArguments
+        {
+            get { return this.constructorArguments; }
+        }
 
-        protected MethodInfo TestMethod { get; set; }
+        protected MethodInfo TestMethod
+        {
+            get { return this.testMethod; }
+        }
 
-        protected object[] TestMethodArguments { get; set; }
+        protected IReadOnlyList<object> TestMethodArguments
+        {
+            get { return this.testMethodArguments; }
+        }
 
         protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterTestGroupAttributes
         {
             get { return this.beforeAfterTestGroupAttributes; }
         }
 
-        protected ExceptionAggregator Aggregator { get; set; }
+        protected ExceptionAggregator Aggregator
+        {
+            get { return this.aggregator; }
+        }
 
-        protected CancellationTokenSource CancellationTokenSource { get; set; }
+        protected CancellationTokenSource CancellationTokenSource
+        {
+            get { return this.cancellationTokenSource; }
+        }
 
         protected ExecutionTimer Timer
         {
@@ -85,17 +113,17 @@ namespace Xbehave.Execution
         public Task<RunSummary> RunAsync()
         {
             var summary = new RunSummary();
-            return this.Aggregator.RunAsync(async () =>
+            return this.aggregator.RunAsync(async () =>
             {
-                if (!CancellationTokenSource.IsCancellationRequested)
+                if (!cancellationTokenSource.IsCancellationRequested)
                 {
                     var testClassInstance = CreateTestClass();
 
-                    if (!CancellationTokenSource.IsCancellationRequested)
+                    if (!cancellationTokenSource.IsCancellationRequested)
                     {
                         await BeforeTestMethodInvokedAsync();
 
-                        if (!this.CancellationTokenSource.IsCancellationRequested && !this.Aggregator.HasExceptions)
+                        if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
                         {
                             summary.Aggregate(await InvokeTestMethodAsync(testClassInstance));
                         }
@@ -106,7 +134,7 @@ namespace Xbehave.Execution
                     var disposable = testClassInstance as IDisposable;
                     if (disposable != null)
                     {
-                        timer.Aggregate(() => Aggregator.Run(disposable.Dispose));
+                        timer.Aggregate(() => aggregator.Run(disposable.Dispose));
                     }
                 }
 
@@ -119,9 +147,9 @@ namespace Xbehave.Execution
         {
             object testClass = null;
 
-            if (!this.TestMethod.IsStatic && !this.Aggregator.HasExceptions)
+            if (!this.testMethod.IsStatic && !this.aggregator.HasExceptions)
             {
-                this.timer.Aggregate(() => testClass = Activator.CreateInstance(this.TestClass, this.ConstructorArguments));
+                this.timer.Aggregate(() => testClass = Activator.CreateInstance(this.testClass, this.constructorArguments));
             }
 
             return testClass;
@@ -133,16 +161,16 @@ namespace Xbehave.Execution
             {
                 try
                 {
-                    this.timer.Aggregate(() => beforeAfterAttribute.Before(this.TestMethod));
+                    this.timer.Aggregate(() => beforeAfterAttribute.Before(this.testMethod));
                     this.beforeAfterTestGroupAttributesRun.Push(beforeAfterAttribute);
                 }
                 catch (Exception ex)
                 {
-                    this.Aggregator.Add(ex);
+                    this.aggregator.Add(ex);
                     break;
                 }
 
-                if (CancellationTokenSource.IsCancellationRequested)
+                if (this.cancellationTokenSource.IsCancellationRequested)
                 {
                     break;
                 }
@@ -155,7 +183,7 @@ namespace Xbehave.Execution
         {
             foreach (var beforeAfterAttribute in this.beforeAfterTestGroupAttributesRun)
             {
-                this.Aggregator.Run(() => this.Timer.Aggregate(() => beforeAfterAttribute.After(this.TestMethod)));
+                this.aggregator.Run(() => this.timer.Aggregate(() => beforeAfterAttribute.After(this.testMethod)));
             }
 
             return Task.FromResult(0);
@@ -184,15 +212,15 @@ namespace Xbehave.Execution
                 }
 
                 await stepDiscoveryTimer.AggregateAsync(() =>
-                    this.TestMethod.InvokeAsync(testClassInstance, this.TestMethodArguments));
+                    this.testMethod.InvokeAsync(testClassInstance, this.testMethodArguments));
             }
             catch (Exception ex)
             {
                 CurrentScenario.ExtractSteps();
-                this.MessageBus.Queue(
+                this.messageBus.Queue(
                     new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
                     test => new TestFailed(test, stepDiscoveryTimer.Total, null, ex.Unwrap()),
-                    this.CancellationTokenSource);
+                    this.cancellationTokenSource);
 
                 return new RunSummary { Failed = 1, Total = 1, Time = stepDiscoveryTimer.Total };
             }
@@ -200,17 +228,17 @@ namespace Xbehave.Execution
             var steps = CurrentScenario.ExtractSteps().ToArray();
             if (!steps.Any())
             {
-                this.MessageBus.Queue(
+                this.messageBus.Queue(
                     new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
                     test => new TestPassed(test, stepDiscoveryTimer.Total, null),
-                    this.CancellationTokenSource);
+                    this.cancellationTokenSource);
 
                 return new RunSummary { Total = 1, Time = stepDiscoveryTimer.Total };
             }
 
             var stepFailed = false;
             var interceptingBus = new DelegatingMessageBus(
-                this.MessageBus,
+                this.messageBus,
                 message =>
                 {
                     if (message is ITestFailed)
@@ -225,25 +253,25 @@ namespace Xbehave.Execution
             foreach (var item in steps.Select((step, index) => new { step, index }))
             {
                 var stepTest = new StepTest(
-                    this.TestGroup.TestCase,
-                    this.TestGroup.DisplayName,
+                    this.testGroup.TestCase,
+                    this.testGroup.DisplayName,
                     this.scenarioNumber,
                     item.index + 1,
                     item.step.Text,
-                    this.TestMethodArguments);
+                    this.testMethodArguments);
 
                 var stepTestRunner = new StepTestRunner(
                     item.step,
                     stepTest,
                     interceptingBus,
-                    this.TestClass,
-                    this.ConstructorArguments,
-                    this.TestMethod,
-                    this.TestMethodArguments,
+                    this.testClass,
+                    this.constructorArguments,
+                    this.testMethod,
+                    this.testMethodArguments,
                     item.step.SkipReason,
                     this.beforeAfterTestGroupAttributes,
-                    new ExceptionAggregator(this.Aggregator),
-                    this.CancellationTokenSource);
+                    new ExceptionAggregator(this.aggregator),
+                    this.cancellationTokenSource);
 
                 stepTestRunners.Add(stepTestRunner);
 
@@ -254,10 +282,10 @@ namespace Xbehave.Execution
                     var message = string.Format(
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
-                    this.MessageBus.Queue(
+                    this.messageBus.Queue(
                         stepTest,
                         test => new TestFailed(test, 0, string.Empty, new InvalidOperationException(message)),
-                        this.CancellationTokenSource);
+                        this.cancellationTokenSource);
 
                     continue;
                 }
@@ -289,15 +317,15 @@ namespace Xbehave.Execution
 
                     var stepTest = new StepTest(
                         this.testGroup.TestCase,
-                        this.TestGroup.DisplayName,
+                        this.testGroup.DisplayName,
                         this.scenarioNumber,
                         steps.Length + 1,
                         "(Teardown)");
 
-                    this.MessageBus.Queue(
+                    this.messageBus.Queue(
                         stepTest,
                         test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
-                        this.CancellationTokenSource);
+                        this.cancellationTokenSource);
                 }
             }
 

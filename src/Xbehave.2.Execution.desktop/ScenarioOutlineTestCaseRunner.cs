@@ -16,6 +16,7 @@ namespace Xbehave.Execution
     {
         private static readonly object[] noArguments = new object[0];
 
+        private readonly IMessageSink diagnosticMessageSink;
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
         private readonly List<ScenarioTestGroup> scenarioTestGroups = new List<ScenarioTestGroup>();
         private Exception dataDiscoveryException;
@@ -39,10 +40,13 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            this.DiagnosticMessageSink = diagnosticMessageSink;
+            this.diagnosticMessageSink = diagnosticMessageSink;
         }
 
-        protected IMessageSink DiagnosticMessageSink { get; set; }
+        protected IMessageSink DiagnosticMessageSink
+        {
+            get { return this.diagnosticMessageSink; }
+        }
 
         protected override async Task AfterTestCaseStartingAsync()
         {
@@ -56,7 +60,7 @@ namespace Xbehave.Execution
                 {
                     var discovererAttribute = dataAttribute.GetCustomAttributes(typeof(DataDiscovererAttribute)).First();
                     var discoverer =
-                        ExtensibilityPointFactory.GetDataDiscoverer(this.DiagnosticMessageSink, discovererAttribute);
+                        ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
@@ -111,7 +115,7 @@ namespace Xbehave.Execution
             foreach (var scenarioTestGroup in this.scenarioTestGroups)
             {
                 summary.Aggregate(await scenarioTestGroup.RunAsync(
-                        this.DiagnosticMessageSink,
+                        this.diagnosticMessageSink,
                         this.MessageBus,
                         this.ConstructorArguments,
                         new ExceptionAggregator(this.Aggregator),
