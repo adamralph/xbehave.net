@@ -6,7 +6,6 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,11 +15,10 @@ namespace Xbehave.Execution
     public class ScenarioOutlineTestCaseRunner : XunitTestCaseRunner
     {
         private static readonly object[] noArguments = new object[0];
-        private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
+        private readonly IMessageSink diagnosticMessageSink;
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
-        private readonly List<ScenarioTestRunner> scenarioTestRunners = new List<ScenarioTestRunner>();
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private readonly List<ScenarioTestGroup> scenarioTestGroups = new List<ScenarioTestGroup>();
         private Exception dataDiscoveryException;
 
         public ScenarioOutlineTestCaseRunner(
@@ -42,10 +40,13 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            this.DiagnosticMessageSink = diagnosticMessageSink;
+            this.diagnosticMessageSink = diagnosticMessageSink;
         }
 
-        protected IMessageSink DiagnosticMessageSink { get; set; }
+        protected IMessageSink DiagnosticMessageSink
+        {
+            get { return this.diagnosticMessageSink; }
+        }
 
         protected override async Task AfterTestCaseStartingAsync()
         {
@@ -59,17 +60,37 @@ namespace Xbehave.Execution
                 {
                     var discovererAttribute = dataAttribute.GetCustomAttributes(typeof(DataDiscovererAttribute)).First();
                     var discoverer =
-                        ExtensibilityPointFactory.GetDataDiscoverer(this.DiagnosticMessageSink, discovererAttribute);
+                        ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        this.scenarioTestRunners.Add(this.CreateScenarioTestRunner(dataRow, scenarioNumber++));
+                        var scenarioTestGroup = new ScenarioTestGroup(
+                            this.TestCase,
+                            this.DisplayName,
+                            scenarioNumber++,
+                            this.TestClass,
+                            this.TestMethod,
+                            dataRow,
+                            this.SkipReason,
+                            this.BeforeAfterAttributes);
+
+                        this.scenarioTestGroups.Add(scenarioTestGroup);
                     }
                 }
 
-                if (!this.scenarioTestRunners.Any())
+                if (!this.scenarioTestGroups.Any())
                 {
-                    this.scenarioTestRunners.Add(this.CreateScenarioTestRunner(new object[0], 1));
+                    var scenarioTestGroup = new ScenarioTestGroup(
+                        this.TestCase,
+                        this.DisplayName,
+                        1,
+                        this.TestClass,
+                        this.TestMethod,
+                        noArguments,
+                        this.SkipReason,
+                        this.BeforeAfterAttributes);
+
+                    this.scenarioTestGroups.Add(scenarioTestGroup);
                 }
             }
             catch (Exception ex)
@@ -91,18 +112,23 @@ namespace Xbehave.Execution
             }
 
             var summary = new RunSummary();
-            foreach (var scenarioTestRunner in this.scenarioTestRunners)
+            foreach (var scenarioTestGroup in this.scenarioTestGroups)
             {
-                summary.Aggregate(await scenarioTestRunner.RunAsync());
+                summary.Aggregate(await scenarioTestGroup.RunAsync(
+                        this.diagnosticMessageSink,
+                        this.MessageBus,
+                        this.ConstructorArguments,
+                        new ExceptionAggregator(this.Aggregator),
+                        this.CancellationTokenSource));
             }
 
             // Run the cleanup here so we can include cleanup time in the run summary,
             // but save any exceptions so we can surface them during the cleanup phase,
             // so they get properly reported as test case cleanup failures.
             var timer = new ExecutionTimer();
-            foreach (var disposable in this.disposables)
+            foreach (var scenarioTestGroup in this.scenarioTestGroups)
             {
-                timer.Aggregate(() => this.cleanupAggregator.Run(() => disposable.Dispose()));
+                timer.Aggregate(() => this.cleanupAggregator.Run(() => scenarioTestGroup.Dispose()));
             }
 
             summary.Time += timer.Total;
@@ -114,159 +140,6 @@ namespace Xbehave.Execution
             Aggregator.Aggregate(this.cleanupAggregator);
 
             return base.BeforeTestCaseFinishedAsync();
-        }
-
-        private static IEnumerable<ITypeInfo> ResolveTypeArguments(IMethodInfo method, IList<object> argumentValues)
-        {
-            var parameters = method.GetParameters().ToArray();
-            return method.GetGenericArguments()
-                .Select(typeParameter => ResolveTypeArgument(typeParameter, parameters, argumentValues));
-        }
-
-        private static ITypeInfo ResolveTypeArgument(
-            ITypeInfo typeParameter, IList<IParameterInfo> parameters, IList<object> argumentValues)
-        {
-            var sawNullValue = false;
-            ITypeInfo type = null;
-            for (var index = 0; index < Math.Min(parameters.Count, argumentValues.Count); ++index)
-            {
-                var parameterType = parameters[index].ParameterType;
-                if (parameterType.IsGenericParameter && parameterType.Name == typeParameter.Name)
-                {
-                    var argumentValue = argumentValues[index];
-                    if (argumentValue == null)
-                    {
-                        sawNullValue = true;
-                    }
-                    else if (type == null)
-                    {
-                        type = Reflector.Wrap(argumentValue.GetType());
-                    }
-                    else if (type.Name != argumentValue.GetType().FullName)
-                    {
-                        return objectTypeInfo;
-                    }
-                }
-            }
-
-            if (type == null)
-            {
-                return objectTypeInfo;
-            }
-
-            return sawNullValue && type.IsValueType ? objectTypeInfo : type;
-        }
-
-        private static string GetDisplayName(
-            IMethodInfo method, string baseDisplayName, Argument[] arguments, ITypeInfo[] typeArguments)
-        {
-            if (typeArguments.Length > 0)
-            {
-                baseDisplayName = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0}<{1}>",
-                    baseDisplayName,
-                    string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString())));
-            }
-
-            var parameterTokens = new List<string>();
-            var parameters = method.GetParameters().ToArray();
-            int parameterIndex;
-            for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
-            {
-                if (arguments[parameterIndex].IsGeneratedDefault)
-                {
-                    continue;
-                }
-
-                parameterTokens.Add(string.Concat(
-                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
-                    ": ",
-                    arguments[parameterIndex].ToString()));
-            }
-
-            for (; parameterIndex < parameters.Length; parameterIndex++)
-            {
-                parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
-            }
-
-            return string.Format(
-                CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
-        }
-
-        private ScenarioTestRunner CreateScenarioTestRunner(object[] argumentValues, int scenarioNumber)
-        {
-            this.disposables.AddRange(argumentValues.OfType<IDisposable>());
-
-            var typeArguments = new ITypeInfo[0];
-            var closedMethod = TestMethod;
-            if (closedMethod.IsGenericMethodDefinition)
-            {
-                typeArguments = ResolveTypeArguments(TestCase.TestMethod.Method, argumentValues.ToArray()).ToArray();
-
-                closedMethod =
-                    closedMethod.MakeGenericMethod(typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
-            }
-
-            var parameterTypes = closedMethod.GetParameters().Select(p => p.ParameterType).ToArray();
-            var convertedArgumentValues = Reflector.ConvertArguments(argumentValues, parameterTypes);
-
-            var parameters = TestCase.TestMethod.Method.GetParameters().ToArray();
-            var generatedArguments = new List<Argument>();
-            for (var missingArgumentIndex = argumentValues.Length;
-                missingArgumentIndex < parameters.Length;
-                ++missingArgumentIndex)
-            {
-                var parameterType = parameters[missingArgumentIndex].ParameterType;
-                if (parameterType.IsGenericParameter)
-                {
-                    ITypeInfo concreteType = null;
-                    var typeParameters = TestCase.TestMethod.Method.GetGenericArguments().ToArray();
-                    for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
-                    {
-                        var typeParameter = typeParameters[typeParameterIndex];
-                        if (typeParameter.Name == parameterType.Name)
-                        {
-                            concreteType = typeArguments[typeParameterIndex];
-                            break;
-                        }
-                    }
-
-                    if (concreteType == null)
-                    {
-                        var message = string.Format(
-                            CultureInfo.CurrentCulture,
-                            "The type of parameter \"{0}\" cannot be resolved.",
-                            parameters[missingArgumentIndex].Name);
-
-                        throw new InvalidOperationException(message);
-                    }
-
-                    parameterType = concreteType;
-                }
-
-                generatedArguments.Add(new Argument(((IReflectionTypeInfo)parameterType).Type));
-            }
-
-            var arguments = convertedArgumentValues
-                .Select(value => new Argument(value))
-                .Concat(generatedArguments)
-                .ToArray();
-
-            var displayName = GetDisplayName(TestCase.TestMethod.Method, this.DisplayName, arguments, typeArguments);
-
-            return new ScenarioTestRunner(
-                scenarioNumber,
-                new XunitTest(TestCase, displayName),
-                MessageBus,
-                TestClass,
-                ConstructorArguments,
-                closedMethod,
-                arguments.Select(argument => argument.Value).ToArray(),
-                SkipReason,
-                BeforeAfterAttributes,
-                new ExceptionAggregator(Aggregator),
-                CancellationTokenSource);
         }
     }
 }

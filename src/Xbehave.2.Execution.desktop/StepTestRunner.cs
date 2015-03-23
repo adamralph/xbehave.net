@@ -15,12 +15,10 @@ namespace Xbehave.Execution
 
     public class StepTestRunner : XunitTestRunner
     {
-        private readonly string stepDisplayName;
         private readonly Step step;
         private readonly List<Action> teardowns = new List<Action>();
 
         public StepTestRunner(
-            string stepDisplayName,
             Step step,
             ITest test,
             IMessageBus messageBus,
@@ -44,23 +42,10 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("step", step);
-
-            this.stepDisplayName = stepDisplayName;
             this.step = step;
         }
 
-        public string TestDisplayName
-        {
-            get { return this.Test.DisplayName; }
-        }
-
-        public string StepDisplayName
-        {
-            get { return this.stepDisplayName; }
-        }
-
-        public IEnumerable<Action> Teardowns
+        public IReadOnlyList<Action> Teardowns
         {
             get { return this.teardowns.ToArray(); }
         }
@@ -72,16 +57,9 @@ namespace Xbehave.Execution
 
         protected override async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
-            var stepTestInvoker = new StepTestInvoker(this.step, aggregator, this.CancellationTokenSource);
-
-            try
-            {
-                return await stepTestInvoker.RunAsync();
-            }
-            finally
-            {
-                this.teardowns.AddRange(stepTestInvoker.Teardowns);
-            }
+            var tuple = await new StepTestInvoker(this.step, aggregator, this.CancellationTokenSource).RunAsync();
+            this.teardowns.AddRange(tuple.Item2);
+            return tuple.Item1;
         }
     }
 }
