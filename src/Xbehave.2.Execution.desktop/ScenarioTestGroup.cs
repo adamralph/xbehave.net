@@ -37,6 +37,12 @@ namespace Xbehave.Execution
             string skipReason,
             IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes)
         {
+            Guard.AgainstNullArgument("testCase", testCase);
+            Guard.AgainstNullArgumentProperty("testCase", "TestMethod", testCase.TestMethod);
+            Guard.AgainstNullArgumentProperty("testCase", "TestMethod.Method", testCase.TestMethod.Method);
+            Guard.AgainstNullArgument("testMethod", testMethod);
+            Guard.AgainstNullArgument("testMethodArguments", testMethodArguments);
+
             var typeArguments = new ITypeInfo[0];
             var closedMethod = testMethod;
             if (closedMethod.IsGenericMethodDefinition)

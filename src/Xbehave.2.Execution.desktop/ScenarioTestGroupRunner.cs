@@ -38,6 +38,10 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
+            Guard.AgainstNullArgument("testGroup", testGroup);
+            Guard.AgainstNullArgument("messageBus", messageBus);
+            Guard.AgainstNullArgument("aggregator", aggregator);
+
             this.testGroup = testGroup;
             this.scenarioNumber = scenarioNumber;
             this.messageBus = messageBus;

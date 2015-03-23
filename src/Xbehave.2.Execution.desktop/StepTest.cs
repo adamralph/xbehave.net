@@ -79,7 +79,7 @@ namespace Xbehave.Execution
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    stepText,
+                    stepText ?? string.Empty,
                     (testMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
             }
             catch (FormatException)
