@@ -229,12 +229,7 @@ namespace Xbehave.Execution
             var steps = ThreadStaticStepHub.RemoveAll();
             if (!steps.Any())
             {
-                this.messageBus.Queue(
-                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
-                    test => new TestPassed(test, stepDiscoveryTimer.Total, null),
-                    this.cancellationTokenSource);
-
-                return new RunSummary { Total = 1, Time = stepDiscoveryTimer.Total };
+                return new RunSummary { Time = stepDiscoveryTimer.Total };
             }
 
             var stepFailed = false;

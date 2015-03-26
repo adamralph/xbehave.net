@@ -112,19 +112,18 @@ namespace Xbehave.Execution
 
         public async Task<RunSummary> RunAsync()
         {
-            var runSummary = new RunSummary();
-
             if (!string.IsNullOrEmpty(this.skipReason))
             {
-                runSummary.Total++;
-                runSummary.Skipped++;
                 this.messageBus.Queue(
                     new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
                     t => new TestSkipped(t, this.skipReason),
                     this.CancellationTokenSource);
+
+                return new RunSummary { Total = 1, Skipped = 1 };
             }
             else
             {
+                var runSummary = new RunSummary();
                 var childAggregator = new ExceptionAggregator(this.parentAggregator);
                 if (!childAggregator.HasExceptions)
                 {
@@ -141,9 +140,17 @@ namespace Xbehave.Execution
                         t => new TestFailed(t, runSummary.Time, string.Empty, exception),
                         this.CancellationTokenSource);
                 }
-            }
+                else if (runSummary.Total == 0)
+                {
+                    runSummary.Total++;
+                    this.messageBus.Queue(
+                        new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
+                        test => new TestPassed(test, runSummary.Time, null),
+                        this.cancellationTokenSource);
+                }
 
-            return runSummary;
+                return runSummary;
+            }
         }
 
         protected virtual async Task<RunSummary> InvokeTestGroupAsync(ExceptionAggregator aggregator)
