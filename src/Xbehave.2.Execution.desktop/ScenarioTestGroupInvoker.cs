@@ -203,7 +203,7 @@ namespace Xbehave.Execution
         protected async virtual Task<RunSummary> InvokeTestMethodAsync(object testClassInstance)
         {
             var stepDiscoveryTimer = new ExecutionTimer();
-            try
+            await this.aggregator.RunAsync(async () =>
             {
                 using (ThreadStaticStepHub.CreateBackgroundSteps())
                 {
@@ -219,27 +219,17 @@ namespace Xbehave.Execution
 
                 await stepDiscoveryTimer.AggregateAsync(() =>
                     this.testMethod.InvokeAsync(testClassInstance, this.testMethodArguments));
-            }
-            catch (Exception ex)
-            {
-                ThreadStaticStepHub.RemoveAll();
-                this.messageBus.Queue(
-                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
-                    test => new TestFailed(test, stepDiscoveryTimer.Total, null, ex.Unwrap()),
-                    this.cancellationTokenSource);
+            });
 
-                return new RunSummary { Failed = 1, Total = 1, Time = stepDiscoveryTimer.Total };
+            if (this.aggregator.HasExceptions)
+            {
+                return new RunSummary { Time = stepDiscoveryTimer.Total };
             }
 
             var steps = ThreadStaticStepHub.RemoveAll();
             if (!steps.Any())
             {
-                this.messageBus.Queue(
-                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
-                    test => new TestPassed(test, stepDiscoveryTimer.Total, null),
-                    this.cancellationTokenSource);
-
-                return new RunSummary { Total = 1, Time = stepDiscoveryTimer.Total };
+                return new RunSummary { Time = stepDiscoveryTimer.Total };
             }
 
             var stepFailed = false;
