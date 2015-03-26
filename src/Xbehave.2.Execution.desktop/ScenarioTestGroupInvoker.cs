@@ -273,16 +273,12 @@ namespace Xbehave.Execution
 
                 if (failedStepName != null)
                 {
-                    summary.Failed++;
+                    summary.Skipped++;
                     summary.Total++;
-                    var message = string.Format(
+                    var reason = string.Format(
                         CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
 
-                    this.messageBus.Queue(
-                        stepTest,
-                        test => new TestFailed(test, 0, string.Empty, new InvalidOperationException(message)),
-                        this.cancellationTokenSource);
-
+                    this.messageBus.Queue(stepTest, test => new TestSkipped(test, reason), this.cancellationTokenSource);
                     continue;
                 }
 
