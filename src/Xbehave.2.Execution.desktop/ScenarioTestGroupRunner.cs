@@ -128,7 +128,7 @@ namespace Xbehave.Execution
                 var childAggregator = new ExceptionAggregator(this.parentAggregator);
                 if (!childAggregator.HasExceptions)
                 {
-                    runSummary.Aggregate(await this.parentAggregator.RunAsync(() => this.InvokeTestGroupAsync(childAggregator)));
+                    runSummary.Aggregate(await childAggregator.RunAsync(() => this.InvokeTestGroupAsync(childAggregator)));
                 }
 
                 var exception = childAggregator.ToException();

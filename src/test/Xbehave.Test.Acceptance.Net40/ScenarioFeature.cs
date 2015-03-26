@@ -175,6 +175,19 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
+        public void FeatureConstructionFails(Type feature, ITestFailed[] failures)
+        {
+            "Given a feature with a failing constructor"
+                .f(() => feature = typeof(FeatureWithAFailingConstructor));
+
+            "When I run the scenarios"
+                .f(() => failures = this.Run<ITestFailed>(feature));
+
+            "Then there should be one test failure"
+                .f(() => failures.Length.Should().Be(1));
+        }
+
+        [Scenario]
         public void FailingStepThenPassingSteps()
         {
             var feature = default(Type);
@@ -333,6 +346,22 @@ namespace Xbehave.Test.Acceptance
         {
             public FeatureWithANonStaticScenarioButNoDefaultConstructor(int ignored)
             {
+            }
+
+            [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for testing.")]
+            [Scenario]
+            public void Scenario()
+            {
+                "Given something"
+                    .f(() => { });
+            }
+        }
+
+        private class FeatureWithAFailingConstructor
+        {
+            public FeatureWithAFailingConstructor()
+            {
+                throw new InvalidOperationException();
             }
 
             [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for testing.")]

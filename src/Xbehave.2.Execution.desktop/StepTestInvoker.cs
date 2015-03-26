@@ -52,18 +52,18 @@ namespace Xbehave.Execution
             get { return this.timer; }
         }
 
-        public Task<Tuple<decimal, Action[]>> RunAsync()
+        public async Task<Tuple<decimal, Action[]>> RunAsync()
         {
-            return this.aggregator.RunAsync(async () =>
+            Action[] teardowns = null;
+            await this.aggregator.RunAsync(async () =>
             {
-                Action[] teardowns = null;
                 if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
                 {
                     teardowns = await InvokeTestMethodAsync();
                 }
-
-                return Tuple.Create(this.timer.Total, teardowns ?? new Action[0]);
             });
+
+            return Tuple.Create(this.timer.Total, teardowns ?? new Action[0]);
         }
 
         protected virtual async Task<Action[]> InvokeTestMethodAsync()
