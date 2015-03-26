@@ -202,8 +202,19 @@ namespace Xbehave.Test.Acceptance
             "And I sort the results by their display name"
                 .f(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
 
+            "Then the there should be three results"
+                .f(() => results.Length.Should().Be(3));
+
+#if V2
+            "Then the first result should be a failure"
+                .f(() => results[0].Should().BeAssignableTo<ITestFailed>());
+
+            "And the second and third results should be skips"
+                .f(() => results.Skip(1).Should().ContainItemsAssignableTo<ITestSkipped>());
+#else
             "Then each result should be a failure"
                 .f(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+#endif
 
             "And the second result should refer to the second step"
                 .f(() => results[1].Test.DisplayName.Should().ContainEquivalentOf("Step y"));
@@ -211,14 +222,22 @@ namespace Xbehave.Test.Acceptance
             "And the third result should refer to the third step"
                 .f(() => results[2].Test.DisplayName.Should().ContainEquivalentOf("Step x"));
 
-            "And each subsequent result message should indicate that the first step failed"
+            "And the second and third result messages should indicate that the first step failed"
                 .f(() =>
                 {
-                    foreach (var result in results.Cast<ITestFailed>().Skip(1))
+#if V2
+                    foreach (var result in results.Skip(1).Cast<ITestSkipped>())
+                    {
+                        result.Reason.Should().ContainEquivalentOf("Failed to execute preceding step");
+                        result.Reason.Should().ContainEquivalentOf("Step z");
+                    }
+#else
+                    foreach (var result in results.Skip(1).Cast<ITestFailed>())
                     {
                         result.Messages.Single().Should().ContainEquivalentOf("Failed to execute preceding step");
                         result.Messages.Single().Should().ContainEquivalentOf("Step z");
                     }
+#endif
                 });
         }
 
