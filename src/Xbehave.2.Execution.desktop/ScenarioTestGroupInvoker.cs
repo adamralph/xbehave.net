@@ -119,10 +119,10 @@ namespace Xbehave.Execution
             get { return this.timer; }
         }
 
-        public Task<RunSummary> RunAsync()
+        public async Task<RunSummary> RunAsync()
         {
             var summary = new RunSummary();
-            return this.aggregator.RunAsync(async () =>
+            await this.aggregator.RunAsync(async () =>
             {
                 if (!cancellationTokenSource.IsCancellationRequested)
                 {
@@ -148,8 +148,9 @@ namespace Xbehave.Execution
                 }
 
                 summary.Time += this.timer.Total;
-                return summary;
             });
+
+            return summary;
         }
 
         protected virtual object CreateTestClass()
