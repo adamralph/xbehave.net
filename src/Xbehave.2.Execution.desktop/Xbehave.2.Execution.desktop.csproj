@@ -103,9 +103,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xbehave.2\Xbehave.2.csproj">
+    <ProjectReference Include="..\Xbehave.2.Core\Xbehave.2.Core.csproj">
       <Project>{1ba9615f-9679-49ba-8cfb-aa826f3c78be}</Project>
-      <Name>Xbehave.2</Name>
+      <Name>Xbehave.2.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

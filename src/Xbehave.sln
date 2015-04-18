@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		Settings.StyleCop = Settings.StyleCop
 		VersionInfo.1.cs = VersionInfo.1.cs
 		VersionInfo.2.cs = VersionInfo.2.cs
+		Xbehave.2.Core.nuspec = Xbehave.2.Core.nuspec
 		Xbehave.2.nuspec = Xbehave.2.nuspec
 		Xbehave.CustomDictionary.xml = Xbehave.CustomDictionary.xml
 		Xbehave.nuspec = Xbehave.nuspec
@@ -59,7 +60,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net45", "Xbehave.Ne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net45", "Xbehave.Sdk.Net45\Xbehave.Sdk.Net45.csproj", "{675BC957-BEE4-4BEF-B235-D1562DAC8660}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2", "Xbehave.2\Xbehave.2.csproj", "{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Core", "Xbehave.2.Core\Xbehave.2.Core.csproj", "{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Test.Acceptance.Net45", "test\Xbehave.2.Test.Acceptance.Net45\Xbehave.2.Test.Acceptance.Net45.csproj", "{B95C4972-1CD7-4632-994B-E6093CBF03BA}"
 EndProject
