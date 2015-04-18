@@ -19,15 +19,19 @@ At the time of writing the build is only confirmed to work on Windows using the 
 
     `gem update --system`
 
-1. Install/update Rake, Albacore and Zip:
+1. Install Bundler:
 
-    `gem install rake albacore zip`
+    `gem install bundler`
+
+1. Install the required gems:
+
+    `bundle install`
 
 ## Building
 
 Using a command prompt, navigate to your clone root folder and execute:
 
-`rake`
+`build.cmd`
 
 This executes the default build tasks. After the build has completed, the build artifacts will be located in `bin`.
 
@@ -35,16 +39,16 @@ This executes the default build tasks. After the build has completed, the build 
 
 * View the full list of build tasks:
 
-    `rake -T`
+    `build.cmd -T`
 
 * Run a specific task:
 
-    `rake spec`
+    `build.cmd spec`
 
 * Run multiple tasks:
 
-    `rake spec pack`
+    `build.cmd spec pack`
 
 * View the full list of rake options:
 
-    `rake -h`
+    `build.cmd -h`
