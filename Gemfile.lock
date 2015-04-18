@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     albacore (0.3.6)
       rubyzip (< 1.0.0)

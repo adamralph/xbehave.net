@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Xbehave</RootNamespace>
-    <AssemblyName>Xbehave</AssemblyName>
+    <AssemblyName>Xbehave.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -40,7 +40,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618,1591</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
-    <DocumentationFile>bin\Release\Xbehave.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Xbehave.Core.xml</DocumentationFile>
     <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
@@ -84,7 +84,7 @@
     </None>
     <None Include="packages.config" />
     <None Include="Settings.StyleCop" />
-    <None Include="Xbehave.WithDesktop.props" />
+    <None Include="Xbehave.Core.WithDesktop.props" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="xunit.abstractions">

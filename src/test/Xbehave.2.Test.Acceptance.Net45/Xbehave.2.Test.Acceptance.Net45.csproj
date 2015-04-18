@@ -86,9 +86,9 @@
       <Project>{30df704b-27b5-4f23-a54e-a0cdb86aaf2f}</Project>
       <Name>Xbehave.2.Execution.desktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Xbehave.2\Xbehave.2.csproj">
+    <ProjectReference Include="..\..\Xbehave.2.Core\Xbehave.2.Core.csproj">
       <Project>{1ba9615f-9679-49ba-8cfb-aa826f3c78be}</Project>
-      <Name>Xbehave.2</Name>
+      <Name>Xbehave.2.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
