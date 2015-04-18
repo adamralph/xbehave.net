@@ -106,6 +106,6 @@ def run_tests(tests)
     xunit.command = $xunit_command
     xunit.assembly = test
     xunit.options "-html", File.expand_path(test + ".TestResults.html"), "-xml", File.expand_path(test + ".TestResults.xml")
-    xunit.execute  
+    xunit.execute
   end
 end
