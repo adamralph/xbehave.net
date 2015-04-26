@@ -13,123 +13,141 @@ namespace Xbehave.Test.Acceptance
 
     public class ContinueOnFailureFeature : Feature
     {
-        private static int executedStepCount;
-
         [Scenario]
-        public void FailingStepAfterContinueOnFailureStepType()
+        public void FailureBeforeContinuationStep(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
-            "Given a feature with a failing step after the first Then"
-                .Given(() => feature = typeof(FeatureWithAFailingStepAfterContinueOnFailureStepType));
+            "Given a scenario with a failure before the continuation step"
+                .f(() => feature = typeof(ScenarioWithFailureBeforeContinuationStep));
 
             "When I run the scenarios"
-                .When(() => results = this.Run<ITestResultMessage>(feature))
-                .Teardown(() => executedStepCount = 0);
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then the first 3 should be passes"
-                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<ITestPassed>());
+            "Then there should be four results"
+                .f(() => results.Length.Should().Be(4));
 
-            "And the 4th result should be a failure"
-                .And(() => results[3].Should().BeAssignableTo<ITestFailed>());
+            "Then the first result is a pass"
+                .f(() => results.Take(1).Should().ContainItemsAssignableTo<ITestPassed>());
 
-            "And the rest should be passes"
-                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<ITestPassed>().And.NotBeEmpty());
+            "And the second result is a failure"
+                .f(() => results.Skip(1).Take(1).Should().ContainItemsAssignableTo<ITestFailed>());
 
-            "And it should execute all the steps"
-                .And(() => executedStepCount.Should().Be(results.Length));
+            "And the last two results are failures"
+                .f(() => results.Skip(2).Should().ContainItemsAssignableTo<ITestFailed>());
         }
 
         [Scenario]
-        public void FailingStepBeforeContinueOnFailureStepType()
+        public void FailureDuringContinuationStep(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
-            "Given a feature with a failing step after the first Then (but before the first But)"
-                .Given(() => feature = typeof(FeatureWithAFailingStepBeforeContinueOnFailureStepType));
+            "Given a scenario with a failure during the continuation step"
+                .f(() => feature = typeof(ScenarioWithFailureDuringContinuationStep));
 
             "When I run the scenarios"
-                .When(() => results = this.Run<ITestResultMessage>(feature))
-                .Teardown(() => executedStepCount = 0);
+                .f(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then the first 3 should be passes"
-                .Then(() => results.Take(3).Should().ContainItemsAssignableTo<ITestPassed>());
+            "Then there should be four results"
+                .f(() => results.Length.Should().Be(4));
 
-            "And the 4th result should be a failure"
-                .And(() => results[3].Should().BeAssignableTo<ITestFailed>());
+            "Then the first two results are passes"
+                .f(() => results.Take(2).Should().ContainItemsAssignableTo<ITestPassed>());
 
-            "And the rest should be failures"
-                .Then(() => results.Skip(4).Should().ContainItemsAssignableTo<ITestFailed>().And.NotBeEmpty());
+            "And the third result is a failure"
+                .f(() => results.Skip(2).Take(1).Should().ContainItemsAssignableTo<ITestFailed>());
 
-            "And each subsequent result message should indicate that the step failed because of failure to execute the 4th step"
-                .And(() => results.Skip(4).Cast<ITestFailed>()
-                    .Should()
-                    .OnlyContain(result => result.Messages.Single().Contains(
-                        "Failed to execute preceding step \"[01.01.04] And something goes wrong\"")));
-
-            "And it should execute 4 steps"
-                .And(() => executedStepCount.Should().Be(4));
+            "And the last result is a pass"
+                .f(() => results.Skip(3).Should().ContainItemsAssignableTo<ITestPassed>());
         }
 
-        private static class FeatureWithAFailingStepAfterContinueOnFailureStepType
+        [Scenario]
+        public void FailureAfterContinuationStep(Type feature, ITestResultMessage[] results)
+        {
+            "Given a scenario with a failure after the continuation step"
+                .f(() => feature = typeof(ScenarioWithFailureAfterContinuationStep));
+
+            "When I run the scenarios"
+                .f(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then there should be five results"
+                .f(() => results.Length.Should().Be(5));
+
+            "Then the first three results are passes"
+                .f(() => results.Take(3).Should().ContainItemsAssignableTo<ITestPassed>());
+
+            "And the fourth result is a failure"
+                .f(() => results.Skip(3).Take(1).Should().ContainItemsAssignableTo<ITestFailed>());
+
+            "And the last result is a pass"
+                .f(() => results.Skip(4).Should().ContainItemsAssignableTo<ITestPassed>());
+        }
+
+        private static class ScenarioWithFailureBeforeContinuationStep
         {
             [Scenario]
             [ContinueOnFailureAfter(StepType.Then)]
             public static void Scenario()
             {
                 "Given something"
-                    .Given(() => ++executedStepCount);
+                    .f(() => { });
 
-                "When something happens"
-                    .When(() => ++executedStepCount);
-
-                "Then there is an outcome"
-                    .Then(() => ++executedStepCount);
-
-                "And something goes wrong"
-                    .And(() =>
+                "When something"
+                    .f(() =>
                     {
-                        ++executedStepCount;
                         throw new InvalidOperationException("oops");
                     });
 
-                "But this is ok"
-                    .But(() => ++executedStepCount);
+                "Then something"
+                    .f(() => { });
 
-                "And this is ok"
-                    .And(() => ++executedStepCount);
+                "And something"
+                    .f(() => { });
             }
         }
 
-        private static class FeatureWithAFailingStepBeforeContinueOnFailureStepType
+        private static class ScenarioWithFailureDuringContinuationStep
         {
             [Scenario]
-            [ContinueOnFailureAfter(StepType.But)]
+            [ContinueOnFailureAfter(StepType.Then)]
             public static void Scenario()
             {
                 "Given something"
-                    .Given(() => ++executedStepCount);
+                    .f(() => { });
 
-                "When something happens"
-                    .When(() => ++executedStepCount);
+                "When something"
+                    .f(() => { });
 
-                "Then there is an outcome"
-                    .Then(() => ++executedStepCount);
-
-                "And something goes wrong"
-                    .And(() =>
+                "Then something"
+                    .f(() =>
                     {
-                        ++executedStepCount;
                         throw new InvalidOperationException("oops");
                     });
 
-                "But this is ok"
-                    .But(() => ++executedStepCount);
+                "And something"
+                    .f(() => { });
+            }
+        }
 
-                "And this is ok"
-                    .And(() => ++executedStepCount);
+        private static class ScenarioWithFailureAfterContinuationStep
+        {
+            [Scenario]
+            [ContinueOnFailureAfter(StepType.Then)]
+            public static void Scenario()
+            {
+                "Given something"
+                    .f(() => { });
+
+                "When something"
+                    .f(() => { });
+
+                "Then something"
+                    .f(() => { });
+
+                "And something"
+                    .f(() =>
+                    {
+                        throw new InvalidOperationException("oops");
+                    });
+
+                "And something else"
+                    .f(() => { });
             }
         }
     }
