@@ -27,5 +27,13 @@ namespace Xbehave.Fluent
         /// An instance of <see cref="IStep"/>.
         /// </returns>
         IStep Teardown(Action action);
+
+        /// <summary>
+        /// Continue execution of remaining steps even if this step fails.
+        /// </summary>
+        /// <returns>
+        /// An instance of <see cref="IStep"/>.
+        /// </returns>
+        IStep ContinueOnFailure();
     }
 }

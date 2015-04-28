@@ -44,6 +44,11 @@ namespace Xbehave.Fluent
             return this;
         }
 
+        public IStep ContinueOnFailure()
+        {
+            return this;
+        }
+
         public IStepContext Using(IDisposable disposable)
         {
             this.step.Add(disposable);

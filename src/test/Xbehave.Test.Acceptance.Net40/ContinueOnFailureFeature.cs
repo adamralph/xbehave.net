@@ -2,7 +2,86 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-#if !V2
+#if V2
+namespace Xbehave.Test.Acceptance
+{
+    using System;
+    using System.Linq;
+    using FluentAssertions;
+    using Xbehave.Test.Acceptance.Infrastructure;
+    using Xunit.Abstractions;
+
+    public class ContinueOnFailureFeature : Feature
+    {
+        [Scenario]
+        public void FailureBeforeForcedStep(Type feature, ITestResultMessage[] results)
+        {
+            ("Given a scenario with two empty steps, " +
+                "a failing step with continuation, " +
+                "two more empty steps, " +
+                "a failing step and " +
+                "another empty step")
+                .f(() => feature = typeof(Steps));
+
+            "When I run the scenarios"
+                .f(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then there should be 7 results"
+                .f(() => results.Length.Should().Be(7));
+
+            "Then the first and second results are passes"
+                .f(() => results.Take(2).Should().ContainItemsAssignableTo<ITestPassed>());
+
+            "And the third result is a failure"
+                .f(() => results.Skip(2).Take(1).Should().ContainItemsAssignableTo<ITestFailed>());
+
+            "And the fourth and fifth results are passes"
+                .f(() => results.Skip(3).Take(2).Should().ContainItemsAssignableTo<ITestPassed>());
+
+            "And the sixth result is a failure"
+                .f(() => results.Skip(5).Take(1).Should().ContainItemsAssignableTo<ITestFailed>());
+
+            "And the seventh result is a skip"
+                .f(() => results.Skip(6).Take(1).Should().ContainItemsAssignableTo<ITestSkipped>());
+        }
+
+        private static class Steps
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "Given something"
+                    .f(() => { });
+
+                "When something"
+                    .f(() => { });
+
+                "Then something which fails"
+                    .f(() =>
+                    {
+                        throw new InvalidOperationException("oops");
+                    })
+                    .ContinueOnFailure();
+
+                "And something"
+                    .f(() => { });
+
+                "And something"
+                    .f(() => { });
+
+                "And something which fails"
+                    .f(() =>
+                    {
+                        throw new InvalidOperationException("oops");
+                    });
+
+                "And something"
+                    .f(() => { });
+            }
+        }
+    }
+}
+#else
 namespace Xbehave.Test.Acceptance
 {
     using System;
