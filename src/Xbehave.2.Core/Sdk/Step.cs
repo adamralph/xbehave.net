@@ -92,6 +92,11 @@ namespace Xbehave.Sdk
         public string SkipReason { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to continue execution of remaining steps even if this step fails.
+        /// </summary>
+        public bool ContinueOnFailure { get; set; }
+
+        /// <summary>
         /// Adds a teardown to be invoked after the execution of the scenario in which the step participates.
         /// </summary>
         /// <param name="teardown">The body of the teardown.</param>

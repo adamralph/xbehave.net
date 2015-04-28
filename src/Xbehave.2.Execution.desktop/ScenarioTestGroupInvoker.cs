@@ -284,6 +284,11 @@ namespace Xbehave.Execution
 
                 summary.Aggregate(await stepTestRunner.RunAsync());
 
+                if (item.step.ContinueOnFailure)
+                {
+                    stepFailed = false;
+                }
+
                 if (stepFailed)
                 {
                     failedStepName = stepTest.StepName;

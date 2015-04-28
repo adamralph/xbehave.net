@@ -46,6 +46,7 @@ namespace Xbehave.Fluent
 
         public IStep ContinueOnFailure()
         {
+            this.step.ContinueOnFailure = true;
             return this;
         }
 
