@@ -232,22 +232,13 @@ namespace Xbehave.Execution
                 return new RunSummary { Time = stepDiscoveryTimer.Total };
             }
 
-            var stepFailed = false;
-            var interceptingBus = new DelegatingMessageBus(
-                this.messageBus,
-                message =>
-                {
-                    if (message is ITestFailed)
-                    {
-                        stepFailed = true;
-                    }
-                });
-
             var stepTestRunners = new List<StepTestRunner>();
-            string failedStepName = null;
+            string skipReason = null;
             var summary = new RunSummary { Time = stepDiscoveryTimer.Total };
             foreach (var item in steps.Select((step, index) => new { step, index }))
             {
+                item.step.SkipReason = item.step.SkipReason ?? skipReason;
+
                 var stepTest = new StepTest(
                     this.testGroup.TestCase,
                     this.testGroup.DisplayName,
@@ -255,6 +246,19 @@ namespace Xbehave.Execution
                     item.index + 1,
                     item.step.Text,
                     this.testMethodArguments);
+
+                var interceptingBus = new DelegatingMessageBus(
+                    this.messageBus,
+                    message =>
+                    {
+                        if (message is ITestFailed && !item.step.ContinueOnFailure)
+                        {
+                            skipReason = string.Format(
+                                CultureInfo.InvariantCulture,
+                                "Failed to execute preceding step \"{0}\".",
+                                stepTest.StepName);
+                        }
+                    });
 
                 var stepTestRunner = new StepTestRunner(
                     item.step,
@@ -270,29 +274,7 @@ namespace Xbehave.Execution
                     this.cancellationTokenSource);
 
                 stepTestRunners.Add(stepTestRunner);
-
-                if (failedStepName != null)
-                {
-                    summary.Skipped++;
-                    summary.Total++;
-                    var reason = string.Format(
-                        CultureInfo.InvariantCulture, "Failed to execute preceding step \"{0}\".", failedStepName);
-
-                    this.messageBus.Queue(stepTest, test => new TestSkipped(test, reason), this.cancellationTokenSource);
-                    continue;
-                }
-
                 summary.Aggregate(await stepTestRunner.RunAsync());
-
-                if (item.step.ContinueOnFailure)
-                {
-                    stepFailed = false;
-                }
-
-                if (stepFailed)
-                {
-                    failedStepName = stepTest.StepName;
-                }
             }
 
             var teardowns = stepTestRunners.SelectMany(stepTestRunner => stepTestRunner.Teardowns).ToArray();
