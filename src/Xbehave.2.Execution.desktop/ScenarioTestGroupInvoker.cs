@@ -221,20 +221,20 @@ namespace Xbehave.Execution
                     this.testMethod.InvokeAsync(testClassInstance, this.testMethodArguments));
             });
 
-            if (this.aggregator.HasExceptions)
+            var runSummary = new RunSummary { Time = stepDiscoveryTimer.Total };
+            if (!this.aggregator.HasExceptions)
             {
-                return new RunSummary { Time = stepDiscoveryTimer.Total };
+                runSummary.Aggregate(await this.InvokeStepsAsync(ThreadStaticStepHub.RemoveAll()));
             }
 
-            var steps = ThreadStaticStepHub.RemoveAll();
-            if (!steps.Any())
-            {
-                return new RunSummary { Time = stepDiscoveryTimer.Total };
-            }
+            return runSummary;
+        }
 
-            var stepTestRunners = new List<StepTestRunner>();
+        protected async virtual Task<RunSummary> InvokeStepsAsync(IList<Step> steps)
+        {
+            var summary = new RunSummary();
             string skipReason = null;
-            var summary = new RunSummary { Time = stepDiscoveryTimer.Total };
+            var stepTestRunners = new List<StepTestRunner>();
             foreach (var item in steps.Select((step, index) => new { step, index }))
             {
                 item.step.SkipReason = item.step.SkipReason ?? skipReason;
