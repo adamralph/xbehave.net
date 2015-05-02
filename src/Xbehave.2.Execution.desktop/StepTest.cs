@@ -7,7 +7,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepTest : LongLivedMarshalByRefObject, ITestGroupTest
+    public class StepTest : LongLivedMarshalByRefObject, ITest
     {
         private readonly ITestGroup testGroup;
         private readonly string displayName;

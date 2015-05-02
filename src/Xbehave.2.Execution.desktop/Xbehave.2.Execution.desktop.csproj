@@ -52,7 +52,6 @@
       <Link>Properties\VersionInfo.2.cs</Link>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="ITestGroupTest.cs" />
     <Compile Include="ITestGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Argument.cs" />
