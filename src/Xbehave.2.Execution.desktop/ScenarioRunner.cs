@@ -114,9 +114,7 @@ namespace Xbehave.Execution
             if (!string.IsNullOrEmpty(this.skipReason))
             {
                 this.messageBus.Queue(
-                    new Step(this.scenario, this.scenario.DisplayName),
-                    t => new TestSkipped(t, this.skipReason),
-                    this.CancellationTokenSource);
+                    this.Scenario, test => new TestSkipped(test, this.skipReason), this.CancellationTokenSource);
 
                 return new RunSummary { Total = 1, Skipped = 1 };
             }
@@ -138,17 +136,15 @@ namespace Xbehave.Execution
                     summary.Total++;
                     summary.Failed++;
                     this.messageBus.Queue(
-                        new Step(this.scenario, this.scenario.DisplayName),
-                        t => new TestFailed(t, summary.Time, output, exception),
+                        this.scenario,
+                        test => new TestFailed(test, summary.Time, output, exception),
                         this.CancellationTokenSource);
                 }
                 else if (summary.Total == 0)
                 {
                     summary.Total++;
                     this.messageBus.Queue(
-                        new Step(this.scenario, this.scenario.DisplayName),
-                        test => new TestPassed(test, summary.Time, output),
-                        this.cancellationTokenSource);
+                        this.scenario, test => new TestPassed(test, summary.Time, output), this.cancellationTokenSource);
                 }
 
                 return summary;

@@ -231,10 +231,10 @@ namespace Xbehave.Execution
             {
                 item.definition.SkipReason = item.definition.SkipReason ?? skipReason;
 
-                var testDisplayName = GetStepDisplayName(
+                var stepDisplayName = GetStepDisplayName(
                     this.scenario.DisplayName, item.index + 1, item.definition.Text, this.scenarioMethodArguments);
 
-                var step = new Step(this.scenario, testDisplayName);
+                var step = new Step(this.scenario, stepDisplayName);
 
                 var interceptingBus = new DelegatingMessageBus(
                     this.messageBus,
@@ -283,11 +283,11 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     summary.Total++;
 
-                    var testDisplayName = GetStepDisplayName(
+                    var stepDisplayName = GetStepDisplayName(
                         this.scenario.DisplayName, stepDefinitions.Count + 1, "(Teardown)", this.scenarioMethodArguments);
 
                     this.messageBus.Queue(
-                        new Step(this.scenario, testDisplayName),
+                        new Step(this.scenario, stepDisplayName),
                         test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.cancellationTokenSource);
                 }
