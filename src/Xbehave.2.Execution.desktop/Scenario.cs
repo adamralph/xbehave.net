@@ -1,4 +1,4 @@
-// <copyright file="XbehaveTestGroup.cs" company="xBehave.net contributors">
+// <copyright file="Scenario.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -14,7 +14,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class XbehaveTestGroup : ITest, IDisposable
+    public class Scenario : ITest, IDisposable
     {
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
@@ -26,7 +26,7 @@ namespace Xbehave.Execution
         private readonly string skipReason;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes;
 
-        public XbehaveTestGroup(
+        public Scenario(
             IXunitTestCase testCase,
             string baseDisplayName,
             Type testClass,
@@ -105,7 +105,7 @@ namespace Xbehave.Execution
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
         }
 
-        ~XbehaveTestGroup()
+        ~Scenario()
         {
             this.Dispose(false);
         }
@@ -157,7 +157,7 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            return new XbehaveTestGroupRunner(
+            return new ScenarioRunner(
                     this,
                     messageBus,
                     this.testClass,

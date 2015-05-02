@@ -1,4 +1,4 @@
-﻿// <copyright file="XbehaveTestCaseRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioOutlineRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,16 +12,16 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class XbehaveTestCaseRunner : XunitTestCaseRunner
+    public class ScenarioOutlineRunner : XunitTestCaseRunner
     {
         private static readonly object[] noArguments = new object[0];
 
         private readonly IMessageSink diagnosticMessageSink;
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
-        private readonly List<XbehaveTestGroup> testGroups = new List<XbehaveTestGroup>();
+        private readonly List<Scenario> testGroups = new List<Scenario>();
         private Exception dataDiscoveryException;
 
-        public XbehaveTestCaseRunner(
+        public ScenarioOutlineRunner(
             IMessageSink diagnosticMessageSink,
             IXunitTestCase testCase,
             string displayName,
@@ -63,7 +63,7 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        var testGroup = new XbehaveTestGroup(
+                        var testGroup = new Scenario(
                             this.TestCase,
                             this.DisplayName,
                             this.TestClass,
@@ -78,7 +78,7 @@ namespace Xbehave.Execution
 
                 if (!this.testGroups.Any())
                 {
-                    var testGroup = new XbehaveTestGroup(
+                    var testGroup = new Scenario(
                         this.TestCase,
                         this.DisplayName,
                         this.TestClass,

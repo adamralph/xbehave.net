@@ -1,4 +1,4 @@
-﻿// <copyright file="XbehaveTestInvoker.cs" company="xBehave.net contributors">
+﻿// <copyright file="StepInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -13,14 +13,14 @@ namespace Xbehave.Execution
     using Xbehave.Sdk;
     using Xunit.Sdk;
 
-    public class XbehaveTestInvoker
+    public class StepInvoker
     {
         private readonly StepDefinition step;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ExecutionTimer timer = new ExecutionTimer();
 
-        public XbehaveTestInvoker(
+        public StepInvoker(
             StepDefinition step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
         {
             Guard.AgainstNullArgument("step", step);

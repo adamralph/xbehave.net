@@ -1,4 +1,4 @@
-﻿// <copyright file="XbehaveTestGroupRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,7 +12,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class XbehaveTestGroupRunner
+    public class ScenarioRunner
     {
         private readonly ITest testGroup;
         private readonly IMessageBus messageBus;
@@ -25,7 +25,7 @@ namespace Xbehave.Execution
         private readonly ExceptionAggregator parentAggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
 
-        public XbehaveTestGroupRunner(
+        public ScenarioRunner(
             ITest testGroup,
             IMessageBus messageBus,
             Type testClass,
@@ -108,7 +108,7 @@ namespace Xbehave.Execution
             if (!string.IsNullOrEmpty(this.skipReason))
             {
                 this.messageBus.Queue(
-                    new XbehaveTest(this.testGroup, this.testGroup.DisplayName),
+                    new Step(this.testGroup, this.testGroup.DisplayName),
                     t => new TestSkipped(t, this.skipReason),
                     this.CancellationTokenSource);
 
@@ -129,7 +129,7 @@ namespace Xbehave.Execution
                     runSummary.Total++;
                     runSummary.Failed++;
                     this.messageBus.Queue(
-                        new XbehaveTest(this.testGroup, this.testGroup.DisplayName),
+                        new Step(this.testGroup, this.testGroup.DisplayName),
                         t => new TestFailed(t, runSummary.Time, string.Empty, exception),
                         this.CancellationTokenSource);
                 }
@@ -137,7 +137,7 @@ namespace Xbehave.Execution
                 {
                     runSummary.Total++;
                     this.messageBus.Queue(
-                        new XbehaveTest(this.testGroup, this.testGroup.DisplayName),
+                        new Step(this.testGroup, this.testGroup.DisplayName),
                         test => new TestPassed(test, runSummary.Time, null),
                         this.cancellationTokenSource);
                 }
@@ -148,7 +148,7 @@ namespace Xbehave.Execution
 
         protected virtual async Task<RunSummary> InvokeTestGroupAsync(ExceptionAggregator aggregator)
         {
-            return await new XbehaveTestGroupInvoker(
+            return await new ScenarioInvoker(
                     this.testGroup,
                     this.messageBus,
                     this.testClass,

@@ -1,4 +1,4 @@
-﻿// <copyright file="XbehaveTestGroupInvoker.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -16,7 +16,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class XbehaveTestGroupInvoker
+    public class ScenarioInvoker
     {
         private readonly ITest testGroup;
         private readonly IMessageBus messageBus;
@@ -31,7 +31,7 @@ namespace Xbehave.Execution
         private readonly Stack<BeforeAfterTestAttribute> beforeAfterTestGroupAttributesRun =
             new Stack<BeforeAfterTestAttribute>();
 
-        public XbehaveTestGroupInvoker(
+        public ScenarioInvoker(
             ITest testGroup,
             IMessageBus messageBus,
             Type testClass,
@@ -225,7 +225,7 @@ namespace Xbehave.Execution
         {
             var summary = new RunSummary();
             string skipReason = null;
-            var testRunners = new List<XbehaveTestRunner>();
+            var testRunners = new List<StepRunner>();
             foreach (var item in steps.Select((step, index) => new { step, index }))
             {
                 item.step.SkipReason = item.step.SkipReason ?? skipReason;
@@ -233,7 +233,7 @@ namespace Xbehave.Execution
                 var testDisplayName = GetTestDisplayName(
                     this.testGroup.DisplayName, item.index + 1, item.step.Text, this.testMethodArguments);
 
-                var test = new XbehaveTest(this.testGroup, testDisplayName);
+                var test = new Step(this.testGroup, testDisplayName);
 
                 var interceptingBus = new DelegatingMessageBus(
                     this.messageBus,
@@ -248,7 +248,7 @@ namespace Xbehave.Execution
                         }
                     });
 
-                var testRunner = new XbehaveTestRunner(
+                var testRunner = new StepRunner(
                     item.step,
                     test,
                     interceptingBus,
@@ -286,7 +286,7 @@ namespace Xbehave.Execution
                         this.testGroup.DisplayName, steps.Count + 1, "(Teardown)", this.testMethodArguments);
 
                     this.messageBus.Queue(
-                        new XbehaveTest(this.testGroup, testDisplayName),
+                        new Step(this.testGroup, testDisplayName),
                         test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.cancellationTokenSource);
                 }

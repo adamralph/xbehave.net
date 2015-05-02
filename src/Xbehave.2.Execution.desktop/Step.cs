@@ -1,4 +1,4 @@
-﻿// <copyright file="XbehaveTest.cs" company="xBehave.net contributors">
+﻿// <copyright file="Step.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -7,12 +7,12 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class XbehaveTest : LongLivedMarshalByRefObject, ITest
+    public class Step : LongLivedMarshalByRefObject, ITest
     {
         private readonly ITest testGroup;
         private readonly string displayName;
 
-        public XbehaveTest(ITest testGroup, string displayName)
+        public Step(ITest testGroup, string displayName)
         {
             Guard.AgainstNullArgument("testGroup", testGroup);
 

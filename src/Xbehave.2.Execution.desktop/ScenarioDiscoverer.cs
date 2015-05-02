@@ -25,7 +25,7 @@ namespace Xbehave.Execution
         {
             Guard.AgainstNullArgument("discoveryOptions", discoveryOptions);
 
-            yield return new XbehaveTestCase(
+            yield return new ScenarioOutline(
                 this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
         }
     }
