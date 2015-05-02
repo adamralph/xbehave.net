@@ -14,7 +14,7 @@ namespace Xbehave.Execution
 
         public Step(ITest scenario, string displayName)
         {
-            Guard.AgainstNullArgument("testGroup", scenario);
+            Guard.AgainstNullArgument("scenario", scenario);
 
             this.scenario = scenario;
             this.displayName = displayName;
