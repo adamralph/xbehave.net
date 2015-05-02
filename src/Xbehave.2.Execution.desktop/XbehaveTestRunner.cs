@@ -15,11 +15,11 @@ namespace Xbehave.Execution
 
     public class XbehaveTestRunner : XunitTestRunner
     {
-        private readonly Step step;
+        private readonly StepDefinition step;
         private readonly List<Action> teardowns = new List<Action>();
 
         public XbehaveTestRunner(
-            Step step,
+            StepDefinition step,
             ITest test,
             IMessageBus messageBus,
             Type testClass,
@@ -50,7 +50,7 @@ namespace Xbehave.Execution
             get { return this.teardowns.ToArray(); }
         }
 
-        protected Step Step
+        protected StepDefinition Step
         {
             get { return this.step; }
         }

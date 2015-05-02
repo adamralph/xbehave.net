@@ -68,13 +68,13 @@
     <Compile Include="BackgroundAttribute.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
-    <Compile Include="Fluent\IStep.cs" />
-    <Compile Include="Fluent\Step.cs" />
+    <Compile Include="Fluent\IStepBuilder.cs" />
+    <Compile Include="Fluent\StepBuilder.cs" />
     <Compile Include="IStepContext.cs" />
     <Compile Include="ScenarioAttribute.cs" />
     <Compile Include="Sdk\ThreadStaticStepHub.cs" />
     <Compile Include="Sdk\Guard.cs" />
-    <Compile Include="Sdk\Step.cs" />
+    <Compile Include="Sdk\StepDefinition.cs" />
     <Compile Include="StringExtensions.Async.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>

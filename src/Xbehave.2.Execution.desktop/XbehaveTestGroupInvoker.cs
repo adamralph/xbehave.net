@@ -221,7 +221,7 @@ namespace Xbehave.Execution
             return runSummary;
         }
 
-        protected async virtual Task<RunSummary> InvokeStepsAsync(IList<Step> steps)
+        protected async virtual Task<RunSummary> InvokeStepsAsync(IList<StepDefinition> steps)
         {
             var summary = new RunSummary();
             string skipReason = null;

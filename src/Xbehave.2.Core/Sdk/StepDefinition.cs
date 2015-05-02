@@ -1,4 +1,4 @@
-﻿// <copyright file="Step.cs" company="xBehave.net contributors">
+﻿// <copyright file="StepDefinition.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -10,13 +10,13 @@ namespace Xbehave.Sdk
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Provides the natural language associated with a step, the body of a step,
+    /// Provides the natural language associated with a step, the body of the step,
     /// the teardowns to be invoked after the execution of the scenario in which the step participates,
     /// the objects to be disposed after the execution of the scenario in which the step participates and
     /// a reason for skipping this step.
     /// </summary>
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-    public class Step
+    public class StepDefinition
     {
         private readonly string text;
         private readonly Func<object> body;
@@ -24,11 +24,11 @@ namespace Xbehave.Sdk
         private readonly List<Action> teardowns = new List<Action>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Step"/> class.
+        /// Initializes a new instance of the <see cref="StepDefinition"/> class.
         /// </summary>
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
-        public Step(string text, Action body)
+        public StepDefinition(string text, Action body)
             : this(text)
         {
             this.body = () =>
@@ -39,17 +39,17 @@ namespace Xbehave.Sdk
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Step"/> class.
+        /// Initializes a new instance of the <see cref="StepDefinition"/> class.
         /// </summary>
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
-        public Step(string text, Func<Task> body)
+        public StepDefinition(string text, Func<Task> body)
             : this(text)
         {
             this.body = body;
         }
 
-        private Step(string text)
+        private StepDefinition(string text)
         {
             this.text = text;
         }

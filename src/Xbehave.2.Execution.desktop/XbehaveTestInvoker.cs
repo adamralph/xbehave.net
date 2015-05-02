@@ -15,13 +15,13 @@ namespace Xbehave.Execution
 
     public class XbehaveTestInvoker
     {
-        private readonly Step step;
+        private readonly StepDefinition step;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ExecutionTimer timer = new ExecutionTimer();
 
         public XbehaveTestInvoker(
-            Step step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
+            StepDefinition step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
         {
             Guard.AgainstNullArgument("step", step);
             Guard.AgainstNullArgument("aggregator", aggregator);
@@ -32,7 +32,7 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected Step Step
+        protected StepDefinition Step
         {
             get { return this.step; }
         }
