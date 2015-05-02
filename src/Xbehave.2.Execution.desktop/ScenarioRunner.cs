@@ -14,48 +14,48 @@ namespace Xbehave.Execution
 
     public class ScenarioRunner
     {
-        private readonly ITest testGroup;
+        private readonly ITest scenario;
         private readonly IMessageBus messageBus;
-        private readonly Type testClass;
+        private readonly Type scenarioClass;
         private readonly object[] constructorArguments;
-        private readonly MethodInfo testMethod;
-        private readonly object[] testMethodArguments;
+        private readonly MethodInfo scenarioMethod;
+        private readonly object[] scenarioMethodArguments;
         private readonly string skipReason;
-        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes;
+        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes;
         private readonly ExceptionAggregator parentAggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
 
         public ScenarioRunner(
-            ITest testGroup,
+            ITest scenario,
             IMessageBus messageBus,
-            Type testClass,
+            Type scenarioClass,
             object[] constructorArguments,
-            MethodInfo testMethod,
-            object[] testMethodArguments,
+            MethodInfo scenarioMethod,
+            object[] scenarioMethodArguments,
             string skipReason,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes,
+            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("testGroup", testGroup);
+            Guard.AgainstNullArgument("scenario", scenario);
             Guard.AgainstNullArgument("messageBus", messageBus);
             Guard.AgainstNullArgument("aggregator", aggregator);
 
-            this.testGroup = testGroup;
+            this.scenario = scenario;
             this.messageBus = messageBus;
-            this.testClass = testClass;
+            this.scenarioClass = scenarioClass;
             this.constructorArguments = constructorArguments;
-            this.testMethod = testMethod;
-            this.testMethodArguments = testMethodArguments;
+            this.scenarioMethod = scenarioMethod;
+            this.scenarioMethodArguments = scenarioMethodArguments;
             this.skipReason = skipReason;
-            this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
+            this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
             this.parentAggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected ITest TestGroup
+        protected ITest Scenario
         {
-            get { return this.testGroup; }
+            get { return this.scenario; }
         }
 
         protected IMessageBus MessageBus
@@ -63,9 +63,9 @@ namespace Xbehave.Execution
             get { return this.messageBus; }
         }
 
-        protected Type TestClass
+        protected Type ScenarioClass
         {
-            get { return this.testClass; }
+            get { return this.scenarioClass; }
         }
 
         protected IReadOnlyList<object> ConstructorArguments
@@ -73,14 +73,14 @@ namespace Xbehave.Execution
             get { return this.constructorArguments; }
         }
 
-        protected MethodInfo TestMethod
+        protected MethodInfo ScenarioMethod
         {
-            get { return this.testMethod; }
+            get { return this.scenarioMethod; }
         }
 
-        protected IReadOnlyList<object> TestMethodArguments
+        protected IReadOnlyList<object> ScenarioMethodArguments
         {
-            get { return this.testMethodArguments; }
+            get { return this.scenarioMethodArguments; }
         }
 
         protected string SkipReason
@@ -88,9 +88,9 @@ namespace Xbehave.Execution
             get { return this.skipReason; }
         }
 
-        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterTestGroupAttributes
+        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterScenarioAttributes
         {
-            get { return this.beforeAfterTestGroupAttributes; }
+            get { return this.beforeAfterScenarioAttributes; }
         }
 
         protected ExceptionAggregator Aggregator
@@ -108,7 +108,7 @@ namespace Xbehave.Execution
             if (!string.IsNullOrEmpty(this.skipReason))
             {
                 this.messageBus.Queue(
-                    new Step(this.testGroup, this.testGroup.DisplayName),
+                    new Step(this.scenario, this.scenario.DisplayName),
                     t => new TestSkipped(t, this.skipReason),
                     this.CancellationTokenSource);
 
@@ -116,46 +116,46 @@ namespace Xbehave.Execution
             }
             else
             {
-                var runSummary = new RunSummary();
+                var summary = new RunSummary();
                 var childAggregator = new ExceptionAggregator(this.parentAggregator);
                 if (!childAggregator.HasExceptions)
                 {
-                    runSummary.Aggregate(await childAggregator.RunAsync(() => this.InvokeTestGroupAsync(childAggregator)));
+                    summary.Aggregate(await childAggregator.RunAsync(() => this.InvokeScenarioMethodAsync(childAggregator)));
                 }
 
                 var exception = childAggregator.ToException();
                 if (exception != null)
                 {
-                    runSummary.Total++;
-                    runSummary.Failed++;
+                    summary.Total++;
+                    summary.Failed++;
                     this.messageBus.Queue(
-                        new Step(this.testGroup, this.testGroup.DisplayName),
-                        t => new TestFailed(t, runSummary.Time, string.Empty, exception),
+                        new Step(this.scenario, this.scenario.DisplayName),
+                        t => new TestFailed(t, summary.Time, string.Empty, exception),
                         this.CancellationTokenSource);
                 }
-                else if (runSummary.Total == 0)
+                else if (summary.Total == 0)
                 {
-                    runSummary.Total++;
+                    summary.Total++;
                     this.messageBus.Queue(
-                        new Step(this.testGroup, this.testGroup.DisplayName),
-                        test => new TestPassed(test, runSummary.Time, null),
+                        new Step(this.scenario, this.scenario.DisplayName),
+                        test => new TestPassed(test, summary.Time, null),
                         this.cancellationTokenSource);
                 }
 
-                return runSummary;
+                return summary;
             }
         }
 
-        protected virtual async Task<RunSummary> InvokeTestGroupAsync(ExceptionAggregator aggregator)
+        protected virtual async Task<RunSummary> InvokeScenarioMethodAsync(ExceptionAggregator aggregator)
         {
             return await new ScenarioInvoker(
-                    this.testGroup,
+                    this.scenario,
                     this.messageBus,
-                    this.testClass,
+                    this.scenarioClass,
                     this.constructorArguments,
-                    this.testMethod,
-                    this.testMethodArguments,
-                    this.beforeAfterTestGroupAttributes,
+                    this.scenarioMethod,
+                    this.scenarioMethodArguments,
+                    this.beforeAfterScenarioAttributes,
                     aggregator,
                     this.cancellationTokenSource)
                 .RunAsync();

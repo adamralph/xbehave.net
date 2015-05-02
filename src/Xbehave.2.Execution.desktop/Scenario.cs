@@ -14,49 +14,50 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
+    // TODO: this cannot inherit from ITest and have all these fields. ITest needs to be xunit serializable
     public class Scenario : ITest, IDisposable
     {
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
-        private readonly IXunitTestCase testCase;
+        private readonly IXunitTestCase scenarioOutline;
         private readonly string displayName;
-        private readonly Type testClass;
-        private readonly MethodInfo testMethod;
+        private readonly Type scenarioClass;
+        private readonly MethodInfo scenarioMethod;
         private readonly object[] testMethodArguments;
         private readonly string skipReason;
-        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes;
+        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes;
 
         public Scenario(
-            IXunitTestCase testCase,
+            IXunitTestCase scenarioOutline,
             string baseDisplayName,
-            Type testClass,
-            MethodInfo testMethod,
-            object[] testMethodArguments,
+            Type scenarioClass,
+            MethodInfo scenarioMethod,
+            object[] scenarioMethodArguments,
             string skipReason,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes)
+            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes)
         {
-            Guard.AgainstNullArgument("testCase", testCase);
-            Guard.AgainstNullArgumentProperty("testCase", "TestMethod", testCase.TestMethod);
-            Guard.AgainstNullArgumentProperty("testCase", "TestMethod.Method", testCase.TestMethod.Method);
-            Guard.AgainstNullArgument("testMethod", testMethod);
-            Guard.AgainstNullArgument("testMethodArguments", testMethodArguments);
+            Guard.AgainstNullArgument("scenarioOutline", scenarioOutline);
+            Guard.AgainstNullArgumentProperty("scenarioOutline", "TestMethod", scenarioOutline.TestMethod);
+            Guard.AgainstNullArgumentProperty("scenarioOutline", "TestMethod.Method", scenarioOutline.TestMethod.Method);
+            Guard.AgainstNullArgument("scenarioMethod", scenarioMethod);
+            Guard.AgainstNullArgument("scenarioMethodArguments", scenarioMethodArguments);
 
             var typeArguments = new ITypeInfo[0];
-            var closedMethod = testMethod;
+            var closedMethod = scenarioMethod;
             if (closedMethod.IsGenericMethodDefinition)
             {
-                typeArguments = ResolveTypeArguments(testCase.TestMethod.Method, testMethodArguments.ToArray()).ToArray();
+                typeArguments = ResolveTypeArguments(scenarioOutline.TestMethod.Method, scenarioMethodArguments.ToArray()).ToArray();
 
                 closedMethod =
                     closedMethod.MakeGenericMethod(typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
             }
 
             var parameterTypes = closedMethod.GetParameters().Select(p => p.ParameterType).ToArray();
-            var convertedArgumentValues = Reflector.ConvertArguments(testMethodArguments, parameterTypes);
+            var convertedArgumentValues = Reflector.ConvertArguments(scenarioMethodArguments, parameterTypes);
 
-            var parameters = testCase.TestMethod.Method.GetParameters().ToArray();
+            var parameters = scenarioOutline.TestMethod.Method.GetParameters().ToArray();
             var generatedArguments = new List<Argument>();
-            for (var missingArgumentIndex = testMethodArguments.Length;
+            for (var missingArgumentIndex = scenarioMethodArguments.Length;
                 missingArgumentIndex < parameters.Length;
                 ++missingArgumentIndex)
             {
@@ -64,7 +65,7 @@ namespace Xbehave.Execution
                 if (parameterType.IsGenericParameter)
                 {
                     ITypeInfo concreteType = null;
-                    var typeParameters = testCase.TestMethod.Method.GetGenericArguments().ToArray();
+                    var typeParameters = scenarioOutline.TestMethod.Method.GetGenericArguments().ToArray();
                     for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
                     {
                         var typeParameter = typeParameters[typeParameterIndex];
@@ -96,13 +97,13 @@ namespace Xbehave.Execution
                 .Concat(generatedArguments)
                 .ToArray();
 
-            this.testCase = testCase;
-            this.displayName = GetTestGroupDisplayName(testCase.TestMethod.Method, baseDisplayName, arguments, typeArguments);
-            this.testClass = testClass;
-            this.testMethod = closedMethod;
+            this.scenarioOutline = scenarioOutline;
+            this.displayName = GetScenarioDisplayName(scenarioOutline.TestMethod.Method, baseDisplayName, arguments, typeArguments);
+            this.scenarioClass = scenarioClass;
+            this.scenarioMethod = closedMethod;
             this.testMethodArguments = arguments.Select(argument => argument.Value).ToArray();
             this.skipReason = skipReason;
-            this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
+            this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
         }
 
         ~Scenario()
@@ -110,9 +111,9 @@ namespace Xbehave.Execution
             this.Dispose(false);
         }
 
-        public IXunitTestCase TestCase
+        public IXunitTestCase ScenarioOutline
         {
-            get { return this.testCase; }
+            get { return this.scenarioOutline; }
         }
 
         public string DisplayName
@@ -122,17 +123,17 @@ namespace Xbehave.Execution
 
         ITestCase ITest.TestCase
         {
-            get { return this.testCase; }
+            get { return this.scenarioOutline; }
         }
 
         protected Type TestClass
         {
-            get { return this.testClass; }
+            get { return this.scenarioClass; }
         }
 
         protected MethodInfo TestMethod
         {
-            get { return this.testMethod; }
+            get { return this.scenarioMethod; }
         }
 
         protected IReadOnlyList<object> TestMethodArguments
@@ -145,9 +146,9 @@ namespace Xbehave.Execution
             get { return this.skipReason; }
         }
 
-        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterTestGroupAttributes
+        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterScenarioAttributes
         {
-            get { return this.beforeAfterTestGroupAttributes; }
+            get { return this.beforeAfterScenarioAttributes; }
         }
 
         public virtual Task<RunSummary> RunAsync(
@@ -160,12 +161,12 @@ namespace Xbehave.Execution
             return new ScenarioRunner(
                     this,
                     messageBus,
-                    this.testClass,
+                    this.scenarioClass,
                     constructorArguments,
-                    this.testMethod,
+                    this.scenarioMethod,
                     this.testMethodArguments,
                     this.skipReason,
-                    this.beforeAfterTestGroupAttributes,
+                    this.beforeAfterScenarioAttributes,
                     aggregator,
                     cancellationTokenSource)
                 .RunAsync();
@@ -229,7 +230,7 @@ namespace Xbehave.Execution
             return sawNullValue && type.IsValueType ? objectTypeInfo : type;
         }
 
-        private static string GetTestGroupDisplayName(
+        private static string GetScenarioDisplayName(
             IMethodInfo method, string baseDisplayName, Argument[] arguments, ITypeInfo[] typeArguments)
         {
             if (typeArguments.Length > 0)
