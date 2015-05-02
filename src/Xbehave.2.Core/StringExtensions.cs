@@ -1,11 +1,13 @@
 ﻿// <copyright file="StringExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
+
 namespace Xbehave
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
     using Xbehave.Fluent;
+    using Xbehave.Sdk;
 
     /// <summary>
     /// Provides access to step definition methods.

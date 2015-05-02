@@ -79,9 +79,10 @@ namespace Xbehave.Execution
                     () => this.timer.AggregateAsync(
                         async () =>
                         {
+                            var context = new StepContext();
                             try
                             {
-                                var result = this.step.Body();
+                                var result = this.step.Body(context);
                                 var task = result as Task;
                                 if (task != null)
                                 {
@@ -90,7 +91,7 @@ namespace Xbehave.Execution
                             }
                             finally
                             {
-                                teardowns = this.step.Disposables.Select(disposable => (Action)disposable.Dispose)
+                                teardowns = context.Disposables.Select(disposable => (Action)disposable.Dispose)
                                     .Concat(this.step.Teardowns).ToArray();
                             }
 

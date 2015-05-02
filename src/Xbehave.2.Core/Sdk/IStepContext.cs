@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-namespace Xbehave
+namespace Xbehave.Sdk
 {
     using System;
     using System.Diagnostics.CodeAnalysis;

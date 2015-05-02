@@ -19,8 +19,7 @@ namespace Xbehave.Sdk
     public class StepDefinition
     {
         private readonly string text;
-        private readonly Func<object> body;
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
+        private readonly Func<IStepContext, object> body;
         private readonly List<Action> teardowns = new List<Action>();
 
         /// <summary>
@@ -28,12 +27,12 @@ namespace Xbehave.Sdk
         /// </summary>
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
-        public StepDefinition(string text, Action body)
+        public StepDefinition(string text, Action<IStepContext> body)
             : this(text)
         {
-            this.body = () =>
+            this.body = context =>
             {
-                body();
+                body(context);
                 return null;
             };
         }
@@ -43,7 +42,7 @@ namespace Xbehave.Sdk
         /// </summary>
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
-        public StepDefinition(string text, Func<Task> body)
+        public StepDefinition(string text, Func<IStepContext, Task> body)
             : this(text)
         {
             this.body = body;
@@ -65,7 +64,7 @@ namespace Xbehave.Sdk
         /// <summary>
         /// Gets the body of the step.
         /// </summary>
-        public virtual Func<object> Body
+        public virtual Func<IStepContext, object> Body
         {
             get { return this.body; }
         }
@@ -76,14 +75,6 @@ namespace Xbehave.Sdk
         public IReadOnlyList<Action> Teardowns
         {
             get { return this.teardowns.ToArray(); }
-        }
-
-        /// <summary>
-        /// Gets the objects to be disposed after the execution of the scenario in which the step participates.
-        /// </summary>
-        public IReadOnlyList<IDisposable> Disposables
-        {
-            get { return this.disposables.ToArray(); }
         }
 
         /// <summary>
@@ -105,18 +96,6 @@ namespace Xbehave.Sdk
             if (teardown != null)
             {
                 this.teardowns.Add(teardown);
-            }
-        }
-
-        /// <summary>
-        /// Adds an object to be disposed after the execution of the scenario in which the step participates.
-        /// </summary>
-        /// <param name="disposable">A disposable object.</param>
-        public void Add(IDisposable disposable)
-        {
-            if (disposable != null)
-            {
-                this.disposables.Add(disposable);
             }
         }
     }

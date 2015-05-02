@@ -49,7 +49,7 @@ namespace Xbehave.Sdk
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
         /// <returns>A <see cref="StepDefinition"/>.</returns>
-        public static StepDefinition CreateAndAdd(string text, Action body)
+        public static StepDefinition CreateAndAdd(string text, Action<IStepContext> body)
         {
             var step = new StepDefinition(EmbellishStepText(text), body);
             Steps.Add(step);
@@ -63,7 +63,7 @@ namespace Xbehave.Sdk
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
         /// <returns>A <see cref="StepDefinition"/>.</returns>
-        public static StepDefinition CreateAndAdd(string text, Func<Task> body)
+        public static StepDefinition CreateAndAdd(string text, Func<IStepContext, Task> body)
         {
             var step = new StepDefinition(EmbellishStepText(text), body);
             Steps.Add(step);

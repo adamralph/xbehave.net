@@ -8,7 +8,7 @@ namespace Xbehave.Fluent
     using System.Threading.Tasks;
     using Xbehave.Sdk;
 
-    internal class StepBuilder : IStepBuilder, IStepContext
+    internal class StepBuilder : IStepBuilder
     {
         private readonly StepDefinition step;
 
@@ -19,7 +19,7 @@ namespace Xbehave.Fluent
 
         public StepBuilder(string text, Action<IStepContext> body)
         {
-            this.step = ThreadStaticStepHub.CreateAndAdd(text, () => body(this));
+            this.step = ThreadStaticStepHub.CreateAndAdd(text, body);
         }
 
         public StepBuilder(string text, Func<Task> body)
@@ -29,7 +29,7 @@ namespace Xbehave.Fluent
 
         public StepBuilder(string text, Func<IStepContext, Task> body)
         {
-            this.step = ThreadStaticStepHub.CreateAndAdd(text, () => body(this));
+            this.step = ThreadStaticStepHub.CreateAndAdd(text, body);
         }
 
         public IStepBuilder Skip(string reason)
@@ -47,12 +47,6 @@ namespace Xbehave.Fluent
         public IStepBuilder ContinueOnFailure()
         {
             this.step.ContinueOnFailure = true;
-            return this;
-        }
-
-        public IStepContext Using(IDisposable disposable)
-        {
-            this.step.Add(disposable);
             return this;
         }
     }
