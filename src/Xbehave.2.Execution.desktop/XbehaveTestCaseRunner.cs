@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioOutlineTestCaseRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="XbehaveTestCaseRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,16 +12,16 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioOutlineTestCaseRunner : XunitTestCaseRunner
+    public class XbehaveTestCaseRunner : XunitTestCaseRunner
     {
         private static readonly object[] noArguments = new object[0];
 
         private readonly IMessageSink diagnosticMessageSink;
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
-        private readonly List<ScenarioTestGroup> scenarioTestGroups = new List<ScenarioTestGroup>();
+        private readonly List<XbehaveTestGroup> testGroups = new List<XbehaveTestGroup>();
         private Exception dataDiscoveryException;
 
-        public ScenarioOutlineTestCaseRunner(
+        public XbehaveTestCaseRunner(
             IMessageSink diagnosticMessageSink,
             IXunitTestCase testCase,
             string displayName,
@@ -63,7 +63,7 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
                     {
-                        var scenarioTestGroup = new ScenarioTestGroup(
+                        var testGroup = new XbehaveTestGroup(
                             this.TestCase,
                             this.DisplayName,
                             this.TestClass,
@@ -72,13 +72,13 @@ namespace Xbehave.Execution
                             this.SkipReason,
                             this.BeforeAfterAttributes);
 
-                        this.scenarioTestGroups.Add(scenarioTestGroup);
+                        this.testGroups.Add(testGroup);
                     }
                 }
 
-                if (!this.scenarioTestGroups.Any())
+                if (!this.testGroups.Any())
                 {
-                    var scenarioTestGroup = new ScenarioTestGroup(
+                    var testGroup = new XbehaveTestGroup(
                         this.TestCase,
                         this.DisplayName,
                         this.TestClass,
@@ -87,7 +87,7 @@ namespace Xbehave.Execution
                         this.SkipReason,
                         this.BeforeAfterAttributes);
 
-                    this.scenarioTestGroups.Add(scenarioTestGroup);
+                    this.testGroups.Add(testGroup);
                 }
             }
             catch (Exception ex)
@@ -109,9 +109,9 @@ namespace Xbehave.Execution
             }
 
             var summary = new RunSummary();
-            foreach (var scenarioTestGroup in this.scenarioTestGroups)
+            foreach (var testGroup in this.testGroups)
             {
-                summary.Aggregate(await scenarioTestGroup.RunAsync(
+                summary.Aggregate(await testGroup.RunAsync(
                         this.diagnosticMessageSink,
                         this.MessageBus,
                         this.ConstructorArguments,
@@ -123,9 +123,9 @@ namespace Xbehave.Execution
             // but save any exceptions so we can surface them during the cleanup phase,
             // so they get properly reported as test case cleanup failures.
             var timer = new ExecutionTimer();
-            foreach (var scenarioTestGroup in this.scenarioTestGroups)
+            foreach (var testGroup in this.testGroups)
             {
-                timer.Aggregate(() => this.cleanupAggregator.Run(() => scenarioTestGroup.Dispose()));
+                timer.Aggregate(() => this.cleanupAggregator.Run(() => testGroup.Dispose()));
             }
 
             summary.Time += timer.Total;

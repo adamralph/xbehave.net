@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioTestGroupInvoker.cs" company="xBehave.net contributors">
+﻿// <copyright file="XbehaveTestGroupInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -16,7 +16,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioTestGroupInvoker
+    public class XbehaveTestGroupInvoker
     {
         private readonly ITestGroup testGroup;
         private readonly IMessageBus messageBus;
@@ -31,7 +31,7 @@ namespace Xbehave.Execution
         private readonly Stack<BeforeAfterTestAttribute> beforeAfterTestGroupAttributesRun =
             new Stack<BeforeAfterTestAttribute>();
 
-        public ScenarioTestGroupInvoker(
+        public XbehaveTestGroupInvoker(
             ITestGroup testGroup,
             IMessageBus messageBus,
             Type testClass,
@@ -226,12 +226,12 @@ namespace Xbehave.Execution
         {
             var summary = new RunSummary();
             string skipReason = null;
-            var stepTestRunners = new List<StepTestRunner>();
+            var testRunners = new List<XbehaveTestRunner>();
             foreach (var item in steps.Select((step, index) => new { step, index }))
             {
                 item.step.SkipReason = item.step.SkipReason ?? skipReason;
 
-                var stepTest = new StepTest(
+                var test = new XbehaveTest(
                     this.testGroup,
                     GetTestDisplayName(this.testGroup, item.index + 1, item.step.Text, this.testMethodArguments));
 
@@ -244,13 +244,13 @@ namespace Xbehave.Execution
                             skipReason = string.Format(
                                 CultureInfo.InvariantCulture,
                                 "Failed to execute preceding step: {0}",
-                                stepTest.DisplayName);
+                                test.DisplayName);
                         }
                     });
 
-                var stepTestRunner = new StepTestRunner(
+                var testRunner = new XbehaveTestRunner(
                     item.step,
-                    stepTest,
+                    test,
                     interceptingBus,
                     this.testClass,
                     this.constructorArguments,
@@ -261,11 +261,11 @@ namespace Xbehave.Execution
                     new ExceptionAggregator(this.aggregator),
                     this.cancellationTokenSource);
 
-                stepTestRunners.Add(stepTestRunner);
-                summary.Aggregate(await stepTestRunner.RunAsync());
+                testRunners.Add(testRunner);
+                summary.Aggregate(await testRunner.RunAsync());
             }
 
-            var teardowns = stepTestRunners.SelectMany(stepTestRunner => stepTestRunner.Teardowns).ToArray();
+            var teardowns = testRunners.SelectMany(testRunner => testRunner.Teardowns).ToArray();
             if (teardowns.Any())
             {
                 var teardownTimer = new ExecutionTimer();
@@ -282,13 +282,13 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     summary.Total++;
 
-                    var stepTest = new StepTest(
+                    var test = new XbehaveTest(
                         this.testGroup,
                         GetTestDisplayName(this.testGroup, steps.Count + 1, "(Teardown)", this.testMethodArguments));
 
                     this.messageBus.Queue(
-                        stepTest,
-                        test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
+                        test,
+                        t => new TestFailed(t, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.cancellationTokenSource);
                 }
             }
@@ -297,27 +297,27 @@ namespace Xbehave.Execution
         }
 
         private static string GetTestDisplayName(
-            ITestGroup testGroup, int stepNumber, string stepText, IEnumerable<object> testMethodArguments)
+            ITestGroup testGroup, int testNumber, string testNameFormat, IEnumerable<object> testMethodArguments)
         {
-            string stepName;
+            string testName;
             try
             {
-                stepName = string.Format(
+                testName = string.Format(
                     CultureInfo.InvariantCulture,
-                    stepText ?? string.Empty,
+                    testNameFormat ?? string.Empty,
                     (testMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
             }
             catch (FormatException)
             {
-                stepName = stepText;
+                testName = testNameFormat;
             }
 
             return string.Format(
                 CultureInfo.InvariantCulture,
                 "{0} [{1}] {2}",
                 testGroup.DisplayName,
-                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
+                testNumber.ToString("D2", CultureInfo.InvariantCulture),
+                testName);
         }
     }
 }

@@ -60,15 +60,15 @@
     <Compile Include="MessageBusExtensions.cs" />
     <Compile Include="MethodInfoExtensions.cs" />
     <Compile Include="ScenarioDiscoverer.cs" />
-    <Compile Include="ScenarioOutlineTestCase.cs" />
-    <Compile Include="ScenarioOutlineTestCaseRunner.cs" />
-    <Compile Include="ScenarioTestGroupInvoker.cs" />
-    <Compile Include="ScenarioTestGroupRunner.cs" />
-    <Compile Include="StepTest.cs" />
-    <Compile Include="StepTestInvoker.cs" />
-    <Compile Include="StepTestRunner.cs" />
+    <Compile Include="XbehaveTestCase.cs" />
+    <Compile Include="XbehaveTestCaseRunner.cs" />
+    <Compile Include="XbehaveTestGroupInvoker.cs" />
+    <Compile Include="XbehaveTestGroupRunner.cs" />
+    <Compile Include="XbehaveTest.cs" />
+    <Compile Include="XbehaveTestInvoker.cs" />
+    <Compile Include="XbehaveTestRunner.cs" />
     <Compile Include="TypeInfoExtensions.cs" />
-    <Compile Include="ScenarioTestGroup.cs" />
+    <Compile Include="XbehaveTestGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Xbehave.snk">

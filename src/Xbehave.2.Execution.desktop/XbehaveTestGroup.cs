@@ -1,4 +1,4 @@
-// <copyright file="ScenarioTestGroup.cs" company="xBehave.net contributors">
+// <copyright file="XbehaveTestGroup.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -14,7 +14,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioTestGroup : ITestGroup, IDisposable
+    public class XbehaveTestGroup : ITestGroup, IDisposable
     {
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
@@ -26,7 +26,7 @@ namespace Xbehave.Execution
         private readonly string skipReason;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterTestGroupAttributes;
 
-        public ScenarioTestGroup(
+        public XbehaveTestGroup(
             IXunitTestCase testCase,
             string baseDisplayName,
             Type testClass,
@@ -97,7 +97,7 @@ namespace Xbehave.Execution
                 .ToArray();
 
             this.testCase = testCase;
-            this.displayName = GetScenarioTestGroupDisplayName(testCase.TestMethod.Method, baseDisplayName, arguments, typeArguments);
+            this.displayName = GetTestGroupDisplayName(testCase.TestMethod.Method, baseDisplayName, arguments, typeArguments);
             this.testClass = testClass;
             this.testMethod = closedMethod;
             this.testMethodArguments = arguments.Select(argument => argument.Value).ToArray();
@@ -105,7 +105,7 @@ namespace Xbehave.Execution
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
         }
 
-        ~ScenarioTestGroup()
+        ~XbehaveTestGroup()
         {
             this.Dispose(false);
         }
@@ -157,7 +157,7 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            return new ScenarioTestGroupRunner(
+            return new XbehaveTestGroupRunner(
                     this,
                     messageBus,
                     this.testClass,
@@ -229,7 +229,7 @@ namespace Xbehave.Execution
             return sawNullValue && type.IsValueType ? objectTypeInfo : type;
         }
 
-        private static string GetScenarioTestGroupDisplayName(
+        private static string GetTestGroupDisplayName(
             IMethodInfo method, string baseDisplayName, Argument[] arguments, ITypeInfo[] typeArguments)
         {
             if (typeArguments.Length > 0)
