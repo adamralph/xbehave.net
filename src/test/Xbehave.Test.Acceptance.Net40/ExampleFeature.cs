@@ -56,26 +56,6 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        public void OrderingStepsByDisplayName()
-        {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
-            "Given three steps named 'z' and 'y' each rendering two examples of 0 and 1"
-                .f(() => feature = typeof(TenStepsNamedAlphabeticallyBackwardsAndTwoIdenticalExamples));
-
-            "When I run the scenarios"
-                .f(() => results = this.Run<ITestResultMessage>(feature));
-
-            "And I sort the results by their display name"
-                .f(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
-
-            "Then a concatenation of the last character of each result display names should be 'zyxwvutsrqzyxwvutsrq'"
-                .f(() => new string(results.Select(result => result.Test.DisplayName.Last()).ToArray())
-                    .Should().Be("zyxwvutsrqzyxwvutsrq"));
-        }
-
-        [Scenario]
         public void ExamplesWithMissingValues(Type feature, ITestResultMessage[] results)
         {
             "Given a scenario with three parameters, a single step and three examples each with one value"
@@ -350,45 +330,6 @@ an null value for an argument defined using the fifth type parameter"
                         (x + y).Should().Be(sum);
                         previousSum = sum;
                     });
-            }
-        }
-
-        private static class TenStepsNamedAlphabeticallyBackwardsAndTwoIdenticalExamples
-        {
-            [Scenario]
-            [Example(0)]
-            [Example(0)]
-            public static void Scenario(int x)
-            {
-                "z"
-                    .f(() => { });
-
-                "y"
-                    .f(() => { });
-
-                "x"
-                    .f(() => { });
-
-                "w"
-                    .f(() => { });
-
-                "v"
-                    .f(() => { });
-
-                "u"
-                    .f(() => { });
-
-                "t"
-                    .f(() => { });
-
-                "s"
-                    .f(() => { });
-
-                "r"
-                    .f(() => { });
-
-                "q"
-                    .f(() => { });
             }
         }
 
