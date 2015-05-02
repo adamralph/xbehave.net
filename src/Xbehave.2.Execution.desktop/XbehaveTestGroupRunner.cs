@@ -9,11 +9,12 @@ namespace Xbehave.Execution
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
+    using Xunit.Abstractions;
     using Xunit.Sdk;
 
     public class XbehaveTestGroupRunner
     {
-        private readonly ITestGroup testGroup;
+        private readonly ITest testGroup;
         private readonly IMessageBus messageBus;
         private readonly Type testClass;
         private readonly object[] constructorArguments;
@@ -25,7 +26,7 @@ namespace Xbehave.Execution
         private readonly CancellationTokenSource cancellationTokenSource;
 
         public XbehaveTestGroupRunner(
-            ITestGroup testGroup,
+            ITest testGroup,
             IMessageBus messageBus,
             Type testClass,
             object[] constructorArguments,
@@ -52,7 +53,7 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected ITestGroup TestGroup
+        protected ITest TestGroup
         {
             get { return this.testGroup; }
         }

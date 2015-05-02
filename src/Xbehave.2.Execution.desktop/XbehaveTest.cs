@@ -9,10 +9,10 @@ namespace Xbehave.Execution
 
     public class XbehaveTest : LongLivedMarshalByRefObject, ITest
     {
-        private readonly ITestGroup testGroup;
+        private readonly ITest testGroup;
         private readonly string displayName;
 
-        public XbehaveTest(ITestGroup testGroup, string displayName)
+        public XbehaveTest(ITest testGroup, string displayName)
         {
             Guard.AgainstNullArgument("testGroup", testGroup);
 
@@ -20,7 +20,7 @@ namespace Xbehave.Execution
             this.displayName = displayName;
         }
 
-        public ITestGroup TestGroup
+        public ITest TestGroup
         {
             get { return this.testGroup; }
         }

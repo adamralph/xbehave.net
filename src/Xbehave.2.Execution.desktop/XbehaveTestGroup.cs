@@ -14,7 +14,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class XbehaveTestGroup : ITestGroup, IDisposable
+    public class XbehaveTestGroup : ITest, IDisposable
     {
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 
@@ -120,7 +120,7 @@ namespace Xbehave.Execution
             get { return this.displayName; }
         }
 
-        ITestCase ITestGroup.TestCase
+        ITestCase ITest.TestCase
         {
             get { return this.testCase; }
         }

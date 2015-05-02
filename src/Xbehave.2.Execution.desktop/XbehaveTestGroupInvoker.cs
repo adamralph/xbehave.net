@@ -18,7 +18,7 @@ namespace Xbehave.Execution
 
     public class XbehaveTestGroupInvoker
     {
-        private readonly ITestGroup testGroup;
+        private readonly ITest testGroup;
         private readonly IMessageBus messageBus;
         private readonly Type testClass;
         private readonly object[] constructorArguments;
@@ -32,7 +32,7 @@ namespace Xbehave.Execution
             new Stack<BeforeAfterTestAttribute>();
 
         public XbehaveTestGroupInvoker(
-            ITestGroup testGroup,
+            ITest testGroup,
             IMessageBus messageBus,
             Type testClass,
             object[] constructorArguments,
@@ -61,7 +61,7 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected ITestGroup TestGroup
+        protected ITest TestGroup
         {
             get { return this.testGroup; }
         }
