@@ -192,7 +192,7 @@ namespace Xbehave.Execution
             return Task.FromResult(0);
         }
 
-        protected async virtual Task<RunSummary> InvokeScenarioMethodAsync(object testClassInstance)
+        protected async virtual Task<RunSummary> InvokeScenarioMethodAsync(object scenarioClassInstance)
         {
             await this.aggregator.RunAsync(async () =>
             {
@@ -204,12 +204,12 @@ namespace Xbehave.Execution
                         .Select(method => method.ToRuntimeMethod()))
                     {
                         await this.timer.AggregateAsync(() =>
-                            backgroundMethod.InvokeAsync(testClassInstance, null));
+                            backgroundMethod.InvokeAsync(scenarioClassInstance, null));
                     }
                 }
 
                 await this.timer.AggregateAsync(() =>
-                    this.scenarioMethod.InvokeAsync(testClassInstance, this.scenarioMethodArguments));
+                    this.scenarioMethod.InvokeAsync(scenarioClassInstance, this.scenarioMethodArguments));
             });
 
             var runSummary = new RunSummary();
