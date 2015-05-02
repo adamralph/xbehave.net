@@ -231,7 +231,9 @@ namespace Xbehave.Execution
             {
                 item.step.SkipReason = item.step.SkipReason ?? skipReason;
 
-                var stepTest = new StepTest(this.testGroup, item.index + 1, item.step.Text, this.testMethodArguments);
+                var stepTest = new StepTest(
+                    this.testGroup,
+                    GetTestDisplayName(this.testGroup, item.index + 1, item.step.Text, this.testMethodArguments));
 
                 var interceptingBus = new DelegatingMessageBus(
                     this.messageBus,
@@ -241,8 +243,8 @@ namespace Xbehave.Execution
                         {
                             skipReason = string.Format(
                                 CultureInfo.InvariantCulture,
-                                "Failed to execute preceding step \"{0}\".",
-                                stepTest.StepName);
+                                "Failed to execute preceding step: {0}",
+                                stepTest.DisplayName);
                         }
                     });
 
@@ -280,14 +282,42 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     summary.Total++;
 
+                    var stepTest = new StepTest(
+                        this.testGroup,
+                        GetTestDisplayName(this.testGroup, steps.Count + 1, "(Teardown)", this.testMethodArguments));
+
                     this.messageBus.Queue(
-                        new StepTest(this.testGroup, steps.Count + 1, "(Teardown)"),
+                        stepTest,
                         test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.cancellationTokenSource);
                 }
             }
 
             return summary;
+        }
+
+        private static string GetTestDisplayName(
+            ITestGroup testGroup, int stepNumber, string stepText, IEnumerable<object> testMethodArguments)
+        {
+            string stepName;
+            try
+            {
+                stepName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    stepText ?? string.Empty,
+                    (testMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
+            }
+            catch (FormatException)
+            {
+                stepName = stepText;
+            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}] {2}",
+                testGroup.DisplayName,
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepName);
         }
     }
 }
