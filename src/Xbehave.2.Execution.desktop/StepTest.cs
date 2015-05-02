@@ -9,48 +9,41 @@ namespace Xbehave.Execution
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
+    using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepTest : XunitTest, IStepTest
+    public class StepTest : LongLivedMarshalByRefObject, IStepTest
     {
-        private readonly string scenarioName;
+        private readonly IScenarioTestGroup testGroup;
         private readonly int stepNumber;
         private readonly string stepName;
+        private readonly string displayName;
 
         public StepTest(
-            IXunitTestCase testCase,
-            string scenarioName,
-            int stepNumber,
-            string stepText,
-            IEnumerable<object> testMethodArguments)
-            : this(
-                testCase,
-                scenarioName,
-                stepNumber,
-                GetStepName(stepText, testMethodArguments))
+            IScenarioTestGroup testGroup, int stepNumber, string stepText, IEnumerable<object> testMethodArguments)
+            : this(testGroup, stepNumber, GetStepName(stepText, testMethodArguments))
         {
         }
 
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines", Justification = "It's a constructor.")]
-        public StepTest(
-            IXunitTestCase testCase, string scenarioName, int stepNumber, string stepName)
-            : base(
-                testCase,
-                string.Format(
-                    CultureInfo.InvariantCulture,
-                    "{0} [{1}] {2}",
-                    scenarioName,
-                    stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                    stepName))
+        public StepTest(IScenarioTestGroup testGroup, int stepNumber, string stepName)
         {
-            this.scenarioName = scenarioName;
+            Guard.AgainstNullArgument("testGroup", testGroup);
+
+            this.testGroup = testGroup;
             this.stepNumber = stepNumber;
             this.stepName = stepName;
+            this.displayName = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}] {2}",
+                testGroup.DisplayName,
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepName);
         }
 
-        public string ScenarioName
+        public IScenarioTestGroup TestGroup
         {
-            get { return this.scenarioName; }
+            get { return this.testGroup; }
         }
 
         public int StepNumber
@@ -61,6 +54,16 @@ namespace Xbehave.Execution
         public string StepName
         {
             get { return this.stepName; }
+        }
+
+        public string DisplayName
+        {
+            get { return this.displayName; }
+        }
+
+        public ITestCase TestCase
+        {
+            get { return this.testGroup.TestCase; }
         }
 
         private static string GetStepName(string stepText, IEnumerable<object> testMethodArguments)

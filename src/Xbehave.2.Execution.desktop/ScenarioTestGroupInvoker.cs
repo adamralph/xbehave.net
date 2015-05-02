@@ -231,12 +231,7 @@ namespace Xbehave.Execution
             {
                 item.step.SkipReason = item.step.SkipReason ?? skipReason;
 
-                var stepTest = new StepTest(
-                    this.testGroup.TestCase,
-                    this.testGroup.DisplayName,
-                    item.index + 1,
-                    item.step.Text,
-                    this.testMethodArguments);
+                var stepTest = new StepTest(this.testGroup, item.index + 1, item.step.Text, this.testMethodArguments);
 
                 var interceptingBus = new DelegatingMessageBus(
                     this.messageBus,
@@ -285,14 +280,8 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     summary.Total++;
 
-                    var stepTest = new StepTest(
-                        this.testGroup.TestCase,
-                        this.testGroup.DisplayName,
-                        steps.Count + 1,
-                        "(Teardown)");
-
                     this.messageBus.Queue(
-                        stepTest,
+                        new StepTest(this.testGroup, steps.Count + 1, "(Teardown)"),
                         test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.cancellationTokenSource);
                 }

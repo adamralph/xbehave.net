@@ -8,7 +8,7 @@ namespace Xbehave.Execution
 
     public interface IStepTest : ITest
     {
-        string ScenarioName { get; }
+        IScenarioTestGroup TestGroup { get; }
 
         int StepNumber { get; }
 
