@@ -194,7 +194,6 @@ namespace Xbehave.Execution
 
         protected async virtual Task<RunSummary> InvokeTestMethodAsync(object testClassInstance)
         {
-            var stepDiscoveryTimer = new ExecutionTimer();
             await this.aggregator.RunAsync(async () =>
             {
                 using (ThreadStaticStepHub.CreateBackgroundSteps())
@@ -204,16 +203,16 @@ namespace Xbehave.Execution
                         .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
                         .Select(method => method.ToRuntimeMethod()))
                     {
-                        await stepDiscoveryTimer.AggregateAsync(() =>
+                        await this.timer.AggregateAsync(() =>
                             backgroundMethod.InvokeAsync(testClassInstance, null));
                     }
                 }
 
-                await stepDiscoveryTimer.AggregateAsync(() =>
+                await this.timer.AggregateAsync(() =>
                     this.testMethod.InvokeAsync(testClassInstance, this.testMethodArguments));
             });
 
-            var runSummary = new RunSummary { Time = stepDiscoveryTimer.Total };
+            var runSummary = new RunSummary();
             if (!this.aggregator.HasExceptions)
             {
                 runSummary.Aggregate(await this.InvokeStepsAsync(ThreadStaticStepHub.RemoveAll()));
@@ -231,9 +230,10 @@ namespace Xbehave.Execution
             {
                 item.step.SkipReason = item.step.SkipReason ?? skipReason;
 
-                var test = new XbehaveTest(
-                    this.testGroup,
-                    GetTestDisplayName(this.testGroup, item.index + 1, item.step.Text, this.testMethodArguments));
+                var testDisplayName = GetTestDisplayName(
+                    this.testGroup.DisplayName, item.index + 1, item.step.Text, this.testMethodArguments);
+
+                var test = new XbehaveTest(this.testGroup, testDisplayName);
 
                 var interceptingBus = new DelegatingMessageBus(
                     this.messageBus,
@@ -282,13 +282,12 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     summary.Total++;
 
-                    var test = new XbehaveTest(
-                        this.testGroup,
-                        GetTestDisplayName(this.testGroup, steps.Count + 1, "(Teardown)", this.testMethodArguments));
+                    var testDisplayName = GetTestDisplayName(
+                        this.testGroup.DisplayName, steps.Count + 1, "(Teardown)", this.testMethodArguments);
 
                     this.messageBus.Queue(
-                        test,
-                        t => new TestFailed(t, teardownTimer.Total, null, teardownAggregator.ToException()),
+                        new XbehaveTest(this.testGroup, testDisplayName),
+                        test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.cancellationTokenSource);
                 }
             }
@@ -297,7 +296,7 @@ namespace Xbehave.Execution
         }
 
         private static string GetTestDisplayName(
-            ITestGroup testGroup, int testNumber, string testNameFormat, IEnumerable<object> testMethodArguments)
+            string testGroupDisplayName, int testNumber, string testNameFormat, IEnumerable<object> testMethodArguments)
         {
             string testName;
             try
@@ -315,7 +314,7 @@ namespace Xbehave.Execution
             return string.Format(
                 CultureInfo.InvariantCulture,
                 "{0} [{1}] {2}",
-                testGroup.DisplayName,
+                testGroupDisplayName,
                 testNumber.ToString("D2", CultureInfo.InvariantCulture),
                 testName);
         }
