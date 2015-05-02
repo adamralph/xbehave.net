@@ -19,7 +19,7 @@ namespace Xbehave.Sdk
     public class StepDefinition
     {
         private readonly string text;
-        private readonly Func<IStepContext, object> body;
+        private readonly Func<IStepContext, Task> body;
         private readonly List<Action> teardowns = new List<Action>();
 
         /// <summary>
@@ -27,30 +27,10 @@ namespace Xbehave.Sdk
         /// </summary>
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
-        public StepDefinition(string text, Action<IStepContext> body)
-            : this(text)
-        {
-            this.body = context =>
-            {
-                body(context);
-                return null;
-            };
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StepDefinition"/> class.
-        /// </summary>
-        /// <param name="text">The natural language associated with step.</param>
-        /// <param name="body">The body of the step.</param>
         public StepDefinition(string text, Func<IStepContext, Task> body)
-            : this(text)
-        {
-            this.body = body;
-        }
-
-        private StepDefinition(string text)
         {
             this.text = text;
+            this.body = body;
         }
 
         /// <summary>
@@ -64,7 +44,7 @@ namespace Xbehave.Sdk
         /// <summary>
         /// Gets the body of the step.
         /// </summary>
-        public virtual Func<IStepContext, object> Body
+        public virtual Func<IStepContext, Task> Body
         {
             get { return this.body; }
         }

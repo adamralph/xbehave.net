@@ -28,7 +28,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Func<Task> body)
         {
-            return new StepBuilder(text, body);
+            return new StepBuilder(text, c => body());
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder f(this string text, Func<Task> body)
         {
-            return new StepBuilder(text, body);
+            return new StepBuilder(text, c => body());
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Xbehave
         [CLSCompliant(false)]
         public static IStepBuilder _(this string text, Func<Task> body)
         {
-            return new StepBuilder(text, body);
+            return new StepBuilder(text, c => body());
         }
 
         /// <summary>

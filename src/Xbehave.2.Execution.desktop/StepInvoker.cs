@@ -15,13 +15,13 @@ namespace Xbehave.Execution
 
     public class StepInvoker
     {
-        private readonly Func<IStepContext, object> step;
+        private readonly Func<IStepContext, Task> step;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ExecutionTimer timer = new ExecutionTimer();
 
         public StepInvoker(
-            Func<IStepContext, object> step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
+            Func<IStepContext, Task> step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
         {
             Guard.AgainstNullArgument("step", step);
             Guard.AgainstNullArgument("aggregator", aggregator);
@@ -79,13 +79,7 @@ namespace Xbehave.Execution
                     () => this.timer.AggregateAsync(
                         async () =>
                         {
-                            var result = this.step(context);
-                            var task = result as Task;
-                            if (task != null)
-                            {
-                                await task;
-                            }
-
+                            await this.step(context);
                             var ex = await asyncSyncContext.WaitForCompletionAsync();
                             if (ex != null)
                             {

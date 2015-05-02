@@ -49,20 +49,6 @@ namespace Xbehave.Sdk
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
         /// <returns>A <see cref="StepDefinition"/>.</returns>
-        public static StepDefinition CreateAndAdd(string text, Action<IStepContext> body)
-        {
-            var step = new StepDefinition(EmbellishStepText(text), body);
-            Steps.Add(step);
-            return step;
-        }
-
-        /// <summary>
-        /// Creates a <see cref="StepDefinition"/> with specified <paramref name="text"/> and <paramref name="body"/>
-        /// and adds it to the <see cref="ThreadStaticStepHub"/>.
-        /// </summary>
-        /// <param name="text">The natural language associated with step.</param>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>A <see cref="StepDefinition"/>.</returns>
         public static StepDefinition CreateAndAdd(string text, Func<IStepContext, Task> body)
         {
             var step = new StepDefinition(EmbellishStepText(text), body);

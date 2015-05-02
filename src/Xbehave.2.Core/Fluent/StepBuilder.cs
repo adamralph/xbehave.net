@@ -12,21 +12,6 @@ namespace Xbehave.Fluent
     {
         private readonly StepDefinition step;
 
-        public StepBuilder(string text, Action body)
-            : this(text, c => body())
-        {
-        }
-
-        public StepBuilder(string text, Action<IStepContext> body)
-        {
-            this.step = ThreadStaticStepHub.CreateAndAdd(text, body);
-        }
-
-        public StepBuilder(string text, Func<Task> body)
-            : this(text, c => body())
-        {
-        }
-
         public StepBuilder(string text, Func<IStepContext, Task> body)
         {
             this.step = ThreadStaticStepHub.CreateAndAdd(text, body);
