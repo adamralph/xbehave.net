@@ -6,6 +6,7 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -117,10 +118,13 @@ namespace Xbehave.Execution
             else
             {
                 var summary = new RunSummary();
+                var output = string.Empty;
                 var childAggregator = new ExceptionAggregator(this.parentAggregator);
                 if (!childAggregator.HasExceptions)
                 {
-                    summary.Aggregate(await childAggregator.RunAsync(() => this.InvokeScenarioMethodAsync(childAggregator)));
+                    var tuple = await childAggregator.RunAsync(() => this.InvokeScenarioAsync(childAggregator));
+                    summary.Aggregate(tuple.Item1);
+                    output = tuple.Item2;
                 }
 
                 var exception = childAggregator.ToException();
@@ -130,7 +134,7 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     this.messageBus.Queue(
                         new Step(this.scenario, this.scenario.DisplayName),
-                        t => new TestFailed(t, summary.Time, string.Empty, exception),
+                        t => new TestFailed(t, summary.Time, output, exception),
                         this.CancellationTokenSource);
                 }
                 else if (summary.Total == 0)
@@ -138,12 +142,32 @@ namespace Xbehave.Execution
                     summary.Total++;
                     this.messageBus.Queue(
                         new Step(this.scenario, this.scenario.DisplayName),
-                        test => new TestPassed(test, summary.Time, null),
+                        test => new TestPassed(test, summary.Time, output),
                         this.cancellationTokenSource);
                 }
 
                 return summary;
             }
+        }
+
+        protected virtual async Task<Tuple<RunSummary, string>> InvokeScenarioAsync(ExceptionAggregator aggregator)
+        {
+            var output = string.Empty;
+            var testOutputHelper = this.ConstructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
+            if (testOutputHelper != null)
+            {
+                testOutputHelper.Initialize(this.MessageBus, this.Scenario);
+            }
+
+            var summary = await this.InvokeScenarioMethodAsync(aggregator);
+
+            if (testOutputHelper != null)
+            {
+                output = testOutputHelper.Output;
+                testOutputHelper.Uninitialize();
+            }
+
+            return Tuple.Create(summary, output);
         }
 
         protected virtual async Task<RunSummary> InvokeScenarioMethodAsync(ExceptionAggregator aggregator)

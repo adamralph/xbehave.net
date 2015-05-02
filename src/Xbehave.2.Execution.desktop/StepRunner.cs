@@ -14,8 +14,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    // TODO: stop inheriting from XunitTestRunner
-    public class StepRunner : XunitTestRunner
+    public class StepRunner : TestRunner<IXunitTestCase>
     {
         private readonly StepDefinition stepDefinition;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
@@ -30,7 +29,6 @@ namespace Xbehave.Execution
             MethodInfo scenarioMethod,
             object[] scenarioMethodArguments,
             string skipReason,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
             : base(
@@ -41,7 +39,6 @@ namespace Xbehave.Execution
                 scenarioMethod,
                 scenarioMethodArguments,
                 skipReason,
-                beforeAfterAttributes,
                 aggregator,
                 cancellationTokenSource)
         {
@@ -62,12 +59,11 @@ namespace Xbehave.Execution
             get { return this.stepDefinition; }
         }
 
-        // TODO: change name
-        protected override async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
+        protected async override Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
             var tuple = await new StepInvoker(this.stepDefinition.Body, aggregator, this.CancellationTokenSource).RunAsync();
             this.disposables.AddRange(tuple.Item2);
-            return tuple.Item1;
+            return Tuple.Create(tuple.Item1, string.Empty);
         }
     }
 }

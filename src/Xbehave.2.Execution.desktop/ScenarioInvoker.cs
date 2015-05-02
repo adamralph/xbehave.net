@@ -258,7 +258,6 @@ namespace Xbehave.Execution
                     this.scenarioMethod,
                     this.scenarioMethodArguments,
                     item.definition.SkipReason,
-                    this.beforeAfterScenarioAttributes,
                     new ExceptionAggregator(this.aggregator),
                     this.cancellationTokenSource);
 
