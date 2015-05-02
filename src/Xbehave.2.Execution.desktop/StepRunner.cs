@@ -6,7 +6,6 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,13 +15,12 @@ namespace Xbehave.Execution
 
     public class StepRunner : TestRunner<IXunitTestCase>
     {
-        private readonly StepDefinition stepDefinition;
+        private readonly Func<IStepContext, Task> body;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
-        // TODO: stop taking StepDefinition as a param
         public StepRunner(
-            StepDefinition stepDefinition,
             ITest step,
+            Func<IStepContext, Task> body,
             IMessageBus messageBus,
             Type scenarioClass,
             object[] constructorArguments,
@@ -42,26 +40,22 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            this.stepDefinition = stepDefinition;
+            this.body = body;
         }
 
-        public IReadOnlyList<Action> Teardowns
+        public IReadOnlyList<IDisposable> Disposables
         {
-            get
-            {
-                return this.disposables.Select(disposable => (Action)disposable.Dispose)
-                    .Concat(this.stepDefinition.Teardowns).ToArray();
-            }
+            get { return this.disposables; }
         }
 
-        protected StepDefinition StepDefinition
+        protected Func<IStepContext, Task> Body
         {
-            get { return this.stepDefinition; }
+            get { return this.body; }
         }
 
         protected async override Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
-            var tuple = await new StepInvoker(this.stepDefinition.Body, aggregator, this.CancellationTokenSource).RunAsync();
+            var tuple = await new StepInvoker(this.body, aggregator, this.CancellationTokenSource).RunAsync();
             this.disposables.AddRange(tuple.Item2);
             return Tuple.Create(tuple.Item1, string.Empty);
         }

@@ -226,7 +226,7 @@ namespace Xbehave.Execution
         {
             var summary = new RunSummary();
             string skipReason = null;
-            var stepRunners = new List<StepRunner>();
+            var teardowns = new List<Action>();
             foreach (var item in stepDefinitions.Select((definition, index) => new { definition, index }))
             {
                 item.definition.SkipReason = item.definition.SkipReason ?? skipReason;
@@ -250,8 +250,8 @@ namespace Xbehave.Execution
                     });
 
                 var stepRunner = new StepRunner(
-                    item.definition,
                     step,
+                    item.definition.Body,
                     interceptingBus,
                     this.scenarioClass,
                     this.constructorArguments,
@@ -261,16 +261,17 @@ namespace Xbehave.Execution
                     new ExceptionAggregator(this.aggregator),
                     this.cancellationTokenSource);
 
-                stepRunners.Add(stepRunner);
                 summary.Aggregate(await stepRunner.RunAsync());
+                teardowns.AddRange(stepRunner.Disposables.Select(disposable => (Action)disposable.Dispose)
+                    .Concat(item.definition.Teardowns).ToArray());
             }
 
-            var teardowns = stepRunners.SelectMany(stepRunner => stepRunner.Teardowns).ToArray();
             if (teardowns.Any())
             {
+                teardowns.Reverse();
                 var teardownTimer = new ExecutionTimer();
                 var teardownAggregator = new ExceptionAggregator();
-                foreach (var teardown in teardowns.Reverse())
+                foreach (var teardown in teardowns)
                 {
                     teardownTimer.Aggregate(() => teardownAggregator.Run(() => teardown()));
                 }
