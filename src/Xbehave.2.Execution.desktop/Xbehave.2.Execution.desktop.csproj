@@ -60,6 +60,7 @@
     <Compile Include="MethodInfoExtensions.cs" />
     <Compile Include="ScenarioDiscoverer.cs" />
     <Compile Include="ScenarioOutline.cs" />
+    <Compile Include="ScenarioRunnerFactory.cs" />
     <Compile Include="ScenarioOutlineRunner.cs" />
     <Compile Include="ScenarioInvoker.cs" />
     <Compile Include="ScenarioRunner.cs" />

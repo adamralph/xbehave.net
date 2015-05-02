@@ -13,7 +13,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioRunner
+    public class ScenarioRunner : IDisposable
     {
         private readonly ITest scenario;
         private readonly IMessageBus messageBus;
@@ -52,6 +52,11 @@ namespace Xbehave.Execution
             this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
             this.parentAggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
+        }
+
+        ~ScenarioRunner()
+        {
+            this.Dispose(false);
         }
 
         protected ITest Scenario
@@ -147,6 +152,23 @@ namespace Xbehave.Execution
                 }
 
                 return summary;
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && this.scenarioMethodArguments != null)
+            {
+                foreach (var disposable in this.scenarioMethodArguments.OfType<IDisposable>())
+                {
+                    disposable.Dispose();
+                }
             }
         }
 
