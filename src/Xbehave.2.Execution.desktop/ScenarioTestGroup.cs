@@ -14,7 +14,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioTestGroup : IScenarioTestGroup, IDisposable
+    public class ScenarioTestGroup : ITestGroup, IDisposable
     {
         private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
 

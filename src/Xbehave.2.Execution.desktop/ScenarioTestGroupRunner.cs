@@ -13,7 +13,7 @@ namespace Xbehave.Execution
 
     public class ScenarioTestGroupRunner
     {
-        private readonly IScenarioTestGroup testGroup;
+        private readonly ITestGroup testGroup;
         private readonly IMessageBus messageBus;
         private readonly Type testClass;
         private readonly object[] constructorArguments;
@@ -25,7 +25,7 @@ namespace Xbehave.Execution
         private readonly CancellationTokenSource cancellationTokenSource;
 
         public ScenarioTestGroupRunner(
-            IScenarioTestGroup testGroup,
+            ITestGroup testGroup,
             IMessageBus messageBus,
             Type testClass,
             object[] constructorArguments,
@@ -52,7 +52,7 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected IScenarioTestGroup TestGroup
+        protected ITestGroup TestGroup
         {
             get { return this.testGroup; }
         }
@@ -107,7 +107,7 @@ namespace Xbehave.Execution
             if (!string.IsNullOrEmpty(this.skipReason))
             {
                 this.messageBus.Queue(
-                    new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
+                    new StepTest(this.testGroup, this.testGroup.DisplayName),
                     t => new TestSkipped(t, this.skipReason),
                     this.CancellationTokenSource);
 
@@ -128,7 +128,7 @@ namespace Xbehave.Execution
                     runSummary.Total++;
                     runSummary.Failed++;
                     this.messageBus.Queue(
-                        new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
+                        new StepTest(this.testGroup, this.testGroup.DisplayName),
                         t => new TestFailed(t, runSummary.Time, string.Empty, exception),
                         this.CancellationTokenSource);
                 }
@@ -136,7 +136,7 @@ namespace Xbehave.Execution
                 {
                     runSummary.Total++;
                     this.messageBus.Queue(
-                        new XunitTest(this.testGroup.TestCase, this.testGroup.DisplayName),
+                        new StepTest(this.testGroup, this.testGroup.DisplayName),
                         test => new TestPassed(test, runSummary.Time, null),
                         this.cancellationTokenSource);
                 }

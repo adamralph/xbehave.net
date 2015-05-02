@@ -9,10 +9,10 @@ namespace Xbehave.Execution
 
     public class StepTest : LongLivedMarshalByRefObject, ITestGroupTest
     {
-        private readonly IScenarioTestGroup testGroup;
+        private readonly ITestGroup testGroup;
         private readonly string displayName;
 
-        public StepTest(IScenarioTestGroup testGroup, string displayName)
+        public StepTest(ITestGroup testGroup, string displayName)
         {
             Guard.AgainstNullArgument("testGroup", testGroup);
 
@@ -20,7 +20,7 @@ namespace Xbehave.Execution
             this.displayName = displayName;
         }
 
-        public IScenarioTestGroup TestGroup
+        public ITestGroup TestGroup
         {
             get { return this.testGroup; }
         }
@@ -33,11 +33,6 @@ namespace Xbehave.Execution
         public ITestCase TestCase
         {
             get { return this.testGroup.TestCase; }
-        }
-
-        ITestGroup ITestGroupTest.TestGroup
-        {
-            get { return this.testGroup; }
         }
     }
 }
