@@ -13,7 +13,6 @@ namespace Xbehave.Execution
 
     public class ScenarioTestGroupRunner
     {
-        private readonly int scenarioNumber;
         private readonly IScenarioTestGroup testGroup;
         private readonly IMessageBus messageBus;
         private readonly Type testClass;
@@ -26,7 +25,6 @@ namespace Xbehave.Execution
         private readonly CancellationTokenSource cancellationTokenSource;
 
         public ScenarioTestGroupRunner(
-            int scenarioNumber,
             IScenarioTestGroup testGroup,
             IMessageBus messageBus,
             Type testClass,
@@ -43,7 +41,6 @@ namespace Xbehave.Execution
             Guard.AgainstNullArgument("aggregator", aggregator);
 
             this.testGroup = testGroup;
-            this.scenarioNumber = scenarioNumber;
             this.messageBus = messageBus;
             this.testClass = testClass;
             this.constructorArguments = constructorArguments;
@@ -53,11 +50,6 @@ namespace Xbehave.Execution
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
             this.parentAggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        protected int ScenarioNumber
-        {
-            get { return this.scenarioNumber; }
         }
 
         protected IScenarioTestGroup TestGroup
@@ -156,7 +148,6 @@ namespace Xbehave.Execution
         protected virtual async Task<RunSummary> InvokeTestGroupAsync(ExceptionAggregator aggregator)
         {
             return await new ScenarioTestGroupInvoker(
-                    this.scenarioNumber,
                     this.testGroup,
                     this.messageBus,
                     this.testClass,

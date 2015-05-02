@@ -20,7 +20,6 @@ namespace Xbehave.Execution
 
         private readonly IXunitTestCase testCase;
         private readonly string displayName;
-        private readonly int scenarioNumber;
         private readonly Type testClass;
         private readonly MethodInfo testMethod;
         private readonly object[] testMethodArguments;
@@ -30,7 +29,6 @@ namespace Xbehave.Execution
         public ScenarioTestGroup(
             IXunitTestCase testCase,
             string baseDisplayName,
-            int scenarioNumber,
             Type testClass,
             MethodInfo testMethod,
             object[] testMethodArguments,
@@ -100,7 +98,6 @@ namespace Xbehave.Execution
 
             this.testCase = testCase;
             this.displayName = GetScenarioTestGroupDisplayName(testCase.TestMethod.Method, baseDisplayName, arguments, typeArguments);
-            this.scenarioNumber = scenarioNumber;
             this.testClass = testClass;
             this.testMethod = closedMethod;
             this.testMethodArguments = arguments.Select(argument => argument.Value).ToArray();
@@ -126,11 +123,6 @@ namespace Xbehave.Execution
         ITestCase ITestGroup.TestCase
         {
             get { return this.testCase; }
-        }
-
-        protected int ScenarioNumber
-        {
-            get { return this.scenarioNumber; }
         }
 
         protected Type TestClass
@@ -166,7 +158,6 @@ namespace Xbehave.Execution
             CancellationTokenSource cancellationTokenSource)
         {
             return new ScenarioTestGroupRunner(
-                    this.scenarioNumber,
                     this,
                     messageBus,
                     this.testClass,

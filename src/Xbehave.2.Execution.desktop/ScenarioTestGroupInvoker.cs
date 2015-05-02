@@ -18,7 +18,6 @@ namespace Xbehave.Execution
 
     public class ScenarioTestGroupInvoker
     {
-        private readonly int scenarioNumber;
         private readonly IScenarioTestGroup testGroup;
         private readonly IMessageBus messageBus;
         private readonly Type testClass;
@@ -33,7 +32,6 @@ namespace Xbehave.Execution
             new Stack<BeforeAfterTestAttribute>();
 
         public ScenarioTestGroupInvoker(
-            int scenarioNumber,
             IScenarioTestGroup testGroup,
             IMessageBus messageBus,
             Type testClass,
@@ -53,7 +51,6 @@ namespace Xbehave.Execution
             Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
 
             this.testGroup = testGroup;
-            this.scenarioNumber = scenarioNumber;
             this.messageBus = messageBus;
             this.testClass = testClass;
             this.constructorArguments = constructorArguments;
@@ -62,11 +59,6 @@ namespace Xbehave.Execution
             this.beforeAfterTestGroupAttributes = beforeAfterTestGroupAttributes;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        protected int ScenarioNumber
-        {
-            get { return this.scenarioNumber; }
         }
 
         protected IScenarioTestGroup TestGroup
@@ -242,7 +234,6 @@ namespace Xbehave.Execution
                 var stepTest = new StepTest(
                     this.testGroup.TestCase,
                     this.testGroup.DisplayName,
-                    this.scenarioNumber,
                     item.index + 1,
                     item.step.Text,
                     this.testMethodArguments);
@@ -297,7 +288,6 @@ namespace Xbehave.Execution
                     var stepTest = new StepTest(
                         this.testGroup.TestCase,
                         this.testGroup.DisplayName,
-                        this.scenarioNumber,
                         steps.Count + 1,
                         "(Teardown)");
 

@@ -52,7 +52,6 @@ namespace Xbehave.Execution
         {
             await base.AfterTestCaseStartingAsync();
 
-            var scenarioNumber = 1;
             try
             {
                 var dataAttributes = TestCase.TestMethod.Method.GetCustomAttributes(typeof(DataAttribute)).ToList();
@@ -67,7 +66,6 @@ namespace Xbehave.Execution
                         var scenarioTestGroup = new ScenarioTestGroup(
                             this.TestCase,
                             this.DisplayName,
-                            scenarioNumber++,
                             this.TestClass,
                             this.TestMethod,
                             dataRow,
@@ -83,7 +81,6 @@ namespace Xbehave.Execution
                     var scenarioTestGroup = new ScenarioTestGroup(
                         this.TestCase,
                         this.DisplayName,
-                        1,
                         this.TestClass,
                         this.TestMethod,
                         noArguments,

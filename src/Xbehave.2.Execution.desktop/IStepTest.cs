@@ -10,8 +10,6 @@ namespace Xbehave.Execution
     {
         string ScenarioName { get; }
 
-        int ScenarioNumber { get; }
-
         int StepNumber { get; }
 
         string StepName { get; }

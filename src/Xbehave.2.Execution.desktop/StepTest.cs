@@ -14,21 +14,18 @@ namespace Xbehave.Execution
     public class StepTest : XunitTest, IStepTest
     {
         private readonly string scenarioName;
-        private readonly int scenarioNumber;
         private readonly int stepNumber;
         private readonly string stepName;
 
         public StepTest(
             IXunitTestCase testCase,
             string scenarioName,
-            int scenarioNumber,
             int stepNumber,
             string stepText,
             IEnumerable<object> testMethodArguments)
             : this(
                 testCase,
                 scenarioName,
-                scenarioNumber,
                 stepNumber,
                 GetStepName(stepText, testMethodArguments))
         {
@@ -36,19 +33,17 @@ namespace Xbehave.Execution
 
         [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1118:ParameterMustNotSpanMultipleLines", Justification = "It's a constructor.")]
         public StepTest(
-            IXunitTestCase testCase, string scenarioName, int scenarioNumber, int stepNumber, string stepName)
+            IXunitTestCase testCase, string scenarioName, int stepNumber, string stepName)
             : base(
                 testCase,
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "{0} [{1}.{2}] {3}",
+                    "{0} [{1}] {2}",
                     scenarioName,
-                    scenarioNumber.ToString("D2", CultureInfo.InvariantCulture),
                     stepNumber.ToString("D2", CultureInfo.InvariantCulture),
                     stepName))
         {
             this.scenarioName = scenarioName;
-            this.scenarioNumber = scenarioNumber;
             this.stepNumber = stepNumber;
             this.stepName = stepName;
         }
@@ -56,11 +51,6 @@ namespace Xbehave.Execution
         public string ScenarioName
         {
             get { return this.scenarioName; }
-        }
-
-        public int ScenarioNumber
-        {
-            get { return this.scenarioNumber; }
         }
 
         public int StepNumber
