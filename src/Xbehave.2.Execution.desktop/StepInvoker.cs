@@ -15,26 +15,26 @@ namespace Xbehave.Execution
 
     public class StepInvoker
     {
-        private readonly Func<IStepContext, Task> step;
+        private readonly Func<IStepContext, Task> body;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ExecutionTimer timer = new ExecutionTimer();
 
         public StepInvoker(
-            Func<IStepContext, Task> step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
+            Func<IStepContext, Task> body, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("step", step);
+            Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgument("aggregator", aggregator);
             Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
 
-            this.step = step;
+            this.body = body;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected Func<IStepContext, object> Step
+        protected Func<IStepContext, object> Body
         {
-            get { return this.step; }
+            get { return this.body; }
         }
 
         protected ExceptionAggregator Aggregator
@@ -54,21 +54,21 @@ namespace Xbehave.Execution
 
         public async Task<Tuple<decimal, IDisposable[]>> RunAsync()
         {
-            IDisposable[] teardowns = null;
+            IDisposable[] disposables = null;
             await this.aggregator.RunAsync(async () =>
             {
                 if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
                 {
-                    teardowns = await InvokeTestMethodAsync();
+                    disposables = await InvokeBodyAsync();
                 }
             });
 
-            return Tuple.Create(this.timer.Total, teardowns ?? new IDisposable[0]);
+            return Tuple.Create(this.timer.Total, disposables ?? new IDisposable[0]);
         }
 
-        protected virtual async Task<IDisposable[]> InvokeTestMethodAsync()
+        protected virtual async Task<IDisposable[]> InvokeBodyAsync()
         {
-            var context = new StepContext();
+            var stepContext = new StepContext();
             var oldSyncContext = SynchronizationContext.Current;
             try
             {
@@ -79,7 +79,7 @@ namespace Xbehave.Execution
                     () => this.timer.AggregateAsync(
                         async () =>
                         {
-                            await this.step(context);
+                            await this.body(stepContext);
                             var ex = await asyncSyncContext.WaitForCompletionAsync();
                             if (ex != null)
                             {
@@ -92,7 +92,7 @@ namespace Xbehave.Execution
                 SetSynchronizationContext(oldSyncContext);
             }
 
-            return context.Disposables.ToArray();
+            return stepContext.Disposables.ToArray();
         }
 
         [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
