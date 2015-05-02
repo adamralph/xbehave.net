@@ -7,7 +7,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepTest : LongLivedMarshalByRefObject, IStepTest
+    public class StepTest : LongLivedMarshalByRefObject, ITestGroupTest
     {
         private readonly IScenarioTestGroup testGroup;
         private readonly string displayName;
@@ -33,6 +33,11 @@ namespace Xbehave.Execution
         public ITestCase TestCase
         {
             get { return this.testGroup.TestCase; }
+        }
+
+        ITestGroup ITestGroupTest.TestGroup
+        {
+            get { return this.testGroup; }
         }
     }
 }
