@@ -15,13 +15,13 @@ namespace Xbehave.Execution
 
     public class StepInvoker
     {
-        private readonly StepDefinition step;
+        private readonly Func<IStepContext, object> step;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ExecutionTimer timer = new ExecutionTimer();
 
         public StepInvoker(
-            StepDefinition step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
+            Func<IStepContext, object> step, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
         {
             Guard.AgainstNullArgument("step", step);
             Guard.AgainstNullArgument("aggregator", aggregator);
@@ -32,7 +32,7 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected StepDefinition Step
+        protected Func<IStepContext, object> Step
         {
             get { return this.step; }
         }
@@ -52,9 +52,9 @@ namespace Xbehave.Execution
             get { return this.timer; }
         }
 
-        public async Task<Tuple<decimal, Action[]>> RunAsync()
+        public async Task<Tuple<decimal, IDisposable[]>> RunAsync()
         {
-            Action[] teardowns = null;
+            IDisposable[] teardowns = null;
             await this.aggregator.RunAsync(async () =>
             {
                 if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
@@ -63,13 +63,13 @@ namespace Xbehave.Execution
                 }
             });
 
-            return Tuple.Create(this.timer.Total, teardowns ?? new Action[0]);
+            return Tuple.Create(this.timer.Total, teardowns ?? new IDisposable[0]);
         }
 
-        protected virtual async Task<Action[]> InvokeTestMethodAsync()
+        protected virtual async Task<IDisposable[]> InvokeTestMethodAsync()
         {
+            var context = new StepContext();
             var oldSyncContext = SynchronizationContext.Current;
-            Action[] teardowns = null;
             try
             {
                 var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
@@ -79,20 +79,11 @@ namespace Xbehave.Execution
                     () => this.timer.AggregateAsync(
                         async () =>
                         {
-                            var context = new StepContext();
-                            try
+                            var result = this.step(context);
+                            var task = result as Task;
+                            if (task != null)
                             {
-                                var result = this.step.Body(context);
-                                var task = result as Task;
-                                if (task != null)
-                                {
-                                    await task;
-                                }
-                            }
-                            finally
-                            {
-                                teardowns = context.Disposables.Select(disposable => (Action)disposable.Dispose)
-                                    .Concat(this.step.Teardowns).ToArray();
+                                await task;
                             }
 
                             var ex = await asyncSyncContext.WaitForCompletionAsync();
@@ -107,7 +98,7 @@ namespace Xbehave.Execution
                 SetSynchronizationContext(oldSyncContext);
             }
 
-            return teardowns ?? new Action[0];
+            return context.Disposables.ToArray();
         }
 
         [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]

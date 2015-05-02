@@ -6,6 +6,7 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Xbehave.Execution
     public class StepRunner : XunitTestRunner
     {
         private readonly StepDefinition step;
-        private readonly List<Action> teardowns = new List<Action>();
+        private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public StepRunner(
             StepDefinition step,
@@ -47,7 +48,11 @@ namespace Xbehave.Execution
 
         public IReadOnlyList<Action> Teardowns
         {
-            get { return this.teardowns.ToArray(); }
+            get
+            {
+                return this.disposables.Select(disposable => (Action)disposable.Dispose)
+                    .Concat(this.step.Teardowns).ToArray();
+            }
         }
 
         protected StepDefinition Step
@@ -57,8 +62,8 @@ namespace Xbehave.Execution
 
         protected override async Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
         {
-            var tuple = await new StepInvoker(this.step, aggregator, this.CancellationTokenSource).RunAsync();
-            this.teardowns.AddRange(tuple.Item2);
+            var tuple = await new StepInvoker(this.step.Body, aggregator, this.CancellationTokenSource).RunAsync();
+            this.disposables.AddRange(tuple.Item2);
             return tuple.Item1;
         }
     }
