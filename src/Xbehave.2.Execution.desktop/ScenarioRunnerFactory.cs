@@ -10,6 +10,7 @@ namespace Xbehave.Execution
     using System.Linq;
     using System.Reflection;
     using System.Threading;
+    using Xbehave.Execution.Extensions;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
