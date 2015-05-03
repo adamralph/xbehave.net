@@ -73,7 +73,7 @@ namespace Xbehave.Execution
                     var discoverer =
                         ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
 
-                    foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
+                    foreach (var dataRow in discoverer.GetData(dataAttribute, this.TestCase.TestMethod.Method))
                     {
                         this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(dataRow));
                     }
@@ -95,7 +95,7 @@ namespace Xbehave.Execution
             if (this.dataDiscoveryException != null)
             {
                 this.MessageBus.Queue(
-                    new XunitTest(TestCase, DisplayName),
+                    new XunitTest(this.TestCase, this.DisplayName),
                     test => new TestFailed(test, 0, null, this.dataDiscoveryException.Unwrap()),
                     this.CancellationTokenSource);
 
@@ -123,7 +123,7 @@ namespace Xbehave.Execution
 
         protected override Task BeforeTestCaseFinishedAsync()
         {
-            Aggregator.Aggregate(this.cleanupAggregator);
+            this.Aggregator.Aggregate(this.cleanupAggregator);
 
             return base.BeforeTestCaseFinishedAsync();
         }

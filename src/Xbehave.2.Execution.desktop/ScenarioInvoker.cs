@@ -116,26 +116,26 @@ namespace Xbehave.Execution
             var summary = new RunSummary();
             await this.aggregator.RunAsync(async () =>
             {
-                if (!cancellationTokenSource.IsCancellationRequested)
+                if (!this.cancellationTokenSource.IsCancellationRequested)
                 {
-                    var testClassInstance = CreateScenarioClass();
+                    var testClassInstance = this.CreateScenarioClass();
 
-                    if (!cancellationTokenSource.IsCancellationRequested)
+                    if (!this.cancellationTokenSource.IsCancellationRequested)
                     {
-                        await BeforeScenarioMethodInvokedAsync();
+                        await this.BeforeScenarioMethodInvokedAsync();
 
                         if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
                         {
-                            summary.Aggregate(await InvokeScenarioMethodAsync(testClassInstance));
+                            summary.Aggregate(await this.InvokeScenarioMethodAsync(testClassInstance));
                         }
 
-                        await AfterScenarioMethodInvokedAsync();
+                        await this.AfterScenarioMethodInvokedAsync();
                     }
 
                     var disposable = testClassInstance as IDisposable;
                     if (disposable != null)
                     {
-                        timer.Aggregate(() => aggregator.Run(disposable.Dispose));
+                        this.timer.Aggregate(() => this.aggregator.Run(disposable.Dispose));
                     }
                 }
 

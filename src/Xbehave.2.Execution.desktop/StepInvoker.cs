@@ -59,7 +59,7 @@ namespace Xbehave.Execution
             {
                 if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
                 {
-                    disposables = await InvokeBodyAsync();
+                    disposables = await this.InvokeBodyAsync();
                 }
             });
 
