@@ -129,7 +129,7 @@ namespace Xbehave.Execution
                 this.scenarioOutline.Method, this.baseDisplayName, arguments, typeArguments);
 
             return new ScenarioRunner(
-                new Scenario(this.scenarioOutline, scenarioDisplayName),
+                new XunitTest(this.scenarioOutline, scenarioDisplayName),
                 this.messageBus,
                 this.scenarioClass,
                 this.constructorArguments,

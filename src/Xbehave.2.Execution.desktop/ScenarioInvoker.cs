@@ -10,6 +10,7 @@ namespace Xbehave.Execution
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Execution.Extensions;
@@ -17,21 +18,8 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioInvoker
+    public class ScenarioInvoker : XunitTestInvoker
     {
-        private readonly ITest scenario;
-        private readonly IMessageBus messageBus;
-        private readonly Type scenarioClass;
-        private readonly object[] constructorArguments;
-        private readonly MethodInfo scenarioMethod;
-        private readonly object[] scenarioMethodArguments;
-        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes;
-        private readonly ExceptionAggregator aggregator;
-        private readonly CancellationTokenSource cancellationTokenSource;
-        private readonly ExecutionTimer timer = new ExecutionTimer();
-        private readonly Stack<BeforeAfterTestAttribute> beforeAfterScenarioAttributesRun =
-            new Stack<BeforeAfterTestAttribute>();
-
         public ScenarioInvoker(
             ITest scenario,
             IMessageBus messageBus,
@@ -42,229 +30,72 @@ namespace Xbehave.Execution
             IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
+            : base(
+                scenario,
+                messageBus,
+                scenarioClass,
+                constructorArguments,
+                scenarioMethod,
+                scenarioMethodArguments,
+                beforeAfterScenarioAttributes,
+                aggregator,
+                cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("scenario", scenario);
-            Guard.AgainstNullArgument("messageBus", messageBus);
-            Guard.AgainstNullArgument("scenarioClass", scenarioClass);
-            Guard.AgainstNullArgument("scenarioMethod", scenarioMethod);
-            Guard.AgainstNullArgument("beforeAfterScenarioAttributes", beforeAfterScenarioAttributes);
-            Guard.AgainstNullArgument("aggregator", aggregator);
-            Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
-
-            this.scenario = scenario;
-            this.messageBus = messageBus;
-            this.scenarioClass = scenarioClass;
-            this.constructorArguments = constructorArguments;
-            this.scenarioMethod = scenarioMethod;
-            this.scenarioMethodArguments = scenarioMethodArguments;
-            this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
-            this.aggregator = aggregator;
-            this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected ITest Scenario
+        public override async Task<decimal> InvokeTestMethodAsync(object testClassInstance)
         {
-            get { return this.scenario; }
-        }
-
-        protected IMessageBus MessageBus
-        {
-            get { return this.messageBus; }
-        }
-
-        protected Type ScenarioClass
-        {
-            get { return this.scenarioClass; }
-        }
-
-        protected IReadOnlyList<object> ConstructorArguments
-        {
-            get { return this.constructorArguments; }
-        }
-
-        protected MethodInfo ScenarioMethod
-        {
-            get { return this.scenarioMethod; }
-        }
-
-        protected IReadOnlyList<object> ScenarioMethodArguments
-        {
-            get { return this.scenarioMethodArguments; }
-        }
-
-        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterScenarioAttributes
-        {
-            get { return this.beforeAfterScenarioAttributes; }
-        }
-
-        protected ExceptionAggregator Aggregator
-        {
-            get { return this.aggregator; }
-        }
-
-        protected CancellationTokenSource CancellationTokenSource
-        {
-            get { return this.cancellationTokenSource; }
-        }
-
-        protected ExecutionTimer Timer
-        {
-            get { return this.timer; }
-        }
-
-        public async Task<RunSummary> RunAsync()
-        {
-            var summary = new RunSummary();
-            await this.aggregator.RunAsync(async () =>
-            {
-                if (!this.cancellationTokenSource.IsCancellationRequested)
-                {
-                    var testClassInstance = this.CreateScenarioClass();
-
-                    if (!this.cancellationTokenSource.IsCancellationRequested)
-                    {
-                        await this.BeforeScenarioMethodInvokedAsync();
-
-                        if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
-                        {
-                            summary.Aggregate(await this.InvokeScenarioMethodAsync(testClassInstance));
-                        }
-
-                        await this.AfterScenarioMethodInvokedAsync();
-                    }
-
-                    var disposable = testClassInstance as IDisposable;
-                    if (disposable != null)
-                    {
-                        this.timer.Aggregate(() => this.aggregator.Run(disposable.Dispose));
-                    }
-                }
-
-                summary.Time += this.timer.Total;
-            });
-
-            return summary;
-        }
-
-        protected virtual object CreateScenarioClass()
-        {
-            object testClass = null;
-
-            if (!this.scenarioMethod.IsStatic && !this.aggregator.HasExceptions)
-            {
-                this.timer.Aggregate(() => testClass = Activator.CreateInstance(this.scenarioClass, this.constructorArguments));
-            }
-
-            return testClass;
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exceptions are collected in the aggregator.")]
-        protected virtual Task BeforeScenarioMethodInvokedAsync()
-        {
-            foreach (var beforeAfterAttribute in this.beforeAfterScenarioAttributes)
-            {
-                try
-                {
-                    this.timer.Aggregate(() => beforeAfterAttribute.Before(this.scenarioMethod));
-                    this.beforeAfterScenarioAttributesRun.Push(beforeAfterAttribute);
-                }
-                catch (Exception ex)
-                {
-                    this.aggregator.Add(ex);
-                    break;
-                }
-
-                if (this.cancellationTokenSource.IsCancellationRequested)
-                {
-                    break;
-                }
-            }
-
-            return Task.FromResult(0);
-        }
-
-        protected virtual Task AfterScenarioMethodInvokedAsync()
-        {
-            foreach (var beforeAfterAttribute in this.beforeAfterScenarioAttributesRun)
-            {
-                this.aggregator.Run(() => this.timer.Aggregate(() => beforeAfterAttribute.After(this.scenarioMethod)));
-            }
-
-            return Task.FromResult(0);
-        }
-
-        protected async virtual Task<RunSummary> InvokeScenarioMethodAsync(object scenarioClassInstance)
-        {
-            await this.aggregator.RunAsync(async () =>
+            await this.Aggregator.RunAsync(async () =>
             {
                 using (ThreadStaticStepHub.CreateBackgroundSteps())
                 {
-                    foreach (var backgroundMethod in this.scenario.TestCase.TestMethod.Method.Type
-                        .GetMethods(false)
-                        .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
-                        .Select(method => method.ToRuntimeMethod()))
+                    foreach (var backgroundMethod in this.TestClass.GetMethods()
+                        .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any()))
                     {
-                        await this.timer.AggregateAsync(() =>
-                            backgroundMethod.InvokeAsync(scenarioClassInstance, null));
+                        await this.Timer.AggregateAsync(() => backgroundMethod.InvokeAsync(testClassInstance, null));
                     }
                 }
-
-                await this.timer.AggregateAsync(() =>
-                    this.scenarioMethod.InvokeAsync(scenarioClassInstance, this.scenarioMethodArguments));
             });
 
-            var runSummary = new RunSummary();
-            if (!this.aggregator.HasExceptions)
+            await base.InvokeTestMethodAsync(testClassInstance);
+
+            if (!this.Aggregator.HasExceptions)
             {
-                runSummary.Aggregate(await this.InvokeStepsAsync(ThreadStaticStepHub.RemoveAll()));
+                await this.InvokeStepsAsync(ThreadStaticStepHub.RemoveAll());
             }
 
-            return runSummary;
+            return this.Timer.Total;
         }
 
         // TODO: stop taking StepDefinitions as a param
-        protected async virtual Task<RunSummary> InvokeStepsAsync(IList<StepDefinition> stepDefinitions)
+        protected virtual async Task<decimal> InvokeStepsAsync(IList<StepDefinition> stepDefinitions)
         {
-            var summary = new RunSummary();
             string skipReason = null;
             var teardowns = new List<Action>();
             foreach (var item in stepDefinitions.Select((definition, index) => new { definition, index }))
             {
                 item.definition.SkipReason = item.definition.SkipReason ?? skipReason;
 
-                var stepDisplayName = GetStepDisplayName(
-                    this.scenario.DisplayName, item.index + 1, item.definition.Text, this.scenarioMethodArguments);
+                var stepDisplayName = GetStepDisplayName(item.definition.Text, this.TestMethodArguments);
 
-                var step = new Step(this.scenario, stepDisplayName);
-
-                var interceptingBus = new DelegatingMessageBus(
-                    this.messageBus,
-                    message =>
-                    {
-                        if (message is ITestFailed && !item.definition.ContinueOnFailure)
-                        {
-                            skipReason = string.Format(
-                                CultureInfo.InvariantCulture,
-                                "Failed to execute preceding step: {0}",
-                                step.DisplayName);
-                        }
-                    });
-
-                var stepRunner = new StepRunner(
-                    step,
-                    item.definition.Body,
-                    interceptingBus,
-                    this.scenarioClass,
-                    this.constructorArguments,
-                    this.scenarioMethod,
-                    this.scenarioMethodArguments,
-                    item.definition.SkipReason,
-                    new ExceptionAggregator(this.aggregator),
-                    this.cancellationTokenSource);
-
-                summary.Aggregate(await stepRunner.RunAsync());
-                teardowns.AddRange(stepRunner.Disposables.Select(disposable => (Action)disposable.Dispose)
+                var childAggregator = new ExceptionAggregator();
+                var disposables = (await this.InvokeStepAsync(item.definition.Body, childAggregator)).Item2;
+                teardowns.AddRange(disposables.Select(disposable => (Action)disposable.Dispose)
                     .Concat(item.definition.Teardowns).ToArray());
+
+                var exception = childAggregator.ToException();
+                if (exception == null)
+                {
+                    this.MessageBus.QueueMessage(new TestOutput(this.Test, stepDisplayName));
+                }
+                else
+                {
+                    this.Aggregator.Add(exception);
+                    var output = string.Format(
+                        CultureInfo.InvariantCulture, "{0} (Failed){1}{2}", stepDisplayName, Environment.NewLine, exception);
+
+                    this.MessageBus.QueueMessage(new TestOutput(this.Test, output));
+                }
             }
 
             if (teardowns.Any())
@@ -274,51 +105,79 @@ namespace Xbehave.Execution
                 var teardownAggregator = new ExceptionAggregator();
                 foreach (var teardown in teardowns)
                 {
-                    teardownTimer.Aggregate(() => teardownAggregator.Run(() => teardown()));
+                    this.Timer.Aggregate(() => teardownTimer.Aggregate(() => teardownAggregator.Run(() => teardown())));
                 }
-
-                summary.Time += teardownTimer.Total;
 
                 if (teardownAggregator.HasExceptions)
                 {
-                    summary.Failed++;
-                    summary.Total++;
+                    var stepDisplayName = GetStepDisplayName("(Teardown)", this.TestMethodArguments);
 
-                    var stepDisplayName = GetStepDisplayName(
-                        this.scenario.DisplayName, stepDefinitions.Count + 1, "(Teardown)", this.scenarioMethodArguments);
-
-                    this.messageBus.Queue(
-                        new Step(this.scenario, stepDisplayName),
+                    this.MessageBus.Queue(
+                        new XunitTest(this.TestCase, stepDisplayName),
                         test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
-                        this.cancellationTokenSource);
+                        this.CancellationTokenSource);
                 }
             }
 
-            return summary;
+            return this.Timer.Total;
         }
 
-        private static string GetStepDisplayName(
-            string scenarioDisplayName, int stepNumber, string stepNameFormat, IEnumerable<object> scenarioMethodArguments)
+        protected virtual async Task<Tuple<decimal, IDisposable[]>> InvokeStepAsync(Func<IStepContext, Task> body, ExceptionAggregator aggregator)
         {
-            string stepName;
+            IDisposable[] disposables = null;
+            await aggregator.RunAsync(async () =>
+            {
+                var stepContext = new StepContext();
+                var oldSyncContext = SynchronizationContext.Current;
+                try
+                {
+                    var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
+                    SetSynchronizationContext(asyncSyncContext);
+
+                    await aggregator.RunAsync(
+                        () => this.Timer.AggregateAsync(
+                            async () =>
+                            {
+                                await body(stepContext);
+                                var ex = await asyncSyncContext.WaitForCompletionAsync();
+                                if (ex != null)
+                                {
+                                    aggregator.Add(ex);
+                                }
+                            }));
+                }
+                finally
+                {
+                    SetSynchronizationContext(oldSyncContext);
+                }
+
+                disposables = stepContext.Disposables.ToArray();
+            });
+
+            return Tuple.Create(this.Timer.Total, disposables ?? new IDisposable[0]);
+        }
+
+        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
+        [SecuritySafeCritical]
+        private static void SetSynchronizationContext(SynchronizationContext context)
+        {
+            SynchronizationContext.SetSynchronizationContext(context);
+        }
+
+        private static string GetStepDisplayName(string stepNameFormat, IEnumerable<object> scenarioMethodArguments)
+        {
             try
             {
-                stepName = string.Format(
+                return string.Format(
                     CultureInfo.InvariantCulture,
                     stepNameFormat ?? string.Empty,
-                    (scenarioMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
+                    (scenarioMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null")
+                        .ToArray());
             }
             catch (FormatException)
             {
-                stepName = stepNameFormat;
+                return stepNameFormat;
             }
-
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}] {2}",
-                scenarioDisplayName,
-                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
         }
     }
 }
