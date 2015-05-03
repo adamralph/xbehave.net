@@ -28,7 +28,7 @@ namespace Xbehave.Execution
             get { return this.displayName; }
         }
 
-        ITestCase ITest.TestCase
+        public ITestCase TestCase
         {
             get { return this.scenarioOutline; }
         }

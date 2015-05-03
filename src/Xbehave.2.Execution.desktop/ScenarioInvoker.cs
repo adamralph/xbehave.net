@@ -12,6 +12,7 @@ namespace Xbehave.Execution
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
+    using Xbehave.Abstractions;
     using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
