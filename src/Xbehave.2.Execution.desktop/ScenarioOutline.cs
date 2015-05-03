@@ -11,7 +11,6 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    [Serializable]
     public class ScenarioOutline : XunitTestCase
     {
         public ScenarioOutline(
