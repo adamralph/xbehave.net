@@ -7,7 +7,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class Scenario : LongLivedMarshalByRefObject, ITest
+    public class Scenario : LongLivedMarshalByRefObject, ITestCase
     {
         private readonly IXunitTestCase scenarioOutline;
         private readonly string displayName;
