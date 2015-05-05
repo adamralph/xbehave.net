@@ -19,7 +19,7 @@ namespace Xbehave.Execution
 
     public class ScenarioInvoker
     {
-        private readonly ITest scenario;
+        private readonly IScenario scenario;
         private readonly IMessageBus messageBus;
         private readonly Type scenarioClass;
         private readonly object[] constructorArguments;
@@ -33,7 +33,7 @@ namespace Xbehave.Execution
             new Stack<BeforeAfterTestAttribute>();
 
         public ScenarioInvoker(
-            ITest scenario,
+            IScenario scenario,
             IMessageBus messageBus,
             Type scenarioClass,
             object[] constructorArguments,
@@ -62,7 +62,7 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected ITest Scenario
+        protected IScenario Scenario
         {
             get { return this.scenario; }
         }

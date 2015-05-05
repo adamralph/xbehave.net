@@ -15,21 +15,31 @@ namespace Xbehave.Execution
 
     public class StepInvoker
     {
+        private readonly IStep step;
         private readonly Func<IStepContext, Task> body;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ExecutionTimer timer = new ExecutionTimer();
 
         public StepInvoker(
-            Func<IStepContext, Task> body, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
+            IStep step,
+            Func<IStepContext, Task> body,
+            ExceptionAggregator aggregator,
+            CancellationTokenSource cancellationTokenSource)
         {
             Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgument("aggregator", aggregator);
             Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
 
+            this.step = step;
             this.body = body;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
+        }
+
+        protected IStep Step
+        {
+            get { return this.step; }
         }
 
         protected Func<IStepContext, object> Body
@@ -68,7 +78,7 @@ namespace Xbehave.Execution
 
         protected virtual async Task<IDisposable[]> InvokeBodyAsync()
         {
-            var stepContext = new StepContext();
+            var stepContext = new StepContext(this.step);
             var oldSyncContext = SynchronizationContext.Current;
             try
             {
