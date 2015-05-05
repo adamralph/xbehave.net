@@ -62,56 +62,6 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected IScenario Scenario
-        {
-            get { return this.scenario; }
-        }
-
-        protected IMessageBus MessageBus
-        {
-            get { return this.messageBus; }
-        }
-
-        protected Type ScenarioClass
-        {
-            get { return this.scenarioClass; }
-        }
-
-        protected IReadOnlyList<object> ConstructorArguments
-        {
-            get { return this.constructorArguments; }
-        }
-
-        protected MethodInfo ScenarioMethod
-        {
-            get { return this.scenarioMethod; }
-        }
-
-        protected IReadOnlyList<object> ScenarioMethodArguments
-        {
-            get { return this.scenarioMethodArguments; }
-        }
-
-        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterScenarioAttributes
-        {
-            get { return this.beforeAfterScenarioAttributes; }
-        }
-
-        protected ExceptionAggregator Aggregator
-        {
-            get { return this.aggregator; }
-        }
-
-        protected CancellationTokenSource CancellationTokenSource
-        {
-            get { return this.cancellationTokenSource; }
-        }
-
-        protected ExecutionTimer Timer
-        {
-            get { return this.timer; }
-        }
-
         public async Task<RunSummary> RunAsync()
         {
             var summary = new RunSummary();
@@ -146,7 +96,7 @@ namespace Xbehave.Execution
             return summary;
         }
 
-        protected virtual object CreateScenarioClass()
+        private object CreateScenarioClass()
         {
             object testClass = null;
 
@@ -159,7 +109,7 @@ namespace Xbehave.Execution
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exceptions are collected in the aggregator.")]
-        protected virtual Task BeforeScenarioMethodInvokedAsync()
+        private Task BeforeScenarioMethodInvokedAsync()
         {
             foreach (var beforeAfterAttribute in this.beforeAfterScenarioAttributes)
             {
@@ -183,7 +133,7 @@ namespace Xbehave.Execution
             return Task.FromResult(0);
         }
 
-        protected virtual Task AfterScenarioMethodInvokedAsync()
+        private Task AfterScenarioMethodInvokedAsync()
         {
             foreach (var beforeAfterAttribute in this.beforeAfterScenarioAttributesRun)
             {
@@ -193,7 +143,7 @@ namespace Xbehave.Execution
             return Task.FromResult(0);
         }
 
-        protected async virtual Task<RunSummary> InvokeScenarioMethodAsync(object scenarioClassInstance)
+        private async Task<RunSummary> InvokeScenarioMethodAsync(object scenarioClassInstance)
         {
             await this.aggregator.RunAsync(async () =>
             {
@@ -222,8 +172,7 @@ namespace Xbehave.Execution
             return runSummary;
         }
 
-        // TODO: stop taking StepDefinitions as a param
-        protected async virtual Task<RunSummary> InvokeStepsAsync(IList<StepDefinition> stepDefinitions)
+        private async Task<RunSummary> InvokeStepsAsync(ICollection<StepDefinition> stepDefinitions)
         {
             var summary = new RunSummary();
             string skipReason = null;

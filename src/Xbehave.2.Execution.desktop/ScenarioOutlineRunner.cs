@@ -56,11 +56,6 @@ namespace Xbehave.Execution
                 this.CancellationTokenSource);
         }
 
-        protected IMessageSink DiagnosticMessageSink
-        {
-            get { return this.diagnosticMessageSink; }
-        }
-
         protected override async Task AfterTestCaseStartingAsync()
         {
             await base.AfterTestCaseStartingAsync();

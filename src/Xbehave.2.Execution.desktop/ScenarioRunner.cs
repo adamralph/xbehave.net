@@ -60,62 +60,12 @@ namespace Xbehave.Execution
             this.Dispose(false);
         }
 
-        protected IScenario Scenario
-        {
-            get { return this.scenario; }
-        }
-
-        protected IMessageBus MessageBus
-        {
-            get { return this.messageBus; }
-        }
-
-        protected Type ScenarioClass
-        {
-            get { return this.scenarioClass; }
-        }
-
-        protected IReadOnlyList<object> ConstructorArguments
-        {
-            get { return this.constructorArguments; }
-        }
-
-        protected MethodInfo ScenarioMethod
-        {
-            get { return this.scenarioMethod; }
-        }
-
-        protected IReadOnlyList<object> ScenarioMethodArguments
-        {
-            get { return this.scenarioMethodArguments; }
-        }
-
-        protected string SkipReason
-        {
-            get { return this.skipReason; }
-        }
-
-        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterScenarioAttributes
-        {
-            get { return this.beforeAfterScenarioAttributes; }
-        }
-
-        protected ExceptionAggregator Aggregator
-        {
-            get { return this.parentAggregator; }
-        }
-
-        protected CancellationTokenSource CancellationTokenSource
-        {
-            get { return this.cancellationTokenSource; }
-        }
-
         public async Task<RunSummary> RunAsync()
         {
             if (!string.IsNullOrEmpty(this.skipReason))
             {
                 this.messageBus.Queue(
-                    this.Scenario, test => new TestSkipped(test, this.skipReason), this.CancellationTokenSource);
+                    this.scenario, test => new TestSkipped(test, this.skipReason), this.cancellationTokenSource);
 
                 return new RunSummary { Total = 1, Skipped = 1 };
             }
@@ -139,7 +89,7 @@ namespace Xbehave.Execution
                     this.messageBus.Queue(
                         this.scenario,
                         test => new TestFailed(test, summary.Time, output, exception),
-                        this.CancellationTokenSource);
+                        this.cancellationTokenSource);
                 }
                 else if (summary.Total == 0)
                 {
@@ -169,13 +119,13 @@ namespace Xbehave.Execution
             }
         }
 
-        protected virtual async Task<Tuple<RunSummary, string>> InvokeScenarioAsync(ExceptionAggregator aggregator)
+        private async Task<Tuple<RunSummary, string>> InvokeScenarioAsync(ExceptionAggregator aggregator)
         {
             var output = string.Empty;
-            var testOutputHelper = this.ConstructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
+            var testOutputHelper = this.constructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
             if (testOutputHelper != null)
             {
-                testOutputHelper.Initialize(this.MessageBus, this.Scenario);
+                testOutputHelper.Initialize(this.messageBus, this.scenario);
             }
 
             var summary = await this.InvokeScenarioMethodAsync(aggregator);
@@ -189,7 +139,7 @@ namespace Xbehave.Execution
             return Tuple.Create(summary, output);
         }
 
-        protected virtual async Task<RunSummary> InvokeScenarioMethodAsync(ExceptionAggregator aggregator)
+        private async Task<RunSummary> InvokeScenarioMethodAsync(ExceptionAggregator aggregator)
         {
             return await new ScenarioInvoker(
                     this.scenario,

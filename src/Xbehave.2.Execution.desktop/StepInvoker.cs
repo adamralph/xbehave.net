@@ -37,31 +37,6 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        protected IStep Step
-        {
-            get { return this.step; }
-        }
-
-        protected Func<IStepContext, object> Body
-        {
-            get { return this.body; }
-        }
-
-        protected ExceptionAggregator Aggregator
-        {
-            get { return this.aggregator; }
-        }
-
-        protected CancellationTokenSource CancellationTokenSource
-        {
-            get { return this.cancellationTokenSource; }
-        }
-
-        protected ExecutionTimer Timer
-        {
-            get { return this.timer; }
-        }
-
         public async Task<Tuple<decimal, IDisposable[]>> RunAsync()
         {
             IDisposable[] disposables = null;
@@ -76,7 +51,7 @@ namespace Xbehave.Execution
             return Tuple.Create(this.timer.Total, disposables ?? new IDisposable[0]);
         }
 
-        protected virtual async Task<IDisposable[]> InvokeBodyAsync()
+        private async Task<IDisposable[]> InvokeBodyAsync()
         {
             var stepContext = new StepContext(this.step);
             var oldSyncContext = SynchronizationContext.Current;

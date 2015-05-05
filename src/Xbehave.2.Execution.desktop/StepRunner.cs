@@ -49,11 +49,6 @@ namespace Xbehave.Execution
             get { return this.disposables; }
         }
 
-        protected Func<IStepContext, Task> Body
-        {
-            get { return this.body; }
-        }
-
         protected async override Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
             var tuple = await new StepInvoker(this.step, this.body, aggregator, this.CancellationTokenSource).RunAsync();
