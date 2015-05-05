@@ -21,6 +21,7 @@ namespace Xbehave.Execution
         private readonly ScenarioRunnerFactory scenarioRunnerFactory;
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
         private readonly List<ScenarioRunner> scenarioRunners = new List<ScenarioRunner>();
+        private readonly List<IDisposable> disposables = new List<IDisposable>();
         private Exception dataDiscoveryException;
 
         public ScenarioOutlineRunner(
@@ -71,6 +72,7 @@ namespace Xbehave.Execution
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, this.TestCase.TestMethod.Method))
                     {
+                        this.disposables.AddRange(dataRow.OfType<IDisposable>());
                         this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(dataRow));
                     }
                 }
@@ -108,9 +110,9 @@ namespace Xbehave.Execution
             // but save any exceptions so we can surface them during the cleanup phase,
             // so they get properly reported as test case cleanup failures.
             var timer = new ExecutionTimer();
-            foreach (var scenarioRunner in this.scenarioRunners)
+            foreach (var disposable in this.disposables)
             {
-                timer.Aggregate(() => this.cleanupAggregator.Run(() => scenarioRunner.Dispose()));
+                timer.Aggregate(() => this.cleanupAggregator.Run(() => disposable.Dispose()));
             }
 
             summary.Time += timer.Total;

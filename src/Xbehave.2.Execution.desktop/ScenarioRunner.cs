@@ -14,7 +14,7 @@ namespace Xbehave.Execution
     using Xbehave.Sdk;
     using Xunit.Sdk;
 
-    public class ScenarioRunner : IDisposable
+    public class ScenarioRunner
     {
         private readonly IScenario scenario;
         private readonly IMessageBus messageBus;
@@ -53,11 +53,6 @@ namespace Xbehave.Execution
             this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
             this.parentAggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        ~ScenarioRunner()
-        {
-            this.Dispose(false);
         }
 
         public async Task<RunSummary> RunAsync()
@@ -99,23 +94,6 @@ namespace Xbehave.Execution
                 }
 
                 return summary;
-            }
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing && this.scenarioMethodArguments != null)
-            {
-                foreach (var disposable in this.scenarioMethodArguments.OfType<IDisposable>())
-                {
-                    disposable.Dispose();
-                }
             }
         }
 
