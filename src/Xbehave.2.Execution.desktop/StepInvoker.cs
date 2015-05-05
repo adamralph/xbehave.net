@@ -51,6 +51,13 @@ namespace Xbehave.Execution
             return Tuple.Create(this.timer.Total, disposables ?? new IDisposable[0]);
         }
 
+        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
+        [SecuritySafeCritical]
+        private static void SetSynchronizationContext(SynchronizationContext context)
+        {
+            SynchronizationContext.SetSynchronizationContext(context);
+        }
+
         private async Task<IDisposable[]> InvokeBodyAsync()
         {
             var stepContext = new StepContext(this.step);
@@ -78,13 +85,6 @@ namespace Xbehave.Execution
             }
 
             return stepContext.Disposables.ToArray();
-        }
-
-        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
-        [SecuritySafeCritical]
-        private static void SetSynchronizationContext(SynchronizationContext context)
-        {
-            SynchronizationContext.SetSynchronizationContext(context);
         }
     }
 }

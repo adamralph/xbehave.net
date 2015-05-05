@@ -96,6 +96,30 @@ namespace Xbehave.Execution
             return summary;
         }
 
+        private static string GetStepDisplayName(
+            string scenarioDisplayName, int stepNumber, string stepNameFormat, IEnumerable<object> scenarioMethodArguments)
+        {
+            string stepName;
+            try
+            {
+                stepName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    stepNameFormat ?? string.Empty,
+                    (scenarioMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
+            }
+            catch (FormatException)
+            {
+                stepName = stepNameFormat;
+            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}] {2}",
+                scenarioDisplayName,
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepName);
+        }
+
         private object CreateScenarioClass()
         {
             object testClass = null;
@@ -244,30 +268,6 @@ namespace Xbehave.Execution
             }
 
             return summary;
-        }
-
-        private static string GetStepDisplayName(
-            string scenarioDisplayName, int stepNumber, string stepNameFormat, IEnumerable<object> scenarioMethodArguments)
-        {
-            string stepName;
-            try
-            {
-                stepName = string.Format(
-                    CultureInfo.InvariantCulture,
-                    stepNameFormat ?? string.Empty,
-                    (scenarioMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
-            }
-            catch (FormatException)
-            {
-                stepName = stepNameFormat;
-            }
-
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}] {2}",
-                scenarioDisplayName,
-                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
         }
     }
 }
