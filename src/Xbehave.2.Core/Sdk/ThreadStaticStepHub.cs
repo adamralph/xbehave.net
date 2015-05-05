@@ -9,7 +9,7 @@ namespace Xbehave.Sdk
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Used for creating instances of <see cref="Step"/> during the execution of background and scenario methods
+    /// Used for creating instances of <see cref="StepDefinition"/> during the execution of background and scenario methods
     /// which can be subsequently retrieved on the same thread.
     /// </summary>
     /// <remarks>
@@ -22,11 +22,11 @@ namespace Xbehave.Sdk
         private static bool creatingBackgroundSteps;
 
         [ThreadStatic]
-        private static List<Step> steps;
+        private static List<StepDefinition> steps;
 
-        private static List<Step> Steps
+        private static List<StepDefinition> Steps
         {
-            get { return steps ?? (steps = new List<Step>()); }
+            get { return steps ?? (steps = new List<StepDefinition>()); }
         }
 
         /// <summary>
@@ -43,39 +43,25 @@ namespace Xbehave.Sdk
         }
 
         /// <summary>
-        /// Creates a <see cref="Step"/> with specified <paramref name="text"/> and <paramref name="body"/>
+        /// Creates a <see cref="StepDefinition"/> with specified <paramref name="text"/> and <paramref name="body"/>
         /// and adds it to the <see cref="ThreadStaticStepHub"/>.
         /// </summary>
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
-        /// <returns>A <see cref="Step"/>.</returns>
-        public static Step CreateAndAdd(string text, Action body)
+        /// <returns>A <see cref="StepDefinition"/>.</returns>
+        public static StepDefinition CreateAndAdd(string text, Func<IStepContext, Task> body)
         {
-            var step = new Step(EmbellishStepText(text), body);
+            var step = new StepDefinition(EmbellishStepText(text), body);
             Steps.Add(step);
             return step;
         }
 
         /// <summary>
-        /// Creates a <see cref="Step"/> with specified <paramref name="text"/> and <paramref name="body"/>
-        /// and adds it to the <see cref="ThreadStaticStepHub"/>.
-        /// </summary>
-        /// <param name="text">The natural language associated with step.</param>
-        /// <param name="body">The body of the step.</param>
-        /// <returns>A <see cref="Step"/>.</returns>
-        public static Step CreateAndAdd(string text, Func<Task> body)
-        {
-            var step = new Step(EmbellishStepText(text), body);
-            Steps.Add(step);
-            return step;
-        }
-
-        /// <summary>
-        /// Removes all the <see cref="Step"/> instances from the <see cref="ThreadStaticStepHub"/>
+        /// Removes all the <see cref="StepDefinition"/> instances from the <see cref="ThreadStaticStepHub"/>
         /// which were created on the current thread.
         /// </summary>
-        /// <returns>A <see cref="IList{T}"/> of <see cref="Step"/> instances.</returns>
-        public static IList<Step> RemoveAll()
+        /// <returns>A <see cref="IList{T}"/> of <see cref="StepDefinition"/> instances.</returns>
+        public static IList<StepDefinition> RemoveAll()
         {
             try
             {

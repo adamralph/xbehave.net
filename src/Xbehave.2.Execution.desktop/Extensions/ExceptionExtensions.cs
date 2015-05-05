@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Execution
+namespace Xbehave.Execution.Extensions
 {
     using System;
     using System.Reflection;

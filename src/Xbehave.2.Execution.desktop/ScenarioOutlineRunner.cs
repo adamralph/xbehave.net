@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioOutlineTestCaseRunner.cs" company="xBehave.net contributors">
+﻿// <copyright file="ScenarioOutlineRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -9,21 +9,23 @@ namespace Xbehave.Execution
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
+    using Xbehave.Execution.Extensions;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioOutlineTestCaseRunner : XunitTestCaseRunner
+    public class ScenarioOutlineRunner : XunitTestCaseRunner
     {
         private static readonly object[] noArguments = new object[0];
 
         private readonly IMessageSink diagnosticMessageSink;
+        private readonly ScenarioRunnerFactory scenarioRunnerFactory;
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
-        private readonly List<ScenarioTestGroup> scenarioTestGroups = new List<ScenarioTestGroup>();
+        private readonly List<ScenarioRunner> scenarioRunners = new List<ScenarioRunner>();
         private Exception dataDiscoveryException;
 
-        public ScenarioOutlineTestCaseRunner(
+        public ScenarioOutlineRunner(
             IMessageSink diagnosticMessageSink,
-            IXunitTestCase testCase,
+            IXunitTestCase scenarioOutline,
             string displayName,
             string skipReason,
             object[] constructorArguments,
@@ -31,7 +33,7 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
             : base(
-                testCase,
+                scenarioOutline,
                 displayName,
                 skipReason,
                 constructorArguments,
@@ -41,6 +43,17 @@ namespace Xbehave.Execution
                 cancellationTokenSource)
         {
             this.diagnosticMessageSink = diagnosticMessageSink;
+            this.scenarioRunnerFactory = new ScenarioRunnerFactory(
+                this.TestCase,
+                this.DisplayName,
+                this.MessageBus,
+                this.TestClass,
+                this.ConstructorArguments,
+                this.TestMethod,
+                this.SkipReason,
+                this.BeforeAfterAttributes,
+                this.Aggregator,
+                this.CancellationTokenSource);
         }
 
         protected IMessageSink DiagnosticMessageSink
@@ -52,45 +65,24 @@ namespace Xbehave.Execution
         {
             await base.AfterTestCaseStartingAsync();
 
-            var scenarioNumber = 1;
             try
             {
-                var dataAttributes = TestCase.TestMethod.Method.GetCustomAttributes(typeof(DataAttribute)).ToList();
+                var dataAttributes = this.TestCase.TestMethod.Method.GetCustomAttributes(typeof(DataAttribute)).ToList();
                 foreach (var dataAttribute in dataAttributes)
                 {
                     var discovererAttribute = dataAttribute.GetCustomAttributes(typeof(DataDiscovererAttribute)).First();
                     var discoverer =
                         ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
 
-                    foreach (var dataRow in discoverer.GetData(dataAttribute, TestCase.TestMethod.Method))
+                    foreach (var dataRow in discoverer.GetData(dataAttribute, this.TestCase.TestMethod.Method))
                     {
-                        var scenarioTestGroup = new ScenarioTestGroup(
-                            this.TestCase,
-                            this.DisplayName,
-                            scenarioNumber++,
-                            this.TestClass,
-                            this.TestMethod,
-                            dataRow,
-                            this.SkipReason,
-                            this.BeforeAfterAttributes);
-
-                        this.scenarioTestGroups.Add(scenarioTestGroup);
+                        this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(dataRow));
                     }
                 }
 
-                if (!this.scenarioTestGroups.Any())
+                if (!this.scenarioRunners.Any())
                 {
-                    var scenarioTestGroup = new ScenarioTestGroup(
-                        this.TestCase,
-                        this.DisplayName,
-                        1,
-                        this.TestClass,
-                        this.TestMethod,
-                        noArguments,
-                        this.SkipReason,
-                        this.BeforeAfterAttributes);
-
-                    this.scenarioTestGroups.Add(scenarioTestGroup);
+                    this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(noArguments));
                 }
             }
             catch (Exception ex)
@@ -104,7 +96,7 @@ namespace Xbehave.Execution
             if (this.dataDiscoveryException != null)
             {
                 this.MessageBus.Queue(
-                    new XunitTest(TestCase, DisplayName),
+                    new XunitTest(this.TestCase, this.DisplayName),
                     test => new TestFailed(test, 0, null, this.dataDiscoveryException.Unwrap()),
                     this.CancellationTokenSource);
 
@@ -112,23 +104,18 @@ namespace Xbehave.Execution
             }
 
             var summary = new RunSummary();
-            foreach (var scenarioTestGroup in this.scenarioTestGroups)
+            foreach (var scenarioRunner in this.scenarioRunners)
             {
-                summary.Aggregate(await scenarioTestGroup.RunAsync(
-                        this.diagnosticMessageSink,
-                        this.MessageBus,
-                        this.ConstructorArguments,
-                        new ExceptionAggregator(this.Aggregator),
-                        this.CancellationTokenSource));
+                summary.Aggregate(await scenarioRunner.RunAsync());
             }
 
             // Run the cleanup here so we can include cleanup time in the run summary,
             // but save any exceptions so we can surface them during the cleanup phase,
             // so they get properly reported as test case cleanup failures.
             var timer = new ExecutionTimer();
-            foreach (var scenarioTestGroup in this.scenarioTestGroups)
+            foreach (var scenarioRunner in this.scenarioRunners)
             {
-                timer.Aggregate(() => this.cleanupAggregator.Run(() => scenarioTestGroup.Dispose()));
+                timer.Aggregate(() => this.cleanupAggregator.Run(() => scenarioRunner.Dispose()));
             }
 
             summary.Time += timer.Total;
@@ -137,7 +124,7 @@ namespace Xbehave.Execution
 
         protected override Task BeforeTestCaseFinishedAsync()
         {
-            Aggregator.Aggregate(this.cleanupAggregator);
+            this.Aggregator.Aggregate(this.cleanupAggregator);
 
             return base.BeforeTestCaseFinishedAsync();
         }
