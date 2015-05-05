@@ -19,7 +19,7 @@ namespace Xbehave.Execution
 
     public class ScenarioInvoker
     {
-        private readonly ITest scenario;
+        private readonly IScenario scenario;
         private readonly IMessageBus messageBus;
         private readonly Type scenarioClass;
         private readonly object[] constructorArguments;
@@ -33,7 +33,7 @@ namespace Xbehave.Execution
             new Stack<BeforeAfterTestAttribute>();
 
         public ScenarioInvoker(
-            ITest scenario,
+            IScenario scenario,
             IMessageBus messageBus,
             Type scenarioClass,
             object[] constructorArguments,
@@ -60,56 +60,6 @@ namespace Xbehave.Execution
             this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        protected ITest Scenario
-        {
-            get { return this.scenario; }
-        }
-
-        protected IMessageBus MessageBus
-        {
-            get { return this.messageBus; }
-        }
-
-        protected Type ScenarioClass
-        {
-            get { return this.scenarioClass; }
-        }
-
-        protected IReadOnlyList<object> ConstructorArguments
-        {
-            get { return this.constructorArguments; }
-        }
-
-        protected MethodInfo ScenarioMethod
-        {
-            get { return this.scenarioMethod; }
-        }
-
-        protected IReadOnlyList<object> ScenarioMethodArguments
-        {
-            get { return this.scenarioMethodArguments; }
-        }
-
-        protected IReadOnlyList<BeforeAfterTestAttribute> BeforeAfterScenarioAttributes
-        {
-            get { return this.beforeAfterScenarioAttributes; }
-        }
-
-        protected ExceptionAggregator Aggregator
-        {
-            get { return this.aggregator; }
-        }
-
-        protected CancellationTokenSource CancellationTokenSource
-        {
-            get { return this.cancellationTokenSource; }
-        }
-
-        protected ExecutionTimer Timer
-        {
-            get { return this.timer; }
         }
 
         public async Task<RunSummary> RunAsync()
@@ -146,7 +96,31 @@ namespace Xbehave.Execution
             return summary;
         }
 
-        protected virtual object CreateScenarioClass()
+        private static string GetStepDisplayName(
+            string scenarioDisplayName, int stepNumber, string stepNameFormat, IEnumerable<object> scenarioMethodArguments)
+        {
+            string stepName;
+            try
+            {
+                stepName = string.Format(
+                    CultureInfo.InvariantCulture,
+                    stepNameFormat ?? string.Empty,
+                    (scenarioMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
+            }
+            catch (FormatException)
+            {
+                stepName = stepNameFormat;
+            }
+
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0} [{1}] {2}",
+                scenarioDisplayName,
+                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                stepName);
+        }
+
+        private object CreateScenarioClass()
         {
             object testClass = null;
 
@@ -159,7 +133,7 @@ namespace Xbehave.Execution
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exceptions are collected in the aggregator.")]
-        protected virtual Task BeforeScenarioMethodInvokedAsync()
+        private Task BeforeScenarioMethodInvokedAsync()
         {
             foreach (var beforeAfterAttribute in this.beforeAfterScenarioAttributes)
             {
@@ -183,7 +157,7 @@ namespace Xbehave.Execution
             return Task.FromResult(0);
         }
 
-        protected virtual Task AfterScenarioMethodInvokedAsync()
+        private Task AfterScenarioMethodInvokedAsync()
         {
             foreach (var beforeAfterAttribute in this.beforeAfterScenarioAttributesRun)
             {
@@ -193,7 +167,7 @@ namespace Xbehave.Execution
             return Task.FromResult(0);
         }
 
-        protected async virtual Task<RunSummary> InvokeScenarioMethodAsync(object scenarioClassInstance)
+        private async Task<RunSummary> InvokeScenarioMethodAsync(object scenarioClassInstance)
         {
             await this.aggregator.RunAsync(async () =>
             {
@@ -222,8 +196,7 @@ namespace Xbehave.Execution
             return runSummary;
         }
 
-        // TODO: stop taking StepDefinitions as a param
-        protected async virtual Task<RunSummary> InvokeStepsAsync(IList<StepDefinition> stepDefinitions)
+        private async Task<RunSummary> InvokeStepsAsync(ICollection<StepDefinition> stepDefinitions)
         {
             var summary = new RunSummary();
             string skipReason = null;
@@ -295,30 +268,6 @@ namespace Xbehave.Execution
             }
 
             return summary;
-        }
-
-        private static string GetStepDisplayName(
-            string scenarioDisplayName, int stepNumber, string stepNameFormat, IEnumerable<object> scenarioMethodArguments)
-        {
-            string stepName;
-            try
-            {
-                stepName = string.Format(
-                    CultureInfo.InvariantCulture,
-                    stepNameFormat ?? string.Empty,
-                    (scenarioMethodArguments ?? Enumerable.Empty<object>()).Select(argument => argument ?? "null").ToArray());
-            }
-            catch (FormatException)
-            {
-                stepName = stepNameFormat;
-            }
-
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0} [{1}] {2}",
-                scenarioDisplayName,
-                stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                stepName);
         }
     }
 }

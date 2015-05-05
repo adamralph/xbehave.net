@@ -15,41 +15,26 @@ namespace Xbehave.Execution
 
     public class StepInvoker
     {
+        private readonly IStep step;
         private readonly Func<IStepContext, Task> body;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ExecutionTimer timer = new ExecutionTimer();
 
         public StepInvoker(
-            Func<IStepContext, Task> body, ExceptionAggregator aggregator, CancellationTokenSource cancellationTokenSource)
+            IStep step,
+            Func<IStepContext, Task> body,
+            ExceptionAggregator aggregator,
+            CancellationTokenSource cancellationTokenSource)
         {
             Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgument("aggregator", aggregator);
             Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
 
+            this.step = step;
             this.body = body;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        protected Func<IStepContext, object> Body
-        {
-            get { return this.body; }
-        }
-
-        protected ExceptionAggregator Aggregator
-        {
-            get { return this.aggregator; }
-        }
-
-        protected CancellationTokenSource CancellationTokenSource
-        {
-            get { return this.cancellationTokenSource; }
-        }
-
-        protected ExecutionTimer Timer
-        {
-            get { return this.timer; }
         }
 
         public async Task<Tuple<decimal, IDisposable[]>> RunAsync()
@@ -66,9 +51,16 @@ namespace Xbehave.Execution
             return Tuple.Create(this.timer.Total, disposables ?? new IDisposable[0]);
         }
 
-        protected virtual async Task<IDisposable[]> InvokeBodyAsync()
+        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
+        [SecuritySafeCritical]
+        private static void SetSynchronizationContext(SynchronizationContext context)
         {
-            var stepContext = new StepContext();
+            SynchronizationContext.SetSynchronizationContext(context);
+        }
+
+        private async Task<IDisposable[]> InvokeBodyAsync()
+        {
+            var stepContext = new StepContext(this.step);
             var oldSyncContext = SynchronizationContext.Current;
             try
             {
@@ -93,13 +85,6 @@ namespace Xbehave.Execution
             }
 
             return stepContext.Disposables.ToArray();
-        }
-
-        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
-        [SecuritySafeCritical]
-        private static void SetSynchronizationContext(SynchronizationContext context)
-        {
-            SynchronizationContext.SetSynchronizationContext(context);
         }
     }
 }

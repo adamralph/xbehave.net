@@ -4,15 +4,16 @@
 
 namespace Xbehave.Execution
 {
+    using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class Step : LongLivedMarshalByRefObject, ITest
+    public class Step : LongLivedMarshalByRefObject, IStep
     {
-        private readonly ITest scenario;
+        private readonly IScenario scenario;
         private readonly string displayName;
 
-        public Step(ITest scenario, string displayName)
+        public Step(IScenario scenario, string displayName)
         {
             Guard.AgainstNullArgument("scenario", scenario);
 
@@ -20,7 +21,7 @@ namespace Xbehave.Execution
             this.displayName = displayName;
         }
 
-        public ITest Scenario
+        public IScenario Scenario
         {
             get { return this.scenario; }
         }
@@ -32,7 +33,7 @@ namespace Xbehave.Execution
 
         public ITestCase TestCase
         {
-            get { return this.scenario.TestCase; }
+            get { return this.scenario.ScenarioOutline; }
         }
     }
 }

@@ -10,7 +10,18 @@ namespace Xbehave.Execution
 
     public class StepContext : IStepContext
     {
+        private readonly IStep step;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
+
+        public StepContext(IStep step)
+        {
+            this.step = step;
+        }
+
+        public IStep Step
+        {
+            get { return this.step; }
+        }
 
         public IReadOnlyList<IDisposable> Disposables
         {
