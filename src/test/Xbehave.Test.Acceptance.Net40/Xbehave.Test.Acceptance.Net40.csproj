@@ -92,6 +92,7 @@
     <Compile Include="Infrastructure\Feature.cs" />
     <Compile Include="Infrastructure\TypeExtensions.cs" />
     <Compile Include="MemberDataFeature.cs" />
+    <Compile Include="MetadataFeature.cs" />
     <Compile Include="SkippedScenarioFeature.cs" />
     <Compile Include="TeardownFeature.cs" />
     <Compile Include="StepTimeoutFeature.cs" />

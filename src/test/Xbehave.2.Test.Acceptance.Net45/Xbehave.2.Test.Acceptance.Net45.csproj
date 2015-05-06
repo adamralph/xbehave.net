@@ -96,7 +96,6 @@
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="MetadataFeature.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\..\Xbehave.CustomDictionary.xml">
