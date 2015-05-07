@@ -94,6 +94,7 @@
     <Compile Include="MemberDataFeature.cs" />
     <Compile Include="MetadataFeature.cs" />
     <Compile Include="SkippedScenarioFeature.cs" />
+    <Compile Include="StepDefinitionFilterFeature.cs" />
     <Compile Include="TeardownFeature.cs" />
     <Compile Include="StepTimeoutFeature.cs" />
     <Compile Include="ScenarioTimeoutFeature.cs" />
