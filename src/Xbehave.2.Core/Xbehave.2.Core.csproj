@@ -74,6 +74,7 @@
     <Compile Include="Fluent\StepBuilder.cs" />
     <Compile Include="Sdk\IStepContext.cs" />
     <Compile Include="ScenarioAttribute.cs" />
+    <Compile Include="Sdk\IStepDefinition.cs" />
     <Compile Include="Sdk\ThreadStaticStepHub.cs" />
     <Compile Include="Sdk\Guard.cs" />
     <Compile Include="Sdk\StepDefinition.cs" />

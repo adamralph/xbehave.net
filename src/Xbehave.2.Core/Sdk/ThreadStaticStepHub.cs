@@ -22,11 +22,11 @@ namespace Xbehave.Sdk
         private static bool creatingBackgroundSteps;
 
         [ThreadStatic]
-        private static List<StepDefinition> steps;
+        private static List<IStepDefinition> steps;
 
-        private static List<StepDefinition> Steps
+        private static List<IStepDefinition> Steps
         {
-            get { return steps ?? (steps = new List<StepDefinition>()); }
+            get { return steps ?? (steps = new List<IStepDefinition>()); }
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace Xbehave.Sdk
         /// </summary>
         /// <param name="text">The natural language associated with step.</param>
         /// <param name="body">The body of the step.</param>
-        /// <returns>A <see cref="StepDefinition"/>.</returns>
-        public static StepDefinition CreateAndAdd(string text, Func<IStepContext, Task> body)
+        /// <returns>A <see cref="IStepDefinition"/>.</returns>
+        public static IStepDefinition CreateAndAdd(string text, Func<IStepContext, Task> body)
         {
             var step = new StepDefinition(EmbellishStepText(text), body);
             Steps.Add(step);
@@ -57,11 +57,11 @@ namespace Xbehave.Sdk
         }
 
         /// <summary>
-        /// Removes all the <see cref="StepDefinition"/> instances from the <see cref="ThreadStaticStepHub"/>
+        /// Removes all the <see cref="IStepDefinition"/> instances from the <see cref="ThreadStaticStepHub"/>
         /// which were created on the current thread.
         /// </summary>
         /// <returns>A <see cref="IList{T}"/> of <see cref="StepDefinition"/> instances.</returns>
-        public static IList<StepDefinition> RemoveAll()
+        public static IList<IStepDefinition> RemoveAll()
         {
             try
             {

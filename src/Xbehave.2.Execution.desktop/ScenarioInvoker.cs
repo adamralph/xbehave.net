@@ -196,7 +196,7 @@ namespace Xbehave.Execution
             return runSummary;
         }
 
-        private async Task<RunSummary> InvokeStepsAsync(ICollection<StepDefinition> stepDefinitions)
+        private async Task<RunSummary> InvokeStepsAsync(ICollection<IStepDefinition> stepDefinitions)
         {
             var summary = new RunSummary();
             string skipReason = null;

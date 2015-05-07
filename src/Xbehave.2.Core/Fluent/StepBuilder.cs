@@ -10,7 +10,7 @@ namespace Xbehave.Fluent
 
     internal class StepBuilder : IStepBuilder
     {
-        private readonly StepDefinition step;
+        private readonly IStepDefinition step;
 
         public StepBuilder(string text, Func<IStepContext, Task> body)
         {
