@@ -27,7 +27,6 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("body", body);
             Guard.AgainstNullArgument("aggregator", aggregator);
             Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
 
@@ -61,27 +60,30 @@ namespace Xbehave.Execution
         private async Task<IDisposable[]> InvokeBodyAsync()
         {
             var stepContext = new StepContext(this.step);
-            var oldSyncContext = SynchronizationContext.Current;
-            try
+            if (this.body != null)
             {
-                var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
-                SetSynchronizationContext(asyncSyncContext);
+                var oldSyncContext = SynchronizationContext.Current;
+                try
+                {
+                    var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
+                    SetSynchronizationContext(asyncSyncContext);
 
-                await this.aggregator.RunAsync(
-                    () => this.timer.AggregateAsync(
-                        async () =>
-                        {
-                            await this.body(stepContext);
-                            var ex = await asyncSyncContext.WaitForCompletionAsync();
-                            if (ex != null)
+                    await this.aggregator.RunAsync(
+                        () => this.timer.AggregateAsync(
+                            async () =>
                             {
-                                this.aggregator.Add(ex);
-                            }
-                        }));
-            }
-            finally
-            {
-                SetSynchronizationContext(oldSyncContext);
+                                await this.body(stepContext);
+                                var ex = await asyncSyncContext.WaitForCompletionAsync();
+                                if (ex != null)
+                                {
+                                    this.aggregator.Add(ex);
+                                }
+                            }));
+                }
+                finally
+                {
+                    SetSynchronizationContext(oldSyncContext);
+                }
             }
 
             return stepContext.Disposables.ToArray();

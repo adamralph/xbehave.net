@@ -97,7 +97,11 @@ namespace Xbehave.Execution
         }
 
         private static string GetStepDisplayName(
-            string scenarioDisplayName, int stepNumber, string stepNameFormat, IEnumerable<object> scenarioMethodArguments)
+            string scenarioDisplayName,
+            int stepNumber,
+            bool isBackgroundStep,
+            string stepNameFormat,
+            IEnumerable<object> scenarioMethodArguments)
         {
             string stepName;
             try
@@ -114,9 +118,10 @@ namespace Xbehave.Execution
 
             return string.Format(
                 CultureInfo.InvariantCulture,
-                "{0} [{1}] {2}",
+                "{0} [{1}] {2}{3}",
                 scenarioDisplayName,
                 stepNumber.ToString("D2", CultureInfo.InvariantCulture),
+                isBackgroundStep ? "(Background) " : null,
                 stepName);
         }
 
@@ -206,7 +211,11 @@ namespace Xbehave.Execution
                 item.definition.SkipReason = item.definition.SkipReason ?? skipReason;
 
                 var stepDisplayName = GetStepDisplayName(
-                    this.scenario.DisplayName, item.index + 1, item.definition.Text, this.scenarioMethodArguments);
+                    this.scenario.DisplayName,
+                    item.index + 1,
+                    item.definition.IsBackgroundStep,
+                    item.definition.Text,
+                    this.scenarioMethodArguments);
 
                 var step = new Step(this.scenario, stepDisplayName);
 
@@ -237,7 +246,7 @@ namespace Xbehave.Execution
 
                 summary.Aggregate(await stepRunner.RunAsync());
                 teardowns.AddRange(stepRunner.Disposables.Select(disposable => (Action)disposable.Dispose)
-                    .Concat(item.definition.Teardowns).ToArray());
+                    .Concat(item.definition.Teardowns.Where(teardown => teardown != null)).ToArray());
             }
 
             if (teardowns.Any())
@@ -258,7 +267,11 @@ namespace Xbehave.Execution
                     summary.Total++;
 
                     var stepDisplayName = GetStepDisplayName(
-                        this.scenario.DisplayName, stepDefinitions.Count + 1, "(Teardown)", this.scenarioMethodArguments);
+                        this.scenario.DisplayName,
+                        stepDefinitions.Count + 1,
+                        false,
+                        "(Teardown)",
+                        this.scenarioMethodArguments);
 
                     this.messageBus.Queue(
                         new Step(this.scenario, stepDisplayName),

@@ -51,7 +51,13 @@ namespace Xbehave.Sdk
         /// <returns>A <see cref="IStepDefinition"/>.</returns>
         public static IStepDefinition CreateAndAdd(string text, Func<IStepContext, Task> body)
         {
-            var step = new StepDefinition(EmbellishStepText(text), body);
+            var step = new StepDefinition
+            {
+                Body = body,
+                IsBackgroundStep = creatingBackgroundSteps,
+                Text = text,
+            };
+
             Steps.Add(step);
             return step;
         }
@@ -71,11 +77,6 @@ namespace Xbehave.Sdk
             {
                 steps = null;
             }
-        }
-
-        private static string EmbellishStepText(string text)
-        {
-            return creatingBackgroundSteps ? "(Background) " + text : text;
         }
 
         private sealed class BackgroundStepCreation : IDisposable

@@ -17,19 +17,19 @@ namespace Xbehave.Sdk
     public interface IStepDefinition
     {
         /// <summary>
-        /// Gets the natural language associated with step.
+        /// Gets or sets the natural language associated with step.
         /// </summary>
-        string Text { get; }
+        string Text { get; set; }
 
         /// <summary>
-        /// Gets the body of the step.
+        /// Gets or sets the body of the step.
         /// </summary>
-        Func<IStepContext, Task> Body { get; }
+        Func<IStepContext, Task> Body { get; set;  }
 
         /// <summary>
         /// Gets the teardowns to be invoked after the execution of the scenario in which the step participates.
         /// </summary>
-        IReadOnlyList<Action> Teardowns { get; }
+        ICollection<Action> Teardowns { get; }
 
         /// <summary>
         /// Gets or sets the reason for skipping this step.
@@ -42,9 +42,8 @@ namespace Xbehave.Sdk
         bool ContinueOnFailure { get; set; }
 
         /// <summary>
-        /// Adds a teardown to be invoked after the execution of the scenario in which the step participates.
+        /// Gets or sets a value indicating whether the step is a background step.
         /// </summary>
-        /// <param name="teardown">The body of the teardown.</param>
-        void Add(Action teardown);
+        bool IsBackgroundStep { get; set; }
     }
 }
