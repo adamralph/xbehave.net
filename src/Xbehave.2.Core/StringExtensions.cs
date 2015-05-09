@@ -27,13 +27,18 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepDefinition x(this string text, Action body)
         {
-            return ThreadStaticStepHub.CreateAndAdd(
-                text,
-                c =>
+            var stepDefinition = new StepDefinition
+            {
+                Text = text,
+                Body = c =>
                 {
                     body();
                     return Task.FromResult(0);
-                });
+                },
+            };
+
+            CurrentThread.StepDefinitions.Add(stepDefinition);
+            return stepDefinition;
         }
 
         /// <summary>
@@ -81,13 +86,18 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepDefinition x(this string text, Action<IStepContext> body)
         {
-            return ThreadStaticStepHub.CreateAndAdd(
-                text,
-                c =>
+            var stepDefinition = new StepDefinition
+            {
+                Text = text,
+                Body = c =>
                 {
                     body(c);
                     return Task.FromResult(0);
-                });
+                },
+            };
+
+            CurrentThread.StepDefinitions.Add(stepDefinition);
+            return stepDefinition;
         }
 
         /// <summary>

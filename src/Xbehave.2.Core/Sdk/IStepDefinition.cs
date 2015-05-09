@@ -40,10 +40,5 @@ namespace Xbehave.Sdk
         /// Gets or sets a value indicating whether to continue execution of remaining steps even if this step fails.
         /// </summary>
         bool ContinueOnFailure { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the step is a background step.
-        /// </summary>
-        bool IsBackgroundStep { get; set; }
     }
 }

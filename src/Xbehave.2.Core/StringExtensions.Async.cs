@@ -27,7 +27,9 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepDefinition x(this string text, Func<Task> body)
         {
-            return ThreadStaticStepHub.CreateAndAdd(text, c => body());
+            var stepDefinition = new StepDefinition { Text = text, Body = c => body(), };
+            CurrentThread.StepDefinitions.Add(stepDefinition);
+            return stepDefinition;
         }
 
         /// <summary>
@@ -43,7 +45,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepDefinition f(this string text, Func<Task> body)
         {
-            return ThreadStaticStepHub.CreateAndAdd(text, c => body());
+            return text.x(body);
         }
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace Xbehave
         [CLSCompliant(false)]
         public static IStepDefinition _(this string text, Func<Task> body)
         {
-            return ThreadStaticStepHub.CreateAndAdd(text, c => body());
+            return text.x(body);
         }
 
         /// <summary>
@@ -75,7 +77,9 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepDefinition x(this string text, Func<IStepContext, Task> body)
         {
-            return ThreadStaticStepHub.CreateAndAdd(text, body);
+            var stepDefinition = new StepDefinition { Text = text, Body = body, };
+            CurrentThread.StepDefinitions.Add(stepDefinition);
+            return stepDefinition;
         }
 
         /// <summary>
@@ -91,7 +95,7 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepDefinition f(this string text, Func<IStepContext, Task> body)
         {
-            return ThreadStaticStepHub.CreateAndAdd(text, body);
+            return text.x(body);
         }
 
         /// <summary>
@@ -107,7 +111,7 @@ namespace Xbehave
         [CLSCompliant(false)]
         public static IStepDefinition _(this string text, Func<IStepContext, Task> body)
         {
-            return ThreadStaticStepHub.CreateAndAdd(text, body);
+            return text.x(body);
         }
     }
 }
