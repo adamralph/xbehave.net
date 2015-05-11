@@ -30,11 +30,13 @@ namespace Xbehave
             var stepDefinition = new StepDefinition
             {
                 Text = text,
-                Body = c =>
-                {
-                    body();
-                    return Task.FromResult(0);
-                },
+                Body = body == null
+                    ? default(Func<IStepContext, Task>)
+                    : c =>
+                        {
+                            body();
+                            return Task.FromResult(0);
+                        },
             };
 
             CurrentThread.StepDefinitions.Add(stepDefinition);
@@ -89,11 +91,13 @@ namespace Xbehave
             var stepDefinition = new StepDefinition
             {
                 Text = text,
-                Body = c =>
-                {
-                    body(c);
-                    return Task.FromResult(0);
-                },
+                Body = body == null
+                    ? default(Func<IStepContext, Task>)
+                    : c =>
+                        {
+                            body(c);
+                            return Task.FromResult(0);
+                        },
             };
 
             CurrentThread.StepDefinitions.Add(stepDefinition);

@@ -27,7 +27,12 @@ namespace Xbehave
         [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepDefinition x(this string text, Func<Task> body)
         {
-            var stepDefinition = new StepDefinition { Text = text, Body = c => body(), };
+            var stepDefinition = new StepDefinition
+            {
+                Text = text,
+                Body = body == null ? default(Func<IStepContext, Task>) : c => body(),
+            };
+
             CurrentThread.StepDefinitions.Add(stepDefinition);
             return stepDefinition;
         }
