@@ -70,6 +70,7 @@
     <Compile Include="BackgroundAttribute.cs" />
     <Compile Include="DisposableExtensions.cs" />
     <Compile Include="ExampleAttribute.cs" />
+    <Compile Include="Sdk\RemainingSteps.cs" />
     <Compile Include="StepDefinitionExtensions.cs" />
     <Compile Include="Sdk\IStepContext.cs" />
     <Compile Include="ScenarioAttribute.cs" />

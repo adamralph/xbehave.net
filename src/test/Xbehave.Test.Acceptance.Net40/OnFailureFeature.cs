@@ -1,4 +1,4 @@
-﻿// <copyright file="ContinueOnFailureFeature.cs" company="xBehave.net contributors">
+﻿// <copyright file="OnFailureFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -8,10 +8,11 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Linq;
     using FluentAssertions;
+    using Xbehave.Sdk;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Abstractions;
 
-    public class ContinueOnFailureFeature : Feature
+    public class OnFailureFeature : Feature
     {
         [Scenario]
         public void FailureBeforeForcedStep(Type feature, ITestResultMessage[] results)
@@ -61,7 +62,7 @@ namespace Xbehave.Test.Acceptance
                     {
                         throw new InvalidOperationException("oops");
                     })
-                    .ContinueOnFailure();
+                    .OnFailure(RemainingSteps.Run);
 
                 "And something"
                     .f(() => { });
@@ -90,7 +91,7 @@ namespace Xbehave.Test.Acceptance
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Abstractions;
 
-    public class ContinueOnFailureFeature : Feature
+    public class OnFailureFeature : Feature
     {
         [Scenario]
         public void FailureBeforeContinuationStep(Type feature, ITestResultMessage[] results)

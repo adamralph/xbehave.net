@@ -45,30 +45,18 @@ namespace Xbehave
         }
 
         /// <summary>
-        /// Continue execution of remaining steps even if this step fails.
+        /// Defines the behavior of remaining steps if this step fails.
         /// </summary>
         /// <param name="stepDefinition">The step definition.</param>
+        /// <param name="remainingSteps">The behavior of remaining steps.</param>
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition ContinueOnFailure(this IStepDefinition stepDefinition)
-        {
-            return stepDefinition.ContinueOnFailure(true);
-        }
-
-        /// <summary>
-        /// Continue execution of remaining steps even if this step fails.
-        /// </summary>
-        /// <param name="stepDefinition">The step definition.</param>
-        /// <param name="continue">Whether to continue.</param>
-        /// <returns>
-        /// An instance of <see cref="IStepDefinition"/>.
-        /// </returns>
-        public static IStepDefinition ContinueOnFailure(this IStepDefinition stepDefinition, bool @continue)
+        public static IStepDefinition OnFailure(this IStepDefinition stepDefinition, RemainingSteps remainingSteps)
         {
             Guard.AgainstNullArgument("stepDefinition", stepDefinition);
 
-            stepDefinition.ContinueOnFailure = @continue;
+            stepDefinition.OnFailure = remainingSteps;
             return stepDefinition;
         }
     }

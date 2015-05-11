@@ -25,7 +25,7 @@ namespace Xbehave.Sdk
 
         public string SkipReason { get; set; }
 
-        public bool ContinueOnFailure { get; set; }
+        public RemainingSteps OnFailure { get; set; }
 
         public bool IsBackgroundStep { get; set; }
     }

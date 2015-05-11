@@ -9,10 +9,7 @@ namespace Xbehave.Sdk
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Provides the natural language associated with a step, the body of the step,
-    /// the teardowns to be invoked after the execution of the scenario in which the step participates,
-    /// the objects to be disposed after the execution of the scenario in which the step participates and
-    /// a reason for skipping the step.
+    /// Provides the definition of a step within a scenario.
     /// </summary>
     public interface IStepDefinition
     {
@@ -37,8 +34,8 @@ namespace Xbehave.Sdk
         string SkipReason { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to continue execution of remaining steps even if this step fails.
+        /// Gets or sets the behavior of remaining steps if this step fails.
         /// </summary>
-        bool ContinueOnFailure { get; set; }
+        RemainingSteps OnFailure { get; set; }
     }
 }

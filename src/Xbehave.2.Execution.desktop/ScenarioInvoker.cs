@@ -242,7 +242,7 @@ namespace Xbehave.Execution
                     this.messageBus,
                     message =>
                     {
-                        if (message is ITestFailed && !stepDefinition.ContinueOnFailure)
+                        if (message is ITestFailed && stepDefinition.OnFailure == RemainingSteps.Skip)
                         {
                             skipReason = string.Format(
                                 CultureInfo.InvariantCulture,
