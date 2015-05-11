@@ -50,7 +50,6 @@ namespace Xbehave.Execution
                 this.MessageBus,
                 this.TestClass,
                 this.ConstructorArguments,
-                this.TestMethod,
                 this.SkipReason,
                 this.BeforeAfterAttributes,
                 this.Aggregator,
