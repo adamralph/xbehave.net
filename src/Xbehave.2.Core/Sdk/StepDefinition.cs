@@ -25,8 +25,41 @@ namespace Xbehave.Sdk
 
         public string SkipReason { get; set; }
 
-        public RemainingSteps OnFailure { get; set; }
+        public RemainingSteps FailureBehavior { get; set; }
 
         public bool IsBackgroundStep { get; set; }
+
+        public IStepDefinition Skip(string reason)
+        {
+            this.SkipReason = reason;
+            return this;
+        }
+
+        public IStepDefinition Teardown(Action action)
+        {
+            this.Teardowns.Add(action);
+            return this;
+        }
+
+        public IStepDefinition Failure(RemainingSteps behavior)
+        {
+            this.FailureBehavior = behavior;
+            return this;
+        }
+
+        IStepBuilder IStepBuilder.Skip(string reason)
+        {
+            return this.Skip(reason);
+        }
+
+        IStepBuilder IStepBuilder.Teardown(Action action)
+        {
+            return this.Teardown(action);
+        }
+
+        IStepBuilder IStepBuilder.Failure(RemainingSteps behavior)
+        {
+            return this.Failure(behavior);
+        }
     }
 }

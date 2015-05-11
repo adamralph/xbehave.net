@@ -5,7 +5,7 @@
 namespace Xbehave.Sdk
 {
     /// <summary>
-    /// Indicates the behavior of remaining steps.
+    /// Indicates the behavior of remaining steps when a step fails.
     /// </summary>
     public enum RemainingSteps
     {
