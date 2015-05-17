@@ -221,11 +221,22 @@ namespace Xbehave.Execution
         private async Task<RunSummary> InvokeStepsAsync(
             ICollection<IStepDefinition> backGroundStepDefinitions, ICollection<IStepDefinition> scenarioStepDefinitions)
         {
+            var filters = this.scenarioClass.Assembly.GetCustomAttributes(typeof(Attribute))
+                .Concat(this.scenarioClass.GetCustomAttributes(typeof(Attribute)))
+                .Concat(this.scenarioMethod.GetCustomAttributes(typeof(Attribute)))
+                .OfType<IFilter<IStepDefinition>>();
+
+            var stepDefinitions = filters
+                .Aggregate(
+                    backGroundStepDefinitions.Concat(scenarioStepDefinitions),
+                    (current, filter) => filter.Filter(current))
+                .ToArray();
+
             var summary = new RunSummary();
             string skipReason = null;
             var teardowns = new List<Action>();
             var stepNumber = 0;
-            foreach (var stepDefinition in backGroundStepDefinitions.Concat(scenarioStepDefinitions))
+            foreach (var stepDefinition in stepDefinitions)
             {
                 stepDefinition.SkipReason = stepDefinition.SkipReason ?? skipReason;
 

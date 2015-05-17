@@ -65,6 +65,7 @@
     <Compile Include="..\Xbehave.Net40\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Sdk\IFilter.cs" />
     <Compile Include="Sdk\IStep.cs" />
     <Compile Include="Sdk\IScenario.cs" />
     <Compile Include="BackgroundAttribute.cs" />
