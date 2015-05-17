@@ -62,7 +62,7 @@ namespace Xbehave.Test.Acceptance
                     {
                         throw new InvalidOperationException("oops");
                     })
-                    .OnFailure(RemainingSteps.Run);
+                    .Failure(RemainingSteps.Run);
 
                 "And something"
                     .f(() => { });

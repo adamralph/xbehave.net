@@ -52,7 +52,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        public static IStepDefinition OnFailure(this IStepDefinition stepDefinition, RemainingSteps remainingSteps)
+        public static IStepDefinition Failure(this IStepDefinition stepDefinition, RemainingSteps remainingSteps)
         {
             Guard.AgainstNullArgument("stepDefinition", stepDefinition);
 
