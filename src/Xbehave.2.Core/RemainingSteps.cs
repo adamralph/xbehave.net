@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Sdk
+namespace Xbehave
 {
     /// <summary>
     /// Indicates the behavior of remaining steps when a step fails.

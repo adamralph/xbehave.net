@@ -8,7 +8,6 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Linq;
     using FluentAssertions;
-    using Xbehave.Sdk;
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Abstractions;
 
