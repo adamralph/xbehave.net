@@ -78,7 +78,6 @@
     <Compile Include="Sdk\CurrentThread.cs" />
     <Compile Include="Sdk\Guard.cs" />
     <Compile Include="Sdk\StepDefinition.cs" />
-    <Compile Include="StringExtensions.Async.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
