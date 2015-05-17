@@ -8,6 +8,7 @@ namespace Xbehave.Execution
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Reflection;
     using System.Threading;
     using Xbehave.Execution.Extensions;
@@ -16,11 +17,11 @@ namespace Xbehave.Execution
 
     public class ScenarioRunnerFactory
     {
-        private static readonly ITypeInfo objectTypeInfo = Reflector.Wrap(typeof(object));
+        private static readonly ITypeInfo objectType = Reflector.Wrap(typeof(object));
 
         private readonly IXunitTestCase scenarioOutline;
-        private readonly MethodInfo scenarioMethod;
-        private readonly string baseDisplayName;
+        private readonly IMethodInfo scenarioOutlineMethod;
+        private readonly string scenarioOutlineDisplayName;
         private readonly IMessageBus messageBus;
         private readonly Type scenarioClass;
         private readonly object[] constructorArguments;
@@ -31,11 +32,10 @@ namespace Xbehave.Execution
 
         public ScenarioRunnerFactory(
             IXunitTestCase scenarioOutline,
-            string baseDisplayName,
+            string scenarioOutlineDisplayName,
             IMessageBus messageBus,
             Type scenarioClass,
             object[] constructorArguments,
-            MethodInfo scenarioMethod,
             string skipReason,
             IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes,
             ExceptionAggregator aggregator,
@@ -45,14 +45,12 @@ namespace Xbehave.Execution
             Guard.AgainstNullArgumentProperty("scenarioOutline", "TestMethod", scenarioOutline.TestMethod);
             Guard.AgainstNullArgumentProperty("scenarioOutline", "TestMethod.Method", scenarioOutline.TestMethod.Method);
 
-            Guard.AgainstNullArgument("scenarioMethod", scenarioMethod);
-
             this.scenarioOutline = scenarioOutline;
-            this.baseDisplayName = baseDisplayName;
+            this.scenarioOutlineMethod = scenarioOutline.TestMethod.Method;
+            this.scenarioOutlineDisplayName = scenarioOutlineDisplayName;
             this.messageBus = messageBus;
             this.scenarioClass = scenarioClass;
             this.constructorArguments = constructorArguments;
-            this.scenarioMethod = scenarioMethod;
             this.skipReason = skipReason;
             this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
             this.aggregator = aggregator;
@@ -61,40 +59,98 @@ namespace Xbehave.Execution
 
         public ScenarioRunner Create(object[] scenarioMethodArguments)
         {
-            var parameters = this.scenarioOutline.TestMethod.Method.GetParameters().ToArray();
+            var parameters = this.scenarioOutlineMethod.GetParameters().ToArray();
+            var typeParameters = this.scenarioOutlineMethod.GetGenericArguments().ToArray();
 
             ITypeInfo[] typeArguments;
-            MethodInfo closedScenarioMethod;
-            if (this.scenarioMethod.IsGenericMethodDefinition)
+            MethodInfo scenarioMethod;
+            if (this.scenarioOutlineMethod.IsGenericMethodDefinition)
             {
-                typeArguments = this.scenarioOutline.TestMethod.Method.GetGenericArguments()
-                    .Select(typeParameter =>
-                        ResolveTypeArgument(typeParameter, parameters, scenarioMethodArguments.ToArray()))
+                typeArguments = typeParameters
+                    .Select(typeParameter => InferTypeArgument(typeParameter.Name, parameters, scenarioMethodArguments))
                     .ToArray();
 
-                closedScenarioMethod = this.scenarioMethod.MakeGenericMethod(
-                    typeArguments.Select(t => ((IReflectionTypeInfo)t).Type).ToArray());
+                scenarioMethod = this.scenarioOutlineMethod.MakeGenericMethod(typeArguments.ToArray()).ToRuntimeMethod();
             }
             else
             {
                 typeArguments = new ITypeInfo[0];
-                closedScenarioMethod = this.scenarioMethod;
+                scenarioMethod = this.scenarioOutlineMethod.ToRuntimeMethod();
             }
 
-            var parameterTypes = closedScenarioMethod.GetParameters().Select(p => p.ParameterType).ToArray();
-            var convertedArgumentValues = Reflector.ConvertArguments(scenarioMethodArguments, parameterTypes);
+            var passedArguments = Reflector.ConvertArguments(
+                scenarioMethodArguments, scenarioMethod.GetParameters().Select(p => p.ParameterType).ToArray());
 
-            var generatedArguments = new List<Argument>();
-            for (var missingArgumentIndex = scenarioMethodArguments.Length;
-                missingArgumentIndex < parameters.Length;
+            var generatedArguments = GetGeneratedArguments(
+                typeParameters, typeArguments, parameters, passedArguments.Length);
+
+            var arguments = passedArguments
+                .Select(value => new Argument(value))
+                .Concat(generatedArguments)
+                .ToArray();
+
+            var scenarioDisplayName = GetScenarioDisplayName(
+                this.scenarioOutlineDisplayName, typeArguments, parameters, arguments);
+
+            var scenario = new Scenario(this.scenarioOutline, scenarioDisplayName);
+
+            return new ScenarioRunner(
+                scenario,
+                this.messageBus,
+                this.scenarioClass,
+                this.constructorArguments,
+                scenarioMethod,
+                arguments.Select(argument => argument.Value).ToArray(),
+                this.skipReason,
+                this.beforeAfterScenarioAttributes,
+                new ExceptionAggregator(this.aggregator),
+                this.cancellationTokenSource);
+        }
+
+        private static ITypeInfo InferTypeArgument(
+            string typeParameterName, IReadOnlyList<IParameterInfo> parameters, IReadOnlyList<object> passedArguments)
+        {
+            var sawNullValue = false;
+            ITypeInfo typeArgument = null;
+            for (var index = 0; index < Math.Min(parameters.Count, passedArguments.Count); ++index)
+            {
+                var parameterType = parameters[index].ParameterType;
+                if (parameterType.IsGenericParameter && parameterType.Name == typeParameterName)
+                {
+                    var passedArgument = passedArguments[index];
+                    if (passedArgument == null)
+                    {
+                        sawNullValue = true;
+                    }
+                    else if (typeArgument == null)
+                    {
+                        typeArgument = Reflector.Wrap(passedArgument.GetType());
+                    }
+                    else if (typeArgument.Name != passedArgument.GetType().FullName)
+                    {
+                        return objectType;
+                    }
+                }
+            }
+
+            return typeArgument == null || (sawNullValue && typeArgument.IsValueType) ? objectType : typeArgument;
+        }
+
+        private static IEnumerable<Argument> GetGeneratedArguments(
+            IReadOnlyList<ITypeInfo> typeParameters,
+            IReadOnlyList<ITypeInfo> typeArguments,
+            IReadOnlyList<IParameterInfo> parameters,
+            int passedArgumentsCount)
+        {
+            for (var missingArgumentIndex = passedArgumentsCount;
+                missingArgumentIndex < parameters.Count;
                 ++missingArgumentIndex)
             {
                 var parameterType = parameters[missingArgumentIndex].ParameterType;
                 if (parameterType.IsGenericParameter)
                 {
                     ITypeInfo concreteType = null;
-                    var typeParameters = this.scenarioOutline.TestMethod.Method.GetGenericArguments().ToArray();
-                    for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
+                    for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Count; ++typeParameterIndex)
                     {
                         var typeParameter = typeParameters[typeParameterIndex];
                         if (typeParameter.Name == parameterType.Name)
@@ -117,99 +173,114 @@ namespace Xbehave.Execution
                     parameterType = concreteType;
                 }
 
-                generatedArguments.Add(new Argument(((IReflectionTypeInfo)parameterType).Type));
+                yield return new Argument(((IReflectionTypeInfo)parameterType).Type);
             }
-
-            var arguments = convertedArgumentValues
-                .Select(value => new Argument(value))
-                .Concat(generatedArguments)
-                .ToArray();
-
-            var scenarioDisplayName = GetScenarioDisplayName(
-                this.scenarioOutline.Method, this.baseDisplayName, arguments, typeArguments);
-
-            return new ScenarioRunner(
-                new Scenario(this.scenarioOutline, scenarioDisplayName),
-                this.messageBus,
-                this.scenarioClass,
-                this.constructorArguments,
-                closedScenarioMethod,
-                arguments.Select(argument => argument.Value).ToArray(),
-                this.skipReason,
-                this.beforeAfterScenarioAttributes,
-                new ExceptionAggregator(this.aggregator),
-                this.cancellationTokenSource);
-        }
-
-        private static ITypeInfo ResolveTypeArgument(
-            ITypeInfo typeParameter, IList<IParameterInfo> parameters, IList<object> argumentValues)
-        {
-            var sawNullValue = false;
-            ITypeInfo type = null;
-            for (var index = 0; index < Math.Min(parameters.Count, argumentValues.Count); ++index)
-            {
-                var parameterType = parameters[index].ParameterType;
-                if (parameterType.IsGenericParameter && parameterType.Name == typeParameter.Name)
-                {
-                    var argumentValue = argumentValues[index];
-                    if (argumentValue == null)
-                    {
-                        sawNullValue = true;
-                    }
-                    else if (type == null)
-                    {
-                        type = Reflector.Wrap(argumentValue.GetType());
-                    }
-                    else if (type.Name != argumentValue.GetType().FullName)
-                    {
-                        return objectTypeInfo;
-                    }
-                }
-            }
-
-            if (type == null)
-            {
-                return objectTypeInfo;
-            }
-
-            return sawNullValue && type.IsValueType ? objectTypeInfo : type;
         }
 
         private static string GetScenarioDisplayName(
-            IMethodInfo method, string baseDisplayName, Argument[] arguments, ITypeInfo[] typeArguments)
+            string scenarioOutlineDisplayName,
+            IReadOnlyList<ITypeInfo> typeArguments,
+            IReadOnlyList<IParameterInfo> parameters,
+            IReadOnlyList<Argument> arguments)
         {
-            if (typeArguments.Length > 0)
-            {
-                baseDisplayName = string.Format(
+            var typeArgumentsString = typeArguments.Any()
+                ? string.Format(
                     CultureInfo.InvariantCulture,
-                    "{0}<{1}>",
-                    baseDisplayName,
-                    string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString())));
-            }
+                    "<{0}>",
+                    string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString())))
+                : string.Empty;
 
-            var parameterTokens = new List<string>();
-            var parameters = method.GetParameters().ToArray();
+            var parameterAndArgumentTokens = new List<string>();
             int parameterIndex;
-            for (parameterIndex = 0; parameterIndex < arguments.Length; parameterIndex++)
+            for (parameterIndex = 0; parameterIndex < arguments.Count; parameterIndex++)
             {
                 if (arguments[parameterIndex].IsGeneratedDefault)
                 {
                     continue;
                 }
 
-                parameterTokens.Add(string.Concat(
-                    parameterIndex >= parameters.Length ? "???" : parameters[parameterIndex].Name,
+                parameterAndArgumentTokens.Add(string.Concat(
+                    parameterIndex >= parameters.Count ? "???" : parameters[parameterIndex].Name,
                     ": ",
                     arguments[parameterIndex].ToString()));
             }
 
-            for (; parameterIndex < parameters.Length; parameterIndex++)
+            for (; parameterIndex < parameters.Count; parameterIndex++)
             {
-                parameterTokens.Add(parameters[parameterIndex].Name + ": ???");
+                parameterAndArgumentTokens.Add(parameters[parameterIndex].Name + ": ???");
             }
 
             return string.Format(
-                CultureInfo.InvariantCulture, "{0}({1})", baseDisplayName, string.Join(", ", parameterTokens));
+                CultureInfo.InvariantCulture,
+                "{0}{1}({2})",
+                scenarioOutlineDisplayName,
+                typeArgumentsString,
+                string.Join(", ", parameterAndArgumentTokens));
+        }
+
+        private class Argument
+        {
+            private static readonly MethodInfo genericFactoryMethod = CreateGenericFactoryMethod();
+
+            private readonly object value;
+            private readonly bool isGeneratedDefault;
+
+            public Argument(Type type)
+            {
+                Guard.AgainstNullArgument("type", type);
+
+                this.value = genericFactoryMethod.MakeGenericMethod(type).Invoke(null, null);
+                this.isGeneratedDefault = true;
+            }
+
+            public Argument(object value)
+            {
+                this.value = value;
+            }
+
+            public object Value
+            {
+                get { return this.value; }
+            }
+
+            public bool IsGeneratedDefault
+            {
+                get { return this.isGeneratedDefault; }
+            }
+
+            public override string ToString()
+            {
+                if (this.Value == null)
+                {
+                    return "null";
+                }
+
+                if (this.Value is char)
+                {
+                    return "'" + this.Value + "'";
+                }
+
+                var stringArgument = this.Value as string;
+                if (stringArgument != null)
+                {
+                    return stringArgument.Length > 50
+                        ? string.Concat("\"", stringArgument.Substring(0, 50), "\"...")
+                        : string.Concat("\"", stringArgument, "\"");
+                }
+
+                return Convert.ToString(this.Value, CultureInfo.InvariantCulture);
+            }
+
+            private static MethodInfo CreateGenericFactoryMethod()
+            {
+                Expression<Func<object>> template = () => CreateDefault<object>();
+                return ((MethodCallExpression)template.Body).Method.GetGenericMethodDefinition();
+            }
+
+            private static T CreateDefault<T>()
+            {
+                return default(T);
+            }
         }
     }
 }

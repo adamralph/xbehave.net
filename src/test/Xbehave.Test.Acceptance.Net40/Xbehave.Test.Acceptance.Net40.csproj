@@ -83,7 +83,7 @@
     <Compile Include="BeforeAfterTestFeature.cs" />
     <Compile Include="BackgroundFeature.cs" />
     <Compile Include="Infrastructure\AssemblyExtensions.cs" />
-    <Compile Include="ContinueOnFailureFeature.cs" />
+    <Compile Include="OnFailureFeature.cs" />
     <Compile Include="DefaultParametersFeature.cs" />
     <Compile Include="Infrastructure\Xunit2DiscovererExtensions.cs" />
     <Compile Include="Infrastructure\Xunit2Extensions.cs" />

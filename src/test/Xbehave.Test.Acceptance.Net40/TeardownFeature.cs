@@ -160,6 +160,14 @@ namespace Xbehave.Test.Acceptance
                     .Should().Equal("step1", "teardown3", "teardown2", "teardown1"));
         }
 
+        [Scenario]
+        public void NullTeardown()
+        {
+            "Given a null body"
+                .f(() => { })
+                .Teardown(default(Action));
+        }
+
         private static class StepWithManyTeardowns
         {
             [Scenario]

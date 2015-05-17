@@ -8,6 +8,9 @@ namespace Xbehave.Test.Acceptance
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using FluentAssertions;
+#if V2
+    using Xbehave.Sdk;
+#endif
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit;
     using Xunit.Abstractions;
@@ -259,6 +262,27 @@ namespace Xbehave.Test.Acceptance
 
             "And the result should be a pass"
                 .f(() => results.Single().Should().BeAssignableTo<ITestPassed>());
+        }
+
+        [Scenario]
+        public void NullStepText()
+        {
+            ((string)null)
+                .f(() => { });
+        }
+
+        [Scenario]
+        public void NullStepBody()
+        {
+            "Given a null body"
+                .f(default(Action));
+        }
+
+        [Scenario]
+        public void NullContextualStepBody()
+        {
+            "Given a null body"
+                .f(default(Action<IStepContext>));
         }
 #endif
 

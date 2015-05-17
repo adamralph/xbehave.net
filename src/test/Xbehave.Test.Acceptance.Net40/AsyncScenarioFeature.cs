@@ -8,7 +8,9 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Threading.Tasks;
     using FluentAssertions;
-    using Xbehave;
+#if V2
+    using Xbehave.Sdk;
+#endif
     using Xbehave.Test.Acceptance.Infrastructure;
     using Xunit.Abstractions;
 
@@ -26,6 +28,22 @@ namespace Xbehave.Test.Acceptance
             "Then the result should be a pass"
                 .f(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
         }
+
+#if V2
+        [Scenario]
+        public void NullStepBody()
+        {
+            "Given a null body"
+                .f(default(Func<Task>));
+        }
+
+        [Scenario]
+        public void NullContextualStepBody()
+        {
+            "Given a null body"
+                .f(default(Func<IStepContext, Task>));
+        }
+#endif
 
         private static class FeatureWithAsyncScenario
         {

@@ -8,7 +8,7 @@ namespace Xbehave.Execution.Extensions
     using System.Linq;
     using Xunit.Abstractions;
 
-    public static class TypeInfoExtensions
+    internal static class TypeInfoExtensions
     {
         public static string ToSimpleString(this ITypeInfo type)
         {

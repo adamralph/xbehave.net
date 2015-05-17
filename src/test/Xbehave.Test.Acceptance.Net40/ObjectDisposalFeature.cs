@@ -167,6 +167,13 @@ namespace Xbehave.Test.Acceptance
                     .Should().Equal("teardown4", "disposed3", "teardown2", "disposed1"));
         }
 
+        [Scenario]
+        public void NullDisposable()
+        {
+            "Given a null body"
+                .f(c => ((IDisposable)null).Using(c));
+        }
+
         private static class AStepWithThreeDisposables
         {
             [Scenario]

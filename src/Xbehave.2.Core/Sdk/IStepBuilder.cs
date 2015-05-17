@@ -2,7 +2,7 @@
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
-namespace Xbehave.Fluent
+namespace Xbehave.Sdk
 {
     using System;
 
@@ -16,6 +16,7 @@ namespace Xbehave.Fluent
         /// </summary>
         /// <param name="reason">The reason for not executing the step.</param>
         /// <returns>An instance of <see cref="IStepBuilder"/>.</returns>
+        /// <remarks>If the <paramref name="reason"/> is <c>null</c> then the step will not be skipped.</remarks>
         IStepBuilder Skip(string reason);
 
         /// <summary>
@@ -29,11 +30,12 @@ namespace Xbehave.Fluent
         IStepBuilder Teardown(Action action);
 
         /// <summary>
-        /// Continue execution of remaining steps even if this step fails.
+        /// Defines the behavior of remaining steps if this step fails.
         /// </summary>
+        /// <param name="behavior">The behavior of remaining steps.</param>
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        IStepBuilder ContinueOnFailure();
+        IStepBuilder OnFailure(RemainingSteps behavior);
     }
 }
