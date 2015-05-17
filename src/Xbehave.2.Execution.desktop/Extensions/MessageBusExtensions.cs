@@ -9,7 +9,7 @@ namespace Xbehave.Execution.Extensions
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public static class MessageBusExtensions
+    internal static class MessageBusExtensions
     {
         public static void Queue(
             this IMessageBus messageBus,
