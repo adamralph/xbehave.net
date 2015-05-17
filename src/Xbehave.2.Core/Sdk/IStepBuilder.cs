@@ -36,6 +36,6 @@ namespace Xbehave.Sdk
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        IStepBuilder Failure(RemainingSteps behavior);
+        IStepBuilder OnFailure(RemainingSteps behavior);
     }
 }

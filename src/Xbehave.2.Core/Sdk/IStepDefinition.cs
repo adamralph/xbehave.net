@@ -37,5 +37,32 @@ namespace Xbehave.Sdk
         /// Gets or sets the behavior of remaining steps if this step fails.
         /// </summary>
         RemainingSteps FailureBehavior { get; set; }
+
+        /// <summary>
+        /// Indicates that the step will not be executed.
+        /// </summary>
+        /// <param name="reason">The reason for not executing the step.</param>
+        /// <returns>An instance of <see cref="IStepDefinition"/>.</returns>
+        /// <remarks>If the <paramref name="reason"/> is <c>null</c> then the step will not be skipped.</remarks>
+        new IStepDefinition Skip(string reason);
+
+        /// <summary>
+        /// Declares a teardown action (related to this step and/or previous steps) which will be executed
+        /// after all steps in the current scenario have been executed.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        new IStepDefinition Teardown(Action action);
+
+        /// <summary>
+        /// Defines the behavior of remaining steps if this step fails.
+        /// </summary>
+        /// <param name="behavior">The behavior of remaining steps.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        new IStepDefinition OnFailure(RemainingSteps behavior);
     }
 }

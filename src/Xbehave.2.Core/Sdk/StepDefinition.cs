@@ -41,7 +41,7 @@ namespace Xbehave.Sdk
             return this;
         }
 
-        public IStepDefinition Failure(RemainingSteps behavior)
+        public IStepDefinition OnFailure(RemainingSteps behavior)
         {
             this.FailureBehavior = behavior;
             return this;
@@ -57,9 +57,9 @@ namespace Xbehave.Sdk
             return this.Teardown(action);
         }
 
-        IStepBuilder IStepBuilder.Failure(RemainingSteps behavior)
+        IStepBuilder IStepBuilder.OnFailure(RemainingSteps behavior)
         {
-            return this.Failure(behavior);
+            return this.OnFailure(behavior);
         }
     }
 }
