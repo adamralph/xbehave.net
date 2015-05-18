@@ -15,6 +15,7 @@ namespace Xbehave.Sdk
         /// <summary>
         /// Gets the step which owns this context.
         /// </summary>
+        [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "Makes sense here.")]
         IStep Step { get; }
 
         /// <summary>

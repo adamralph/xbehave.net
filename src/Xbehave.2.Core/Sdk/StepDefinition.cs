@@ -27,8 +27,6 @@ namespace Xbehave.Sdk
 
         public RemainingSteps FailureBehavior { get; set; }
 
-        public bool IsBackgroundStep { get; set; }
-
         public IStepDefinition Skip(string reason)
         {
             this.SkipReason = reason;
