@@ -50,7 +50,7 @@ namespace Xbehave.Test.Acceptance
                 .f(() => results.Skip(3).Take(1).Should().ContainItemsAssignableTo<ITestPassed>());
         }
 
-        private class SkipAllAttribute : Attribute, IFilter<IStepDefinition>
+        private sealed class SkipAllAttribute : Attribute, IFilter<IStepDefinition>
         {
             public IEnumerable<IStepDefinition> Filter(IEnumerable<IStepDefinition> steps)
             {
@@ -75,7 +75,7 @@ namespace Xbehave.Test.Acceptance
             }
         }
 
-        private class ContinueAfterThenAttribute : Attribute, IFilter<IStepDefinition>
+        private sealed class ContinueAfterThenAttribute : Attribute, IFilter<IStepDefinition>
         {
             public IEnumerable<IStepDefinition> Filter(IEnumerable<IStepDefinition> steps)
             {

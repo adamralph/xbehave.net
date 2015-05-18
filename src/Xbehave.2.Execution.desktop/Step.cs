@@ -4,10 +4,12 @@
 
 namespace Xbehave.Execution
 {
+    using System.Diagnostics.CodeAnalysis;
     using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
+    [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     public class Step : LongLivedMarshalByRefObject, IStep
     {
         private readonly IScenario scenario;
