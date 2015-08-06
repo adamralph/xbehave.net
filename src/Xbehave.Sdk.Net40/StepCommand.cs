@@ -15,7 +15,7 @@ namespace Xbehave.Sdk
         private readonly Step step;
         private readonly bool stepBeginsContinueOnFailure;
 
-        // TODO (adamralph): provide overload with out stepBeginsContinueOnFailure
+        // NOTE (adamralph): can provide overload with out stepBeginsContinueOnFailure
         public StepCommand(
             MethodCall methodCall, int contextOrdinal, int stepOrdinal, Step step, bool stepBeginsContinueOnFailure, bool omitArgumentsFromScenarioNames)
             : base(methodCall, contextOrdinal, stepOrdinal, omitArgumentsFromScenarioNames)
@@ -43,7 +43,7 @@ namespace Xbehave.Sdk
             }
 
             this.Name = string.Format(provider, "{0} {1}", this.Name, stepName);
-            this.DisplayName = string.Format(CultureInfo.InvariantCulture, "{0} {1}", this.DisplayName, stepName);
+            this.DisplayName = string.Format(provider, "{0} {1}", this.DisplayName, stepName);
         }
 
         public override MethodResult Execute(object testClass)

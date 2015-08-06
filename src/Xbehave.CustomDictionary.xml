@@ -5,6 +5,7 @@
     </Unrecognized>
     <Recognized>
       <Word>Xbehave</Word>
+      <Word>Xunit</Word>
     </Recognized>
     <Deprecated>
       <Term PreferredAlternate=""/>

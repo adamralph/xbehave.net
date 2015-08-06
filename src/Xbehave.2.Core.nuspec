@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Xbehave.Core</id>
+    <version>0.0.0</version>
+    <title>xBehave.net [Core Testing Framework]</title>
+    <authors>Adam Ralph, xBehave.net contributors</authors>
+    <description>Includes the libraries for writing tests with xBehave.net.
+Installing this package installs xunit.core.</description>
+    <language>en-US</language>
+    <projectUrl>http://xbehave.github.io/</projectUrl>
+    <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
+    <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/license.txt</licenseUrl>
+    <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
+    <tags>xUnit.net BDD test TDD</tags>
+    <dependencies>
+      <dependency id="xunit.core" version="[2.0.0,3)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="Xbehave.2.Core\bin\Release\Xbehave.Core.dll" target="lib\portable-net45" />
+    <file src="Xbehave.2.Core\bin\Release\Xbehave.Core.pdb" target="lib\portable-net45" />
+    <file src="Xbehave.2.Core\bin\Release\Xbehave.Core.xml" target="lib\portable-net45" />
+
+    <!-- execution -->
+
+    <!-- common -->
+    <file src="Xbehave.2.Execution.desktop\bin\Release\Xbehave.Execution.desktop.dll" target="build\_Desktop\" />
+
+    <!-- portable -->
+    <file src="Xbehave.2.Core\Xbehave.Core.WithDesktop.props" target="build\portable-net45\Xbehave.Core.props" />
+  </files>
+</package>

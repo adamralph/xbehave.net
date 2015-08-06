@@ -4,7 +4,6 @@
 
 namespace Xbehave.Sdk
 {
-    using System;
     using Xunit.Sdk;
 
     public class ReplayCommand : TestCommand

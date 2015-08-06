@@ -6,7 +6,6 @@ namespace Xbehave.Sdk
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Threading;
     using Xunit.Sdk;
 
@@ -25,8 +24,6 @@ namespace Xbehave.Sdk
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Capturing an re-throwing an exception from another thread.")]
         public override void Execute()
         {
-            var teardowns = Enumerable.Empty<Action>();
-
             try
             {
                 Exception exception = null;

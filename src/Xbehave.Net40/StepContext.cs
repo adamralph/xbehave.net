@@ -10,9 +10,9 @@ namespace Xbehave
 #endif
     using Xbehave.Sdk;
 
-    internal partial class StepContext : IStepContext
+    internal class StepContext : IStepContext
     {
-        private Step step;
+        private readonly Step step;
 
         public StepContext(string text, Action<IStepContext> body, StepType stepType)
         {

@@ -26,7 +26,7 @@ namespace Xbehave
     /// <see cref="Xunit.Extensions.SqlServerDataAttribute"/>,
     /// <see cref="Xunit.Extensions.ExcelDataAttribute"/> or
     /// <see cref="Xunit.Extensions.PropertyDataAttribute"/>.
-    /// </summary>    
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
@@ -71,7 +71,7 @@ namespace Xbehave
             var omitArguments = omitArgumentsAttribute == null ? false : omitArgumentsAttribute.Enabled;
 
             // NOTE: this is not in the try catch since we are yielding internally
-            // TODO: address this - see http://stackoverflow.com/a/346772/49241
+            // NOTE: can address this - see http://stackoverflow.com/a/346772/49241
             return scenarioCommands.SelectMany(c => CurrentScenario.ExtractCommands(c.MethodCall, backgroundCommands.Concat(new[] { c }), continueOnFailureStepType, omitArguments));
         }
 
@@ -117,7 +117,7 @@ namespace Xbehave
             foreach (var arguments in GetArgumentCollections(method.MethodInfo))
             {
                 var closedTypeMethod = method;
-                Type[] typeArguments = null;
+                var typeArguments = new Type[0];
                 if (method.MethodInfo != null && method.MethodInfo.IsGenericMethodDefinition)
                 {
                     typeArguments = ResolveTypeArguments(method, arguments).ToArray();
@@ -131,13 +131,16 @@ namespace Xbehave
                     if (parameterType.IsGenericParameter)
                     {
                         Type concreteType = null;
-                        var typeParameters = method.MethodInfo.GetGenericArguments();
-                        for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
+                        if (method.MethodInfo != null)
                         {
-                            if (typeParameters[typeParameterIndex] == parameterType)
+                            var typeParameters = method.MethodInfo.GetGenericArguments();
+                            for (var typeParameterIndex = 0; typeParameterIndex < typeParameters.Length; ++typeParameterIndex)
                             {
-                                concreteType = typeArguments[typeParameterIndex];
-                                break;
+                                if (typeParameters[typeParameterIndex] == parameterType)
+                                {
+                                    concreteType = typeArguments[typeParameterIndex];
+                                    break;
+                                }
                             }
                         }
 
