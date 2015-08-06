@@ -1,7 +1,7 @@
 require 'albacore'
 
 version_suffix1 = ENV["VERSION_SUFFIX1"] || ""
-version_suffix2 = ENV["VERSION_SUFFIX2"] || "-alpha"
+version_suffix2 = ENV["VERSION_SUFFIX2"] || ""
 build_number    = ENV["BUILD_NUMBER"]    || "000000"
 build_number_suffix1 = version_suffix1 == "" ? "" : "-build" + build_number
 build_number_suffix2 = version_suffix2 == "" ? "" : "-build" + build_number
