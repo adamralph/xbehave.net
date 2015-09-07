@@ -95,6 +95,7 @@
     <Compile Include="..\Xbehave.Test.Acceptance.Net40\**\*.cs">
       <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Compile>
+    <Compile Include="ArgumentFormattingFeature.cs" />
     <Compile Include="GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
