@@ -202,7 +202,7 @@ namespace Xbehave.Execution
                 parameterAndArgumentTokens.Add(string.Concat(
                     parameterIndex >= parameters.Count ? "???" : parameters[parameterIndex].Name,
                     ": ",
-                    arguments[parameterIndex].ToString()));
+                    ArgumentFormatter.Format(arguments[parameterIndex].Value)));
             }
 
             for (; parameterIndex < parameters.Count; parameterIndex++)
