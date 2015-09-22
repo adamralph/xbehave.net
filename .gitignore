@@ -6,6 +6,7 @@ obj
 Thumbs.db
 *.sln.ide
 
+/src/.vs/*
 /src/packages/*
 !/src/packages/NuGet.CommandLine.*
 /src/packages/NuGet.CommandLine.*/*
@@ -14,3 +15,5 @@ Thumbs.db
 /src/packages/NuGet.CommandLine.*/tools/*
 /src/packages/NuGet.CommandLine.*/tools/*.*
 !/src/packages/NuGet.CommandLine.*/tools/NuGet.exe
+
+project.lock.json
