@@ -4,9 +4,11 @@
 
 namespace Xbehave.Execution.Extensions
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
     using System.Threading.Tasks;
+    using Xunit.Sdk;
 
     internal static class MethodInfoExtensions
     {
@@ -14,6 +16,13 @@ namespace Xbehave.Execution.Extensions
         public static async Task InvokeAsync(this MethodInfo method, object obj, object[] arguments)
         {
             Guard.AgainstNullArgument("method", method);
+
+            var parameters = method.GetParameters();
+            var parameterTypes = new Type[parameters.Length];
+            for (int i = 0; i < parameters.Length; i++)
+                parameterTypes[i] = parameters[i].ParameterType;
+
+            Reflector.ConvertArguments(arguments, parameterTypes);
 
             var result = method.Invoke(obj, arguments);
             var task = result as Task;

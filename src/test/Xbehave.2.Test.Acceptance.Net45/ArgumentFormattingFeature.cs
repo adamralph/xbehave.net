@@ -22,8 +22,8 @@ namespace Xbehave.Test.Acceptance
         }
 
         [Scenario]
-        [Example(new object[] { "one", "two" }, new object[] { 1, 2 })]
-        public void Arrays(object[] words, object[] numbers, IStepContext stepContext)
+        [Example(new[] { "one", "two" }, new[] { 1, 2 })]
+        public void Arrays(string[] words, int[] numbers, IStepContext stepContext)
         {
             "When I execute a step"
                 .f(c => stepContext = c);
