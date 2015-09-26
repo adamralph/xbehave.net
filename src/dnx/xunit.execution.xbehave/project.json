@@ -7,20 +7,20 @@
   "licenseUrl": "https://github.com/xbehave/xbehave.net/blob/dev/license.txt",
 
   "compile": [
-    "../Xbehave.2.Execution.desktop/*.cs",
-    "../Xbehave.2.Execution.desktop/Extensions/*.cs"
+    "../../Xbehave.2.Execution.desktop/*.cs",
+    "../../Xbehave.2.Execution.desktop/Extensions/*.cs"
   ],
 
   "dependencies": {
-    "xunit.runner.dnx": "2.1.0-beta5-*",
-    "xunit.core": "2.1.0-rc2-*",
-    "xunit.abstractions": "2.0.0-rc2-*",
+    "xunit.abstractions": "2.0.0-rc4-*",
     "xbehave.core.dnx": "2.1.0-beta1"
   },
 
   "frameworks": {
-    "dnx46": {
+    "dnx451": {
       "frameworkAssemblies": {
+        "System.Threading": "4.0.0.0",
+        "System.Threading.Tasks": "4.0.0.0"
       }
     },
     "dnxcore50": { }

@@ -7,23 +7,27 @@
   "licenseUrl": "https://github.com/xbehave/xbehave.net/blob/dev/license.txt",
 
   "compile": [
-    "../Xbehave.2.Core/*.cs",
-    "../Xbehave.2.Core/Sdk/*.cs"
+    "../../Xbehave.2.Core/*.cs",
+    "../../Xbehave.2.Core/Sdk/*.cs"
   ],
 
   "dependencies": {
     "xunit.core": "2.1.0-rc2-*",
-    "xunit.extensibility.core": "2.1.0-rc2-*",
-    "System.Diagnostics.Tools": "4.0.1-beta-*"
+    "xunit.extensibility.core": "2.1.0-rc2-*"
   },
 
   "frameworks": {
-    "dnx46": {
+    "dnx451": {
       "frameworkAssemblies": {
-        "System.Reflection": "4.0.10.0",
-        "System.Runtime": "4.0.20.0"
+        "System.Runtime": "4.0.0",
+        "System.Reflection": "4.0.0.0"
       }
     },
-    "dnxcore50": { }
+    "dnxcore50": {
+      "dependencies": {
+        "System.Diagnostics.Tools": "4.0.1-beta-*",
+        "System.IO": "4.0.11-beta-*"
+      }
+    }
   }
 }
