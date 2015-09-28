@@ -1,5 +1,5 @@
 ﻿{
-  "version": "2.1.0-beta1",
+  "version": "2.1.0-beta1-3",
   "description": "xBehave.net",
   "authors": [ "xBehave.net contributors" ],
   "tags": [ "" ],
@@ -10,6 +10,10 @@
     "../../Xbehave.2.Core/*.cs",
     "../../Xbehave.2.Core/Sdk/*.cs"
   ],
+
+  "compilationOptions": {
+    "define": [ "PLATFORM_DNX" ]
+  },
 
   "dependencies": {
     "xunit.core": "2.1.0-rc2-*",
