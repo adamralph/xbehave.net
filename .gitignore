@@ -5,12 +5,4 @@ obj
 *.user
 Thumbs.db
 *.sln.ide
-
-/src/packages/*
-!/src/packages/NuGet.CommandLine.*
-/src/packages/NuGet.CommandLine.*/*
-/src/packages/NuGet.CommandLine.*/*.*
-!/src/packages/NuGet.CommandLine.*/tools
-/src/packages/NuGet.CommandLine.*/tools/*
-/src/packages/NuGet.CommandLine.*/tools/*.*
-!/src/packages/NuGet.CommandLine.*/tools/NuGet.exe
+packages
