@@ -105,7 +105,7 @@ namespace Xbehave.Test.Acceptance.Infrastructure
 
         private Xunit2 CreateRunner(string assemblyFileName)
         {
-            this.runners.Add(new Xunit2(new NullSourceInformationProvider(), assemblyFileName));
+            this.runners.Add(new Xunit2(AppDomainSupport.IfAvailable, new NullSourceInformationProvider(), assemblyFileName));
             return this.runners.Last();
         }
     }
