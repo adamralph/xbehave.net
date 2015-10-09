@@ -14,20 +14,15 @@ Installing this package installs xunit.core.</description>
     <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
-      <dependency id="xunit.core" version="[2.0.0,3)" />
+      <dependency id="xunit.core" version="[2.1.0,3)" />
+      <dependency id="xunit.extensibility.execution" version="[2.1.0,3)" />
     </dependencies>
   </metadata>
   <files>
     <file src="Xbehave.2.Core\bin\Release\Xbehave.Core.dll" target="lib\portable-net45" />
     <file src="Xbehave.2.Core\bin\Release\Xbehave.Core.pdb" target="lib\portable-net45" />
     <file src="Xbehave.2.Core\bin\Release\Xbehave.Core.xml" target="lib\portable-net45" />
-
-    <!-- execution -->
-
-    <!-- common -->
-    <file src="Xbehave.2.Execution.desktop\bin\Release\Xbehave.Execution.desktop.dll" target="build\_Desktop\" />
-
-    <!-- portable -->
-    <file src="Xbehave.2.Core\Xbehave.Core.WithDesktop.props" target="build\portable-net45\Xbehave.Core.props" />
+    <file src="Xbehave.2.Execution.desktop\bin\Release\Xbehave.Execution.desktop.dll" target="lib\portable-net45" />
+    <file src="Xbehave.2.Execution.desktop\bin\Release\Xbehave.Execution.desktop.pdb" target="lib\portable-net45" />
   </files>
 </package>
