@@ -1,0 +1,32 @@
+﻿{
+  "version": "2.1.0-beta1-build4",
+  "description": "xBehave.net",
+  "authors": [ "xBehave.net contributors" ],
+  "tags": [ "" ],
+  "projectUrl": "http://xbehave.github.io/",
+  "licenseUrl": "https://github.com/xbehave/xbehave.net/blob/dev/license.txt",
+
+  "compile": [
+    "../../Xbehave.2.Execution.desktop/*.cs",
+    "../../Xbehave.2.Execution.desktop/Extensions/*.cs"
+  ],
+
+  "compilationOptions": {
+    "define": [ "PLATFORM_DNX" ]
+  },
+
+  "dependencies": {
+    "xunit.abstractions": "2.0.0-rc4-build2924",
+    "xbehave.core.dnx": "2.1.0-beta1-*"
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "frameworkAssemblies": {
+        "System.Threading": "4.0.0.0",
+        "System.Threading.Tasks": "4.0.0.0"
+      }
+    },
+    "dnxcore50": { }
+  }
+}

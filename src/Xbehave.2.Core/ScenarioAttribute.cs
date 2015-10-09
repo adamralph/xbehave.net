@@ -19,7 +19,11 @@ namespace Xbehave
     /// E.g. <see cref="Xunit.InlineDataAttribute"/> or
     /// <see cref="Xunit.MemberDataAttribute"/>.
     /// </summary>
+#if PLATFORM_DNX
+    [XunitTestCaseDiscoverer("Xbehave.Execution.ScenarioDiscoverer", "xunit.execution.xbehave")]
+#else
     [XunitTestCaseDiscoverer("Xbehave.Execution.ScenarioDiscoverer", "Xbehave.Execution.{Platform}")]
+#endif
     [AttributeUsage(AttributeTargets.Method)]
     [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
     public class ScenarioAttribute : FactAttribute

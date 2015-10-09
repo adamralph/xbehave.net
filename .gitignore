@@ -6,3 +6,5 @@ obj
 Thumbs.db
 *.sln.ide
 packages
+.vs
+project.lock.json
