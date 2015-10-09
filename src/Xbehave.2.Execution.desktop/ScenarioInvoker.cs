@@ -180,7 +180,12 @@ namespace Xbehave.Execution
             {
                 try
                 {
-                    foreach (var backgroundMethod in this.scenario.TestCase.TestMethod.Method.Type
+#if PLATFORM_DNX
+                    var testType = this.scenario.TestCase.TestMethod.TestClass.Class;
+#else
+                    var testType = this.scenario.TestCase.TestMethod.Method.Type;
+#endif
+                    foreach (var backgroundMethod in testType
                         .GetMethods(false)
                         .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
                         .Select(method => method.ToRuntimeMethod()))
