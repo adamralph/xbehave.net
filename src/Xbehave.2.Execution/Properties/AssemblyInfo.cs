@@ -5,6 +5,10 @@
 using System.Reflection;
 using Xunit.Sdk;
 
-[assembly: AssemblyTitle("xBehave.net Execution")]
+#if PLATFORM_DOTNET
+[assembly: AssemblyTitle("xBehave.net Execution (dotnet)")]
+#else 
+[assembly: AssemblyTitle("xBehave.net Execution (desktop)")]
+#endif
 [assembly: AssemblyDescription("The xBehave.net execution library.")]
 [assembly: PlatformSpecificAssembly]

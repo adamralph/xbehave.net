@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Test.Acceptance.N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution.desktop", "Xbehave.2.Execution.desktop\Xbehave.2.Execution.desktop.csproj", "{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution.dotnet", "Xbehave.2.Execution.dotnet\Xbehave.2.Execution.dotnet.csproj", "{357F07CA-DFED-4616-94BC-74BFFC74279A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{357F07CA-DFED-4616-94BC-74BFFC74279A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{357F07CA-DFED-4616-94BC-74BFFC74279A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{357F07CA-DFED-4616-94BC-74BFFC74279A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{357F07CA-DFED-4616-94BC-74BFFC74279A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
