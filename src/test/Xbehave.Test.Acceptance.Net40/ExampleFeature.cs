@@ -55,6 +55,24 @@ namespace Xbehave.Test.Acceptance
                     result.Test.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
         }
 
+#if V2
+        [Scenario]
+        public void ExamplesWithArrays(Type feature, ITestResultMessage[] results)
+        {
+            "Given a feature with a scenario with array examples"
+                .f(() => feature = typeof(ArrayExamples));
+
+            "When I run the scenarios"
+                .f(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then there should be one result"
+                .f(() => results.Length.Should().Be(1));
+
+            "And the display name of the result should contain '(words: [\"one\", \"two\"], numbers: [1, 2])'"
+                .f(() => results.Single().Test.DisplayName.Should().Contain("(words: [\"one\", \"two\"], numbers: [1, 2])"));
+        }
+#endif
+
         [Scenario]
         public void ExamplesWithMissingValues(Type feature, ITestResultMessage[] results)
         {
@@ -330,6 +348,17 @@ an null value for an argument defined using the fifth type parameter"
                         (x + y).Should().Be(sum);
                         previousSum = sum;
                     });
+            }
+        }
+
+        private static class ArrayExamples
+        {
+            [Scenario]
+            [Example(new[] { "one", "two" }, new[] { 1, 2 })]
+            public static void Scenario(string[] words, int[] numbers)
+            {
+                "Given something"
+                    .f(() => { });
             }
         }
 
