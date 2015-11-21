@@ -202,7 +202,7 @@ namespace Xbehave.Execution
                 parameterAndArgumentTokens.Add(string.Concat(
                     parameterIndex >= parameters.Count ? "???" : parameters[parameterIndex].Name,
                     ": ",
-                    ArgumentFormatter.Format(arguments[parameterIndex].Value)));
+                    arguments[parameterIndex].ToString()));
             }
 
             for (; parameterIndex < parameters.Count; parameterIndex++)
@@ -250,25 +250,7 @@ namespace Xbehave.Execution
 
             public override string ToString()
             {
-                if (this.Value == null)
-                {
-                    return "null";
-                }
-
-                if (this.Value is char)
-                {
-                    return "'" + this.Value + "'";
-                }
-
-                var stringArgument = this.Value as string;
-                if (stringArgument != null)
-                {
-                    return stringArgument.Length > 50
-                        ? string.Concat("\"", stringArgument.Substring(0, 50), "\"...")
-                        : string.Concat("\"", stringArgument, "\"");
-                }
-
-                return Convert.ToString(this.Value, CultureInfo.InvariantCulture);
+                return ArgumentFormatter.Format(this.value);
             }
 
             private static MethodInfo CreateGenericFactoryMethod()

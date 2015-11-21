@@ -4,8 +4,8 @@
 
 namespace Xbehave.Execution.Extensions
 {
-    using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
     using Xunit.Sdk;
@@ -17,11 +17,7 @@ namespace Xbehave.Execution.Extensions
         {
             Guard.AgainstNullArgument("method", method);
 
-            var parameters = method.GetParameters();
-            var parameterTypes = new Type[parameters.Length];
-            for (int i = 0; i < parameters.Length; i++)
-                parameterTypes[i] = parameters[i].ParameterType;
-
+            var parameterTypes = method.GetParameters().Select(parameter => parameter.ParameterType).ToArray();
             Reflector.ConvertArguments(arguments, parameterTypes);
 
             var result = method.Invoke(obj, arguments);
