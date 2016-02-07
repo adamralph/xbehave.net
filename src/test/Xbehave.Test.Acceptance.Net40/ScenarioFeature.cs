@@ -7,6 +7,9 @@ namespace Xbehave.Test.Acceptance
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+#if V2
+    using System.Runtime.Remoting.Messaging;
+#endif
     using FluentAssertions;
 #if V2
     using Xbehave.Sdk;
@@ -283,6 +286,21 @@ namespace Xbehave.Test.Acceptance
         {
             "Given a null body"
                 .f(default(Action<IStepContext>));
+        }
+#endif
+
+#if V2
+        [Scenario]
+        public void UsingLogicalData(object data)
+        {
+            "Given I have set some logical data"
+                .f(() => CallContext.LogicalSetData("foo", "bar"));
+
+            "When I get the logical data"
+                .f(() => data = CallContext.LogicalGetData("foo"));
+
+            "Then the logical data should be that which was set"
+                .f(() => ((string)data).Should().Be("bar"));
         }
 #endif
 
