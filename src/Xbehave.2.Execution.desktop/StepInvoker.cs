@@ -36,18 +36,18 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        public async Task<Tuple<decimal, IDisposable[]>> RunAsync()
+        public async Task<Tuple<decimal, IDisposable[], ExecutionContext>> RunAsync(ExecutionContext executionContext)
         {
-            IDisposable[] disposables = null;
+            Tuple<IDisposable[], ExecutionContext> bodyResult = null;
             await this.aggregator.RunAsync(async () =>
             {
                 if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
                 {
-                    disposables = await this.InvokeBodyAsync();
+                    bodyResult = await this.InvokeBodyAsync(executionContext);
                 }
             });
 
-            return Tuple.Create(this.timer.Total, disposables ?? new IDisposable[0]);
+            return Tuple.Create(this.timer.Total, bodyResult?.Item1 ?? new IDisposable[0], bodyResult?.Item2 ?? executionContext);
         }
 
         [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
@@ -57,7 +57,7 @@ namespace Xbehave.Execution
             SynchronizationContext.SetSynchronizationContext(context);
         }
 
-        private async Task<IDisposable[]> InvokeBodyAsync()
+        private async Task<Tuple<IDisposable[], ExecutionContext>> InvokeBodyAsync(ExecutionContext executionContext)
         {
             var stepContext = new StepContext(this.step);
             if (this.body != null)
@@ -66,7 +66,9 @@ namespace Xbehave.Execution
                 try
                 {
                     var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
-                    SetSynchronizationContext(asyncSyncContext);
+                    var executionContextSyncContext =
+                        new ExecutionContextSyncContext(executionContext, asyncSyncContext);
+                    SetSynchronizationContext(executionContextSyncContext);
 
                     await this.aggregator.RunAsync(
                         () => this.timer.AggregateAsync(
@@ -74,6 +76,7 @@ namespace Xbehave.Execution
                             {
                                 await this.body(stepContext);
                                 var ex = await asyncSyncContext.WaitForCompletionAsync();
+                                executionContext = ExecutionContext.Capture();
                                 if (ex != null)
                                 {
                                     this.aggregator.Add(ex);
@@ -86,7 +89,7 @@ namespace Xbehave.Execution
                 }
             }
 
-            return stepContext.Disposables.ToArray();
+            return Tuple.Create(stepContext.Disposables.ToArray(), executionContext);
         }
     }
 }
