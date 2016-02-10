@@ -236,6 +236,7 @@ namespace Xbehave.Execution
             string skipReason = null;
             var teardowns = new List<Action>();
             var stepNumber = 0;
+            var executionContext = ExecutionContext.Capture();
             foreach (var stepDefinition in stepDefinitions)
             {
                 stepDefinition.SkipReason = stepDefinition.SkipReason ?? skipReason;
@@ -265,6 +266,7 @@ namespace Xbehave.Execution
                 var stepRunner = new StepRunner(
                     step,
                     stepDefinition.Body,
+                    executionContext.CreateCopy(),
                     interceptingBus,
                     this.scenarioClass,
                     this.constructorArguments,
@@ -275,6 +277,7 @@ namespace Xbehave.Execution
                     this.cancellationTokenSource);
 
                 summary.Aggregate(await stepRunner.RunAsync());
+                executionContext = stepRunner.ExecutionContext;
                 teardowns.AddRange(stepRunner.Disposables.Select(disposable => (Action)disposable.Dispose)
                     .Concat(stepDefinition.Teardowns.Where(teardown => teardown != null)).ToArray());
             }
