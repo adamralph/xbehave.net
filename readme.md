@@ -1,31 +1,27 @@
 ![xBehave.net](https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png)
 
+[![NuGet Badge](https://buildstats.info/nuget/Xbehave)](https://www.nuget.org/packages/Xbehave/)
+[![Join the chat at https://gitter.im/xbehave/xbehave.net](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/xbehave/xbehave.net?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![TeamCity CodeBetter](https://img.shields.io/teamcity/codebetter/XBehaveNet_XBehaveNet.svg?style=flat)](http://teamcity.codebetter.com/viewType.html?buildTypeId=XBehaveNet_XBehaveNet)
+
 * [Website](http://xbehave.github.io/)
 * [Quickstart](https://github.com/xbehave/xbehave.net/wiki/Quickstart)
 * [Documentation](https://github.com/xbehave/xbehave.net/wiki)
 * [FAQ](https://github.com/xbehave/xbehave.net/wiki/FAQ)
-* [Package](https://nuget.org/packages/xBehave "xBehave.net on NuGet")
-
-## Sponsors ##
-Our build server is kindly provided by [CodeBetter](http://codebetter.com/) and [JetBrains](http://www.jetbrains.com/).
-
-![YouTrack and TeamCity](http://www.jetbrains.com/img/banners/Codebetter300x250.png)
 
 ## Where can I get it? ##
 
 xBehave.net is available as a [NuGet package](https://nuget.org/packages/xBehave). For update notifications, follow [@adamralph](https://twitter.com/#!/adamralph).
 
-Continuous integration builds are available at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview). To build manually, clone or fork this repository and see ['How to build'](https://github.com/xbehave/xbehave.net/blob/master/how_to_build.txt).
+CI builds are available at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview). To build manually, clone or fork this repository and see ['How to build'](https://github.com/xbehave/xbehave.net/blob/master/how_to_build.txt).
 
 ## Can I help to improve it and/or fix bugs? ##
 
 Absolutely! Please feel free to raise issues, fork the source code, send pull requests, etc.
 
-No pull request is too small. Even whitespace fixes are appreciated. Before you contribute anything make sure you read [CONTRIBUTING.md](https://github.com/xbehave/xbehave.net/blob/master/CONTRIBUTING.md).
+**No pull request is too small.** Even trivial white space fixes are appreciated.
 
-CI builds are hosted at [teamcity.codebetter.com](http://teamcity.codebetter.com/project.html?projectId=project204&tab=projectOverview) and are triggered after each commit to the default branch (including merging of pull requests).
-
-Come and chat to fellow users and developers at the [xBehave.net JabbR chat room](http://jabbr.net/#/rooms/xbehavenet).
+Before you contribute anything make sure you read [CONTRIBUTING.md](https://github.com/xbehave/xbehave.net/blob/master/CONTRIBUTING.md).
 
 ## On which giant's shoulders does it stand? ##
 
