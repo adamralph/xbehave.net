@@ -1,4 +1,5 @@
 using System;
+using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,6 +12,7 @@ namespace Xunit.Sdk
     /// <summary>
     /// Formats arguments for display in theories.
     /// </summary>
+    [GeneratedCode("https://github.com/xunit/assert.xunit", "5393af8846737eea79db9ac3b6732e316377ea69")]
     static class ArgumentFormatter
     {
         const int MAX_DEPTH = 3;
