@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1DAD0ED8-7F96-4299-BEBB-04F3C25BFC76}"
 	ProjectSection(SolutionItems) = preProject
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
-		rakefile.rb = rakefile.rb
 		Settings.StyleCop = Settings.StyleCop
 		VersionInfo.1.cs = VersionInfo.1.cs
 		VersionInfo.2.cs = VersionInfo.2.cs

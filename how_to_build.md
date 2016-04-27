@@ -10,7 +10,7 @@ At the time of writing the build is only confirmed to work on Windows using the 
 
 ## Prerequisites
 
-1. Ensure you have .NET framework 3.5 and 4.0/4.5 installed.
+1. Ensure you have .NET framework 3.5 and 4.5 installed.
 
 1. Install Ruby 1.8.7 or later.
 
@@ -33,7 +33,7 @@ Using a command prompt, navigate to your clone root folder and execute:
 
 `build.cmd`
 
-This executes the default build tasks. After the build has completed, the build artifacts will be located in `bin`.
+This executes the default build tasks. After the build has completed, the build artifacts will be located in `artifacts/output/`.
 
 ## Extras
 
