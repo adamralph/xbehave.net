@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.1.0\build\net20\xunit.runner.visualstudio.props')" />
   <PropertyGroup>
@@ -6,11 +6,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4AFB913B-3798-4857-8E9D-28285F4FE21C}</ProjectGuid>
+    <ProjectGuid>{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xbehave.Sdk.Test.Component</RootNamespace>
-    <AssemblyName>Xbehave.Sdk.Test.Component.Net40</AssemblyName>
+    <RootNamespace>Xbehave.Test.Acceptance</RootNamespace>
+    <AssemblyName>Xbehave.Test.Acceptance.Net40</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -27,7 +27,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
-    <CodeAnalysisRuleSet>..\..\Xbehave.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Xbehave.Test.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,7 +39,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
     <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
-    <CodeAnalysisRuleSet>..\..\Xbehave.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Xbehave.Test.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -48,6 +48,10 @@
     <AssemblyOriginatorKeyFile>..\..\Xbehave.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FakeItEasy, Version=2.0.0.0, Culture=neutral, PublicKeyToken=eff28e2146d5fd2c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FakeItEasy.2.0.0-beta010\lib\net40\FakeItEasy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FluentAssertions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentAssertions.4.0.0\lib\net40\FluentAssertions.dll</HintPath>
       <Private>True</Private>
@@ -64,26 +68,54 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\xunit.1.9.2\lib\net20\xunit.dll</HintPath>
     </Reference>
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="xunit.extensions, Version=1.9.2.1705, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\xunit.extensions.1.9.2\lib\net20\xunit.extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentSpecifications.cs" />
+    <Compile Include="AsyncScenarioFeature.cs" />
+    <Compile Include="AsyncStepFeature.cs" />
+    <Compile Include="CollectionFixtureFeature.cs" />
+    <Compile Include="ClassFixtureFeature.cs" />
+    <Compile Include="BeforeAfterTestFeature.cs" />
+    <Compile Include="BackgroundFeature.cs" />
+    <Compile Include="Infrastructure\AssemblyExtensions.cs" />
+    <Compile Include="OnFailureFeature.cs" />
+    <Compile Include="DefaultParametersFeature.cs" />
+    <Compile Include="Infrastructure\Xunit2DiscovererExtensions.cs" />
+    <Compile Include="Infrastructure\Xunit2Extensions.cs" />
+    <Compile Include="Infrastructure\TestResultMessageExtensions.cs" />
+    <Compile Include="Infrastructure\SpyMessageSink.cs" />
+    <Compile Include="Infrastructure\Feature.cs" />
+    <Compile Include="Infrastructure\TypeExtensions.cs" />
+    <Compile Include="MemberDataFeature.cs" />
+    <Compile Include="MetadataFeature.cs" />
+    <Compile Include="SkippedScenarioFeature.cs" />
+    <Compile Include="StepDefinitionFilterFeature.cs" />
+    <Compile Include="TeardownFeature.cs" />
+    <Compile Include="StepTimeoutFeature.cs" />
+    <Compile Include="ScenarioTimeoutFeature.cs" />
+    <Compile Include="ObjectDisposalFeature.cs" />
+    <Compile Include="ScenarioFeature.cs" />
+    <Compile Include="IsolatedStepFeature.cs" />
+    <Compile Include="SkippedStepFeature.cs" />
+    <Compile Include="ExampleFeature.cs" />
+    <Compile Include="TestClassFeature.cs" />
+    <Compile Include="TraitFeature.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Xbehave.Net40\Xbehave.Net40.csproj">
+    <ProjectReference Include="..\..\src\Xbehave.Net40\Xbehave.Net40.csproj">
       <Project>{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}</Project>
       <Name>Xbehave.Net40</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Xbehave.Sdk.Net40\Xbehave.Sdk.Net40.csproj">
-      <Project>{69370680-9671-466C-B7BC-1C9BB5474F31}</Project>
-      <Name>Xbehave.Sdk.Net40</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

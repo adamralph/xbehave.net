@@ -1,69 +1,92 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net40", "Xbehave.Net40\Xbehave.Net40.csproj", "{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net40", "src\Xbehave.Net40\Xbehave.Net40.csproj", "{93B47A03-8382-4E25-B800-F6BDCE6B9C6B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{1DAD0ED8-7F96-4299-BEBB-04F3C25BFC76}"
-	ProjectSection(SolutionItems) = preProject
-		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
-		Settings.StyleCop = Settings.StyleCop
-		VersionInfo.1.cs = VersionInfo.1.cs
-		VersionInfo.2.cs = VersionInfo.2.cs
-		Xbehave.2.Core.nuspec = Xbehave.2.Core.nuspec
-		Xbehave.2.nuspec = Xbehave.2.nuspec
-		Xbehave.CustomDictionary.xml = Xbehave.CustomDictionary.xml
-		Xbehave.nuspec = Xbehave.nuspec
-		Xbehave.ruleset = Xbehave.ruleset
-		Xbehave.snk = Xbehave.snk
-		Xbehave.Test.ruleset = Xbehave.Test.ruleset
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}"
 	ProjectSection(SolutionItems) = preProject
 		test\Settings.StyleCop = test\Settings.StyleCop
+		tests\Xbehave.Test.ruleset = tests\Xbehave.Test.ruleset
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Component.Net40", "test\Xbehave.Test.Component.Net40\Xbehave.Test.Component.Net40.csproj", "{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Component.Net40", "tests\Xbehave.Test.Component.Net40\Xbehave.Test.Component.Net40.csproj", "{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBC5886B-9456-470B-836F-722154863920}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net35", "Xbehave.Net35\Xbehave.Net35.csproj", "{425C1030-10E5-4CCF-80C2-A4A8966EA48A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net35", "src\Xbehave.Net35\Xbehave.Net35.csproj", "{425C1030-10E5-4CCF-80C2-A4A8966EA48A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Component.Net35", "test\Xbehave.Test.Component.Net35\Xbehave.Test.Component.Net35.csproj", "{5CC1C3CC-67FC-4691-83BF-E14B367E06C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Component.Net35", "tests\Xbehave.Test.Component.Net35\Xbehave.Test.Component.Net35.csproj", "{5CC1C3CC-67FC-4691-83BF-E14B367E06C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net40", "Xbehave.Sdk.Net40\Xbehave.Sdk.Net40.csproj", "{69370680-9671-466C-B7BC-1C9BB5474F31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net40", "src\Xbehave.Sdk.Net40\Xbehave.Sdk.Net40.csproj", "{69370680-9671-466C-B7BC-1C9BB5474F31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net35", "Xbehave.Sdk.Net35\Xbehave.Sdk.Net35.csproj", "{D39D0F1E-191A-4FF5-BA7F-73A8029ED45A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net35", "src\Xbehave.Sdk.Net35\Xbehave.Sdk.Net35.csproj", "{D39D0F1E-191A-4FF5-BA7F-73A8029ED45A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Component.Net40", "test\Xbehave.Sdk.Test.Component.Net40\Xbehave.Sdk.Test.Component.Net40.csproj", "{4AFB913B-3798-4857-8E9D-28285F4FE21C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Component.Net40", "tests\Xbehave.Sdk.Test.Component.Net40\Xbehave.Sdk.Test.Component.Net40.csproj", "{4AFB913B-3798-4857-8E9D-28285F4FE21C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Component.Net35", "test\Xbehave.Sdk.Test.Component.Net35\Xbehave.Sdk.Test.Component.Net35.csproj", "{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Test.Component.Net35", "tests\Xbehave.Sdk.Test.Component.Net35\Xbehave.Sdk.Test.Component.Net35.csproj", "{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Component", "Component", "{3CE881F9-3E00-4C16-8A90-9C5F57FA9565}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Acceptance", "Acceptance", "{A763D3CE-3C9C-456D-A758-46C18B31DBD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net40", "test\Xbehave.Test.Acceptance.Net40\Xbehave.Test.Acceptance.Net40.csproj", "{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net40", "tests\Xbehave.Test.Acceptance.Net40\Xbehave.Test.Acceptance.Net40.csproj", "{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net35", "test\Xbehave.Test.Acceptance.Net35\Xbehave.Test.Acceptance.Net35.csproj", "{F64FAC93-8534-4A00-83C6-031C51923BA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net35", "tests\Xbehave.Test.Acceptance.Net35\Xbehave.Test.Acceptance.Net35.csproj", "{F64FAC93-8534-4A00-83C6-031C51923BA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net45", "test\Xbehave.Test.Acceptance.Net45\Xbehave.Test.Acceptance.Net45.csproj", "{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net45", "tests\Xbehave.Test.Acceptance.Net45\Xbehave.Test.Acceptance.Net45.csproj", "{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net45", "Xbehave.Net45\Xbehave.Net45.csproj", "{C2750CBF-E310-4819-AEAC-9303E4C36D8D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Net45", "src\Xbehave.Net45\Xbehave.Net45.csproj", "{C2750CBF-E310-4819-AEAC-9303E4C36D8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net45", "Xbehave.Sdk.Net45\Xbehave.Sdk.Net45.csproj", "{675BC957-BEE4-4BEF-B235-D1562DAC8660}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Sdk.Net45", "src\Xbehave.Sdk.Net45\Xbehave.Sdk.Net45.csproj", "{675BC957-BEE4-4BEF-B235-D1562DAC8660}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Core", "Xbehave.2.Core\Xbehave.2.Core.csproj", "{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Core", "src\Xbehave.2.Core\Xbehave.2.Core.csproj", "{1BA9615F-9679-49BA-8CFB-AA826F3C78BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Test.Acceptance.Net45", "test\Xbehave.2.Test.Acceptance.Net45\Xbehave.2.Test.Acceptance.Net45.csproj", "{B95C4972-1CD7-4632-994B-E6093CBF03BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Test.Acceptance.Net45", "tests\Xbehave.2.Test.Acceptance.Net45\Xbehave.2.Test.Acceptance.Net45.csproj", "{B95C4972-1CD7-4632-994B-E6093CBF03BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution.desktop", "Xbehave.2.Execution.desktop\Xbehave.2.Execution.desktop.csproj", "{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.2.Execution.desktop", "src\Xbehave.2.Execution.desktop\Xbehave.2.Execution.desktop.csproj", "{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33269118-539E-4B80-8298-556253F984FE}"
+	ProjectSection(SolutionItems) = preProject
+		src\CommonAssemblyInfo.cs = src\CommonAssemblyInfo.cs
+		src\VersionInfo.1.cs = src\VersionInfo.1.cs
+		src\VersionInfo.2.cs = src\VersionInfo.2.cs
+		src\Xbehave.2.Core.nuspec = src\Xbehave.2.Core.nuspec
+		src\Xbehave.2.nuspec = src\Xbehave.2.nuspec
+		src\Xbehave.nuspec = src\Xbehave.nuspec
+		src\Xbehave.ruleset = src\Xbehave.ruleset
+		src\Xbehave.snk = src\Xbehave.snk
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{D254943B-777E-4CFD-8AE5-6B809EF5F3A2}"
+	ProjectSection(SolutionItems) = preProject
+		assets\xbehave_128x128.png = assets\xbehave_128x128.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{794F6FF3-998E-409C-BF91-422ABEA6BE06}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.mailmap = .mailmap
+		build.cmd = build.cmd
+		CONTRIBUTING.md = CONTRIBUTING.md
+		edit-stylecop-settings.cmd = edit-stylecop-settings.cmd
+		Gemfile = Gemfile
+		Gemfile.lock = Gemfile.lock
+		how_to_build.md = how_to_build.md
+		license.txt = license.txt
+		rakefile.rb = rakefile.rb
+		readme.md = readme.md
+		Settings.StyleCop = Settings.StyleCop
+		Xbehave.CustomDictionary.xml = Xbehave.CustomDictionary.xml
+		Xbehave.sln.DotSettings = Xbehave.sln.DotSettings
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,8 +163,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{93B47A03-8382-4E25-B800-F6BDCE6B9C6B} = {33269118-539E-4B80-8298-556253F984FE}
 		{70E80F2E-D19C-4CA8-AE7F-E9A6953810EF} = {3CE881F9-3E00-4C16-8A90-9C5F57FA9565}
+		{425C1030-10E5-4CCF-80C2-A4A8966EA48A} = {33269118-539E-4B80-8298-556253F984FE}
 		{5CC1C3CC-67FC-4691-83BF-E14B367E06C3} = {3CE881F9-3E00-4C16-8A90-9C5F57FA9565}
+		{69370680-9671-466C-B7BC-1C9BB5474F31} = {33269118-539E-4B80-8298-556253F984FE}
+		{D39D0F1E-191A-4FF5-BA7F-73A8029ED45A} = {33269118-539E-4B80-8298-556253F984FE}
 		{4AFB913B-3798-4857-8E9D-28285F4FE21C} = {3CE881F9-3E00-4C16-8A90-9C5F57FA9565}
 		{9ED4559D-18B9-4DDA-9C59-B4485EB6FF2A} = {3CE881F9-3E00-4C16-8A90-9C5F57FA9565}
 		{3CE881F9-3E00-4C16-8A90-9C5F57FA9565} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
@@ -149,6 +176,10 @@ Global
 		{ED6BE1A3-9DDC-424F-B3E0-8B651C35BAFA} = {A763D3CE-3C9C-456D-A758-46C18B31DBD9}
 		{F64FAC93-8534-4A00-83C6-031C51923BA3} = {A763D3CE-3C9C-456D-A758-46C18B31DBD9}
 		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C} = {A763D3CE-3C9C-456D-A758-46C18B31DBD9}
+		{C2750CBF-E310-4819-AEAC-9303E4C36D8D} = {33269118-539E-4B80-8298-556253F984FE}
+		{675BC957-BEE4-4BEF-B235-D1562DAC8660} = {33269118-539E-4B80-8298-556253F984FE}
+		{1BA9615F-9679-49BA-8CFB-AA826F3C78BE} = {33269118-539E-4B80-8298-556253F984FE}
 		{B95C4972-1CD7-4632-994B-E6093CBF03BA} = {A763D3CE-3C9C-456D-A758-46C18B31DBD9}
+		{30DF704B-27B5-4F23-A54E-A0CDB86AAF2F} = {33269118-539E-4B80-8298-556253F984FE}
 	EndGlobalSection
 EndGlobal
