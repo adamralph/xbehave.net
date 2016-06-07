@@ -9,24 +9,24 @@ version1 = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\(
 version2 = IO.read("src/VersionInfo.2.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix2 + build_number_suffix2
 
 $msbuild_command = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
-$xunit_command = "src/packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
-nuget_command = "src/.nuget/NuGet.exe"
-$solution = "src/Xbehave.sln"
+$xunit_command = "packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
+nuget_command = ".nuget/NuGet.exe"
+$solution = "Xbehave.sln"
 output = "artifacts/output"
 logs = "artifacts/logs"
 
 component_tests = [
-  "src/test/Xbehave.Sdk.Test.Component.Net35/bin/Release/Xbehave.Sdk.Test.Component.Net35.dll",
-  "src/test/Xbehave.Test.Component.Net35/bin/Release/Xbehave.Test.Component.Net35.dll",
-  "src/test/Xbehave.Sdk.Test.Component.Net40/bin/Release/Xbehave.Sdk.Test.Component.Net40.dll",
-  "src/test/Xbehave.Test.Component.Net40/bin/Release/Xbehave.Test.Component.Net40.dll",
+  "tests/Xbehave.Sdk.Test.Component.Net35/bin/Release/Xbehave.Sdk.Test.Component.Net35.dll",
+  "tests/Xbehave.Test.Component.Net35/bin/Release/Xbehave.Test.Component.Net35.dll",
+  "tests/Xbehave.Sdk.Test.Component.Net40/bin/Release/Xbehave.Sdk.Test.Component.Net40.dll",
+  "tests/Xbehave.Test.Component.Net40/bin/Release/Xbehave.Test.Component.Net40.dll",
 ]
 
 acceptance_tests = [
-  "src/test/Xbehave.Test.Acceptance.Net35/bin/Release/Xbehave.Test.Acceptance.Net35.dll",
-  "src/test/Xbehave.Test.Acceptance.Net40/bin/Release/Xbehave.Test.Acceptance.Net40.dll",
-  "src/test/Xbehave.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
-  "src/test/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.2.Test.Acceptance.Net45.dll",
+  "tests/Xbehave.Test.Acceptance.Net35/bin/Release/Xbehave.Test.Acceptance.Net35.dll",
+  "tests/Xbehave.Test.Acceptance.Net40/bin/Release/Xbehave.Test.Acceptance.Net40.dll",
+  "tests/Xbehave.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
+  "tests/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.2.Test.Acceptance.Net45.dll",
 ]
 
 nuspecs = [
