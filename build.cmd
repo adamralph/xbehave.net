@@ -6,10 +6,10 @@ cd %~dp0
 setlocal
 
 :: determine cache dir
-set NUGET_CACHE_DIR=%LocalAppData%\.nuget\v3.4.4
+set NUGET_CACHE_DIR=%LocalAppData%\.nuget\v3.5.0-rc1
 
 :: download nuget to cache dir
-set NUGET_URL=https://dist.nuget.org/win-x86-commandline/v3.4.4/NuGet.exe
+set NUGET_URL=https://dist.nuget.org/win-x86-commandline/v3.5.0-rc1/NuGet.exe
 if not exist %NUGET_CACHE_DIR%\NuGet.exe (
   if not exist %NUGET_CACHE_DIR% md %NUGET_CACHE_DIR%
   echo Downloading '%NUGET_URL%'' to '%NUGET_CACHE_DIR%\NuGet.exe'...
