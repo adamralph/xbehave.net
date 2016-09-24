@@ -1,4 +1,4 @@
-﻿// <copyright file="SpyMessageSink.cs" company="xBehave.net contributors">
+﻿// <copyright file="SpyMessageSink`1.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 

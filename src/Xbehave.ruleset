@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Xbehave" ToolsVersion="12.0">
+<RuleSet Name="Xbehave" ToolsVersion="14.0">
   <Include Path="allrules.ruleset" Action="Default" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1006" Action="None" />
     <Rule Id="CA1020" Action="None" />
     <Rule Id="CA1303" Action="None" />
     <Rule Id="CA2243" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1127" Action="None" />
+    <Rule Id="SA1311" Action="None" />
   </Rules>
 </RuleSet>

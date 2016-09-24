@@ -1,4 +1,4 @@
-﻿// <copyright file="IFilter.cs" company="xBehave.net contributors">
+﻿// <copyright file="IFilter`1.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 

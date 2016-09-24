@@ -7,3 +7,4 @@ Thumbs.db
 *.sln.ide
 packages
 .nuget/[Nn]u[Gg]et.exe
+.vs/
