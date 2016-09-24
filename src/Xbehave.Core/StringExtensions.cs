@@ -22,9 +22,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "x", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Action body)
         {
             var stepDefinition = new StepDefinition
@@ -51,9 +49,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "f", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "f", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder f(this string text, Action body)
         {
@@ -68,8 +64,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "_", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [CLSCompliant(false)]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder _(this string text, Action body)
@@ -85,9 +80,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "x", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Action<IStepContext> body)
         {
             var stepDefinition = new StepDefinition
@@ -114,9 +107,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "f", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "f", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder f(this string text, Action<IStepContext> body)
         {
@@ -131,8 +122,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "_", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [CLSCompliant(false)]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder _(this string text, Action<IStepContext> body)
@@ -148,9 +138,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "x", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Func<Task> body)
         {
             var stepDefinition = new StepDefinition
@@ -171,9 +159,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "f", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "f", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder f(this string text, Func<Task> body)
         {
@@ -188,8 +174,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "_", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [CLSCompliant(false)]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder _(this string text, Func<Task> body)
@@ -205,9 +190,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "x", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "x", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Func<IStepContext, Task> body)
         {
             var stepDefinition = new StepDefinition { Text = text, Body = body, };
@@ -223,9 +206,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "f", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "f", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder f(this string text, Func<IStepContext, Task> body)
         {
@@ -240,8 +221,7 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "_", Justification = "Fluent API")]
-        [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores", Justification = "Fluent API")]
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [CLSCompliant(false)]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder _(this string text, Func<IStepContext, Task> body)
