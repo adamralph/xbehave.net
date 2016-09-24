@@ -1,38 +1,24 @@
 require 'albacore'
 
-version_suffix1 = ENV["VERSION_SUFFIX1"] || ""
-version_suffix2 = ENV["VERSION_SUFFIX2"] || ""
-build_number    = ENV["BUILD_NUMBER"]    || "000000"
-build_number_suffix1 = version_suffix1 == "" ? "" : "-build" + build_number
-build_number_suffix2 = version_suffix2 == "" ? "" : "-build" + build_number
-version1 = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix1 + build_number_suffix1
-version2 = IO.read("src/VersionInfo.2.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix2 + build_number_suffix2
+version_suffix = ENV["VERSION_SUFFIX"] || ""
+build_number   = ENV["BUILD_NUMBER"]   || "000000"
+build_number_suffix = version_suffix == "" ? "" : "-build" + build_number
+version = IO.read("src/CommonAssemblyInfo.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix + build_number_suffix
 
-$msbuild_command = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
+$msbuild_command = "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
 $xunit_command = "packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
 nuget_command = ".nuget/NuGet.exe"
 $solution = "Xbehave.sln"
 output = "artifacts/output"
 logs = "artifacts/logs"
 
-component_tests = [
-  "tests/Xbehave.Sdk.Test.Component.Net35/bin/Release/Xbehave.Sdk.Test.Component.Net35.dll",
-  "tests/Xbehave.Test.Component.Net35/bin/Release/Xbehave.Test.Component.Net35.dll",
-  "tests/Xbehave.Sdk.Test.Component.Net40/bin/Release/Xbehave.Sdk.Test.Component.Net40.dll",
-  "tests/Xbehave.Test.Component.Net40/bin/Release/Xbehave.Test.Component.Net40.dll",
-]
-
 acceptance_tests = [
-  "tests/Xbehave.Test.Acceptance.Net35/bin/Release/Xbehave.Test.Acceptance.Net35.dll",
-  "tests/Xbehave.Test.Acceptance.Net40/bin/Release/Xbehave.Test.Acceptance.Net40.dll",
   "tests/Xbehave.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll",
-  "tests/Xbehave.2.Test.Acceptance.Net45/bin/Release/Xbehave.2.Test.Acceptance.Net45.dll",
 ]
 
 nuspecs = [
-  { :file => "src/Xbehave.nuspec", :version => version1 },
-  { :file => "src/Xbehave.2.Core.nuspec", :version => version2 },
-  { :file => "src/Xbehave.2.nuspec", :version => version2 }
+  "src/Xbehave.Core.nuspec",
+  "src/Xbehave.nuspec",
 ]
 
 Albacore.configure do |config|
@@ -40,29 +26,13 @@ Albacore.configure do |config|
 end
 
 desc "Execute default tasks"
-task :default => [:component, :accept, :pack]
-
-desc "Restore NuGet packages"
-exec :restore do |cmd|
-  cmd.command = nuget_command
-  cmd.parameters "restore #{$solution}"
-end
+task :default => [:pack, :accept]
 
 directory logs
 
-desc "Clean solution"
-task :clean => [logs] do
-  run_msbuild "Clean"
-end
-
 desc "Build solution"
-task :build => [:clean, :restore, logs] do
+task :build => [logs] do
   run_msbuild "Build"
-end
-
-desc "Run component tests"
-task :component => [:build] do
-  run_tests component_tests
 end
 
 desc "Run acceptance tests"
@@ -74,17 +44,16 @@ directory output
 
 desc "Create the nuget packages"
 task :pack => [:build, output] do
-  nuspecs.each do |nuspec|
-    file = nuspec[:file]
+  nuspecs.each do |file|
     original_file = "#{file}.original"
     File.rename file, original_file
     original_content = File.read(original_file)
-    content = original_content.gsub(/\[0.0.0\]/, "[#{nuspec[:version]}]")
+    content = original_content.gsub(/\[0.0.0\]/, "[#{version}]")
     File.open(file, "w") {|file| file.puts content }
     begin
       cmd = Exec.new
       cmd.command = nuget_command
-      cmd.parameters "pack " + file + " -Version " + nuspec[:version] + " -OutputDirectory " + output + " -NoPackageAnalysis"
+      cmd.parameters "pack " + file + " -Version " + version + " -OutputDirectory " + output + " -NoPackageAnalysis"
       cmd.execute
     ensure
       FileUtils.rm file
