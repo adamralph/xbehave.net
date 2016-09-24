@@ -18,3 +18,7 @@ max_line_length = 9999
 
 [*.cmd]
 max_line_length = 9999
+
+[*.csproj]
+insert_final_newline = false
+charset = utf-8-bom
