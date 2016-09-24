@@ -2,7 +2,7 @@
 
 [![NuGet Badge](https://buildstats.info/nuget/Xbehave)](https://www.nuget.org/packages/Xbehave/)
 [![Join the chat at https://gitter.im/xbehave/xbehave.net](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/xbehave/xbehave.net?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build status](https://ci.appveyor.com/api/projects/status/2hs60yhjdoucwu7i?svg=true)](https://ci.appveyor.com/project/adamralph/xbehave-net)
+[![Build status](https://ci.appveyor.com/api/projects/status/2hs60yhjdoucwu7i/branch/dev?svg=true)](https://ci.appveyor.com/project/adamralph/xbehave-net/branch/dev)
 
 * [Website](http://xbehave.github.io/)
 * [Quickstart](https://github.com/xbehave/xbehave.net/wiki/Quickstart)
