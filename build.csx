@@ -1,9 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
+
+// helper
+public static void Cmd(string fileName, string args)
+{
+    using (var process = new Process())
+    {
+        process.StartInfo = new ProcessStartInfo { FileName = $"\"{fileName}\"", Arguments = args, UseShellExecute = false, };
+        Console.WriteLine($"Running '{process.StartInfo.FileName} {process.StartInfo.Arguments}'...");
+        process.Start();
+        process.WaitForExit();
+        if (process.ExitCode != 0)
+        {
+            throw new InvalidOperationException($"The command exited with code {process.ExitCode}.");
+        }
+    }
+}
 
 // version
 var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "";
@@ -35,7 +50,10 @@ targets.Add(
     new Target
     {
         Inputs = new[] { logs },
-        Do = () => Cmd(msBuild, $"{solution} /p:Configuration=Release /nologo /m /v:m /nr:false /fl /flp:LogFile={logs}/msbuild.log;Verbosity=Detailed;PerformanceSummary"),
+        Do = () => Cmd(
+            msBuild,
+            $"{solution} /p:Configuration=Release /nologo /m /v:m /nr:false " +
+                $"/fl /flp:LogFile={logs}/msbuild.log;Verbosity=Detailed;PerformanceSummary"),
     });
 
 targets.Add("output", new Target { Outputs = new[] { output }, Do = () => Directory.CreateDirectory(output), });
@@ -77,26 +95,12 @@ targets.Add(
             xunit, $"{acceptanceTests} -html {acceptanceTests}.TestResults.html -xml {acceptanceTests}.TestResults.xml"),
     });
 
-// target running boiler plate
 Run(Args, targets);
 
-public class Target
-{
-    public string[] DependOn { get; set; }
-
-    public string[] Inputs { get; set; }
-
-    public string[] Outputs { get; set; }
-
-    public Action Do { get; set; }
-}
-
+// copypasta from https://github.com/adamralph/simple-targets-csharp/blob/1.0.0/simple-targets.csx
 public static void Run(IList<string> args, IDictionary<string, Target> targets)
 {
-    var argsOptions = args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)).ToList();
-    var argsTargets = args.Except(argsOptions).ToList();
-
-    foreach (var option in argsOptions)
+    foreach (var option in args.Where(arg => arg.StartsWith("-", StringComparison.Ordinal)))
     {
         switch (option)
         {
@@ -130,12 +134,20 @@ public static void Run(IList<string> args, IDictionary<string, Target> targets)
         }
     }
 
-    var targetNames = argsTargets.Any() ? argsTargets : new List<string> { "default" };
+    var targetNames = args.Where(arg => !arg.StartsWith("-", StringComparison.Ordinal)).ToList();
+    if (!targetNames.Any())
+    {
+        targetNames.Add("default");
+    }
+
     var targetsRan = new HashSet<string>();
+    foreach (var name in targetNames)
+    {
+        RunTarget(name, targets, targetsRan);
+    }
 
-    targetNames.ForEach(name => RunTarget(name, targets, targetsRan));
-
-    Console.WriteLine($"Target(s) {string.Join(", ", targetNames.Select(name => $"'{name}'"))} succeeded.");
+    Console.WriteLine(
+        $"Target{(targetNames.Count > 1 ? "s" : "")} {string.Join(", ", targetNames.Select(name => $"'{name}'"))} succeeded.");
 }
 
 public static void RunTarget(string name, IDictionary<string, Target> targets, ISet<string> targetsRan)
@@ -155,53 +167,51 @@ public static void RunTarget(string name, IDictionary<string, Target> targets, I
         return;
     }
 
-    var inputs = target.Inputs ?? Enumerable.Empty<string>();
-    var dependencies = (target.DependOn ?? Enumerable.Empty<string>()).Concat(
-            targets.Where(t => (t.Value.Outputs ?? Enumerable.Empty<string>()).Intersect(inputs).Any()).Select(t => t.Key))
-        .Except(targetsRan)
-        .ToList();
-
-    if (dependencies.Any())
+    foreach (var dependency in target.DependOn
+        .Concat(targets.Where(t => t.Value.Outputs.Intersect(target.Inputs).Any()).Select(t => t.Key))
+        .Except(targetsRan))
     {
-        Console.WriteLine($"Running dependencies for target '{name}'...");
-        foreach (var dependency in dependencies)
-        {
-            RunTarget(dependency, targets, targetsRan);
-        }
+        RunTarget(dependency, targets, targetsRan);
     }
 
     if (target.Do != null)
     {
         Console.WriteLine($"Running target '{name}'...");
-        target.Do.Invoke();
+        try
+        {
+            target.Do.Invoke();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine($"Target '{name}' failed!");
+            throw;
+        }
     }
 }
 
-// target writing boiler plate
-public static void Cmd(string fileName, string args)
+public class Target
 {
-    var info = new ProcessStartInfo
+    private string[] inputs = new string[0];
+    private string[] outputs = new string[0];
+    private string[] dependOn = new string[0];
+
+    public string[] Inputs
     {
-        FileName = "\"" + fileName + "\"",
-        Arguments = args,
-        UseShellExecute = false,
-    };
-
-    Console.WriteLine($"Running '{info.FileName} {info.Arguments}'...");
-
-    using (var process = new Process())
-    {
-        process.StartInfo = info;
-        process.Start();
-        process.WaitForExit();
-        if (process.ExitCode != 0)
-        {
-            var message = string.Format(
-                CultureInfo.InvariantCulture,
-                "The command exited with code {0}.",
-                process.ExitCode.ToString(CultureInfo.InvariantCulture));
-
-            throw new InvalidOperationException(message);
-        }
+        get { return this.inputs; }
+        set { this.inputs = value ?? new string[0]; }
     }
+
+    public string[] Outputs
+    {
+        get { return this.outputs; }
+        set { this.outputs = value ?? new string[0]; }
+    }
+
+    public string[] DependOn
+    {
+        get { return this.dependOn; }
+        set { this.dependOn = value ?? new string[0]; }
+    }
+
+    public Action Do { get; set; }
 }

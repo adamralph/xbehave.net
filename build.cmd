@@ -26,4 +26,4 @@ if not exist .nuget\NuGet.exe (
 .nuget\NuGet.exe restore .\Xbehave.sln -MSBuildVersion 14
 
 :: run script
-"%ProgramFiles(x86)%\MSBuild\14.0\Bin\csi.exe" build.csx %*
+"%ProgramFiles(x86)%\MSBuild\14.0\Bin\csi.exe" .\build.csx %*
