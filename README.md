@@ -25,11 +25,9 @@ Before you contribute anything make sure you read [CONTRIBUTING.md](/CONTRIBUTIN
 
 ## How to build
 
-These instructions are *only* for building with Rake, which includes compilation, test execution and packaging. This is the simplest way to build.
+These instructions are *only* for building from the command line, which includes compilation, test execution and packaging. This is the simplest way to build.
 
 You can also build the solution using Visual Studio 2015 or later.
-
-*Don't be put off by the prerequisites!* It only takes a few minutes to set them up and only needs to be done once. If you haven't used [Rake](http://rake.rubyforge.org/ "RAKE -- Ruby Make") before then you're in for a real treat!
 
 At the time of writing the build is only confirmed to work on Windows using the Microsoft .NET framework.
 
@@ -37,46 +35,31 @@ At the time of writing the build is only confirmed to work on Windows using the 
 
 1. MSBuild 14 (included in Visual Studio 2015).
 
-1. Ruby 1.8.7 or later.
-
- For Windows we recommend using [RubyInstaller](http://rubyinstaller.org/) and selecting 'Add Ruby executables to your PATH' when prompted. For alternatives see the [Ruby download page](http://www.ruby-lang.org/en/downloads/).
-1. Using a command prompt, update RubyGems to the latest version:
-
-    `gem update --system`
-
-1. Install Bundler:
-
-    `gem install bundler`
-
-1. Install the required gems:
-
-    `bundle install`
-
 ### Building
 
 Using a command prompt, navigate to your clone root folder and execute:
 
 `build.cmd`
 
-This executes the default build tasks. After the build has completed, the build artifacts will be located in `artifacts/output/`.
+This executes the default build targets. After the build has completed, the build artifacts will be located in `artifacts/output/`.
 
 ### Extras
 
-* View the full list of build tasks:
+* View the full list of build targets:
 
     `build.cmd -T`
 
-* Run a specific task:
+* Run a specific target:
 
-    `build.cmd spec`
+    `build.cmd build`
 
-* Run multiple tasks:
+* Run multiple targets:
 
-    `build.cmd spec pack`
+    `build.cmd build pack`
 
-* View the full list of rake options:
+* View the full list of options:
 
-    `build.cmd -h`
+    `build.cmd -?`
 
 ## On which giant's shoulders does it stand?
 
@@ -85,7 +68,6 @@ This executes the default build tasks. After the build has completed, the build 
 * [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin/)
 * [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
 * [StyleCop Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/)
-* [Rake](http://rake.rubyforge.org/)
 * [FluentAssertions](http://www.fluentassertions.com/)
 * [LiteGuard](https://github.com/liteguard/liteguard/)
 * [Semantic Versioning](http://semver.org/)
