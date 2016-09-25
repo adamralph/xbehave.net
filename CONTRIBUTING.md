@@ -2,7 +2,7 @@
 
 First of all, thank you for wanting to contribute to xBehave.net! We really appreciate all the awesome support we get from our community. We want to keep it as easy as possible to contribute changes that get things working in your environment. There are a few guidelines we need contributors to follow to keep the project flowing smoothly.
 
-These guidelines are for code changes but we are always very grateful to receive other forms of contribution, e.g. updates to the [documentation](https://github.com/xbehave/xbehave.net/wiki), providing help in the [chatroom](https://jabbr.net/#/rooms/xbehavenet), blog posts and samples, Twitter endorsements, etc. :wink:. 
+These guidelines are for code changes but we are always very grateful to receive other forms of contribution, e.g. updates to the [documentation](https://github.com/xbehave/xbehave.net/wiki), providing help in the [chatroom](https://jabbr.net/#/rooms/xbehavenet), blog posts and samples, Twitter endorsements, etc. :wink:.
 
 ## Preparation
 
@@ -47,11 +47,11 @@ There are two mainline branches, **master** and **dev**. The **dev** branch is u
 1. [Fork](http://help.github.com/forking/) on GitHub
 1. Clone your fork locally
 1. Configure the upstream repo (`git remote add upstream git://github.com/xbehave/xbehave.net.git`)
-1. Checkout the dev branch (`git checkout dev`) or, if you are working on a patch, checkout the master branch (`git checkout master`)  
+1. Checkout the dev branch (`git checkout dev`) or, if you are working on a patch, checkout the master branch (`git checkout master`)
 1. Create a local branch (`git checkout -b my-branch`). The branch name should be descriptive, or it can just be the GitHub issue number which the work relates to, e.g. `123`.
 1. Work on your feature
 1. Rebase if required (see 'Handling Updates from Upstream' below)
-1. Test the build locally by running `rake` (see ['How to build'](https://github.com/xbehave/xbehave.net/blob/master/how_to_build.md/))
+1. Test the build locally by running `rake` (see ['How to build'](/README.md#how-to-build))
 1. Push the branch up to GitHub (`git push origin my-branch`)
 1. Send a Pull Request on GitHub (see 'Sending a Pull Request' below)
 
