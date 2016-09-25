@@ -9,39 +9,21 @@
 * [Documentation](https://github.com/xbehave/xbehave.net/wiki)
 * [FAQ](https://github.com/xbehave/xbehave.net/wiki/FAQ)
 
-## Where can I get it? ##
+## Where can I get it?
 
-xBehave.net is available as a [NuGet package](https://nuget.org/packages/xBehave). For update notifications, follow [@adamralph](https://twitter.com/#!/adamralph).
+xBehave.net is available as a [NuGet package](https://nuget.org/packages/xBehave). For update notifications, follow [@adamralph](https://twitter.com/#!/adamralph). CI builds are available at [AppVeyor](https://ci.appveyor.com/project/adamralph/xbehave-net). To build manually, clone or fork this repository and see ['How to build'](#how-to-build).
 
-CI builds are available at [AppVeyor](https://ci.appveyor.com/project/adamralph/xbehave-net). To build manually, clone or fork this repository and see ['How to build'](#how-to-build).
+## Can I help to improve it and/or fix bugs?
 
-## Can I help to improve it and/or fix bugs? ##
-
-Absolutely! Please feel free to raise issues, fork the source code, send pull requests, etc.
-
-**No pull request is too small.** Even trivial white space fixes are appreciated.
-
-Before you contribute anything make sure you read [CONTRIBUTING.md](/CONTRIBUTING.md).
+Absolutely! Please feel free to raise issues, fork the source code, send pull requests, etc. **No pull request is too small.** Even trivial white space fixes are appreciated. For more details see [CONTRIBUTING.md](/CONTRIBUTING.md).
 
 ## How to build
 
-These instructions are *only* for building from the command line, which includes compilation, test execution and packaging. This is the simplest way to build.
+Navigate to your clone root folder and execute `build.cmd`. The only prequisite you need is MSBuild 14, which is also included in Visual Studio 2015.
 
-You can also build the solution using Visual Studio 2015 or later.
+`build.cmd` executes the default build targets which include compilation, test execution and packaging. After the build has completed, the build artifacts will be located in `artifacts/output/`.
 
-At the time of writing the build is only confirmed to work on Windows using the Microsoft .NET framework.
-
-### Prerequisites
-
-1. MSBuild 14 (included in Visual Studio 2015).
-
-### Building
-
-Using a command prompt, navigate to your clone root folder and execute:
-
-`build.cmd`
-
-This executes the default build targets. After the build has completed, the build artifacts will be located in `artifacts/output/`.
+You can also build the solution using Visual Studio 2015 or later. At the time of writing the build is only confirmed to work on Windows using the Microsoft .NET framework.
 
 ### Extras
 
