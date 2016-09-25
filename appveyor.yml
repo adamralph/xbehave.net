@@ -6,15 +6,10 @@ branches:
   - dev
   - master
 skip_tags: true
-environment:
-  PATH: 'C:\Ruby200\bin;%PATH%'
-init:
-- cmd: gem install bundler
-install:
-- cmd: bundle install
 build_script:
 - cmd: build.cmd
 test: off
 artifacts:
 - path: artifacts\**\*.*
+- path: tests\**\*TestResults.*
 deploy: off

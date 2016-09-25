@@ -40,12 +40,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.mailmap = .mailmap
 		appveyor.yml = appveyor.yml
 		build.cmd = build.cmd
+		build.csx = build.csx
 		CONTRIBUTING.md = CONTRIBUTING.md
 		Dictionary.xml = Dictionary.xml
-		Gemfile = Gemfile
-		Gemfile.lock = Gemfile.lock
 		LICENSE = LICENSE
-		rakefile.rb = rakefile.rb
 		README.md = README.md
 		stylecop.json = stylecop.json
 	EndProjectSection
