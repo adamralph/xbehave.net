@@ -81,8 +81,8 @@
     <None Include="Xbehave.Execution.ruleset" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\..\Xbehave.CustomDictionary.xml">
-      <Link>Properties\Xbehave.CustomDictionary.xml</Link>
+    <CodeAnalysisDictionary Include="..\..\Dictionary.xml">
+      <Link>Properties\Dictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>

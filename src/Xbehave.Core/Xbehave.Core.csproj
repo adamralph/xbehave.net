@@ -53,8 +53,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <CodeAnalysisDictionary Include="..\..\Xbehave.CustomDictionary.xml">
-      <Link>Properties\Xbehave.CustomDictionary.xml</Link>
+    <CodeAnalysisDictionary Include="..\..\Dictionary.xml">
+      <Link>Properties\Dictionary.xml</Link>
     </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
