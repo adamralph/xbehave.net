@@ -27,15 +27,14 @@ Before you contribute anything make sure you read [CONTRIBUTING.md](https://gith
 
 * [xUnit.net](http://xunit.codeplex.com/)
 * [Dan North](http://dannorth.net/introducing-bdd/)
-* [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin)
+* [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin/)
 * [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
-* [StyleCop](http://stylecop.codeplex.com/)
-* [StyleCop.MSBuild](https://bitbucket.org/adamralph/stylecop-msbuild)
+* [StyleCop Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/)
 * [Rake](http://rake.rubyforge.org/)
-* [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)
 * [FluentAssertions](http://fluentassertions.codeplex.com/)
+* [LiteGuard](https://github.com/liteguard/liteguard/)
 * [Semantic Versioning](http://semver.org/)
-* [AppVeyor](https://ci.appveyor.com/project/adamralph/xbehave-net)
+* [AppVeyor](https://ci.appveyor.com/project/adamralph/xbehave-net/)
 * [NuGet](https://nuget.org/)
 
 xBehave.net logo designed by Vanja Pakaski.
