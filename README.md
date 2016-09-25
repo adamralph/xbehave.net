@@ -27,7 +27,7 @@ Before you contribute anything make sure you read [CONTRIBUTING.md](/CONTRIBUTIN
 
 These instructions are *only* for building with Rake, which includes compilation, test execution and packaging. This is the simplest way to build.
 
-You can also build the solution using Visual Studio 2012 or later.
+You can also build the solution using Visual Studio 2015 or later.
 
 *Don't be put off by the prerequisites!* It only takes a few minutes to set them up and only needs to be done once. If you haven't used [Rake](http://rake.rubyforge.org/ "RAKE -- Ruby Make") before then you're in for a real treat!
 
@@ -35,9 +35,9 @@ At the time of writing the build is only confirmed to work on Windows using the 
 
 ### Prerequisites
 
-1. Ensure you have .NET framework 3.5 and 4.5 installed.
+1. MSBuild 14 (included in Visual Studio 2015).
 
-1. Install Ruby 1.8.7 or later.
+1. Ruby 1.8.7 or later.
 
  For Windows we recommend using [RubyInstaller](http://rubyinstaller.org/) and selecting 'Add Ruby executables to your PATH' when prompted. For alternatives see the [Ruby download page](http://www.ruby-lang.org/en/downloads/).
 1. Using a command prompt, update RubyGems to the latest version:
