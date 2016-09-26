@@ -221,8 +221,9 @@ namespace Xbehave.Execution
         private async Task<RunSummary> InvokeStepsAsync(
             ICollection<IStepDefinition> backGroundStepDefinitions, ICollection<IStepDefinition> scenarioStepDefinitions)
         {
-            var filters = this.scenarioClass.Assembly.GetCustomAttributes(typeof(Attribute))
-                .Concat(this.scenarioClass.GetCustomAttributes(typeof(Attribute)))
+            var scenarioTypeInfo = this.scenarioClass.GetTypeInfo();
+            var filters = scenarioTypeInfo.Assembly.GetCustomAttributes(typeof(Attribute))
+                .Concat(scenarioTypeInfo.GetCustomAttributes(typeof(Attribute)))
                 .Concat(this.scenarioMethod.GetCustomAttributes(typeof(Attribute)))
                 .OfType<IFilter<IStepDefinition>>();
 
