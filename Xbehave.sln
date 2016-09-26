@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BBC588
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbehave.Test.Acceptance.Net45", "tests\Xbehave.Test.Acceptance.Net45\Xbehave.Test.Acceptance.Net45.csproj", "{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33269118-539E-4B80-8298-556253F984FE}"
 	ProjectSection(SolutionItems) = preProject
 		src\CommonAssemblyInfo.cs = src\CommonAssemblyInfo.cs
@@ -39,6 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.csx = build.csx
 		CONTRIBUTING.md = CONTRIBUTING.md
 		Dictionary.xml = Dictionary.xml
+		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
 		stylecop.json = stylecop.json
@@ -48,16 +47,14 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Core", "src\Xbehave
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Execution.desktop", "src\Xbehave.Execution.desktop\Xbehave.Execution.desktop.xproj", "{27AB17E5-1796-4DBD-8FFE-99249114C93A}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Test.Acceptance.Net45", "tests\Xbehave.Test.Acceptance.Net45\Xbehave.Test.Acceptance.Net45.xproj", "{AB3C58C9-5EB0-419B-90F4-2835F997CC93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{37910B4A-996D-4DB1-816E-7ABAAE43CEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37910B4A-996D-4DB1-816E-7ABAAE43CEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37910B4A-996D-4DB1-816E-7ABAAE43CEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -66,13 +63,17 @@ Global
 		{27AB17E5-1796-4DBD-8FFE-99249114C93A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27AB17E5-1796-4DBD-8FFE-99249114C93A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27AB17E5-1796-4DBD-8FFE-99249114C93A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB3C58C9-5EB0-419B-90F4-2835F997CC93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB3C58C9-5EB0-419B-90F4-2835F997CC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB3C58C9-5EB0-419B-90F4-2835F997CC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB3C58C9-5EB0-419B-90F4-2835F997CC93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D509D6B2-D696-4D5D-A7E4-59ED5C5FDE4C} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
 		{37910B4A-996D-4DB1-816E-7ABAAE43CEC2} = {33269118-539E-4B80-8298-556253F984FE}
 		{27AB17E5-1796-4DBD-8FFE-99249114C93A} = {33269118-539E-4B80-8298-556253F984FE}
+		{AB3C58C9-5EB0-419B-90F4-2835F997CC93} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
 	EndGlobalSection
 EndGlobal
