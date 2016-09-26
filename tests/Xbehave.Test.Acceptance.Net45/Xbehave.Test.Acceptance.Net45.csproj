@@ -94,10 +94,6 @@
       <Project>{30df704b-27b5-4f23-a54e-a0cdb86aaf2f}</Project>
       <Name>Xbehave.Execution.desktop</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\src\Xbehave.Core\Xbehave.Core.csproj">
-      <Project>{1ba9615f-9679-49ba-8cfb-aa826f3c78be}</Project>
-      <Name>Xbehave.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncScenarioFeature.cs" />
