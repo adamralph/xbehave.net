@@ -4,11 +4,13 @@
 
 namespace Xbehave.Test.Acceptance.Infrastructure
 {
+    extern alias xunitexecution;
+
     using System;
     using System.Collections.Generic;
     using System.Threading;
-    using Xunit;
     using Xunit.Abstractions;
+    using xunitexecution.Xunit;
 
     public sealed class SpyMessageSink<TFinalMessage> : LongLivedMarshalByRefObject, IMessageSink, IDisposable
     {

@@ -4,9 +4,12 @@
 
 namespace Xbehave.Execution
 {
+    extern alias xunitexecution;
+
     using Xbehave.Sdk;
     using Xunit.Abstractions;
     using Xunit.Sdk;
+    using xunitexecution.Xunit;
 
     public class Scenario : LongLivedMarshalByRefObject, IScenario
     {
