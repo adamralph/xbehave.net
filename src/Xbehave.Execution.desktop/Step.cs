@@ -4,12 +4,10 @@
 
 namespace Xbehave.Execution
 {
-    extern alias xunitexecution;
-
     using System.Diagnostics.CodeAnalysis;
     using Xbehave.Sdk;
+    using Xunit;
     using Xunit.Abstractions;
-    using xunitexecution.Xunit;
 
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     public class Step : LongLivedMarshalByRefObject, IStep

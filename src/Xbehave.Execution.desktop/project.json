@@ -1,0 +1,26 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "buildOptions": {
+    "compile": [
+      "../CommonAssemblyInfo.cs"
+    ],
+    "keyFile": "../Xbehave.snk",
+    "publicSign": true,
+    "warningsAsErrors": true,
+    "xmlDoc": true,
+    "nowarn": [ "CS1591" ]
+  },
+
+  "dependencies": {
+    "xunit.extensibility.execution": "2.2.0-beta2-build3300",
+    "Xbehave.Core": "1.0.0"
+  },
+
+  "frameworks": {
+    "netstandard1.0": {
+      "dependencies": {
+      }
+    }
+  }
+}
