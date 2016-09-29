@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "99.99.99-dev",
   "buildOptions": {
     "nowarn": [ "CS0168", "CS1591" ],
@@ -6,9 +6,6 @@
     "xmlDoc": true
   },
   "dependencies": {
-    "System.Runtime": "4.0.10",
-    "System.Reflection": "4.0.0",
-    "System.Threading.Tasks": "4.0.0",
     "FluentAssertions": "4.0.0",
     "LiteGuard": "0.11.0",
     "xunit.runner.utility": "2.2.0-beta2-build3300",
