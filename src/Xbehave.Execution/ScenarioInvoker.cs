@@ -180,7 +180,7 @@ namespace Xbehave.Execution
             {
                 try
                 {
-                    foreach (var backgroundMethod in this.scenario.TestCase.TestMethod.Method.Type
+                    foreach (var backgroundMethod in this.scenario.TestCase.TestMethod.TestClass.Class
                         .GetMethods(false)
                         .Where(candidate => candidate.GetCustomAttributes(typeof(BackgroundAttribute)).Any())
                         .Select(method => method.ToRuntimeMethod()))

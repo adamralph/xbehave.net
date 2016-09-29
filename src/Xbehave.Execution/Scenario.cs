@@ -5,8 +5,8 @@
 namespace Xbehave.Execution
 {
     using Xbehave.Sdk;
-    using Xunit.Abstractions;
     using Xunit;
+    using Xunit.Abstractions;
     using Xunit.Sdk;
 
     public class Scenario : LongLivedMarshalByRefObject, IScenario

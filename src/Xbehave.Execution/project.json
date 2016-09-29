@@ -1,13 +1,28 @@
-ï»¿{
+{
   "version": "99.99.99-dev",
+  "title": "xBehave.net Execution",
+  "description": "The xBehave.net execution library.",
+  "copyright": "Copyright © xBehave.net contributors. All rights reserved.",
   "buildOptions": {
+    "additionalArguments": [ "/ruleset:../Xbehave.ruleset", "/additionalfile:../../stylecop.json" ],
     "compile": [
       "../CommonAssemblyInfo.cs"
     ],
     "keyFile": "../Xbehave.snk",
-    "warningsAsErrors": true,
     "xmlDoc": true,
     "nowarn": [ "CS1591" ]
+  },
+  "dependencies": {
+    "LiteGuard.Source": {
+      "version": "1.0.0",
+      "type": "build"
+    },
+    "StyleCop.Analyzers": {
+      "version": "1.0.0",
+      "type": "build"
+    },
+    "Xbehave.Core": "99.99.99-dev",
+    "xunit.extensibility.execution": "2.2.0-beta2-build3300"
   },
   "frameworks": {
     "net45": {
@@ -23,9 +38,5 @@
         "NETStandard.Library": "1.6.0"
       }
     }
-  },
-  "dependencies": {
-    "xunit.extensibility.execution": "2.2.0-beta2-build3300",
-    "Xbehave.Core": "99.99.99-dev"
   }
 }

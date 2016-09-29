@@ -1,27 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Xbehave Test" ToolsVersion="14.0">
-  <Include Path="allrules.ruleset" Action="Default" />
-  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
-    <Rule Id="CA1004" Action="None" />
-    <Rule Id="CA1014" Action="None" />
-    <Rule Id="CA1016" Action="None" />
-    <Rule Id="CA1017" Action="None" />
-    <Rule Id="CA1018" Action="None" />
-    <Rule Id="CA1020" Action="None" />
-    <Rule Id="CA1031" Action="None" />
-    <Rule Id="CA1034" Action="None" />
-    <Rule Id="CA1303" Action="None" />
-    <Rule Id="CA1405" Action="None" />
-    <Rule Id="CA1801" Action="None" />
-    <Rule Id="CA1811" Action="None" />
-    <Rule Id="CA1812" Action="None" />
-    <Rule Id="CA1822" Action="None" />
-    <Rule Id="CA2000" Action="None" />
-    <Rule Id="CA2104" Action="None" />
-    <Rule Id="CA2204" Action="None" />
-    <Rule Id="CA2210" Action="None" />
-  </Rules>
-  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
-    <Rule Id="CS1591" Action="None" />
+  <Include Path="minimumrecommendedrules.ruleset" Action="Default" />
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1127" Action="None" />
+    <Rule Id="SA1311" Action="None" />
   </Rules>
 </RuleSet>

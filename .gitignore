@@ -6,6 +6,6 @@ obj
 Thumbs.db
 *.sln.ide
 packages
-.nuget/[Nn]u[Gg]et.exe
+.nuget/
 .vs/
 project.lock.json
