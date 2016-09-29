@@ -1,12 +1,10 @@
 ﻿{
-  "version": "1.0.0-*",
-
+  "version": "99.99.99-dev",
   "buildOptions": {
-    "nowarn": ["CS0168", "CS1591"],
+    "nowarn": [ "CS0168", "CS1591" ],
     "warningsAsErrors": false,
     "xmlDoc": true
   },
-
   "dependencies": {
     "System.Runtime": "4.0.10",
     "System.Reflection": "4.0.0",
@@ -14,8 +12,8 @@
     "FluentAssertions": "4.0.0",
     "LiteGuard": "0.11.0",
     "xunit.runner.utility": "2.2.0-beta2-build3300",
-    "Xbehave.Core": "1.0.0",
-    "Xbehave.Execution.desktop": "1.0.0",
+    "Xbehave.Core": "99.99.99-dev",
+    "Xbehave.Execution": "99.99.99-dev",
     "dotnet-test-xunit": "2.2.0-preview2-build1029"
   },
 
@@ -23,8 +21,6 @@
 
   "frameworks": {
     "net451": {
-      "dependencies": {
-      }
     }
   }
 }

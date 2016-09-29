@@ -1,0 +1,31 @@
+﻿{
+  "version": "99.99.99-dev",
+  "buildOptions": {
+    "compile": [
+      "../CommonAssemblyInfo.cs"
+    ],
+    "keyFile": "../Xbehave.snk",
+    "warningsAsErrors": true,
+    "xmlDoc": true,
+    "nowarn": [ "CS1591" ]
+  },
+  "frameworks": {
+    "net45": {
+      "buildOptions": {
+        "outputName": "Xbehave.Execution.desktop"
+      }
+    },
+    "netstandard1.0": {
+      "buildOptions": {
+        "outputName": "Xbehave.Execution.dotnet"
+      },
+      "dependencies": {
+        "NETStandard.Library": "1.6.0"
+      }
+    }
+  },
+  "dependencies": {
+    "xunit.extensibility.execution": "2.2.0-beta2-build3300",
+    "Xbehave.Core": "99.99.99-dev"
+  }
+}
