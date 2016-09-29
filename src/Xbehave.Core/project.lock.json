@@ -350,7 +350,7 @@
       ]
     },
     "NETStandard.Library/1.6.0": {
-      "sha512": "e6NBK+sQ4/ROSsREfQVIyi86OeoP/doOrptWNV+BvVIumrIJwD1KkYmQ7YFmAlm/vUBnp4IGSkH568RgdPh87w==",
+      "sha512": "ypsCvIdCZ4IoYASJHt6tF2fMo7N30NLgV1EbmC+snO490OMl9FvVxmumw14rhReWU3j3g7BYudG6YCrchwHJlA==",
       "type": "package",
       "path": "NETStandard.Library/1.6.0",
       "files": [
@@ -845,7 +845,7 @@
       ]
     },
     "System.Net.Primitives/4.0.11": {
-      "sha512": "FDO4DNcX9X1KOtGc5Jac2D6yx3gnYgY8XpIKT4DdNxSamrD74EGiZyyL5CqzachakKcl5laC7bUnD+EyKtpfqg==",
+      "sha512": "hVvfl4405DRjA2408luZekbPhplJK03j2Y2lSfMlny7GHXlkByw1iLnc9mgKW0GdQn73vvMcWrWewAhylXA4Nw==",
       "type": "package",
       "path": "System.Net.Primitives/4.0.11",
       "files": [
@@ -1922,7 +1922,9 @@
     "": [
       "xunit.extensibility.core >= 2.2.0-beta2-build3300"
     ],
-    ".NETStandard,Version=v1.0": []
+    ".NETStandard,Version=v1.0": [
+      "NETStandard.Library >= 1.6.0"
+    ]
   },
   "tools": {},
   "projectFileToolGroups": {}

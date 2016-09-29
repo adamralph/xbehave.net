@@ -45,7 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Core", "src\Xbehave.Core\Xbehave.Core.xproj", "{37910B4A-996D-4DB1-816E-7ABAAE43CEC2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Execution.desktop", "src\Xbehave.Execution.desktop\Xbehave.Execution.desktop.xproj", "{27AB17E5-1796-4DBD-8FFE-99249114C93A}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Execution", "src\Xbehave.Execution\Xbehave.Execution.xproj", "{27AB17E5-1796-4DBD-8FFE-99249114C93A}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Test.Acceptance.Net45", "tests\Xbehave.Test.Acceptance.Net45\Xbehave.Test.Acceptance.Net45.xproj", "{AB3C58C9-5EB0-419B-90F4-2835F997CC93}"
 EndProject
