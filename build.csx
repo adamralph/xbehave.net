@@ -8,7 +8,7 @@ using System.Linq;
 using static SimpleTargets;
 
 // version
-var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "";
+var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "-adhoc";
 var buildNumber = Environment.GetEnvironmentVariable("BUILD_NUMBER") ?? "000000";
 var buildNumberSuffix = versionSuffix == "" ? "" : "-build" + buildNumber;
 var version = File.ReadAllText("src/CommonAssemblyInfo.cs")
@@ -52,7 +52,7 @@ targets.Add(
             var originalNuspec = $"{nuspec}.original";
             File.Move(nuspec, originalNuspec);
             var originalContent = File.ReadAllText(originalNuspec);
-            var content = originalContent.Replace("[0.0.0]", $"[{version}]");
+                var content = originalContent.Replace("[99.99.99-dev]", $"[{version}]");
             File.WriteAllText(nuspec, content);
             try
             {
