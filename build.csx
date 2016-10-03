@@ -22,7 +22,7 @@ var msBuild = $"{Environment.GetFolderPath(Environment.SpecialFolder.ProgramFile
 var nuspecs = new[] { "./src/Xbehave.Core.nuspec", "./src/Xbehave.nuspec", };
 var output = "./artifacts/output";
 var nuget = "./.nuget/NuGet.exe";
-var acceptanceTests = Path.GetFullPath("./tests/Xbehave.Test.Acceptance.Net45/bin/Release/Xbehave.Test.Acceptance.Net45.dll");
+var acceptanceTests = Path.GetFullPath("./tests/Xbehave.Test.Acceptance.Net45/bin/Release/net452/win7-x64/Xbehave.Test.Acceptance.Net45.dll");
 var xunit = "./packages/xunit.runner.console.2.1.0/tools/xunit.console.exe";
 
 // targets
