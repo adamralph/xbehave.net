@@ -6,22 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-// helper
-public static void Cmd(string fileName, string args)
-{
-    using (var process = new Process())
-    {
-        process.StartInfo = new ProcessStartInfo { FileName = $"\"{fileName}\"", Arguments = args, UseShellExecute = false, };
-        Console.WriteLine($"Running '{process.StartInfo.FileName} {process.StartInfo.Arguments}'...");
-        process.Start();
-        process.WaitForExit();
-        if (process.ExitCode != 0)
-        {
-            throw new InvalidOperationException($"The command exited with code {process.ExitCode}.");
-        }
-    }
-}
-
 // version
 var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "";
 var buildNumber = Environment.GetEnvironmentVariable("BUILD_NUMBER") ?? "000000";
@@ -98,3 +82,19 @@ targets.Add(
     });
 
 Run(Args, targets);
+
+// helper
+public static void Cmd(string fileName, string args)
+{
+    using (var process = new Process())
+    {
+        process.StartInfo = new ProcessStartInfo { FileName = $"\"{fileName}\"", Arguments = args, UseShellExecute = false, };
+        Console.WriteLine($"Running '{process.StartInfo.FileName} {process.StartInfo.Arguments}'...");
+        process.Start();
+        process.WaitForExit();
+        if (process.ExitCode != 0)
+        {
+            throw new InvalidOperationException($"The command exited with code {process.ExitCode}.");
+        }
+    }
+}
