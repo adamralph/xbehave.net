@@ -22,7 +22,7 @@ Absolutely! Please feel free to raise issues, fork the source code, send pull re
 
 ## How to build
 
-Navigate to your clone root folder and execute `build.cmd`. The only prequisite you need is MSBuild 14, which is also included in Visual Studio 2015.
+Navigate to your clone root folder and execute `build.cmd`. The only prerequisite you need is MSBuild 14, which is also included in Visual Studio 2015.
 
 `build.cmd` executes the default build targets which include compilation, test execution and packaging. After the build has completed, the build artifacts will be located in `artifacts/output/`.
 
@@ -46,7 +46,7 @@ You can also build the solution using Visual Studio 2015 or later. At the time o
 
     `build.cmd -?`
 
-## On which giant's shoulders does it stand?
+## On which giants' shoulders does it stand?
 
 * [AppVeyor](https://ci.appveyor.com/project/adamralph/xbehave-net/)
 * [Dan North](http://dannorth.net/introducing-bdd/)
