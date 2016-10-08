@@ -22,9 +22,7 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
-    <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
+    <NoWarn>$(NoWarn),1573,1591</NoWarn>
     <CodeAnalysisRuleSet>Xbehave.Execution.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Debug\Xbehave.Execution.desktop.xml</DocumentationFile>
   </PropertyGroup>
@@ -35,9 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
-    <StyleCopTreatErrorsAsWarnings>true</StyleCopTreatErrorsAsWarnings>
+    <NoWarn>$(NoWarn),1573,1591</NoWarn>
     <CodeAnalysisRuleSet>Xbehave.Execution.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Release\Xbehave.Execution.desktop.xml</DocumentationFile>
   </PropertyGroup>
