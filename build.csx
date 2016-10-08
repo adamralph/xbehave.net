@@ -1,4 +1,4 @@
-#load "packages/simple-targets-csharp.1.1.0/simple-targets-csharp.csx"
+#load "packages/simple-targets-csharp.2.0.0/simple-targets-csharp.csx"
 
 using System;
 using System.Collections.Generic;
@@ -29,27 +29,26 @@ var targets = new Dictionary<string, Target>();
 
 targets.Add("default", new Target { DependOn = new[] { "pack", "accept" } });
 
-targets.Add("logs", new Target { Outputs = new[] { logs }, Do = () => Directory.CreateDirectory(logs), });
+targets.Add("logs", new Target { Do = () => Directory.CreateDirectory(logs), });
 
 targets.Add(
     "build",
     new Target
     {
-        Inputs = new[] { logs },
+        DependOn = new[] { "logs" },
         Do = () => Cmd(
             msBuild,
             $"{solution} /p:Configuration=Release /nologo /m /v:m /nr:false " +
                 $"/fl /flp:LogFile={logs}/msbuild.log;Verbosity=Detailed;PerformanceSummary"),
     });
 
-targets.Add("output", new Target { Outputs = new[] { output }, Do = () => Directory.CreateDirectory(output), });
+targets.Add("output", new Target { Do = () => Directory.CreateDirectory(output), });
 
 targets.Add(
     "pack",
     new Target
     {
-        DependOn = new[] { "build" },
-        Inputs = new[] { output },
+        DependOn = new[] { "build", "output", },
         Do = () =>
         {
             foreach (var nuspec in nuspecs)
