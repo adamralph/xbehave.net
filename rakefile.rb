@@ -8,7 +8,7 @@ build_number_suffix2 = version_suffix2 == "" ? "" : "-build" + build_number
 version1 = IO.read("src/VersionInfo.1.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix1 + build_number_suffix1
 version2 = IO.read("src/VersionInfo.2.cs").split(/AssemblyInformationalVersion\("/, 2)[1].split(/"/).first + version_suffix2 + build_number_suffix2
 
-$msbuild_command = "C:/Program Files (x86)/MSBuild/12.0/Bin/MSBuild.exe"
+$msbuild_command = "C:/Program Files (x86)/MSBuild/14.0/Bin/MSBuild.exe"
 $xunit_command = "src/packages/xunit.runner.console.2.1.0/tools/xunit.console.exe"
 nuget_command = "src/.nuget/NuGet.exe"
 $solution = "src/Xbehave.sln"

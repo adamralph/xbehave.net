@@ -51,9 +51,33 @@ namespace Xbehave.Execution
 
         protected async override Task<Tuple<decimal, string>> InvokeTestAsync(ExceptionAggregator aggregator)
         {
+            var output = string.Empty;
+
+            TestOutputHelper testOutputHelper = null;
+            foreach (object obj in this.ConstructorArguments)
+            {
+                testOutputHelper = obj as TestOutputHelper;
+                if (testOutputHelper != null)
+                {
+                    break;
+                }
+            }
+
+            if (testOutputHelper != null)
+            {
+                testOutputHelper.Initialize(this.MessageBus, this.Test);
+            }
+
             var tuple = await new StepInvoker(this.step, this.body, aggregator, this.CancellationTokenSource).RunAsync();
             this.disposables.AddRange(tuple.Item2);
-            return Tuple.Create(tuple.Item1, string.Empty);
+
+            if (testOutputHelper != null)
+            {
+                output = testOutputHelper.Output;
+                testOutputHelper.Uninitialize();
+            }
+
+            return Tuple.Create(tuple.Item1, output);
         }
     }
 }
