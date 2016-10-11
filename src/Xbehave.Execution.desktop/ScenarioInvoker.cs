@@ -271,6 +271,7 @@ namespace Xbehave.Execution
                     this.scenarioMethod,
                     this.scenarioMethodArguments,
                     stepDefinition.SkipReason,
+                    new BeforeAfterTestAttribute[0],
                     new ExceptionAggregator(this.aggregator),
                     this.cancellationTokenSource);
 
