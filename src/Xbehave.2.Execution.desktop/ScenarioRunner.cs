@@ -71,9 +71,7 @@ namespace Xbehave.Execution
                 var childAggregator = new ExceptionAggregator(this.parentAggregator);
                 if (!childAggregator.HasExceptions)
                 {
-                    var tuple = await childAggregator.RunAsync(() => this.InvokeScenarioAsync(childAggregator));
-                    summary.Aggregate(tuple.Item1);
-                    output = tuple.Item2;
+                    summary.Aggregate(await childAggregator.RunAsync(() => this.InvokeScenarioAsync(childAggregator)));
                 }
 
                 var exception = childAggregator.ToException();
@@ -83,41 +81,21 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     this.messageBus.Queue(
                         this.scenario,
-                        test => new TestFailed(test, summary.Time, output, exception),
+                        test => new TestFailed(test, summary.Time, string.Empty, exception),
                         this.cancellationTokenSource);
                 }
                 else if (summary.Total == 0)
                 {
                     summary.Total++;
                     this.messageBus.Queue(
-                        this.scenario, test => new TestPassed(test, summary.Time, output), this.cancellationTokenSource);
+                        this.scenario, test => new TestPassed(test, summary.Time, string.Empty), this.cancellationTokenSource);
                 }
 
                 return summary;
             }
         }
 
-        private async Task<Tuple<RunSummary, string>> InvokeScenarioAsync(ExceptionAggregator aggregator)
-        {
-            var output = string.Empty;
-            var testOutputHelper = this.constructorArguments.OfType<TestOutputHelper>().FirstOrDefault();
-            if (testOutputHelper != null)
-            {
-                testOutputHelper.Initialize(this.messageBus, this.scenario);
-            }
-
-            var summary = await this.InvokeScenarioMethodAsync(aggregator);
-
-            if (testOutputHelper != null)
-            {
-                output = testOutputHelper.Output;
-                testOutputHelper.Uninitialize();
-            }
-
-            return Tuple.Create(summary, output);
-        }
-
-        private async Task<RunSummary> InvokeScenarioMethodAsync(ExceptionAggregator aggregator)
+        private async Task<RunSummary> InvokeScenarioAsync(ExceptionAggregator aggregator)
         {
             return await new ScenarioInvoker(
                     this.scenario,
