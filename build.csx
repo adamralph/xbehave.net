@@ -1,10 +1,11 @@
-#load "packages/simple-targets-csharp.3.0.0/simple-targets-csharp.csx"
+#load "packages/simple-targets-csharp.4.0.0/simple-targets-csharp.csx"
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using static SimpleTargets;
 
 // version
 var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "";
@@ -25,60 +26,51 @@ var acceptanceTests = Path.GetFullPath("./tests/Xbehave.Test.Acceptance.Net45/bi
 var xunit = "./packages/xunit.runner.console.2.1.0/tools/xunit.console.exe";
 
 // targets
-var targets = new Dictionary<string, Target>();
+var targets = new TargetDictionary();
 
-targets.Add("default", new Target { DependOn = new[] { "pack", "accept" } });
+targets.Add("default", DependsOn("pack", "accept"));
 
-targets.Add("logs", new Target { Do = () => Directory.CreateDirectory(logs), });
+targets.Add("logs", () => Directory.CreateDirectory(logs));
 
 targets.Add(
     "build",
-    new Target
-    {
-        DependOn = new[] { "logs" },
-        Do = () => Cmd(
-            msBuild,
-            $"{solution} /p:Configuration=Release /nologo /m /v:m /nr:false " +
-                $"/fl /flp:LogFile={logs}/msbuild.log;Verbosity=Detailed;PerformanceSummary"),
-    });
+    DependsOn("logs"),
+    () => Cmd(
+        msBuild,
+        $"{solution} /p:Configuration=Release /nologo /m /v:m /nr:false " +
+            $"/fl /flp:LogFile={logs}/msbuild.log;Verbosity=Detailed;PerformanceSummary"));
 
-targets.Add("output", new Target { Do = () => Directory.CreateDirectory(output), });
+targets.Add("output", () => Directory.CreateDirectory(output));
 
 targets.Add(
     "pack",
-    new Target
+    DependsOn("build", "output"),
+    () =>
     {
-        DependOn = new[] { "build", "output", },
-        Do = () =>
+        foreach (var nuspec in nuspecs)
         {
-            foreach (var nuspec in nuspecs)
+            var originalNuspec = $"{nuspec}.original";
+            File.Move(nuspec, originalNuspec);
+            var originalContent = File.ReadAllText(originalNuspec);
+            var content = originalContent.Replace("[0.0.0]", $"[{version}]");
+            File.WriteAllText(nuspec, content);
+            try
             {
-                var originalNuspec = $"{nuspec}.original";
-                File.Move(nuspec, originalNuspec);
-                var originalContent = File.ReadAllText(originalNuspec);
-                var content = originalContent.Replace("[0.0.0]", $"[{version}]");
-                File.WriteAllText(nuspec, content);
-                try
-                {
-                    Cmd(nuget, $"pack {nuspec} -Version {version} -OutputDirectory {output} -NoPackageAnalysis");
-                }
-                finally
-                {
-                    File.Delete(nuspec);
-                    File.Move(originalNuspec, nuspec);
-                }
+                Cmd(nuget, $"pack {nuspec} -Version {version} -OutputDirectory {output} -NoPackageAnalysis");
             }
-        },
+            finally
+            {
+                File.Delete(nuspec);
+                File.Move(originalNuspec, nuspec);
+            }
+        }
     });
 
 targets.Add(
     "accept",
-    new Target
-    {
-        DependOn = new[] { "build" },
-        Do = () => Cmd(
-            xunit, $"{acceptanceTests} -html {acceptanceTests}.TestResults.html -xml {acceptanceTests}.TestResults.xml"),
-    });
+    DependsOn("build"),
+    () => Cmd(
+        xunit, $"{acceptanceTests} -html {acceptanceTests}.TestResults.html -xml {acceptanceTests}.TestResults.xml"));
 
 Run(Args, targets);
 
