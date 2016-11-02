@@ -59,7 +59,7 @@ You can also build the solution using Visual Studio 2015 or later. At the time o
 * [MSBuild](https://github.com/Microsoft/msbuild)
 * [NuGet](https://www.nuget.org/packages/Xbehave/)
 * [Semantic Versioning](http://semver.org/)
-* [simple-targets-csharp](https://github.com/adamralph/simple-targets-csharp)
+* [simple-targets-csx](https://github.com/adamralph/simple-targets-csx)
 * [StyleCop Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/)
 * [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
 * [xUnit.net](https://xunit.github.io/)
