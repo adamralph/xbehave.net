@@ -8,3 +8,4 @@ Thumbs.db
 packages
 .nuget/[Nn]u[Gg]et.exe
 .vs/
+project.lock.json

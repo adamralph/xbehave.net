@@ -8,6 +8,7 @@ namespace Xbehave.Execution
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
+    using System.Reflection;
 
     /// <summary>
     /// Provides guard clauses.
@@ -117,7 +118,9 @@ namespace Xbehave.Execution
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Source package.")]
         private static bool IsNullableType(this Type type)
         {
-            return !type.IsValueType || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
+            var typeInfo = type.GetTypeInfo();
+            return !typeInfo.IsValueType ||
+                   (typeInfo.IsGenericType && type.GetGenericTypeDefinition() == typeof (Nullable<>));
         }
 
         /// <summary>
