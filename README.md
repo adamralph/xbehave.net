@@ -22,11 +22,13 @@ Absolutely! Please feel free to raise issues, fork the source code, send pull re
 
 ## How to build
 
-Navigate to your clone root folder and execute `build.cmd`. The only prerequisite you need is MSBuild 14, which is also included in Visual Studio 2015.
+The only prerequisites you need are [.NET CLI](https://github.com/dotnet/cli) and .NET Framework 4.5.
 
-`build.cmd` executes the default build targets which include compilation, test execution and packaging. After the build has completed, the build artifacts will be located in `artifacts/output/`.
+Navigate to your clone root folder and execute `dotnet restore` followed by `build.cmd`.
 
-You can also build the solution using Visual Studio 2015 or later. At the time of writing the build is only confirmed to work on Windows using the Microsoft .NET framework.
+`build.cmd` executes the default build targets which include compilation, test execution and packaging. After the build has completed, the build artifacts will be located in `artifacts/`.
+
+You can also build the solution using Visual Studio 2015 or later. At the time of writing the build is only confirmed to work on Windows.
 
 ### Extras
 
@@ -48,6 +50,7 @@ You can also build the solution using Visual Studio 2015 or later. At the time o
 
 ## On which giants' shoulders does it stand?
 
+* [.NET CLI](https://github.com/dotnet/cli)
 * [AppVeyor](https://ci.appveyor.com/project/adamralph/xbehave-net/)
 * [Dan North](http://dannorth.net/introducing-bdd/)
 * [EditorConfig](http://editorconfig.org/)
@@ -56,7 +59,6 @@ You can also build the solution using Visual Studio 2015 or later. At the time o
 * [GitHub](https://github.com/xbehave/xbehave.net/)
 * [Gitter](https://gitter.im/xbehave/xbehave.net/)
 * [LiteGuard](https://github.com/liteguard/liteguard/)
-* [MSBuild](https://github.com/Microsoft/msbuild)
 * [NuGet](https://www.nuget.org/packages/Xbehave/)
 * [Semantic Versioning](http://semver.org/)
 * [simple-targets-csx](https://github.com/adamralph/simple-targets-csx)
