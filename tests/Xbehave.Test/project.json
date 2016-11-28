@@ -8,7 +8,7 @@
   "dependencies": {
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "FluentAssertions": "4.17.0",
-    "LiteGuard": "1.0.0",
+    "LiteGuard": "1.1.0",
     "StyleCop.Analyzers": {
       "version": "1.0.0",
       "type": "build"
