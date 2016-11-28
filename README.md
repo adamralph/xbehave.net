@@ -1,4 +1,4 @@
-![xBehave.net](/assets/xbehave_128x128.png)
+<img src="assets/xbehave_256x256.png" width="128" />
 
 [![NuGet Badge](https://buildstats.info/nuget/Xbehave)](https://www.nuget.org/packages/Xbehave/)
 [![Build status](https://ci.appveyor.com/api/projects/status/2hs60yhjdoucwu7i/branch/dev?svg=true)](https://ci.appveyor.com/project/adamralph/xbehave-net/branch/dev)
@@ -28,25 +28,9 @@ Navigate to your clone root folder and execute `dotnet restore` followed by `bui
 
 `build.cmd` executes the default build targets which include compilation, test execution and packaging. After the build has completed, the build artifacts will be located in `artifacts/`.
 
+For full usage details for `build.cmd`, execute `build.cmd -?`. See  [simple-targets-csx](https://github.com/adamralph/simple-targets-csx) for more info.
+
 You can also build the solution using Visual Studio 2015 or later. At the time of writing the build is only confirmed to work on Windows.
-
-### Extras
-
-* View the full list of build targets:
-
-    `build.cmd -T`
-
-* Run a specific target:
-
-    `build.cmd build`
-
-* Run multiple targets:
-
-    `build.cmd build pack`
-
-* View the full list of options:
-
-    `build.cmd -?`
 
 ## On which giants' shoulders does it stand?
 
@@ -66,4 +50,6 @@ You can also build the solution using Visual Studio 2015 or later. At the time o
 * [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
 * [xUnit.net](https://xunit.github.io/)
 
-xBehave.net logo designed by [Vanja Pakaski](https://github.com/vanpak).
+---
+
+<sub>xBehave.net logo designed by [Vanja Pakaski](https://github.com/vanpak).</sub>
