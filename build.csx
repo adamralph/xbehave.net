@@ -15,8 +15,36 @@ targets.Add("restore", () => Cmd("dotnet", "restore"));
 targets.Add("build", () => Cmd("dotnet", $"build ./**/project.json -c Release"));
 
 targets.Add(
-    "pack",
+    "sourcelink",
     DependsOn("build"),
+    () =>
+    {
+        var projects = new[] { "Xbehave.Core", "Xbehave.Execution" };
+        var url = "https://raw.githubusercontent.com/xbehave/xbehave.net/{0}/%var2%";
+        foreach (var project in projects)
+        {
+            var pdbs =
+                Directory.EnumerateFiles($"./src/{project}/bin/Release", $"{project}*.pdb", SearchOption.AllDirectories)
+                .Where(_ => !File.Exists($"{_}.srcsrv") || File.GetLastWriteTime(_) > File.GetLastWriteTime($"{_}.srcsrv"))
+                .ToList();
+
+            if (pdbs.Any())
+            {
+                var pdbArg = string.Join(" -p ", pdbs);
+                var include = $"./src/{project}/**/*.cs";
+                var exclude = $"./src/{project}/obj/**";
+                Cmd("./packages/SourceLink.1.1.0/tools/SourceLink.exe", $"index -p {pdbArg} -u {url} -f {include} -nf {exclude}");
+                foreach (var pdb in pdbs)
+                {
+                    File.SetLastWriteTime($"{pdb}.srcsrv", File.GetLastWriteTime(pdb));
+                }
+            }
+        }
+    });
+
+targets.Add(
+    "pack",
+    DependsOn("sourcelink"),
     () =>
     {
         var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "-adhoc";
