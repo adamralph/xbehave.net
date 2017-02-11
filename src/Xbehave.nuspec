@@ -5,7 +5,8 @@
     <version>99.99.99-dev</version>
     <title>Xbehave</title>
     <authors>Adam Ralph, xBehave.net contributors</authors>
-    <description>A BDD/TDD framework based on xUnit.net and inspired by Gherkin. Allows features and scenarios to be written directly in code rather than mapping to external feature files. Works seamlessly with xUnit.net tooling.
+    <description>An xUnit.net extension for describing your tests using natural language.
+
 Installing this package installs Xbehave.Core and xunit.</description>
     <language>en-US</language>
     <projectUrl>http://xbehave.github.io/</projectUrl>
