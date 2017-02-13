@@ -12,7 +12,7 @@ targets.Add("default", DependsOn("pack", "test"));
 
 targets.Add("restore", () => Cmd("dotnet", "restore"));
 
-targets.Add("build", () => Cmd("dotnet", $"build ./**/project.json -c Release"));
+targets.Add("build", DependsOn("restore"), () => Cmd("dotnet", $"build ./**/project.json -c Release"));
 
 targets.Add(
     "sourcelink",
