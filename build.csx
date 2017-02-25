@@ -10,8 +10,6 @@ var targets = new TargetDictionary();
 
 targets.Add("default", DependsOn("pack", "test"));
 
-targets.Add("restore", () => Cmd("dotnet", "restore"));
-
 targets.Add("build", () => Cmd("dotnet", $"build ./**/project.json -c Release"));
 
 targets.Add(

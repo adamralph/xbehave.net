@@ -9,7 +9,7 @@ skip_tags: true
 environment:
   BUILD_NUMBER: $(APPVEYOR_BUILD_NUMBER)
 install:
-- cmd: build.cmd restore
+- cmd: dotnet restore
 build_script:
 - cmd: build.cmd
 test: off
