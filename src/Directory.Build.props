@@ -1,0 +1,13 @@
+<Project>
+
+  <PropertyGroup>
+    <Version>2.3.0</Version>
+    <FileVersion>2.3.0</FileVersion>
+    <AssemblyVersion>2.3.0.0</AssemblyVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Xbehave.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
+  </PropertyGroup>
+
+</Project>

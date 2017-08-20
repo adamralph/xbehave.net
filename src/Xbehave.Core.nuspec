@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Xbehave.Core</id>
-    <version>99.99.99-dev</version>
+    <version>0.0.0</version>
     <title>xBehave.net [Core Testing Framework]</title>
     <authors>Adam Ralph, xBehave.net contributors</authors>
     <description>Includes the libraries for writing tests with xBehave.net.
@@ -14,28 +14,21 @@ Installing this package installs xunit.core.</description>
     <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
-      <group targetFramework="net45">
-        <dependency id="xunit.core" version="[2.2.0-beta2-build3300,3)" />
-        <dependency id="xunit.extensibility.execution" version="[2.2.0-beta2-build3300,3)" />
-      </group>
-      <group targetFramework="netstandard1.0">
-        <dependency id="NETStandard.Library" version="1.6.0" />
-        <dependency id="xunit.core" version="[2.2.0-beta2-build3300,3)" />
-        <dependency id="xunit.extensibility.execution" version="[2.2.0-beta2-build3300,3)" />
-      </group>
+      <dependency id="xunit.core" version="[2.3.0, 2.4)" />
+      <dependency id="xunit.extensibility.execution" version="[2.3.0, 2.4)" />
     </dependencies>
   </metadata>
   <files>
-    <file src="Xbehave.Core\bin\Release\netstandard1.0\Xbehave.Core.dll" target="lib\net45" />
-    <file src="Xbehave.Core\bin\Release\netstandard1.0\Xbehave.Core.pdb" target="lib\net45" />
-    <file src="Xbehave.Core\bin\Release\netstandard1.0\Xbehave.Core.xml" target="lib\net45" />
-    <file src="Xbehave.Execution\bin\Release\net45\Xbehave.Execution.desktop.dll" target="lib\net45" />
-    <file src="Xbehave.Execution\bin\Release\net45\Xbehave.Execution.desktop.pdb" target="lib\net45" />
+    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.dll" target="lib\net452" />
+    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.pdb" target="lib\net452" />
+    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.xml" target="lib\net452" />
+    <file src="Xbehave.Execution\bin\Release\net452\Xbehave.Execution.desktop.dll" target="lib\net452" />
+    <file src="Xbehave.Execution\bin\Release\net452\Xbehave.Execution.desktop.pdb" target="lib\net452" />
 
-    <file src="Xbehave.Core\bin\Release\netstandard1.0\Xbehave.Core.dll" target="lib\netstandard1.0" />
-    <file src="Xbehave.Core\bin\Release\netstandard1.0\Xbehave.Core.pdb" target="lib\netstandard1.0" />
-    <file src="Xbehave.Core\bin\Release\netstandard1.0\Xbehave.Core.xml" target="lib\netstandard1.0" />
-    <file src="Xbehave.Execution\bin\Release\netstandard1.0\Xbehave.Execution.dotnet.dll" target="lib\netstandard1.0" />
-    <file src="Xbehave.Execution\bin\Release\netstandard1.0\Xbehave.Execution.dotnet.pdb" target="lib\netstandard1.0" />
+    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.dll" target="lib\netstandard1.1" />
+    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.pdb" target="lib\netstandard1.1" />
+    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.xml" target="lib\netstandard1.1" />
+    <file src="Xbehave.Execution\bin\Release\netstandard1.1\Xbehave.Execution.dotnet.dll" target="lib\netstandard1.1" />
+    <file src="Xbehave.Execution\bin\Release\netstandard1.1\Xbehave.Execution.dotnet.pdb" target="lib\netstandard1.1" />
   </files>
 </package>

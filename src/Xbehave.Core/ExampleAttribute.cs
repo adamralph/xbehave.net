@@ -20,7 +20,6 @@ namespace Xbehave
     /// </summary>
     [DataDiscoverer("Xunit.Sdk.InlineDataDiscoverer", "xunit.core")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    [CLSCompliant(false)]
     [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
     public sealed class ExampleAttribute : DataAttribute
     {

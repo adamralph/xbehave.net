@@ -1,4 +1,4 @@
-﻿// <copyright file="DisposableExtensions.cs" company="xBehave.net contributors">
+// <copyright file="DisposableExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -20,7 +20,8 @@ namespace Xbehave
         /// <param name="obj">The object to be disposed.</param>
         /// <param name="stepContext">The execution context for the current step.</param>
         /// <returns>The object.</returns>
-        public static T Using<T>(this T obj, IStepContext stepContext) where T : IDisposable
+        public static T Using<T>(this T obj, IStepContext stepContext)
+            where T : IDisposable
         {
             Guard.AgainstNullArgument("stepContext", stepContext);
 

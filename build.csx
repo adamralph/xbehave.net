@@ -10,47 +10,20 @@ var targets = new TargetDictionary();
 
 targets.Add("default", DependsOn("pack", "test"));
 
-targets.Add("build", () => Cmd("dotnet", $"build ./**/project.json -c Release"));
-
-targets.Add(
-    "sourcelink",
-    DependsOn("build"),
-    () =>
-    {
-        var projects = new[] { "Xbehave.Core", "Xbehave.Execution" };
-        var url = "https://raw.githubusercontent.com/xbehave/xbehave.net/{0}/%var2%";
-        foreach (var project in projects)
-        {
-            var pdbs =
-                Directory.EnumerateFiles($"./src/{project}/bin/Release", $"{project}*.pdb", SearchOption.AllDirectories)
-                .Where(_ => !File.Exists($"{_}.srcsrv") || File.GetLastWriteTime(_) > File.GetLastWriteTime($"{_}.srcsrv"))
-                .ToList();
-
-            if (pdbs.Any())
-            {
-                var pdbArg = string.Join(" -p ", pdbs);
-                var include = $"./src/{project}/**/*.cs";
-                var exclude = $"./src/{project}/obj/**";
-                Cmd("./packages/SourceLink.1.1.0/tools/SourceLink.exe", $"index -p {pdbArg} -u {url} -f {include} -nf {exclude}");
-                foreach (var pdb in pdbs)
-                {
-                    File.SetLastWriteTime($"{pdb}.srcsrv", File.GetLastWriteTime(pdb));
-                }
-            }
-        }
-    });
+targets.Add("build", () => Cmd("dotnet", $"build -c Release"));
 
 targets.Add(
     "pack",
-    DependsOn("sourcelink"),
+    DependsOn("build"),
     () =>
     {
         var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "-adhoc";
         var buildNumber = Environment.GetEnvironmentVariable("BUILD_NUMBER") ?? "000000";
         var buildNumberSuffix = versionSuffix == "" ? "" : "-build" + buildNumber;
-        var version = File.ReadAllText("src/CommonAssemblyInfo.cs")
-            .Split(new[] { "AssemblyInformationalVersion(\"" }, 2, StringSplitOptions.RemoveEmptyEntries)[1]
-            .Split('\"').First() + versionSuffix + buildNumberSuffix;
+        var version = File.ReadAllText("src/Directory.Build.props")
+                .Split(new[] { "<Version>" }, 2, StringSplitOptions.RemoveEmptyEntries)[1]
+                .Split(new[] { "</Version>" }, StringSplitOptions.RemoveEmptyEntries).First()
+            + versionSuffix + buildNumberSuffix;
 
         Directory.CreateDirectory("./artifacts");
 
@@ -63,7 +36,7 @@ targets.Add(
             File.WriteAllText(nuspec, content);
             try
             {
-                Cmd("./.nuget/NuGet.exe", $"pack {nuspec} -Version {version} -OutputDirectory ./artifacts -NoPackageAnalysis");
+                Cmd("./.nuget/v4.3.0/NuGet.exe", $"pack {nuspec} -Version {version} -OutputDirectory ./artifacts -NoPackageAnalysis");
             }
             finally
             {
@@ -73,16 +46,28 @@ targets.Add(
         }
     });
 
-targets.Add("test", () => Cmd("dotnet", $"test ./tests/Xbehave.Test -c Release"));
+targets.Add(
+    "test",
+    DependsOn("build"),
+    () => Cmd("dotnet", $"xunit -configuration Release -nobuild", "./tests/Xbehave.Test"));
 
 Run(Args, targets);
 
 // helper
-public static void Cmd(string fileName, string args)
+public static void Cmd(string fileName, string args) => Cmd(fileName, args, "");
+
+public static void Cmd(string fileName, string args, string workingDirectory)
 {
     using (var process = new Process())
     {
-        process.StartInfo = new ProcessStartInfo { FileName = $"\"{fileName}\"", Arguments = args, UseShellExecute = false, };
+        process.StartInfo = new ProcessStartInfo
+        {
+            FileName = $"\"{fileName}\"",
+            Arguments = args,
+            UseShellExecute = false,
+            WorkingDirectory = workingDirectory,
+        };
+
         Console.WriteLine($"Running '{process.StartInfo.FileName} {process.StartInfo.Arguments}'...");
         process.Start();
         process.WaitForExit();
