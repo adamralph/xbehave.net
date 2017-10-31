@@ -65,7 +65,6 @@ namespace Xbehave
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
-        [CLSCompliant(false)]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder _(this string text, Action body)
         {
@@ -123,7 +122,6 @@ namespace Xbehave
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
-        [CLSCompliant(false)]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder _(this string text, Action<IStepContext> body)
         {
@@ -175,7 +173,6 @@ namespace Xbehave
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
-        [CLSCompliant(false)]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder _(this string text, Func<Task> body)
         {
@@ -222,7 +219,6 @@ namespace Xbehave
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
-        [CLSCompliant(false)]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
         public static IStepBuilder _(this string text, Func<IStepContext, Task> body)
         {

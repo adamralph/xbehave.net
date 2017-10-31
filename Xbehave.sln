@@ -1,21 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}"
-	ProjectSection(SolutionItems) = preProject
-		tests\Xbehave.Test.ruleset = tests\Xbehave.Test.ruleset
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33269118-539E-4B80-8298-556253F984FE}"
-	ProjectSection(SolutionItems) = preProject
-		src\CommonAssemblyInfo.cs = src\CommonAssemblyInfo.cs
-		src\Xbehave.Core.nuspec = src\Xbehave.Core.nuspec
-		src\Xbehave.nuspec = src\Xbehave.nuspec
-		src\Xbehave.ruleset = src\Xbehave.ruleset
-		src\Xbehave.snk = src\Xbehave.snk
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{D254943B-777E-4CFD-8AE5-6B809EF5F3A2}"
 	ProjectSection(SolutionItems) = preProject
 		assets\xbehave_128x128.png = assets\xbehave_128x128.png
@@ -32,18 +18,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.cmd = build.cmd
 		build.csx = build.csx
 		CONTRIBUTING.md = CONTRIBUTING.md
-		global.json = global.json
+		Directory.Build.props = Directory.Build.props
 		LICENSE = LICENSE
 		packages.config = packages.config
 		README.md = README.md
 		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Core", "src\Xbehave.Core\Xbehave.Core.xproj", "{37910B4A-996D-4DB1-816E-7ABAAE43CEC2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33269118-539E-4B80-8298-556253F984FE}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+		src\Xbehave.Core.nuspec = src\Xbehave.Core.nuspec
+		src\Xbehave.nuspec = src\Xbehave.nuspec
+		src\Xbehave.ruleset = src\Xbehave.ruleset
+		src\Xbehave.snk = src\Xbehave.snk
+	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Execution", "src\Xbehave.Execution\Xbehave.Execution.xproj", "{27AB17E5-1796-4DBD-8FFE-99249114C93A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Core", "src\Xbehave.Core\Xbehave.Core.csproj", "{37910B4A-996D-4DB1-816E-7ABAAE43CEC2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Xbehave.Test", "tests\Xbehave.Test\Xbehave.Test.xproj", "{AB3C58C9-5EB0-419B-90F4-2835F997CC93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Execution", "src\Xbehave.Execution\Xbehave.Execution.csproj", "{27AB17E5-1796-4DBD-8FFE-99249114C93A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Test", "tests\Xbehave.Test\Xbehave.Test.csproj", "{AB3C58C9-5EB0-419B-90F4-2835F997CC93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,5 +68,8 @@ Global
 		{37910B4A-996D-4DB1-816E-7ABAAE43CEC2} = {33269118-539E-4B80-8298-556253F984FE}
 		{27AB17E5-1796-4DBD-8FFE-99249114C93A} = {33269118-539E-4B80-8298-556253F984FE}
 		{AB3C58C9-5EB0-419B-90F4-2835F997CC93} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {397F0EE3-6CD7-4EF4-B6D2-ED3FEAAE5FBF}
 	EndGlobalSection
 EndGlobal

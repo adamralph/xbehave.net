@@ -47,7 +47,7 @@ namespace Xbehave.Test
             }
 
             [Scenario]
-            [MemberData("MemberData")]
+            [MemberData(nameof(MemberData))]
             public void Scenario(int operand1, int operand2, int sum)
             {
                 "Then as a distinct example the sum of {0} and {1} is {2}"
@@ -72,7 +72,7 @@ namespace Xbehave.Test
             }
 
             [Scenario]
-            [MemberData("MemberData")]
+            [MemberData(nameof(MemberData))]
             public void Scenario(int operand1, int operand2, int sum)
             {
                 "Then as a distinct example the sum of {0} and {1} is {2}"
@@ -97,7 +97,7 @@ namespace Xbehave.Test
             private static int previousSum;
 
             [Scenario]
-            [MemberData("MemberData")]
+            [MemberData(nameof(MemberData))]
             public void Scenario(int operand1, int operand2, int sum)
             {
                 "Then as a distinct example the sum of {0} and {1} is {2}"

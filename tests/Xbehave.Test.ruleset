@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Xbehave Test" ToolsVersion="14.0">
-  <Include Path="minimumrecommendedrules.ruleset" Action="Default" />
-  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-    <Rule Id="SA1127" Action="None" />
-    <Rule Id="SA1311" Action="None" />
-  </Rules>
-</RuleSet>
