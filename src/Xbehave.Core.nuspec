@@ -3,7 +3,7 @@
   <metadata>
     <id>Xbehave.Core</id>
     <version>0.0.0</version>
-    <title>xBehave.net [Core Testing Framework]</title>
+    <title>Xbehave [Core Testing Framework]</title>
     <authors>Adam Ralph, xBehave.net contributors</authors>
     <description>Includes the libraries for writing tests with xBehave.net.
 Installing this package installs xunit.core.</description>
