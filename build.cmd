@@ -8,7 +8,7 @@ setlocal
 :: set tool versions
 set NUGET_VERSION=4.3.0
 set MSBUILD_VERSION=15
-set CSI_VERSION=2.3.1
+set CSI_VERSION=2.4.0
 
 :: determine nuget cache dir
 set NUGET_CACHE_DIR=%LocalAppData%\.nuget\v%NUGET_VERSION%
