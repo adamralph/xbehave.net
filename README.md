@@ -32,6 +32,10 @@ For full usage details for `build.cmd`, execute `build.cmd -?`. See  [simple-tar
 
 You can also build the solution using Visual Studio 2015 or later. At the time of writing the build is only confirmed to work on Windows.
 
+## Versions
+
+xBehave.net follows the versioning scheme of xUnit.net. xUnit.net and xBehave.net do not follow SemVer and may introduce breaking changes in minor versions. Each minor version of xBehave.net is linked to the equivalent minor version of xUnit.net. xBehave.net patch versions within a minor version are independent of patch versions of xUnit.net within that minor version. For example, xBehave.net 2.3.x is linked to xUnit.net 2.3.x, but each package may have a different number of patch versions within the 2.3.x range.
+
 ## On which giants' shoulders does it stand?
 
 * [.NET CLI](https://github.com/dotnet/cli)
@@ -44,7 +48,6 @@ You can also build the solution using Visual Studio 2015 or later. At the time o
 * [Gitter](https://gitter.im/xbehave/xbehave.net/)
 * [LiteGuard](https://github.com/liteguard/liteguard/)
 * [NuGet](https://www.nuget.org/packages/Xbehave/)
-* [Semantic Versioning](http://semver.org/)
 * [simple-targets-csx](https://github.com/adamralph/simple-targets-csx)
 * [StyleCop Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/)
 * [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
