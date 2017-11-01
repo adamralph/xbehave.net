@@ -11,6 +11,7 @@ Installing this package installs xunit.core.</description>
     <projectUrl>http://xbehave.github.io/</projectUrl>
     <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
     <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/LICENSE</licenseUrl>
+    <releaseNotes>https://github.com/xbehave/xbehave.net/releases</releaseNotes>
     <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
