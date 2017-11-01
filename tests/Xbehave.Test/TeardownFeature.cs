@@ -1,4 +1,4 @@
-﻿// <copyright file="TeardownFeature.cs" company="xBehave.net contributors">
+// <copyright file="TeardownFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -6,6 +6,7 @@ namespace Xbehave.Test
 {
     using System;
     using System.Linq;
+    using System.Threading.Tasks;
     using FluentAssertions;
     using Xbehave.Test.Infrastructure;
     using Xunit.Abstractions;
@@ -127,6 +128,19 @@ namespace Xbehave.Test
                 .Teardown(default(Action));
         }
 
+        [Scenario]
+        public void AsyncTeardowns(Type feature, ITestResultMessage[] results)
+        {
+            "Given a step with an async teardown which throws"
+                .x(() => feature = typeof(StepWithAnAsyncTeardownWhichThrows));
+
+            "When running the scenario"
+                .x(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then there should be one failure"
+                .x(() => results.OfType<ITestFailed>().Count().Should().Be(1));
+        }
+
         private static class StepWithManyTeardowns
         {
             [Scenario]
@@ -220,6 +234,21 @@ namespace Xbehave.Test
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown1"))
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown2"))
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown3"));
+            }
+        }
+
+        private static class StepWithAnAsyncTeardownWhichThrows
+        {
+            [Scenario]
+            public static void Scenario()
+            {
+                "Given something"
+                    .x(() => typeof(TeardownFeature).SaveTestEvent("step1"))
+                    .Teardown(async () =>
+                    {
+                        await Task.Yield();
+                        throw new Exception();
+                    });
             }
         }
     }
