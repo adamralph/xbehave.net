@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Xunit.Sdk
@@ -14,7 +15,7 @@ namespace Xunit.Sdk
     /// <summary>
     /// Formats arguments for display in theories.
     /// </summary>
-    [GeneratedCode("https://github.com/xunit/assert.xunit", "5393af8846737eea79db9ac3b6732e316377ea69")]
+    [GeneratedCode("https://github.com/xunit/assert.xunit", "bb4fa9797b94ae9fec7b855df8d4f790adcf6623")]
     static class ArgumentFormatter
     {
         const int MAX_DEPTH = 3;
@@ -62,58 +63,96 @@ namespace Xunit.Sdk
 
             var valueAsType = value as Type;
             if (valueAsType != null)
-                return string.Format("typeof({0})", new object[] { FormatTypeName(valueAsType) });
+                return $"typeof({FormatTypeName(valueAsType)})";
 
-            if (value is char)
+            try
             {
-                var charValue = (char)value;
-                if (char.IsLetterOrDigit(charValue) || char.IsPunctuation(charValue) || char.IsSymbol(charValue) || charValue == ' ')
-                    return string.Format("'{0}'", new object[] { value });
+                if (value.GetType().GetTypeInfo().IsEnum)
+                    return value.ToString().Replace(", ", " | ");
 
-                return string.Format("0x{0:x4}", new object[] { (int)charValue });
+                if (value is char)
+                {
+                    var charValue = (char)value;
+
+                    if (charValue == '\'')
+                        return @"'\''";
+
+                    // Take care of all of the escape sequences
+                    string escapeSequence;
+                    if (TryGetEscapeSequence(charValue, out escapeSequence))
+                    {
+                        return $"'{escapeSequence}'";
+                    }
+
+                    if (char.IsLetterOrDigit(charValue) || char.IsPunctuation(charValue) || char.IsSymbol(charValue) || charValue == ' ')
+                        return $"'{charValue}'";
+
+                    // Fallback to hex
+                    return $"0x{(int)charValue:x4}";
+                }
+
+                if (value is DateTime || value is DateTimeOffset)
+                    return $"{value:o}";
+
+                var stringParameter = value as string;
+                if (stringParameter != null)
+                {
+                    stringParameter = EscapeHexChars(stringParameter);
+                    stringParameter = stringParameter.Replace(@"""", @"\"""); // escape double quotes
+                    if (stringParameter.Length > MAX_STRING_LENGTH)
+                    {
+                        string displayed = stringParameter.Substring(0, MAX_STRING_LENGTH);
+                        return $"\"{displayed}\"...";
+                    }
+
+                    return $"\"{stringParameter}\"";
+                }
+
+                try
+                {
+                    var enumerable = value as IEnumerable;
+                    if (enumerable != null)
+                        return FormatEnumerable(enumerable.Cast<object>(), depth);
+                }
+                catch
+                {
+                    // Sometimes enumerables cannot be enumerated when being, and instead thrown an exception.
+                    // This could be, for example, because they require state that is not provided by Xunit.
+                    // In these cases, just continue formatting. 
+                }
+
+                var type = value.GetType();
+                var typeInfo = type.GetTypeInfo();
+                if (typeInfo.IsValueType)
+                    return Convert.ToString(value, CultureInfo.CurrentCulture);
+
+                var task = value as Task;
+                if (task != null)
+                {
+                    var typeParameters = typeInfo.GenericTypeArguments;
+                    var typeName = typeParameters.Length == 0 ? "Task" : $"Task<{string.Join(",", typeParameters.Select(FormatTypeName))}>";
+                    return $"{typeName} {{ Status = {task.Status} }}";
+                }
+
+                var toString = type.GetRuntimeMethod("ToString", EmptyTypes);
+
+                if (toString != null && toString.DeclaringType != typeof(object))
+                    return (string)toString.Invoke(value, EmptyObjects);
+
+                return FormatComplexValue(value, depth, type);
             }
-
-            if (value is DateTime || value is DateTimeOffset)
-                return string.Format("{0:o}", new object[] { value });
-
-            var stringParameter = value as string;
-            if (stringParameter != null)
+            catch (Exception ex)
             {
-                if (stringParameter.Length > MAX_STRING_LENGTH)
-                    return string.Format("\"{0}\"...", new object[] { stringParameter.Substring(0, MAX_STRING_LENGTH) });
-
-                return string.Format("\"{0}\"", new object[] { stringParameter });
+                // Sometimes an exception is thrown when formatting an argument, such as in ToString.
+                // In these cases, we don't want xunit to crash, as tests may have passed despite this.
+                return $"{ex.GetType().Name} was thrown formatting an object of type \"{value.GetType()}\"";
             }
-
-            var enumerable = value as IEnumerable;
-            if (enumerable != null)
-                return FormatEnumerable(enumerable.Cast<object>(), depth);
-
-            var type = value.GetType();
-            var typeInfo = type.GetTypeInfo();
-            if (typeInfo.IsValueType)
-                return Convert.ToString(value, CultureInfo.CurrentCulture);
-
-            var task = value as Task;
-            if (task != null)
-            {
-                var typeParameters = typeInfo.GenericTypeArguments;
-                var typeName = typeParameters.Length == 0 ? "Task" : string.Format("Task<{0}>", string.Join(",", typeParameters.Select(FormatTypeName)));
-                return string.Format("{0} {{ Status = {1} }}", typeName, task.Status);
-            }
-
-            var toString = type.GetRuntimeMethod("ToString", EmptyTypes);
-
-            if (toString != null && toString.DeclaringType != typeof(object))
-                return (string)toString.Invoke(value, EmptyObjects);
-
-            return FormatComplexValue(value, depth, type);
         }
 
         static string FormatComplexValue(object value, int depth, Type type)
         {
             if (depth == MAX_DEPTH)
-                return string.Format("{0} {{ ... }}", new object[] { type.Name });
+                return $"{type.Name} {{ ... }}";
 
             var fields = type.GetRuntimeFields()
                              .Where(f => f.IsPublic && !f.IsStatic)
@@ -127,15 +166,15 @@ namespace Xunit.Sdk
                                    .ToList();
 
             if (parameters.Count == 0)
-                return string.Format("{0} {{ }}", new object[] { type.Name });
+                return $"{type.Name} {{ }}";
 
             var formattedParameters = string.Join(", ", parameters.Take(MAX_OBJECT_PARAMETER_COUNT)
-                                                                  .Select(p => string.Format("{0} = {1}", new object[] { p.name, p.value })));
+                                                                  .Select(p => $"{p.name} = {p.value}"));
 
             if (parameters.Count > MAX_OBJECT_PARAMETER_COUNT)
                 formattedParameters += ", ...";
 
-            return string.Format("{0} {{ {1} }}", new object[] { type.Name, formattedParameters });
+            return $"{type.Name} {{ {formattedParameters} }}";
         }
 
         static string FormatEnumerable(IEnumerable<object> enumerableValues, int depth)
@@ -149,7 +188,7 @@ namespace Xunit.Sdk
             if (values.Count > MAX_ENUMERABLE_LENGTH)
                 printedValues += ", ...";
 
-            return string.Format("[{0}]", new object[] { printedValues });
+            return $"[{printedValues}]";
         }
 
         static string FormatTypeName(Type type)
@@ -161,7 +200,7 @@ namespace Xunit.Sdk
             while (typeInfo.IsArray)
             {
                 var rank = typeInfo.GetArrayRank();
-                arraySuffix += string.Format("[{0}]", new object[] { new string(',', rank - 1) });
+                arraySuffix += $"[{new string(',', rank - 1)}]";
                 typeInfo = typeInfo.GetElementType().GetTypeInfo();
             }
 
@@ -182,13 +221,13 @@ namespace Xunit.Sdk
                 name = name.Substring(0, tickIdx);
 
             if (typeInfo.IsGenericTypeDefinition)
-                name = string.Format("{0}<{1}>", new object[] { name, new string(',', typeInfo.GenericTypeParameters.Length - 1) });
+                name = $"{name}<{new string(',', typeInfo.GenericTypeParameters.Length - 1)}>";
             else if (typeInfo.IsGenericType)
             {
                 if (typeInfo.GetGenericTypeDefinition() == typeof(Nullable<>))
                     name = FormatTypeName(typeInfo.GenericTypeArguments[0]) + "?";
                 else
-                    name = string.Format("{0}<{1}>", new object[] { name, string.Join(", ", typeInfo.GenericTypeArguments.Select(FormatTypeName)) });
+                    name = $"{name}<{string.Join(", ", typeInfo.GenericTypeArguments.Select(FormatTypeName))}>";
             }
 
             return name + arraySuffix;
@@ -202,7 +241,7 @@ namespace Xunit.Sdk
             }
             catch (Exception ex)
             {
-                return string.Format("(throws {0})", new object[] { UnwrapException(ex).GetType().Name });
+                return $"(throws {UnwrapException(ex).GetType().Name})";
             }
         }
 
@@ -216,6 +255,60 @@ namespace Xunit.Sdk
 
                 ex = tiex.InnerException;
             }
+        }
+
+        static string EscapeHexChars(string s)
+        {
+            var builder = new StringBuilder(s.Length);
+            for (int i = 0; i < s.Length; i++)
+            {
+                char ch = s[i];
+                string escapeSequence;
+                if (TryGetEscapeSequence(ch, out escapeSequence))
+                    builder.Append(escapeSequence);
+                else if (ch < 32) // C0 control char
+                    builder.AppendFormat(@"\x{0}", (+ch).ToString("x2"));
+                else if (char.IsSurrogatePair(s, i)) // should handle the case of ch being the last one
+                {
+                    // For valid surrogates, append like normal
+                    builder.Append(ch);
+                    builder.Append(s[++i]);
+                }
+                // Check for stray surrogates/other invalid chars
+                else if (char.IsSurrogate(ch) || ch == '\uFFFE' || ch == '\uFFFF')
+                {
+                    builder.AppendFormat(@"\x{0}", (+ch).ToString("x4"));
+                }
+                else
+                    builder.Append(ch); // Append the char like normal
+            }
+            return builder.ToString();
+        }
+
+        static bool TryGetEscapeSequence(char ch, out string value)
+        {
+            value = null;
+
+            if (ch == '\t') // tab
+                value = @"\t";
+            if (ch == '\n') // newline
+                value = @"\n";
+            if (ch == '\v') // vertical tab
+                value = @"\v";
+            if (ch == '\a') // alert
+                value = @"\a";
+            if (ch == '\r') // carriage return
+                value = @"\r";
+            if (ch == '\f') // formfeed
+                value = @"\f";
+            if (ch == '\b') // backspace
+                value = @"\b";
+            if (ch == '\0') // null char
+                value = @"\0";
+            if (ch == '\\') // backslash
+                value = @"\\";
+
+            return value != null;
         }
     }
 }
