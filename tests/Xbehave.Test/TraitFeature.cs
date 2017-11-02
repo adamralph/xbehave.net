@@ -1,4 +1,4 @@
-﻿// <copyright file="TraitFeature.cs" company="xBehave.net contributors">
+// <copyright file="TraitFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -18,8 +18,7 @@ namespace Xbehave.Test
         [Example("bar", 1)]
         [Example("baz", 1)]
         [Example("bazz", 0)]
-        public void ScenariosWithTraits(
-            string traitValue, int expectedResultCount, Type feature, ITestResultMessage[] results)
+        public void ScenariosWithTraits(string traitValue, int expectedResultCount, Type feature, ITestResultMessage[] results)
         {
             "Given two single step scenarios, 'foo' traits of 'bar' and 'baz' respectively"
                 .x(() => feature = typeof(TwoSingleStepScenariosWithFooTraitsOfBarAndBazRespectively));
@@ -35,19 +34,15 @@ namespace Xbehave.Test
         {
             [Scenario]
             [Trait("foo", "bar")]
-            public void Bar()
-            {
+            public void Bar() =>
                 "Bar"
                     .x(() => { });
-            }
 
             [Scenario]
             [Trait("foo", "baz")]
-            public void Baz()
-            {
+            public void Baz() =>
                 "Baz"
                     .x(() => { });
-            }
         }
     }
 }

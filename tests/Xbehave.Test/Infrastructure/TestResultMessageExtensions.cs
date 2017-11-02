@@ -1,4 +1,4 @@
-﻿// <copyright file="TestResultMessageExtensions.cs" company="xBehave.net contributors">
+// <copyright file="TestResultMessageExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -11,21 +11,10 @@ namespace Xbehave.Test.Infrastructure
 
     public static class TestResultMessageExtensions
     {
-        public static string ToDisplayString(this ITestResultMessage[] results, string header)
-        {
-            var text = string.Join(
-                Environment.NewLine, results.Select(Format).ToArray());
+        public static string ToDisplayString(this ITestResultMessage[] results, string header) =>
+            header + Environment.NewLine + string.Join(Environment.NewLine, results.Select(Format));
 
-            return string.Concat(header, Environment.NewLine, text);
-        }
-
-        private static string Format(ITestResultMessage result, int index)
-        {
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "Result {0}: {1}",
-                (++index).ToString(CultureInfo.InvariantCulture),
-                result);
-        }
+        private static string Format(ITestResultMessage result, int index) =>
+            $"Result {(++index).ToString(CultureInfo.InvariantCulture)}: {result}";
     }
 }

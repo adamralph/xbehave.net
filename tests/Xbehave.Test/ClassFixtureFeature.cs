@@ -1,4 +1,4 @@
-﻿// <copyright file="ClassFixtureFeature.cs" company="xBehave.net contributors">
+// <copyright file="ClassFixtureFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -47,18 +47,14 @@ namespace Xbehave.Test
             }
 
             [Scenario]
-            public void Scenario1()
-            {
+            public void Scenario1() =>
                 "Given"
                     .x(() => this.fixture.Scenario1Executed = true);
-            }
 
             [Scenario]
-            public void Scenario2()
-            {
+            public void Scenario2() =>
                 "Given"
                     .x(() => this.fixture.Scenario2Executed = true);
-            }
         }
 
         private sealed class Fixture : IDisposable

@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioFeature.cs" company="xBehave.net contributors">
+// <copyright file="ScenarioFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -35,12 +35,8 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void ScenarioWithThreeSteps()
+        public void ScenarioWithThreeSteps(Type feature, IMessageSinkMessage[] messages, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var messages = default(IMessageSinkMessage[]);
-            var results = default(ITestResultMessage[]);
-
             "Given a feature with a scenario with three steps"
                 .x(() => feature = typeof(FeatureWithAScenarioWithThreeSteps));
 
@@ -82,11 +78,8 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void OrderingStepsByDisplayName()
+        public void OrderingStepsByDisplayName(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given ten steps named alphabetically backwards starting with 'z'"
                 .x(() => feature = typeof(TenStepsNamedAlphabeticallyBackwardsStartingWithZ));
 
@@ -102,11 +95,8 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void ScenarioWithTwoPassingStepsAndOneFailingStep()
+        public void ScenarioWithTwoPassingStepsAndOneFailingStep(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given a feature with a scenario with two passing steps and one failing step"
                 .x(() => feature = typeof(FeatureWithAScenarioWithTwoPassingStepsAndOneFailingStep));
 
@@ -124,12 +114,8 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void ScenarioBodyThrowsAnException()
+        public void ScenarioBodyThrowsAnException(Type feature, Exception exception, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var exception = default(Exception);
-            var results = default(ITestResultMessage[]);
-
             "Given a feature with a scenario body which throws an exception"
                 .x(() => feature = typeof(FeatureWithAScenarioBodyWhichThrowsAnException));
 
@@ -148,18 +134,13 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void FeatureCannotBeConstructed()
+        public void FeatureCannotBeConstructed(Type feature, Exception exception, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var exception = default(Exception);
-            var results = default(ITestResultMessage[]);
-
             "Given a feature with a non-static scenario but no default constructor"
                 .x(() => feature = typeof(FeatureWithANonStaticScenarioButNoDefaultConstructor));
 
             "When I run the scenarios"
-                .x(() => exception = Record.Exception(() =>
-                    results = this.Run<ITestResultMessage>(feature)));
+                .x(() => exception = Record.Exception(() => results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
                 .x(() => exception.Should().BeNull());
@@ -185,11 +166,8 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void FailingStepThenPassingSteps()
+        public void FailingStepThenPassingSteps(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given a failing step and two passing steps named alphabetically backwards"
                 .x(() => feature = typeof(AFailingStepAndTwoPassingStepsNamedAlphabeticallyBackwards));
 
@@ -226,11 +204,8 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void ScenarioWithNoSteps()
+        public void ScenarioWithNoSteps(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given a scenario with no steps"
                 .x(() => feature = typeof(FeatureWithAScenarioWithNoSteps));
 
@@ -245,25 +220,19 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void NullStepText()
-        {
+        public void NullStepText() =>
             ((string)null)
                 .x(() => { });
-        }
 
         [Scenario]
-        public void NullStepBody()
-        {
+        public void NullStepBody() =>
             "Given a null body"
                 .x(default(Action));
-        }
 
         [Scenario]
-        public void NullContextualStepBody()
-        {
+        public void NullContextualStepBody() =>
             "Given a null body"
                 .x(default(Action<IStepContext>));
-        }
 
         private class FeatureWithAScenarioWithThreeSteps
         {
@@ -339,10 +308,7 @@ namespace Xbehave.Test
         private class FeatureWithAScenarioBodyWhichThrowsAnException
         {
             [Scenario]
-            public static void Scenario()
-            {
-                throw new InvalidOperationException();
-            }
+            public static void Scenario() => throw new InvalidOperationException();
         }
 
         private class AFailingStepAndTwoPassingStepsNamedAlphabeticallyBackwards
@@ -351,10 +317,7 @@ namespace Xbehave.Test
             public static void Scenario()
             {
                 "Step z"
-                    .x(() =>
-                    {
-                        throw new NotImplementedException();
-                    });
+                    .x(() => throw new NotImplementedException());
 
                 "Step y"
                     .x(() => { });
@@ -372,27 +335,20 @@ namespace Xbehave.Test
 
             [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for testing.")]
             [Scenario]
-            public void Scenario()
-            {
+            public void Scenario() =>
                 "Given something"
                     .x(() => { });
-            }
         }
 
         private class FeatureWithAFailingConstructor
         {
-            public FeatureWithAFailingConstructor()
-            {
-                throw new InvalidOperationException();
-            }
+            public FeatureWithAFailingConstructor() => throw new InvalidOperationException();
 
             [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic", Justification = "Required for testing.")]
             [Scenario]
-            public void Scenario()
-            {
+            public void Scenario() =>
                 "Given something"
                     .x(() => { });
-            }
         }
 
         private class FeatureWithAScenarioWithNoSteps

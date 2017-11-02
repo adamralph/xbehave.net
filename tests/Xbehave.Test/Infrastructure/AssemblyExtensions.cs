@@ -5,7 +5,6 @@
 namespace Xbehave.Test.Infrastructure
 {
     using System;
-    using System.Globalization;
     using System.IO;
     using System.Reflection;
     using LiteGuard;
@@ -14,15 +13,12 @@ namespace Xbehave.Test.Infrastructure
     {
         public static string GetLocalCodeBase(this Assembly assembly)
         {
-            Guard.AgainstNullArgument("assembly", assembly);
-            Guard.AgainstNullArgumentProperty("assembly", "Codebase", assembly.CodeBase);
+            Guard.AgainstNullArgument(nameof(assembly), assembly);
+            Guard.AgainstNullArgumentProperty(nameof(assembly), nameof(assembly.CodeBase), assembly.CodeBase);
 
             if (!assembly.CodeBase.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
             {
-                var message = string.Format(
-                    CultureInfo.InvariantCulture,
-                    "Code base {0} in wrong format; must start with 'file:///' (case-insensitive).",
-                    assembly.CodeBase);
+                var message = $"Code base {assembly.CodeBase} in wrong format; must start with 'file:///' (case-insensitive).";
 
                 throw new ArgumentException(message, "assembly");
             }

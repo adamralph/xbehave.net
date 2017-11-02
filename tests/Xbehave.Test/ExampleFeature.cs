@@ -1,4 +1,4 @@
-﻿// <copyright file="ExampleFeature.cs" company="xBehave.net contributors">
+// <copyright file="ExampleFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -225,8 +225,7 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => feature = typeof(FeatureWithTwoScenariosWithExamplesWhichThrowErrors));
 
             "When I run the scenarios"
-                .x(() => exception = Record.Exception(() =>
-                    results = this.Run<ITestResultMessage>(feature)));
+                .x(() => exception = Record.Exception(() => results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
                 .x(() => exception.Should().BeNull());
@@ -261,10 +260,8 @@ an null value for an argument defined using the fifth type parameter"
             {
             }
 
-            protected override object[] ConvertDataItem(MethodInfo testMethod, object item)
-            {
+            protected override object[] ConvertDataItem(MethodInfo testMethod, object item) =>
                 throw new NotImplementedException();
-            }
         }
 
         public sealed class BadValuesExampleAttribute : DataAttribute
@@ -282,10 +279,7 @@ an null value for an argument defined using the fifth type parameter"
         public sealed class BadDisposable : IDisposable
         {
             [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Test")]
-            public void Dispose()
-            {
-                throw new InvalidOperationException();
-            }
+            public void Dispose() => throw new InvalidOperationException();
         }
 
         private static class SingleStepAndThreeExamples
@@ -296,8 +290,7 @@ an null value for an argument defined using the fifth type parameter"
             [Example(1, 2, 3)]
             [Example(10, 20, 30)]
             [Example(100, 200, 300)]
-            public static void Scenario(int x, int y, int sum)
-            {
+            public static void Scenario(int x, int y, int sum) =>
                 "Then as a distinct example the sum of {0} and {1} is {2}"
                     .x(() =>
                     {
@@ -305,18 +298,15 @@ an null value for an argument defined using the fifth type parameter"
                         (x + y).Should().Be(sum);
                         previousSum = sum;
                     });
-            }
         }
 
         private static class ArrayExamples
         {
             [Scenario]
             [Example(new[] { "one", "two" }, new[] { 1, 2 })]
-            public static void Scenario(string[] words, int[] numbers)
-            {
+            public static void Scenario(string[] words, int[] numbers) =>
                 "Given something"
                     .x(() => { });
-            }
         }
 
         private static class ScenarioWithThreeParametersASingleStepAndThreeExamplesEachWithOneValue
@@ -327,8 +317,7 @@ an null value for an argument defined using the fifth type parameter"
             [Example(1)]
             [Example(2)]
             [Example(3)]
-            public static void Scenario(int example, int missing1, object missing2)
-            {
+            public static void Scenario(int example, int missing1, object missing2) =>
                 "Then distinct examples are passed with the default values for missing arguments"
                     .x(() =>
                     {
@@ -337,7 +326,6 @@ an null value for an argument defined using the fifth type parameter"
                         missing2.Should().Be(default(object));
                         previousExample = example;
                     });
-            }
         }
 
         private static class SingleStepAndThreeExamplesWithMissingResolvableGenericArguments
@@ -349,8 +337,7 @@ an null value for an argument defined using the fifth type parameter"
             [Example(1, "a")]
             [Example(3, "b")]
             [Example(5, "c")]
-            public static void Scenario<T1, T2>(T1 example1, T2 example2, T1 missing1, T2 missing2)
-            {
+            public static void Scenario<T1, T2>(T1 example1, T2 example2, T1 missing1, T2 missing2) =>
                 "Then distinct examples are passed with the default values for missing arguments"
                     .x(() =>
                     {
@@ -361,7 +348,6 @@ an null value for an argument defined using the fifth type parameter"
                         previousExample1 = example1;
                         previousExample2 = example2;
                     });
-            }
         }
 
         private static class GenericScenarioFeature
@@ -370,44 +356,36 @@ an null value for an argument defined using the fifth type parameter"
             [Example(1, 2L, "a", 7, 7L, null)]
             [Example(3, 4L, "a", 8, 8L, null)]
             [Example(5, 6L, "a", 9, 8L, null)]
-            public static void Scenario<T1, T2, T3, T4, T5>(T1 a, T2 b, T3 c, T4 d, T4 e, T5 f)
-            {
+            public static void Scenario<T1, T2, T3, T4, T5>(T1 a, T2 b, T3 c, T4 d, T4 e, T5 f) =>
                 "Given"
                     .x(() => { });
-            }
         }
 
         private static class FeatureWithAScenarioWithExampleValuesAndAFormattedStep
         {
             [Scenario]
             [Example(1, 2, 3)]
-            public static void Scenario(int x, int y, int z)
-            {
+            public static void Scenario(int x, int y, int z) =>
                 "Given {0}, {1} and {2}"
                     .x(() => { });
-            }
         }
 
         private static class FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep
         {
             [Scenario]
             [Example(null, null, null)]
-            public static void Scenario(object x, object y, object z)
-            {
+            public static void Scenario(object x, object y, object z) =>
                 "Given {0}, {1} and {2}"
                     .x(() => { });
-            }
         }
 
         private static class FeatureWithAScenarioWithExampleValuesAndABadlyFormattedStep
         {
             [Scenario]
             [Example(1, 2, 3)]
-            public static void Scenario(int x, int y, int z)
-            {
+            public static void Scenario(int x, int y, int z) =>
                 "Given {3}, {4} and {5}"
                     .x(() => { });
-            }
         }
 
         private static class FeatureWithTwoScenariosWithInvalidExamples

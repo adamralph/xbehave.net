@@ -1,4 +1,4 @@
-﻿// <copyright file="TestClassFeature.cs" company="xBehave.net contributors">
+// <copyright file="TestClassFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -13,11 +13,9 @@ namespace Xbehave.Test
     public class TestClassFeature : Feature
     {
         [Background]
-        public void Background()
-        {
+        public void Background() =>
             "Given no events have occurred"
                 .x(() => typeof(TestClassFeature).ClearTestEvents());
-        }
 
         [Scenario]
         public void SingleScenario(Type feature)
@@ -62,7 +60,10 @@ namespace Xbehave.Test
             public void Dispose()
             {
                 var @event = string.Concat(
-                    "disposed", this.instanceNumber.ToString(CultureInfo.InvariantCulture), ".", ++this.disposalCount);
+                    "disposed",
+                    this.instanceNumber.ToString(CultureInfo.InvariantCulture),
+                    ".",
+                    (++this.disposalCount).ToString(CultureInfo.InvariantCulture));
 
                 typeof(TestClassFeature).SaveTestEvent(@event);
             }
