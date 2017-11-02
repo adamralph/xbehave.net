@@ -1,4 +1,4 @@
-﻿// <copyright file="TypeExtensions.cs" company="xBehave.net contributors">
+// <copyright file="TypeExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -11,6 +11,7 @@ namespace Xbehave.Test.Infrastructure
     using System.Linq;
     using System.Reflection;
     using System.Threading;
+    using System.Threading.Tasks;
 
     internal static class TypeExtensions
     {
@@ -44,6 +45,17 @@ namespace Xbehave.Test.Infrastructure
             using (var writer = new StreamWriter(file))
             {
                 writer.Write(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        public static async Task SaveTestEventAsync(this Type feature, string @event)
+        {
+            await Task.Delay(1);
+            using (var file = File.Create(
+                Path.Combine(GetDirectoryName(feature), string.Concat(@event, ".", feature.Name))))
+            using (var writer = new StreamWriter(file))
+            {
+                await writer.WriteAsync(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
             }
         }
 

@@ -1,4 +1,4 @@
-﻿// <copyright file="MetadataFeature.cs" company="xBehave.net contributors">
+// <copyright file="MetadataFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -16,7 +16,8 @@ namespace Xbehave.Test
             string text, IStepContext stepContext, IStep step, IScenario scenario, IXunitTestCase scenarioOutline)
         {
             "When I execute a step"
-                .x(c => stepContext = c);
+                .x(c => stepContext = c)
+                .Teardown(c => c.Should().BeSameAs(stepContext));
 
             "Then the step context contains metadata about the step"
                 .x(() => (step = stepContext.Step.Should().NotBeNull().And.Subject.As<IStep>())

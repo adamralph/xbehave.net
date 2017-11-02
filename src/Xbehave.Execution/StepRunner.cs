@@ -1,4 +1,4 @@
-﻿// <copyright file="StepRunner.cs" company="xBehave.net contributors">
+// <copyright file="StepRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -10,17 +10,18 @@ namespace Xbehave.Execution
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Sdk;
+    using Xunit.Abstractions;
     using Xunit.Sdk;
 
     public class StepRunner : XunitTestRunner
     {
-        private readonly IStep step;
+        private readonly IStepContext stepContext;
         private readonly Func<IStepContext, Task> body;
-        private readonly List<IDisposable> disposables = new List<IDisposable>();
 
         public StepRunner(
-            IStep step,
+            IStepContext stepContext,
             Func<IStepContext, Task> body,
+            ITest test,
             IMessageBus messageBus,
             Type scenarioClass,
             object[] constructorArguments,
@@ -31,7 +32,7 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
             : base(
-                step,
+                test,
                 messageBus,
                 scenarioClass,
                 constructorArguments,
@@ -42,20 +43,11 @@ namespace Xbehave.Execution
                 aggregator,
                 cancellationTokenSource)
         {
-            this.step = step;
+            this.stepContext = stepContext;
             this.body = body;
         }
 
-        public IReadOnlyList<IDisposable> Disposables
-        {
-            get { return this.disposables; }
-        }
-
-        protected async override Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator)
-        {
-            var tuple = await new StepInvoker(this.step, this.body, aggregator, this.CancellationTokenSource).RunAsync();
-            this.disposables.AddRange(tuple.Item2);
-            return tuple.Item1;
-        }
+        protected override Task<decimal> InvokeTestMethodAsync(ExceptionAggregator aggregator) =>
+            new StepInvoker(this.stepContext, this.body, aggregator, this.CancellationTokenSource).RunAsync();
     }
 }

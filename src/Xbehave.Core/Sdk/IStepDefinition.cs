@@ -1,4 +1,4 @@
-﻿// <copyright file="IStepDefinition.cs" company="xBehave.net contributors">
+// <copyright file="IStepDefinition.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -26,7 +26,7 @@ namespace Xbehave.Sdk
         /// <summary>
         /// Gets the teardowns to be invoked after the execution of the scenario in which the step participates.
         /// </summary>
-        ICollection<Action> Teardowns { get; }
+        ICollection<Func<IStepContext, Task>> Teardowns { get; }
 
         /// <summary>
         /// Gets or sets the reason for skipping this step.
@@ -54,7 +54,7 @@ namespace Xbehave.Sdk
         /// <returns>
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
-        new IStepDefinition Teardown(Action action);
+        new IStepDefinition Teardown(Func<IStepContext, Task> action);
 
         /// <summary>
         /// Defines the behavior of remaining steps if this step fails.
