@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioDiscoverer.cs" company="xBehave.net contributors">
+// <copyright file="ScenarioDiscoverer.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -9,24 +9,22 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioDiscoverer : IXunitTestCaseDiscoverer
+    public class ScenarioDiscoverer : TheoryDiscoverer
     {
-        private readonly IMessageSink diagnosticMessageSink;
-
         public ScenarioDiscoverer(IMessageSink diagnosticMessageSink)
+            : base(diagnosticMessageSink)
         {
-            this.diagnosticMessageSink = diagnosticMessageSink;
         }
 
         [SuppressMessage(
             "Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Factory method.")]
-        public IEnumerable<IXunitTestCase> Discover(
+        public override IEnumerable<IXunitTestCase> Discover(
             ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
-            Guard.AgainstNullArgument("discoveryOptions", discoveryOptions);
+            Guard.AgainstNullArgument(nameof(discoveryOptions), discoveryOptions);
 
             yield return new ScenarioOutline(
-                this.diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
+                this.DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod);
         }
     }
 }

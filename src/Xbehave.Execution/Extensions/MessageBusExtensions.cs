@@ -1,4 +1,4 @@
-﻿// <copyright file="MessageBusExtensions.cs" company="xBehave.net contributors">
+// <copyright file="MessageBusExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -17,9 +17,9 @@ namespace Xbehave.Execution.Extensions
             Func<ITest, IMessageSinkMessage> createTestResultMessage,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("messageBus", messageBus);
-            Guard.AgainstNullArgument("createTestResultMessage", createTestResultMessage);
-            Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
+            Guard.AgainstNullArgument(nameof(messageBus), messageBus);
+            Guard.AgainstNullArgument(nameof(createTestResultMessage), createTestResultMessage);
+            Guard.AgainstNullArgument(nameof(cancellationTokenSource), cancellationTokenSource);
 
             if (!messageBus.QueueMessage(new TestStarting(test)))
             {

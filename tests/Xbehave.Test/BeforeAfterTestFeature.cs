@@ -1,4 +1,4 @@
-﻿// <copyright file="BeforeAfterTestFeature.cs" company="xBehave.net contributors">
+// <copyright file="BeforeAfterTestFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -14,11 +14,9 @@ namespace Xbehave.Test
     public class BeforeAfterTestFeature : Feature
     {
         [Background]
-        public void Background()
-        {
+        public void Background() =>
             "Given no events have occurred"
                 .x(() => typeof(BeforeAfterTestFeature).ClearTestEvents());
-        }
 
         [Scenario]
         public void BeforeAfterAttribute(Type feature, ITestResultMessage[] results)
@@ -133,18 +131,12 @@ namespace Xbehave.Test
 
         private sealed class ThrowBefore : BeforeAfterTestAttribute
         {
-            public override void Before(System.Reflection.MethodInfo methodUnderTest)
-            {
-                throw new InvalidOperationException();
-            }
+            public override void Before(System.Reflection.MethodInfo methodUnderTest) => throw new InvalidOperationException();
         }
 
         private sealed class ThrowAfter : BeforeAfterTestAttribute
         {
-            public override void After(System.Reflection.MethodInfo methodUnderTest)
-            {
-                throw new InvalidOperationException();
-            }
+            public override void After(System.Reflection.MethodInfo methodUnderTest) => throw new InvalidOperationException();
         }
     }
 }

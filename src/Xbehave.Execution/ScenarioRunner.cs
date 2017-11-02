@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioRunner.cs" company="xBehave.net contributors">
+// <copyright file="ScenarioRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,6 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
@@ -39,9 +38,9 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("scenario", scenario);
-            Guard.AgainstNullArgument("messageBus", messageBus);
-            Guard.AgainstNullArgument("aggregator", aggregator);
+            Guard.AgainstNullArgument(nameof(scenario), scenario);
+            Guard.AgainstNullArgument(nameof(messageBus), messageBus);
+            Guard.AgainstNullArgument(nameof(aggregator), aggregator);
 
             this.scenario = scenario;
             this.messageBus = messageBus;
@@ -95,9 +94,8 @@ namespace Xbehave.Execution
             }
         }
 
-        private async Task<RunSummary> InvokeScenarioAsync(ExceptionAggregator aggregator)
-        {
-            return await new ScenarioInvoker(
+        private async Task<RunSummary> InvokeScenarioAsync(ExceptionAggregator aggregator) =>
+            await new ScenarioInvoker(
                     this.scenario,
                     this.messageBus,
                     this.scenarioClass,
@@ -108,6 +106,5 @@ namespace Xbehave.Execution
                     aggregator,
                     this.cancellationTokenSource)
                 .RunAsync();
-        }
     }
 }

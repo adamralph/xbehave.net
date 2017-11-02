@@ -1,4 +1,4 @@
-﻿// <copyright file="CurrentThread.cs" company="xBehave.net contributors">
+// <copyright file="CurrentThread.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -18,9 +18,7 @@ namespace Xbehave.Sdk
         /// <summary>
         /// Gets the step definitions for the currently executing thread.
         /// </summary>
-        public static ICollection<IStepDefinition> StepDefinitions
-        {
-            get { return stepDefinitions ?? (stepDefinitions = new List<IStepDefinition>()); }
-        }
+        public static ICollection<IStepDefinition> StepDefinitions =>
+            stepDefinitions ?? (stepDefinitions = new List<IStepDefinition>());
     }
 }

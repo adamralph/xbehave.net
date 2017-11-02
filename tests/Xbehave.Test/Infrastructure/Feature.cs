@@ -1,4 +1,4 @@
-﻿// <copyright file="Feature.cs" company="xBehave.net contributors">
+// <copyright file="Feature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -29,26 +29,17 @@ namespace Xbehave.Test.Infrastructure
         }
 
         public TMessage[] Run<TMessage>(Assembly assembly, string collectionName)
-            where TMessage : IMessageSinkMessage
-        {
-            return this.Run(assembly, collectionName).OfType<TMessage>().ToArray();
-        }
+            where TMessage : IMessageSinkMessage => this.Run(assembly, collectionName).OfType<TMessage>().ToArray();
 
         public TMessage[] Run<TMessage>(Type feature)
-            where TMessage : IMessageSinkMessage
-        {
-            return this.Run(feature).OfType<TMessage>().ToArray();
-        }
+            where TMessage : IMessageSinkMessage => this.Run(feature).OfType<TMessage>().ToArray();
 
         public TMessage[] Run<TMessage>(Type feature, string traitName, string traitValue)
-            where TMessage : IMessageSinkMessage
-        {
-            return this.Run(feature, traitName, traitValue).OfType<TMessage>().ToArray();
-        }
+            where TMessage : IMessageSinkMessage => this.Run(feature, traitName, traitValue).OfType<TMessage>().ToArray();
 
         public IMessageSinkMessage[] Run(Assembly assembly, string collectionName)
         {
-            Guard.AgainstNullArgument("assembly", assembly);
+            Guard.AgainstNullArgument(nameof(assembly), assembly);
 
             var runner = this.CreateRunner(assembly.GetLocalCodeBase());
             return runner.Run(runner.Find(collectionName)).ToArray();
@@ -56,7 +47,7 @@ namespace Xbehave.Test.Infrastructure
 
         public IMessageSinkMessage[] Run(Type feature)
         {
-            Guard.AgainstNullArgument("feature", feature);
+            Guard.AgainstNullArgument(nameof(feature), feature);
 
             var runner = this.CreateRunner(feature.GetTypeInfo().Assembly.GetLocalCodeBase());
             return runner.Run(runner.Find(feature)).ToArray();
@@ -64,14 +55,13 @@ namespace Xbehave.Test.Infrastructure
 
         public IMessageSinkMessage[] Run(Type feature, string traitName, string traitValue)
         {
-            Guard.AgainstNullArgument("feature", feature);
+            Guard.AgainstNullArgument(nameof(feature), feature);
 
             var runner = this.CreateRunner(feature.GetTypeInfo().Assembly.GetLocalCodeBase());
             var testCases = runner.Find(feature).Where(testCase =>
             {
-                List<string> values;
-                return testCase.Traits.TryGetValue(traitName, out values) && values.Contains(traitValue);
-            }).ToArray();
+                return testCase.Traits.TryGetValue(traitName, out var values) && values.Contains(traitValue);
+            }).ToList();
 
             return runner.Run(testCases).ToArray();
         }

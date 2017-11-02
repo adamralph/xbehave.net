@@ -1,4 +1,4 @@
-﻿// <copyright file="Xunit2Extensions.cs" company="xBehave.net contributors">
+// <copyright file="Xunit2Extensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -14,7 +14,7 @@ namespace Xbehave.Test.Infrastructure
     {
         public static IEnumerable<IMessageSinkMessage> Run(this Xunit2 runner, IEnumerable<ITestCase> testCases)
         {
-            Guard.AgainstNullArgument("runner", runner);
+            Guard.AgainstNullArgument(nameof(runner), runner);
 
             if (!testCases.Any())
             {

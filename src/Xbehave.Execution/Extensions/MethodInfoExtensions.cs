@@ -1,4 +1,4 @@
-﻿// <copyright file="MethodInfoExtensions.cs" company="xBehave.net contributors">
+// <copyright file="MethodInfoExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -15,14 +15,12 @@ namespace Xbehave.Execution.Extensions
         [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "obj", Justification = "Propagating sync method parameter name.")]
         public static async Task InvokeAsync(this MethodInfo method, object obj, object[] arguments)
         {
-            Guard.AgainstNullArgument("method", method);
+            Guard.AgainstNullArgument(nameof(method), method);
 
             var parameterTypes = method.GetParameters().Select(parameter => parameter.ParameterType).ToArray();
             Reflector.ConvertArguments(arguments, parameterTypes);
 
-            var result = method.Invoke(obj, arguments);
-            var task = result as Task;
-            if (task != null)
+            if (method.Invoke(obj, arguments) is Task task)
             {
                 await task;
             }

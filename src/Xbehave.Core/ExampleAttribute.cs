@@ -1,4 +1,4 @@
-﻿// <copyright file="ExampleAttribute.cs" company="xBehave.net contributors">
+// <copyright file="ExampleAttribute.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -38,10 +38,6 @@ namespace Xbehave
         }
 
         /// <inheritdoc/>
-        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
-        {
-            // NOTE (adamralph): When adding wpa81 support, see InlineDataAttribute implementation
-            throw new InvalidOperationException();
-        }
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod) => throw new InvalidOperationException();
     }
 }

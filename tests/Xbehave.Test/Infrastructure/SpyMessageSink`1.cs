@@ -1,4 +1,4 @@
-﻿// <copyright file="SpyMessageSink`1.cs" company="xBehave.net contributors">
+// <copyright file="SpyMessageSink`1.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,23 +12,11 @@ namespace Xbehave.Test.Infrastructure
 
     public sealed class SpyMessageSink<TFinalMessage> : LongLivedMarshalByRefObject, IMessageSink, IDisposable
     {
-        private readonly ManualResetEvent finished = new ManualResetEvent(initialState: false);
-        private readonly IList<IMessageSinkMessage> messages = new List<IMessageSinkMessage>();
+        public ManualResetEvent Finished { get; } = new ManualResetEvent(initialState: false);
 
-        public ManualResetEvent Finished
-        {
-            get { return this.finished; }
-        }
+        public IList<IMessageSinkMessage> Messages { get; } = new List<IMessageSinkMessage>();
 
-        public IList<IMessageSinkMessage> Messages
-        {
-            get { return this.messages; }
-        }
-
-        public void Dispose()
-        {
-            this.Finished.Dispose();
-        }
+        public void Dispose() => this.Finished.Dispose();
 
         public bool OnMessage(IMessageSinkMessage message)
         {

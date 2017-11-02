@@ -1,4 +1,4 @@
-﻿// <copyright file="MemberDataFeature.cs" company="xBehave.net contributors">
+// <copyright file="MemberDataFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -48,8 +48,7 @@ namespace Xbehave.Test
 
             [Scenario]
             [MemberData(nameof(MemberData))]
-            public void Scenario(int operand1, int operand2, int sum)
-            {
+            public void Scenario(int operand1, int operand2, int sum) =>
                 "Then as a distinct example the sum of {0} and {1} is {2}"
                     .x(() =>
                     {
@@ -57,7 +56,6 @@ namespace Xbehave.Test
                         (operand1 + operand2).Should().Be(sum);
                         previousSum = sum;
                     });
-            }
         }
 
         public class AScenarioUsingMemberDataMethod
@@ -73,8 +71,7 @@ namespace Xbehave.Test
 
             [Scenario]
             [MemberData(nameof(MemberData))]
-            public void Scenario(int operand1, int operand2, int sum)
-            {
+            public void Scenario(int operand1, int operand2, int sum) =>
                 "Then as a distinct example the sum of {0} and {1} is {2}"
                     .x(() =>
                     {
@@ -82,7 +79,6 @@ namespace Xbehave.Test
                         (operand1 + operand2).Should().Be(sum);
                         previousSum = sum;
                     });
-            }
         }
 
         public class AScenarioUsingMemberDataField
@@ -98,8 +94,7 @@ namespace Xbehave.Test
 
             [Scenario]
             [MemberData(nameof(MemberData))]
-            public void Scenario(int operand1, int operand2, int sum)
-            {
+            public void Scenario(int operand1, int operand2, int sum) =>
                 "Then as a distinct example the sum of {0} and {1} is {2}"
                     .x(() =>
                     {
@@ -107,7 +102,6 @@ namespace Xbehave.Test
                         (operand1 + operand2).Should().Be(sum);
                         previousSum = sum;
                     });
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="SkippedScenarioFeature.cs" company="xBehave.net contributors">
+// <copyright file="SkippedScenarioFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -16,11 +16,8 @@ namespace Xbehave.Test
     public class SkippedScenarioFeature : Feature
     {
         [Scenario]
-        public void SkippedScenario()
+        public void SkippedScenario(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given a feature with a skipped scenario"
                 .x(() => feature = typeof(FeatureWithASkippedScenario));
 
@@ -38,10 +35,7 @@ namespace Xbehave.Test
         private static class FeatureWithASkippedScenario
         {
             [Scenario(Skip = "Test")]
-            public static void Scenario1()
-            {
-                throw new InvalidOperationException();
-            }
+            public static void Scenario1() => throw new InvalidOperationException();
         }
     }
 }

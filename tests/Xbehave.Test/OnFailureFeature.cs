@@ -1,4 +1,4 @@
-﻿// <copyright file="OnFailureFeature.cs" company="xBehave.net contributors">
+// <copyright file="OnFailureFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -56,10 +56,7 @@ namespace Xbehave.Test
                     .x(() => { });
 
                 "Then something which fails"
-                    .x(() =>
-                    {
-                        throw new InvalidOperationException("oops");
-                    })
+                    .x(() => throw new InvalidOperationException("oops"))
                     .OnFailure(RemainingSteps.Run);
 
                 "And something"
@@ -69,10 +66,7 @@ namespace Xbehave.Test
                     .x(() => { });
 
                 "And something which fails"
-                    .x(() =>
-                    {
-                        throw new InvalidOperationException("oops");
-                    });
+                    .x(() => throw new InvalidOperationException("oops"));
 
                 "And something"
                     .x(() => { });

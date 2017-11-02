@@ -11,28 +11,16 @@ namespace Xbehave.Execution
 
     public class Scenario : LongLivedMarshalByRefObject, IScenario
     {
-        private readonly IXunitTestCase scenarioOutline;
-        private readonly string displayName;
-
         public Scenario(IXunitTestCase scenarioOutline, string displayName)
         {
-            this.scenarioOutline = scenarioOutline;
-            this.displayName = displayName;
+            this.ScenarioOutline = scenarioOutline;
+            this.DisplayName = displayName;
         }
 
-        public IXunitTestCase ScenarioOutline
-        {
-            get { return this.scenarioOutline; }
-        }
+        public IXunitTestCase ScenarioOutline { get; }
 
-        public string DisplayName
-        {
-            get { return this.displayName; }
-        }
+        public string DisplayName { get; }
 
-        public ITestCase TestCase
-        {
-            get { return this.scenarioOutline; }
-        }
+        public ITestCase TestCase => this.ScenarioOutline;
     }
 }

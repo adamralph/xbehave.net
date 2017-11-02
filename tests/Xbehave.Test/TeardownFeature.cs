@@ -17,11 +17,9 @@ namespace Xbehave.Test
     public class TeardownFeature : Feature
     {
         [Background]
-        public void Background()
-        {
+        public void Background() =>
             "Given no events have occurred"
                 .x(() => typeof(TeardownFeature).ClearTestEvents());
-        }
 
         [Scenario]
         public void ManyTeardownsInASingleStep(Type feature, ITestResultMessage[] results)
@@ -121,12 +119,10 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void NullTeardown()
-        {
+        public void NullTeardown() =>
             "Given a null body"
                 .x(() => { })
                 .Teardown(default(Action));
-        }
 
         [Scenario]
         public void AsyncTeardowns(Type feature, ITestResultMessage[] results)
@@ -144,21 +140,18 @@ namespace Xbehave.Test
         private static class StepWithManyTeardowns
         {
             [Scenario]
-            public static void Scenario()
-            {
+            public static void Scenario() =>
                 "Given something"
                     .x(() => typeof(TeardownFeature).SaveTestEvent("step1"))
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown1"))
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown2"))
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown3"));
-            }
         }
 
         private static class StepWithThreeBadTeardowns
         {
             [Scenario]
-            public static void Scenario()
-            {
+            public static void Scenario() =>
                 "Given something"
                     .x(() => typeof(TeardownFeature).SaveTestEvent("step1"))
                     .Teardown(() =>
@@ -176,7 +169,6 @@ namespace Xbehave.Test
                         typeof(TeardownFeature).SaveTestEvent("teardown3");
                         throw new InvalidOperationException();
                     });
-            }
         }
 
         private static class TwoStepsWithThreeTeardownsEach
@@ -223,8 +215,7 @@ namespace Xbehave.Test
         private static class FailingStepWithThreeTeardowns
         {
             [Scenario]
-            public static void Scenario()
-            {
+            public static void Scenario() =>
                 "Given something"
                     .x(() =>
                     {
@@ -234,14 +225,12 @@ namespace Xbehave.Test
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown1"))
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown2"))
                     .Teardown(() => typeof(TeardownFeature).SaveTestEvent("teardown3"));
-            }
         }
 
         private static class StepWithAnAsyncTeardownWhichThrows
         {
             [Scenario]
-            public static void Scenario()
-            {
+            public static void Scenario() =>
                 "Given something"
                     .x(() => typeof(TeardownFeature).SaveTestEvent("step1"))
                     .Teardown(async () =>
@@ -249,7 +238,6 @@ namespace Xbehave.Test
                         await Task.Yield();
                         throw new Exception();
                     });
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="ObjectDisposalFeature.cs" company="xBehave.net contributors">
+// <copyright file="ObjectDisposalFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -104,17 +104,14 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void NullDisposable()
-        {
+        public void NullDisposable() =>
             "Given a null body"
                 .x(c => ((IDisposable)null).Using(c));
-        }
 
         private static class AStepWithThreeDisposables
         {
             [Scenario]
-            public static void Scenario(
-                Disposable disposable0, Disposable disposable1, Disposable disposable2)
+            public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
             {
                 "Given some disposables"
                     .x(c =>
@@ -137,8 +134,7 @@ namespace Xbehave.Test
         private static class StepWithThreeBadDisposables
         {
             [Scenario]
-            public static void Scenario(
-                Disposable disposable0, Disposable disposable1, Disposable disposable2)
+            public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
             {
                 "Given some disposables"
                     .x(c =>
@@ -161,8 +157,7 @@ namespace Xbehave.Test
         private static class ThreeStepsWithDisposables
         {
             [Scenario]
-            public static void Scenario(
-                Disposable disposable0, Disposable disposable1, Disposable disposable2)
+            public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
             {
                 "Given a disposable"
                     .x(c => disposable0 = new Disposable(1).Using(c));
@@ -186,8 +181,7 @@ namespace Xbehave.Test
         private static class StepsFollowedByAFailingStep
         {
             [Scenario]
-            public static void Scenario(
-                Disposable disposable0, Disposable disposable1, Disposable disposable2)
+            public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
             {
                 "Given a disposable"
                     .x(c => disposable0 = new Disposable(1).Using(c));
@@ -214,8 +208,7 @@ namespace Xbehave.Test
         private static class StepFailsToComplete
         {
             [Scenario]
-            public static void Scenario()
-            {
+            public static void Scenario() =>
                 "Given some disposables"
                     .x(c =>
                     {
@@ -224,14 +217,12 @@ namespace Xbehave.Test
                         new Disposable(3).Using(c);
                         throw new InvalidOperationException();
                     });
-            }
         }
 
         private static class AnAsyncStepWithThreeDisposables
         {
             [Scenario]
-            public static void Scenario(
-                Disposable disposable0, Disposable disposable1, Disposable disposable2)
+            public static void Scenario(Disposable disposable0, Disposable disposable1, Disposable disposable2)
             {
                 "Given some disposables"
                     .x(async c =>
@@ -272,10 +263,7 @@ namespace Xbehave.Test
             private readonly int number;
             private bool isDisposed;
 
-            public Disposable(int number)
-            {
-                this.number = number;
-            }
+            public Disposable(int number) => this.number = number;
 
             ~Disposable()
             {

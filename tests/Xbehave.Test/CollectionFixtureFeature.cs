@@ -1,4 +1,4 @@
-﻿// <copyright file="CollectionFixtureFeature.cs" company="xBehave.net contributors">
+// <copyright file="CollectionFixtureFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -14,11 +14,9 @@ namespace Xbehave.Test
     public class CollectionFixtureFeature : Feature
     {
         [Background]
-        public void Background()
-        {
+        public void Background() =>
             "Given no events have occurred"
                 .x(() => typeof(CollectionFixtureFeature).ClearTestEvents());
-        }
 
         [Scenario]
         public void CollectionFixture(string collectionName, ITestResultMessage[] results)
@@ -55,11 +53,9 @@ namespace Xbehave.Test
             }
 
             [Scenario]
-            public void Scenario1()
-            {
+            public void Scenario1() =>
                 "Given"
                     .x(() => this.fixture.Feature1Executed());
-            }
         }
 
         [Collection("CollectionFixtureTestFeatures")]
@@ -74,11 +70,9 @@ namespace Xbehave.Test
             }
 
             [Scenario]
-            public void Scenario1()
-            {
+            public void Scenario1() =>
                 "Given"
                     .x(() => this.fixture.Feature2Executed());
-            }
         }
 
         public sealed class Fixture : IDisposable
@@ -86,15 +80,9 @@ namespace Xbehave.Test
             private bool feature1Executed;
             private bool feature2Executed;
 
-            public void Feature1Executed()
-            {
-                this.feature1Executed = true;
-            }
+            public void Feature1Executed() => this.feature1Executed = true;
 
-            public void Feature2Executed()
-            {
-                this.feature2Executed = true;
-            }
+            public void Feature2Executed() => this.feature2Executed = true;
 
             public void Dispose()
             {

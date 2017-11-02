@@ -1,4 +1,4 @@
-﻿// <copyright file="SkippedStepFeature.cs" company="xBehave.net contributors">
+// <copyright file="SkippedStepFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -16,11 +16,8 @@ namespace Xbehave.Test
     public class SkippedStepFeature : Feature
     {
         [Scenario]
-        public void UnfinishedFeature()
+        public void UnfinishedFeature(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given a scenario with skipped steps because \"the feature is unfinished\""
                 .x(() => feature = typeof(AScenarioWithSkippedStepsBecauseTheFeatureIsUnfinished));
 
@@ -53,10 +50,10 @@ namespace Xbehave.Test
                     .x(() => { });
 
                 "Then there is an outcome"
-                    .x(() => { throw new NotImplementedException(); }).Skip("the feature is unfinished");
+                    .x(() => throw new NotImplementedException()).Skip("the feature is unfinished");
 
                 "And there is another outcome"
-                    .x(() => { throw new NotImplementedException(); }).Skip("the feature is unfinished");
+                    .x(() => throw new NotImplementedException()).Skip("the feature is unfinished");
             }
         }
     }

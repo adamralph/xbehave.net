@@ -1,4 +1,4 @@
-﻿// <copyright file="StepDefinitionFilterFeature.cs" company="xBehave.net contributors">
+// <copyright file="StepDefinitionFilterFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -51,10 +51,8 @@ namespace Xbehave.Test
 
         private sealed class SkipAllAttribute : Attribute, IFilter<IStepDefinition>
         {
-            public IEnumerable<IStepDefinition> Filter(IEnumerable<IStepDefinition> steps)
-            {
-                return steps.Select(step => step.Skip("test"));
-            }
+            public IEnumerable<IStepDefinition> Filter(IEnumerable<IStepDefinition> steps) =>
+                steps.Select(step => step.Skip("test"));
         }
 
         private class ScenarioWithSkipAll
@@ -99,7 +97,7 @@ namespace Xbehave.Test
                     .x(() => { });
 
                 "Then something"
-                    .x(() => { throw new InvalidOperationException(); });
+                    .x(() => throw new InvalidOperationException());
 
                 "And something"
                     .x(() => { });

@@ -24,8 +24,8 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("aggregator", aggregator);
-            Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
+            Guard.AgainstNullArgument(nameof(aggregator), aggregator);
+            Guard.AgainstNullArgument(nameof(cancellationTokenSource), cancellationTokenSource);
 
             this.stepContext = stepContext;
             this.body = body;
