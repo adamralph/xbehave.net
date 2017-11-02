@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioOutline.cs" company="xBehave.net contributors">
+// <copyright file="ScenarioOutline.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -30,18 +30,16 @@ namespace Xbehave.Execution
             IMessageBus messageBus,
             object[] constructorArguments,
             ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource)
-        {
-            return await new ScenarioOutlineRunner(
-                    diagnosticMessageSink,
-                    this,
-                    this.DisplayName,
-                    this.SkipReason,
-                    constructorArguments,
-                    messageBus,
-                    aggregator,
-                    cancellationTokenSource)
-                .RunAsync();
-        }
+            CancellationTokenSource cancellationTokenSource) =>
+                await new ScenarioOutlineRunner(
+                        diagnosticMessageSink,
+                        this,
+                        this.DisplayName,
+                        this.SkipReason,
+                        constructorArguments,
+                        messageBus,
+                        aggregator,
+                        cancellationTokenSource)
+                    .RunAsync();
     }
 }

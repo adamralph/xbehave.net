@@ -1,10 +1,9 @@
-﻿// <copyright file="TypeInfoExtensions.cs" company="xBehave.net contributors">
+// <copyright file="TypeInfoExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
 namespace Xbehave.Execution.Extensions
 {
-    using System.Globalization;
     using System.Linq;
     using Xunit.Abstractions;
 
@@ -12,7 +11,7 @@ namespace Xbehave.Execution.Extensions
     {
         public static string ToSimpleString(this ITypeInfo type)
         {
-            Guard.AgainstNullArgument("type", type);
+            Guard.AgainstNullArgument(nameof(type), type);
 
             var baseTypeName = type.Name;
 
@@ -33,15 +32,11 @@ namespace Xbehave.Execution.Extensions
                 return baseTypeName;
             }
 
-            var genericTypes = type.GetGenericArguments().ToArray();
-            var simpleNames = new string[genericTypes.Length];
+            var genericArgumentNames = type
+                .GetGenericArguments()
+                .Select(genericArgument => ToSimpleString(genericArgument));
 
-            for (var idx = 0; idx < genericTypes.Length; idx++)
-            {
-                simpleNames[idx] = ToSimpleString(genericTypes[idx]);
-            }
-
-            return string.Format(CultureInfo.InvariantCulture, "{0}<{1}>", baseTypeName, string.Join(", ", simpleNames));
+            return $"{baseTypeName}<{string.Join(", ", genericArgumentNames)}>";
         }
     }
 }

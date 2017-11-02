@@ -1,4 +1,4 @@
-﻿// <copyright file="Step.cs" company="xBehave.net contributors">
+// <copyright file="Step.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,30 +12,18 @@ namespace Xbehave.Execution
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     public class Step : LongLivedMarshalByRefObject, IStep
     {
-        private readonly IScenario scenario;
-        private readonly string displayName;
-
         public Step(IScenario scenario, string displayName)
         {
-            Guard.AgainstNullArgument("scenario", scenario);
+            Guard.AgainstNullArgument(nameof(scenario), scenario);
 
-            this.scenario = scenario;
-            this.displayName = displayName;
+            this.Scenario = scenario;
+            this.DisplayName = displayName;
         }
 
-        public IScenario Scenario
-        {
-            get { return this.scenario; }
-        }
+        public IScenario Scenario { get; }
 
-        public string DisplayName
-        {
-            get { return this.displayName; }
-        }
+        public string DisplayName { get; }
 
-        public ITestCase TestCase
-        {
-            get { return this.scenario.ScenarioOutline; }
-        }
+        public ITestCase TestCase => this.Scenario.ScenarioOutline;
     }
 }

@@ -23,7 +23,7 @@ namespace Xbehave
         public static T Using<T>(this T obj, IStepContext stepContext)
             where T : IDisposable
         {
-            Guard.AgainstNullArgument("stepContext", stepContext);
+            Guard.AgainstNullArgument(nameof(stepContext), stepContext);
 
             stepContext.Using(obj);
             return obj;

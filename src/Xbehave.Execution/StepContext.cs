@@ -1,4 +1,4 @@
-﻿// <copyright file="StepContext.cs" company="xBehave.net contributors">
+// <copyright file="StepContext.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -10,23 +10,13 @@ namespace Xbehave.Execution
 
     public class StepContext : IStepContext
     {
-        private readonly IStep step;
         private readonly List<IDisposable> disposables = new List<IDisposable>();
 
-        public StepContext(IStep step)
-        {
-            this.step = step;
-        }
+        public StepContext(IStep step) => this.Step = step;
 
-        public IStep Step
-        {
-            get { return this.step; }
-        }
+        public IStep Step { get; }
 
-        public IReadOnlyList<IDisposable> Disposables
-        {
-            get { return this.disposables; }
-        }
+        public IReadOnlyList<IDisposable> Disposables => this.disposables;
 
         public IStepContext Using(IDisposable disposable)
         {

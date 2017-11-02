@@ -43,13 +43,13 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("scenario", scenario);
-            Guard.AgainstNullArgument("messageBus", messageBus);
-            Guard.AgainstNullArgument("scenarioClass", scenarioClass);
-            Guard.AgainstNullArgument("scenarioMethod", scenarioMethod);
-            Guard.AgainstNullArgument("beforeAfterScenarioAttributes", beforeAfterScenarioAttributes);
-            Guard.AgainstNullArgument("aggregator", aggregator);
-            Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
+            Guard.AgainstNullArgument(nameof(scenario), scenario);
+            Guard.AgainstNullArgument(nameof(messageBus), messageBus);
+            Guard.AgainstNullArgument(nameof(scenarioClass), scenarioClass);
+            Guard.AgainstNullArgument(nameof(scenarioMethod), scenarioMethod);
+            Guard.AgainstNullArgument(nameof(beforeAfterScenarioAttributes), beforeAfterScenarioAttributes);
+            Guard.AgainstNullArgument(nameof(aggregator), aggregator);
+            Guard.AgainstNullArgument(nameof(cancellationTokenSource), cancellationTokenSource);
 
             this.scenario = scenario;
             this.messageBus = messageBus;
@@ -121,7 +121,7 @@ namespace Xbehave.Execution
                 "{0} [{1}] {2}{3}",
                 scenarioDisplayName,
                 stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                isBackgroundStep ? "(Background) " : null,
+                isBackgroundStep ? "(Background) " : string.Empty,
                 stepName);
         }
 
@@ -227,17 +227,13 @@ namespace Xbehave.Execution
                 .Concat(this.scenarioMethod.GetCustomAttributes(typeof(Attribute)))
                 .OfType<IFilter<IStepDefinition>>();
 
-            var stepDefinitions = filters
-                .Aggregate(
-                    backGroundStepDefinitions.Concat(scenarioStepDefinitions),
-                    (current, filter) => filter.Filter(current))
-                .ToArray();
-
             var summary = new RunSummary();
             string skipReason = null;
-            var teardowns = new List<Tuple<StepContext, Func<IStepContext, Task>>>();
+            var scenarioTeardowns = new List<Tuple<StepContext, Func<IStepContext, Task>>>();
             var stepNumber = 0;
-            foreach (var stepDefinition in stepDefinitions)
+            foreach (var stepDefinition in filters.Aggregate(
+                backGroundStepDefinitions.Concat(scenarioStepDefinitions),
+                (current, filter) => filter.Filter(current)))
             {
                 stepDefinition.SkipReason = stepDefinition.SkipReason ?? skipReason;
 
@@ -256,10 +252,7 @@ namespace Xbehave.Execution
                     {
                         if (message is ITestFailed && stepDefinition.FailureBehavior == RemainingSteps.Skip)
                         {
-                            skipReason = string.Format(
-                                CultureInfo.InvariantCulture,
-                                "Failed to execute preceding step: {0}",
-                                step.DisplayName);
+                            skipReason = $"Failed to execute preceding step: {step.DisplayName}";
                         }
                     });
 
@@ -284,6 +277,11 @@ namespace Xbehave.Execution
                 var stepTeardowns = stepContext.Disposables
                     .Select(disposable =>
                     {
+                        if (disposable == null)
+                        {
+                            return null;
+                        }
+
                         Func<IStepContext, Task> task = context =>
                         {
                             disposable.Dispose();
@@ -292,20 +290,19 @@ namespace Xbehave.Execution
 
                         return task;
                     })
-                    .Concat(stepDefinition.Teardowns.Where(teardown => teardown != null)).ToArray();
+                    .Concat(stepDefinition.Teardowns)
+                    .Where(teardown => teardown != null)
+                    .Select(teardown => Tuple.Create(stepContext, teardown));
 
-                foreach (var teardown in stepTeardowns)
-                {
-                    teardowns.Add(Tuple.Create(stepContext, teardown));
-                }
+                scenarioTeardowns.AddRange(stepTeardowns);
             }
 
-            if (teardowns.Any())
+            if (scenarioTeardowns.Any())
             {
-                teardowns.Reverse();
+                scenarioTeardowns.Reverse();
                 var teardownTimer = new ExecutionTimer();
                 var teardownAggregator = new ExceptionAggregator();
-                foreach (var teardown in teardowns)
+                foreach (var teardown in scenarioTeardowns)
                 {
                     await Invoker.Invoke(() => teardown.Item2(teardown.Item1), teardownAggregator, teardownTimer);
                 }

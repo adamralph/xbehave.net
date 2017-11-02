@@ -12,16 +12,11 @@ namespace Xbehave.Sdk
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     internal class StepDefinition : IStepDefinition
     {
-        private readonly List<Func<IStepContext, Task>> teardowns = new List<Func<IStepContext, Task>>();
-
         public string Text { get; set; }
 
         public Func<IStepContext, Task> Body { get; set; }
 
-        public ICollection<Func<IStepContext, Task>> Teardowns
-        {
-            get { return this.teardowns; }
-        }
+        public ICollection<Func<IStepContext, Task>> Teardowns { get; } = new List<Func<IStepContext, Task>>();
 
         public string SkipReason { get; set; }
 
@@ -35,7 +30,11 @@ namespace Xbehave.Sdk
 
         public IStepDefinition Teardown(Func<IStepContext, Task> action)
         {
-            this.Teardowns.Add(action);
+            if (action != null)
+            {
+                this.Teardowns.Add(action);
+            }
+
             return this;
         }
 
@@ -45,19 +44,10 @@ namespace Xbehave.Sdk
             return this;
         }
 
-        IStepBuilder IStepBuilder.Skip(string reason)
-        {
-            return this.Skip(reason);
-        }
+        IStepBuilder IStepBuilder.Skip(string reason) => this.Skip(reason);
 
-        IStepBuilder IStepBuilder.Teardown(Func<IStepContext, Task> action)
-        {
-            return this.Teardown(action);
-        }
+        IStepBuilder IStepBuilder.Teardown(Func<IStepContext, Task> action) => this.Teardown(action);
 
-        IStepBuilder IStepBuilder.OnFailure(RemainingSteps behavior)
-        {
-            return this.OnFailure(behavior);
-        }
+        IStepBuilder IStepBuilder.OnFailure(RemainingSteps behavior) => this.OnFailure(behavior);
     }
 }

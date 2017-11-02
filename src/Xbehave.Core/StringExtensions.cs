@@ -1,4 +1,4 @@
-﻿// <copyright file="StringExtensions.cs" company="xBehave.net contributors">
+// <copyright file="StringExtensions.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -51,10 +51,7 @@ namespace Xbehave
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
-        public static IStepBuilder f(this string text, Action body)
-        {
-            return text.x(body);
-        }
+        public static IStepBuilder f(this string text, Action body) => text.x(body);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -66,10 +63,7 @@ namespace Xbehave
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
-        public static IStepBuilder _(this string text, Action body)
-        {
-            return text.x(body);
-        }
+        public static IStepBuilder _(this string text, Action body) => text.x(body);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -108,10 +102,7 @@ namespace Xbehave
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
-        public static IStepBuilder f(this string text, Action<IStepContext> body)
-        {
-            return text.x(body);
-        }
+        public static IStepBuilder f(this string text, Action<IStepContext> body) => text.x(body);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -123,10 +114,7 @@ namespace Xbehave
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
-        public static IStepBuilder _(this string text, Action<IStepContext> body)
-        {
-            return text.x(body);
-        }
+        public static IStepBuilder _(this string text, Action<IStepContext> body) => text.x(body);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -159,10 +147,7 @@ namespace Xbehave
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
-        public static IStepBuilder f(this string text, Func<Task> body)
-        {
-            return text.x(body);
-        }
+        public static IStepBuilder f(this string text, Func<Task> body) => text.x(body);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -174,10 +159,7 @@ namespace Xbehave
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
-        public static IStepBuilder _(this string text, Func<Task> body)
-        {
-            return text.x(body);
-        }
+        public static IStepBuilder _(this string text, Func<Task> body) => text.x(body);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -205,10 +187,7 @@ namespace Xbehave
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
-        public static IStepBuilder f(this string text, Func<IStepContext, Task> body)
-        {
-            return text.x(body);
-        }
+        public static IStepBuilder f(this string text, Func<IStepContext, Task> body) => text.x(body);
 
         /// <summary>
         /// Defines a step in the current scenario.
@@ -220,9 +199,6 @@ namespace Xbehave
         /// </returns>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         [Obsolete("Deprecated since version 2.2.0 and will soon be removed. Use x() instead.", false)]
-        public static IStepBuilder _(this string text, Func<IStepContext, Task> body)
-        {
-            return text.x(body);
-        }
+        public static IStepBuilder _(this string text, Func<IStepContext, Task> body) => text.x(body);
     }
 }

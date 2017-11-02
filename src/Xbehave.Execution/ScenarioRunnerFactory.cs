@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioRunnerFactory.cs" company="xBehave.net contributors">
+// <copyright file="ScenarioRunnerFactory.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,6 @@ namespace Xbehave.Execution
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -41,9 +40,9 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument("scenarioOutline", scenarioOutline);
-            Guard.AgainstNullArgumentProperty("scenarioOutline", "TestMethod", scenarioOutline.TestMethod);
-            Guard.AgainstNullArgumentProperty("scenarioOutline", "TestMethod.Method", scenarioOutline.TestMethod.Method);
+            Guard.AgainstNullArgument(nameof(scenarioOutline), scenarioOutline);
+            Guard.AgainstNullArgumentProperty(nameof(scenarioOutline), nameof(scenarioOutline.TestMethod), scenarioOutline.TestMethod);
+            Guard.AgainstNullArgumentProperty(nameof(scenarioOutline), nameof(scenarioOutline.TestMethod) + nameof(scenarioOutline.TestMethod.Method), scenarioOutline.TestMethod.Method);
 
             this.scenarioOutline = scenarioOutline;
             this.scenarioOutlineMethod = scenarioOutline.TestMethod.Method;
@@ -59,8 +58,8 @@ namespace Xbehave.Execution
 
         public ScenarioRunner Create(object[] scenarioMethodArguments)
         {
-            var parameters = this.scenarioOutlineMethod.GetParameters().ToArray();
-            var typeParameters = this.scenarioOutlineMethod.GetGenericArguments().ToArray();
+            var parameters = this.scenarioOutlineMethod.GetParameters().ToList();
+            var typeParameters = this.scenarioOutlineMethod.GetGenericArguments().ToList();
 
             ITypeInfo[] typeArguments;
             MethodInfo scenarioMethod;
@@ -70,7 +69,7 @@ namespace Xbehave.Execution
                     .Select(typeParameter => InferTypeArgument(typeParameter.Name, parameters, scenarioMethodArguments))
                     .ToArray();
 
-                scenarioMethod = this.scenarioOutlineMethod.MakeGenericMethod(typeArguments.ToArray()).ToRuntimeMethod();
+                scenarioMethod = this.scenarioOutlineMethod.MakeGenericMethod(typeArguments).ToRuntimeMethod();
             }
             else
             {
@@ -87,7 +86,7 @@ namespace Xbehave.Execution
             var arguments = passedArguments
                 .Select(value => new Argument(value))
                 .Concat(generatedArguments)
-                .ToArray();
+                .ToList();
 
             var scenarioDisplayName = GetScenarioDisplayName(
                 this.scenarioOutlineDisplayName, typeArguments, parameters, arguments);
@@ -160,17 +159,9 @@ namespace Xbehave.Execution
                         }
                     }
 
-                    if (concreteType == null)
-                    {
-                        var message = string.Format(
-                            CultureInfo.CurrentCulture,
-                            "The type of parameter \"{0}\" cannot be resolved.",
-                            parameters[missingArgumentIndex].Name);
-
-                        throw new InvalidOperationException(message);
-                    }
-
-                    parameterType = concreteType;
+                    parameterType = concreteType ??
+                        throw new InvalidOperationException(
+                            $"The type of parameter \"{parameters[missingArgumentIndex].Name}\" cannot be resolved.");
                 }
 
                 yield return new Argument(((IReflectionTypeInfo)parameterType).Type);
@@ -184,10 +175,7 @@ namespace Xbehave.Execution
             IReadOnlyList<Argument> arguments)
         {
             var typeArgumentsString = typeArguments.Any()
-                ? string.Format(
-                    CultureInfo.InvariantCulture,
-                    "<{0}>",
-                    string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString())))
+                ? $"<{string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString()))}>"
                 : string.Empty;
 
             var parameterAndArgumentTokens = new List<string>();
@@ -210,48 +198,28 @@ namespace Xbehave.Execution
                 parameterAndArgumentTokens.Add(parameters[parameterIndex].Name + ": ???");
             }
 
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                "{0}{1}({2})",
-                scenarioOutlineDisplayName,
-                typeArgumentsString,
-                string.Join(", ", parameterAndArgumentTokens));
+            return $"{scenarioOutlineDisplayName}{typeArgumentsString}({string.Join(", ", parameterAndArgumentTokens)})";
         }
 
         private class Argument
         {
             private static readonly MethodInfo genericFactoryMethod = CreateGenericFactoryMethod();
 
-            private readonly object value;
-            private readonly bool isGeneratedDefault;
-
             public Argument(Type type)
             {
-                Guard.AgainstNullArgument("type", type);
+                Guard.AgainstNullArgument(nameof(type), type);
 
-                this.value = genericFactoryMethod.MakeGenericMethod(type).Invoke(null, null);
-                this.isGeneratedDefault = true;
+                this.Value = genericFactoryMethod.MakeGenericMethod(type).Invoke(null, null);
+                this.IsGeneratedDefault = true;
             }
 
-            public Argument(object value)
-            {
-                this.value = value;
-            }
+            public Argument(object value) => this.Value = value;
 
-            public object Value
-            {
-                get { return this.value; }
-            }
+            public object Value { get; }
 
-            public bool IsGeneratedDefault
-            {
-                get { return this.isGeneratedDefault; }
-            }
+            public bool IsGeneratedDefault { get; }
 
-            public override string ToString()
-            {
-                return ArgumentFormatter.Format(this.value);
-            }
+            public override string ToString() => ArgumentFormatter.Format(this.Value);
 
             private static MethodInfo CreateGenericFactoryMethod()
             {
@@ -259,10 +227,7 @@ namespace Xbehave.Execution
                 return ((MethodCallExpression)template.Body).Method.GetGenericMethodDefinition();
             }
 
-            private static T CreateDefault<T>()
-            {
-                return default(T);
-            }
+            private static T CreateDefault<T>() => default;
         }
     }
 }
