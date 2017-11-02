@@ -1,4 +1,4 @@
-﻿// <copyright file="StepDefinition.cs" company="xBehave.net contributors">
+// <copyright file="StepDefinition.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -12,13 +12,13 @@ namespace Xbehave.Sdk
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     internal class StepDefinition : IStepDefinition
     {
-        private readonly List<Action> teardowns = new List<Action>();
+        private readonly List<Func<IStepContext, Task>> teardowns = new List<Func<IStepContext, Task>>();
 
         public string Text { get; set; }
 
         public Func<IStepContext, Task> Body { get; set; }
 
-        public ICollection<Action> Teardowns
+        public ICollection<Func<IStepContext, Task>> Teardowns
         {
             get { return this.teardowns; }
         }
@@ -33,7 +33,7 @@ namespace Xbehave.Sdk
             return this;
         }
 
-        public IStepDefinition Teardown(Action action)
+        public IStepDefinition Teardown(Func<IStepContext, Task> action)
         {
             this.Teardowns.Add(action);
             return this;
@@ -50,7 +50,7 @@ namespace Xbehave.Sdk
             return this.Skip(reason);
         }
 
-        IStepBuilder IStepBuilder.Teardown(Action action)
+        IStepBuilder IStepBuilder.Teardown(Func<IStepContext, Task> action)
         {
             return this.Teardown(action);
         }

@@ -5,9 +5,6 @@
 namespace Xbehave.Execution
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Security;
     using System.Threading;
     using System.Threading.Tasks;
     using Xbehave.Sdk;
@@ -15,14 +12,14 @@ namespace Xbehave.Execution
 
     public class StepInvoker
     {
-        private readonly IStep step;
+        private readonly IStepContext stepContext;
         private readonly Func<IStepContext, Task> body;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
         private readonly ExecutionTimer timer = new ExecutionTimer();
 
         public StepInvoker(
-            IStep step,
+            IStepContext stepContext,
             Func<IStepContext, Task> body,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
@@ -30,63 +27,26 @@ namespace Xbehave.Execution
             Guard.AgainstNullArgument("aggregator", aggregator);
             Guard.AgainstNullArgument("cancellationTokenSource", cancellationTokenSource);
 
-            this.step = step;
+            this.stepContext = stepContext;
             this.body = body;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        public async Task<Tuple<decimal, IDisposable[]>> RunAsync()
+        public async Task<decimal> RunAsync()
         {
-            IDisposable[] disposables = null;
-            await this.aggregator.RunAsync(async () =>
-            {
-                if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
-                {
-                    disposables = await this.InvokeBodyAsync();
-                }
-            });
-
-            return Tuple.Create(this.timer.Total, disposables ?? new IDisposable[0]);
-        }
-
-        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
-        [SecuritySafeCritical]
-        private static void SetSynchronizationContext(SynchronizationContext context)
-        {
-            SynchronizationContext.SetSynchronizationContext(context);
-        }
-
-        private async Task<IDisposable[]> InvokeBodyAsync()
-        {
-            var stepContext = new StepContext(this.step);
             if (this.body != null)
             {
-                var oldSyncContext = SynchronizationContext.Current;
-                try
+                await this.aggregator.RunAsync(async () =>
                 {
-                    var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
-                    SetSynchronizationContext(asyncSyncContext);
-
-                    await this.aggregator.RunAsync(
-                        () => this.timer.AggregateAsync(
-                            async () =>
-                            {
-                                await this.body(stepContext);
-                                var ex = await asyncSyncContext.WaitForCompletionAsync();
-                                if (ex != null)
-                                {
-                                    this.aggregator.Add(ex);
-                                }
-                            }));
-                }
-                finally
-                {
-                    SetSynchronizationContext(oldSyncContext);
-                }
+                    if (!this.cancellationTokenSource.IsCancellationRequested && !this.aggregator.HasExceptions)
+                    {
+                        await Invoker.Invoke(() => this.body(this.stepContext), this.aggregator, this.timer);
+                    }
+                });
             }
 
-            return stepContext.Disposables.ToArray();
+            return this.timer.Total;
         }
     }
 }

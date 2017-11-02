@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioInvoker.cs" company="xBehave.net contributors">
+// <copyright file="ScenarioInvoker.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -235,7 +235,7 @@ namespace Xbehave.Execution
 
             var summary = new RunSummary();
             string skipReason = null;
-            var teardowns = new List<Action>();
+            var teardowns = new List<Tuple<StepContext, Func<IStepContext, Task>>>();
             var stepNumber = 0;
             foreach (var stepDefinition in stepDefinitions)
             {
@@ -263,9 +263,12 @@ namespace Xbehave.Execution
                         }
                     });
 
+                var stepContext = new StepContext(step);
+
                 var stepRunner = new StepRunner(
-                    step,
+                    stepContext,
                     stepDefinition.Body,
+                    step,
                     interceptingBus,
                     this.scenarioClass,
                     this.constructorArguments,
@@ -277,8 +280,24 @@ namespace Xbehave.Execution
                     this.cancellationTokenSource);
 
                 summary.Aggregate(await stepRunner.RunAsync());
-                teardowns.AddRange(stepRunner.Disposables.Select(disposable => (Action)disposable.Dispose)
-                    .Concat(stepDefinition.Teardowns.Where(teardown => teardown != null)).ToArray());
+
+                var stepTeardowns = stepContext.Disposables
+                    .Select(disposable =>
+                    {
+                        Func<IStepContext, Task> task = context =>
+                        {
+                            disposable.Dispose();
+                            return Task.FromResult(0);
+                        };
+
+                        return task;
+                    })
+                    .Concat(stepDefinition.Teardowns.Where(teardown => teardown != null)).ToArray();
+
+                foreach (var teardown in stepTeardowns)
+                {
+                    teardowns.Add(Tuple.Create(stepContext, teardown));
+                }
             }
 
             if (teardowns.Any())
@@ -288,7 +307,7 @@ namespace Xbehave.Execution
                 var teardownAggregator = new ExceptionAggregator();
                 foreach (var teardown in teardowns)
                 {
-                    teardownTimer.Aggregate(() => teardownAggregator.Run(() => teardown()));
+                    await Invoker.Invoke(() => teardown.Item2(teardown.Item1), teardownAggregator, teardownTimer);
                 }
 
                 summary.Time += teardownTimer.Total;

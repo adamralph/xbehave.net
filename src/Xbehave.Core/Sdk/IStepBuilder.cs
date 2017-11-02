@@ -1,10 +1,11 @@
-﻿// <copyright file="IStepBuilder.cs" company="xBehave.net contributors">
+// <copyright file="IStepBuilder.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
 namespace Xbehave.Sdk
 {
     using System;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Provides methods for building steps.
@@ -27,7 +28,7 @@ namespace Xbehave.Sdk
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        IStepBuilder Teardown(Action action);
+        IStepBuilder Teardown(Func<IStepContext, Task> action);
 
         /// <summary>
         /// Defines the behavior of remaining steps if this step fails.
