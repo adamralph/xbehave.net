@@ -15,155 +15,38 @@ namespace Xbehave.Test
     public class AsyncStepFeature : Feature
     {
         [Scenario]
-        public void AsyncStep(bool asyncStepHasCompleted)
-        {
-            "When an async step is executed"
-                .x(async () =>
-                {
-                    await Task.Delay(500);
-                    asyncStepHasCompleted = true;
-                });
-
-            "Then it is completed before the next step is executed"
-                .x(() => asyncStepHasCompleted.Should().BeTrue());
-        }
-
-        [Scenario]
-        public void AllMethodsAreUsedAsync(int count)
-        {
-            "Given the count is 20"
-                .x(async () =>
-                {
-                    await Task.Yield();
-                    count = 20;
-                });
-
-            "When it is increased by one"
-                .x(async () =>
-                {
-                    await Task.Yield();
-                    count++;
-                });
-
-            "And it is increased by two using the underscore method"
-                .x(async () =>
-                {
-                    await Task.Yield();
-                    count += 2;
-                });
-
-            "And it is increased by two using the f method"
-                .x(async () =>
-                {
-                    await Task.Yield();
-                    count += 2;
-                });
-
-            "Then it is 25"
-                .x(async () =>
-                {
-                    await Task.Yield();
-                    count.Should().Be(25);
-                });
-
-            "And obviously it is greater than 10"
-                .x(async () =>
-                {
-                    await Task.Yield();
-                    count.Should().BeGreaterThan(10);
-                });
-
-            "But evidently it is not 24"
-                .x(async () =>
-                {
-                    await Task.Yield();
-                    count.Should().NotBe(24);
-                });
-        }
-
-        [Scenario]
-        public void MultipleAsyncSteps(int number)
-        {
-            "Given a number initialized as 2"
-                .x(async () =>
-                {
-                    await Task.Delay(100);
-                    number = 2;
-                });
-
-            "When it is incremented in an asynchronous step"
-                .x(async () =>
-                {
-                    await Task.Delay(100);
-                    number++;
-                });
-
-            "And it is incremented again in another asynchronous step"
-                .x(async () =>
-                {
-                    await Task.Delay(100);
-                    number++;
-                });
-
-            "Then it is 4"
-                .x(() => number.Should().Be(4));
-        }
-
-        [Scenario]
         public void AsyncTaskStepThrowsException(Type feature, ITestResultMessage[] results)
         {
-            "Given a feature with a scenario that throws an invalid operation exception"
-                .x(() => feature = typeof(AsyncTaskStepWhichThrowsException));
+            "Given an async step that throws after yielding"
+                .x(() => feature = typeof(AsyncStepWhichThrowsAfterYielding));
 
-            "When I run the scenarios"
+            "When I run the scenario"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then the result should be a failure"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+            "Then the step fails"
+                .x(() => results.Single().Should().BeAssignableTo<ITestFailed>());
 
-            "And the exception should be an invalid operation exception"
-                .x(() => results.Cast<ITestFailed>().Single().ExceptionTypes.Single().Should().Be("System.InvalidOperationException"));
+            "And the exception is the exception thrown after the yield"
+                .x(() => results.Cast<ITestFailed>().Single().Messages.Single().Should().Be("I yielded before this."));
         }
 
         [Scenario]
         public void AsyncVoidStepThrowsException(Type feature, ITestResultMessage[] results)
         {
-            "Given a feature with a scenario that throws an invalid operation exception"
-                .x(() => feature = typeof(AsyncVoidStepWhichThrowsException));
+            "Given an async void step that throws after yielding"
+                .x(() => feature = typeof(AsyncVoidStepWhichThrowsAfterYielding));
 
-            "When I run the scenarios"
+            "When I run the scenario"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then the result should be a failure"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+            "Then the step fails"
+                .x(() => results.Single().Should().BeAssignableTo<ITestFailed>());
 
-            "And the exception should be an invalid operation exception"
-                .x(() => results.Cast<ITestFailed>().First().ExceptionTypes.Single().Should().Be("System.InvalidOperationException"));
+            "And the exception is the exception thrown after the yield"
+                .x(() => results.Cast<ITestFailed>().Single().Messages.Single().Should().Be("I yielded before this."));
         }
 
-        [Scenario]
-        public void ExecutingAnAsyncVoidStepUsingMethodGroupSyntax()
-        {
-            "When an async void method is executed in a step using method group syntax"
-                .x((Action)AsyncVoidMethodType.AsyncVoidMethod);
-
-            "Then the method has completed before the next step begins"
-                .x(() => AsyncVoidMethodType.AsyncVoidMethodHasCompleted.Should().BeTrue());
-        }
-
-        private static class AsyncVoidMethodType
-        {
-            public static bool AsyncVoidMethodHasCompleted { get; private set; }
-
-            public static async void AsyncVoidMethod()
-            {
-                AsyncVoidMethodHasCompleted = false;
-                await Task.Delay(500);
-                AsyncVoidMethodHasCompleted = true;
-            }
-        }
-
-        private static class AsyncTaskStepWhichThrowsException
+        private static class AsyncStepWhichThrowsAfterYielding
         {
             [Scenario]
             public static void Scenario()
@@ -172,12 +55,12 @@ namespace Xbehave.Test
                     .x(async () =>
                     {
                         await Task.Yield();
-                        throw new InvalidOperationException();
+                        throw new InvalidOperationException("I yielded before this.");
                     });
             }
         }
 
-        private static class AsyncVoidStepWhichThrowsException
+        private static class AsyncVoidStepWhichThrowsAfterYielding
         {
             [Scenario]
             public static void Scenario()
@@ -189,7 +72,7 @@ namespace Xbehave.Test
             private static async void Step()
             {
                 await Task.Yield();
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("I yielded before this.");
             }
         }
     }
