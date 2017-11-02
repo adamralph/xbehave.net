@@ -10,6 +10,7 @@ namespace Xbehave.Sdk
     /// <summary>
     /// Provides methods for building steps.
     /// </summary>
+    /// <remarks>This is the type returned from <code>String.x()</code>.</remarks>
     public interface IStepBuilder
     {
         /// <summary>

@@ -1,4 +1,4 @@
-﻿// <copyright file="IStepContext.cs" company="xBehave.net contributors">
+// <copyright file="IStepContext.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -10,6 +10,7 @@ namespace Xbehave.Sdk
     /// <summary>
     /// A scenario step context.
     /// </summary>
+    /// <remarks>This is the type provided as an argument to overloads of <code>string.x()</code> and <code>string.Teardown()</code>.</remarks>
     public interface IStepContext
     {
         /// <summary>
