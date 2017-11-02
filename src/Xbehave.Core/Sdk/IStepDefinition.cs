@@ -11,6 +11,7 @@ namespace Xbehave.Sdk
     /// <summary>
     /// Provides the definition of a step within a scenario.
     /// </summary>
+    /// <remarks>This is the type used for step filters.</remarks>
     public interface IStepDefinition : IStepBuilder
     {
         /// <summary>
