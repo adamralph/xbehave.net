@@ -5,6 +5,7 @@
 namespace Xbehave.Test
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using FluentAssertions;
     using Xbehave.Sdk;
@@ -16,14 +17,17 @@ namespace Xbehave.Test
         [Scenario]
         public void AsyncScenario(Type feature, ITestResultMessage[] results)
         {
-            "Given an async scenario"
-                .x(() => feature = typeof(FeatureWithAsyncScenario));
+            "Given an async scenario that throws after yielding"
+                .x(() => feature = typeof(AsyncScenarioThatThrowsAfterYielding));
 
-            "When I run the scenarios"
+            "When I run the scenario"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then the result should be a pass"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+            "Then the scenario fails"
+                .x(() => results.Single().Should().BeAssignableTo<ITestFailed>());
+
+            "And the exception is the exception thrown after the yield"
+                .x(() => results.Cast<ITestFailed>().Single().Messages.Single().Should().Be("I yielded before this."));
         }
 
         [Scenario]
@@ -36,7 +40,7 @@ namespace Xbehave.Test
             "Given a null body"
                 .x(default(Func<IStepContext, Task>));
 
-        private static class FeatureWithAsyncScenario
+        private static class AsyncScenarioThatThrowsAfterYielding
         {
             [Scenario]
             public static async Task Scenario()
@@ -44,7 +48,8 @@ namespace Xbehave.Test
                 "Given"
                     .x(() => { });
 
-                await Task.FromResult(0);
+                await Task.Yield();
+                throw new InvalidOperationException("I yielded before this.");
             }
         }
     }
