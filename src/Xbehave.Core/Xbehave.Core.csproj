@@ -5,6 +5,7 @@
     <TargetFramework>netstandard1.1</TargetFramework>
     <RootNamespace>Xbehave</RootNamespace>
     <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
