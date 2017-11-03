@@ -114,19 +114,13 @@ namespace Xbehave.Test
             private static int beforeCount;
             private static int afterCount;
 
-            public override void Before(System.Reflection.MethodInfo methodUnderTest)
-            {
-                beforeCount++;
+            public override void Before(System.Reflection.MethodInfo methodUnderTest) =>
                 typeof(BeforeAfterScenarioFeature)
-                    .SaveTestEvent("before" + beforeCount.ToString(CultureInfo.InvariantCulture));
-            }
+                    .SaveTestEvent("before" + (++beforeCount).ToString(CultureInfo.InvariantCulture));
 
-            public override void After(System.Reflection.MethodInfo methodUnderTest)
-            {
-                afterCount++;
+            public override void After(System.Reflection.MethodInfo methodUnderTest) =>
                 typeof(BeforeAfterScenarioFeature)
-                    .SaveTestEvent("after" + afterCount.ToString(CultureInfo.InvariantCulture));
-            }
+                    .SaveTestEvent("after" + (++afterCount).ToString(CultureInfo.InvariantCulture));
         }
 
         private sealed class ThrowBefore : BeforeAfterScenarioAttribute
