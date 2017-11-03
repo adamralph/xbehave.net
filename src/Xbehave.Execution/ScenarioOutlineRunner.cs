@@ -1,4 +1,4 @@
-﻿// <copyright file="ScenarioOutlineRunner.cs" company="xBehave.net contributors">
+// <copyright file="ScenarioOutlineRunner.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -50,7 +50,6 @@ namespace Xbehave.Execution
                 this.MessageBus,
                 this.TestClass,
                 this.ConstructorArguments,
-                this.SkipReason,
                 this.BeforeAfterAttributes,
                 this.Aggregator,
                 this.CancellationTokenSource);
@@ -66,19 +65,20 @@ namespace Xbehave.Execution
                 foreach (var dataAttribute in dataAttributes)
                 {
                     var discovererAttribute = dataAttribute.GetCustomAttributes(typeof(DataDiscovererAttribute)).First();
+                    var skipReason = this.SkipReason ?? dataAttribute.GetNamedArgument<string>("Skip");
                     var discoverer =
                         ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, this.TestCase.TestMethod.Method))
                     {
                         this.disposables.AddRange(dataRow.OfType<IDisposable>());
-                        this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(dataRow));
+                        this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(dataRow, skipReason));
                     }
                 }
 
                 if (!this.scenarioRunners.Any())
                 {
-                    this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(noArguments));
+                    this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(noArguments, this.SkipReason));
                 }
             }
             catch (Exception ex)
