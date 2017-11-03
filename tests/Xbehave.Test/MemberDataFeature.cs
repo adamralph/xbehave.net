@@ -13,6 +13,7 @@ namespace Xbehave.Test
         [Example(typeof(AScenarioUsingMemberDataProperty))]
         [Example(typeof(AScenarioUsingMemberDataMethod))]
         [Example(typeof(AScenarioUsingMemberDataField))]
+        [Example(typeof(AScenarioUsingNonSerializableValues))]
         public void MemberDataProperty(Type feature, ITestResultMessage[] results)
         {
             $"Given {feature}"
@@ -98,6 +99,33 @@ namespace Xbehave.Test
                         (operand1 + operand2).Should().Be(sum);
                         previousSum = sum;
                     });
+        }
+
+        public class AScenarioUsingNonSerializableValues
+        {
+            public static readonly IEnumerable<object[]> MemberData = new List<object[]>
+            {
+                new[] { new DoesNotSerialize { Value = 1 } },
+                new[] { new DoesNotSerialize { Value = 2 } },
+                new[] { new DoesNotSerialize { Value = 3 } },
+            };
+
+            private static int previousValue;
+
+            [Scenario]
+            [MemberData(nameof(MemberData))]
+            public void Scenario(DoesNotSerialize @object) =>
+                $"Then the object has a distinct value of {@object.Value}"
+                    .x(() =>
+                    {
+                        @object.Value.Should().NotBe(previousValue);
+                        previousValue = @object.Value;
+                    });
+
+            public class DoesNotSerialize
+            {
+                public int Value { get; set; }
+            }
         }
     }
 }
