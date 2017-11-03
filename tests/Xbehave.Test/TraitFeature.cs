@@ -23,7 +23,7 @@ namespace Xbehave.Test
             "Given two single step scenarios, 'foo' traits of 'bar' and 'baz' respectively"
                 .x(() => feature = typeof(TwoSingleStepScenariosWithFooTraitsOfBarAndBazRespectively));
 
-            "When I run the feature specifying the 'foo' trait of '{0}'"
+            $"When I run the feature specifying the 'foo' trait of '{traitValue}'"
                 .x(() => results = this.Run<ITestResultMessage>(feature, "foo", traitValue));
 
             "Then there is only {1} result"

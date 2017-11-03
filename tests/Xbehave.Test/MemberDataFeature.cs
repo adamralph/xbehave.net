@@ -19,7 +19,7 @@ namespace Xbehave.Test
         [Example(typeof(AScenarioUsingMemberDataField))]
         public void MemberDataProperty(Type feature, ITestResultMessage[] results)
         {
-            "Given {0}"
+            $"Given {feature}"
                 .x(() => { });
 
             "When I run the scenario"
@@ -49,7 +49,7 @@ namespace Xbehave.Test
             [Scenario]
             [MemberData(nameof(MemberData))]
             public void Scenario(int operand1, int operand2, int sum) =>
-                "Then as a distinct example the sum of {0} and {1} is {2}"
+                $"Then as a distinct example the sum of {operand1} and {operand2} is {sum}"
                     .x(() =>
                     {
                         sum.Should().NotBe(previousSum);
@@ -72,7 +72,7 @@ namespace Xbehave.Test
             [Scenario]
             [MemberData(nameof(MemberData))]
             public void Scenario(int operand1, int operand2, int sum) =>
-                "Then as a distinct example the sum of {0} and {1} is {2}"
+                $"Then as a distinct example the sum of {operand1} and {operand2} is {sum}"
                     .x(() =>
                     {
                         sum.Should().NotBe(previousSum);
@@ -95,7 +95,7 @@ namespace Xbehave.Test
             [Scenario]
             [MemberData(nameof(MemberData))]
             public void Scenario(int operand1, int operand2, int sum) =>
-                "Then as a distinct example the sum of {0} and {1} is {2}"
+                $"Then as a distinct example the sum of {operand1} and {operand2} is {sum}"
                     .x(() =>
                     {
                         sum.Should().NotBe(previousSum);
