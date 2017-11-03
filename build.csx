@@ -47,9 +47,16 @@ targets.Add(
     });
 
 targets.Add(
-    "test",
+    "test-core",
     DependsOn("build"),
-    () => Cmd("dotnet", $"xunit -configuration Release -nobuild", "./tests/Xbehave.Test"));
+    () => Cmd("dotnet", $"xunit -configuration Release -nobuild -framework netcoreapp1.1", "./tests/Xbehave.Test"));
+
+targets.Add(
+    "test-net",
+    DependsOn("build"),
+    () => Cmd("dotnet", $"xunit -configuration Release -nobuild -framework net452", "./tests/Xbehave.Test"));
+
+targets.Add("test", DependsOn("test-core", "test-net"));
 
 Run(Args, targets);
 
