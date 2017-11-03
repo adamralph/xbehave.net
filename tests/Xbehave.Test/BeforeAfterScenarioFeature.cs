@@ -1,4 +1,4 @@
-// <copyright file="BeforeAfterTestFeature.cs" company="xBehave.net contributors">
+// <copyright file="BeforeAfterScenarioFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -11,24 +11,24 @@ namespace Xbehave.Test
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class BeforeAfterTestFeature : Feature
+    public class BeforeAfterScenarioFeature : Feature
     {
         [Background]
         public void Background() =>
             "Given no events have occurred"
-                .x(() => typeof(BeforeAfterTestFeature).ClearTestEvents());
+                .x(() => typeof(BeforeAfterScenarioFeature).ClearTestEvents());
 
         [Scenario]
         public void BeforeAfterAttribute(Type feature, ITestResultMessage[] results)
         {
             "Given a scenario with a before and after attribute"
-                .x(() => feature = typeof(ScenarioWithBeforeAfterTestAttribute));
+                .x(() => feature = typeof(ScenarioWithBeforeAfterScenarioAttribute));
 
             "When I run the scenario"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the attributes before and after methods are called before and after the scenario"
-                .x(() => typeof(BeforeAfterTestFeature).GetTestEvents().Should().Equal(
+                .x(() => typeof(BeforeAfterScenarioFeature).GetTestEvents().Should().Equal(
                     "before1", "step1", "step2", "step3", "after1"));
         }
 
@@ -58,20 +58,20 @@ namespace Xbehave.Test
                 .x(() => results.Should().ContainSingle(result => result is ITestFailed));
         }
 
-        private static class ScenarioWithBeforeAfterTestAttribute
+        private static class ScenarioWithBeforeAfterScenarioAttribute
         {
             [BeforeAfter]
             [Scenario]
             public static void Scenario()
             {
                 "Given"
-                    .x(() => typeof(BeforeAfterTestFeature).SaveTestEvent("step1"));
+                    .x(() => typeof(BeforeAfterScenarioFeature).SaveTestEvent("step1"));
 
                 "When"
-                    .x(() => typeof(BeforeAfterTestFeature).SaveTestEvent("step2"));
+                    .x(() => typeof(BeforeAfterScenarioFeature).SaveTestEvent("step2"));
 
                 "Then"
-                    .x(() => typeof(BeforeAfterTestFeature).SaveTestEvent("step3"));
+                    .x(() => typeof(BeforeAfterScenarioFeature).SaveTestEvent("step3"));
             }
         }
 
@@ -109,7 +109,7 @@ namespace Xbehave.Test
             }
         }
 
-        private sealed class BeforeAfter : BeforeAfterTestAttribute
+        private sealed class BeforeAfter : BeforeAfterScenarioAttribute
         {
             private static int beforeCount;
             private static int afterCount;
@@ -117,24 +117,24 @@ namespace Xbehave.Test
             public override void Before(System.Reflection.MethodInfo methodUnderTest)
             {
                 beforeCount++;
-                typeof(BeforeAfterTestFeature)
+                typeof(BeforeAfterScenarioFeature)
                     .SaveTestEvent("before" + beforeCount.ToString(CultureInfo.InvariantCulture));
             }
 
             public override void After(System.Reflection.MethodInfo methodUnderTest)
             {
                 afterCount++;
-                typeof(BeforeAfterTestFeature)
+                typeof(BeforeAfterScenarioFeature)
                     .SaveTestEvent("after" + afterCount.ToString(CultureInfo.InvariantCulture));
             }
         }
 
-        private sealed class ThrowBefore : BeforeAfterTestAttribute
+        private sealed class ThrowBefore : BeforeAfterScenarioAttribute
         {
             public override void Before(System.Reflection.MethodInfo methodUnderTest) => throw new InvalidOperationException();
         }
 
-        private sealed class ThrowAfter : BeforeAfterTestAttribute
+        private sealed class ThrowAfter : BeforeAfterScenarioAttribute
         {
             public override void After(System.Reflection.MethodInfo methodUnderTest) => throw new InvalidOperationException();
         }
