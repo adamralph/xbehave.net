@@ -148,38 +148,6 @@ an null value for an argument defined using the fifth type parameter"
         }
 
         [Scenario]
-        public void FormattedSteps(Type feature, ITestResultMessage[] results)
-        {
-            "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
-                .x(() => feature = typeof(FeatureWithAScenarioWithExampleValuesAndAFormattedStep));
-
-            "When I run the scenarios"
-                .x(() => results = this.Run<ITestResultMessage>(feature));
-
-            "Then there should be one result"
-                .x(() => results.Count().Should().Be(1));
-
-            "And the display name of the result should end with \"Given 1, 2 and 3\""
-                .x(() => results.Single().Test.DisplayName.Should().EndWith("Given 1, 2 and 3"));
-        }
-
-        [Scenario]
-        public void FormattedStepsWithNullValues(Type feature, ITestResultMessage[] results)
-        {
-            "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{0}}, {{1}} and {{2}}\""
-                .x(() => feature = typeof(FeatureWithAScenarioWithNullExampleValuesAndAFormattedStep));
-
-            "When I run the scenarios"
-                .x(() => results = this.Run<ITestResultMessage>(feature));
-
-            "Then there should be one result"
-                .x(() => results.Count().Should().Be(1));
-
-            "And the display name of the result should end with \"Given null, null and null\""
-                .x(() => results.Single().Test.DisplayName.Should().EndWith("Given null, null and null"));
-        }
-
-        [Scenario]
         public void BadlyFormattedSteps(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario with example values one two and three and a step with the format \"Given {{3}}, {{4}} and {{5}}\""
