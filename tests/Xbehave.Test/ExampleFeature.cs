@@ -53,6 +53,31 @@ namespace Xbehave.Test
         }
 
         [Scenario]
+        public void SkippedExamples()
+        {
+            var feature = default(Type);
+            var results = default(ITestResultMessage[]);
+
+            "Given two examples with a problematic one skipped"
+                .x(() => feature = typeof(TwoExamplesWithAProblematicOneSkipped));
+
+            "When I run the scenarios"
+                .x(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then there should be two results"
+                .x(() => results.Length.Should().Be(2));
+
+            "And one result should be a pass"
+                .x(() => results.OfType<ITestPassed>().Count().Should().Be(1));
+
+            "And there should be no failures"
+                .x(() => results.OfType<ITestFailed>().Count().Should().Be(0));
+
+            "And one result should be a skip"
+                .x(() => results.OfType<ITestSkipped>().Count().Should().Be(1));
+        }
+
+        [Scenario]
         public void ExamplesWithArrays(Type feature, ITestResultMessage[] results)
         {
             "Given a feature with a scenario with array examples"
@@ -265,6 +290,22 @@ an null value for an argument defined using the fifth type parameter"
                         sum.Should().NotBe(previousSum);
                         (x + y).Should().Be(sum);
                         previousSum = sum;
+                    });
+        }
+
+        private static class TwoExamplesWithAProblematicOneSkipped
+        {
+            [Scenario]
+            [Example(1)]
+            [Example(2, Skip = "Because I can.")]
+            public static void Scenario(int x) =>
+                $"Given {x}"
+                    .x(() =>
+                    {
+                        if (x == 2)
+                        {
+                            throw new Exception();
+                        }
                     });
         }
 

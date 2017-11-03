@@ -25,7 +25,6 @@ namespace Xbehave.Execution
         private readonly Type scenarioClass;
         private readonly object[] constructorArguments;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes;
-        private readonly string skipReason;
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
 
@@ -35,7 +34,6 @@ namespace Xbehave.Execution
             IMessageBus messageBus,
             Type scenarioClass,
             object[] constructorArguments,
-            string skipReason,
             IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
@@ -50,13 +48,12 @@ namespace Xbehave.Execution
             this.messageBus = messageBus;
             this.scenarioClass = scenarioClass;
             this.constructorArguments = constructorArguments;
-            this.skipReason = skipReason;
             this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
             this.aggregator = aggregator;
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        public ScenarioRunner Create(object[] scenarioMethodArguments)
+        public ScenarioRunner Create(object[] scenarioMethodArguments, string skipReason)
         {
             var parameters = this.scenarioOutlineMethod.GetParameters().ToList();
             var typeParameters = this.scenarioOutlineMethod.GetGenericArguments().ToList();
@@ -100,7 +97,7 @@ namespace Xbehave.Execution
                 this.constructorArguments,
                 scenarioMethod,
                 arguments.Select(argument => argument.Value).ToArray(),
-                this.skipReason,
+                skipReason,
                 this.beforeAfterScenarioAttributes,
                 new ExceptionAggregator(this.aggregator),
                 this.cancellationTokenSource);
