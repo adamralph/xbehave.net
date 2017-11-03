@@ -22,15 +22,15 @@ Absolutely! Please feel free to raise issues, fork the source code, send pull re
 
 ## How to build
 
-The only prerequisites you need are [.NET CLI](https://github.com/dotnet/cli) and .NET Framework 4.5.
+The only prerequisites you need are [.NET SDK 2.0](https://dot.net/core) and .NET Framework 4.5.2 (or later versions of each).
 
-Navigate to your clone root folder and execute `dotnet restore` followed by `build.cmd`.
+Navigate to your clone root folder and execute `build.cmd`.
 
 `build.cmd` executes the default build targets which include compilation, test execution and packaging. After the build has completed, the build artifacts will be located in `artifacts/`.
 
 For full usage details for `build.cmd`, execute `build.cmd -?`. See  [simple-targets-csx](https://github.com/adamralph/simple-targets-csx) for more info.
 
-You can also build the solution using Visual Studio 2015 or later. At the time of writing the build is only confirmed to work on Windows.
+You can also build the solution using Visual Studio 2017 or later. At the time of writing the build is only confirmed to work on Windows.
 
 ## Versions
 
@@ -40,7 +40,7 @@ A given xBehave.net patch version may introduce new features, fix bugs, or both.
 
 ## On which giants' shoulders does it stand?
 
-* [.NET CLI](https://github.com/dotnet/cli)
+* [.NET SDK](https://dot.net/core)
 * [AppVeyor](https://ci.appveyor.com/project/adamralph/xbehave-net/)
 * [Dan North](http://dannorth.net/introducing-bdd/)
 * [EditorConfig](http://editorconfig.org/)
@@ -50,8 +50,10 @@ A given xBehave.net patch version may introduce new features, fix bugs, or both.
 * [Gitter](https://gitter.im/xbehave/xbehave.net/)
 * [LiteGuard](https://github.com/liteguard/liteguard/)
 * [NuGet](https://www.nuget.org/packages/Xbehave/)
+* [Roslyn](https://github.com/dotnet/roslyn)
 * [simple-targets-csx](https://github.com/adamralph/simple-targets-csx)
-* [StyleCop Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/)
+* [SourceLink](https://github.com/ctaggart/SourceLink)
+* [StyleCop.Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/)
 * [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
 * [xUnit.net](https://xunit.github.io/)
 
