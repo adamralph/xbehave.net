@@ -7,7 +7,6 @@ setlocal
 
 :: set tool versions
 set NUGET_VERSION=4.3.0
-set MSBUILD_VERSION=15
 set CSI_VERSION=2.4.0
 
 :: determine nuget cache dir
@@ -30,7 +29,7 @@ if not exist %NUGET_LOCAL_DIR%\NuGet.exe (
 
 :: restore packages for build script
 echo Restoring NuGet packages for build script...
-%NUGET_LOCAL_DIR%\NuGet.exe restore .\packages.config -PackagesDirectory ./packages -Verbosity quiet
+%NUGET_LOCAL_DIR%\NuGet.exe restore .\packages.config -PackagesDirectory ./packages
 
 :: run build script
 echo Running build script...
