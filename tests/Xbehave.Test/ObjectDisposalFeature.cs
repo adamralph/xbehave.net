@@ -30,7 +30,7 @@ namespace Xbehave.Test
         [Example(typeof(AnAsyncStepWithThreeDisposables))]
         public void ManyDisposablesInASingleStep(Type feature, ITestResultMessage[] results)
         {
-            "Given {0}"
+            $"Given {feature}"
                 .x(() => { });
 
             "When running the scenario"
@@ -72,7 +72,7 @@ namespace Xbehave.Test
         [Example(typeof(StepFailsToComplete))]
         public void FailingSteps(Type feature, ITestResultMessage[] results)
         {
-            "Given {0}"
+            $"Given {feature}"
                 .x(() => { });
 
             "When running the scenario"

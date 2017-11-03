@@ -284,7 +284,7 @@ an null value for an argument defined using the fifth type parameter"
             [Example(10, 20, 30)]
             [Example(100, 200, 300)]
             public static void Scenario(int x, int y, int sum) =>
-                "Then as a distinct example the sum of {0} and {1} is {2}"
+                $"Then as a distinct example the sum of {x} and {y} is {sum}"
                     .x(() =>
                     {
                         sum.Should().NotBe(previousSum);
@@ -375,7 +375,7 @@ an null value for an argument defined using the fifth type parameter"
             [Scenario]
             [Example(1, 2, 3)]
             public static void Scenario(int x, int y, int z) =>
-                "Given {0}, {1} and {2}"
+                $"Given {x}, {y} and {z}"
                     .x(() => { });
         }
 
@@ -384,7 +384,7 @@ an null value for an argument defined using the fifth type parameter"
             [Scenario]
             [Example(null, null, null)]
             public static void Scenario(object x, object y, object z) =>
-                "Given {0}, {1} and {2}"
+                $"Given {x}, {y} and {z}"
                     .x(() => { });
         }
 

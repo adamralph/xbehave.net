@@ -1,4 +1,4 @@
-﻿// <copyright file="BackgroundFeature.cs" company="xBehave.net contributors">
+// <copyright file="BackgroundFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -20,7 +20,7 @@ namespace Xbehave.Test
         [Example(typeof(BackgroundInBaseTypeWithTwoStepsAndTwoScenariosEachWithTwoSteps))]
         public void BackgroundSteps(Type feature, ITestResultMessage[] results)
         {
-            "Given a {0}"
+            $"Given a {feature}"
                 .x(() => { });
 
             "When I run the scenarios"
