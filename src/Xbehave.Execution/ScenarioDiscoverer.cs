@@ -5,17 +5,21 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioDiscoverer : TheoryDiscoverer
+    public partial class ScenarioDiscoverer : TheoryDiscoverer
     {
         public ScenarioDiscoverer(IMessageSink diagnosticMessageSink)
             : base(diagnosticMessageSink)
         {
         }
 
+        protected override IEnumerable<IXunitTestCase> CreateTestCasesForDataRow(
+            ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo theoryAttribute, object[] dataRow) =>
+                throw new System.NotImplementedException();
+
         [SuppressMessage(
             "Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Factory method.")]
-        public override IEnumerable<IXunitTestCase> Discover(
-            ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
+        protected override IEnumerable<IXunitTestCase> CreateTestCasesForTheory(
+            ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo theoryAttribute)
         {
             Guard.AgainstNullArgument(nameof(discoveryOptions), discoveryOptions);
 
