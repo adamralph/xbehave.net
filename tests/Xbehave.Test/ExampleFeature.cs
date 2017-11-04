@@ -331,8 +331,8 @@ an null value for an argument defined using the fifth type parameter"
                     .x(() =>
                     {
                         example.Should().NotBe(previousExample);
-                        missing1.Should().Be(default(int));
-                        missing2.Should().Be(default(object));
+                        missing1.Should().Be(default);
+                        missing2.Should().Be(default);
                         previousExample = example;
                     });
         }

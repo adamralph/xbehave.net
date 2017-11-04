@@ -1,4 +1,4 @@
-﻿// <copyright file="DefaultParametersFeature.cs" company="xBehave.net contributors">
+// <copyright file="DefaultParametersFeature.cs" company="xBehave.net contributors">
 //  Copyright (c) xBehave.net contributors. All rights reserved.
 // </copyright>
 
@@ -52,13 +52,13 @@ namespace Xbehave.Test
             public static void Scenario(string w, int x, object y, int? z)
             {
                 "Then w should be the default value of string"
-                    .x(() => w.Should().Be(default(string)));
+                    .x(() => w.Should().Be(default));
 
                 "And x should be the default value of int"
-                    .x(() => x.Should().Be(default(int)));
+                    .x(() => x.Should().Be(default));
 
                 "And y should be the default value of object"
-                    .x(() => y.Should().Be(default(object)));
+                    .x(() => y.Should().Be(default));
 
                 "And z should be the default value of int?"
                     .x(() => z.Should().Be(default(int?)));
