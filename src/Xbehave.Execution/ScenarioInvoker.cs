@@ -83,8 +83,7 @@ namespace Xbehave.Execution
                         await this.AfterScenarioMethodInvokedAsync();
                     }
 
-                    var disposable = testClassInstance as IDisposable;
-                    if (disposable != null)
+                    if (testClassInstance is IDisposable disposable)
                     {
                         this.timer.Aggregate(() => this.aggregator.Run(disposable.Dispose));
                     }

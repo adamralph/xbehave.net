@@ -49,25 +49,21 @@ namespace Xbehave.Test
         private static class AsyncStepWhichThrowsAfterYielding
         {
             [Scenario]
-            public static void Scenario()
-            {
+            public static void Scenario() =>
                 "Given something"
                     .x(async () =>
                     {
                         await Task.Yield();
                         throw new InvalidOperationException("I yielded before this.");
                     });
-            }
         }
 
         private static class AsyncVoidStepWhichThrowsAfterYielding
         {
             [Scenario]
-            public static void Scenario()
-            {
+            public static void Scenario() =>
                 "Given something"
                     .x((Action)Step);
-            }
 
             private static async void Step()
             {
