@@ -59,7 +59,10 @@ namespace Xbehave.Test
             "And the second result should be a failure"
                 .x(() => results[1].Should().BeAssignableTo<ITestFailed>());
 
-            "Then the teardowns should be executed in reverse order after the step"
+            "And the name of the teardown should end in '(Teardown)'"
+                .x(() => results[1].Test.DisplayName.Should().EndWith("(Teardown)"));
+
+            "And the teardowns should be executed in reverse order after the step"
                 .x(() => typeof(TeardownFeature).GetTestEvents()
                     .Should().Equal("step1", "teardown3", "teardown2", "teardown1"));
         }
