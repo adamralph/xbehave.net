@@ -22,6 +22,10 @@ namespace Xbehave.Sdk
 
         public RemainingSteps FailureBehavior { get; set; }
 
+        public GetStepDisplayText DisplayTextFunc { get; set; } =
+            (string stepText, bool isBackgroundStep) =>
+                (isBackgroundStep ? "(Background) " : null) + stepText;
+
         public IStepDefinition Skip(string reason)
         {
             this.SkipReason = reason;
@@ -41,6 +45,12 @@ namespace Xbehave.Sdk
         public IStepDefinition OnFailure(RemainingSteps behavior)
         {
             this.FailureBehavior = behavior;
+            return this;
+        }
+
+        public IStepDefinition DisplayText(GetStepDisplayText func)
+        {
+            this.DisplayTextFunc = func;
             return this;
         }
 

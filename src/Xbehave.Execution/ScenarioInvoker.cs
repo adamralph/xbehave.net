@@ -96,14 +96,13 @@ namespace Xbehave.Execution
         }
 
         private static string GetStepDisplayName(
-            string scenarioDisplayName, int stepNumber, bool isBackgroundStep, string stepText) =>
+            string scenarioDisplayName, int stepNumber, string stepDisplayText) =>
                 string.Format(
                     CultureInfo.InvariantCulture,
-                    "{0} [{1}] {2}{3}",
+                    "{0} [{1}] {2}",
                     scenarioDisplayName,
                     stepNumber.ToString("D2", CultureInfo.InvariantCulture),
-                    isBackgroundStep ? "(Background) " : string.Empty,
-                    stepText);
+                    stepDisplayText);
 
         private object CreateScenarioClass()
         {
@@ -220,8 +219,7 @@ namespace Xbehave.Execution
                 var stepDisplayName = GetStepDisplayName(
                     this.scenario.DisplayName,
                     ++stepNumber,
-                    stepNumber <= backGroundStepDefinitions.Count,
-                    stepDefinition.Text);
+                    stepDefinition.DisplayTextFunc?.Invoke(stepDefinition.Text, stepNumber <= backGroundStepDefinitions.Count));
 
                 var step = new Step(this.scenario, stepDisplayName);
 
@@ -293,7 +291,7 @@ namespace Xbehave.Execution
                     summary.Failed++;
                     summary.Total++;
 
-                    var stepDisplayName = GetStepDisplayName(this.scenario.DisplayName, ++stepNumber, false, "(Teardown)");
+                    var stepDisplayName = GetStepDisplayName(this.scenario.DisplayName, ++stepNumber, "(Teardown)");
 
                     this.messageBus.Queue(
                         new Step(this.scenario, stepDisplayName),

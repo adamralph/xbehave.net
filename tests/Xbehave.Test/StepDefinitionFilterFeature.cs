@@ -49,6 +49,19 @@ namespace Xbehave.Test
                 .x(() => results.Skip(3).Take(1).Should().ContainItemsAssignableTo<ITestPassed>());
         }
 
+        [Scenario]
+        public void BackgroundSuffixes(Type feature, ITestResultMessage[] results)
+        {
+            "Given a scenario marked with BackgroundSuffixes"
+                .x(() => feature = typeof(ScenarioWithBackgroundSuffixes));
+
+            "When I run the scenario"
+                .x(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then the first result has a background suffix"
+                .x(() => results[0].Test.DisplayName.Should().EndWith("(Background)"));
+        }
+
         private sealed class SkipAllAttribute : Attribute, IFilter<IStepDefinition>
         {
             public IEnumerable<IStepDefinition> Filter(IEnumerable<IStepDefinition> steps) =>
@@ -88,6 +101,38 @@ namespace Xbehave.Test
         {
             [Scenario]
             [ContinueAfterThen]
+            public void Scenario()
+            {
+                "Given something"
+                    .x(() => { });
+
+                "When something"
+                    .x(() => { });
+
+                "Then something"
+                    .x(() => throw new InvalidOperationException());
+
+                "And something"
+                    .x(() => { });
+            }
+        }
+
+        private sealed class BackgroundSuffixesAttribute : Attribute, IFilter<IStepDefinition>
+        {
+            public IEnumerable<IStepDefinition> Filter(IEnumerable<IStepDefinition> steps) =>
+                steps.Select(step => step.DisplayText((string stepText, bool isBackgroundStep) =>
+                    stepText + (isBackgroundStep ? " (Background)" : null)));
+        }
+
+        private class ScenarioWithBackgroundSuffixes
+        {
+            [Background]
+            public void Background() =>
+                "Given something"
+                    .x(() => { });
+
+            [Scenario]
+            [BackgroundSuffixes]
             public void Scenario()
             {
                 "Given something"
