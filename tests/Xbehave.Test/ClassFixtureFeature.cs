@@ -13,11 +13,9 @@ namespace Xbehave.Test
     public class ClassFixtureFeature : Feature
     {
         [Background]
-        public void Background()
-        {
+        public void Background() =>
             "Given no events have occurred"
                 .x(() => typeof(ClassFixtureFeature).ClearTestEvents());
-        }
 
         [Scenario]
         public void ClassFixture(Type feature, ITestResultMessage[] results)

@@ -40,6 +40,11 @@ namespace Xbehave.Sdk
         RemainingSteps FailureBehavior { get; set; }
 
         /// <summary>
+        /// Gets or sets the function used to get the step display text.
+        /// </summary>
+        GetStepDisplayText DisplayTextFunc { get; set; }
+
+        /// <summary>
         /// Indicates that the step will not be executed.
         /// </summary>
         /// <param name="reason">The reason for not executing the step.</param>
@@ -65,5 +70,14 @@ namespace Xbehave.Sdk
         /// An instance of <see cref="IStepDefinition"/>.
         /// </returns>
         new IStepDefinition OnFailure(RemainingSteps behavior);
+
+        /// <summary>
+        /// Defines the function used to get the step display text.
+        /// </summary>
+        /// <param name="func">The function used to get the step display text.</param>
+        /// <returns>
+        /// An instance of <see cref="IStepDefinition"/>.
+        /// </returns>
+        IStepDefinition DisplayText(GetStepDisplayText func);
     }
 }

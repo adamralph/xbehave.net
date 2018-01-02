@@ -18,11 +18,9 @@ namespace Xbehave.Test
     public class ObjectDisposalFeature : Feature
     {
         [Background]
-        public void Background()
-        {
+        public void Background() =>
             "Given no events have occurred"
                 .x(() => typeof(ObjectDisposalFeature).ClearTestEvents());
-        }
 
         [Scenario]
         [Example(typeof(AStepWithThreeDisposables))]

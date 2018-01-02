@@ -24,13 +24,18 @@ if not exist %NUGET_CACHE_DIR%\NuGet.exe (
 :: copy nuget locally
 if not exist %NUGET_LOCAL_DIR%\NuGet.exe (
   if not exist %NUGET_LOCAL_DIR% mkdir %NUGET_LOCAL_DIR%
-  copy %NUGET_CACHE_DIR%\NuGet.exe %NUGET_LOCAL_DIR%\NuGet.exe > nul
+  copy %NUGET_CACHE_DIR%\NuGet.exe %NUGET_LOCAL_DIR%\NuGet.exe > nul || goto :error
 )
 
 :: restore packages for build script
 echo Restoring NuGet packages for build script...
-%NUGET_LOCAL_DIR%\NuGet.exe restore .\packages.config -PackagesDirectory ./packages
+%NUGET_LOCAL_DIR%\NuGet.exe restore .\packages.config -PackagesDirectory ./packages || goto :error
 
 :: run build script
 echo Running build script...
-".\packages\Microsoft.Net.Compilers.%CSI_VERSION%\tools\csi.exe" .\build.csx %*
+.\packages\Microsoft.Net.Compilers.%CSI_VERSION%\tools\csi.exe .\build.csx %* || goto :error
+
+:: exit
+goto :EOF
+:error
+exit /b %errorlevel%
