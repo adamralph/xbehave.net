@@ -49,7 +49,7 @@ targets.Add(
 targets.Add(
     "test-core",
     DependsOn("build"),
-    () => Cmd("dotnet", $"xunit -configuration Release -nobuild -framework netcoreapp1.1", "./tests/Xbehave.Test"));
+    () => Cmd("dotnet", $"xunit -configuration Release -nobuild -framework netcoreapp2.0", "./tests/Xbehave.Test"));
 
 targets.Add(
     "test-net",
