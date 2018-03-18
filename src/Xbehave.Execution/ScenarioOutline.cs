@@ -14,8 +14,8 @@ namespace Xbehave.Execution
     public class ScenarioOutline : XunitTestCase
     {
         public ScenarioOutline(
-            IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, ITestMethod testMethod)
-            : base(diagnosticMessageSink, defaultMethodDisplay, testMethod, null)
+            IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, TestMethodDisplayOptions defaultMethodDisplayOptions, ITestMethod testMethod)
+            : base(diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testMethod, null)
         {
         }
 
