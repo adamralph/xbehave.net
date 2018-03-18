@@ -22,7 +22,15 @@ Absolutely! Please feel free to raise issues, fork the source code, send pull re
 
 ## How to build
 
-The only prerequisites you need are [.NET SDK 2.0](https://dot.net/core) and .NET Framework 4.5.2 (or later versions of each).
+The build is only confirmed to work on Windows.
+
+You need the following prerequisites:
+
+- [.NET Core SDK 2.0.3](https://www.microsoft.com/net/download/all) (or a newer version).
+- [.NET Core Runtime 2.0.6](https://www.microsoft.com/net/download/dotnet-core/runtime-2.0.6) (exact version).
+  - This version may be installed when you install .NET Core SDK.
+- [.NET Framework 4.5.2 Developer Pack](https://www.microsoft.com/net/download/all) (exact version).
+  - You may already have this if you have Visual Studio.
 
 Navigate to your clone root folder and execute `build.cmd`.
 
@@ -30,7 +38,7 @@ Navigate to your clone root folder and execute `build.cmd`.
 
 For full usage details for `build.cmd`, execute `build.cmd -?`. See  [simple-targets-csx](https://github.com/adamralph/simple-targets-csx) for more info.
 
-You can also build the solution using Visual Studio 2017 or later. At the time of writing the build is only confirmed to work on Windows.
+You can also build the solution using Visual Studio or other compatible IDE's.
 
 ## Versions
 
