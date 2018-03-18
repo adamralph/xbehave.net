@@ -246,6 +246,45 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => failures.Count().Should().Be(2));
         }
 
+        [Scenario]
+        public void DateTimeExampleValues(Type feature, Exception exception, ITestResultMessage[] results)
+        {
+            "Given scenarios expecting DateTime example values"
+                .x(() => feature = typeof(ScenariosExpectingDateTimeValues));
+
+            "When I run the scenarios"
+                .x(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then each result should be a pass"
+                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+        }
+
+        [Scenario]
+        public void DateTimeOffsetExampleValues(Type feature, Exception exception, ITestResultMessage[] results)
+        {
+            "Given scenarios expecting DateTimeOffset example values"
+                .x(() => feature = typeof(ScenariosExpectingDateTimeOffsetValues));
+
+            "When I run the scenarios"
+                .x(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then each result should be a pass"
+                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+        }
+
+        [Scenario]
+        public void GuidExampleValues(Type feature, Exception exception, ITestResultMessage[] results)
+        {
+            "Given scenarios expecting Guid example values"
+                .x(() => feature = typeof(ScenariosExpectingGuidValues));
+
+            "When I run the scenarios"
+                .x(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then each result should be a pass"
+                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+        }
+
         public sealed class BadExampleAttribute : MemberDataAttributeBase
         {
             public BadExampleAttribute()
@@ -439,6 +478,65 @@ an null value for an argument defined using the fifth type parameter"
             [BadValuesExample]
             public static void Scenario2(BadDisposable obj)
             {
+            }
+        }
+
+        private static class ScenariosExpectingDateTimeValues
+        {
+            private static readonly DateTime expected = new DateTime(2014, 6, 26, 10, 48, 30);
+
+            [Scenario]
+            [Example("2014-06-26")]
+            public static void Scenario1(DateTime actual)
+            {
+                "Then the actual is expected"
+                    .x(() => actual.Should().Be(expected.Date));
+            }
+
+            [Scenario]
+            [Example("Thu, 26 Jun 2014 10:48:30")]
+            [Example("2014-06-26T10:48:30.0000000")]
+            public static void Scenario2(DateTime actual)
+            {
+                "Then the actual is expected"
+                    .x(() => actual.Should().Be(expected));
+            }
+        }
+
+        private static class ScenariosExpectingDateTimeOffsetValues
+        {
+            private static readonly DateTimeOffset expected = new DateTimeOffset(new DateTime(2014, 6, 26, 10, 48, 30));
+
+            [Scenario]
+            [Example("2014-06-26")]
+            public static void Scenario1(DateTimeOffset actual)
+            {
+                "Then the actual is expected"
+                    .x(() => actual.Should().Be(expected.Date));
+            }
+
+            [Scenario]
+            [Example("Thu, 26 Jun 2014 10:48:30")]
+            [Example("2014-06-26T10:48:30.0000000")]
+            public static void Scenario2(DateTimeOffset actual)
+            {
+                "Then the actual is expected"
+                    .x(() => actual.Should().Be(expected));
+            }
+        }
+
+        private static class ScenariosExpectingGuidValues
+        {
+            private static readonly Guid expected = new Guid("0b228327-585d-47f9-a5ee-292f96ca085c");
+
+            [Scenario]
+            [Example("0b228327-585d-47f9-a5ee-292f96ca085c")]
+            [Example("0B228327-585D-47F9-A5EE-292F96CA085C")]
+            [Example("0B228327585D47F9A5EE292F96CA085C")]
+            public static void Scenario(Guid actual)
+            {
+                "Then the actual is expected"
+                    .x(() => actual.Should().Be(expected));
             }
         }
     }
