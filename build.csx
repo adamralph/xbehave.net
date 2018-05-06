@@ -17,20 +17,10 @@ targets.Add(
     DependsOn("build"),
     () =>
     {
-        var preReleasePhase = Environment.GetEnvironmentVariable("PRE_RELEASE_PHASE") ?? "";
-        var preReleaseNumber = Environment.GetEnvironmentVariable("PRE_RELEASE_NUMBER") ?? "";
-
-        var preReleaseSuffix = preReleasePhase != "" && preReleaseNumber != ""
-            ? $"-{preReleasePhase}.{preReleaseNumber}"
-            : "";
-
-        var buildNumber = Environment.GetEnvironmentVariable("BUILD_NUMBER") ?? "000000";
-        var buildNumberSuffix = preReleaseSuffix == "" ? "" : $"+build.{buildNumber}";
-
         var version = File.ReadAllText("src/Directory.Build.props")
                 .Split(new[] { "<Version>" }, 2, StringSplitOptions.RemoveEmptyEntries)[1]
                 .Split(new[] { "</Version>" }, StringSplitOptions.RemoveEmptyEntries).First()
-            + preReleaseSuffix + buildNumberSuffix;
+            + Environment.GetEnvironmentVariable("VERSION_SUFFIX");
 
         Directory.CreateDirectory("./artifacts");
 
