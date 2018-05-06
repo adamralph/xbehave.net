@@ -6,8 +6,8 @@ cd %~dp0
 setlocal
 
 :: set tool versions
-set NUGET_VERSION=4.3.0
-set CSI_VERSION=2.4.0
+set NUGET_VERSION=4.6.2
+set CSI_VERSION=2.8.0
 
 :: determine nuget cache dir
 set NUGET_CACHE_DIR=%LocalAppData%\.nuget\v%NUGET_VERSION%
