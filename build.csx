@@ -19,7 +19,7 @@ targets.Add(
     {
         var versionSuffix = Environment.GetEnvironmentVariable("VERSION_SUFFIX") ?? "";
         var buildNumber = Environment.GetEnvironmentVariable("BUILD_NUMBER") ?? "000000";
-        var buildNumberSuffix = versionSuffix == "" ? "" : "-build" + buildNumber;
+        var buildNumberSuffix = versionSuffix == "" ? "" : "+build." + buildNumber;
         var version = File.ReadAllText("src/Directory.Build.props")
                 .Split(new[] { "<Version>" }, 2, StringSplitOptions.RemoveEmptyEntries)[1]
                 .Split(new[] { "</Version>" }, StringSplitOptions.RemoveEmptyEntries).First()
