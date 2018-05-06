@@ -36,7 +36,7 @@ targets.Add(
             File.WriteAllText(nuspec, content);
             try
             {
-                Cmd("./.nuget/v4.3.0/NuGet.exe", $"pack {nuspec} -Version {version} -OutputDirectory ./artifacts -NoPackageAnalysis");
+                Cmd("./.nuget/v4.6.2/NuGet.exe", $"pack {nuspec} -Version {version} -OutputDirectory ./artifacts -NoPackageAnalysis");
             }
             finally
             {
