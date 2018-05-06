@@ -6,8 +6,6 @@ branches:
   only:
   - dev
   - master
-environment:
-  BUILD_NUMBER: $(APPVEYOR_BUILD_NUMBER)
 build_script:
 - cmd: build.cmd
 test: off
