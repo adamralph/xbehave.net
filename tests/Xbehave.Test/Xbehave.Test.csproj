@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="xunit" Version="2.4.0-beta.1.build3958" />
+    <PackageReference Include="xunit.analyzers" Version="0.9.0" />
     <PackageReference Include="xunit.runner.utility" Version="2.4.0-beta.1.build3958" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0-beta.1.build3958" />
   </ItemGroup>
