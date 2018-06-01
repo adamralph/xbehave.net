@@ -10,7 +10,7 @@ var targets = new TargetDictionary();
 
 targets.Add("default", DependsOn("pack", "test"));
 
-targets.Add("build", () => Cmd("dotnet", $"build -c Release"));
+targets.Add("build", () => Cmd("dotnet", $"build --configuration Release"));
 
 targets.Add(
     "pack",
@@ -46,12 +46,12 @@ targets.Add(
 targets.Add(
     "test-core",
     DependsOn("build"),
-    () => Cmd("dotnet", $"xunit -configuration Release -nobuild -framework netcoreapp2.0", "./tests/Xbehave.Test"));
+    () => Cmd("dotnet", $"test --configuration Release --no-build --framework netcoreapp2.0", "./tests/Xbehave.Test"));
 
 targets.Add(
     "test-net",
     DependsOn("build"),
-    () => Cmd("dotnet", $"xunit -configuration Release -nobuild -framework net452", "./tests/Xbehave.Test"));
+    () => Cmd("dotnet", $"test --configuration Release --no-build --framework net452", "./tests/Xbehave.Test"));
 
 targets.Add("test", DependsOn("test-core", "test-net"));
 
