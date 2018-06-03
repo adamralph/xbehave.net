@@ -1,9 +1,6 @@
-:: the windows shell, so amazing
-
-:: options
 @echo Off
 cd %~dp0
-setlocal
+setlocal EnableDelayedExpansion
 
 :: set tool versions
 set NUGET_VERSION=4.6.2
