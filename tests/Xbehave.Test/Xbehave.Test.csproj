@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.0;net452</TargetFrameworks>
-    <RuntimeFrameworkVersion>2.0.6</RuntimeFrameworkVersion>
-    <NoWarn>$(NoWarn);CS0168;CS1591</NoWarn>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <CodeAnalysisRuleSet>Xbehave.Test.ruleset</CodeAnalysisRuleSet>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);CS0168;CS1591</NoWarn>
+    <RuntimeFrameworkVersion>2.0.6</RuntimeFrameworkVersion>
+    <TargetFrameworks>netcoreapp2.0;net452</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
