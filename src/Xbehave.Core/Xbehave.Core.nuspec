@@ -20,16 +20,16 @@ Installing this package installs xunit.core.</description>
     </dependencies>
   </metadata>
   <files>
-    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.dll" target="lib\net452" />
-    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.pdb" target="lib\net452" />
-    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.xml" target="lib\net452" />
-    <file src="Xbehave.Execution\bin\Release\net452\Xbehave.Execution.desktop.dll" target="lib\net452" />
-    <file src="Xbehave.Execution\bin\Release\net452\Xbehave.Execution.desktop.pdb" target="lib\net452" />
+    <file src="bin\Release\netstandard1.1\Xbehave.Core.dll" target="lib\net452" />
+    <file src="bin\Release\netstandard1.1\Xbehave.Core.pdb" target="lib\net452" />
+    <file src="bin\Release\netstandard1.1\Xbehave.Core.xml" target="lib\net452" />
+    <file src="..\Xbehave.Execution\bin\Release\net452\Xbehave.Execution.desktop.dll" target="lib\net452" />
+    <file src="..\Xbehave.Execution\bin\Release\net452\Xbehave.Execution.desktop.pdb" target="lib\net452" />
 
-    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.dll" target="lib\netstandard1.1" />
-    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.pdb" target="lib\netstandard1.1" />
-    <file src="Xbehave.Core\bin\Release\netstandard1.1\Xbehave.Core.xml" target="lib\netstandard1.1" />
-    <file src="Xbehave.Execution\bin\Release\netstandard1.1\Xbehave.Execution.dotnet.dll" target="lib\netstandard1.1" />
-    <file src="Xbehave.Execution\bin\Release\netstandard1.1\Xbehave.Execution.dotnet.pdb" target="lib\netstandard1.1" />
+    <file src="bin\Release\netstandard1.1\Xbehave.Core.dll" target="lib\netstandard1.1" />
+    <file src="bin\Release\netstandard1.1\Xbehave.Core.pdb" target="lib\netstandard1.1" />
+    <file src="bin\Release\netstandard1.1\Xbehave.Core.xml" target="lib\netstandard1.1" />
+    <file src="..\Xbehave.Execution\bin\Release\netstandard1.1\Xbehave.Execution.dotnet.dll" target="lib\netstandard1.1" />
+    <file src="..\Xbehave.Execution\bin\Release\netstandard1.1\Xbehave.Execution.dotnet.pdb" target="lib\netstandard1.1" />
   </files>
 </package>

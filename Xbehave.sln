@@ -16,11 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.mailmap = .mailmap
 		appveyor.yml = appveyor.yml
 		build.cmd = build.cmd
-		build.csx = build.csx
 		CODEOWNERS = CODEOWNERS
 		CONTRIBUTING.md = CONTRIBUTING.md
 		LICENSE = LICENSE
-		packages.config = packages.config
 		README.md = README.md
 		stylecop.json = stylecop.json
 	EndProjectSection
@@ -28,8 +26,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33269118-539E-4B80-8298-556253F984FE}"
 	ProjectSection(SolutionItems) = preProject
 		src\Directory.Build.props = src\Directory.Build.props
-		src\Xbehave.Core.nuspec = src\Xbehave.Core.nuspec
-		src\Xbehave.nuspec = src\Xbehave.nuspec
 		src\Xbehave.ruleset = src\Xbehave.ruleset
 		src\Xbehave.snk = src\Xbehave.snk
 	EndProjectSection
@@ -41,6 +37,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Test", "tests\Xbehave.Test\Xbehave.Test.csproj", "{AB3C58C9-5EB0-419B-90F4-2835F997CC93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{7FE5E741-9F2D-497B-8FAC-FF404D765FBE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Targets", "targets\Targets.csproj", "{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +60,10 @@ Global
 		{AB3C58C9-5EB0-419B-90F4-2835F997CC93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB3C58C9-5EB0-419B-90F4-2835F997CC93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB3C58C9-5EB0-419B-90F4-2835F997CC93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +72,7 @@ Global
 		{37910B4A-996D-4DB1-816E-7ABAAE43CEC2} = {33269118-539E-4B80-8298-556253F984FE}
 		{27AB17E5-1796-4DBD-8FFE-99249114C93A} = {33269118-539E-4B80-8298-556253F984FE}
 		{AB3C58C9-5EB0-419B-90F4-2835F997CC93} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
+		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB} = {7FE5E741-9F2D-497B-8FAC-FF404D765FBE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {397F0EE3-6CD7-4EF4-B6D2-ED3FEAAE5FBF}
