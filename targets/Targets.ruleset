@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Targets" ToolsVersion="10.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1118" Action="None" /> <!-- SA1118ParameterMustNotSpanMultipleLines -->
+    <Rule Id="SA1652" Action="None" /> <!-- SA1652EnableXmlDocumentationOutput -->
+  </Rules>
+</RuleSet>
