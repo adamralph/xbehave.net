@@ -30,25 +30,6 @@ xBehave.net follows the versioning scheme of xUnit.net. xUnit.net and xBehave.ne
 
 A given xBehave.net patch version may introduce new features, fix bugs, or both.
 
-## On which giants' shoulders does it stand?
-
-* [.NET SDK](https://dot.net/core)
-* [AppVeyor](https://ci.appveyor.com/project/adamralph/xbehave-net/)
-* [Dan North](http://dannorth.net/introducing-bdd/)
-* [EditorConfig](http://editorconfig.org/)
-* [FluentAssertions](http://www.fluentassertions.com/)
-* [Gherkin](https://github.com/cucumber/cucumber/wiki/Gherkin/)
-* [GitHub](https://github.com/xbehave/xbehave.net/)
-* [Gitter](https://gitter.im/xbehave/xbehave.net/)
-* [LiteGuard](https://github.com/liteguard/liteguard/)
-* [NuGet](https://www.nuget.org/packages/Xbehave/)
-* [Roslyn](https://github.com/dotnet/roslyn)
-* [simple-targets-csx](https://github.com/adamralph/simple-targets-csx)
-* [SourceLink](https://github.com/ctaggart/SourceLink)
-* [StyleCop.Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers/)
-* [SubSpec](http://bitbucket.org/johannesrudolph/subspec/)
-* [xUnit.net](https://xunit.github.io/)
-
 ---
 
 <sub>xBehave.net logo designed by [Vanja Pakaski](https://github.com/vanpak).</sub>
