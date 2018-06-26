@@ -10,7 +10,7 @@ using static SimpleExec.Command;
 
 internal class Program
 {
-    public static async Task<int> Main(string[] args)
+    public static Task Main(string[] args)
     {
         Add("default", DependsOn("pack", "test"));
 
@@ -40,6 +40,6 @@ internal class Program
 
         Add("test", DependsOn("test-core", "test-net"));
 
-        return await RunAsync(args);
+        return RunAsync(args);
     }
 }
