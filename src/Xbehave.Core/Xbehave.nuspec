@@ -17,7 +17,7 @@ Installing this package installs Xbehave.Core and xunit.</description>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
       <dependency id="Xbehave.Core" version="[$Version$]" />
-      <dependency id="xunit" version="[2.4.0-beta.2.build4010 , 2.5)" />
+      <dependency id="xunit" version="[2.4.0-rc.1.build4038 , 2.5)" />
     </dependencies>
   </metadata>
   <files />
