@@ -1,11 +1,3 @@
-artifacts
-bin
-obj
-*.suo
-*.user
-Thumbs.db
-*.sln.ide
-packages
-.nuget/
 .vs/
-project.lock.json
+bin/
+obj/

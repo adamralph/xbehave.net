@@ -1,9 +1,10 @@
 <Project>
 
   <PropertyGroup>
-    <Version>2.3.1</Version>
-    <FileVersion>2.3.1</FileVersion>
-    <AssemblyVersion>2.3.1.0</AssemblyVersion>
+    <VersionPrefix>2.4.0</VersionPrefix>
+    <VersionSuffix>$(VERSION_SUFFIX)</VersionSuffix>
+    <FileVersion>2.4.0</FileVersion>
+    <AssemblyVersion>2.4.0.0</AssemblyVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Xbehave.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
