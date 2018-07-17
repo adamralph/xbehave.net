@@ -15,8 +15,8 @@ Installing this package installs xunit.core.</description>
     <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
     <tags>xUnit.net BDD test TDD</tags>
     <dependencies>
-      <dependency id="xunit.core" version="[2.4.0-rc.1.build4038 , 2.5)" />
-      <dependency id="xunit.extensibility.execution" version="[2.4.0-rc.1.build4038 , 2.5)" />
+      <dependency id="xunit.core" version="[2.4.0, 2.5)" />
+      <dependency id="xunit.extensibility.execution" version="[2.4.0, 2.5)" />
     </dependencies>
   </metadata>
   <files>
