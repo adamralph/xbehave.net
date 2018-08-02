@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Bullseye" Version="1.0.0-rc.5" />
     <PackageReference Include="SimpleExec" Version="2.2.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 
   <PropertyGroup>
