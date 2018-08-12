@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteGuard.Source" Version="2.0.1" PrivateAssets="All" />
+    <PackageReference Include="LiteGuard.Source" Version="2.1.0" PrivateAssets="All" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
     <PackageReference Include="xunit.extensibility.core" Version="2.4.0" />
   </ItemGroup>
