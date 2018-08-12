@@ -12,34 +12,32 @@ internal class Program
 {
     public static Task Main(string[] args)
     {
-        Add("default", DependsOn("pack", "test"));
+        Target("default", DependsOn("pack", "test"));
 
-        Add("build", () => RunAsync("dotnet", $"build --configuration Release"));
+        Target("build", () => RunAsync("dotnet", $"build --configuration Release"));
 
-        Add(
+        Target(
             "pack",
             DependsOn("build"),
-            async () =>
+            ForEach("Xbehave.Core.nuspec", "Xbehave.nuspec"),
+            async nuspec =>
             {
-                foreach (var nuspec in new[] { "Xbehave.Core.nuspec", "Xbehave.nuspec", })
-                {
-                    Environment.SetEnvironmentVariable("NUSPEC_FILE", nuspec, EnvironmentVariableTarget.Process);
-                    await RunAsync("dotnet", $"pack src/Xbehave.Core --configuration Release --no-build");
-                }
+                Environment.SetEnvironmentVariable("NUSPEC_FILE", nuspec, EnvironmentVariableTarget.Process);
+                await RunAsync("dotnet", $"pack src/Xbehave.Core --configuration Release --no-build");
             });
 
-        Add(
+        Target(
             "test-core",
             DependsOn("build"),
             () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework netcoreapp2.1"));
 
-        Add(
+        Target(
             "test-net",
             DependsOn("build"),
             () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework net452"));
 
-        Add("test", DependsOn("test-core", "test-net"));
+        Target("test", DependsOn("test-core", "test-net"));
 
-        return RunAsync(args);
+        return RunTargetsAsync(args);
     }
 }
