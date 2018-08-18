@@ -1,16 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <CodeAnalysisRuleSet>..\Xbehave.ruleset</CodeAnalysisRuleSet>
     <Description>The xBehave.net execution library.</Description>
     <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <TargetFrameworks>net452;netstandard1.1</TargetFrameworks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Xbehave.Core\Xbehave.Core.csproj" />
@@ -19,7 +14,6 @@
   <ItemGroup>
     <PackageReference Include="LiteGuard.Source" Version="2.1.0" PrivateAssets="All" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.4.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

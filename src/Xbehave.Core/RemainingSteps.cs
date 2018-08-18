@@ -1,8 +1,4 @@
-﻿// <copyright file="RemainingSteps.cs" company="xBehave.net contributors">
-//  Copyright (c) xBehave.net contributors. All rights reserved.
-// </copyright>
-
-namespace Xbehave
+﻿namespace Xbehave
 {
     using System.Diagnostics.CodeAnalysis;
 

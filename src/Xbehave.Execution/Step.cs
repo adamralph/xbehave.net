@@ -1,7 +1,3 @@
-// <copyright file="Step.cs" company="xBehave.net contributors">
-//  Copyright (c) xBehave.net contributors. All rights reserved.
-// </copyright>
-
 namespace Xbehave.Execution
 {
     using System.Diagnostics.CodeAnalysis;

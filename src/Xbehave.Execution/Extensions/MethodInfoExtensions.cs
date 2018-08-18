@@ -1,7 +1,3 @@
-// <copyright file="MethodInfoExtensions.cs" company="xBehave.net contributors">
-//  Copyright (c) xBehave.net contributors. All rights reserved.
-// </copyright>
-
 namespace Xbehave.Execution.Extensions
 {
     using System.Diagnostics.CodeAnalysis;

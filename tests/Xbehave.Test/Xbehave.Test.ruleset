@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Xbehave.Test" ToolsVersion="10.0">
-  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-    <Rule Id="SA1652" Action="None" /> <!-- SA1652EnableXmlDocumentationOutput -->
-  </Rules>
   <Rules AnalyzerId="xunit.analyzers" RuleNamespace="Xunit.Analyzers">
     <Rule Id="xUnit1000" Action="None" /> <!-- Test classes must be public -->
   </Rules>

@@ -28,7 +28,7 @@ Try to keep lines of code no longer than 120 characters wide. This isn't a stric
 
 ## Coding style
 
-Try to keep your coding style in line with the existing code. It might not exactly match your preferred style but it's better to keep things consistent. [StyleCop.Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) is run on every build and violations are reported as warnings. Any changes to StyleCop.Analyzers settings or any warning suppressions must be clearly justified.
+Try to keep your coding style in line with the existing code. It might not exactly match your preferred style but it's better to keep things consistent.
 
 ## Code analysis
 

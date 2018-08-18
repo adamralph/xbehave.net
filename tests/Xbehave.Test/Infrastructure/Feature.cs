@@ -1,7 +1,3 @@
-// <copyright file="Feature.cs" company="xBehave.net contributors">
-//  Copyright (c) xBehave.net contributors. All rights reserved.
-// </copyright>
-
 namespace Xbehave.Test.Infrastructure
 {
     using System;

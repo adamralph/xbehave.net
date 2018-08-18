@@ -1,7 +1,3 @@
-// <copyright file="StringExtensions.cs" company="xBehave.net contributors">
-//  Copyright (c) xBehave.net contributors. All rights reserved.
-// </copyright>
-
 namespace Xbehave
 {
     using System;
@@ -22,7 +18,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Action body)
         {
             var stepDefinition = new StepDefinition
@@ -49,7 +44,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Action<IStepContext> body)
         {
             var stepDefinition = new StepDefinition
@@ -76,7 +70,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Func<Task> body)
         {
             var stepDefinition = new StepDefinition
@@ -97,7 +90,6 @@ namespace Xbehave
         /// <returns>
         /// An instance of <see cref="IStepBuilder"/>.
         /// </returns>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:ElementMustBeginWithUpperCaseLetter", Justification = "Fluent API")]
         public static IStepBuilder x(this string text, Func<IStepContext, Task> body)
         {
             var stepDefinition = new StepDefinition { Text = text, Body = body, };
