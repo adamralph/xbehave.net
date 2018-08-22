@@ -11,6 +11,7 @@ namespace Xbehave
     [IgnoreXunitAnalyzersRule1013]
     public class BackgroundAttribute : Attribute
     {
+        [AttributeUsage(AttributeTargets.Class)]
         private class IgnoreXunitAnalyzersRule1013Attribute : Attribute
         {
         }
