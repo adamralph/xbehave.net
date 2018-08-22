@@ -1,19 +1,17 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>Xbehave.Core</id>
-    <version>0.0.0</version>
-    <title>Xbehave [Core Testing Framework]</title>
     <authors>Adam Ralph, xBehave.net contributors</authors>
     <description>Includes the libraries for writing tests with xBehave.net.
+
 Installing this package installs xunit.core.</description>
-    <language>en-US</language>
-    <projectUrl>http://xbehave.github.io/</projectUrl>
     <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
+    <id>Xbehave.Core</id>
     <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/LICENSE</licenseUrl>
+    <projectUrl>http://xbehave.github.io/</projectUrl>
     <releaseNotes>https://github.com/xbehave/xbehave.net/releases</releaseNotes>
-    <copyright>Copyright (c) xBehave.net contributors. (xbehave.net@gmail.com)</copyright>
-    <tags>xUnit.net BDD test TDD</tags>
+    <title>Xbehave [Core Testing Framework]</title>
+    <version>0.0.0</version>
     <dependencies>
       <dependency id="xunit.core" version="[2.4.0, 2.5)" />
       <dependency id="xunit.extensibility.execution" version="[2.4.0, 2.5)" />
