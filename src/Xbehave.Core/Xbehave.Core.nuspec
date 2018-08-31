@@ -10,6 +10,7 @@ Installing this package installs xunit.core.</description>
     <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://xbehave.github.io/</projectUrl>
     <releaseNotes>https://github.com/xbehave/xbehave.net/releases</releaseNotes>
+    <repository type="$RepositoryType$" url="$RepositoryUrl$" commit="$RepositoryCommit$" />
     <title>Xbehave [Core Testing Framework]</title>
     <version>0.0.0</version>
     <dependencies>

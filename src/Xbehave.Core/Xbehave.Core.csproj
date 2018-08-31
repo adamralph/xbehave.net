@@ -1,24 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);NU5105</NoWarn>
     <NuspecFile>$(NUSPEC_FILE)</NuspecFile>
-    <NuspecProperties Condition=" '$(VersionSuffix)' == '' ">Version=$(VersionPrefix)</NuspecProperties>
-    <NuspecProperties Condition=" '$(VersionSuffix)' != '' ">Version=$(VersionPrefix)-$(VersionSuffix)</NuspecProperties>
     <RootNamespace>Xbehave</RootNamespace>
     <TargetFramework>netstandard1.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="LiteGuard.Source" Version="2.1.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
     <PackageReference Include="xunit.extensibility.core" Version="2.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="SourceLink.Create.GitHub" Version="2.8.1" PrivateAssets="All" />
-    <DotNetCliToolReference Include="dotnet-sourcelink-git" Version="2.8.1" />
-  </ItemGroup>
+  <Target Name="InitializeNuspecProperties"
+          BeforeTargets="GenerateNuspec"
+          DependsOnTargets="InitializeSourceControlInformation">
+
+    <ItemGroup>
+      <NuspecProperty Include="RepositoryCommit=$(SourceRevisionId)" />
+      <NuspecProperty Include="RepositoryType=$(RepositoryType)" />
+      <NuspecProperty Include="RepositoryUrl=$(PrivateRepositoryUrl)" />
+      <NuspecProperty Include="Version=$(VersionPrefix)" Condition=" '$(VersionSuffix)' == '' "></NuspecProperty>
+      <NuspecProperty Include="Version=$(VersionPrefix)-$(VersionSuffix)" Condition=" '$(VersionSuffix)' != '' "></NuspecProperty>
+    </ItemGroup>
+
+    <PropertyGroup>
+      <NuspecProperties>@(NuspecProperty, ';')</NuspecProperties>
+    </PropertyGroup>
+
+  </Target>
 
 </Project>
