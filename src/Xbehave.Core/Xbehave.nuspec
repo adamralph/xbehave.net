@@ -10,6 +10,7 @@ Installing this package installs Xbehave.Core and xunit.</description>
     <licenseUrl>https://github.com/xbehave/xbehave.net/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://xbehave.github.io/</projectUrl>
     <releaseNotes>https://github.com/xbehave/xbehave.net/releases</releaseNotes>
+    <repository type="$RepositoryType$" url="$RepositoryUrl$" commit="$RepositoryCommit$" />
     <version>0.0.0</version>
     <dependencies>
       <dependency id="Xbehave.Core" version="[$Version$]" />
