@@ -12,7 +12,7 @@ Installing this package installs xunit.core.</description>
     <releaseNotes>https://github.com/xbehave/xbehave.net/releases</releaseNotes>
     <repository type="$RepositoryType$" url="$RepositoryUrl$" commit="$RepositoryCommit$" />
     <title>Xbehave [Core Testing Framework]</title>
-    <version>0.0.0</version>
+    <version>$Version$</version>
     <dependencies>
       <dependency id="xunit.core" version="[2.4.0, 2.5)" />
       <dependency id="xunit.extensibility.execution" version="[2.4.0, 2.5)" />
