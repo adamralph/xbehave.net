@@ -2,7 +2,6 @@
   "profiles": {
     "Targets": {
       "commandName": "Project",
-      "commandLineArgs": "--no-color",
       "workingDirectory": "../"
     }
   }
