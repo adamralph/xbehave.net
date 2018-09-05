@@ -40,37 +40,37 @@ Please do not add ReSharper suppressions to code using comments. You may tweak y
 
 ## Branches
 
-There are two mainline branches, **master** and **dev**. The **dev** branch is used for development work for the next release. All new features, changes, etc. must be applied to the dev branch. The **master** branch is used for stable releases. Any patches to the current stable release must be applied to master.
+There are two mainline branch kinds, **master** and **release-X.Y**. The **master** branch is used for development work for the next release. All new features, changes, etc. must be applied to the master branch. The **release-X.Y** branches are used for stable releases. Any patches to stable releases must be applied to the respective release branch.
 
 ## Making changes
 
 1. [Fork](http://help.github.com/forking/) on GitHub
 1. Clone your fork locally
 1. Configure the upstream repo (`git remote add upstream git://github.com/xbehave/xbehave.net.git`)
-1. Checkout the dev branch (`git checkout dev`) or, if you are working on a bug fix, checkout the master branch (`git checkout master`)
+1. Checkout the master branch (`git checkout master`) or, if you are working on a bug fix, checkout the corresponding release branch (`git checkout release-X.Y`)
 1. Create a local branch (`git checkout -b my-branch`). The branch name should be descriptive, or it can just be the GitHub issue number which the work relates to, e.g. `123`.
 1. Work on your change
 1. Rebase if required (see 'Handling updates from upstream' below)
-1. Test the build locally by running `rake` (see ['How to build'](/README.md#how-to-build))
+1. Test the build locally by running `build.cmd`
 1. Push the branch up to GitHub (`git push origin my-branch`)
 1. Send a pull request on GitHub (see 'Sending a Pull Request' below)
 
-You should **never** work on a clone of dev/master, and you should **never** send a pull request from dev/master - always from a branch. The reasons for this are detailed below.
+You should **never** work on a clone of master/release, and you should **never** send a pull request from master/release - always from a branch. The reasons for this are detailed below.
 
 ## Handling updates from upstream
 
-While you're working away in your branch it's quite possible that your upstream dev/master may be updated. If this happens you should:
+While you're working away in your branch it's quite possible that your upstream master/release may be updated. If this happens you should:
 
-(If you are working on patch, replace `dev` with `master` when following these steps.)
+(If you are working on patch, replace `master` with `release` when following these steps.)
 
 1. [Stash](http://progit.org/book/ch6-3.html) any un-committed changes you need to
-1. `git checkout dev`
-1. `git pull upstream dev`
+1. `git checkout master`
+1. `git pull upstream master`
 1. `git checkout my-branch`
-1. `git rebase dev my-branch`
-1. `git push origin dev` (optional) this keeps the dev branch in your fork up to date
+1. `git rebase master my-branch`
+1. `git push origin master` (optional) this keeps the master branch in your fork up to date
 
-These steps ensure your history is "clean" i.e. you have one branch from dev/master followed by your changes in a straight line. Failing to do this ends up with several "messy" merges in your history, which we don't want. This is the reason why you should always work in a branch and you should never be working in or sending pull requests from dev/master.
+These steps ensure your history is "clean" i.e. you have one branch from master/release followed by your changes in a straight line. Failing to do this ends up with several "messy" merges in your history, which we don't want. This is the reason why you should always work in a branch and you should never be working in or sending pull requests from master/release.
 
 If you're working on a long running feature you may want to do this quite often to reduce the risk of tricky merges later on.
 
@@ -78,11 +78,11 @@ If you're working on a long running feature you may want to do this quite often 
 
 While working on your feature you may well create several branches, which is fine, but before you send a pull request you should ensure that you have rebased back to a single "feature branch". We care about your commits, and we care about your feature branch, but we don't care about how many or which branches you created while you were working on it. :smile:
 
-When you're ready to go you should confirm that you are up to date and rebased with upstream dev/master (see "Handling Updates from Upstream" above) and then:
+When you're ready to go you should confirm that you are up to date and rebased with upstream master/release (see "Handling Updates from Upstream" above) and then:
 
 1. `git push origin my-branch`
 1. Send a descriptive [pull request](http://help.github.com/pull-requests/) on GitHub.
-  * Make sure the pull request is **from** the branch on your fork **to** the xbehave/xbehave.net dev branch (or the xbehave/xbehave.net master branch if patching).
+  * Make sure the pull request is **from** the branch on your fork **to** the xbehave/xbehave.net master branch (or the xbehave/xbehave.net release branch if patching).
   * If your changes relate to a GitHub issue, add the issue number to the pull request description in the format #123.
 1. If GitHub determines that the pull request can be merged automatically, a test build will commence approximately one minute after you raise the pull request. The build status will reported on the pull request.
   * If the build fails there may be a problem with your changes which you will have to fix before the pull request can be accepted. Follow the link to the build server (you can either create an account or login as guest) and inspect the build logs to see what caused the failure.
