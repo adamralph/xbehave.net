@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);CS0168;CS1591</NoWarn>
     <RuntimeFrameworkVersion>2.0.6</RuntimeFrameworkVersion>
-    <TargetFrameworks>netcoreapp2.1;net452</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;net472</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

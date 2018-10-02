@@ -30,7 +30,7 @@ internal class Program
         Target(
             "test-net",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework net452"));
+            () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework net472"));
 
         Target("test", DependsOn("test-core", "test-net"));
 
