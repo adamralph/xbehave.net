@@ -1,4 +1,8 @@
-#if NETCOREAPP2_1
+// <copyright file="Api.cs" company="xBehave.net contributors">
+//  Copyright (c) xBehave.net contributors. All rights reserved.
+// </copyright>
+
+#if NETCOREAPP2_0
 namespace Xbehave.Test
 {
     using System;
@@ -8,8 +12,8 @@ namespace Xbehave.Test
     using ApprovalTests.Namers.StackTraceParsers;
     using ApprovalTests.Reporters;
     using ApprovalTests.StackTraceParsers;
-    using Xbehave;
     using PublicApiGenerator;
+    using Xbehave;
     using Xunit;
     using Xunit.Sdk;
 
@@ -25,13 +29,14 @@ namespace Xbehave.Test
 
         [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
         [XunitTestCaseDiscoverer("Xunit.Sdk.FactDiscoverer", "xunit.execution.{Platform}")]
-        class WindowsFactAttribute : FactAttribute
+        private class WindowsFactAttribute : FactAttribute
         {
-            public WindowsFactAttribute() : base() =>
+            public WindowsFactAttribute()
+                : base() =>
                 this.Skip = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? null : "Only works on Windows.";
         }
 
-        class WindowsFactStackTraceParser : XUnitStackTraceParser
+        private class WindowsFactStackTraceParser : XUnitStackTraceParser
         {
             protected override string GetAttributeType() => "Xbehave.Test.Api+WindowsFactAttribute";
         }
