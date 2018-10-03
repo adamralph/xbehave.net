@@ -13,7 +13,7 @@ namespace Xbehave
     }
     public class static DisposableExtensions
     {
-        public static T Using<T>(this T disposable, Xbehave.Sdk.IStepContext stepContext)
+        public static T Using<T>(this T obj, Xbehave.Sdk.IStepContext stepContext)
             where T : System.IDisposable { }
     }
     [System.AttributeUsageAttribute(System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=true)]
