@@ -1,40 +1,19 @@
-#if NETCOREAPP2_1
 namespace Xbehave.Test
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Runtime.InteropServices;
-    using ApprovalTests;
-    using ApprovalTests.Namers.StackTraceParsers;
-    using ApprovalTests.Reporters;
-    using ApprovalTests.StackTraceParsers;
     using Xbehave;
     using PublicApiGenerator;
     using Xunit;
-    using Xunit.Sdk;
+    using Xbehave.Test.Infrastructure;
 
     public class Api
     {
-        static Api() => StackTraceParser.AddParser(new WindowsFactStackTraceParser());
-
-        [WindowsFact]
-        [UseReporter(typeof(QuietReporter))]
-        [MethodImpl(MethodImplOptions.NoInlining)]
+        [Fact]
         public void IsUnchanged() =>
-            Approvals.Verify(ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly));
-
-        [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-        [XunitTestCaseDiscoverer("Xunit.Sdk.FactDiscoverer", "xunit.execution.{Platform}")]
-        class WindowsFactAttribute : FactAttribute
-        {
-            public WindowsFactAttribute() : base() =>
-                this.Skip = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? null : "Only works on Windows.";
-        }
-
-        class WindowsFactStackTraceParser : XUnitStackTraceParser
-        {
-            public override string GetAttributeType() => "Xbehave.Test.Api+WindowsFactAttribute";
-        }
+#if NETCOREAPP2_1
+            AssertFile.Contains(ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly), "api-netcoreapp2_1.txt");
+#endif
+#if NET472
+            AssertFile.Contains(ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly), "api-net472.txt");
+#endif
     }
 }
-#endif
