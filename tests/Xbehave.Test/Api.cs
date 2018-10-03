@@ -33,7 +33,7 @@ namespace Xbehave.Test
 
         class WindowsFactStackTraceParser : XUnitStackTraceParser
         {
-            protected override string GetAttributeType() => "Xbehave.Test.Api+WindowsFactAttribute";
+            public override string GetAttributeType() => "Xbehave.Test.Api+WindowsFactAttribute";
         }
     }
 }
