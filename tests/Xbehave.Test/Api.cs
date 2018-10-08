@@ -1,9 +1,9 @@
 namespace Xbehave.Test
 {
-    using Xbehave;
     using PublicApiGenerator;
-    using Xunit;
+    using Xbehave;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
 
     public class Api
     {
