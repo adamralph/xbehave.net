@@ -1,5 +1,5 @@
+// https://github.com/xunit/assert.xunit/blob/2.4/Sdk/ArgumentFormatter.cs
 using System;
-using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,7 +13,6 @@ namespace Xunit.Sdk
     /// <summary>
     /// Formats arguments for display in theories.
     /// </summary>
-    [GeneratedCode("https://github.com/xunit/assert.xunit", "bb4fa9797b94ae9fec7b855df8d4f790adcf6623")]
     static class ArgumentFormatter
     {
         const int MAX_DEPTH = 3;
@@ -116,7 +115,7 @@ namespace Xunit.Sdk
                 {
                     // Sometimes enumerables cannot be enumerated when being, and instead thrown an exception.
                     // This could be, for example, because they require state that is not provided by Xunit.
-                    // In these cases, just continue formatting.
+                    // In these cases, just continue formatting. 
                 }
 
                 var type = value.GetType();

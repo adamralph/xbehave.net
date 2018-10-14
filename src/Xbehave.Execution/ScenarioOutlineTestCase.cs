@@ -1,3 +1,4 @@
+// https://github.com/xunit/xunit/blob/2.4/src/xunit.execution/Sdk/Frameworks/XunitTheoryTestCase.cs
 namespace Xbehave.Execution
 {
     using System;
@@ -9,33 +10,21 @@ namespace Xbehave.Execution
 
     public class ScenarioOutlineTestCase : XunitTestCase
     {
-        public ScenarioOutlineTestCase(
-            IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, TestMethodDisplayOptions defaultMethodDisplayOptions, ITestMethod testMethod)
-            : base(diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testMethod)
-        {
-        }
-
         [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Called by the de-serializer", true)]
-        public ScenarioOutlineTestCase()
-        {
-        }
+        [Obsolete("Called by the de-serializer; should only be called by deriving classes for de-serialization purposes")]
+        public ScenarioOutlineTestCase() { }
 
-        public override async Task<RunSummary> RunAsync(
-            IMessageSink diagnosticMessageSink,
-            IMessageBus messageBus,
-            object[] constructorArguments,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource) =>
-                await new ScenarioOutlineTestCaseRunner(
-                        diagnosticMessageSink,
-                        this,
-                        this.DisplayName,
-                        this.SkipReason,
-                        constructorArguments,
-                        messageBus,
-                        aggregator,
-                        cancellationTokenSource)
-                    .RunAsync();
+        public ScenarioOutlineTestCase(IMessageSink diagnosticMessageSink,
+                                       TestMethodDisplay defaultMethodDisplay,
+                                       TestMethodDisplayOptions defaultMethodDisplayOptions,
+                                       ITestMethod testMethod)
+            : base(diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testMethod) { }
+
+        public override async Task<RunSummary> RunAsync(IMessageSink diagnosticMessageSink,
+                                                        IMessageBus messageBus,
+                                                        object[] constructorArguments,
+                                                        ExceptionAggregator aggregator,
+                                                        CancellationTokenSource cancellationTokenSource)
+            => await new ScenarioOutlineTestCaseRunner(this, DisplayName, SkipReason, constructorArguments, diagnosticMessageSink, messageBus, aggregator, cancellationTokenSource).RunAsync();
     }
 }
