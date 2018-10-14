@@ -5,73 +5,42 @@ namespace Xbehave.Execution
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using System.Threading;
     using Xbehave.Execution.Extensions;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioRunnerFactory
+    public class ScenarioInfo
     {
         private static readonly ITypeInfo objectType = Reflector.Wrap(typeof(object));
 
-        private readonly IXunitTestCase scenarioOutline;
-        private readonly IMethodInfo scenarioOutlineMethod;
-        private readonly string scenarioOutlineDisplayName;
-        private readonly IMessageBus messageBus;
-        private readonly Type scenarioClass;
-        private readonly object[] constructorArguments;
-        private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes;
-        private readonly ExceptionAggregator aggregator;
-        private readonly CancellationTokenSource cancellationTokenSource;
+        public string ScenarioDisplayName { get; }
 
-        public ScenarioRunnerFactory(
-            IXunitTestCase scenarioOutline,
-            string scenarioOutlineDisplayName,
-            IMessageBus messageBus,
-            Type scenarioClass,
-            object[] constructorArguments,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource)
+        public MethodInfo MethodToRun { get; }
+
+        public List<object> ConvertedDataRow { get; }
+
+        public ScenarioInfo(IMethodInfo testMethod, object[] dataRow, string scenarioOutlineDisplayName)
         {
-            Guard.AgainstNullArgument(nameof(scenarioOutline), scenarioOutline);
-            Guard.AgainstNullArgumentProperty(nameof(scenarioOutline), nameof(scenarioOutline.TestMethod), scenarioOutline.TestMethod);
-            Guard.AgainstNullArgumentProperty(nameof(scenarioOutline), nameof(scenarioOutline.TestMethod) + nameof(scenarioOutline.TestMethod.Method), scenarioOutline.TestMethod.Method);
-
-            this.scenarioOutline = scenarioOutline;
-            this.scenarioOutlineMethod = scenarioOutline.TestMethod.Method;
-            this.scenarioOutlineDisplayName = scenarioOutlineDisplayName;
-            this.messageBus = messageBus;
-            this.scenarioClass = scenarioClass;
-            this.constructorArguments = constructorArguments;
-            this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
-            this.aggregator = aggregator;
-            this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        public ScenarioRunner Create(object[] scenarioMethodArguments, string skipReason)
-        {
-            var parameters = this.scenarioOutlineMethod.GetParameters().ToList();
-            var typeParameters = this.scenarioOutlineMethod.GetGenericArguments().ToList();
+            var parameters = testMethod.GetParameters().ToList();
+            var typeParameters = testMethod.GetGenericArguments().ToList();
 
             ITypeInfo[] typeArguments;
-            MethodInfo scenarioMethod;
-            if (this.scenarioOutlineMethod.IsGenericMethodDefinition)
+            if (testMethod.IsGenericMethodDefinition)
             {
                 typeArguments = typeParameters
-                    .Select(typeParameter => InferTypeArgument(typeParameter.Name, parameters, scenarioMethodArguments))
+                    .Select(typeParameter => InferTypeArgument(typeParameter.Name, parameters, dataRow))
                     .ToArray();
 
-                scenarioMethod = this.scenarioOutlineMethod.MakeGenericMethod(typeArguments).ToRuntimeMethod();
+                this.MethodToRun = testMethod.MakeGenericMethod(typeArguments).ToRuntimeMethod();
             }
             else
             {
                 typeArguments = new ITypeInfo[0];
-                scenarioMethod = this.scenarioOutlineMethod.ToRuntimeMethod();
+                this.MethodToRun = testMethod.ToRuntimeMethod();
             }
 
             var passedArguments = Reflector.ConvertArguments(
-                scenarioMethodArguments, scenarioMethod.GetParameters().Select(p => p.ParameterType).ToArray());
+                dataRow, this.MethodToRun.GetParameters().Select(p => p.ParameterType).ToArray());
 
             var generatedArguments = GetGeneratedArguments(
                 typeParameters, typeArguments, parameters, passedArguments.Length);
@@ -81,22 +50,8 @@ namespace Xbehave.Execution
                 .Concat(generatedArguments)
                 .ToList();
 
-            var scenarioDisplayName = GetScenarioDisplayName(
-                this.scenarioOutlineDisplayName, typeArguments, parameters, arguments);
-
-            var scenario = new Scenario(this.scenarioOutline, scenarioDisplayName);
-
-            return new ScenarioRunner(
-                scenario,
-                this.messageBus,
-                this.scenarioClass,
-                this.constructorArguments,
-                scenarioMethod,
-                arguments.Select(argument => argument.Value).ToArray(),
-                skipReason,
-                this.beforeAfterScenarioAttributes,
-                new ExceptionAggregator(this.aggregator),
-                this.cancellationTokenSource);
+            this.ScenarioDisplayName = GetScenarioDisplayName(scenarioOutlineDisplayName, typeArguments, parameters, arguments);
+            this.ConvertedDataRow = arguments.Select(argument => argument.Value).ToList();
         }
 
         private static ITypeInfo InferTypeArgument(
