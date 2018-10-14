@@ -14,9 +14,9 @@ namespace Xbehave.Execution
         private static readonly object[] noArguments = new object[0];
 
         private readonly IMessageSink diagnosticMessageSink;
-        private readonly ScenarioRunnerFactory scenarioRunnerFactory;
+        private readonly ScenarioTestCaseFactory scenarioTestCaseFactory;
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
-        private readonly List<ScenarioRunner> scenarioRunners = new List<ScenarioRunner>();
+        private readonly List<ScenarioTestCase> scenarioTestCases = new List<ScenarioTestCase>();
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private Exception dataDiscoveryException;
 
@@ -40,7 +40,7 @@ namespace Xbehave.Execution
                 cancellationTokenSource)
         {
             this.diagnosticMessageSink = diagnosticMessageSink;
-            this.scenarioRunnerFactory = new ScenarioRunnerFactory(
+            this.scenarioTestCaseFactory = new ScenarioTestCaseFactory(
                 this.TestCase,
                 this.DisplayName,
                 this.MessageBus,
@@ -68,13 +68,13 @@ namespace Xbehave.Execution
                     foreach (var dataRow in discoverer.GetData(dataAttribute, this.TestCase.TestMethod.Method))
                     {
                         this.disposables.AddRange(dataRow.OfType<IDisposable>());
-                        this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(dataRow, skipReason));
+                        this.scenarioTestCases.Add(this.scenarioTestCaseFactory.Create(dataRow, skipReason));
                     }
                 }
 
-                if (!this.scenarioRunners.Any())
+                if (!this.scenarioTestCases.Any())
                 {
-                    this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(noArguments, this.SkipReason));
+                    this.scenarioTestCases.Add(this.scenarioTestCaseFactory.Create(noArguments, this.SkipReason));
                 }
             }
             catch (Exception ex)
@@ -96,9 +96,9 @@ namespace Xbehave.Execution
             }
 
             var summary = new RunSummary();
-            foreach (var scenarioRunner in this.scenarioRunners)
+            foreach (var scenarioTestCase in this.scenarioTestCases)
             {
-                summary.Aggregate(await scenarioRunner.RunAsync());
+                summary.Aggregate(await scenarioTestCase.RunAsync(this.diagnosticMessageSink, this.MessageBus, this.ConstructorArguments, this.Aggregator, this.CancellationTokenSource));
             }
 
             // Run the cleanup here so we can include cleanup time in the run summary,
