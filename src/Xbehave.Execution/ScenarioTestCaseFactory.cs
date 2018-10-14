@@ -10,7 +10,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioRunnerFactory
+    public class ScenarioTestCaseFactory
     {
         private static readonly ITypeInfo objectType = Reflector.Wrap(typeof(object));
 
@@ -24,7 +24,7 @@ namespace Xbehave.Execution
         private readonly ExceptionAggregator aggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
 
-        public ScenarioRunnerFactory(
+        public ScenarioTestCaseFactory(
             IXunitTestCase scenarioOutline,
             string scenarioOutlineDisplayName,
             IMessageBus messageBus,
@@ -49,7 +49,7 @@ namespace Xbehave.Execution
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
-        public ScenarioRunner Create(object[] scenarioMethodArguments, string skipReason)
+        public ScenarioTestCase Create(object[] scenarioMethodArguments, string skipReason)
         {
             var parameters = this.scenarioOutlineMethod.GetParameters().ToList();
             var typeParameters = this.scenarioOutlineMethod.GetGenericArguments().ToList();
@@ -86,11 +86,9 @@ namespace Xbehave.Execution
 
             var scenario = new Scenario(this.scenarioOutline, scenarioDisplayName);
 
-            return new ScenarioRunner(
+            return new ScenarioTestCase(
                 scenario,
-                this.messageBus,
                 this.scenarioClass,
-                this.constructorArguments,
                 scenarioMethod,
                 arguments.Select(argument => argument.Value).ToArray(),
                 skipReason,
