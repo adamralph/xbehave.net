@@ -10,10 +10,10 @@ namespace Xbehave.Test
         [Fact]
         public void IsUnchanged() =>
 #if NETCOREAPP2_1
-            AssertFile.Contains(ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly), "../../../api-netcoreapp2_1.txt");
+            AssertFile.Contains("../../../api-netcoreapp2_1.txt", ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly));
 #endif
 #if NET472
-            AssertFile.Contains(ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly), "../../../api-net472.txt");
+            AssertFile.Contains("../../../api-net472.txt", ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly));
 #endif
     }
 }
