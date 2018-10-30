@@ -17,16 +17,13 @@
     <PackageReference Include="xunit.extensibility.core" Version="2.4.0" />
   </ItemGroup>
 
-  <Target Name="InitializeNuspecProperties"
-          BeforeTargets="GenerateNuspec"
-          DependsOnTargets="InitializeSourceControlInformation">
+  <Target Name="InitializeNuspecProperties" AfterTargets="MinVer">
 
     <ItemGroup>
       <NuspecProperty Include="RepositoryCommit=$(SourceRevisionId)" />
       <NuspecProperty Include="RepositoryType=$(RepositoryType)" />
       <NuspecProperty Include="RepositoryUrl=$(PrivateRepositoryUrl)" />
-      <NuspecProperty Include="Version=$(VersionPrefix)" Condition=" '$(VersionSuffix)' == '' "></NuspecProperty>
-      <NuspecProperty Include="Version=$(VersionPrefix)-$(VersionSuffix)" Condition=" '$(VersionSuffix)' != '' "></NuspecProperty>
+      <NuspecProperty Include="Version=$(Version)" />
     </ItemGroup>
 
     <PropertyGroup>
