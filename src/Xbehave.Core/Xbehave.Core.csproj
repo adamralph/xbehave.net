@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteGuard.Source" Version="2.3.0-rc.1" PrivateAssets="All" />
+    <PackageReference Include="LiteGuard.Source" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="2.6.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
     <PackageReference Include="xunit.extensibility.core" Version="2.4.0" />
