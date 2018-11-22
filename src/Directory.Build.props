@@ -2,7 +2,7 @@
 
   <!-- version -->
   <ItemGroup>
-    <PackageReference Include="MinVer" Version="1.0.0-alpha.15" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Version="1.0.0-alpha.16" PrivateAssets="All" />
   </ItemGroup>
 
   <!-- assembly signing -->
