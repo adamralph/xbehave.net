@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-
+using SimpleExec;
 using static Bullseye.Targets;
 using static SimpleExec.Command;
 
@@ -34,6 +34,6 @@ internal class Program
 
         Target("test", DependsOn("test-core", "test-net"));
 
-        return RunTargetsAsync(args);
+        return RunTargetsAndExitAsync<CommandException>(args);
     }
 }
