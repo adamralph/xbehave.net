@@ -34,6 +34,6 @@ internal class Program
 
         Target("test", DependsOn("test-core", "test-net"));
 
-        return RunTargetsAndExitAsync<CommandException>(args);
+        return RunTargetsAndExitAsync(args, ex => ex is NonZeroExitCodeException);
     }
 }
