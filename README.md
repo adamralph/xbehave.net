@@ -13,7 +13,7 @@ _[![Follow @xbehavenet](https://img.shields.io/badge/Twitter-Follow%20%40xbehave
 * [Documentation](https://github.com/xbehave/xbehave.net/wiki)
 * [FAQ](https://github.com/xbehave/xbehave.net/wiki/FAQ)
 
-xBehave.net is a .NET package available in [full](https://www.nuget.org/packages/Xbehave) or [minimal](https://www.nuget.org/packages/Xbehave.Core) form, which extends [xUnit.net](https://github.com/xunit/xunit) by splitting tests into distinct steps, each decorated with natural language.
+xBehave.net is an [xUnit.net](https://github.com/xunit/xunit) extension, available in [full](https://www.nuget.org/packages/Xbehave) or [minimal](https://www.nuget.org/packages/Xbehave.Core) form, for describing each step in a test with natural language.
 
 Platform support: [.NET Standard 1.1 and upwards](https://docs.microsoft.com/en-us/dotnet/standard/net-standard).
 

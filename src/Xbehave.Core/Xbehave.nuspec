@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <authors>Adam Ralph, xBehave.net contributors</authors>
-    <description>An xUnit.net extension for describing your tests using natural language.
+    <description>An xUnit.net extension for describing each step in a test with natural language.
 
 Installing this package installs Xbehave.Core and xunit.</description>
     <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
