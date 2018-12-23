@@ -217,7 +217,7 @@ namespace Xbehave.Execution
                     ++stepNumber,
                     stepDefinition.DisplayTextFunc?.Invoke(stepDefinition.Text, stepNumber <= backGroundStepDefinitions.Count));
 
-                var step = new Step(this.scenario, stepDisplayName);
+                var step = new StepTest(this.scenario, stepDisplayName);
 
                 var interceptingBus = new DelegatingMessageBus(
                     this.messageBus,
@@ -231,7 +231,7 @@ namespace Xbehave.Execution
 
                 var stepContext = new StepContext(step);
 
-                var stepRunner = new StepRunner(
+                var stepRunner = new StepTestRunner(
                     stepContext,
                     stepDefinition.Body,
                     step,
@@ -290,7 +290,7 @@ namespace Xbehave.Execution
                     var stepDisplayName = GetStepDisplayName(this.scenario.DisplayName, ++stepNumber, "(Teardown)");
 
                     this.messageBus.Queue(
-                        new Step(this.scenario, stepDisplayName),
+                        new StepTest(this.scenario, stepDisplayName),
                         test => new TestFailed(test, teardownTimer.Total, null, teardownAggregator.ToException()),
                         this.cancellationTokenSource);
                 }

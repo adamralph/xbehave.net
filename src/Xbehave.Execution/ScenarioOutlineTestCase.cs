@@ -7,17 +7,17 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioOutline : XunitTestCase
+    public class ScenarioOutlineTestCase : XunitTestCase
     {
-        public ScenarioOutline(
+        public ScenarioOutlineTestCase(
             IMessageSink diagnosticMessageSink, TestMethodDisplay defaultMethodDisplay, TestMethodDisplayOptions defaultMethodDisplayOptions, ITestMethod testMethod)
-            : base(diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testMethod, null)
+            : base(diagnosticMessageSink, defaultMethodDisplay, defaultMethodDisplayOptions, testMethod)
         {
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer", true)]
-        public ScenarioOutline()
+        public ScenarioOutlineTestCase()
         {
         }
 
@@ -27,7 +27,7 @@ namespace Xbehave.Execution
             object[] constructorArguments,
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource) =>
-                await new ScenarioOutlineRunner(
+                await new ScenarioOutlineTestCaseRunner(
                         diagnosticMessageSink,
                         this,
                         this.DisplayName,

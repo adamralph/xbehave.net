@@ -9,7 +9,7 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioOutlineRunner : XunitTestCaseRunner
+    public class ScenarioOutlineTestCaseRunner : XunitTestCaseRunner
     {
         private static readonly object[] noArguments = new object[0];
 
@@ -20,7 +20,7 @@ namespace Xbehave.Execution
         private readonly List<IDisposable> disposables = new List<IDisposable>();
         private Exception dataDiscoveryException;
 
-        public ScenarioOutlineRunner(
+        public ScenarioOutlineTestCaseRunner(
             IMessageSink diagnosticMessageSink,
             IXunitTestCase scenarioOutline,
             string displayName,
