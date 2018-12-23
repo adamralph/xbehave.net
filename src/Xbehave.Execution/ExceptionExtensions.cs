@@ -1,4 +1,4 @@
-// https://github.com/xunit/xunit/blob/2.4/src/common/ExceptionExtensions.cs
+// https://github.com/xunit/xunit/blob/2.4.1/src/common/ExceptionExtensions.cs
 using System;
 using System.Reflection;
 

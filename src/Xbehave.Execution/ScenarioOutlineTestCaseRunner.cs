@@ -1,4 +1,4 @@
-// https://github.com/xunit/xunit/blob/9d10262a3694bb099ddd783d735aba2a7aac759d/src/xunit.execution/Sdk/Frameworks/Runners/XunitTheoryTestCaseRunner.cs
+// https://github.com/xunit/xunit/blob/2.4.1/src/xunit.execution/Sdk/Frameworks/Runners/XunitTheoryTestCaseRunner.cs
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,11 +130,11 @@ namespace Xbehave.Execution
             }
         }
 
-        // https://github.com/xunit/xunit/blob/2.4/src/xunit.execution/Sdk/Frameworks/Runners/XunitTestCaseRunner.cs#L101-L102
+        // https://github.com/xunit/xunit/blob/2.4.1/src/xunit.execution/Sdk/Frameworks/Runners/XunitTestCaseRunner.cs#L101-L102
         new static Scenario CreateTest(IXunitTestCase testCase, string displayName)
             => new Scenario(testCase, displayName);
 
-        // https://github.com/xunit/xunit/blob/2.4/src/xunit.execution/Sdk/Frameworks/Runners/XunitTestCaseRunner.cs#L107-L118
+        // https://github.com/xunit/xunit/blob/2.4.1/src/xunit.execution/Sdk/Frameworks/Runners/XunitTestCaseRunner.cs#L107-L118
         static ScenarioRunner CreateTestRunner(Sdk.IScenario test,
                                                IMessageBus messageBus,
                                                Type testClass,

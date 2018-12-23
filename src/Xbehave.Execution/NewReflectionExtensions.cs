@@ -1,4 +1,4 @@
-// https://github.com/xunit/xunit/blob/2.4/src/common/NewReflectionExtensions.cs
+// https://github.com/xunit/xunit/blob/2.4.1/src/common/NewReflectionExtensions.cs
 using System;
 using System.Linq;
 using System.Reflection;

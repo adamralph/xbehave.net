@@ -1,4 +1,4 @@
-// https://github.com/xunit/xunit/blob/2.4/src/common/SerializationHelper.cs
+// https://github.com/xunit/xunit/blob/2.4.1/src/common/SerializationHelper.cs
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

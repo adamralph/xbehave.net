@@ -1,4 +1,4 @@
-// https://github.com/xunit/assert.xunit/blob/2.4/Sdk/ArgumentFormatter.cs
+// https://github.com/xunit/assert.xunit/blob/2.4.1/Sdk/ArgumentFormatter.cs
 using System;
 using System.Collections;
 using System.Collections.Generic;

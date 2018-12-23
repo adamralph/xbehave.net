@@ -1,4 +1,4 @@
-// https://github.com/xunit/xunit/blob/2.4/src/common/XunitSerializationInfo.cs
+// https://github.com/xunit/xunit/blob/2.4.1/src/common/XunitSerializationInfo.cs
 using System;
 using System.Collections.Generic;
 using System.Globalization;
