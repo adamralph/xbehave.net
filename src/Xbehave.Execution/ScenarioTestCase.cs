@@ -35,12 +35,6 @@ namespace Xbehave.Execution
             this.scenarioMethod = scenarioMethod;
         }
 
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [Obsolete("Called by the de-serializer", true)]
-        public ScenarioTestCase()
-        {
-        }
-
         public override async Task<RunSummary> RunAsync(
             IMessageSink diagnosticMessageSink,
             IMessageBus messageBus,
