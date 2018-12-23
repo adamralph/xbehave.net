@@ -9,12 +9,12 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class StepRunner : XunitTestRunner
+    public class StepTestRunner : XunitTestRunner
     {
         private readonly IStepContext stepContext;
         private readonly Func<IStepContext, Task> body;
 
-        public StepRunner(
+        public StepTestRunner(
             IStepContext stepContext,
             Func<IStepContext, Task> body,
             ITest test,

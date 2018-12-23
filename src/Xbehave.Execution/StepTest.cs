@@ -6,9 +6,9 @@ namespace Xbehave.Execution
     using Xunit.Abstractions;
 
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
-    public class Step : LongLivedMarshalByRefObject, IStep
+    public class StepTest : LongLivedMarshalByRefObject, IStep
     {
-        public Step(IScenario scenario, string displayName)
+        public StepTest(IScenario scenario, string displayName)
         {
             Guard.AgainstNullArgument(nameof(scenario), scenario);
 
