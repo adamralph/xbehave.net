@@ -43,12 +43,8 @@ namespace Xbehave.Execution
             this.scenarioTestCaseFactory = new ScenarioTestCaseFactory(
                 this.TestCase,
                 this.DisplayName,
-                this.MessageBus,
                 this.TestClass,
-                this.ConstructorArguments,
-                this.BeforeAfterAttributes,
-                this.Aggregator,
-                this.CancellationTokenSource);
+                this.BeforeAfterAttributes);
         }
 
         protected override async Task AfterTestCaseStartingAsync()

@@ -5,7 +5,6 @@ namespace Xbehave.Execution
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using System.Threading;
     using Xbehave.Execution.Extensions;
     using Xunit.Abstractions;
     using Xunit.Sdk;
@@ -17,22 +16,14 @@ namespace Xbehave.Execution
         private readonly IXunitTestCase scenarioOutline;
         private readonly IMethodInfo scenarioOutlineMethod;
         private readonly string scenarioOutlineDisplayName;
-        private readonly IMessageBus messageBus;
         private readonly Type scenarioClass;
-        private readonly object[] constructorArguments;
         private readonly IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes;
-        private readonly ExceptionAggregator aggregator;
-        private readonly CancellationTokenSource cancellationTokenSource;
 
         public ScenarioTestCaseFactory(
             IXunitTestCase scenarioOutline,
             string scenarioOutlineDisplayName,
-            IMessageBus messageBus,
             Type scenarioClass,
-            object[] constructorArguments,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource)
+            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes)
         {
             Guard.AgainstNullArgument(nameof(scenarioOutline), scenarioOutline);
             Guard.AgainstNullArgumentProperty(nameof(scenarioOutline), nameof(scenarioOutline.TestMethod), scenarioOutline.TestMethod);
@@ -41,12 +32,8 @@ namespace Xbehave.Execution
             this.scenarioOutline = scenarioOutline;
             this.scenarioOutlineMethod = scenarioOutline.TestMethod.Method;
             this.scenarioOutlineDisplayName = scenarioOutlineDisplayName;
-            this.messageBus = messageBus;
             this.scenarioClass = scenarioClass;
-            this.constructorArguments = constructorArguments;
             this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
-            this.aggregator = aggregator;
-            this.cancellationTokenSource = cancellationTokenSource;
         }
 
         public ScenarioTestCase Create(object[] scenarioMethodArguments, string skipReason)
@@ -89,12 +76,13 @@ namespace Xbehave.Execution
             return new ScenarioTestCase(
                 scenario,
                 this.scenarioClass,
-                scenarioMethod,
-                arguments.Select(argument => argument.Value).ToArray(),
-                skipReason,
                 this.beforeAfterScenarioAttributes,
-                new ExceptionAggregator(this.aggregator),
-                this.cancellationTokenSource);
+                scenarioMethod,
+                default,
+                default,
+                default,
+                default,
+                arguments.Select(argument => argument.Value).ToArray());
         }
 
         private static ITypeInfo InferTypeArgument(
