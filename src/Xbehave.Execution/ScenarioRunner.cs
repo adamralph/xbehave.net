@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Xbehave.Sdk;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace Xbehave.Execution
