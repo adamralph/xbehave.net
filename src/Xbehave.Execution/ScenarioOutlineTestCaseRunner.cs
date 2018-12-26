@@ -14,7 +14,6 @@ namespace Xbehave.Execution
         private static readonly object[] noArguments = new object[0];
 
         private readonly IMessageSink diagnosticMessageSink;
-        private readonly ScenarioRunnerFactory scenarioRunnerFactory;
         private readonly ExceptionAggregator cleanupAggregator = new ExceptionAggregator();
         private readonly List<ScenarioRunner> scenarioRunners = new List<ScenarioRunner>();
         private readonly List<IDisposable> disposables = new List<IDisposable>();
@@ -40,15 +39,6 @@ namespace Xbehave.Execution
                 cancellationTokenSource)
         {
             this.diagnosticMessageSink = diagnosticMessageSink;
-            this.scenarioRunnerFactory = new ScenarioRunnerFactory(
-                this.TestCase,
-                this.DisplayName,
-                this.MessageBus,
-                this.TestClass,
-                this.ConstructorArguments,
-                this.BeforeAfterAttributes,
-                this.Aggregator,
-                this.CancellationTokenSource);
         }
 
         protected override async Task AfterTestCaseStartingAsync()
@@ -61,20 +51,33 @@ namespace Xbehave.Execution
                 foreach (var dataAttribute in dataAttributes)
                 {
                     var discovererAttribute = dataAttribute.GetCustomAttributes(typeof(DataDiscovererAttribute)).First();
-                    var skipReason = this.SkipReason ?? dataAttribute.GetNamedArgument<string>("Skip");
                     var discoverer =
                         ExtensibilityPointFactory.GetDataDiscoverer(this.diagnosticMessageSink, discovererAttribute);
 
                     foreach (var dataRow in discoverer.GetData(dataAttribute, this.TestCase.TestMethod.Method))
                     {
                         this.disposables.AddRange(dataRow.OfType<IDisposable>());
-                        this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(dataRow, skipReason));
+
+                        var info = new ScenarioInfo(TestCase.TestMethod.Method, dataRow, DisplayName);
+                        var methodToRun = info.MethodToRun;
+                        var convertedDataRow = info.ConvertedDataRow.ToArray();
+
+                        var theoryDisplayName = info.ScenarioDisplayName;
+                        var test = new Scenario(TestCase, theoryDisplayName);
+                        var skipReason = this.SkipReason ?? dataAttribute.GetNamedArgument<string>("Skip");
+                        scenarioRunners.Add(new ScenarioRunner(test, MessageBus, TestClass, ConstructorArguments, methodToRun, convertedDataRow, skipReason, BeforeAfterAttributes, Aggregator, CancellationTokenSource));
                     }
                 }
 
                 if (!this.scenarioRunners.Any())
                 {
-                    this.scenarioRunners.Add(this.scenarioRunnerFactory.Create(noArguments, this.SkipReason));
+                    var info = new ScenarioInfo(TestCase.TestMethod.Method, noArguments, DisplayName);
+                    var methodToRun = info.MethodToRun;
+                    var convertedDataRow = info.ConvertedDataRow.ToArray();
+
+                    var theoryDisplayName = info.ScenarioDisplayName;
+                    var test = new Scenario(TestCase, theoryDisplayName);
+                    this.scenarioRunners.Add(new ScenarioRunner(test, MessageBus, TestClass, ConstructorArguments, methodToRun, convertedDataRow, SkipReason, BeforeAfterAttributes, Aggregator, CancellationTokenSource));
                 }
             }
             catch (Exception ex)
