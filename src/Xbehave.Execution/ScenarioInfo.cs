@@ -123,7 +123,7 @@ namespace Xbehave.Execution
             IReadOnlyList<Argument> arguments)
         {
             var typeArgumentsString = typeArguments.Any()
-                ? $"<{string.Join(", ", typeArguments.Select(typeArgument => typeArgument.ToSimpleString()))}>"
+                ? $"<{string.Join(", ", typeArguments.Select(typeArgument => TypeUtility.ConvertToSimpleTypeName(typeArgument)))}>"
                 : string.Empty;
 
             var parameterAndArgumentTokens = new List<string>();

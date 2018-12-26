@@ -1,5 +1,5 @@
+// UPSTREAM: https://raw.githubusercontent.com/xunit/assert.xunit/2.4.1/Sdk/ArgumentFormatter.cs
 using System;
-using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,7 +13,6 @@ namespace Xunit.Sdk
     /// <summary>
     /// Formats arguments for display in theories.
     /// </summary>
-    [GeneratedCode("https://github.com/xunit/assert.xunit", "bb4fa9797b94ae9fec7b855df8d4f790adcf6623")]
     static class ArgumentFormatter
     {
         const int MAX_DEPTH = 3;
@@ -71,17 +70,17 @@ namespace Xunit.Sdk
                 if (value is char)
                 {
                     var charValue = (char)value;
-
+                
                     if (charValue == '\'')
                         return @"'\''";
-
+                
                     // Take care of all of the escape sequences
                     string escapeSequence;
                     if (TryGetEscapeSequence(charValue, out escapeSequence))
                     {
                         return $"'{escapeSequence}'";
                     }
-
+                
                     if (char.IsLetterOrDigit(charValue) || char.IsPunctuation(charValue) || char.IsSymbol(charValue) || charValue == ' ')
                         return $"'{charValue}'";
 
@@ -116,7 +115,7 @@ namespace Xunit.Sdk
                 {
                     // Sometimes enumerables cannot be enumerated when being, and instead thrown an exception.
                     // This could be, for example, because they require state that is not provided by Xunit.
-                    // In these cases, just continue formatting.
+                    // In these cases, just continue formatting. 
                 }
 
                 var type = value.GetType();
@@ -254,7 +253,7 @@ namespace Xunit.Sdk
                 ex = tiex.InnerException;
             }
         }
-
+        
         static string EscapeHexChars(string s)
         {
             var builder = new StringBuilder(s.Length);
@@ -282,11 +281,11 @@ namespace Xunit.Sdk
             }
             return builder.ToString();
         }
-
+        
         static bool TryGetEscapeSequence(char ch, out string value)
         {
             value = null;
-
+            
             if (ch == '\t') // tab
                 value = @"\t";
             if (ch == '\n') // newline
@@ -305,7 +304,7 @@ namespace Xunit.Sdk
                 value = @"\0";
             if (ch == '\\') // backslash
                 value = @"\\";
-
+            
             return value != null;
         }
     }
