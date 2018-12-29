@@ -5,11 +5,11 @@ namespace Xbehave.Execution
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-    using Xbehave.Execution.Extensions;
     using Xbehave.Sdk;
+    using Xunit.Abstractions;
     using Xunit.Sdk;
 
-    public class ScenarioRunner
+    public class ScenarioRunner : XunitTestRunner
     {
         private readonly IScenario scenario;
         private readonly IMessageBus messageBus;
@@ -22,71 +22,18 @@ namespace Xbehave.Execution
         private readonly ExceptionAggregator parentAggregator;
         private readonly CancellationTokenSource cancellationTokenSource;
 
-        public ScenarioRunner(
-            IScenario scenario,
-            IMessageBus messageBus,
-            Type scenarioClass,
-            object[] constructorArguments,
-            MethodInfo scenarioMethod,
-            object[] scenarioMethodArguments,
-            string skipReason,
-            IReadOnlyList<BeforeAfterTestAttribute> beforeAfterScenarioAttributes,
-            ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource)
+        public ScenarioRunner(ITest test,
+                               IMessageBus messageBus,
+                               Type testClass,
+                               object[] constructorArguments,
+                               MethodInfo testMethod,
+                               object[] testMethodArguments,    
+                               string skipReason,
+                               IReadOnlyList<BeforeAfterTestAttribute> beforeAfterAttributes,
+                               ExceptionAggregator aggregator,
+                               CancellationTokenSource cancellationTokenSource)
+            : base(test, messageBus, testClass, constructorArguments, testMethod, testMethodArguments, skipReason, beforeAfterAttributes, aggregator, cancellationTokenSource)
         {
-            Guard.AgainstNullArgument(nameof(scenario), scenario);
-            Guard.AgainstNullArgument(nameof(messageBus), messageBus);
-            Guard.AgainstNullArgument(nameof(aggregator), aggregator);
-
-            this.scenario = scenario;
-            this.messageBus = messageBus;
-            this.scenarioClass = scenarioClass;
-            this.constructorArguments = constructorArguments;
-            this.scenarioMethod = scenarioMethod;
-            this.scenarioMethodArguments = scenarioMethodArguments;
-            this.skipReason = skipReason;
-            this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
-            this.parentAggregator = aggregator;
-            this.cancellationTokenSource = cancellationTokenSource;
-        }
-
-        public async Task<RunSummary> RunAsync()
-        {
-            if (!string.IsNullOrEmpty(this.skipReason))
-            {
-                this.messageBus.Queue(
-                    this.scenario, test => new TestSkipped(test, this.skipReason), this.cancellationTokenSource);
-
-                return new RunSummary { Total = 1, Skipped = 1 };
-            }
-            else
-            {
-                var summary = new RunSummary();
-                var childAggregator = new ExceptionAggregator(this.parentAggregator);
-                if (!childAggregator.HasExceptions)
-                {
-                    summary.Aggregate(await childAggregator.RunAsync(() => this.InvokeScenarioAsync(childAggregator)));
-                }
-
-                var exception = childAggregator.ToException();
-                if (exception != null)
-                {
-                    summary.Total++;
-                    summary.Failed++;
-                    this.messageBus.Queue(
-                        this.scenario,
-                        test => new TestFailed(test, summary.Time, string.Empty, exception),
-                        this.cancellationTokenSource);
-                }
-                else if (summary.Total == 0)
-                {
-                    summary.Total++;
-                    this.messageBus.Queue(
-                        this.scenario, test => new TestPassed(test, summary.Time, string.Empty), this.cancellationTokenSource);
-                }
-
-                return summary;
-            }
         }
 
         private async Task<RunSummary> InvokeScenarioAsync(ExceptionAggregator aggregator) =>
