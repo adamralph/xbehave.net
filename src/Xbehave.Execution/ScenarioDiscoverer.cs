@@ -1,7 +1,6 @@
 namespace Xbehave.Execution
 {
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 
@@ -12,15 +11,13 @@ namespace Xbehave.Execution
         {
         }
 
-        [SuppressMessage(
-            "Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Factory method.")]
-        public override IEnumerable<IXunitTestCase> Discover(
-            ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
-        {
-            Guard.AgainstNullArgument(nameof(discoveryOptions), discoveryOptions);
+        protected override IEnumerable<IXunitTestCase> CreateTestCasesForDataRow(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo theoryAttribute, object[] dataRow) =>
+            new[] { new ScenarioTestCase(this.DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), discoveryOptions.MethodDisplayOptionsOrDefault(), testMethod, dataRow) };
 
-            yield return new ScenarioOutlineTestCase(
-                this.DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), discoveryOptions.MethodDisplayOptionsOrDefault(), testMethod);
-        }
+        protected override IEnumerable<IXunitTestCase> CreateTestCasesForTheory(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo theoryAttribute) =>
+            new[] { new ScenarioOutlineTestCase(this.DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), discoveryOptions.MethodDisplayOptionsOrDefault(), testMethod) };
+
+        protected override IXunitTestCase CreateTestCaseForNoData(ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod) =>
+            new ScenarioTestCase(this.DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), discoveryOptions.MethodDisplayOptionsOrDefault(), testMethod);
     }
 }
