@@ -9,11 +9,13 @@ namespace Xbehave.Test
     {
         [Fact]
         public void IsUnchanged() =>
-#if NETCOREAPP2_1
-            AssertFile.Contains("../../../api-netcoreapp2_1.txt", ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly));
+            AssertFile.Contains(
+#if NETCOREAPP2_2
+                "../../../api-netcoreapp2_2.txt",
 #endif
 #if NET472
-            AssertFile.Contains("../../../api-net472.txt", ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly));
+                "../../../api-net472.txt",
 #endif
+                ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly));
     }
 }
