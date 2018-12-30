@@ -25,12 +25,12 @@ internal class Program
         Target(
             "test-core",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework netcoreapp2.2"));
+            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework netcoreapp2.2"));
 
         Target(
             "test-net",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework net472"));
+            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework net472"));
 
         Target("test", DependsOn("test-core", "test-net"));
 

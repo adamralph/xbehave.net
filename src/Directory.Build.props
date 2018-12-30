@@ -12,4 +12,10 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
+  <!-- other -->
+  <PropertyGroup>
+    <IsTestProject>false</IsTestProject>
+  </PropertyGroup>
+
+
 </Project>
