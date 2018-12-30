@@ -25,7 +25,7 @@ internal class Program
         Target(
             "test-core",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework netcoreapp2.1"));
+            () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework netcoreapp2.2"));
 
         Target(
             "test-net",
