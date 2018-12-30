@@ -3,7 +3,6 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>Xbehave.Test.ruleset</CodeAnalysisRuleSet>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <IsTestProject>true</IsTestProject>
     <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);CS0168;CS1591</NoWarn>
     <RuntimeFrameworkVersion>2.0.6</RuntimeFrameworkVersion>
