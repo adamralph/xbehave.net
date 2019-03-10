@@ -1,4 +1,4 @@
-<img src="assets/xbehave_256x256.png" width="128" />
+foo<img src="assets/xbehave_256x256.png" width="128" />
 
 # xBehave.net
 
