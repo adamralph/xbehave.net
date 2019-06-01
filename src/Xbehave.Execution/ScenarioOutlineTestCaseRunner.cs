@@ -80,10 +80,12 @@ namespace Xbehave.Execution
                     this.scenarioRunners.Add(new ScenarioRunner(test, MessageBus, TestClass, ConstructorArguments, methodToRun, convertedDataRow, SkipReason, BeforeAfterAttributes, Aggregator, CancellationTokenSource));
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
             {
                 this.dataDiscoveryException = ex;
             }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         protected override async Task<RunSummary> RunTestAsync()
