@@ -17,7 +17,7 @@ namespace Xbehave.Execution
                 var asyncSyncContext = new AsyncTestSyncContext(oldSyncContext);
                 SetSynchronizationContext(asyncSyncContext);
 
-                await aggregator.RunAsync(
+                await aggregator?.RunAsync(
                     () => timer.AggregateAsync(
                         async () =>
                         {
