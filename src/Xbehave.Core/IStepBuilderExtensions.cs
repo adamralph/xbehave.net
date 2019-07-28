@@ -35,7 +35,7 @@ namespace Xbehave
         public static IStepBuilder Teardown(this IStepBuilder stepBuilder, Action<IStepContext> action) =>
             action == null
                 ? stepBuilder
-                : stepBuilder.Teardown(context =>
+                : stepBuilder?.Teardown(context =>
                     {
                         action(context);
                         return Task.FromResult(0);
@@ -53,6 +53,6 @@ namespace Xbehave
         public static IStepBuilder Teardown(this IStepBuilder stepBuilder, Func<Task> action) =>
             action == null
                 ? stepBuilder
-                : stepBuilder.Teardown(context => action());
+                : stepBuilder?.Teardown(context => action());
     }
 }

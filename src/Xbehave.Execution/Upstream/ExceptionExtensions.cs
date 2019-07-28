@@ -4,7 +4,9 @@ using System.Reflection;
 
 static class ExceptionExtensions
 {
+#if NET35
     const string RETHROW_MARKER = "$$RethrowMarker$$";
+#endif
 
     /// <summary>
     /// Rethrows an exception object without losing the existing stack trace information

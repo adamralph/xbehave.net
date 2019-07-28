@@ -21,6 +21,11 @@ namespace Xbehave.Execution
 
         public ScenarioInfo(IMethodInfo testMethod, object[] dataRow, string scenarioOutlineDisplayName)
         {
+            if (testMethod == null)
+            {
+                throw new ArgumentNullException(nameof(testMethod));
+            }
+
             var parameters = testMethod.GetParameters().ToList();
             var typeParameters = testMethod.GetGenericArguments().ToList();
 
