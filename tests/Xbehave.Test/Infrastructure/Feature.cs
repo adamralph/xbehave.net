@@ -5,7 +5,6 @@ namespace Xbehave.Test.Infrastructure
     using System.Linq;
     using System.Reflection;
     using System.Runtime.ExceptionServices;
-    using LiteGuard;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -35,24 +34,18 @@ namespace Xbehave.Test.Infrastructure
 
         public IMessageSinkMessage[] Run(Assembly assembly, string collectionName)
         {
-            Guard.AgainstNullArgument(nameof(assembly), assembly);
-
             var runner = this.CreateRunner(assembly.GetLocalCodeBase());
             return runner.Run(runner.Find(collectionName)).ToArray();
         }
 
         public IMessageSinkMessage[] Run(Type feature)
         {
-            Guard.AgainstNullArgument(nameof(feature), feature);
-
             var runner = this.CreateRunner(feature.GetTypeInfo().Assembly.GetLocalCodeBase());
             return runner.Run(runner.Find(feature)).ToArray();
         }
 
         public IMessageSinkMessage[] Run(Type feature, string traitName, string traitValue)
         {
-            Guard.AgainstNullArgument(nameof(feature), feature);
-
             var runner = this.CreateRunner(feature.GetTypeInfo().Assembly.GetLocalCodeBase());
             var testCases = runner.Find(feature).Where(testCase =>
             {

@@ -2,7 +2,6 @@ namespace Xbehave.Test.Infrastructure
 {
     using System.Collections.Generic;
     using System.Linq;
-    using LiteGuard;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -10,8 +9,6 @@ namespace Xbehave.Test.Infrastructure
     {
         public static IEnumerable<IMessageSinkMessage> Run(this Xunit2 runner, IEnumerable<ITestCase> testCases)
         {
-            Guard.AgainstNullArgument(nameof(runner), runner);
-
             if (!testCases.Any())
             {
                 return Enumerable.Empty<IMessageSinkMessage>();

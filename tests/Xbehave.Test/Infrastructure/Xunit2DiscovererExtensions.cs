@@ -3,7 +3,6 @@ namespace Xbehave.Test.Infrastructure
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using LiteGuard;
     using Xunit;
     using Xunit.Abstractions;
 
@@ -11,8 +10,6 @@ namespace Xbehave.Test.Infrastructure
     {
         public static IEnumerable<ITestCase> Find(this Xunit2Discoverer discoverer, string collectionName)
         {
-            Guard.AgainstNullArgument(nameof(discoverer), discoverer);
-
             using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
             {
                 discoverer.Find(false, sink, TestFrameworkOptions.ForDiscovery());
@@ -26,9 +23,6 @@ namespace Xbehave.Test.Infrastructure
 
         public static IEnumerable<ITestCase> Find(this Xunit2Discoverer discoverer, Type type)
         {
-            Guard.AgainstNullArgument(nameof(discoverer), discoverer);
-            Guard.AgainstNullArgument(nameof(type), type);
-
             using (var sink = new SpyMessageSink<IDiscoveryCompleteMessage>())
             {
                 discoverer.Find(type.FullName, false, sink, TestFrameworkOptions.ForDiscovery());
