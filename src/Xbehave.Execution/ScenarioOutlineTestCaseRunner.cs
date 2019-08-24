@@ -82,10 +82,10 @@ namespace Xbehave.Execution
             }
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 this.dataDiscoveryException = ex;
             }
-#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         protected override async Task<RunSummary> RunTestAsync()
