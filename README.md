@@ -25,7 +25,7 @@ The [minimal `Xbehave.Core` package](https://www.nuget.org/packages/Xbehave.Core
 
 ## Versions
 
-xBehave.net follows the versioning scheme of xUnit.net. xUnit.net and xBehave.net do not follow SemVer and may introduce breaking changes in minor versions. Each minor version of xBehave.net is linked to the equivalent minor version of xUnit.net. xBehave.net patch versions within a minor version are independent of patch versions of xUnit.net within that minor version. For example, xBehave.net 2.3.x is linked to xUnit.net 2.3.x, but each package may have a different number of patch versions within the 2.3.x range.
+xBehave.net follows the versioning scheme of xUnit.net. xUnit.net and xBehave.net do not follow SemVer and may introduce breaking changes in minor versions. Each minor version of xBehave.net is linked to the equivalent minor version of xUnit.net. The xBehave.net patch version is incremented to the next multiple of 100 each time it is linked to a new xUnit.net patch version. For example, xBehave.net 2.4.0 is linked with xUnit.net 2.4.0, and xBehave.net 2.4.100 is linked with xUnit 2.4.1.
 
 A given xBehave.net patch version may introduce new features, fix bugs, or both.
 
