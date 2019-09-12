@@ -4,7 +4,7 @@
 
 _[![Xbehave NuGet version](https://img.shields.io/nuget/dt/Xbehave.svg?style=flat&label=nuget%3A%20Xbehave)](https://www.nuget.org/packages/Xbehave)_
 _[![Xbehave.Core NuGet version](https://img.shields.io/nuget/dt/Xbehave.Core.svg?style=flat&label=nuget%3A%20Xbehave.Core)](https://www.nuget.org/packages/Xbehave.Core)_
-_[![Build status](https://ci.appveyor.com/api/projects/status/2hs60yhjdoucwu7i/branch/dev?svg=true)](https://ci.appveyor.com/project/adamralph/xbehave-net/branch/dev)_
+_[![Build status](https://github.com/xbehave/xbehave.net/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/xbehave/xbehave.net/actions)_
 
 _[![Join the chat at https://gitter.im/xbehave/xbehave.net](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/xbehave/xbehave.net?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)_
 _[![Follow @xbehavenet](https://img.shields.io/badge/Twitter-Follow%20%40xbehavenet-blue.svg)](https://twitter.com/intent/follow?screen_name=xbehavenet)_
