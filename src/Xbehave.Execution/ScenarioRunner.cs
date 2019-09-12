@@ -62,7 +62,6 @@ namespace Xbehave.Execution
             else
             {
                 var summary = new RunSummary();
-                var output = string.Empty;
                 var childAggregator = new ExceptionAggregator(this.parentAggregator);
                 if (!childAggregator.HasExceptions)
                 {

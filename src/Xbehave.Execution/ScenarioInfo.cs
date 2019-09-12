@@ -5,7 +5,6 @@ namespace Xbehave.Execution
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Xbehave.Execution.Extensions;
     using Xunit.Abstractions;
     using Xunit.Sdk;
 

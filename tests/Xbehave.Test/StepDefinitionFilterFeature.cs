@@ -116,7 +116,7 @@ namespace Xbehave.Test
         private sealed class BackgroundSuffixesAttribute : Attribute, IFilter<IStepDefinition>
         {
             public IEnumerable<IStepDefinition> Filter(IEnumerable<IStepDefinition> steps) =>
-                steps.Select(step => step.DisplayText((string stepText, bool isBackgroundStep) =>
+                steps.Select(step => step.DisplayText((stepText, isBackgroundStep) =>
                     stepText + (isBackgroundStep ? " (Background)" : null)));
         }
 

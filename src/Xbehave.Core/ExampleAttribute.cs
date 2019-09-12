@@ -29,7 +29,9 @@ namespace Xbehave
         /// </summary>
         /// <param name="data">The data values to pass to the scenario.</param>
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "data", Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
+#pragma warning disable IDE0060 // Remove unused parameter
         public ExampleAttribute(params object[] data)
+#pragma warning restore IDE0060 // Remove unused parameter
         {
         }
 

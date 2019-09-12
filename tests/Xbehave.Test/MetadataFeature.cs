@@ -8,8 +8,7 @@ namespace Xbehave.Test
     {
         [Scenario]
         [Example("abc")]
-        public void UsingMetadata(
-            string text, IStepContext stepContext, IStep step, IScenario scenario, IXunitTestCase scenarioOutline)
+        public void UsingMetadata(string text, IStepContext stepContext, IStep step, IScenario scenario)
         {
             "When I execute a step"
                 .x(c => stepContext = c)

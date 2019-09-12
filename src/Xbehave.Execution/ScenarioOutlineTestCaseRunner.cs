@@ -36,10 +36,7 @@ namespace Xbehave.Execution
                 noArguments,
                 messageBus,
                 aggregator,
-                cancellationTokenSource)
-        {
-            this.diagnosticMessageSink = diagnosticMessageSink;
-        }
+                cancellationTokenSource) => this.diagnosticMessageSink = diagnosticMessageSink;
 
         protected override async Task AfterTestCaseStartingAsync()
         {
@@ -58,26 +55,26 @@ namespace Xbehave.Execution
                     {
                         this.disposables.AddRange(dataRow.OfType<IDisposable>());
 
-                        var info = new ScenarioInfo(TestCase.TestMethod.Method, dataRow, DisplayName);
+                        var info = new ScenarioInfo(this.TestCase.TestMethod.Method, dataRow, this.DisplayName);
                         var methodToRun = info.MethodToRun;
                         var convertedDataRow = info.ConvertedDataRow.ToArray();
 
                         var theoryDisplayName = info.ScenarioDisplayName;
-                        var test = new Scenario(TestCase, theoryDisplayName);
+                        var test = new Scenario(this.TestCase, theoryDisplayName);
                         var skipReason = this.SkipReason ?? dataAttribute.GetNamedArgument<string>("Skip");
-                        scenarioRunners.Add(new ScenarioRunner(test, MessageBus, TestClass, ConstructorArguments, methodToRun, convertedDataRow, skipReason, BeforeAfterAttributes, Aggregator, CancellationTokenSource));
+                        this.scenarioRunners.Add(new ScenarioRunner(test, this.MessageBus, this.TestClass, this.ConstructorArguments, methodToRun, convertedDataRow, skipReason, this.BeforeAfterAttributes, this.Aggregator, this.CancellationTokenSource));
                     }
                 }
 
                 if (!this.scenarioRunners.Any())
                 {
-                    var info = new ScenarioInfo(TestCase.TestMethod.Method, noArguments, DisplayName);
+                    var info = new ScenarioInfo(this.TestCase.TestMethod.Method, noArguments, this.DisplayName);
                     var methodToRun = info.MethodToRun;
                     var convertedDataRow = info.ConvertedDataRow.ToArray();
 
                     var theoryDisplayName = info.ScenarioDisplayName;
-                    var test = new Scenario(TestCase, theoryDisplayName);
-                    this.scenarioRunners.Add(new ScenarioRunner(test, MessageBus, TestClass, ConstructorArguments, methodToRun, convertedDataRow, SkipReason, BeforeAfterAttributes, Aggregator, CancellationTokenSource));
+                    var test = new Scenario(this.TestCase, theoryDisplayName);
+                    this.scenarioRunners.Add(new ScenarioRunner(test, this.MessageBus, this.TestClass, this.ConstructorArguments, methodToRun, convertedDataRow, this.SkipReason, this.BeforeAfterAttributes, this.Aggregator, this.CancellationTokenSource));
                 }
             }
 #pragma warning disable CA1031 // Do not catch general exception types
