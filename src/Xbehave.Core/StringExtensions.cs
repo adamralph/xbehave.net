@@ -9,6 +9,7 @@ namespace Xbehave
     /// </summary>
     public static class StringExtensions
     {
+#pragma warning disable IDE1006 // Naming Styles
         /// <summary>
         /// Defines a step in the current scenario.
         /// </summary>
@@ -95,5 +96,6 @@ namespace Xbehave
             CurrentThread.StepDefinitions.Add(stepDefinition);
             return stepDefinition;
         }
+#pragma warning restore IDE1006 // Naming Styles
     }
 }

@@ -2,7 +2,6 @@ namespace Xbehave
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
-    using Xunit;
     using Xunit.Sdk;
 
     /// <summary>

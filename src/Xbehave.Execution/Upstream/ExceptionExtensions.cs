@@ -1,4 +1,8 @@
 // UPSTREAM: https://raw.githubusercontent.com/xunit/xunit/2.4.1/src/common/ExceptionExtensions.cs
+#pragma warning disable IDE0011 // Add braces
+#pragma warning disable IDE0019 // Use pattern matching
+#pragma warning disable IDE0022 // Use expression body for methods
+#pragma warning disable IDE0040 // Add accessibility modifiers
 using System;
 using System.Reflection;
 

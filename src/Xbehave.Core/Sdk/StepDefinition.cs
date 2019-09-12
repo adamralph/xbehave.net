@@ -19,7 +19,7 @@ namespace Xbehave.Sdk
         public RemainingSteps FailureBehavior { get; set; }
 
         public GetStepDisplayText DisplayTextFunc { get; set; } =
-            (string stepText, bool isBackgroundStep) =>
+            (stepText, isBackgroundStep) =>
                 (isBackgroundStep ? "(Background) " : null) + stepText;
 
         public IStepDefinition Skip(string reason)

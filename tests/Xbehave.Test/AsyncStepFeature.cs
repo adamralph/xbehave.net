@@ -59,7 +59,7 @@ namespace Xbehave.Test
             [Scenario]
             public static void Scenario() =>
                 "Given something"
-                    .x((Action)Step);
+                    .x(Step);
 
             private static async void Step()
             {

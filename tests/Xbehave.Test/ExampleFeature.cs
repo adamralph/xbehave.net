@@ -243,7 +243,7 @@ an null value for an argument defined using the fifth type parameter"
         }
 
         [Scenario]
-        public void DateTimeExampleValues(Type feature, Exception exception, ITestResultMessage[] results)
+        public void DateTimeExampleValues(Type feature, ITestResultMessage[] results)
         {
             "Given scenarios expecting DateTime example values"
                 .x(() => feature = typeof(ScenariosExpectingDateTimeValues));
@@ -256,7 +256,7 @@ an null value for an argument defined using the fifth type parameter"
         }
 
         [Scenario]
-        public void DateTimeOffsetExampleValues(Type feature, Exception exception, ITestResultMessage[] results)
+        public void DateTimeOffsetExampleValues(Type feature, ITestResultMessage[] results)
         {
             "Given scenarios expecting DateTimeOffset example values"
                 .x(() => feature = typeof(ScenariosExpectingDateTimeOffsetValues));
@@ -269,7 +269,7 @@ an null value for an argument defined using the fifth type parameter"
         }
 
         [Scenario]
-        public void GuidExampleValues(Type feature, Exception exception, ITestResultMessage[] results)
+        public void GuidExampleValues(Type feature, ITestResultMessage[] results)
         {
             "Given scenarios expecting Guid example values"
                 .x(() => feature = typeof(ScenariosExpectingGuidValues));
@@ -294,10 +294,6 @@ an null value for an argument defined using the fifth type parameter"
 
         public sealed class BadValuesExampleAttribute : DataAttribute
         {
-            public BadValuesExampleAttribute()
-            {
-            }
-
             public override IEnumerable<object[]> GetData(MethodInfo testMethod)
             {
                 yield return new object[] { new BadDisposable() };
@@ -348,7 +344,9 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [Example(new[] { "one", "two" }, new[] { 1, 2 })]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario(string[] words, int[] numbers) =>
+#pragma warning restore IDE0060 // Remove unused parameter
                 "Given something"
                     .x(() => { });
         }
@@ -400,7 +398,9 @@ an null value for an argument defined using the fifth type parameter"
             [Example(1, 2L, "a", 7, 7L, null)]
             [Example(3, 4L, "a", 8, 8L, null)]
             [Example(5, 6L, "a", 9, 8L, null)]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario<T1, T2, T3, T4, T5>(T1 a, T2 b, T3 c, T4 d, T4 e, T5 f) =>
+#pragma warning restore IDE0060 // Remove unused parameter
                 "Given"
                     .x(() => { });
         }
@@ -427,7 +427,9 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [Example(1, 2, 3)]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario(int x, int y, int z) =>
+#pragma warning restore IDE0060 // Remove unused parameter
                 "Given {3}, {4} and {5}"
                     .x(() => { });
         }
@@ -436,13 +438,17 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [Example("a")]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario2(int i)
+#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
 
             [Scenario]
             [Example(1, 2)]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario3(int i)
+#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
         }
@@ -451,13 +457,17 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [BadExample]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario1(int i)
+#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
 
             [Scenario]
             [BadExample]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario2(int i)
+#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
         }
@@ -466,13 +476,17 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [BadValuesExample]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario1(BadDisposable obj)
+#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
 
             [Scenario]
             [BadValuesExample]
+#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario2(BadDisposable obj)
+#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
         }
@@ -483,20 +497,16 @@ an null value for an argument defined using the fifth type parameter"
 
             [Scenario]
             [Example("2014-06-26")]
-            public static void Scenario1(DateTime actual)
-            {
+            public static void Scenario1(DateTime actual) =>
                 "Then the actual is expected"
                     .x(() => actual.Should().Be(expected.Date));
-            }
 
             [Scenario]
             [Example("Thu, 26 Jun 2014 10:48:30")]
             [Example("2014-06-26T10:48:30.0000000")]
-            public static void Scenario2(DateTime actual)
-            {
+            public static void Scenario2(DateTime actual) =>
                 "Then the actual is expected"
                     .x(() => actual.Should().Be(expected));
-            }
         }
 
         private static class ScenariosExpectingDateTimeOffsetValues
@@ -505,20 +515,16 @@ an null value for an argument defined using the fifth type parameter"
 
             [Scenario]
             [Example("2014-06-26")]
-            public static void Scenario1(DateTimeOffset actual)
-            {
+            public static void Scenario1(DateTimeOffset actual) =>
                 "Then the actual is expected"
                     .x(() => actual.Should().Be(expected.Date));
-            }
 
             [Scenario]
             [Example("Thu, 26 Jun 2014 10:48:30")]
             [Example("2014-06-26T10:48:30.0000000")]
-            public static void Scenario2(DateTimeOffset actual)
-            {
+            public static void Scenario2(DateTimeOffset actual) =>
                 "Then the actual is expected"
                     .x(() => actual.Should().Be(expected));
-            }
         }
 
         private static class ScenariosExpectingGuidValues
@@ -529,11 +535,9 @@ an null value for an argument defined using the fifth type parameter"
             [Example("0b228327-585d-47f9-a5ee-292f96ca085c")]
             [Example("0B228327-585D-47F9-A5EE-292F96CA085C")]
             [Example("0B228327585D47F9A5EE292F96CA085C")]
-            public static void Scenario(Guid actual)
-            {
+            public static void Scenario(Guid actual) =>
                 "Then the actual is expected"
                     .x(() => actual.Should().Be(expected));
-            }
         }
     }
 }

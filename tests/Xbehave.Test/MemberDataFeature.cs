@@ -103,7 +103,7 @@ namespace Xbehave.Test
 
         public class AScenarioUsingNonSerializableValues
         {
-            public static readonly IEnumerable<object[]> MemberData = new List<object[]>
+            public static readonly IEnumerable<object[]> MemberData = new List<DoesNotSerialize[]>
             {
                 new[] { new DoesNotSerialize { Value = 1 } },
                 new[] { new DoesNotSerialize { Value = 2 } },

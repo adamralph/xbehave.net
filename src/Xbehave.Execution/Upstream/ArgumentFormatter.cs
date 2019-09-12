@@ -1,4 +1,13 @@
 // UPSTREAM: https://raw.githubusercontent.com/xunit/assert.xunit/2.4.1/Sdk/ArgumentFormatter.cs
+#pragma warning disable IDE0007 // Use implicit type
+#pragma warning disable IDE0011 // Add braces
+#pragma warning disable IDE0018 // Inline variable declaration
+#pragma warning disable IDE0019 // Use pattern matching
+#pragma warning disable IDE0020 // Use pattern matching
+#pragma warning disable IDE0022 // Use expression body for methods
+#pragma warning disable IDE0040 // Add accessibility modifiers
+#pragma warning disable IDE0045 // Convert to conditional expression
+#pragma warning disable IDE0046 // Convert to conditional expression
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -5,7 +5,6 @@ namespace Xbehave.Test
     using FluentAssertions;
     using Xbehave.Test.Infrastructure;
     using Xunit.Abstractions;
-    using Xunit.Sdk;
 
     public class BeforeAfterScenarioFeature : Feature
     {

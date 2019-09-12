@@ -248,21 +248,13 @@ namespace Xbehave.Execution
                 summary.Aggregate(await stepRunner.RunAsync());
 
                 var stepTeardowns = stepContext.Disposables
-                    .Select(disposable =>
-                    {
-                        if (disposable == null)
-                        {
-                            return null;
-                        }
-
-                        Func<IStepContext, Task> task = context =>
+                    .Where(disposable => disposable is object)
+                    .Select((Func<IDisposable, Func<IStepContext, Task>>)(disposable =>
+                        context =>
                         {
                             disposable.Dispose();
                             return Task.FromResult(0);
-                        };
-
-                        return task;
-                    })
+                        }))
                     .Concat(stepDefinition.Teardowns)
                     .Where(teardown => teardown != null)
                     .Select(teardown => Tuple.Create(stepContext, teardown));
