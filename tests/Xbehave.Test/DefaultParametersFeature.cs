@@ -11,11 +11,8 @@ namespace Xbehave.Test
     public class DefaultParametersFeature : Feature
     {
         [Scenario]
-        public void ScenarioWithParameters()
+        public void ScenarioWithParameters(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given a scenario with four parameters and step asserting each is a default value"
                 .x(() => feature = typeof(ScenarioWithFourParametersAndAStepAssertingEachIsADefaultValue));
 

@@ -223,12 +223,12 @@ namespace Xbehave.Test
         [Scenario]
         public void NullStepBody() =>
             "Given a null body"
-                .x(default(Action));
+                .x((Action)null);
 
         [Scenario]
         public void NullContextualStepBody() =>
             "Given a null body"
-                .x(default(Action<IStepContext>));
+                .x((Action<IStepContext>)null);
 
         private class FeatureWithAScenarioWithThreeSteps
         {

@@ -29,12 +29,12 @@ namespace Xbehave.Test
         [Scenario]
         public void NullStepBody() =>
             "Given a null body"
-                .x(default(Func<Task>));
+                .x((Func<Task>)null);
 
         [Scenario]
         public void NullContextualStepBody() =>
             "Given a null body"
-                .x(default(Func<IStepContext, Task>));
+                .x((Func<IStepContext, Task>)null);
 
         private static class AsyncScenarioThatThrowsAfterYielding
         {
