@@ -119,7 +119,7 @@ namespace Xbehave.Test
 
         [Scenario]
         public void NullTeardown() =>
-            "Given a null body"
+            "Given a null teardown"
                 .x(() => { })
                 .Teardown((Action)null);
 

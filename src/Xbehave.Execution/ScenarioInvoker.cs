@@ -248,7 +248,7 @@ namespace Xbehave.Execution
                 summary.Aggregate(await stepRunner.RunAsync());
 
                 var stepTeardowns = stepContext.Disposables
-                    .Where(disposable => disposable is object)
+                    .Where(disposable => disposable != null)
                     .Select((Func<IDisposable, Func<IStepContext, Task>>)(disposable =>
                         context =>
                         {
