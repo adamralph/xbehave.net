@@ -17,11 +17,8 @@ namespace Xbehave.Test
     public class ExampleFeature : Feature
     {
         [Scenario]
-        public void Examples()
+        public void Examples(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given a feature with a scenario with examples"
                 .x(() => feature = typeof(SingleStepAndThreeExamples));
 
@@ -49,11 +46,8 @@ namespace Xbehave.Test
         }
 
         [Scenario]
-        public void SkippedExamples()
+        public void SkippedExamples(Type feature, ITestResultMessage[] results)
         {
-            var feature = default(Type);
-            var results = default(ITestResultMessage[]);
-
             "Given two examples with a problematic one skipped"
                 .x(() => feature = typeof(TwoExamplesWithAProblematicOneSkipped));
 

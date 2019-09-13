@@ -121,7 +121,7 @@ namespace Xbehave.Test
         public void NullTeardown() =>
             "Given a null body"
                 .x(() => { })
-                .Teardown(default(Action));
+                .Teardown((Action)null);
 
         [Scenario]
         public void AsyncTeardowns(Type feature, ITestResultMessage[] results)

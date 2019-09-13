@@ -24,7 +24,7 @@ namespace Xbehave
             {
                 Text = text,
                 Body = body == null
-                    ? default(Func<IStepContext, Task>)
+                    ? (Func<IStepContext, Task>)null
                     : c =>
                         {
                             body();
@@ -50,7 +50,7 @@ namespace Xbehave
             {
                 Text = text,
                 Body = body == null
-                    ? default(Func<IStepContext, Task>)
+                    ? (Func<IStepContext, Task>)null
                     : c =>
                         {
                             body(c);
@@ -75,7 +75,7 @@ namespace Xbehave
             var stepDefinition = new StepDefinition
             {
                 Text = text,
-                Body = body == null ? default(Func<IStepContext, Task>) : c => body(),
+                Body = body == null ? (Func<IStepContext, Task>)null : c => body(),
             };
 
             CurrentThread.StepDefinitions.Add(stepDefinition);
