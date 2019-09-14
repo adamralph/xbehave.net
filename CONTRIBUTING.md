@@ -14,30 +14,6 @@ It is **not** necessary to raise an issue for non-functional changes, e.g. refac
 
 All new features must be covered by feature tests in the `Xbehave.Test` project.
 
-## Spaces not tabs
-
-Pull requests containing tabs will not be accepted. Make sure you set your editor to replace tabs with spaces. Indents should be 4 spaces wide for C# files, and 2 spaces wide for all other file types.
-
-## Line endings
-
-The repository is configured to preserve line endings both on checkout and commit (the equivalent of `autocrlf` set to `false`). This means *you* are responsible for line endings. We recommend that you configure your diff viewer so that it does not ignore line endings. Any [wall of pink](http://www.hanselman.com/blog/YoureJustAnotherCarriageReturnLineFeedInTheWall.aspx) pull requests will not be accepted.
-
-## Line width
-
-Try to keep lines of code no longer than 120 characters wide. This isn't a strict rule. Occasionally a line of code can be more readable if allowed to spill over slightly. A good way to remember this rule is to use a Visual Studio extension such as [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines).
-
-## Coding style
-
-Try to keep your coding style in line with the existing code. It might not exactly match your preferred style but it's better to keep things consistent.
-
-## Code analysis
-
-Try and avoid introducing code analysis violations. The non-test projects have largely been kept free of code analysis violations and we would like to keep it that way. Any code analysis rule changes or suppressions must be clearly justified.
-
-## Resharper artifacts
-
-Please do not add ReSharper suppressions to code using comments. You may tweak your local ReSharper settings but do not commit these to the repo.
-
 ## Branches
 
 There are two kinds of mainline branches, `master` and `release-x.y`. `master` is used for development work for the next release. All new features, changes, etc. must be applied to `master`. `release-x.y` are used for stable releases. A patch to version `x.y.z` must be applied to `release-x.y`.
