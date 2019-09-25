@@ -31,7 +31,7 @@ internal class Program
         Add(
             "test-core",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework netcoreapp2.0"));
+            () => RunAsync("dotnet", $"test ./tests/Xbehave.Test/Xbehave.Test.csproj --configuration Release --no-build --framework netcoreapp3.0"));
 
         Add(
             "test-net",
