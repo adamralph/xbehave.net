@@ -32,7 +32,7 @@ namespace Xbehave
                         },
             };
 
-            CurrentThread.StepDefinitions.Add(stepDefinition);
+            CurrentThread.Add(stepDefinition);
             return stepDefinition;
         }
 
@@ -58,7 +58,7 @@ namespace Xbehave
                         },
             };
 
-            CurrentThread.StepDefinitions.Add(stepDefinition);
+            CurrentThread.Add(stepDefinition);
             return stepDefinition;
         }
 
@@ -78,7 +78,7 @@ namespace Xbehave
                 Body = body == null ? (Func<IStepContext, Task>)null : c => body(),
             };
 
-            CurrentThread.StepDefinitions.Add(stepDefinition);
+            CurrentThread.Add(stepDefinition);
             return stepDefinition;
         }
 
@@ -93,7 +93,7 @@ namespace Xbehave
         public static IStepBuilder x(this string text, Func<IStepContext, Task> body)
         {
             var stepDefinition = new StepDefinition { Text = text, Body = body, };
-            CurrentThread.StepDefinitions.Add(stepDefinition);
+            CurrentThread.Add(stepDefinition);
             return stepDefinition;
         }
 #pragma warning restore IDE1006 // Naming Styles
