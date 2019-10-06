@@ -37,7 +37,7 @@ namespace Xbehave
                         },
             };
 
-            CurrentThread.StepDefinitions.Add(stepDefinition);
+            CurrentThread.Add(stepDefinition);
             return stepDefinition;
         }
 
@@ -64,7 +64,7 @@ namespace Xbehave
                         },
             };
 
-            CurrentThread.StepDefinitions.Add(stepDefinition);
+            CurrentThread.Add(stepDefinition);
             return stepDefinition;
         }
 
@@ -85,7 +85,7 @@ namespace Xbehave
                 Body = body == null ? default(Func<IStepContext, Task>) : c => body(),
             };
 
-            CurrentThread.StepDefinitions.Add(stepDefinition);
+            CurrentThread.Add(stepDefinition);
             return stepDefinition;
         }
 
@@ -101,7 +101,7 @@ namespace Xbehave
         public static IStepBuilder x(this string text, Func<IStepContext, Task> body)
         {
             var stepDefinition = new StepDefinition { Text = text, Body = body, };
-            CurrentThread.StepDefinitions.Add(stepDefinition);
+            CurrentThread.Add(stepDefinition);
             return stepDefinition;
         }
     }

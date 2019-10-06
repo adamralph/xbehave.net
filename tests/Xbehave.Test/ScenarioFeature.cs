@@ -234,6 +234,22 @@ namespace Xbehave.Test
             "Given a null body"
                 .x(default(Action<IStepContext>));
 
+        [Scenario]
+        public void NestedStep(Type feature, ITestResultMessage[] results)
+        {
+            "Given a scenario with a nested step"
+                .x(() => feature = typeof(ScenarioWithANestedStep));
+
+            "When I run the scenario"
+                .x(() => results = this.Run<ITestResultMessage>(feature));
+
+            "Then there should be one result"
+                .x(() => results.Length.Should().Be(1));
+
+            "And the result should be a fail"
+                .x(() => results.Single().Should().BeAssignableTo<ITestFailed>());
+        }
+
         private class FeatureWithAScenarioWithThreeSteps
         {
             [Scenario]
@@ -356,6 +372,15 @@ namespace Xbehave.Test
             [Scenario]
             public void Scenario()
             {
+            }
+        }
+
+        private class ScenarioWithANestedStep
+        {
+            [Scenario]
+            public void Scenario()
+            {
+                "Given something".x(() => "With something nested".x(() => { }));
             }
         }
     }
