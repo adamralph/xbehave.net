@@ -58,7 +58,9 @@ namespace Xbehave.Sdk
 {
     public class static CurrentThread
     {
-        public static System.Collections.Generic.ICollection<Xbehave.Sdk.IStepDefinition> StepDefinitions { get; }
+        public static System.Collections.Generic.IEnumerable<Xbehave.Sdk.IStepDefinition> StepDefinitions { get; }
+        public static void Add(Xbehave.Sdk.IStepDefinition item) { }
+        public static System.IDisposable EnterStepDefinitionContext() { }
     }
     public delegate string GetStepDisplayText(string stepText, bool isBackgroundStep);
     public interface IFilter<T>
