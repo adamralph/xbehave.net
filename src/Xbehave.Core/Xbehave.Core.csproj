@@ -3,7 +3,6 @@
   <PropertyGroup>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);NU5128</NoWarn>
     <NuspecFile>$(NUSPEC_FILE)</NuspecFile>
     <RootNamespace>Xbehave</RootNamespace>
