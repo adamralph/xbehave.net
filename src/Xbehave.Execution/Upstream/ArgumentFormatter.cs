@@ -1,4 +1,5 @@
 // UPSTREAM: https://raw.githubusercontent.com/xunit/assert.xunit/2.4.1/Sdk/ArgumentFormatter.cs
+#pragma warning disable CA1305 // Specify IFormatProvider
 #pragma warning disable IDE0007 // Use implicit type
 #pragma warning disable IDE0011 // Add braces
 #pragma warning disable IDE0018 // Inline variable declaration
