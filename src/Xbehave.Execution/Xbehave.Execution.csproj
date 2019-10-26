@@ -3,7 +3,6 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>Xbehave.Execution.ruleset</CodeAnalysisRuleSet>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <LangVersion>latest</LangVersion>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <TargetFrameworks>net452;netstandard1.1</TargetFrameworks>
   </PropertyGroup>
