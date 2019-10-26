@@ -3,7 +3,7 @@
   <PropertyGroup>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <NoWarn>$(NoWarn);NU5128;CA1303</NoWarn>
     <NuspecFile>$(NUSPEC_FILE)</NuspecFile>
     <RootNamespace>Xbehave</RootNamespace>
     <TargetFramework>netstandard1.1</TargetFramework>
@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="LiteGuard.Source" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-19367-01" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="2.9.4" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.6" PrivateAssets="All" />
     <PackageReference Include="xunit.extensibility.core" Version="2.4.0" />
   </ItemGroup>
 
