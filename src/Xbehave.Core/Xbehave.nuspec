@@ -5,7 +5,7 @@
     <description>An xUnit.net extension for describing each step in a test with natural language.
 
 Installing this package installs Xbehave.Core and xunit.</description>
-    <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
+    <icon>xbehave_256x256.png</icon>
     <id>Xbehave</id>
     <license type="expression">MIT</license>
     <projectUrl>http://xbehave.github.io/</projectUrl>
@@ -17,5 +17,7 @@ Installing this package installs Xbehave.Core and xunit.</description>
       <dependency id="xunit" version="[2.4.0, 2.5)" />
     </dependencies>
   </metadata>
-  <files />
+  <files>
+    <file src="..\..\assets\xbehave_256x256.png"  target="" />
+  </files>
 </package>
