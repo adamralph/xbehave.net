@@ -5,7 +5,7 @@
     <description>Includes the libraries for writing tests with xBehave.net.
 
 Installing this package installs xunit.core.</description>
-    <iconUrl>https://raw.github.com/xbehave/xbehave.net/master/assets/xbehave_128x128.png</iconUrl>
+    <icon>xbehave_256x256.png</icon>
     <id>Xbehave.Core</id>
     <license type="expression">MIT</license>
     <projectUrl>http://xbehave.github.io/</projectUrl>
@@ -19,6 +19,8 @@ Installing this package installs xunit.core.</description>
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\assets\xbehave_256x256.png"  target="" />
+
     <file src="bin\Release\netstandard1.1\Xbehave.Core.dll" target="lib\net452" />
     <file src="bin\Release\netstandard1.1\Xbehave.Core.pdb" target="lib\net452" />
     <file src="bin\Release\netstandard1.1\Xbehave.Core.xml" target="lib\net452" />
