@@ -1,4 +1,4 @@
-[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETStandard,Version=v1.1", FrameworkDisplayName="")]
+﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETStandard,Version=v1.1", FrameworkDisplayName="")]
 namespace Xbehave
 {
     [System.AttributeUsageAttribute(System.AttributeTargets.Method | System.AttributeTargets.All)]
