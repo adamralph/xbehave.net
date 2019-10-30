@@ -10,7 +10,7 @@ internal class Program
     {
         Target("default", DependsOn("pack", "test"));
 
-        Target("build", () => RunAsync("dotnet", $"build --configuration Release /nologo"));
+        Target("build", () => RunAsync("dotnet", $"build --configuration Release --nologo"));
 
         Target(
             "pack",
@@ -19,18 +19,18 @@ internal class Program
             async nuspec =>
             {
                 Environment.SetEnvironmentVariable("NUSPEC_FILE", nuspec, EnvironmentVariableTarget.Process);
-                await RunAsync("dotnet", $"pack src/Xbehave.Core --configuration Release --no-build /nologo");
+                await RunAsync("dotnet", $"pack src/Xbehave.Core --configuration Release --no-build --nologo");
             });
 
         Target(
             "test-core",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework netcoreapp3.0 /nologo"));
+            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework netcoreapp3.0 --nologo"));
 
         Target(
             "test-net",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework net472 /nologo"));
+            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework net472 --nologo"));
 
         Target("test", DependsOn("test-core", "test-net"));
 
