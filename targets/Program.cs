@@ -10,7 +10,7 @@ internal class Program
     {
         Target("default", DependsOn("pack", "test"));
 
-        Target("build", () => RunAsync("dotnet", $"build --configuration Release --nologo"));
+        Target("build", () => RunAsync("dotnet", $"build --configuration Release --nologo --verbosity quiet"));
 
         Target(
             "pack",
