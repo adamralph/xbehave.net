@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runs-on: [windows-2019]
+        runs-on: [windows-latest]
     name: ${{ matrix.runs-on }}
     runs-on: ${{ matrix.runs-on }}
     steps:
@@ -24,5 +24,5 @@ jobs:
       run: ./build.cmd
     - if: contains(matrix.runs-on, 'macOS') || contains(matrix.runs-on, 'ubuntu')
       run: ./build.sh
-    - if: matrix.runs-on == 'windows-2019'
+    - if: matrix.runs-on == 'windows-latest'
       run: 'forfiles /m *.nupkg /s /c "cmd /c echo %~nx0: Pushing @path && dotnet nuget push @path --source https://www.myget.org/F/adamralph-ci/api/v2/package --api-key ${{ secrets.MYGET_ADAMRALPH_CI_API_KEY }}"'
