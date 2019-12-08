@@ -25,7 +25,7 @@ internal class Program
         Target(
             "test-core",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework netcoreapp3.0 --nologo"));
+            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework netcoreapp3.1 --nologo"));
 
         Target(
             "test-net",

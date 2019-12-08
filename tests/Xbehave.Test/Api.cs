@@ -10,8 +10,8 @@ namespace Xbehave.Test
         [Fact]
         public void IsUnchanged() =>
             AssertFile.Contains(
-#if NETCOREAPP3_0
-                "../../../api-netcoreapp3_0.txt",
+#if NETCOREAPP3_1
+                "../../../api-netcoreapp3_1.txt",
 #endif
 #if NET472
                 "../../../api-net472.txt",
