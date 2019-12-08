@@ -4,7 +4,7 @@
     <CodeAnalysisRuleSet>Xbehave.Test.ruleset</CodeAnalysisRuleSet>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <NoWarn>$(NoWarn);CS0168;CS1591</NoWarn>
-    <TargetFrameworks>netcoreapp3.0;net472</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
