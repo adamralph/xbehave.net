@@ -18,8 +18,7 @@ internal class Program
             ForEach("Xbehave.Core.nuspec", "Xbehave.nuspec"),
             async nuspec =>
             {
-                Environment.SetEnvironmentVariable("NUSPEC_FILE", nuspec, EnvironmentVariableTarget.Process);
-                await RunAsync("dotnet", $"pack src/Xbehave.Core --configuration Release --no-build --nologo");
+                await RunAsync("dotnet", $"pack src/Xbehave.Core --configuration Release --no-build --nologo", configureEnvironment: env => env.Add("NUSPEC_FILE", nuspec));
             });
 
         Target(
