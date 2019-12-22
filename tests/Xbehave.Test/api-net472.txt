@@ -1,35 +1,35 @@
-﻿[assembly: System.Runtime.Versioning.TargetFrameworkAttribute(".NETStandard,Version=v1.1", FrameworkDisplayName="")]
+﻿[assembly: System.Runtime.Versioning.TargetFramework(".NETStandard,Version=v1.1", FrameworkDisplayName="")]
 namespace Xbehave
 {
-    [System.AttributeUsageAttribute(System.AttributeTargets.Method | System.AttributeTargets.All)]
+    [System.AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.All)]
     public class BackgroundAttribute : System.Attribute
     {
         public BackgroundAttribute() { }
     }
-    [System.AttributeUsageAttribute(System.AttributeTargets.Class | System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=true, Inherited=true)]
+    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=true, Inherited=true)]
     public abstract class BeforeAfterScenarioAttribute : Xunit.Sdk.BeforeAfterTestAttribute
     {
         protected BeforeAfterScenarioAttribute() { }
     }
-    public class static DisposableExtensions
+    public static class DisposableExtensions
     {
         public static T Using<T>(this T disposable, Xbehave.Sdk.IStepContext stepContext)
             where T : System.IDisposable { }
     }
-    [System.AttributeUsageAttribute(System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=true)]
-    [Xunit.Sdk.DataDiscovererAttribute("Xunit.Sdk.InlineDataDiscoverer", "xunit.core")]
+    [System.AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.All, AllowMultiple=true)]
+    [Xunit.Sdk.DataDiscoverer("Xunit.Sdk.InlineDataDiscoverer", "xunit.core")]
     public sealed class ExampleAttribute : Xunit.Sdk.DataAttribute
     {
         public ExampleAttribute(params object[] data) { }
         public override System.Collections.Generic.IEnumerable<object[]> GetData(System.Reflection.MethodInfo testMethod) { }
     }
-    public class static IStepBuilderExtensions
+    public static class IStepBuilderExtensions
     {
         public static Xbehave.Sdk.IStepBuilder Teardown(this Xbehave.Sdk.IStepBuilder stepBuilder, System.Action action) { }
         public static Xbehave.Sdk.IStepBuilder Teardown(this Xbehave.Sdk.IStepBuilder stepBuilder, System.Action<Xbehave.Sdk.IStepContext> action) { }
         public static Xbehave.Sdk.IStepBuilder Teardown(this Xbehave.Sdk.IStepBuilder stepBuilder, System.Func<System.Threading.Tasks.Task> action) { }
     }
-    public class static IStepDefinitionExtensions
+    public static class IStepDefinitionExtensions
     {
         public static Xbehave.Sdk.IStepDefinition Teardown(this Xbehave.Sdk.IStepDefinition stepDefinition, System.Action action) { }
         public static Xbehave.Sdk.IStepDefinition Teardown(this Xbehave.Sdk.IStepDefinition stepDefinition, System.Action<Xbehave.Sdk.IStepContext> action) { }
@@ -40,13 +40,13 @@ namespace Xbehave
         Skip = 0,
         Run = 1,
     }
-    [System.AttributeUsageAttribute(System.AttributeTargets.Method | System.AttributeTargets.All)]
-    [Xunit.Sdk.XunitTestCaseDiscovererAttribute("Xbehave.Execution.ScenarioDiscoverer", "Xbehave.Execution.{Platform}")]
+    [System.AttributeUsage(System.AttributeTargets.Method | System.AttributeTargets.All)]
+    [Xunit.Sdk.XunitTestCaseDiscoverer("Xbehave.Execution.ScenarioDiscoverer", "Xbehave.Execution.{Platform}")]
     public class ScenarioAttribute : Xunit.FactAttribute
     {
         public ScenarioAttribute() { }
     }
-    public class static StringExtensions
+    public static class StringExtensions
     {
         public static Xbehave.Sdk.IStepBuilder x(this string text, System.Action body) { }
         public static Xbehave.Sdk.IStepBuilder x(this string text, System.Action<Xbehave.Sdk.IStepContext> body) { }
@@ -56,7 +56,7 @@ namespace Xbehave
 }
 namespace Xbehave.Sdk
 {
-    public class static CurrentThread
+    public static class CurrentThread
     {
         public static System.Collections.Generic.IEnumerable<Xbehave.Sdk.IStepDefinition> StepDefinitions { get; }
         public static void Add(Xbehave.Sdk.IStepDefinition item) { }
