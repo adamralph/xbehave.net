@@ -16,6 +16,6 @@ namespace Xbehave.Test
 #if NET472
                 "../../../api-net472.txt",
 #endif
-                ApiGenerator.GeneratePublicApi(typeof(ScenarioAttribute).Assembly));
+                typeof(ScenarioAttribute).Assembly.GeneratePublicApi());
     }
 }
