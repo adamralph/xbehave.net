@@ -2,7 +2,6 @@ namespace Xbehave.Test
 {
     using System;
     using System.Linq;
-    using FluentAssertions;
     using Xbehave;
     using Xbehave.Test.Infrastructure;
     using Xunit;
@@ -23,7 +22,7 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature, "foo", traitValue));
 
             "Then there is only {1} result"
-                .x(() => results.Count().Should().Be(expectedResultCount));
+                .x(() => Assert.Equal(expectedResultCount, results.Count()));
         }
 
         private class TwoSingleStepScenariosWithFooTraitsOfBarAndBazRespectively

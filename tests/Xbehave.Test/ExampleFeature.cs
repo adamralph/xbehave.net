@@ -5,7 +5,6 @@ namespace Xbehave.Test
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reflection;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
     using Xunit;
     using Xunit.Abstractions;
@@ -26,23 +25,19 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then each result should be a pass"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>(
-                    results.ToDisplayString("the results should all be passes")));
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And there should be three results"
-                .x(() => results.Length.Should().Be(3));
+                .x(() => Assert.Equal(3, results.Length));
 
             "And the display name of one result should contain '(x: 1, y: 2, sum: 3)'"
-                .x(() => results.Should().ContainSingle(result =>
-                    result.Test.DisplayName.Contains("(x: 1, y: 2, sum: 3)")));
+                .x(() => Assert.Single(results, result => result.Test.DisplayName.Contains("(x: 1, y: 2, sum: 3)")));
 
             "And the display name of one result should contain '(x: 10, y: 20, sum: 30)'"
-                .x(() => results.Should().ContainSingle(result =>
-                    result.Test.DisplayName.Contains("(x: 10, y: 20, sum: 30)")));
+                .x(() => Assert.Single(results, result => result.Test.DisplayName.Contains("(x: 10, y: 20, sum: 30)")));
 
             "And the display name of one result should contain '(x: 100, y: 200, sum: 300)'"
-                .x(() => results.Should().ContainSingle(result =>
-                    result.Test.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
+                .x(() => Assert.Single(results, result => result.Test.DisplayName.Contains("(x: 100, y: 200, sum: 300)")));
         }
 
         [Scenario]
@@ -55,16 +50,16 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be two results"
-                .x(() => results.Length.Should().Be(2));
+                .x(() => Assert.Equal(2, results.Length));
 
             "And one result should be a pass"
-                .x(() => results.OfType<ITestPassed>().Count().Should().Be(1));
+                .x(() => Assert.Single(results.OfType<ITestPassed>()));
 
             "And there should be no failures"
-                .x(() => results.OfType<ITestFailed>().Count().Should().Be(0));
+                .x(() => Assert.Empty(results.OfType<ITestFailed>()));
 
             "And one result should be a skip"
-                .x(() => results.OfType<ITestSkipped>().Count().Should().Be(1));
+                .x(() => Assert.Single(results.OfType<ITestSkipped>()));
         }
 
         [Scenario]
@@ -77,10 +72,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
-                .x(() => results.Length.Should().Be(1));
+                .x(() => Assert.Single(results));
 
             "And the display name of the result should contain '(words: [\"one\", \"two\"], numbers: [1, 2])'"
-                .x(() => results.Single().Test.DisplayName.Should().Contain("(words: [\"one\", \"two\"], numbers: [1, 2])"));
+                .x(() => Assert.Contains("(words: [\"one\", \"two\"], numbers: [1, 2])", results.Single().Test.DisplayName));
         }
 
         [Scenario]
@@ -93,29 +88,20 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
-                .x(() => results.Length.Should().Be(3));
+                .x(() => Assert.Equal(3, results.Length));
 
             "And each result should be a pass"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And each result should contain the example value"
-                .x(() =>
-                {
-                    foreach (var result in results)
-                    {
-                        result.Test.DisplayName.Should().Contain("example:");
-                    }
-                });
+                .x(() => Assert.All(results, result => Assert.Contains("example:", result.Test.DisplayName)));
 
             "And each result should not contain the missing values"
-                .x(() =>
-                {
-                    foreach (var result in results)
+                .x(() => Assert.All(results, result =>
                     {
-                        result.Test.DisplayName.Should().NotContain("missing1:");
-                        result.Test.DisplayName.Should().NotContain("missing2:");
-                    }
-                });
+                        Assert.DoesNotContain("missing1:", result.Test.DisplayName);
+                        Assert.DoesNotContain("missing2:", result.Test.DisplayName);
+                    }));
         }
 
         [Scenario]
@@ -128,10 +114,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
-                .x(() => results.Length.Should().Be(3));
+                .x(() => Assert.Equal(3, results.Length));
 
             "And each result should be a pass"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
         }
 
         [Scenario]
@@ -150,16 +136,10 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
-                .x(() => results.Length.Should().Be(3));
+                .x(() => Assert.Equal(3, results.Length));
 
             "And the display name of each result should contain \"<Int32, Int64, String, Object, Object>\""
-                .x(() =>
-                {
-                    foreach (var result in results)
-                    {
-                        result.Test.DisplayName.Should().Contain("<Int32, Int64, String, Object, Object>");
-                    }
-                });
+                .x(() => Assert.All(results, result => Assert.Contains("<Int32, Int64, String, Object, Object>", result.Test.DisplayName)));
         }
 
         [Scenario]
@@ -172,13 +152,13 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
-                .x(() => results.Count().Should().Be(1));
+                .x(() => Assert.Single(results));
 
             "And the result should not be a pass"
-                .x(() => results.Single().Should().BeAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the display name of the result should end with \"Given {{3}}, {{4}} and {{5}}\""
-                .x(() => results.Single().Test.DisplayName.Should().EndWith("Given {3}, {4} and {5}"));
+                .x(() => Assert.EndsWith("Given {3}, {4} and {5}", results.Single().Test.DisplayName));
         }
 
         [Scenario]
@@ -192,13 +172,13 @@ an null value for an argument defined using the fifth type parameter"
                     results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
-                .x(() => exception.Should().BeNull());
+                .x(() => Assert.Null(exception));
 
             "And there should be 2 results"
-                .x(() => results.Count().Should().Be(2));
+                .x(() => Assert.Equal(2, results.Length));
 
             "And each result should be a failure"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestFailed>(result)));
         }
 
         [Scenario]
@@ -211,13 +191,13 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => exception = Record.Exception(() => results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
-                .x(() => exception.Should().BeNull());
+                .x(() => Assert.Null(exception));
 
             "And there should be 2 results"
-                .x(() => results.Count().Should().Be(2));
+                .x(() => Assert.Equal(2, results.Length));
 
             "And each result should be a failure"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestFailed>(result)));
         }
 
         [Scenario]
@@ -230,10 +210,10 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => exception = Record.Exception(() => failures = this.Run<ITestCaseCleanupFailure>(feature)));
 
             "Then no exception should be thrown"
-                .x(() => exception.Should().BeNull());
+                .x(() => Assert.Null(exception));
 
             "And there should be 2 test case clean up failures"
-                .x(() => failures.Count().Should().Be(2));
+                .x(() => Assert.Equal(2, failures.Length));
         }
 
         [Scenario]
@@ -246,7 +226,7 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then each result should be a pass"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
         }
 
         [Scenario]
@@ -259,7 +239,7 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then each result should be a pass"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
         }
 
         [Scenario]
@@ -272,7 +252,7 @@ an null value for an argument defined using the fifth type parameter"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then each result should be a pass"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
         }
 
         public sealed class BadExampleAttribute : MemberDataAttributeBase
@@ -312,8 +292,8 @@ an null value for an argument defined using the fifth type parameter"
                 $"Then as a distinct example the sum of {x} and {y} is {sum}"
                     .x(() =>
                     {
-                        sum.Should().NotBe(previousSum);
-                        (x + y).Should().Be(sum);
+                        Assert.NotEqual(previousSum, sum);
+                        Assert.Equal(sum, x + y);
                         previousSum = sum;
                     });
         }
@@ -357,9 +337,9 @@ an null value for an argument defined using the fifth type parameter"
                 "Then distinct examples are passed with the default values for missing arguments"
                     .x(() =>
                     {
-                        example.Should().NotBe(previousExample);
-                        missing1.Should().Be(default);
-                        missing2.Should().Be(default);
+                        Assert.NotEqual(previousExample, example);
+                        Assert.Equal(default, missing1);
+                        Assert.Equal(default, missing2);
                         previousExample = example;
                     });
         }
@@ -377,10 +357,10 @@ an null value for an argument defined using the fifth type parameter"
                 "Then distinct examples are passed with the default values for missing arguments"
                     .x(() =>
                     {
-                        example1.Should().NotBe(previousExample1);
-                        example2.Should().NotBe(previousExample2);
-                        missing1.Should().Be(default(T1));
-                        missing2.Should().Be(default(T2));
+                        Assert.NotEqual(previousExample1, example1);
+                        Assert.NotEqual(previousExample2, example2);
+                        Assert.Equal(default, missing1);
+                        Assert.Equal(default, missing2);
                         previousExample1 = example1;
                         previousExample2 = example2;
                     });
@@ -493,14 +473,14 @@ an null value for an argument defined using the fifth type parameter"
             [Example("2014-06-26")]
             public static void Scenario1(DateTime actual) =>
                 "Then the actual is expected"
-                    .x(() => actual.Should().Be(expected.Date));
+                    .x(() => Assert.Equal(expected.Date, actual));
 
             [Scenario]
             [Example("Thu, 26 Jun 2014 10:48:30")]
             [Example("2014-06-26T10:48:30.0000000")]
             public static void Scenario2(DateTime actual) =>
                 "Then the actual is expected"
-                    .x(() => actual.Should().Be(expected));
+                    .x(() => Assert.Equal(expected, actual));
         }
 
         private static class ScenariosExpectingDateTimeOffsetValues
@@ -511,14 +491,14 @@ an null value for an argument defined using the fifth type parameter"
             [Example("2014-06-26")]
             public static void Scenario1(DateTimeOffset actual) =>
                 "Then the actual is expected"
-                    .x(() => actual.Should().Be(expected.Date));
+                    .x(() => Assert.Equal(expected.Date, actual));
 
             [Scenario]
             [Example("Thu, 26 Jun 2014 10:48:30")]
             [Example("2014-06-26T10:48:30.0000000")]
             public static void Scenario2(DateTimeOffset actual) =>
                 "Then the actual is expected"
-                    .x(() => actual.Should().Be(expected));
+                    .x(() => Assert.Equal(expected, actual));
         }
 
         private static class ScenariosExpectingGuidValues
@@ -531,7 +511,7 @@ an null value for an argument defined using the fifth type parameter"
             [Example("0B228327585D47F9A5EE292F96CA085C")]
             public static void Scenario(Guid actual) =>
                 "Then the actual is expected"
-                    .x(() => actual.Should().Be(expected));
+                    .x(() => Assert.Equal(expected, actual));
         }
     }
 }

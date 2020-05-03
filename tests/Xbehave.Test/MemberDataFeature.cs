@@ -2,7 +2,6 @@ namespace Xbehave.Test
 {
     using System;
     using System.Collections.Generic;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
     using Xunit;
     using Xunit.Abstractions;
@@ -23,10 +22,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
-                .x(() => results.Length.Should().Be(3));
+                .x(() => Assert.Equal(3, results.Length));
 
             "Then each of the member data value sets should be passed into the scenario"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
         }
 
         public class AScenarioUsingMemberDataProperty
@@ -49,8 +48,8 @@ namespace Xbehave.Test
                 $"Then as a distinct example the sum of {operand1} and {operand2} is {sum}"
                     .x(() =>
                     {
-                        sum.Should().NotBe(previousSum);
-                        (operand1 + operand2).Should().Be(sum);
+                        Assert.NotEqual(previousSum, sum);
+                        Assert.Equal(sum, operand1 + operand2);
                         previousSum = sum;
                     });
         }
@@ -72,8 +71,8 @@ namespace Xbehave.Test
                 $"Then as a distinct example the sum of {operand1} and {operand2} is {sum}"
                     .x(() =>
                     {
-                        sum.Should().NotBe(previousSum);
-                        (operand1 + operand2).Should().Be(sum);
+                        Assert.NotEqual(previousSum, sum);
+                        Assert.Equal(sum, operand1 + operand2);
                         previousSum = sum;
                     });
         }
@@ -95,8 +94,8 @@ namespace Xbehave.Test
                 $"Then as a distinct example the sum of {operand1} and {operand2} is {sum}"
                     .x(() =>
                     {
-                        sum.Should().NotBe(previousSum);
-                        (operand1 + operand2).Should().Be(sum);
+                        Assert.NotEqual(previousSum, sum);
+                        Assert.Equal(sum, operand1 + operand2);
                         previousSum = sum;
                     });
         }
@@ -118,7 +117,7 @@ namespace Xbehave.Test
                 $"Then the object has a distinct value of {@object.Value}"
                     .x(() =>
                     {
-                        @object.Value.Should().NotBe(previousValue);
+                        Assert.NotEqual(previousValue, @object.Value);
                         previousValue = @object.Value;
                     });
 

@@ -3,8 +3,8 @@ namespace Xbehave.Test
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     // In order to release allocated resources
@@ -26,15 +26,16 @@ namespace Xbehave.Test
             "When running the scenario"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then there should be one resilt"
-                .x(() => results.Length.Should().Be(1));
+            "Then there should be one result"
+                .x(() => Assert.Single(results));
 
             "And there should be no failures"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "Ann the teardowns should be executed in reverse order after the step"
-                .x(() => typeof(TeardownFeature).GetTestEvents()
-                    .Should().Equal("step1", "teardown3", "teardown2", "teardown1"));
+                .x(() => Assert.Equal(
+                    new[] { "step1", "teardown3", "teardown2", "teardown1" },
+                    typeof(TeardownFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -47,20 +48,21 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be two results"
-                .x(() => results.Length.Should().Be(2));
+                .x(() => Assert.Equal(2, results.Length));
 
             "And the first result should be a pass"
-                .x(() => results[0].Should().BeAssignableTo<ITestPassed>());
+                .x(() => Assert.IsAssignableFrom<ITestPassed>(results[0]));
 
             "And the second result should be a failure"
-                .x(() => results[1].Should().BeAssignableTo<ITestFailed>());
+                .x(() => Assert.IsAssignableFrom<ITestFailed>(results[1]));
 
             "And the name of the teardown should end in '(Teardown)'"
-                .x(() => results[1].Test.DisplayName.Should().EndWith("(Teardown)"));
+                .x(() => Assert.EndsWith("(Teardown)", results[1].Test.DisplayName));
 
             "And the teardowns should be executed in reverse order after the step"
-                .x(() => typeof(TeardownFeature).GetTestEvents()
-                    .Should().Equal("step1", "teardown3", "teardown2", "teardown1"));
+                .x(() => Assert.Equal(
+                    new[] { "step1", "teardown3", "teardown2", "teardown1" },
+                    typeof(TeardownFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -73,14 +75,15 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be two results"
-                .x(() => results.Length.Should().Be(2));
+                .x(() => Assert.Equal(2, results.Length));
 
             "And there should be no failures"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the teardowns should be executed in reverse order after the steps"
-                .x(() => typeof(TeardownFeature).GetTestEvents().Should().Equal(
-                    "step1", "step2", "teardown6", "teardown5", "teardown4", "teardown3", "teardown2", "teardown1"));
+                .x(() => Assert.Equal(
+                    new[] { "step1", "step2", "teardown6", "teardown5", "teardown4", "teardown3", "teardown2", "teardown1" },
+                    typeof(TeardownFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -93,11 +96,12 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one failure"
-                .x(() => results.OfType<ITestFailed>().Count().Should().Be(1));
+                .x(() => Assert.Single(results.OfType<ITestFailed>()));
 
             "And the teardowns should be executed after each step"
-                .x(() => typeof(TeardownFeature).GetTestEvents()
-                    .Should().Equal("step1", "step2", "step3", "teardown2", "teardown1"));
+                .x(() => Assert.Equal(
+                    new[] { "step1", "step2", "step3", "teardown2", "teardown1" },
+                    typeof(TeardownFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -110,11 +114,12 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one failure"
-                .x(() => results.OfType<ITestFailed>().Count().Should().Be(1));
+                .x(() => Assert.Single(results.OfType<ITestFailed>()));
 
             "And the teardowns should be executed in reverse order after the step"
-                .x(() => typeof(TeardownFeature).GetTestEvents()
-                    .Should().Equal("step1", "teardown3", "teardown2", "teardown1"));
+                .x(() => Assert.Equal(
+                    new[] { "step1", "teardown3", "teardown2", "teardown1" },
+                    typeof(TeardownFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -133,7 +138,7 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one failure"
-                .x(() => results.OfType<ITestFailed>().Count().Should().Be(1));
+                .x(() => Assert.Single(results.OfType<ITestFailed>()));
         }
 
         private static class StepWithManyTeardowns
@@ -206,7 +211,7 @@ namespace Xbehave.Test
                     .x(() =>
                     {
                         typeof(TeardownFeature).SaveTestEvent("step3");
-                        1.Should().Be(0);
+                        Assert.Equal(0, 1);
                     });
             }
         }

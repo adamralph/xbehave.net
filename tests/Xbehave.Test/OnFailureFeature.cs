@@ -2,8 +2,8 @@ namespace Xbehave.Test
 {
     using System;
     using System.Linq;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     public class OnFailureFeature : Feature
@@ -22,22 +22,22 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be 7 results"
-                .x(() => results.Length.Should().Be(7));
+                .x(() => Assert.Equal(7, results.Length));
 
             "Then the first and second results are passes"
-                .x(() => results.Take(2).Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results.Take(2), result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the third result is a failure"
-                .x(() => results.Skip(2).Take(1).Should().ContainItemsAssignableTo<ITestFailed>());
+                .x(() => Assert.All(results.Skip(2).Take(1), result => Assert.IsAssignableFrom<ITestFailed>(result)));
 
             "And the fourth and fifth results are passes"
-                .x(() => results.Skip(3).Take(2).Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results.Skip(3).Take(2), result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the sixth result is a failure"
-                .x(() => results.Skip(5).Take(1).Should().ContainItemsAssignableTo<ITestFailed>());
+                .x(() => Assert.All(results.Skip(5).Take(1), result => Assert.IsAssignableFrom<ITestFailed>(result)));
 
             "And the seventh result is a skip"
-                .x(() => results.Skip(6).Take(1).Should().ContainItemsAssignableTo<ITestSkipped>());
+                .x(() => Assert.All(results.Skip(6).Take(1), result => Assert.IsAssignableFrom<ITestSkipped>(result)));
         }
 
         private static class Steps

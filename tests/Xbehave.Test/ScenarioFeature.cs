@@ -3,7 +3,6 @@ namespace Xbehave.Test
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using FluentAssertions;
     using Xbehave.Sdk;
     using Xbehave.Test.Infrastructure;
     using Xunit;
@@ -25,9 +24,9 @@ namespace Xbehave.Test
             var results = this.Run<ITestResultMessage>(feature);
 
             // assert
-            results.Length.Should().Be(3);
-            results.Take(2).Should().ContainItemsAssignableTo<ITestPassed>();
-            results.Skip(2).Should().ContainItemsAssignableTo<ITestFailed>();
+            Assert.Equal(3, results.Length);
+            Assert.All(results.Take(2), result => Assert.IsAssignableFrom<ITestPassed>(result));
+            Assert.All(results.Skip(2), result => Assert.IsAssignableFrom<ITestFailed>(result));
         }
 
         [Scenario]
@@ -41,36 +40,40 @@ namespace Xbehave.Test
                     .OfType<ITestResultMessage>().ToArray());
 
             "Then there should be three results"
-                .x(() => results.Length.Should().Be(3));
+                .x(() => Assert.Equal(3, results.Length));
 
             "And the first result should have a display name ending with 'Step 1'"
-                .x(() => results[0].Test.DisplayName.Should().EndWith("Step 1"));
+                .x(() => Assert.EndsWith("Step 1", results[0].Test.DisplayName));
 
             "And the second result should have a display name ending with 'Step 2'"
-                .x(() => results[1].Test.DisplayName.Should().EndWith("Step 2"));
+                .x(() => Assert.EndsWith("Step 2", results[1].Test.DisplayName));
 
             "And the third result should have a display name ending with 'Step 3'"
-                .x(() => results[2].Test.DisplayName.Should().EndWith("Step 3"));
+                .x(() => Assert.EndsWith("Step 3", results[2].Test.DisplayName));
 
             "And the messages should satisfy the xunit message contract"
-                .x(() => messages.Select(message => message.GetType().Name).Should().ContainInOrder(
-                    "TestCollectionStarting",
-                    "TestClassStarting",
-                    "TestMethodStarting",
-                    "TestCaseStarting",
-                    "TestStarting",
-                    "TestPassed",
-                    "TestFinished",
-                    "TestStarting",
-                    "TestPassed",
-                    "TestFinished",
-                    "TestStarting",
-                    "TestPassed",
-                    "TestFinished",
-                    "TestCaseFinished",
-                    "TestMethodFinished",
-                    "TestClassFinished",
-                    "TestCollectionFinished"));
+                .x(() => Assert.Equal(
+                    new[]
+                    {
+                        "TestCollectionStarting",
+                        "TestClassStarting",
+                        "TestMethodStarting",
+                        "TestCaseStarting",
+                        "TestStarting",
+                        "TestPassed",
+                        "TestFinished",
+                        "TestStarting",
+                        "TestPassed",
+                        "TestFinished",
+                        "TestStarting",
+                        "TestPassed",
+                        "TestFinished",
+                        "TestCaseFinished",
+                        "TestMethodFinished",
+                        "TestClassFinished",
+                        "TestCollectionFinished",
+                    },
+                    messages.Select(message => message.GetType().Name).SkipWhile(name => name == "TestAssemblyStarting").Take(17).ToArray()));
         }
 
         [Scenario]
@@ -86,8 +89,7 @@ namespace Xbehave.Test
                 .x(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
 
             "Then a concatenation of the last character of each result display names should be 'zyxwvutsrq'"
-                .x(() => new string(results.Select(result => result.Test.DisplayName.Last()).ToArray())
-                    .Should().Be("zyxwvutsrq"));
+                .x(() => Assert.Equal("zyxwvutsrq", new string(results.Select(result => result.Test.DisplayName.Last()).ToArray())));
         }
 
         [Scenario]
@@ -100,13 +102,13 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be three results"
-                .x(() => results.Length.Should().Be(3));
+                .x(() => Assert.Equal(3, results.Length));
 
             "And the first two results should be passes"
-                .x(() => results.Take(2).Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results.Take(2), result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the third result should be a fail"
-                .x(() => results.Skip(2).Should().ContainItemsAssignableTo<ITestFailed>());
+                .x(() => Assert.All(results.Skip(2), result => Assert.IsAssignableFrom<ITestFailed>(result)));
         }
 
         [Scenario]
@@ -120,13 +122,13 @@ namespace Xbehave.Test
                     results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
-                .x(() => exception.Should().BeNull());
+                .x(() => Assert.Null(exception));
 
             "And the results should not be empty"
-                .x(() => results.Should().NotBeEmpty());
+                .x(() => Assert.NotEmpty(results));
 
             "And each result should be a failure"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestFailed>(result)));
         }
 
         [Scenario]
@@ -139,13 +141,13 @@ namespace Xbehave.Test
                 .x(() => exception = Record.Exception(() => results = this.Run<ITestResultMessage>(feature)));
 
             "Then no exception should be thrown"
-                .x(() => exception.Should().BeNull());
+                .x(() => Assert.Null(exception));
 
             "And the results should not be empty"
-                .x(() => results.Should().NotBeEmpty());
+                .x(() => Assert.NotEmpty(results));
 
             "And each result should be a failure"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestFailed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestFailed>(result)));
         }
 
         [Scenario]
@@ -158,7 +160,7 @@ namespace Xbehave.Test
                 .x(() => failures = this.Run<ITestFailed>(feature));
 
             "Then there should be one test failure"
-                .x(() => failures.Length.Should().Be(1));
+                .x(() => Assert.Single(failures));
         }
 
         [Scenario]
@@ -174,29 +176,28 @@ namespace Xbehave.Test
                 .x(() => results = results.OrderBy(result => result.Test.DisplayName).ToArray());
 
             "Then the there should be three results"
-                .x(() => results.Length.Should().Be(3));
+                .x(() => Assert.Equal(3, results.Length));
 
             "Then the first result should be a failure"
-                .x(() => results[0].Should().BeAssignableTo<ITestFailed>());
+                .x(() => Assert.IsAssignableFrom<ITestFailed>(results[0]));
 
             "And the second and third results should be skips"
-                .x(() => results.Skip(1).Should().ContainItemsAssignableTo<ITestSkipped>());
+                .x(() => Assert.All(results.Skip(1), result => Assert.IsAssignableFrom<ITestSkipped>(result)));
 
             "And the second result should refer to the second step"
-                .x(() => results[1].Test.DisplayName.Should().ContainEquivalentOf("Step y"));
+                .x(() => Assert.Contains("Step y", results[1].Test.DisplayName));
 
             "And the third result should refer to the third step"
-                .x(() => results[2].Test.DisplayName.Should().ContainEquivalentOf("Step x"));
+                .x(() => Assert.Contains("Step x", results[2].Test.DisplayName));
 
             "And the second and third result messages should indicate that the first step failed"
-                .x(() =>
-                {
-                    foreach (var result in results.Skip(1).Cast<ITestSkipped>())
+                .x(() => Assert.All(
+                    results.Skip(1).Cast<ITestSkipped>(),
+                    result =>
                     {
-                        result.Reason.Should().ContainEquivalentOf("Failed to execute preceding step");
-                        result.Reason.Should().ContainEquivalentOf("Step z");
-                    }
-                });
+                        Assert.Contains("Failed to execute preceding step", result.Reason);
+                        Assert.Contains("Step z", result.Reason);
+                    }));
         }
 
         [Scenario]
@@ -209,10 +210,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
-                .x(() => results.Length.Should().Be(1));
+                .x(() => Assert.Single(results));
 
             "And the result should be a pass"
-                .x(() => results.Single().Should().BeAssignableTo<ITestPassed>());
+                .x(() => Assert.IsAssignableFrom<ITestPassed>(results.Single()));
         }
 
         [Scenario]
@@ -240,10 +241,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
-                .x(() => results.Length.Should().Be(1));
+                .x(() => Assert.Single(results));
 
             "And the result should be a fail"
-                .x(() => results.Single().Should().BeAssignableTo<ITestFailed>());
+                .x(() => Assert.IsAssignableFrom<ITestFailed>(results.Single()));
         }
 
         private class FeatureWithAScenarioWithThreeSteps
@@ -313,7 +314,7 @@ namespace Xbehave.Test
                     .x(() => i += 1);
 
                 "Then I have 3"
-                    .x(() => i.Should().Be(3));
+                    .x(() => Assert.Equal(3, i));
             }
         }
 

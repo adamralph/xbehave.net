@@ -4,8 +4,8 @@ namespace Xbehave.Test
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     // In order to release allocated resources
@@ -31,11 +31,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "And there should be no failures"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the disposables should each have been disposed in reverse order"
-                .x(() => typeof(ObjectDisposalFeature).GetTestEvents()
-                    .Should().Equal("disposed3", "disposed2", "disposed1"));
+                .x(() => Assert.Equal(new[] { "disposed3", "disposed2", "disposed1" }, typeof(ObjectDisposalFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -48,17 +47,16 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the there should be at least two results"
-                .x(() => results.Length.Should().BeGreaterOrEqualTo(2));
+                .x(() => Assert.InRange(results.Length, 2, int.MaxValue));
 
             "And the first n-1 results should be passes"
-                .x(() => results.Reverse().Skip(1).Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results.Reverse().Skip(1), result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the last result should be a failure"
-                .x(() => results.Reverse().First().Should().BeAssignableTo<ITestFailed>());
+                .x(() => Assert.IsAssignableFrom<ITestFailed>(results.Last()));
 
             "And the disposables should be disposed in reverse order"
-                .x(() => typeof(ObjectDisposalFeature).GetTestEvents()
-                    .Should().Equal("disposed3", "disposed2", "disposed1"));
+                .x(() => Assert.Equal(new[] { "disposed3", "disposed2", "disposed1" }, typeof(ObjectDisposalFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -73,11 +71,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one failure"
-                .x(() => results.OfType<ITestFailed>().Count().Should().Be(1));
+                .x(() => Assert.Single(results.OfType<ITestFailed>()));
 
             "And the disposables should be disposed in reverse order"
-                .x(() => typeof(ObjectDisposalFeature).GetTestEvents()
-                    .Should().Equal("disposed3", "disposed2", "disposed1"));
+                .x(() => Assert.Equal(new[] { "disposed3", "disposed2", "disposed1" }, typeof(ObjectDisposalFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -90,11 +87,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "And there should be no failures"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the disposables and teardowns should be disposed/executed in reverse order"
-                .x(() => typeof(ObjectDisposalFeature).GetTestEvents()
-                    .Should().Equal("teardown4", "disposed3", "teardown2", "disposed1"));
+                .x(() => Assert.Equal(new[] { "teardown4", "disposed3", "teardown2", "disposed1" }, typeof(ObjectDisposalFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -195,7 +191,7 @@ namespace Xbehave.Test
                     });
 
                 "Then something happens"
-                    .x(() => 1.Should().Be(0));
+                    .x(() => Assert.Equal(0, 1));
             }
         }
 

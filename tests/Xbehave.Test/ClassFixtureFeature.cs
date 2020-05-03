@@ -1,7 +1,6 @@
 namespace Xbehave.Test
 {
     using System;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
     using Xunit;
     using Xunit.Abstractions;
@@ -25,8 +24,8 @@ namespace Xbehave.Test
             "Then the class fixture is supplied as a constructor to each test class instance and disposed"
                 .x(() =>
                 {
-                    results.Should().ContainItemsAssignableTo<ITestPassed>();
-                    typeof(ClassFixtureFeature).GetTestEvents().Should().Equal("disposed");
+                    Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result));
+                    Assert.All(typeof(ClassFixtureFeature).GetTestEvents(), @event => Assert.Equal("disposed", @event));
                 });
         }
 
@@ -36,7 +35,7 @@ namespace Xbehave.Test
 
             public ScenarioWithAClassFixture(Fixture fixture)
             {
-                fixture.Should().NotBeNull();
+                Assert.NotNull(fixture);
                 this.fixture = fixture;
             }
 
@@ -59,8 +58,8 @@ namespace Xbehave.Test
 
             public void Dispose()
             {
-                this.Scenario1Executed.Should().BeTrue();
-                this.Scenario2Executed.Should().BeTrue();
+                Assert.True(this.Scenario1Executed);
+                Assert.True(this.Scenario2Executed);
                 typeof(ClassFixtureFeature).SaveTestEvent("disposed");
             }
         }

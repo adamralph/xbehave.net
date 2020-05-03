@@ -1,9 +1,8 @@
 namespace Xbehave.Test
 {
     using System;
-    using System.Linq;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     // In order to commit largely incomplete features
@@ -21,11 +20,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there should be one result"
-                .x(() => results.Count().Should().Be(1));
+                .x(() => Assert.Single(results));
 
             "And the result should be a skip result"
-                .x(() => results[0].Should().BeAssignableTo<ITestSkipped>(
-                    results.ToDisplayString("the result should be a skip")));
+                .x(() => Assert.IsAssignableFrom<ITestSkipped>(results[0]));
         }
 
         private static class FeatureWithASkippedScenario

@@ -2,8 +2,9 @@ namespace Xbehave.Test
 {
     using System;
     using System.Globalization;
-    using FluentAssertions;
+    using System.Linq;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     public class BeforeAfterScenarioFeature : Feature
@@ -23,8 +24,9 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the attributes before and after methods are called before and after the scenario"
-                .x(() => typeof(BeforeAfterScenarioFeature).GetTestEvents().Should().Equal(
-                    "before1", "step1", "step2", "step3", "after1"));
+                .x(() => Assert.Equal(
+                    new[] { "before1", "step1", "step2", "step3", "after1" },
+                    typeof(BeforeAfterScenarioFeature).GetTestEvents()));
         }
 
         [Scenario]
@@ -37,7 +39,7 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there is a single test failure"
-                .x(() => results.Should().ContainSingle(result => result is ITestFailed));
+                .x(() => Assert.Single(results.OfType<ITestFailed>()));
         }
 
         [Scenario]
@@ -50,7 +52,7 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there is a single test failure"
-                .x(() => results.Should().ContainSingle(result => result is ITestFailed));
+                .x(() => Assert.Single(results.OfType<ITestFailed>()));
         }
 
         private static class ScenarioWithBeforeAfterScenarioAttribute
