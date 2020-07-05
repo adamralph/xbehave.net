@@ -29,7 +29,7 @@ internal class Program
         Target(
             "test-net",
             DependsOn("build"),
-            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework net472 --nologo"));
+            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework net48 --nologo"));
 
         Target("test", DependsOn("test-core", "test-net"));
 
