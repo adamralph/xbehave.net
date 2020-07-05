@@ -1,8 +1,8 @@
 namespace Xbehave.Test
 {
     using System;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     // In order to have terse code
@@ -20,23 +20,21 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then each result should be a pass"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>(
-                    results.ToDisplayString("each result should be a pass")));
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And there should be 4 results"
-                .x(() => results.Length.Should().Be(4));
+                .x(() => Assert.Equal(4, results.Length));
 
             "And the display name of each result should not contain the parameter values"
-                .x(() =>
-                {
-                    foreach (var result in results)
+                .x(() => Assert.All(
+                    results,
+                    result =>
                     {
-                        result.Test.DisplayName.Should().NotContain("w:");
-                        result.Test.DisplayName.Should().NotContain("x:");
-                        result.Test.DisplayName.Should().NotContain("y:");
-                        result.Test.DisplayName.Should().NotContain("z:");
-                    }
-                });
+                        Assert.DoesNotContain("w:", result.Test.DisplayName);
+                        Assert.DoesNotContain("x:", result.Test.DisplayName);
+                        Assert.DoesNotContain("y:", result.Test.DisplayName);
+                        Assert.DoesNotContain("z:", result.Test.DisplayName);
+                    }));
         }
 
         private static class ScenarioWithFourParametersAndAStepAssertingEachIsADefaultValue
@@ -45,16 +43,16 @@ namespace Xbehave.Test
             public static void Scenario(string w, int x, object y, int? z)
             {
                 "Then w should be the default value of string"
-                    .x(() => w.Should().Be(default));
+                    .x(() => Assert.Equal(default, w));
 
                 "And x should be the default value of int"
-                    .x(() => x.Should().Be(default));
+                    .x(() => Assert.Equal(default, x));
 
                 "And y should be the default value of object"
-                    .x(() => y.Should().Be(default));
+                    .x(() => Assert.Equal(default, y));
 
                 "And z should be the default value of int?"
-                    .x(() => z.Should().Be(default(int?)));
+                    .x(() => Assert.Equal(default, z));
             }
         }
     }

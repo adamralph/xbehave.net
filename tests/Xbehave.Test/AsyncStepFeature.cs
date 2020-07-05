@@ -3,9 +3,9 @@ namespace Xbehave.Test
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using FluentAssertions;
     using Xbehave;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     public class AsyncStepFeature : Feature
@@ -20,10 +20,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the step fails"
-                .x(() => results.Single().Should().BeAssignableTo<ITestFailed>());
+                .x(() => Assert.IsAssignableFrom<ITestFailed>(results.Single()));
 
             "And the exception is the exception thrown after the yield"
-                .x(() => results.Cast<ITestFailed>().Single().Messages.Single().Should().Be("I yielded before this."));
+                .x(() => Assert.Equal("I yielded before this.", results.Cast<ITestFailed>().Single().Messages.Single()));
         }
 
         [Scenario]
@@ -36,10 +36,10 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the step fails"
-                .x(() => results.Single().Should().BeAssignableTo<ITestFailed>());
+                .x(() => Assert.IsAssignableFrom<ITestFailed>(results.Single()));
 
             "And the exception is the exception thrown after the yield"
-                .x(() => results.Cast<ITestFailed>().Single().Messages.Single().Should().Be("I yielded before this."));
+                .x(() => Assert.Equal("I yielded before this.", results.Cast<ITestFailed>().Single().Messages.Single()));
         }
 
         private static class AsyncStepWhichThrowsAfterYielding

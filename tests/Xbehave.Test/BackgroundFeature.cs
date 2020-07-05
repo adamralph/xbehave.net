@@ -2,8 +2,8 @@ namespace Xbehave.Test
 {
     using System;
     using System.Linq;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     // In order to write less code
@@ -23,19 +23,15 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the background steps are run before each scenario"
-                .x(() => results.Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And there are eight results"
-                .x(() => results.Length.Should().Be(8));
+                .x(() => Assert.Equal(8, results.Length));
 
             "And the background steps have '(Background)' in their names"
-                .x(() =>
-                {
-                    foreach (var result in results.Take(2).Concat(results.Skip(4).Take(2)))
-                    {
-                        result.Test.DisplayName.Should().Contain("(Background)");
-                    }
-                });
+                .x(() => Assert.All(
+                    results.Take(2).Concat(results.Skip(4).Take(2)),
+                    result => Assert.Contains("Background", result.Test.DisplayName)));
         }
 
         private static class BackgroundWithTwoStepsAndTwoScenariosEachWithTwoSteps
@@ -56,7 +52,7 @@ namespace Xbehave.Test
             public static void Scenario1()
             {
                 "Given x is 2"
-                    .x(() => x.Should().Be(2));
+                    .x(() => Assert.Equal(2, x));
 
                 "Then I set x to 0"
                     .x(() => x = 0);
@@ -66,7 +62,7 @@ namespace Xbehave.Test
             public static void Scenario2()
             {
                 "Given x is 2"
-                    .x(() => x.Should().Be(2));
+                    .x(() => Assert.Equal(2, x));
 
                 "Then I set x to 0"
                     .x(() => x = 0);
@@ -94,7 +90,7 @@ namespace Xbehave.Test
             public void Scenario1()
             {
                 "Given x is 2"
-                    .x(() => this.X.Should().Be(2));
+                    .x(() => Assert.Equal(2, this.X));
 
                 "Then I set x to 0"
                     .x(() => this.X = 0);
@@ -104,7 +100,7 @@ namespace Xbehave.Test
             public void Scenario2()
             {
                 "Given x is 2"
-                    .x(() => this.X.Should().Be(2));
+                    .x(() => Assert.Equal(2, this.X));
 
                 "Then I set x to 0"
                     .x(() => this.X = 0);

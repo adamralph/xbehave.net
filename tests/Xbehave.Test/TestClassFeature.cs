@@ -3,8 +3,8 @@ namespace Xbehave.Test
     using System;
     using System.Globalization;
     using System.Threading;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
 
     public class TestClassFeature : Feature
     {
@@ -23,8 +23,9 @@ namespace Xbehave.Test
                 .x(() => this.Run(feature));
 
             "Then an instance of the type is created and disposed once either side of the step execution"
-                .x(() => typeof(TestClassFeature).GetTestEvents()
-                    .Should().Equal("created1", "step1", "step2", "step3", "disposed1.1"));
+                .x(() => Assert.Equal(
+                    new[] { "created1", "step1", "step2", "step3", "disposed1.1" },
+                    typeof(TestClassFeature).GetTestEvents()));
         }
 
         private class InstanceScenarioWithThreeStepsInADisposableType : IDisposable

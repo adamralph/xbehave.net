@@ -2,8 +2,8 @@ namespace Xbehave.Test
 {
     using System;
     using System.Linq;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     // In order to commit nearly completed features
@@ -21,17 +21,16 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the results should not be empty"
-                .x(() => results.Should().NotBeEmpty());
+                .x(() => Assert.NotEmpty(results));
 
             "And there should be no failures"
-                .x(() => results.Should().NotContain(result => result is ITestFailed));
+                .x(() => Assert.Empty(results.OfType<ITestFailed>()));
 
             "And some steps should have been skipped"
-                .x(() => results.Any(result => result is ITestSkipped).Should().BeTrue());
+                .x(() => Assert.NotEmpty(results.OfType<ITestSkipped>()));
 
             "And each skipped step should be skipped because \"the feature is unfinished\""
-                .x(() => results.OfType<ITestSkipped>().Should().OnlyContain(result =>
-                    result.Reason == "the feature is unfinished"));
+                .x(() => Assert.All(results.OfType<ITestSkipped>(), result => Assert.Equal("the feature is unfinished", result.Reason)));
         }
 
         private static class AScenarioWithSkippedStepsBecauseTheFeatureIsUnfinished

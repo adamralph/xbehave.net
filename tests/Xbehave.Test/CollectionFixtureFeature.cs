@@ -2,7 +2,6 @@ namespace Xbehave.Test
 {
     using System;
     using System.Reflection;
-    using FluentAssertions;
     using Xbehave.Test.Infrastructure;
     using Xunit;
     using Xunit.Abstractions;
@@ -27,8 +26,8 @@ namespace Xbehave.Test
             "Then the collection fixture is supplied as a constructor to each test class instance and disposed"
                 .x(() =>
                 {
-                    results.Should().ContainItemsAssignableTo<ITestPassed>();
-                    typeof(CollectionFixtureFeature).GetTestEvents().Should().Equal("disposed");
+                    Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result));
+                    Assert.All(typeof(ClassFixtureFeature).GetTestEvents(), @event => Assert.Equal("disposed", @event));
                 });
         }
 
@@ -44,7 +43,7 @@ namespace Xbehave.Test
 
             public ScenarioWithACollectionFixture1(Fixture fixture)
             {
-                fixture.Should().NotBeNull();
+                Assert.NotNull(fixture);
                 this.fixture = fixture;
             }
 
@@ -61,7 +60,7 @@ namespace Xbehave.Test
 
             public ScenarioWithACollectionFixture2(Fixture fixture)
             {
-                fixture.Should().NotBeNull();
+                Assert.NotNull(fixture);
                 this.fixture = fixture;
             }
 
@@ -82,8 +81,8 @@ namespace Xbehave.Test
 
             public void Dispose()
             {
-                this.feature1Executed.Should().BeTrue();
-                this.feature2Executed.Should().BeTrue();
+                Assert.True(this.feature1Executed);
+                Assert.True(this.feature2Executed);
                 typeof(CollectionFixtureFeature).SaveTestEvent("disposed");
             }
         }

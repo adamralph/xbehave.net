@@ -3,9 +3,9 @@ namespace Xbehave.Test
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using FluentAssertions;
     using Xbehave.Sdk;
     using Xbehave.Test.Infrastructure;
+    using Xunit;
     using Xunit.Abstractions;
 
     public class StepDefinitionFilterFeature : Feature
@@ -19,8 +19,11 @@ namespace Xbehave.Test
             "When I run the scenario"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then the steps are skipped"
-                .x(() => results.Should().NotBeEmpty().And.ContainItemsAssignableTo<ITestSkipped>());
+            "Then the steps are recognised"
+                .x(() => Assert.NotEmpty(results));
+
+            "And the steps are skipped"
+                .x(() => Assert.All(results, result => Assert.IsAssignableFrom<ITestSkipped>(result)));
         }
 
         [Scenario]
@@ -33,16 +36,16 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then there are four results"
-                .x(() => results.Length.Should().Be(4));
+                .x(() => Assert.Equal(4, results.Length));
 
             "Then the first two steps pass"
-                .x(() => results.Take(2).Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results.Take(2), result => Assert.IsAssignableFrom<ITestPassed>(result)));
 
             "And the third step fails"
-                .x(() => results.Skip(2).Take(1).Should().ContainItemsAssignableTo<ITestFailed>());
+                .x(() => Assert.All(results.Skip(2).Take(1), result => Assert.IsAssignableFrom<ITestFailed>(result)));
 
             "And the fourth step passes"
-                .x(() => results.Skip(3).Take(1).Should().ContainItemsAssignableTo<ITestPassed>());
+                .x(() => Assert.All(results.Skip(3).Take(1), result => Assert.IsAssignableFrom<ITestPassed>(result)));
         }
 
         [Scenario]
@@ -55,7 +58,7 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
             "Then the first result has a background suffix"
-                .x(() => results[0].Test.DisplayName.Should().EndWith("(Background)"));
+                .x(() => Assert.EndsWith("(Background)", results[0].Test.DisplayName));
         }
 
         private sealed class SkipAllAttribute : Attribute, IFilter<IStepDefinition>
