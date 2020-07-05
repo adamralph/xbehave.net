@@ -13,8 +13,8 @@ namespace Xbehave.Test
 #if NETCOREAPP3_1
                 "../../../api-netcoreapp3_1.txt",
 #endif
-#if NET472
-                "../../../api-net472.txt",
+#if NET48
+                "../../../api-net48.txt",
 #endif
                 typeof(ScenarioAttribute).Assembly.GeneratePublicApi());
     }
