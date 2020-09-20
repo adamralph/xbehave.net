@@ -8,7 +8,7 @@ Installing this package installs Xbehave.Core and xunit.</description>
     <icon>xbehave_256x256.png</icon>
     <id>Xbehave</id>
     <license type="expression">MIT</license>
-    <projectUrl>http://xbehave.github.io/</projectUrl>
+    <projectUrl>https://github.com/xbehave/xbehave.net</projectUrl>
     <releaseNotes>https://github.com/xbehave/xbehave.net/blob/master/CHANGELOG.md</releaseNotes>
     <repository type="$RepositoryType$" url="$RepositoryUrl$" commit="$RepositoryCommit$" />
     <version>$Version$</version>
