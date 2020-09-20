@@ -13,7 +13,7 @@
     <PackageReference Include="LiteGuard.Source" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0" PrivateAssets="All" />
-    <PackageReference Include="xunit.extensibility.core" Version="2.4.0" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
   </ItemGroup>
 
   <Target Name="InitializeNuspecProperties" AfterTargets="MinVer">
