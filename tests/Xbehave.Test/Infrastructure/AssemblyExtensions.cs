@@ -12,7 +12,7 @@ namespace Xbehave.Test.Infrastructure
             {
                 var message = $"Code base {assembly.CodeBase} in wrong format; must start with 'file:///' (case-insensitive).";
 
-                throw new ArgumentException(message, "assembly");
+                throw new ArgumentException(message, nameof(assembly));
             }
 
             var codeBase = assembly.CodeBase.Substring(8);
