@@ -14,10 +14,10 @@ internal class Program
             "pack",
             DependsOn("build"),
             ForEach("Xbehave.Core.nuspec", "Xbehave.nuspec"),
-            async nuspec =>
-            {
-                await RunAsync("dotnet", $"pack src/Xbehave.Core --configuration Release --no-build --nologo", configureEnvironment: env => env.Add("NUSPEC_FILE", nuspec));
-            });
+            async nuspec => await RunAsync(
+                "dotnet",
+                $"pack src/Xbehave.Core --configuration Release --no-build --nologo",
+                configureEnvironment: env => env.Add("NUSPEC_FILE", nuspec)));
 
         Target(
             "test-core",
