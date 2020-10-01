@@ -6,7 +6,7 @@ namespace Xbehave.Sdk
     /// <summary>
     /// A scenario step context.
     /// </summary>
-    /// <remarks>This is the type provided as an argument to overloads of <code>string.x()</code> and <code>string.Teardown()</code>.</remarks>
+    /// <remarks>This is the type provided as an argument to overloads of <c>string.x()</c> and <c>string.Teardown()</c>.</remarks>
     public interface IStepContext
     {
         /// <summary>
