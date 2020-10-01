@@ -22,7 +22,7 @@ namespace Xbehave.Test
                 .x(() => results = this.Run<ITestResultMessage>(feature, "foo", traitValue));
 
             "Then there is only {1} result"
-                .x(() => Assert.Equal(expectedResultCount, results.Count()));
+                .x(() => Assert.Equal(expectedResultCount, results.Length));
         }
 
         private class TwoSingleStepScenariosWithFooTraitsOfBarAndBazRespectively

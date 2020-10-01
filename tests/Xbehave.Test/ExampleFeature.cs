@@ -258,7 +258,7 @@ an null value for an argument defined using the fifth type parameter"
         public sealed class BadExampleAttribute : MemberDataAttributeBase
         {
             public BadExampleAttribute()
-                : base("Dummy", new object[0])
+                : base("Dummy", Array.Empty<object>())
             {
             }
 
