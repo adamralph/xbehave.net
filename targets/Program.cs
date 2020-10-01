@@ -8,8 +8,6 @@ internal class Program
 {
     public static Task Main(string[] args)
     {
-        Target("default", DependsOn("pack", "test"));
-
         Target("build", () => RunAsync("dotnet", $"build --configuration Release --nologo --verbosity quiet"));
 
         Target(
@@ -32,6 +30,8 @@ internal class Program
             () => RunAsync("dotnet", $"test --configuration Release --no-build --framework net48 --nologo"));
 
         Target("test", DependsOn("test-core", "test-net"));
+
+        Target("default", DependsOn("pack", "test"));
 
         return RunTargetsAndExitAsync(args, ex => ex is NonZeroExitCodeException);
     }
