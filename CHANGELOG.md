@@ -105,7 +105,7 @@
 
 ### Enhancements
 
-- [#37: Optional ommission of arguments from scenario names in test output](https://github.com/adamralph/xbehave.net/issues/37)
+- [#37: Optional omission of arguments from scenario names in test output](https://github.com/adamralph/xbehave.net/issues/37)
 - [#57: Add optional continuation on failure after the execution of specific step types](https://github.com/adamralph/xbehave.net/issues/57)
 - [#63: Add f() extension method](https://github.com/adamralph/xbehave.net/issues/63)
 - [#67: Rename X() to f()](https://github.com/adamralph/xbehave.net/issues/67)
@@ -129,4 +129,3 @@
 ### Fixed bugs
 
 - [#7: Scenario methods with malformed parameters and examples fail silently](https://github.com/adamralph/xbehave.net/issues/7)
-
