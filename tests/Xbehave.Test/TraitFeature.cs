@@ -1,7 +1,6 @@
 namespace Xbehave.Test
 {
     using System;
-    using System.Linq;
     using Xbehave;
     using Xbehave.Test.Infrastructure;
     using Xunit;
