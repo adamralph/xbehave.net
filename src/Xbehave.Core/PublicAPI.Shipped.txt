@@ -1,0 +1,62 @@
+Xbehave.BackgroundAttribute
+Xbehave.BackgroundAttribute.BackgroundAttribute() -> void
+Xbehave.BeforeAfterScenarioAttribute
+Xbehave.BeforeAfterScenarioAttribute.BeforeAfterScenarioAttribute() -> void
+Xbehave.DisposableExtensions
+Xbehave.ExampleAttribute
+Xbehave.ExampleAttribute.ExampleAttribute(params object[] data) -> void
+Xbehave.IStepBuilderExtensions
+Xbehave.IStepDefinitionExtensions
+Xbehave.RemainingSteps
+Xbehave.RemainingSteps.Run = 1 -> Xbehave.RemainingSteps
+Xbehave.RemainingSteps.Skip = 0 -> Xbehave.RemainingSteps
+Xbehave.ScenarioAttribute
+Xbehave.ScenarioAttribute.ScenarioAttribute() -> void
+Xbehave.Sdk.CurrentThread
+Xbehave.Sdk.GetStepDisplayText
+Xbehave.Sdk.IFilter<T>
+Xbehave.Sdk.IFilter<T>.Filter(System.Collections.Generic.IEnumerable<T> source) -> System.Collections.Generic.IEnumerable<T>
+Xbehave.Sdk.IScenario
+Xbehave.Sdk.IScenario.DisplayName.get -> string
+Xbehave.Sdk.IScenario.ScenarioOutline.get -> Xunit.Sdk.IXunitTestCase
+Xbehave.Sdk.IStep
+Xbehave.Sdk.IStep.Scenario.get -> Xbehave.Sdk.IScenario
+Xbehave.Sdk.IStepBuilder
+Xbehave.Sdk.IStepBuilder.OnFailure(Xbehave.RemainingSteps behavior) -> Xbehave.Sdk.IStepBuilder
+Xbehave.Sdk.IStepBuilder.Skip(string reason) -> Xbehave.Sdk.IStepBuilder
+Xbehave.Sdk.IStepBuilder.Teardown(System.Func<Xbehave.Sdk.IStepContext, System.Threading.Tasks.Task> action) -> Xbehave.Sdk.IStepBuilder
+Xbehave.Sdk.IStepContext
+Xbehave.Sdk.IStepContext.Step.get -> Xbehave.Sdk.IStep
+Xbehave.Sdk.IStepContext.Using(System.IDisposable disposable) -> Xbehave.Sdk.IStepContext
+Xbehave.Sdk.IStepDefinition
+Xbehave.Sdk.IStepDefinition.Body.get -> System.Func<Xbehave.Sdk.IStepContext, System.Threading.Tasks.Task>
+Xbehave.Sdk.IStepDefinition.Body.set -> void
+Xbehave.Sdk.IStepDefinition.DisplayText(Xbehave.Sdk.GetStepDisplayText func) -> Xbehave.Sdk.IStepDefinition
+Xbehave.Sdk.IStepDefinition.DisplayTextFunc.get -> Xbehave.Sdk.GetStepDisplayText
+Xbehave.Sdk.IStepDefinition.DisplayTextFunc.set -> void
+Xbehave.Sdk.IStepDefinition.FailureBehavior.get -> Xbehave.RemainingSteps
+Xbehave.Sdk.IStepDefinition.FailureBehavior.set -> void
+Xbehave.Sdk.IStepDefinition.OnFailure(Xbehave.RemainingSteps behavior) -> Xbehave.Sdk.IStepDefinition
+Xbehave.Sdk.IStepDefinition.Skip(string reason) -> Xbehave.Sdk.IStepDefinition
+Xbehave.Sdk.IStepDefinition.SkipReason.get -> string
+Xbehave.Sdk.IStepDefinition.SkipReason.set -> void
+Xbehave.Sdk.IStepDefinition.Teardown(System.Func<Xbehave.Sdk.IStepContext, System.Threading.Tasks.Task> action) -> Xbehave.Sdk.IStepDefinition
+Xbehave.Sdk.IStepDefinition.Teardowns.get -> System.Collections.Generic.ICollection<System.Func<Xbehave.Sdk.IStepContext, System.Threading.Tasks.Task>>
+Xbehave.Sdk.IStepDefinition.Text.get -> string
+Xbehave.Sdk.IStepDefinition.Text.set -> void
+Xbehave.StringExtensions
+override Xbehave.ExampleAttribute.GetData(System.Reflection.MethodInfo testMethod) -> System.Collections.Generic.IEnumerable<object[]>
+static Xbehave.DisposableExtensions.Using<T>(this T disposable, Xbehave.Sdk.IStepContext stepContext) -> T
+static Xbehave.IStepBuilderExtensions.Teardown(this Xbehave.Sdk.IStepBuilder stepBuilder, System.Action action) -> Xbehave.Sdk.IStepBuilder
+static Xbehave.IStepBuilderExtensions.Teardown(this Xbehave.Sdk.IStepBuilder stepBuilder, System.Action<Xbehave.Sdk.IStepContext> action) -> Xbehave.Sdk.IStepBuilder
+static Xbehave.IStepBuilderExtensions.Teardown(this Xbehave.Sdk.IStepBuilder stepBuilder, System.Func<System.Threading.Tasks.Task> action) -> Xbehave.Sdk.IStepBuilder
+static Xbehave.IStepDefinitionExtensions.Teardown(this Xbehave.Sdk.IStepDefinition stepDefinition, System.Action action) -> Xbehave.Sdk.IStepDefinition
+static Xbehave.IStepDefinitionExtensions.Teardown(this Xbehave.Sdk.IStepDefinition stepDefinition, System.Action<Xbehave.Sdk.IStepContext> action) -> Xbehave.Sdk.IStepDefinition
+static Xbehave.IStepDefinitionExtensions.Teardown(this Xbehave.Sdk.IStepDefinition stepDefinition, System.Func<System.Threading.Tasks.Task> action) -> Xbehave.Sdk.IStepDefinition
+static Xbehave.Sdk.CurrentThread.Add(Xbehave.Sdk.IStepDefinition item) -> void
+static Xbehave.Sdk.CurrentThread.EnterStepDefinitionContext() -> System.IDisposable
+static Xbehave.Sdk.CurrentThread.StepDefinitions.get -> System.Collections.Generic.IEnumerable<Xbehave.Sdk.IStepDefinition>
+static Xbehave.StringExtensions.x(this string text, System.Action body) -> Xbehave.Sdk.IStepBuilder
+static Xbehave.StringExtensions.x(this string text, System.Action<Xbehave.Sdk.IStepContext> body) -> Xbehave.Sdk.IStepBuilder
+static Xbehave.StringExtensions.x(this string text, System.Func<System.Threading.Tasks.Task> body) -> Xbehave.Sdk.IStepBuilder
+static Xbehave.StringExtensions.x(this string text, System.Func<Xbehave.Sdk.IStepContext, System.Threading.Tasks.Task> body) -> Xbehave.Sdk.IStepBuilder
