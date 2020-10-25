@@ -11,7 +11,7 @@
 ### Enhancements
 
 - [#155: DateTime, DateTimeOffset, and Guid values in Examples](https://github.com/adamralph/xbehave.net/issues/155)
-- [#423: Link against xunit 2.4](https://github.com/adamralph/xbehave.net/issues/423)
+- [#423: Link against xUnit.net 2.4](https://github.com/adamralph/xbehave.net/issues/423)
 - [#428: upgrade from SourceLink 2.5.0 to 2.8.0](https://github.com/adamralph/xbehave.net/pull/428)
 
 ### Other
@@ -39,7 +39,7 @@
 - [#300: Support .NET Standard 1.1 (including .NET Core 1.0 onwards)](https://github.com/adamralph/xbehave.net/issues/300)
 - [#371: Consistent package id's and titles](https://github.com/adamralph/xbehave.net/issues/371)
 - [#375: **[BREAKING]** Link against xUnit.net 2.3.x](https://github.com/adamralph/xbehave.net/issues/375)
-- [#388: Use improved argument formatter from xunit 2.3](https://github.com/adamralph/xbehave.net/issues/388)
+- [#388: Use improved argument formatter from xUnit.net 2.3](https://github.com/adamralph/xbehave.net/issues/388)
 - [#397: Support example skipping](https://github.com/adamralph/xbehave.net/issues/397)
 
 ### Other
@@ -56,7 +56,7 @@
 
 ### Fixed bugs
 
-- [#329: ITestOutputHelper does not work in xbehave steps](https://github.com/adamralph/xbehave.net/issues/329)
+- [#329: ITestOutputHelper does not work in xBehave.net steps](https://github.com/adamralph/xbehave.net/issues/329)
 
 ## 2.1.0
 
@@ -68,13 +68,13 @@
 
 ### Fixed bugs
 
-- [#271: Scenarios are not run when using xunit 2.1](https://github.com/adamralph/xbehave.net/issues/271)
+- [#271: Scenarios are not run when using xUnit.net 2.1](https://github.com/adamralph/xbehave.net/issues/271)
 
 ## 2.0.0
 
 ### Enhancements
 
-- [#51: **[BREAKING]** Switch to xunit 2.0](https://github.com/adamralph/xbehave.net/issues/51)
+- [#51: **[BREAKING]** Switch to xUnit.net 2.0](https://github.com/adamralph/xbehave.net/issues/51)
 - [#146: IStepContext metadata](https://github.com/adamralph/xbehave.net/issues/146)
 - [#238: 'x' method](https://github.com/adamralph/xbehave.net/issues/238)
 - [#245: Steps which follow a failed a step are skipped](https://github.com/adamralph/xbehave.net/issues/245)
