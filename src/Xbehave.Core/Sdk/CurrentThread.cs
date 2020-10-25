@@ -15,7 +15,7 @@ namespace Xbehave.Sdk
         /// <summary>
         /// Causes the currently executing thread to enter a step definition context
         /// which allows step definitions to be added using <see cref="Add(IStepDefinition)"/>
-        /// and retreived using <see cref="StepDefinitions"/>.
+        /// and retrieved using <see cref="StepDefinitions"/>.
         /// </summary>
         /// <returns>
         /// An object which, when disposed, causes the currently executing thread to leave the step definition context.
@@ -35,7 +35,7 @@ namespace Xbehave.Sdk
         /// The currently executing thread is not in a step definition context.
         /// </exception>
         /// <remarks>
-        /// Before this method is called, the thread must have entered a step definiton context
+        /// Before this method is called, the thread must have entered a step definition context
         /// with a call to <see cref="EnterStepDefinitionContext"/>.
         /// </remarks>
         public static void Add(IStepDefinition item)

@@ -1,0 +1,89 @@
+{
+  "version": "0.1",
+  "language": "en-GB",
+  "languageSettings": [
+    {
+      "languageId": "csharp",
+      "words": [
+        "bazz",
+        "nologo",
+        "Xbehave",
+        "Xunit",
+        "zyxwvutsrq"
+      ]
+    },
+    {
+      "languageId": "csproj",
+      "words": [
+        "netcoreapp",
+        "netstandard",
+        "ruleset",
+        "visualstudio",
+        "Xbehave",
+        "xunit"
+      ]
+    },
+    {
+      "languageId": "markdown",
+      "words": [
+        "analyzers",
+        "Xbehave",
+        "xunit"
+      ]
+    },
+    {
+      "languageId": "nuspec",
+      "words": [
+        "netstandard",
+        "Xbehave",
+        "xunit"
+      ]
+    },
+    {
+      "languageId": "props",
+      "words": [
+        "Xbehave"
+      ]
+    },
+    {
+      "languageId": "ruleset",
+      "words": [
+        "Xbehave",
+        "xunit"
+      ]
+    }
+  ],
+  "overrides": [
+    {
+      "filename": "{*.cmd,*.cs,*.csproj,*.ruleset}",
+      "language": "en-US"
+    },
+    {
+      "filename": "*.csproj",
+      "languageId": "csproj"
+    },
+    {
+      "filename": "{**/Upstream/*,.cspell.json,PublicAPI.*.txt,*.snk}",
+      "enabled": false
+    },
+    {
+      "filename": "*.nuspec",
+      "languageId": "nuspec"
+    },
+    {
+      "filename": "*.props",
+      "languageId": "props"
+    },
+    {
+      "filename": "*.ruleset",
+      "languageId": "ruleset"
+    }
+  ],
+  "words": [
+    "Pakaski",
+    "teardowns",
+    "timeout",
+    "untracked",
+    "Vanja"
+  ]
+}

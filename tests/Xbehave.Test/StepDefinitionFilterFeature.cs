@@ -19,7 +19,7 @@ namespace Xbehave.Test
             "When I run the scenario"
                 .x(() => results = this.Run<ITestResultMessage>(feature));
 
-            "Then the steps are recognised"
+            "Then the steps are recognized"
                 .x(() => Assert.NotEmpty(results));
 
             "And the steps are skipped"
