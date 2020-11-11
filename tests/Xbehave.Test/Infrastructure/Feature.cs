@@ -4,13 +4,14 @@ namespace Xbehave.Test.Infrastructure
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.ExceptionServices;
     using Xunit;
     using Xunit.Abstractions;
 
     public abstract class Feature : IDisposable
     {
-        private readonly IList<Xunit2> runners = new List<Xunit2>();
+        private static readonly TestAssemblyConfiguration config = new TestAssemblyConfiguration { AppDomain = AppDomainSupport.Denied, };
+
+        private readonly Dictionary<Assembly, Xunit2> runners = new Dictionary<Assembly, Xunit2>();
 
         ~Feature()
         {
@@ -23,66 +24,50 @@ namespace Xbehave.Test.Infrastructure
             GC.SuppressFinalize(this);
         }
 
-        public TMessage[] Run<TMessage>(Assembly assembly, string collectionName)
-            where TMessage : IMessageSinkMessage => this.Run(assembly, collectionName).OfType<TMessage>().ToArray();
-
         public TMessage[] Run<TMessage>(Type feature)
-            where TMessage : IMessageSinkMessage => this.Run(feature).OfType<TMessage>().ToArray();
-
-        public TMessage[] Run<TMessage>(Type feature, string traitName, string traitValue)
-            where TMessage : IMessageSinkMessage => this.Run(feature, traitName, traitValue).OfType<TMessage>().ToArray();
-
-        public IMessageSinkMessage[] Run(Assembly assembly, string collectionName)
-        {
-            var runner = this.CreateRunner(assembly.GetLocalCodeBase());
-            return runner.Run(runner.Find(collectionName)).ToArray();
-        }
+            where TMessage : IMessageSinkMessage =>
+            this.Run(feature).OfType<TMessage>().ToArray();
 
         public IMessageSinkMessage[] Run(Type feature)
         {
-            var runner = this.CreateRunner(feature.GetTypeInfo().Assembly.GetLocalCodeBase());
-            return runner.Run(runner.Find(feature)).ToArray();
+            var runner = this.InternRunner(feature.Assembly);
+            return runner.Run(runner.Find(feature, config), config).ToArray();
         }
 
-        public IMessageSinkMessage[] Run(Type feature, string traitName, string traitValue)
+        public TMessage[] Run<TMessage>(Assembly assembly, string collectionName)
+            where TMessage : IMessageSinkMessage
         {
-            var runner = this.CreateRunner(feature.GetTypeInfo().Assembly.GetLocalCodeBase());
-            var testCases = runner.Find(feature).Where(testCase =>
-            {
-                return testCase.Traits.TryGetValue(traitName, out var values) && values.Contains(traitValue);
-            }).ToList();
+            var runner = this.InternRunner(assembly);
+            return runner.Run(runner.Find(collectionName, config), config).OfType<TMessage>().ToArray();
+        }
 
-            return runner.Run(testCases).ToArray();
+        public TMessage[] Run<TMessage>(Type feature, string traitName, string traitValue)
+            where TMessage : IMessageSinkMessage
+        {
+            var runner = this.InternRunner(feature.Assembly);
+            return runner.Run(runner.Find(feature, traitName, traitValue, config), config).OfType<TMessage>().ToArray();
         }
 
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                Exception exception = null;
-                foreach (var runner in this.runners.Reverse())
+                foreach (var runner in this.runners.Values)
                 {
-                    try
-                    {
-                        runner.Dispose();
-                    }
-                    catch (Exception ex)
-                    {
-                        exception = ex;
-                    }
-                }
-
-                if (exception != null)
-                {
-                    ExceptionDispatchInfo.Capture(exception).Throw();
+                    runner.Dispose();
                 }
             }
         }
 
-        private Xunit2 CreateRunner(string assemblyFileName)
+        private Xunit2 InternRunner(Assembly assembly)
         {
-            this.runners.Add(new Xunit2(AppDomainSupport.IfAvailable, new NullSourceInformationProvider(), assemblyFileName));
-            return this.runners.Last();
+            if (!this.runners.TryGetValue(assembly, out var runner))
+            {
+                runner = new Xunit2(AppDomainSupport.Denied, new NullSourceInformationProvider(), assembly.GetFileName());
+                this.runners.Add(assembly, runner);
+            }
+
+            return runner;
         }
     }
 }

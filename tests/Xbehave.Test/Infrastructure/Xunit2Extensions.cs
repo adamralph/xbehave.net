@@ -7,18 +7,18 @@ namespace Xbehave.Test.Infrastructure
 
     public static class Xunit2Extensions
     {
-        public static IEnumerable<IMessageSinkMessage> Run(this Xunit2 runner, IEnumerable<ITestCase> testCases)
+        public static Queue<IMessageSinkMessage> Run(this Xunit2 runner, IEnumerable<ITestCase> testCases, TestAssemblyConfiguration testAssemblyConfiguration)
         {
             if (!testCases.Any())
             {
-                return Enumerable.Empty<IMessageSinkMessage>();
+                return new Queue<IMessageSinkMessage>();
             }
 
             using (var sink = new SpyMessageSink<ITestCollectionFinished>())
             {
-                runner.RunTests(testCases, sink, TestFrameworkOptions.ForExecution());
-                sink.Finished.WaitOne();
-                return sink.Messages.Select(_ => _);
+                runner.RunTests(testCases, sink, TestFrameworkOptions.ForExecution(testAssemblyConfiguration));
+                sink.Finished.Wait();
+                return sink.Messages;
             }
         }
     }
