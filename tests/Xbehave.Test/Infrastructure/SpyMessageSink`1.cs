@@ -8,19 +8,25 @@ namespace Xbehave.Test.Infrastructure
 
     public sealed class SpyMessageSink<TFinalMessage> : LongLivedMarshalByRefObject, IMessageSink, IDisposable
     {
-        public ManualResetEvent Finished { get; } = new ManualResetEvent(initialState: false);
+        public ManualResetEventSlim Finished { get; } = new ManualResetEventSlim(initialState: false);
 
-        public IList<IMessageSinkMessage> Messages { get; } = new List<IMessageSinkMessage>();
+        public Queue<IMessageSinkMessage> Messages { get; } = new Queue<IMessageSinkMessage>();
 
         public void Dispose() => this.Finished.Dispose();
 
         public bool OnMessage(IMessageSinkMessage message)
         {
-            this.Messages.Add(message);
+            if (this.Finished.IsSet)
+            {
+                return false;
+            }
+
+            this.Messages.Enqueue(message);
 
             if (message is TFinalMessage)
             {
                 this.Finished.Set();
+                return false;
             }
 
             return true;

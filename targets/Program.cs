@@ -19,17 +19,9 @@ internal class Program
                 configureEnvironment: env => env.Add("NUSPEC_FILE", nuspec)));
 
         Target(
-            "test-core",
+            "test",
             DependsOn("build"),
-            ForEach("netcoreapp2.1", "netcoreapp3.1", "net5.0"),
-            framework => RunAsync("dotnet", $"test --configuration Release --no-build --framework {framework} --nologo"));
-
-        Target(
-            "test-net",
-            DependsOn("build"),
-            () => RunAsync("dotnet", $"test --configuration Release --no-build --framework net48 --nologo"));
-
-        Target("test", DependsOn("test-core", "test-net"));
+            () => RunAsync("dotnet", $"test --configuration Release --no-build --nologo"));
 
         Target("default", DependsOn("pack", "test"));
 

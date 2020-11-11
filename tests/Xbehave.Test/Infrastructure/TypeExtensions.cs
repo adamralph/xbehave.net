@@ -5,41 +5,68 @@ namespace Xbehave.Test.Infrastructure
     using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Threading;
 
     internal static class TypeExtensions
     {
+        private static int eventIndex = 0;
+        private static readonly SemaphoreSlim fileSystem = new SemaphoreSlim(1, 1);
+
         public static void ClearTestEvents(this Type feature)
         {
-            foreach (var path in Directory.EnumerateFiles(feature.GetDirectoryName(), "*." + feature.Name))
+            fileSystem.Wait();
+            try
             {
-                File.Delete(path);
+                foreach (var path in Directory.EnumerateFiles(feature.GetDirectoryName(), "*." + feature.Name))
+                {
+                    File.Delete(path);
+                }
+            }
+            finally
+            {
+                fileSystem.Release();
             }
         }
 
-        public static IEnumerable<string> GetTestEvents(this Type feature) =>
-            Directory
-                .EnumerateFiles(feature.GetDirectoryName(), "*." + feature.Name)
-                .Select(fileName => new
-                {
-                    FileName = fileName,
-                    Ticks = long.Parse(File.ReadAllText(fileName), CultureInfo.InvariantCulture),
-                })
-                .OrderBy(@event => @event.Ticks)
-                .Select(@event => Path.GetFileNameWithoutExtension(@event.FileName));
+        public static IEnumerable<string> GetTestEvents(this Type feature)
+        {
+            fileSystem.Wait();
+            try
+            {
+                return Directory
+                    .EnumerateFiles(feature.GetDirectoryName(), "*." + feature.Name)
+                    .Select(fileName => new
+                    {
+                        FileName = fileName,
+                        Index = int.Parse(File.ReadAllText(fileName), CultureInfo.InvariantCulture),
+                    })
+                    .OrderBy(@event => @event.Index)
+                    .Select(@event => Path.GetFileNameWithoutExtension(@event.FileName)).ToArray();
+            }
+            finally
+            {
+                fileSystem.Release();
+            }
+        }
 
         public static void SaveTestEvent(this Type feature, string @event)
         {
-            Thread.Sleep(1);
-            using (var file = File.Create(Path.Combine(feature.GetDirectoryName(), string.Concat(@event, ".", feature.Name))))
-            using (var writer = new StreamWriter(file))
+            fileSystem.Wait();
+            try
             {
-                writer.Write(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
+                using (var file = File.Create(Path.Combine(feature.GetDirectoryName(), string.Concat(@event, ".", feature.Name))))
+                using (var writer = new StreamWriter(file))
+                {
+                    writer.Write(eventIndex++.ToString(CultureInfo.InvariantCulture));
+                }
+            }
+            finally
+            {
+                fileSystem.Release();
             }
         }
 
         private static string GetDirectoryName(this Type feature) =>
-            Path.GetDirectoryName(feature.GetTypeInfo().Assembly.GetLocalCodeBase());
+            Path.GetDirectoryName(feature.Assembly.GetFileName());
     }
 }
