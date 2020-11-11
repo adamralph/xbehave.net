@@ -13,7 +13,7 @@ namespace Xbehave.Test.Infrastructure
     {
         public static void ClearTestEvents(this Type feature)
         {
-            foreach (var path in Directory.EnumerateFiles(GetDirectoryName(feature), "*." + feature.Name))
+            foreach (var path in Directory.EnumerateFiles(feature.GetDirectoryName(), "*." + feature.Name))
             {
                 File.Delete(path);
             }
@@ -21,7 +21,7 @@ namespace Xbehave.Test.Infrastructure
 
         public static IEnumerable<string> GetTestEvents(this Type feature) =>
             Directory
-                .EnumerateFiles(GetDirectoryName(feature), "*." + feature.Name)
+                .EnumerateFiles(feature.GetDirectoryName(), "*." + feature.Name)
                 .Select(fileName => new
                 {
                     FileName = fileName,
@@ -33,7 +33,7 @@ namespace Xbehave.Test.Infrastructure
         public static void SaveTestEvent(this Type feature, string @event)
         {
             Thread.Sleep(1);
-            using (var file = File.Create(Path.Combine(GetDirectoryName(feature), string.Concat(@event, ".", feature.Name))))
+            using (var file = File.Create(Path.Combine(feature.GetDirectoryName(), string.Concat(@event, ".", feature.Name))))
             using (var writer = new StreamWriter(file))
             {
                 writer.Write(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
@@ -43,14 +43,14 @@ namespace Xbehave.Test.Infrastructure
         public static async Task SaveTestEventAsync(this Type feature, string @event)
         {
             await Task.Delay(1);
-            using (var file = File.Create(Path.Combine(GetDirectoryName(feature), string.Concat(@event, ".", feature.Name))))
+            using (var file = File.Create(Path.Combine(feature.GetDirectoryName(), string.Concat(@event, ".", feature.Name))))
             using (var writer = new StreamWriter(file))
             {
                 await writer.WriteAsync(DateTime.Now.Ticks.ToString(CultureInfo.InvariantCulture));
             }
         }
 
-        private static string GetDirectoryName(Type feature) =>
-            Path.GetDirectoryName(new Uri(feature.GetTypeInfo().Assembly.CodeBase).LocalPath);
+        private static string GetDirectoryName(this Type feature) =>
+            Path.GetDirectoryName(feature.GetTypeInfo().Assembly.GetLocalCodeBase());
     }
 }

@@ -6,6 +6,9 @@ namespace Xbehave.Test.Infrastructure
 
     internal static class AssemblyExtensions
     {
+#if NETCOREAPP
+        public static string GetLocalCodeBase(this Assembly assembly) => assembly.Location;
+#else
         public static string GetLocalCodeBase(this Assembly assembly)
         {
             if (!assembly.CodeBase.StartsWith("file:///", StringComparison.OrdinalIgnoreCase))
@@ -20,5 +23,6 @@ namespace Xbehave.Test.Infrastructure
                 ? "/" + codeBase
                 : codeBase.Replace('/', Path.DirectorySeparatorChar);
         }
+#endif
     }
 }
