@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Targets": {
-      "commandName": "Project",
-      "workingDirectory": "../"
-    }
-  }
-}
