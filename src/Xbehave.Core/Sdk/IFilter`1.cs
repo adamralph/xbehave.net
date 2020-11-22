@@ -1,4 +1,4 @@
-﻿namespace Xbehave.Sdk
+namespace Xbehave.Sdk
 {
     using System.Collections.Generic;
 

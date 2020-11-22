@@ -1,4 +1,4 @@
-﻿namespace Xbehave
+namespace Xbehave
 {
     using System.Diagnostics.CodeAnalysis;
 
