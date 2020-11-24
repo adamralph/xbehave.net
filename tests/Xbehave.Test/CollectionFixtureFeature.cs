@@ -2,6 +2,7 @@ namespace Xbehave.Test
 {
     using System;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Xbehave.Test.Infrastructure;
     using Xunit;
     using Xunit.Abstractions;
@@ -84,6 +85,75 @@ namespace Xbehave.Test
                 Assert.True(this.feature1Executed);
                 Assert.True(this.feature2Executed);
                 typeof(CollectionFixtureFeature).SaveTestEvent("disposed");
+            }
+        }
+
+        [CollectionDefinition(nameof(CollectionFixtureAsyncLifecycleForScenario))]
+        public class CollectionFixtureAsyncLifecycleForScenario : ICollectionFixture<AsyncFixtureForScenario>
+        {
+        }
+
+        [Collection(nameof(CollectionFixtureAsyncLifecycleForScenario))]
+        public class ScenarioWithUnusedAsyncCollectionFixture
+        {
+            [Scenario]
+            public void Scenario1() =>
+                "Given"
+                    .x(() =>
+                       {
+                           Assert.NotNull(AsyncFixtureForScenario.Instance);
+                           Assert.True(AsyncFixtureForScenario.Instance.InitializeAsyncExecuted);
+                       });
+        }
+
+        public sealed class AsyncFixtureForScenario : AsyncFixture<AsyncFixtureForScenario> { }
+
+        [CollectionDefinition(nameof(CollectionFixtureAsyncLifecycleForFact))]
+        public class CollectionFixtureAsyncLifecycleForFact : ICollectionFixture<AsyncFixtureForFact>
+        {
+        }
+
+        [Collection(nameof(CollectionFixtureAsyncLifecycleForFact))]
+        public class FactWithUnusedAsyncCollectionFixture
+        {
+            [Fact]
+            public void Fact1()
+            {
+                Assert.NotNull(AsyncFixtureForFact.Instance);
+                Assert.True(AsyncFixtureForFact.Instance.InitializeAsyncExecuted);
+            }
+        }
+
+        public sealed class AsyncFixtureForFact : AsyncFixture<AsyncFixtureForFact> {}
+
+        public class AsyncFixture<TFixture> : IAsyncLifetime, IDisposable
+        where TFixture : AsyncFixture<TFixture>
+        {
+            public static TFixture Instance;
+
+            public AsyncFixture() => Instance = (TFixture)this;
+
+            public bool InitializeAsyncExecuted { get; private set; }
+
+            public bool DisposeAsyncExecuted { get; private set; }
+
+            public Task InitializeAsync()
+            {
+                this.InitializeAsyncExecuted = true;
+                return Task.CompletedTask;
+            }
+
+            public Task DisposeAsync()
+            {
+                this.DisposeAsyncExecuted = true;
+                return Task.CompletedTask;
+            }
+
+            public virtual void Dispose()
+            {
+                Assert.True(this.InitializeAsyncExecuted);
+                Assert.True(this.DisposeAsyncExecuted);
+                Instance = null;
             }
         }
     }
