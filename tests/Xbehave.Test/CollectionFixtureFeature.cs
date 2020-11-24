@@ -28,7 +28,7 @@ namespace Xbehave.Test
                 .x(() =>
                 {
                     Assert.All(results, result => Assert.IsAssignableFrom<ITestPassed>(result));
-                    Assert.All(typeof(ClassFixtureFeature).GetTestEvents(), @event => Assert.Equal("disposed", @event));
+                    Assert.All(typeof(CollectionFixtureFeature).GetTestEvents(), @event => Assert.Equal("disposed", @event));
                 });
         }
 
