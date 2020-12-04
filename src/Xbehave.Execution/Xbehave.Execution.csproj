@@ -1,8 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <CodeAnalysisRuleSet>Xbehave.Execution.ruleset</CodeAnalysisRuleSet>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <TargetFrameworks>net452;netstandard1.1</TargetFrameworks>
   </PropertyGroup>
@@ -14,7 +16,6 @@
   <ItemGroup>
     <PackageReference Include="LiteGuard.Source" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1" PrivateAssets="All" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.4.0" />
   </ItemGroup>
 
