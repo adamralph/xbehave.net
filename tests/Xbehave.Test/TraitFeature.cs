@@ -1,5 +1,4 @@
 using System;
-using Xbehave;
 using Xbehave.Test.Infrastructure;
 using Xunit;
 using Xunit.Abstractions;

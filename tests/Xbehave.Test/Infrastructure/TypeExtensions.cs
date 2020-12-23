@@ -9,7 +9,7 @@ namespace Xbehave.Test.Infrastructure
 {
     internal static class TypeExtensions
     {
-        private static int eventIndex = 0;
+        private static int eventIndex;
         private static readonly SemaphoreSlim fileSystem = new SemaphoreSlim(1, 1);
 
         public static void ClearTestEvents(this Type feature)
