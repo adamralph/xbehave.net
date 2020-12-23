@@ -7,7 +7,7 @@ namespace Xbehave.Test.Infrastructure
 {
     public static class Xunit2Extensions
     {
-        public static Queue<IMessageSinkMessage> Run(this Xunit2 runner, IEnumerable<ITestCase> testCases, TestAssemblyConfiguration testAssemblyConfiguration)
+        public static Queue<IMessageSinkMessage> Run(this Xunit2 runner, Queue<ITestCase> testCases, TestAssemblyConfiguration testAssemblyConfiguration)
         {
             if (!testCases.Any())
             {

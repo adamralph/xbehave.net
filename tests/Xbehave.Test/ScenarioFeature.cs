@@ -343,7 +343,7 @@ namespace Xbehave.Test
         private class FeatureWithANonStaticScenarioButNoDefaultConstructor
         {
 #pragma warning disable IDE0060 // Remove unused parameter
-            public FeatureWithANonStaticScenarioButNoDefaultConstructor(int ignored)
+            public FeatureWithANonStaticScenarioButNoDefaultConstructor(int _)
 #pragma warning restore IDE0060 // Remove unused parameter
             {
             }

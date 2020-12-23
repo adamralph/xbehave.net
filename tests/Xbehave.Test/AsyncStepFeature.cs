@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Xbehave;
 using Xbehave.Test.Infrastructure;
 using Xunit;
 using Xunit.Abstractions;
