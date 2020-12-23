@@ -1,10 +1,10 @@
+using System;
+using System.Threading;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution.Extensions
 {
-    using System;
-    using System.Threading;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     internal static class MessageBusExtensions
     {
         public static void Queue(

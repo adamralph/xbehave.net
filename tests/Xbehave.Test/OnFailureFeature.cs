@@ -1,11 +1,11 @@
+using System;
+using System.Linq;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System;
-    using System.Linq;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     public class OnFailureFeature : Feature
     {
         [Scenario]

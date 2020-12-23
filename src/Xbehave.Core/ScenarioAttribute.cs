@@ -1,10 +1,10 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using Xunit;
+using Xunit.Sdk;
+
 namespace Xbehave
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using Xunit;
-    using Xunit.Sdk;
-
     /// <summary>
     /// Applied to a method to indicate the definition of a scenario.
     /// A scenario can also be fed examples from a data source, mapping to parameters on the scenario method.

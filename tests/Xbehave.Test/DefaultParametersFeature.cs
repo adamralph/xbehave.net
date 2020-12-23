@@ -1,10 +1,10 @@
+using System;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     // In order to have terse code
     // As a developer
     // I want to declare hold local state using scenario method parameters

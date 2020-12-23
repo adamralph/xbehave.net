@@ -1,12 +1,12 @@
+using System;
+using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.ComponentModel;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     public class ScenarioOutlineTestCase : XunitTestCase
     {
         public ScenarioOutlineTestCase(

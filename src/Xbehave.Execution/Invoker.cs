@@ -1,12 +1,12 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Security;
+using System.Threading;
+using System.Threading.Tasks;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Security;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xunit.Sdk;
-
     public static class Invoker
     {
         public static async Task Invoke(this Func<Task> action, ExceptionAggregator aggregator, ExecutionTimer timer)

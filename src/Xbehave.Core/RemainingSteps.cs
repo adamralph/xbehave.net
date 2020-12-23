@@ -1,7 +1,7 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Xbehave
 {
-    using System.Diagnostics.CodeAnalysis;
-
     /// <summary>
     /// Indicates the behavior of remaining steps when a step fails.
     /// </summary>

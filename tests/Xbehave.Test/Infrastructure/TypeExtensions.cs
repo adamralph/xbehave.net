@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading;
+
 namespace Xbehave.Test.Infrastructure
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Threading;
-
     internal static class TypeExtensions
     {
         private static int eventIndex = 0;

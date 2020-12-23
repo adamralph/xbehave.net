@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
+using Xbehave.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.Collections.Generic;
-    using Xbehave.Sdk;
-
     public class StepContext : IStepContext
     {
         private readonly List<IDisposable> disposables = new List<IDisposable>();

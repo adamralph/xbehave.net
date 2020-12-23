@@ -1,12 +1,12 @@
+using System;
+using System.Globalization;
+using System.Linq;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     public class BeforeAfterScenarioFeature : Feature
     {
         [Background]

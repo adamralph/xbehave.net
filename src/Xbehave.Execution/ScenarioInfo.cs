@@ -1,13 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     public class ScenarioInfo
     {
         private static readonly ITypeInfo objectType = Reflector.Wrap(typeof(object));

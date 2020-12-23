@@ -1,7 +1,7 @@
+using System.Collections.Generic;
+
 namespace Xbehave.Sdk
 {
-    using System.Collections.Generic;
-
     /// <summary>
     /// Filters a list of <typeparamref name="T"/>.
     /// </summary>

@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test.Infrastructure
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Xunit;
-    using Xunit.Abstractions;
-
     public static class Xunit2DiscovererExtensions
     {
         public static Queue<ITestCase> Find(this Xunit2Discoverer discoverer, Type type, TestAssemblyConfiguration testAssemblyConfiguration)

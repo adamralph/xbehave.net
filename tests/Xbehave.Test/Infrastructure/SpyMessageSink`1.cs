@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Test.Infrastructure
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     public sealed class SpyMessageSink<TFinalMessage> : LongLivedMarshalByRefObject, IMessageSink, IDisposable
     {
         public ManualResetEventSlim Finished { get; } = new ManualResetEventSlim(initialState: false);

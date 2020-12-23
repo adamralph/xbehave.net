@@ -1,8 +1,8 @@
+using Xbehave.Sdk;
+using Xunit;
+
 namespace Xbehave.Test
 {
-    using Xbehave.Sdk;
-    using Xunit;
-
     public class MetadataFeature
     {
         [Scenario]

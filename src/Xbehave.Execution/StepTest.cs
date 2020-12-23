@@ -1,10 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
+using Xbehave.Sdk;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Execution
 {
-    using System.Diagnostics.CodeAnalysis;
-    using Xbehave.Sdk;
-    using Xunit;
-    using Xunit.Abstractions;
-
     [SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", MessageId = "Step", Justification = "By design.")]
     public class StepTest : LongLivedMarshalByRefObject, IStep
     {

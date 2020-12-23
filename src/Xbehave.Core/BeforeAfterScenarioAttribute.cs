@@ -1,9 +1,9 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using Xunit.Sdk;
+
 namespace Xbehave
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using Xunit.Sdk;
-
     /// <summary>
     /// Base attribute which indicates a scenario method interception
     /// (allows code to be run before and after the scenario is run).

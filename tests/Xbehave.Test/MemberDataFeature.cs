@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System;
-    using System.Collections.Generic;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     public class MemberDataFeature : Feature
     {
         [Scenario]

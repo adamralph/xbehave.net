@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using Xbehave.Execution.Extensions;
+using Xbehave.Sdk;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xbehave.Execution.Extensions;
-    using Xbehave.Sdk;
-    using Xunit.Sdk;
-
     public class ScenarioRunner
     {
         private readonly IScenario scenario;

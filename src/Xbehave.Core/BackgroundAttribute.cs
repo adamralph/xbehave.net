@@ -1,8 +1,8 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+
 namespace Xbehave
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-
     /// <summary>
     /// Applied to a method to indicate a background for each scenario defined in the same feature class.
     /// </summary>

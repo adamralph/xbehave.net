@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test.Infrastructure
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using Xunit;
-    using Xunit.Abstractions;
-
     public static class Xunit2Extensions
     {
         public static Queue<IMessageSinkMessage> Run(this Xunit2 runner, IEnumerable<ITestCase> testCases, TestAssemblyConfiguration testAssemblyConfiguration)

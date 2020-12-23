@@ -1,11 +1,11 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Xbehave.Sdk;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xbehave.Sdk;
-    using Xunit.Sdk;
-
     public class StepInvoker
     {
         private readonly IStepContext stepContext;
