@@ -1,9 +1,9 @@
+using System;
+using System.Threading.Tasks;
+using Xbehave.Sdk;
+
 namespace Xbehave
 {
-    using System;
-    using System.Threading.Tasks;
-    using Xbehave.Sdk;
-
     /// <summary>
     /// Provides extension methods for building steps.
     /// </summary>

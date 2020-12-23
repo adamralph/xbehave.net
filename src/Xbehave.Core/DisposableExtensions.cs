@@ -1,8 +1,8 @@
+using System;
+using Xbehave.Sdk;
+
 namespace Xbehave
 {
-    using System;
-    using Xbehave.Sdk;
-
     /// <summary>
     /// <see cref="IDisposable"/> extensions.
     /// </summary>

@@ -1,7 +1,7 @@
+using System.Reflection;
+
 namespace Xbehave.Test.Infrastructure
 {
-    using System.Reflection;
-
     internal static class AssemblyExtensions
     {
 #if NETCOREAPP

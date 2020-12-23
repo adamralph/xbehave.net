@@ -1,11 +1,11 @@
+using System;
+using System.Linq;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System;
-    using System.Linq;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     // In order to commit nearly completed features
     // As a developer
     // I want to temporarily skip specific steps

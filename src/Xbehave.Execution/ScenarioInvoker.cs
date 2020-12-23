@@ -1,18 +1,18 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using Xbehave.Execution.Extensions;
+using Xbehave.Sdk;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Globalization;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xbehave.Execution.Extensions;
-    using Xbehave.Sdk;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     public class ScenarioInvoker
     {
         private readonly IScenario scenario;

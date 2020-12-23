@@ -1,8 +1,8 @@
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Sdk
 {
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     /// <summary>
     /// Represents a scenario.
     /// </summary>

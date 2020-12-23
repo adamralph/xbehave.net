@@ -1,11 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Xunit.Sdk;
+
 namespace Xbehave
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Reflection;
-    using Xunit.Sdk;
-
     /// <summary>
     /// Provides example values for a scenario passed as arguments to the scenario method.
     /// This attribute is designed as a synonym of <see cref="Xunit.InlineDataAttribute"/>,

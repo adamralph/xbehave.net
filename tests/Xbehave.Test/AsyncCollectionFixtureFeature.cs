@@ -1,11 +1,11 @@
+using System.Reflection;
+using System.Threading.Tasks;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System.Reflection;
-    using System.Threading.Tasks;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     public class AsyncCollectionFixtureFeature : Feature
     {
         [Background]

@@ -1,7 +1,7 @@
+using Xunit.Abstractions;
+
 namespace Xbehave.Sdk
 {
-    using Xunit.Abstractions;
-
     /// <summary>
     /// Represents a single step in a scenario.
     /// </summary>

@@ -1,13 +1,13 @@
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Threading.Tasks;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System;
-    using System.Globalization;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     // In order to release allocated resources
     // As a developer
     // I want to register objects for disposal after a scenario has run

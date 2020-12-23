@@ -1,13 +1,13 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using Xbehave.Sdk;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using Xbehave.Sdk;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     // In order to prevent bugs due to incorrect code
     // As a developer
     // I want to run automated acceptance tests describing each feature of my product using scenarios

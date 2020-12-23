@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using Xbehave.Sdk;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xbehave.Sdk;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     public class StepTestRunner : XunitTestRunner
     {
         private readonly IStepContext stepContext;

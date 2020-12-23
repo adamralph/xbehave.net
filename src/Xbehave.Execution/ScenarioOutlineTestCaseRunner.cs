@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Xbehave.Execution.Extensions;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Xbehave.Execution.Extensions;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     public class ScenarioOutlineTestCaseRunner : XunitTestCaseRunner
     {
         private static readonly object[] noArguments = new object[0];

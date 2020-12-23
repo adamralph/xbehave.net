@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test.Infrastructure
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using Xunit;
-    using Xunit.Abstractions;
-
     public abstract class Feature : IDisposable
     {
         private static readonly TestAssemblyConfiguration config = new TestAssemblyConfiguration { AppDomain = AppDomainSupport.Denied, };

@@ -1,11 +1,11 @@
+using System;
+using System.Globalization;
+using System.Threading;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+
 namespace Xbehave.Test
 {
-    using System;
-    using System.Globalization;
-    using System.Threading;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-
     public class TestClassFeature : Feature
     {
         [Background]

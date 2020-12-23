@@ -1,10 +1,10 @@
+using System;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+
 namespace Xbehave.Test
 {
-    using System;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-
     // In order to commit largely incomplete features
     // As a developer
     // I want to temporarily skip an entire scenario

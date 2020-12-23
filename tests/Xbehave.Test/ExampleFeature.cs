@@ -1,15 +1,15 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Reflection;
+using Xbehave.Test.Infrastructure;
+using Xunit;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Test
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Reflection;
-    using Xbehave.Test.Infrastructure;
-    using Xunit;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     // In order to save time
     // As a developer
     // I want to write a single scenario using many examples

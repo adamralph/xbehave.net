@@ -1,8 +1,8 @@
+using System;
+using System.Diagnostics.CodeAnalysis;
+
 namespace Xbehave.Sdk
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-
     /// <summary>
     /// A scenario step context.
     /// </summary>

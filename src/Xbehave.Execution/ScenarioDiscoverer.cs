@@ -1,10 +1,10 @@
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Xunit.Abstractions;
+using Xunit.Sdk;
+
 namespace Xbehave.Execution
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using Xunit.Abstractions;
-    using Xunit.Sdk;
-
     public class ScenarioDiscoverer : TheoryDiscoverer
     {
         public ScenarioDiscoverer(IMessageSink diagnosticMessageSink)
