@@ -7,6 +7,7 @@ _[![Xbehave.Core NuGet version](https://img.shields.io/nuget/v/Xbehave.Core.svg?
 
 _[![Build status](https://github.com/adamralph/xbehave.net/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/adamralph/xbehave.net/actions)_
 _[![CodeQL analysis](https://github.com/adamralph/xbehave.net/workflows/.github/workflows/codeql-analysis.yml/badge.svg)](https://github.com/adamralph/xbehave.net/actions?query=workflow%3A.github%2Fworkflows%2Fcodeql-analysis.yml)_
+_[![Lint](https://github.com/adamralph/xbehave.net/workflows/.github/workflows/lint.yml/badge.svg)](https://github.com/adamralph/xbehave.net/actions?query=workflow%3A.github%2Fworkflows%2Flint.yml)_
 _[![Spell check](https://github.com/adamralph/xbehave.net/workflows/.github/workflows/spell-check.yml/badge.svg)](https://github.com/adamralph/xbehave.net/actions?query=workflow%3A.github%2Fworkflows%2Fspell-check.yml)_
 
 * [Quick start](https://github.com/adamralph/xbehave.net/wiki/Quick-start)
