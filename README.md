@@ -2,8 +2,8 @@
 
 # xBehave.net
 
-_[![Xbehave NuGet version](https://img.shields.io/nuget/dt/Xbehave.svg?style=flat&label=nuget%3A%20Xbehave)](https://www.nuget.org/packages/Xbehave)_
-_[![Xbehave.Core NuGet version](https://img.shields.io/nuget/dt/Xbehave.Core.svg?style=flat&label=nuget%3A%20Xbehave.Core)](https://www.nuget.org/packages/Xbehave.Core)_
+_[![Xbehave NuGet version](https://img.shields.io/nuget/v/Xbehave.svg?style=flat&label=nuget%3A%20Xbehave)](https://www.nuget.org/packages/Xbehave)_
+_[![Xbehave.Core NuGet version](https://img.shields.io/nuget/v/Xbehave.Core.svg?style=flat&label=nuget%3A%20Xbehave.Core)](https://www.nuget.org/packages/Xbehave.Core)_
 
 _[![Build status](https://github.com/adamralph/xbehave.net/workflows/.github/workflows/ci.yml/badge.svg)](https://github.com/adamralph/xbehave.net/actions)_
 _[![CodeQL analysis](https://github.com/adamralph/xbehave.net/workflows/.github/workflows/codeql-analysis.yml/badge.svg)](https://github.com/adamralph/xbehave.net/actions?query=workflow%3A.github%2Fworkflows%2Fcodeql-analysis.yml)_
