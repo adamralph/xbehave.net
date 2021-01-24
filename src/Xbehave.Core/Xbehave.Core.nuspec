@@ -9,7 +9,7 @@ Installing this package installs xunit.core.</description>
     <id>Xbehave.Core</id>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/adamralph/xbehave.net</projectUrl>
-    <releaseNotes>https://github.com/adamralph/xbehave.net/blob/master/CHANGELOG.md</releaseNotes>
+    <releaseNotes>https://github.com/adamralph/xbehave.net/blob/main/CHANGELOG.md</releaseNotes>
     <repository type="$RepositoryType$" url="$RepositoryUrl$" commit="$RepositoryCommit$" />
     <title>Xbehave [Core Testing Framework]</title>
     <version>$Version$</version>
