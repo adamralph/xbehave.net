@@ -13,25 +13,23 @@ namespace Xbehave.Execution.Extensions
             Func<ITest, IMessageSinkMessage> createTestResultMessage,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument(nameof(messageBus), messageBus);
-            Guard.AgainstNullArgument(nameof(createTestResultMessage), createTestResultMessage);
-            Guard.AgainstNullArgument(nameof(cancellationTokenSource), cancellationTokenSource);
+            messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
 
             if (!messageBus.QueueMessage(new TestStarting(test)))
             {
-                cancellationTokenSource.Cancel();
+                cancellationTokenSource?.Cancel();
             }
             else
             {
-                if (!messageBus.QueueMessage(createTestResultMessage(test)))
+                if (!messageBus.QueueMessage(createTestResultMessage?.Invoke(test)))
                 {
-                    cancellationTokenSource.Cancel();
+                    cancellationTokenSource?.Cancel();
                 }
             }
 
             if (!messageBus.QueueMessage(new TestFinished(test, 0, null)))
             {
-                cancellationTokenSource.Cancel();
+                cancellationTokenSource?.Cancel();
             }
         }
     }

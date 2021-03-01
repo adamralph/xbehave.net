@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using Xbehave.Sdk;
 using Xunit;
@@ -10,9 +11,7 @@ namespace Xbehave.Execution
     {
         public StepTest(IScenario scenario, string displayName)
         {
-            Guard.AgainstNullArgument(nameof(scenario), scenario);
-
-            this.Scenario = scenario;
+            this.Scenario = scenario ?? throw new ArgumentNullException(nameof(scenario));
             this.DisplayName = displayName;
         }
 

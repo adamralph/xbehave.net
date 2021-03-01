@@ -39,23 +39,15 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument(nameof(scenario), scenario);
-            Guard.AgainstNullArgument(nameof(messageBus), messageBus);
-            Guard.AgainstNullArgument(nameof(scenarioClass), scenarioClass);
-            Guard.AgainstNullArgument(nameof(scenarioMethod), scenarioMethod);
-            Guard.AgainstNullArgument(nameof(beforeAfterScenarioAttributes), beforeAfterScenarioAttributes);
-            Guard.AgainstNullArgument(nameof(aggregator), aggregator);
-            Guard.AgainstNullArgument(nameof(cancellationTokenSource), cancellationTokenSource);
-
-            this.scenario = scenario;
-            this.messageBus = messageBus;
-            this.scenarioClass = scenarioClass;
+            this.scenario = scenario ?? throw new ArgumentNullException(nameof(scenario));
+            this.messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
+            this.scenarioClass = scenarioClass ?? throw new ArgumentNullException(nameof(scenarioClass));
             this.constructorArguments = constructorArguments;
-            this.scenarioMethod = scenarioMethod;
+            this.scenarioMethod = scenarioMethod ?? throw new ArgumentNullException(nameof(scenarioMethod));
             this.scenarioMethodArguments = scenarioMethodArguments;
-            this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
-            this.aggregator = aggregator;
-            this.cancellationTokenSource = cancellationTokenSource;
+            this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes ?? throw new ArgumentNullException(nameof(beforeAfterScenarioAttributes));
+            this.aggregator = aggregator ?? throw new ArgumentNullException(nameof(aggregator));
+            this.cancellationTokenSource = cancellationTokenSource ?? throw new ArgumentNullException(nameof(cancellationTokenSource));
         }
 
         public async Task<RunSummary> RunAsync()

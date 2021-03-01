@@ -34,19 +34,15 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument(nameof(scenario), scenario);
-            Guard.AgainstNullArgument(nameof(messageBus), messageBus);
-            Guard.AgainstNullArgument(nameof(aggregator), aggregator);
-
-            this.scenario = scenario;
-            this.messageBus = messageBus;
+            this.scenario = scenario ?? throw new ArgumentNullException(nameof(scenario));
+            this.messageBus = messageBus ?? throw new ArgumentNullException(nameof(messageBus));
             this.scenarioClass = scenarioClass;
             this.constructorArguments = constructorArguments;
             this.scenarioMethod = scenarioMethod;
             this.scenarioMethodArguments = scenarioMethodArguments;
             this.skipReason = skipReason;
             this.beforeAfterScenarioAttributes = beforeAfterScenarioAttributes;
-            this.parentAggregator = aggregator;
+            this.parentAggregator = aggregator ?? throw new ArgumentNullException(nameof(aggregator));
             this.cancellationTokenSource = cancellationTokenSource;
         }
 
