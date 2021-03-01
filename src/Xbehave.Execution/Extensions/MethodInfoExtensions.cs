@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +12,7 @@ namespace Xbehave.Execution.Extensions
         [SuppressMessage("Microsoft.Naming", "CA1720:IdentifiersShouldNotContainTypeNames", MessageId = "obj", Justification = "Propagating sync method parameter name.")]
         public static async Task InvokeAsync(this MethodInfo method, object obj, object[] arguments)
         {
-            Guard.AgainstNullArgument(nameof(method), method);
+            method = method ?? throw new ArgumentNullException(nameof(method));
 
             var parameterTypes = method.GetParameters().Select(parameter => parameter.ParameterType).ToArray();
             Reflector.ConvertArguments(arguments, parameterTypes);

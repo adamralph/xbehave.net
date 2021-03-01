@@ -20,7 +20,7 @@ namespace Xbehave.Execution
 
         public ScenarioInfo(IMethodInfo testMethod, object[] dataRow, string scenarioOutlineDisplayName)
         {
-            Guard.AgainstNullArgument(nameof(testMethod), testMethod);
+            testMethod = testMethod ?? throw new ArgumentNullException(nameof(testMethod));
 
             var parameters = testMethod.GetParameters().ToList();
             var typeParameters = testMethod.GetGenericArguments().ToList();
@@ -156,8 +156,6 @@ namespace Xbehave.Execution
 
             public Argument(Type type)
             {
-                Guard.AgainstNullArgument(nameof(type), type);
-
                 this.Value = genericFactoryMethod.MakeGenericMethod(type).Invoke(null, null);
                 this.IsGeneratedDefault = true;
             }

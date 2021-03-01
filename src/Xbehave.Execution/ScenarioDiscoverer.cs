@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Xunit.Abstractions;
@@ -17,7 +18,7 @@ namespace Xbehave.Execution
         public override IEnumerable<IXunitTestCase> Discover(
             ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
-            Guard.AgainstNullArgument(nameof(discoveryOptions), discoveryOptions);
+            discoveryOptions = discoveryOptions ?? throw new ArgumentNullException(nameof(discoveryOptions));
 
             yield return new ScenarioOutlineTestCase(
                 this.DiagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), discoveryOptions.MethodDisplayOptionsOrDefault(), testMethod);

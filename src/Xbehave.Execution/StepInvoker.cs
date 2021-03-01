@@ -20,13 +20,10 @@ namespace Xbehave.Execution
             ExceptionAggregator aggregator,
             CancellationTokenSource cancellationTokenSource)
         {
-            Guard.AgainstNullArgument(nameof(aggregator), aggregator);
-            Guard.AgainstNullArgument(nameof(cancellationTokenSource), cancellationTokenSource);
-
             this.stepContext = stepContext;
             this.body = body;
-            this.aggregator = aggregator;
-            this.cancellationTokenSource = cancellationTokenSource;
+            this.aggregator = aggregator ?? throw new ArgumentNullException(nameof(aggregator));
+            this.cancellationTokenSource = cancellationTokenSource ?? throw new ArgumentNullException(nameof(cancellationTokenSource));
         }
 
         public async Task<decimal> RunAsync()
