@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.100
+
+### Enhancements
+
+- [#479: **[BREAKING]** rename disposable object param name](https://github.com/adamralph/xbehave.net/pull/479)
+- [#648: switch to Microsoft.SourceLink](https://github.com/adamralph/xbehave.net/issues/648)
+
 ## 2.4.1
 
 ### Enhancements
@@ -90,10 +97,6 @@
 ### Fixed bugs
 
 - [#135: Objects not being disposed when a step has a timeout](https://github.com/adamralph/xbehave.net/issues/135)
-
-## 1.0.0
-
-## 0.17.0
 
 ## 0.16.0
 
