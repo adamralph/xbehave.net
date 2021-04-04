@@ -1,15 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <CodeAnalysisRuleSet>Xbehave.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Xbehave.Test.ruleset</CodeAnalysisRuleSet>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <NoWarn>$(NoWarn);CS0168;CS1591</NoWarn>
     <RollForward>major</RollForward>
-    <TargetFrameworks>netcoreapp2.1;netcoreapp3.1;net5.0;net48</TargetFrameworks>
+    <TargetFrameworks>net48</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Xbehave.Execution\Xbehave.Execution.csproj" />
+    <Compile Include="..\**\*.cs" />
+    <Compile Remove="..\desktop\**\*.*" />
+    <Compile Remove="..\dotnet\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Xbehave.Execution\desktop\Xbehave.Execution.desktop.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

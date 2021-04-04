@@ -10,15 +10,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33269118-539
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Core", "src\Xbehave.Core\Xbehave.Core.csproj", "{37910B4A-996D-4DB1-816E-7ABAAE43CEC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Execution", "src\Xbehave.Execution\Xbehave.Execution.csproj", "{27AB17E5-1796-4DBD-8FFE-99249114C93A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Execution.dotnet", "src\Xbehave.Execution\dotnet\Xbehave.Execution.dotnet.csproj", "{27AB17E5-1796-4DBD-8FFE-99249114C93A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Test", "tests\Xbehave.Test\Xbehave.Test.csproj", "{AB3C58C9-5EB0-419B-90F4-2835F997CC93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Test.dotnet", "tests\Xbehave.Test\dotnet\Xbehave.Test.dotnet.csproj", "{AB3C58C9-5EB0-419B-90F4-2835F997CC93}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{7FE5E741-9F2D-497B-8FAC-FF404D765FBE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Targets", "targets\Targets.csproj", "{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Execution.desktop", "src\Xbehave.Execution\desktop\Xbehave.Execution.desktop.csproj", "{453C4870-101D-40E8-AA4E-0D3A10A2335D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xbehave.Test.desktop", "tests\Xbehave.Test\desktop\Xbehave.Test.desktop.csproj", "{F335A36C-BD22-4B65-96F4-B47CCEAB2F48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +46,14 @@ Global
 		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{453C4870-101D-40E8-AA4E-0D3A10A2335D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{453C4870-101D-40E8-AA4E-0D3A10A2335D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{453C4870-101D-40E8-AA4E-0D3A10A2335D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{453C4870-101D-40E8-AA4E-0D3A10A2335D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F335A36C-BD22-4B65-96F4-B47CCEAB2F48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F335A36C-BD22-4B65-96F4-B47CCEAB2F48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F335A36C-BD22-4B65-96F4-B47CCEAB2F48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F335A36C-BD22-4B65-96F4-B47CCEAB2F48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +63,8 @@ Global
 		{27AB17E5-1796-4DBD-8FFE-99249114C93A} = {33269118-539E-4B80-8298-556253F984FE}
 		{AB3C58C9-5EB0-419B-90F4-2835F997CC93} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
 		{AF81B0F8-7DE8-4595-9B2F-6AC8F2AB57EB} = {7FE5E741-9F2D-497B-8FAC-FF404D765FBE}
+		{453C4870-101D-40E8-AA4E-0D3A10A2335D} = {33269118-539E-4B80-8298-556253F984FE}
+		{F335A36C-BD22-4B65-96F4-B47CCEAB2F48} = {41BB5C25-6084-4CA2-A9E8-EE35A1CA1DEA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {397F0EE3-6CD7-4EF4-B6D2-ED3FEAAE5FBF}
