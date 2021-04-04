@@ -316,9 +316,7 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [Example(new[] { "one", "two" }, new[] { 1, 2 })]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario(string[] words, int[] numbers) =>
-#pragma warning restore IDE0060 // Remove unused parameter
                 "Given something"
                     .x(() => { });
         }
@@ -370,9 +368,7 @@ an null value for an argument defined using the fifth type parameter"
             [Example(1, 2L, "a", 7, 7L, null)]
             [Example(3, 4L, "a", 8, 8L, null)]
             [Example(5, 6L, "a", 9, 8L, null)]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario<T1, T2, T3, T4, T5>(T1 a, T2 b, T3 c, T4 d, T4 e, T5 f) =>
-#pragma warning restore IDE0060 // Remove unused parameter
                 "Given"
                     .x(() => { });
         }
@@ -399,9 +395,7 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [Example(1, 2, 3)]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario(int x, int y, int z) =>
-#pragma warning restore IDE0060 // Remove unused parameter
                 "Given {3}, {4} and {5}"
                     .x(() => { });
         }
@@ -410,17 +404,13 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [Example("a")]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario2(int i)
-#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
 
             [Scenario]
             [Example(1, 2)]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario3(int i)
-#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
         }
@@ -429,17 +419,13 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [BadExample]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario1(int i)
-#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
 
             [Scenario]
             [BadExample]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario2(int i)
-#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
         }
@@ -448,17 +434,13 @@ an null value for an argument defined using the fifth type parameter"
         {
             [Scenario]
             [BadValuesExample]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario1(BadDisposable obj)
-#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
 
             [Scenario]
             [BadValuesExample]
-#pragma warning disable IDE0060 // Remove unused parameter
             public static void Scenario2(BadDisposable obj)
-#pragma warning restore IDE0060 // Remove unused parameter
             {
             }
         }

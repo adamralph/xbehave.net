@@ -35,7 +35,6 @@ namespace Xbehave.Execution
             }
         }
 
-        [SuppressMessage("Microsoft.Security", "CA2136:TransparencyAnnotationsShouldNotConflictFxCopRule", Justification = "From xunit.")]
         [SecuritySafeCritical]
         private static void SetSynchronizationContext(SynchronizationContext context) =>
             SynchronizationContext.SetSynchronizationContext(context);

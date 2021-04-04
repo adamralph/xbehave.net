@@ -1,11 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);NU5128;CA1303</NoWarn>
     <NuspecFile>$(NUSPEC_FILE)</NuspecFile>
     <RootNamespace>Xbehave</RootNamespace>
     <TargetFramework>netstandard1.1</TargetFramework>

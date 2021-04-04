@@ -17,7 +17,6 @@
       "words": [
         "netcoreapp",
         "netstandard",
-        "ruleset",
         "visualstudio",
         "Xbehave",
         "xunit"
@@ -44,18 +43,11 @@
       "words": [
         "Xbehave"
       ]
-    },
-    {
-      "languageId": "ruleset",
-      "words": [
-        "Xbehave",
-        "xunit"
-      ]
     }
   ],
   "overrides": [
     {
-      "filename": "{*.cmd,*.cs,*.csproj,*.ruleset}",
+      "filename": "{*.cmd,*.cs,*.csproj}",
       "language": "en-US"
     },
     {
@@ -73,10 +65,6 @@
     {
       "filename": "*.props",
       "languageId": "props"
-    },
-    {
-      "filename": "*.ruleset",
-      "languageId": "ruleset"
     }
   ],
   "words": [
