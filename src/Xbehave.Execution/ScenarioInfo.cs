@@ -16,7 +16,7 @@ namespace Xbehave.Execution
 
         public MethodInfo MethodToRun { get; }
 
-        public List<object> ConvertedDataRow { get; }
+        public IReadOnlyCollection<object> ConvertedDataRow { get; }
 
         public ScenarioInfo(IMethodInfo testMethod, object[] dataRow, string scenarioOutlineDisplayName)
         {

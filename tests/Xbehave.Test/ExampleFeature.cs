@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Xbehave.Test.Infrastructure;
@@ -276,7 +275,6 @@ an null value for an argument defined using the fifth type parameter"
 
         public sealed class BadDisposable : IDisposable
         {
-            [SuppressMessage("Microsoft.Design", "CA1065:DoNotRaiseExceptionsInUnexpectedLocations", Justification = "Test")]
             public void Dispose() => throw new InvalidOperationException();
         }
 
@@ -467,7 +465,11 @@ an null value for an argument defined using the fifth type parameter"
 
         private static class ScenariosExpectingDateTimeValues
         {
+#if NET5_0_OR_GREATER
+            private static readonly DateTime expected = new(2014, 6, 26, 10, 48, 30);
+#else
             private static readonly DateTime expected = new DateTime(2014, 6, 26, 10, 48, 30);
+#endif
 
             [Scenario]
             [Example("2014-06-26")]
@@ -485,7 +487,11 @@ an null value for an argument defined using the fifth type parameter"
 
         private static class ScenariosExpectingDateTimeOffsetValues
         {
+#if NET5_0_OR_GREATER
+            private static readonly DateTimeOffset expected = new(new DateTime(2014, 6, 26, 10, 48, 30));
+#else
             private static readonly DateTimeOffset expected = new DateTimeOffset(new DateTime(2014, 6, 26, 10, 48, 30));
+#endif
 
             [Scenario]
             [Example("2014-06-26")]
@@ -503,7 +509,11 @@ an null value for an argument defined using the fifth type parameter"
 
         private static class ScenariosExpectingGuidValues
         {
+#if NET5_0_OR_GREATER
+            private static readonly Guid expected = new("0b228327-585d-47f9-a5ee-292f96ca085c");
+#else
             private static readonly Guid expected = new Guid("0b228327-585d-47f9-a5ee-292f96ca085c");
+#endif
 
             [Scenario]
             [Example("0b228327-585d-47f9-a5ee-292f96ca085c")]

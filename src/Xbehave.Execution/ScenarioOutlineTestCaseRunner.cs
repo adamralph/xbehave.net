@@ -77,9 +77,11 @@ namespace Xbehave.Execution
                     this.scenarioRunners.Add(new ScenarioRunner(test, this.MessageBus, this.TestClass, this.ConstructorArguments, methodToRun, convertedDataRow, this.SkipReason, this.BeforeAfterAttributes, this.Aggregator, this.CancellationTokenSource));
                 }
             }
+#pragma warning disable IDE0079 // Remove unnecessary suppression
 #pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
+#pragma warning restore IDE0079 // Remove unnecessary suppression
             {
                 this.dataDiscoveryException = ex;
             }

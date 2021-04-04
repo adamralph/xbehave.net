@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -13,10 +12,8 @@ namespace Xbehave.Execution
         {
         }
 
-        [SuppressMessage(
-            "Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "Factory method.")]
         public override IEnumerable<IXunitTestCase> Discover(
-            ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
+            ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo theoryAttribute)
         {
             discoveryOptions = discoveryOptions ?? throw new ArgumentNullException(nameof(discoveryOptions));
 

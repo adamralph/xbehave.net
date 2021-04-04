@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -104,7 +103,6 @@ namespace Xbehave.Execution
             return testClass;
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Exceptions are collected in the aggregator.")]
         private Task BeforeScenarioMethodInvokedAsync()
         {
             foreach (var beforeAfterAttribute in this.beforeAfterScenarioAttributes)
@@ -114,7 +112,11 @@ namespace Xbehave.Execution
                     this.timer.Aggregate(() => beforeAfterAttribute.Before(this.scenarioMethod));
                     this.beforeAfterScenarioAttributesRun.Push(beforeAfterAttribute);
                 }
+#pragma warning disable IDE0079 // Remove unnecessary suppression
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+#pragma warning restore IDE0079 // Remove unnecessary suppression
                 {
                     this.aggregator.Add(ex);
                     break;
@@ -203,7 +205,7 @@ namespace Xbehave.Execution
 
                 var step = new StepTest(this.scenario, stepDisplayName);
 
-                var interceptingBus = new DelegatingMessageBus(
+                using (var interceptingBus = new DelegatingMessageBus(
                     this.messageBus,
                     message =>
                     {
@@ -211,39 +213,40 @@ namespace Xbehave.Execution
                         {
                             skipReason = $"Failed to execute preceding step: {step.DisplayName}";
                         }
-                    });
+                    }))
+                {
+                    var stepContext = new StepContext(step);
 
-                var stepContext = new StepContext(step);
+                    var stepRunner = new StepTestRunner(
+                        stepContext,
+                        stepDefinition.Body,
+                        step,
+                        interceptingBus,
+                        this.scenarioClass,
+                        this.constructorArguments,
+                        this.scenarioMethod,
+                        this.scenarioMethodArguments,
+                        stepDefinition.SkipReason,
+                        new BeforeAfterTestAttribute[0],
+                        new ExceptionAggregator(this.aggregator),
+                        this.cancellationTokenSource);
 
-                var stepRunner = new StepTestRunner(
-                    stepContext,
-                    stepDefinition.Body,
-                    step,
-                    interceptingBus,
-                    this.scenarioClass,
-                    this.constructorArguments,
-                    this.scenarioMethod,
-                    this.scenarioMethodArguments,
-                    stepDefinition.SkipReason,
-                    new BeforeAfterTestAttribute[0],
-                    new ExceptionAggregator(this.aggregator),
-                    this.cancellationTokenSource);
+                    summary.Aggregate(await stepRunner.RunAsync());
 
-                summary.Aggregate(await stepRunner.RunAsync());
+                    var stepTeardowns = stepContext.Disposables
+                        .Where(disposable => disposable != null)
+                        .Select((Func<IDisposable, Func<IStepContext, Task>>)(disposable =>
+                            context =>
+                            {
+                                disposable.Dispose();
+                                return Task.FromResult(0);
+                            }))
+                        .Concat(stepDefinition.Teardowns)
+                        .Where(teardown => teardown != null)
+                        .Select(teardown => Tuple.Create(stepContext, teardown));
 
-                var stepTeardowns = stepContext.Disposables
-                    .Where(disposable => disposable != null)
-                    .Select((Func<IDisposable, Func<IStepContext, Task>>)(disposable =>
-                        context =>
-                        {
-                            disposable.Dispose();
-                            return Task.FromResult(0);
-                        }))
-                    .Concat(stepDefinition.Teardowns)
-                    .Where(teardown => teardown != null)
-                    .Select(teardown => Tuple.Create(stepContext, teardown));
-
-                scenarioTeardowns.AddRange(stepTeardowns);
+                    scenarioTeardowns.AddRange(stepTeardowns);
+                }
             }
 
             if (scenarioTeardowns.Any())
