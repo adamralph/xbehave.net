@@ -377,10 +377,9 @@ namespace Xbehave.Test
         private class ScenarioWithANestedStep
         {
             [Scenario]
-            public void Scenario()
-            {
-                "Given something".x(() => "With something nested".x(() => { }));
-            }
+            public void Scenario() =>
+                "Given something"
+                    .x(() => "With something nested".x(() => { }));
         }
     }
 }
