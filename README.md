@@ -1,3 +1,4 @@
+<!-- markdownlint-disable-next-line MD041 -->
 <img src="assets/xbehave_256x256.png" width="128" />
 
 # xBehave.net
