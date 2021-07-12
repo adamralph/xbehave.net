@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Xbehave.Test" ToolsVersion="10.0">
-  <Rules AnalyzerId="xunit.analyzers" RuleNamespace="Xunit.Analyzers">
-    <Rule Id="xUnit1000" Action="None" /> <!-- Test classes must be public -->
-  </Rules>
-</RuleSet>

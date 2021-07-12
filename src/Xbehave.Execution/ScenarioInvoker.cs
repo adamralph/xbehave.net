@@ -112,11 +112,7 @@ namespace Xbehave.Execution
                     this.timer.Aggregate(() => beforeAfterAttribute.Before(this.scenarioMethod));
                     this.beforeAfterScenarioAttributesRun.Push(beforeAfterAttribute);
                 }
-#pragma warning disable IDE0079 // Remove unnecessary suppression
-#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
-#pragma warning restore IDE0079 // Remove unnecessary suppression
                 {
                     this.aggregator.Add(ex);
                     break;

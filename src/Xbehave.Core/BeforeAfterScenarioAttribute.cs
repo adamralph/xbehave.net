@@ -16,7 +16,6 @@ namespace Xbehave
     /// will be run before and after the scenario, rather than before and after each step in the scenario.
     /// </remarks>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    [SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Justification = "Designed for extensibility.")]
     public abstract class BeforeAfterScenarioAttribute : BeforeAfterTestAttribute
     {
     }

@@ -1,9 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <CodeAnalysisRuleSet>..\Xbehave.Test.ruleset</CodeAnalysisRuleSet>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <NoWarn>$(NoWarn);CS0168;CS1591</NoWarn>
     <RollForward>major</RollForward>
     <TargetFrameworks>net48</TargetFrameworks>
   </PropertyGroup>

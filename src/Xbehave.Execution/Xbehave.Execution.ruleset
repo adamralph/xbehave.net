@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Xbehave.Execution" ToolsVersion="10.0">
-  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers.ApiDesignGuidelines">
-    <Rule Id="CA2007" Action="None" /> <!-- Do not directly await a Task -->
-  </Rules>
-</RuleSet>

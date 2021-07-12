@@ -16,7 +16,6 @@ namespace Xbehave
     /// </summary>
     [DataDiscoverer("Xunit.Sdk.InlineDataDiscoverer", "xunit.core")]
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    [SuppressMessage("Microsoft.Design", "CA1019:DefineAccessorsForAttributeArguments", Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
     public sealed class ExampleAttribute : DataAttribute
     {
         /// <summary>
@@ -28,10 +27,7 @@ namespace Xbehave
         /// <see cref="Xunit.MemberDataAttribute"/>.
         /// </summary>
         /// <param name="data">The data values to pass to the scenario.</param>
-        [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "data", Justification = "Following the pattern of Xunit.InlineDataAttribute.")]
-#pragma warning disable IDE0060 // Remove unused parameter
         public ExampleAttribute(params object[] data)
-#pragma warning restore IDE0060 // Remove unused parameter
         {
         }
 
